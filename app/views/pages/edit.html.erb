@@ -1,0 +1,24 @@
+<section>
+  <%= render 'edit_header' %>
+
+  <% if 'text' == @aspect -%>
+    <%= render 'form' %>
+  <% end -%>
+  
+  <% if 'photos' == @aspect -%>
+    <%= render 'photos/edit_batch', :locals => {:page => @page} %>
+  <% end -%>
+  
+  <% if 'videos' == @aspect -%>
+    <%= render 'videos/edit_batch', :locals => {:page => @page} %>
+  <% end -%>
+  
+  <% if 'group' == @aspect -%>
+    <%= render 'groups/edit', :locals => {:group => @page.group} %>
+  <% end -%>
+  
+  <% if 'feature' == @aspect -%>
+    <%= render 'edit_feature' %>
+  <% end -%>
+
+</section>

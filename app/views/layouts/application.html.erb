@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Peninsula Bible Church</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <div id="content">
+    
+  <header id="site_header">
+    <h1><a href="/"><span>PENINSULA</span> BIBLE CHURCH</a></h1>
+    <h2>following Jesus in Silicon Valley</h2>
+    <div id="auth">
+      <ul>
+        <li><a href="#">Sign In</a></li>
+        <li><a href="#">Sign Up</a></li>
+      </ul>
+    </div>
+  </header>
+  
+  <nav id="site_nav">
+    <ul>  
+      <li><%= link_to "Communities", groups_path %></li>
+      <li><a href="#">Calendar</a></li>
+      <li><a href="#">Message Library</a></li>  
+      <li><a href="#">About</a></li>  
+    </ul>
+    <form action="#">
+      <input name="search" id="search" type="search" required />
+    </form>
+  </nav>
+  
+  <div id="notice"><%= notice %><%= alert %></div>
+
+<%= yield %>
+
+  <footer>
+    Middlefield Road Palo Alto, CA 94043
+    <copyright>
+      Peninsula Bible Church All Rights Reserved 2011
+    </copyright>
+  </footer>
+  
+  </div>
+</body>
+</html>

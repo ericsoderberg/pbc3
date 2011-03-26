@@ -1,0 +1,18 @@
+<div id="notes">
+
+  <h2>Highlights</h2>
+  
+  <div id="new_note_activator">
+    <%= link_to "+", nil, :onclick => "$('#new_note_form').toggle(); return false;" %>
+  </div>
+    
+  <div id="new_note_form" style="display:none">
+    <%= render 'notes/form' %>
+  </div>
+  
+  <ul id="notes_list">
+    <%= render :partial => notes %>
+  </ul>
+  
+</div>
+

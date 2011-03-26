@@ -1,0 +1,7 @@
+<%= content_tag_for(:li, group) do %>
+  <%= link_to group.page.name, group.page %>
+  <div class="delete_gallery_item">
+    <%= link_to 'delete', group, :confirm => 'Are you sure?',
+      :method => :delete, :remote => true %>
+  </div>
+<% end %>

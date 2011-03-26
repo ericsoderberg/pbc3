@@ -1,0 +1,9 @@
+<% if videos and not videos.empty? -%>
+<div id="videos">
+  <video controls>
+    <% videos.each do |video| -%>
+      <source src="<%= video.video.url %>"/>
+    <% end -%>
+  </video>
+</div>
+<% end -%>

@@ -1,0 +1,13 @@
+<div id="page_content">
+  <section>
+    <ul id="gallery">
+      <%= render :partial => @page.videos %>
+    </ul>
+    <%= button_to 'Done editing', friendly_page_path(@page), :method => :get %>
+  </section>
+
+  <aside class="form">
+    <h3>Add Video</h3>
+    <%= render 'videos/form' %>
+  </aside>
+</div>

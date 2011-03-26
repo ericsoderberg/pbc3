@@ -1,0 +1,12 @@
+<h1>Pages</h1>
+
+<%= link_to 'New Page', new_page_path %>
+
+<ul>
+<% @pages.each do |page| %>
+  <li><%= link_to page.name, page %></li>
+    <!--td><%= link_to 'Edit', edit_page_path(page) %></td>
+    <td><%= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete %></td-->
+<% end %>
+</ul>
+

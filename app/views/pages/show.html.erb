@@ -1,0 +1,33 @@
+<div id="page_nav">
+  <h2><%= @page.name %></h2>
+</div>
+
+<div id="page_banner">
+</div>
+
+<div id="page_content">
+
+  <section id="page_text">
+    <% if @page.text_image.exists? -%>
+      <%= image_tag @page.text_image.url(:normal), :class => 'page_text_image' %>
+    <% end -%>
+    <%= raw @page.rendered_text %>
+    
+    <div id="page_admin">
+      <ul>
+        <li><%= link_to 'Edit', edit_page_path(@page) %></li>
+        <li><%= link_to 'Delete', @page, :confirm => 'Are you sure?', :method => :delete %></li>
+      </ul>
+    </div>
+  </section>
+
+  <aside>
+    
+    <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>
+
+    <%= render :partial => 'photos/viewer', :locals => {:photos => @page.photos} %>
+    <%= render :partial => 'videos/viewer', :locals => {:videos => @page.videos} %>
+  
+  </aside>
+  
+</div>

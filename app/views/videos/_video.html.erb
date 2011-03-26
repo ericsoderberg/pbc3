@@ -1,0 +1,10 @@
+<%= content_tag_for(:li, video) do %>
+  <video controls>
+    <source src="<%= video.video.url %>"/>
+  </video>
+  <div class="caption"><%= video.caption %></div>
+  <div class="delete_gallery_item">
+    <%= link_to 'delete', video, :confirm => 'Are you sure?',
+      :method => :delete, :remote => true %>
+  </div>
+<% end %>

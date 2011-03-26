@@ -1,0 +1,22 @@
+<% if photos and not photos.empty? -%>
+<div id="slideshow">
+  <ul id="slides_nav">
+  <% photos.each_with_index do |photo, i| -%>
+   <% if photo.photo.exists? then %>
+    	<li>
+    	  <%= link_to i+1, "#slide_#{i + 1}"%>
+    	</li>
+   <% end %>
+  <% end -%>
+  </ul>
+  <ul id="slides_slide">
+  <% photos.each_with_index do |photo, i| -%>
+   <% if photo.photo.exists? then %>
+    	<li id="slide_<%= i + 1 %>" class="<%= 0 == i ? 'first' : '' %>">
+    	  <%= image_tag photo.photo.url(:normal) %>
+    	</li>
+   <% end %>
+  <% end -%>
+  </ul>
+</div>
+<% end -%>

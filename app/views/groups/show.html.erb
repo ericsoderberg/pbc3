@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Text:</b>
+  <%= @group.text %>
+</p>
+
+<p>
+  <b>Image file name:</b>
+  <%= @group.image_file_name %>
+</p>
+
+<p>
+  <b>Image content type:</b>
+  <%= @group.image_content_type %>
+</p>
+
+<p>
+  <b>Image file size:</b>
+  <%= @group.image_file_size %>
+</p>
+
+<p>
+  <b>Image updated at:</b>
+  <%= @group.image_updated_at %>
+</p>
+
+<p>
+  <b>Page:</b>
+  <%= @group.page_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_group_path(@group) %> |
+<%= link_to 'Back', groups_path %>

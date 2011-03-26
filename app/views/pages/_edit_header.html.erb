@@ -1,0 +1,17 @@
+<header>
+  <h1>Editing <%= @page.name %></h1>
+  <ul class="nav">
+    <li class="<%= @aspect == 'text' ? 'active' : '' %>">
+      <%= link_to 'Text', edit_page_path(@page) %></li>
+    <li class="<%= @aspect == 'photos' ? 'active' : '' %>">
+      <%= link_to 'Photos', edit_page_path(@page) + '?aspect=photos' %></li>
+    <li class="<%= @aspect == 'videos' ? 'active' : '' %>">
+      <%= link_to 'Videos', edit_page_path(@page) + '?aspect=videos' %></li>
+    <li class="<%= @aspect == 'feature' ? 'active' : '' %>">
+      <%= link_to 'Feature', edit_page_path(@page) + '?aspect=feature' %></li>
+    <% if @page.group -%>
+      <li class="<%= @aspect == 'group' ? 'active' : '' %>">
+        <%= link_to 'Community', edit_page_path(@page) + '?aspect=group' %></li>
+    <% end -%>
+  </ul>
+</header>

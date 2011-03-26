@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Caption:</b>
+  <%= @video.caption %>
+</p>
+
+<p>
+  <b>Video file name:</b>
+  <%= @video.video_file_name %>
+</p>
+
+<p>
+  <b>Video content type:</b>
+  <%= @video.video_content_type %>
+</p>
+
+<p>
+  <b>Video file size:</b>
+  <%= @video.video_file_size %>
+</p>
+
+<p>
+  <b>Video updated at:</b>
+  <%= @video.video_updated_at %>
+</p>
+
+<p>
+  <b>Page:</b>
+  <%= @video.page_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_video_path(@video) %> |
+<%= link_to 'Back', videos_path %>

@@ -1,0 +1,24 @@
+<%= form_for(@new_photo, :html => { :multipart => true }) do |f| %>
+  <% if @new_photo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@photo.errors.count, "error") %> prohibited this photo from being saved:</h2>
+
+      <ul>
+      <% @new_photo.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :page_id %>
+  <div class="field">
+    <%= f.label :file %><br />
+    <%= f.file_field :photo %><br />
+    <%= f.label :caption %><br />
+    <%= f.text_field :caption, :size => 40 %><br />
+  </div>
+  <div class="actions">
+    <%= f.submit 'Add photo' %>
+  </div>
+<% end %>

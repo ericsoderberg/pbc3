@@ -1,0 +1,10 @@
+<%= content_tag_for(:li, photo) do %>
+  <% if photo.photo.exists? then %>
+  	<%= image_tag photo.photo.url(:thumb) %>
+  <% end %>
+  <div class="caption"><%= photo.caption %></div>
+  <div class="delete_gallery_item">
+    <%= link_to 'delete', photo, :confirm => 'Are you sure?',
+      :method => :delete, :remote => true %>
+  </div>
+<% end %>
