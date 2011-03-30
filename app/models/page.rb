@@ -2,11 +2,15 @@ class Page < ActiveRecord::Base
   before_save :render_text
   acts_as_url :name
   has_attached_file :text_image, :styles => {
-      :normal => '200x',
+      :normal => '120x',
       :thumb => '50x'
     }
   has_attached_file :feature_image, :styles => {
       :normal => '200x',
+      :thumb => '50x'
+    }
+  has_attached_file :hero_background, :styles => {
+      :normal => '980x445',
       :thumb => '50x'
     }
   

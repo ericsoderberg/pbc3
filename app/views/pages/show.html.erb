@@ -1,3 +1,4 @@
+<% title @page.name -%>
 <div id="page_nav">
   <h2><%= @page.name %></h2>
 </div>
@@ -8,17 +9,22 @@
 <div id="page_content">
 
   <section id="page_text">
+    
     <% if @page.text_image.exists? -%>
       <%= image_tag @page.text_image.url(:normal), :class => 'page_text_image' %>
     <% end -%>
+    
     <%= raw @page.rendered_text %>
     
+    <% if user_signed_in? -%>
     <div id="page_admin">
       <ul>
         <li><%= link_to 'Edit', edit_page_path(@page) %></li>
         <li><%= link_to 'Delete', @page, :confirm => 'Are you sure?', :method => :delete %></li>
       </ul>
     </div>
+    <% end -%>
+    
   </section>
 
   <aside>

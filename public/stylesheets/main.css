@@ -28,8 +28,14 @@ body {
 div#content {
   margin: 0px auto;
   padding: 0px 30px 30px 30px;
-	width: 940px;
+	width: 980px;
 	background: #fff;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 44px;
+  padding: 0 0 8px 0;
 }
 
 h2 {
@@ -46,6 +52,9 @@ h3 {
 
 a {
   text-decoration: none;
+  color: #e59e24;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 a:hover {
@@ -54,6 +63,7 @@ a:hover {
 }
 
 p {
+  margin: 0;
 	padding-bottom: 22px;
 }
 
@@ -132,6 +142,7 @@ header {
   }
     #site_header h1 a {
       text-decoration: none;
+      font-size: 18px;
 		  color: #007ad0;
     }
     #site_header h1 a:hover {
@@ -146,7 +157,7 @@ header {
     margin: 0px;
     padding-left: 10px;
     line-height: 16px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: normal;
     font-style: italic;
     color: #666;
@@ -174,7 +185,8 @@ header {
     		display: block;
     		padding-right: 5px;
     		padding-left: 5px;
-    		font-size: 10px;
+    		font-size: 12px;
+    		font-weight: normal;
     		text-align: center;
     		text-decoration: none;
     		color: #666;
@@ -197,8 +209,8 @@ footer {
 	height: 40px;
   background-color: #ccc;
   /*background: url(images/linear_bg_2.png);*/
-  background: -moz-linear-gradient(100% 100% 90deg, #eee, #bbb);
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#bbb));
+  background: -moz-linear-gradient(100% 100% 90deg, #eee, #bbb);
   border-radius: 4px; 
 }
 
@@ -261,6 +273,141 @@ div#notice {
   text-align: center;
 }
 
+#hero {
+  position: relative;
+  display: table;
+  margin: 10px 0px;
+  padding: 0px;
+  width: 980px;
+  height: 445px;
+  -webkit-box-shadow: 3px 3px 10px #ccc;
+  -moz-box-shadow: 3px 3px 10px #ccc;
+  box-shadow: 3px 3px 10px #ccc;
+}
+  #hero_photos {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 450px;
+  }
+  /* http://line25.com/tutorials/how-to-create-a-pure-css-polaroid-photo-gallery */
+  #hero_photo1 {
+    position: absolute;
+    top: 120px;
+    left: 80px;
+    padding: 10px 10px 25px 10px;
+    background: #eee;
+    border: 1px solid #fff;
+    -webkit-box-shadow: 0px 2px 15px #666;
+    -moz-box-shadow: 0px 2px 15px #666;
+    box-shadow: 0px 2px 15px #666;
+    z-index: 10;
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+  }
+    #hero_photo1 img {
+      width: 300px;
+    }
+  #hero_photo2 {
+    position: absolute;
+    top: 10px;
+    left: 80px;
+    padding: 10px 10px 25px 10px;
+    background: #eee;
+    border: 1px solid #fff;
+    -webkit-box-shadow: 0px 2px 15px #666;
+    -moz-box-shadow: 0px 2px 15px #666;
+    box-shadow: 0px 2px 15px #666;
+    z-index: 5;
+    -webkit-transform: rotate(-5deg);
+    -moz-transform: rotate(-5deg);
+  }
+    #hero_photo2 img {
+      width: 240px;
+    }
+  #hero_text {
+    display: table-cell;
+    vertical-align: top;
+    padding: 10px 100px 10px 40px;
+    font-size: 15px;
+  }
+  #hero_text a {
+    font-size: 16px;
+  }
+  #hero_text a::after {
+    content: " >>";
+  }
+
+#featured_nav {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  height: 200px;
+  -webkit-box-shadow: 3px 3px 10px #ccc;
+  -moz-box-shadow: 3px 3px 10px #ccc;
+  box-shadow: 3px 3px 10px #ccc;
+}
+  #featured_nav li {
+    display: inline-table;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    width: 200px;
+    height: 200px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+  /* http://jonrohan.me/guide/css/creating-triangles-in-css/ */
+  #featured_nav li.heroed .hero_arrow_border {
+    border-color: #fff transparent transparent transparent;
+    border-style: solid;
+    border-width: 16px;
+    height:0;
+    width:0;
+    position:absolute;
+    top:-3px;
+    left:30px;
+  }
+  #featured_nav li.heroed .hero_arrow {
+    border-color: #fff transparent transparent transparent;
+    border-style: solid;
+    border-width: 16px;
+    height:0;
+    width:0;
+    position:absolute;
+    top:0px;
+    left:30px;
+  }
+  
+  .featured_nav_image {
+    width: 200px;
+    height: 60px;
+    overflow: hidden;
+  }
+  .featured_nav_name {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
+    background: -moz-linear-gradient(100% 100% 90deg, #666, #333);
+  }
+    .featured_nav_name a {
+      color: #fff;
+      font-size: 16px;
+    }
+  .featured_nav_text {
+    padding: 10px 10px 20px 10px;
+  }
+    .featured_nav_link {
+      margin-top: 10px;
+    }
+    
+    .featured_nav_link a::after {
+      content: " >>";
+    }
+
 #page_nav {
 	margin: 20px 0px;
 	padding: 0px;
@@ -277,7 +424,7 @@ div#notice {
   }
   
 #page_banner {
-  height: 230px;
+  height: 245px;
   background-color: #c52;
 }
 
@@ -342,6 +489,9 @@ div#notice {
   margin-bottom: 25px;
   padding: 15px 25px;
 	background-color: #dfe1db;
+	-webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
   #notes h2 {
     margin: 0px;
@@ -385,7 +535,7 @@ div#notice {
     background-color: inherit;
   }
 
-#gallery, #gallery {
+#gallery {
   list-style-type: none;
   margin: 0px 0px 20px 0px;
   background-color: #666;
@@ -474,3 +624,75 @@ div#notice {
   	overflow: hidden;		
     }
     
+input[type="file"] {
+  background-color: inherit;
+}
+
+/* http://ubuwaits.github.com/css3-buttons/ */
+input[type="submit"] {
+  background: #e9e9e9;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  box-shadow: inset 0 0 1px 1px #f6f6f6;
+  color: #666;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 10px 9px 10px;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+}
+
+input[type="submit"]:hover {
+  background: #d9d9d9;
+  -moz-box-shadow: inset 0 0 1px 1px #eaeaea;
+  -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+  box-shadow: inset 0 0 1px 1px #eaeaea;
+  color: #222;
+  cursor: pointer;
+}
+
+/* http://net.tutsplus.com/tutorials/html-css-techniques/
+    design-a-prettier-web-form-with-css-3/ */
+input, textarea {
+	padding: 9px;
+	border: solid 1px #E5E5E5;
+	outline: 0;
+	background: #FFFFFF;
+	}
+
+textarea {
+	line-height: 150%;
+	}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus {
+	border-color: #C9C9C9;
+	}
+
+.form label {
+	margin-left: 10px;
+	color: #999999;
+	}
+
+.submit input {
+	padding: 9px 15px;
+	background: #617798;
+	border: 0;
+	font-size: 14px;
+	color: #FFFFFF;
+	}
+
+input, textarea {
+	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
+	}

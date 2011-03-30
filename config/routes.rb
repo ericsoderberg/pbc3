@@ -7,8 +7,24 @@ Pbc3::Application.routes.draw do
   resources :photos
 
   resources :notes
+  
+  # http://blog.grow20.com/fun-with-ssl-for-accounts-only
+  class SSL
+    def self.matches?(request)
+      # This way you don't need SSL for your development server
+      return true unless Rails.env.production?
+      request.port == 3002
+    end
+  end
 
-  devise_for :users
+  constraints SSL do
+    devise_for :users
+  end
+  
+  # Redirect to SSL from non-SSL so you don't get 404s
+  # Repeat for any custom Devise routes
+  match "/users(/*path)", :to => redirect { |_, request|
+    "https://" + request.host + ":3002" + request.fullpath }
 
   get "home/index"
 

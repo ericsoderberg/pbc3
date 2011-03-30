@@ -45,7 +45,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.save
-        format.html { redirect_to(edit_page_path(@page, :aspect => 'photos'),
+        format.html { redirect_to(edit_page_url(@page, :aspect => 'photos'),
           :notice => 'Photo was successfully created.') }
         format.xml  { render :xml => @photo, :status => :created, :location => @photo }
       else

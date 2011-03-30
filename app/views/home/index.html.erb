@@ -1,4 +1,23 @@
+<% if @hero_page -%>
+<div id="hero" style="background-image: url(<%= @hero_page.hero_background.url(:normal) %>); ">
+  <div id="hero_photos">
+    <% if @hero_photo1 -%>
+      <div id="hero_photo1">
+      <%= image_tag @hero_photo1.photo.url(:normal) %>
+      </div>
+    <% end -%>
+    <% if @hero_photo2 -%>
+      <div id="hero_photo2">
+      <%= image_tag @hero_photo2.photo.url(:normal) %>
+      </div>
+    <% end -%>
+  </div>
+  <div id="hero_text">
+    <%= raw @hero_page.rendered_feature_text %>
+  </div>
+</div>
+<% end -%>
 
-<ul>
-  <%= render :partial => @pages %>
+<ul id="featured_nav">
+  <%= render :partial => "featured_page", :collection => @pages %>
 </ul>

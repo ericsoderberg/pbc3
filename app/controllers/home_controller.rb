@@ -1,7 +1,10 @@
 class HomeController < ApplicationController
   
   def index
-    @pages = Page.find(:all)
+    @pages = Page.where(['featured = ?', true]).all
+    @hero_page = Page.find_by_id(params[:page]) || @pages.first
+    @hero_photo1 = @hero_page.photos.first
+    @hero_photo2 = @hero_page.photos[1]
   end
 
 end

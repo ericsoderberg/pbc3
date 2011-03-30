@@ -4,4 +4,10 @@
   <%= render :partial => @groups %>
 </ul>
 
-<%= link_to 'New Community', new_group_path %>
+<% if user_signed_in? -%>
+<div id="page_admin">
+  <ul>
+    <li><%= link_to 'Add', new_group_path %></li>
+  </ul>
+</div>
+<% end -%>

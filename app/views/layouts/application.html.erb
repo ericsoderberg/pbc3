@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Peninsula Bible Church</title>
+  <title><%= yield(:title) || 'Peninsula Bible Church' %></title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
@@ -13,10 +13,17 @@
     <h1><a href="/"><span>PENINSULA</span> BIBLE CHURCH</a></h1>
     <h2>following Jesus in Silicon Valley</h2>
     <div id="auth">
-      <ul>
-        <li><a href="#">Sign In</a></li>
-        <li><a href="#">Sign Up</a></li>
-      </ul>
+      <% if user_signed_in? -%>
+        <ul>
+          <li><%= link_to current_user.email, '#' %></li>
+          <li><%= link_to "Sign out", destroy_user_session_path %></li>
+        </ul>
+        <% else %>
+        <ul>
+          <li><%= link_to "Sign up", new_user_registration_path %></li>
+          <li><%= link_to "Sign in", new_user_session_path %></li>
+        </ul>
+        <% end -%>
     </div>
   </header>
   

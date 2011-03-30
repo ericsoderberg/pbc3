@@ -1,0 +1,19 @@
+<%= content_tag_for(:li, featured_page, :class => (featured_page == @hero_page ? 'heroed' : '')) do %>
+  <div class="hero_arrow_border"></div>
+  <div class="hero_arrow"></div>
+  <div class="featured_nav_image">
+    <% if featured_page.feature_image.exists? then %>
+  	  <%= image_tag featured_page.feature_image.url(:normal) %><br />
+    <% end %>
+  </div>
+  <div class="featured_nav_name">
+    <%= link_to featured_page.name, root_path(:page => featured_page.id) %>
+  </div>
+  <div class="featured_nav_text">
+    <%= raw truncate(featured_page.rendered_feature_text.scan(/<p>(.*)<\/p>/)[0][0], :length => 40) %>
+    <div class="featured_nav_link">
+      <%= link_to "Learn more", friendly_page_path(featured_page) %>
+    </div>
+  </div>
+  
+<% end %>

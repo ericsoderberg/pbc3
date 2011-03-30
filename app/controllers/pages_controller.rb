@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_filter :authenticate_user!, :except => :show
+  
   # GET /pages
   # GET /pages.xml
   def index
@@ -64,6 +66,7 @@ class PagesController < ApplicationController
     @page = Page.find_by_url(params[:id])
     @page.text_image = nil if params[:delete_text_image]
     @page.feature_image = nil if params[:delete_feature_image]
+    @page.hero_background = nil if params[:delete_hero_background]
 
     respond_to do |format|
       if @page.update_attributes(params[:page])

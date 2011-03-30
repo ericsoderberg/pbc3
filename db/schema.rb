@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110326083301) do
+ActiveRecord::Schema.define(:version => 20110330020801) do
 
   create_table "groups", :force => true do |t|
     t.integer  "page_id"
@@ -42,6 +42,11 @@ ActiveRecord::Schema.define(:version => 20110326083301) do
     t.integer  "feature_image_file_size"
     t.datetime "feature_image_updated_at"
     t.text     "rendered_feature_text"
+    t.boolean  "featured"
+    t.string   "hero_background_file_name"
+    t.string   "hero_background_content_type"
+    t.integer  "hero_background_file_size"
+    t.datetime "hero_background_update_at"
   end
 
   create_table "photos", :force => true do |t|

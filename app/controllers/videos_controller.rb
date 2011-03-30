@@ -45,7 +45,7 @@ class VideosController < ApplicationController
 
     respond_to do |format|
       if @video.save
-        format.html { redirect_to(edit_page_path(@page, :aspect => 'videos'),
+        format.html { redirect_to(edit_page_url(@page, :aspect => 'videos'),
           :notice => 'Video was successfully created.') }
         format.xml  { render :xml => @video, :status => :created, :location => @video }
       else
