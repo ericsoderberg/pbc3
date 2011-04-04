@@ -1,0 +1,57 @@
+<%= form_for(@event) do |f| %>
+  <% if @event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% @event.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :page_id %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :start_at %><br />
+    <%= f.text_field :start_at %>
+  </div>
+  <div class="field">
+    <%= f.label :stop_at %><br />
+    <%= f.text_field :stop_at %>
+  </div>
+  <div class="field">
+    <%= f.label :all_day %><br />
+    <%= f.check_box :all_day %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript" language="javascript">
+$(function() {
+  $('#event_start_at').datetimepicker({
+    stepHour: 1,
+    stepMinute: 15,
+    ampm: true,
+    hourGrid: 4,
+    minuteGrid: 15
+  });
+});
+$(function() {
+  $('#event_stop_at').datetimepicker({
+    stepHour: 1,
+    stepMinute: 15,
+    ampm: true
+  });
+});
+</script>

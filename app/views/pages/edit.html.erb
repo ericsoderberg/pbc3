@@ -13,12 +13,16 @@
     <%= render 'videos/edit_batch', :locals => {:page => @page} %>
   <% end -%>
   
-  <% if 'group' == @aspect -%>
-    <%= render 'groups/edit', :locals => {:group => @page.group} %>
+  <% if 'events' == @aspect -%>
+    <%= render 'events/edit_batch', :locals => {:page => @page} %>
   <% end -%>
   
   <% if 'feature' == @aspect -%>
     <%= render 'edit_feature' %>
+  <% end -%>
+  
+  <% if 'contacts' == @aspect -%>
+    <%= render 'contacts/edit_batch', :locals => {:page => @page} %>
   <% end -%>
 
 </section>

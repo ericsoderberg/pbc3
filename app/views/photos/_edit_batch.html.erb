@@ -3,11 +3,12 @@
     <ul id="gallery">
       <%= render :partial => @page.photos %>
     </ul>
-    <%= button_to 'Done editing', friendly_page_path(@page), :method => :get %>
   </section>
 
-  <aside class="form">
-    <h3>Add Photo</h3>
-    <%= render 'photos/form' %>
+  <aside>
+    <div class="form">
+      <h3>Add Photo</h3>
+      <%= render 'photos/form' %>
+    </div>
   </aside>
 </div>

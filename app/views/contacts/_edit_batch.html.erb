@@ -1,0 +1,14 @@
+<div id="page_content">
+  <section>
+    <ul id="gallery">
+      <%= render :partial => @page.contacts %>
+    </ul>
+  </section>
+
+  <aside>
+    <div class="form">
+      <h3>Add Contact</h3>
+      <%= render 'contacts/form' %>
+    </div>
+  </aside>
+</div>

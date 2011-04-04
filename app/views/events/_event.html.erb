@@ -1,0 +1,11 @@
+<%= content_tag_for(:li, event,
+  :class => (event == @event ? 'active' : '')) do %>
+  <a href="<%= edit_page_path(@page, :aspect => 'events', :event_id => event.id) %>">
+  <% unless (no_name || false) -%>
+    <%= event.name %>
+  <% end -%>
+  <div class="event_range">
+  <%= friendly_range(event, true) %>
+  </div>
+  </a>
+<% end %>

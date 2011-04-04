@@ -17,7 +17,7 @@ div {
 body {
   margin: 0px;
   padding: 0px 0px 40px 0px;
-	font: 13px/22px Arial, sans-serif;
+	font: 14px/22px Arial, sans-serif;
 	background-color: #999;
   /*background: url(images/linear_bg_2.png);*/
   background: -moz-linear-gradient(100% 100% 90deg, #999, #111);
@@ -73,9 +73,13 @@ header {
   header h1 {
     display: inline-block;
     vertical-align: middle;
+    margin: 0px;
     padding: 0px;
     padding-right: 40px;
     white-space: nowrap;
+    font-size: 18px;
+	  font-weight: bold;
+	  color: #888;
   }
   header h2 {
     display: inline-block;
@@ -83,6 +87,23 @@ header {
     padding: 0px;
     padding-right: 40px;
     white-space: nowrap;
+    font-size: 14px;
+	  font-weight: bold;
+	  color: #888;
+  }
+  header h1 a {
+    text-align: center;
+    font-size: 18px;
+	  text-decoration: none;
+	  color: #999;
+  }
+  header h1 a:hover {
+    text-decoration: none;
+    color: #000;
+  }
+  header h1.active a {
+    color: #666;
+    background: inherit;
   }
   header ul.nav {
     display: inline-block;
@@ -99,7 +120,7 @@ header {
   		  display: block;
   		  padding-right: 15px;
   		  padding-left: 15px;
-  		  font-size: 12px;
+  		  font-size: 14px;
   		  font-weight: bold;
   		  line-height: 28px;
   		  text-align: center;
@@ -123,10 +144,10 @@ header {
 		  }
   	
   	  header ul.nav li.active a {
-  	    color: #000;
+  	    color: #666;
   	  }
   	  header ul.nav li.active a:hover {
-  	    color: #000;
+  	    color: #666;
   	    background: inherit;
   	  }
 
@@ -211,7 +232,14 @@ footer {
   /*background: url(images/linear_bg_2.png);*/
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#bbb));
   background: -moz-linear-gradient(100% 100% 90deg, #eee, #bbb);
-  border-radius: 4px; 
+  border-radius: 4px;
+}
+.home #site_nav {
+  -webkit-animation-name: reset, fade-in;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 0, 0.9s;
 }
 
 #site_nav ul {
@@ -273,6 +301,28 @@ div#notice {
   text-align: center;
 }
 
+/* http://css3.wikidot.com/blog:animated-page-entry-with-css3 */
+@-webkit-keyframes reset {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+ 
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 #hero {
   position: relative;
   display: table;
@@ -283,6 +333,14 @@ div#notice {
   -webkit-box-shadow: 3px 3px 10px #ccc;
   -moz-box-shadow: 3px 3px 10px #ccc;
   box-shadow: 3px 3px 10px #ccc;
+  -webkit-animation-name: reset, fade-in;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 0, 0.1s;
+}
+#hero:hover {
+  opacity: 1.0;
 }
   #hero_photos {
     display: table-cell;
@@ -346,6 +404,11 @@ div#notice {
   -webkit-box-shadow: 3px 3px 10px #ccc;
   -moz-box-shadow: 3px 3px 10px #ccc;
   box-shadow: 3px 3px 10px #ccc;
+  -webkit-animation-name: reset, fade-in;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 0, 0.3s;
 }
   #featured_nav li {
     display: inline-table;
@@ -385,17 +448,34 @@ div#notice {
     overflow: hidden;
   }
   .featured_nav_name {
-    padding: 10px;
-    font-size: 14px;
-    font-weight: bold;
     color: #fff;
     background-color: #333;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
     background: -moz-linear-gradient(100% 100% 90deg, #666, #333);
   }
     .featured_nav_name a {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
       color: #fff;
       font-size: 16px;
+      padding: 10px;
+      width: 180px;
+      height: 20px;
+      -webkit-transition-property:color, background;
+      -webkit-transition-duration: 0.2s, 0.4s;
+      -webkit-transition-timing-function: linear, ease-in;
+      -moz-transition-property:color, background;
+      -moz-transition-duration: 0.2s, 0.4s;
+      -moz-transition-timing-function: linear, ease-in;
+      transition-property:color, background;
+      transition-duration: 0.2s, 0.4s;
+      transition-timing-function: linear, ease-in;
+    }
+    .featured_nav_name a:hover {
+      color: #333;
+			background-color: #ccc;
+			text-decoration: none;
     }
   .featured_nav_text {
     padding: 10px 10px 20px 10px;
@@ -408,21 +488,28 @@ div#notice {
       content: " >>";
     }
 
-#page_nav {
-	margin: 20px 0px;
-	padding: 0px;
-	/*background: #467612 url("intro_background.png") repeat-x;
-	background-size: 100%;*/
+#breadcrumbs {
+  float: right;
 }
-
-  #page_nav h2 {
-    margin: 0px;
-    padding: 0px;
-    font-size: 18px;
-	  font-weight: bold;
-	  color: #888;
+  #breadcrumbs a {
+    font-size: 10px;
+    font-weight: normal;
   }
   
+#add_sub_page, #done_page_editing {
+  float: right;
+  margin-top: 10px;
+}
+  #add_sub_page a {
+    display: block;
+	  color: #bbb;
+    font-weight: bold;
+  }
+  #add_sub_page a:hover {
+    color: #333;
+    background-color: inherit;
+  }
+
 #page_banner {
   height: 245px;
   background-color: #c52;
@@ -449,8 +536,11 @@ div#notice {
 		display: table-cell;
 		width: 400px;
 	}
+	#page_content aside .form {
+	  width: 300px;
+	}
 	
-#page_admin {
+#page_admin, #add_event {
   margin: 20px 0px;
 }
   #page_admin ul {
@@ -462,13 +552,13 @@ div#notice {
     #page_admin ul li {
       float: left;
     }
-      #page_admin ul li a {
+      #page_admin ul li a, #add_event a {
   		  display: block;
   		  color: #bbb;
 		    font-weight: bold;
   		  padding-right: 20px;
 		  }
-		  #page_admin ul li a:hover {
+		  #page_admin ul li a:hover, #add_event a:hover {
 		    color: #333;
 		    background-color: inherit;
 		  }
@@ -483,8 +573,69 @@ div#notice {
   margin: 0px 20px 20px 0px;
 }
 
-#notes, aside.form {
+#contacts {
+  display: table;
   width: 400px;
+  margin: 0px 0px 10px 0px;
+  padding: 0px;
+}
+  #contacts h2 {
+    display: table-cell;
+    font-size: 14px;
+    color: #999;
+    width: 80px;
+    margin: 0px;
+    padding: 0px;
+  }
+  #contacts_list {
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+  #contacts_list .delete_gallery_item {
+    display: none;
+  }
+
+#events {
+  display: table;
+  width: 400px;
+  margin: 0px;
+  padding: 0px;
+}
+  #events h2 {
+    display: table-cell;
+    font-size: 14px;
+    color: #999;
+    width: 80px;
+    margin: 0px;
+    padding: 0px;
+  }
+  #events_list {
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+    #events_list li.event {
+      padding: 10px 0px;
+      border-top: 1px solid #666;
+      color: #666;
+      font-weight: normal;
+    }
+    #events_list li.active {
+      background-color: #eee;
+    }
+    #events_list li:first-of-type {
+      border: none;
+    }
+    #events_list .event_range {
+      color: #333;
+      font-weight: bold;
+    }
+
+#notes {
+  width: 350px;
   margin: 0px;
   margin-bottom: 25px;
   padding: 15px 25px;
@@ -540,6 +691,7 @@ div#notice {
   margin: 0px 0px 20px 0px;
   background-color: #666;
   padding: 20px;
+  height: 400px;
 }
   #gallery li {
     display: inline-table;
@@ -696,3 +848,11 @@ input:hover, textarea:hover,
 input:focus, textarea:focus {
 	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 	}
+
+/* http://trentrichardson.com/examples/timepicker/ */
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }

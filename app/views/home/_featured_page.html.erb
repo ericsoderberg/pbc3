@@ -1,4 +1,5 @@
-<%= content_tag_for(:li, featured_page, :class => (featured_page == @hero_page ? 'heroed' : '')) do %>
+<%= content_tag_for(:li, featured_page,
+  :class => (featured_page == @hero_page ? 'heroed' : '')) do %>
   <div class="hero_arrow_border"></div>
   <div class="hero_arrow"></div>
   <div class="featured_nav_image">

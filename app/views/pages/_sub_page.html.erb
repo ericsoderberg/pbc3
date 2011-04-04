@@ -1,0 +1,4 @@
+<%= content_tag_for(:li, sub_page,
+  :class => (sub_page == @page ? 'active' : '')) do %>
+  <%= link_to sub_page.name, friendly_page_path(sub_page) %>
+<% end %>

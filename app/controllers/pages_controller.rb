@@ -15,7 +15,8 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.xml
   def show
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by_url(params[:id], :include => :children)
+    @nav_context = @page.parent || @page
     @new_note = Note.new(:page_id => @page.id)
 
     respond_to do |format|
@@ -28,6 +29,7 @@ class PagesController < ApplicationController
   # GET /pages/new.xml
   def new
     @page = Page.new
+    @page.parent = Page.find_by_id(params[:parent_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,7 +43,15 @@ class PagesController < ApplicationController
     @aspect = params[:aspect] || 'text'
     @new_photo = Photo.new(:page_id => @page.id) if 'photos' == @aspect
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
-    @group = @page.group if 'group' == @aspect
+    @new_contact = Contact.new(:page_id => @page.id) if 'contacts' == @aspect
+    if 'events' == @aspect
+      @event = Event.new(:page_id => @page.id)
+      if params[:event_id]
+        @event = Event.find(params[:event_id])
+      elsif ! @page.events.empty?
+        @event = @page.events.first
+      end
+    end
   end
 
   # POST /pages

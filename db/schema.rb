@@ -10,7 +10,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110330020801) do
+ActiveRecord::Schema.define(:version => 20110401042749) do
+
+  create_table "contacts", :force => true do |t|
+    t.integer  "page_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "name"
+    t.datetime "start_at"
+    t.datetime "stop_at"
+    t.boolean  "all_day"
+    t.string   "location"
+    t.integer  "page_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "groups", :force => true do |t|
     t.integer  "page_id"
@@ -47,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20110330020801) do
     t.string   "hero_background_content_type"
     t.integer  "hero_background_file_size"
     t.datetime "hero_background_update_at"
+    t.integer  "parent_id"
   end
 
   create_table "photos", :force => true do |t|

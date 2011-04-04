@@ -32,12 +32,22 @@ module Pbc3
 
     # JavaScript files you want as :defaults (application.js is always included).
     config.action_view.javascript_expansions[:defaults] =
-      %w(jquery rails jquery-ui.min)
+      %w(modernizr.min jquery-1.5.1.min jquery-ui-1.8.11.custom.min jquery-ui-timepicker-addon rails)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+  end
+end
+
+class Time
+  def simple_time(meridian=true)
+    (0 == self.min ? self.strftime("%l") : self.strftime("%l:%M")).strip +
+      (meridian ? self.strftime("%p").downcase : '')
+  end
+  def simple_date
+    "%d/%d" % [self.mon, self.mday]
   end
 end

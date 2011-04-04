@@ -1,10 +1,22 @@
-<% title @page.name -%>
-<div id="page_nav">
-  <h2><%= @page.name %></h2>
-</div>
+<% title @nav_context.name -%>
 
-<div id="page_banner">
-</div>
+<section>
+  <header>
+    <h1 class="<%= @nav_context == @page ? 'active' : '' %>">
+      <%= link_to @nav_context.name, @nav_context %></h1>
+    <ul class="nav">
+      <%= render :partial => "sub_page", :collection => @nav_context.children %>
+    </ul>
+    <% unless @nav_context.parent -%>
+    <div id="add_sub_page">
+      <%= link_to 'Add', new_page_url(:parent_id => @nav_context.id) %>
+    </div>
+    <% end -%>
+  </header>
+
+  <div id="page_banner">
+  </div>
+</section>
 
 <div id="page_content">
 
@@ -29,8 +41,26 @@
 
   <aside>
     
+    <% if @page.events.count == 1 and
+        @page == @page.events.first.page -%>
+        
+        <%= render :partial => 'events/viewer',
+          :locals => {:events => @page.events, :no_name => true} %>
+          
+        <%= render :partial => 'contacts/viewer',
+          :locals => {:contacts => @page.contacts} %>
+          
+    <% else -%>
+    
+      <%= render :partial => 'contacts/viewer',
+        :locals => {:contacts => @page.contacts} %>
+    
+        <%= render :partial => 'events/viewer',
+          :locals => {:events => @page.events, :no_name => false} %>
+    <% end -%>
+    
     <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>
-
+    
     <%= render :partial => 'photos/viewer', :locals => {:photos => @page.photos} %>
     <%= render :partial => 'videos/viewer', :locals => {:videos => @page.videos} %>
   

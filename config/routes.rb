@@ -1,5 +1,9 @@
 Pbc3::Application.routes.draw do
   
+  resources :contacts
+
+  resources :events
+
   resources :groups
 
   resources :videos

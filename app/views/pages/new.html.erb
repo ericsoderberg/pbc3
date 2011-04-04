@@ -1,5 +1,10 @@
-<h1>New page</h1>
+<section>
+  <header>
+    <h1>New page</h1>
+    <% if @page.parent -%>
+    <h2>in <%= link_to @page.parent.name, @page.parent %></h2>
+    <% end -%>
+  </header>
+</section>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', pages_path %>

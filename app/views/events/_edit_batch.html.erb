@@ -1,0 +1,18 @@
+<div id="page_content">
+  <section>
+    <ul id="events_list">
+      <%= render :partial => @page.events, :locals => {:no_name => false} %>
+    </ul>
+    <div id="add_event">
+      <%= link_to 'Add',
+        edit_page_path(@page, :aspect => 'events', :create => true) %>
+    </div>
+  </section>
+
+  <aside>
+    <div class="form">
+      <h3><%= (@event ? 'Edit' : 'Add') %> Event</h3>
+      <%= render 'events/form' %>
+    </div>
+  </aside>
+</div>

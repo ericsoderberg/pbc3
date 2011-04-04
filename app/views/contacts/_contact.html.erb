@@ -1,0 +1,7 @@
+<%= content_tag_for(:li, contact) do %>
+  <%= contact.user.email %>
+  <div class="delete_gallery_item">
+    <%= link_to 'delete', contact, :confirm => 'Are you sure?',
+      :method => :delete, :remote => true %>
+  </div>
+<% end %>
