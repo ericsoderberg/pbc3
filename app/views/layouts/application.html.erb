@@ -15,7 +15,8 @@
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
-          <li><%= link_to current_user.email, '#' %></li>
+          <li><%= link_to current_user.email,
+            edit_account_path(current_user) %></li>
           <li><%= link_to "Sign out", destroy_user_session_path %></li>
         </ul>
         <% else %>

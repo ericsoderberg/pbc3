@@ -22,7 +22,7 @@ class Page < ActiveRecord::Base
   has_many :notes, :order => 'created_at DESC'
   has_many :photos
   has_many :videos
-  has_many :events
+  has_many :events, :order => 'start_at ASC'
   has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id

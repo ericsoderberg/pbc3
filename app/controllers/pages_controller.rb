@@ -45,8 +45,11 @@ class PagesController < ApplicationController
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
     @new_contact = Contact.new(:page_id => @page.id) if 'contacts' == @aspect
     if 'events' == @aspect
-      @event = Event.new(:page_id => @page.id)
-      if params[:event_id]
+      if params[:create]
+        @event = Event.new(:page_id => @page.id,
+          :start_at => (Time.now.beginning_of_day + 1.day + 10.hour),
+          :stop_at => (Time.now.beginning_of_day + 1.day + 11.hour))
+      elsif params[:event_id]
         @event = Event.find(params[:event_id])
       elsif ! @page.events.empty?
         @event = @page.events.first

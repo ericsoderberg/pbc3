@@ -1,5 +1,7 @@
 Pbc3::Application.routes.draw do
   
+  resources :accounts
+
   resources :contacts
 
   resources :events

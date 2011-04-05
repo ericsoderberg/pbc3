@@ -2,4 +2,15 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      db: "%Y-%m-%d"
+      short: "%m/%d"
+      long: "%A %B %d, %Y"
+  time:
+    formats:
+      default: "%m/%d/%Y %l:%M %p"
+      form: "%m/%d/%Y @ %I:%M %p"
+      db: "%Y-%m-%d %I:%M %p"
+      

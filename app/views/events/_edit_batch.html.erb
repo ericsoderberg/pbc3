@@ -4,14 +4,14 @@
       <%= render :partial => @page.events, :locals => {:no_name => false} %>
     </ul>
     <div id="add_event">
-      <%= link_to 'Add',
+      <%= link_to 'Add event',
         edit_page_path(@page, :aspect => 'events', :create => true) %>
     </div>
   </section>
 
   <aside>
-    <div class="form">
-      <h3><%= (@event ? 'Edit' : 'Add') %> Event</h3>
+    <div class="event_form">
+      <h3><%= (@event.name ? "Edit #{@event.name}" : 'Add Event') %></h3>
       <%= render 'events/form' %>
     </div>
   </aside>

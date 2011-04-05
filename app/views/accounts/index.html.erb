@@ -1,0 +1,27 @@
+<section>
+  <header>
+    <h1>Accounts</h1>
+  </header>
+
+<table id="users">
+  <tbody>
+<% @users.each do |user| %>
+  <tr>
+    <td>
+      <% if user.avatar.exists? -%>
+        <%= image_tag user.avatar.url(:normal) %>
+      <% end -%>
+    </td>
+    <td class="first_name"><%= user.first_name %></td>
+    <td class="last_name"><%= user.last_name %></td>
+    <td><%= link_to user.email, edit_account_url(user) %></td>
+    <td class="administrator">
+      <% if user.administrator -%>
+        administrator
+      <% end -%>
+    </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+</section>

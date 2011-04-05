@@ -3,7 +3,8 @@
   <h2><%= (events.count == 1 ? 'Event' : 'Events') %></h2>
   
   <ul id="events_list">
-    <%= render :partial => events, :locals => {:no_name => (no_name || false)} %>
+    <%= render :partial => 'events/view_event', :collection => events,
+      :locals => {:no_name => (no_name || false)} %>
   </ul>
   
 </div>

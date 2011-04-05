@@ -619,7 +619,7 @@ div#notice {
   }
     #events_list li.event {
       padding: 10px 0px;
-      border-top: 1px solid #666;
+      border-top: 1px solid #ccc;
       color: #666;
       font-weight: normal;
     }
@@ -633,6 +633,9 @@ div#notice {
       color: #333;
       font-weight: bold;
     }
+#page_content aside .event_form {
+  width: 600px;
+}
 
 #notes {
   width: 350px;
@@ -856,3 +859,13 @@ input:focus, textarea:focus {
 .ui-timepicker-div dl dt{ height: 25px; }
 .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
 .ui-timepicker-div td { font-size: 90%; }
+
+#users td {
+  padding-right: 20px;
+  }
+  #users .first_name {
+    text-align: right;
+    }
+  #users .administrator {
+    color: #999;
+    }

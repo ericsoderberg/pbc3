@@ -18,11 +18,11 @@
   </div>
   <div class="field">
     <%= f.label :start_at %><br />
-    <%= f.text_field :start_at %>
+    <%= f.text_field :start_at, :value => l(@event.start_at, :format => :form) %>
   </div>
   <div class="field">
     <%= f.label :stop_at %><br />
-    <%= f.text_field :stop_at %>
+    <%= f.text_field :stop_at, :value => l(@event.stop_at, :format => :form) %>
   </div>
   <div class="field">
     <%= f.label :all_day %><br />
@@ -36,22 +36,3 @@
     <%= f.submit %>
   </div>
 <% end %>
-
-<script type="text/javascript" language="javascript">
-$(function() {
-  $('#event_start_at').datetimepicker({
-    stepHour: 1,
-    stepMinute: 15,
-    ampm: true,
-    hourGrid: 4,
-    minuteGrid: 15
-  });
-});
-$(function() {
-  $('#event_stop_at').datetimepicker({
-    stepHour: 1,
-    stepMinute: 15,
-    ampm: true
-  });
-});
-</script>
