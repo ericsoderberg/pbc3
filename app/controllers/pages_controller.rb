@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => :show
+  before_filter :administrator!, :except => [:index, :show]
   
   # GET /pages
   # GET /pages.xml
@@ -30,6 +31,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
+    @page.page_banner = @page.parent.page_banner if @page.parent
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,7 +47,7 @@ class PagesController < ApplicationController
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
     @new_contact = Contact.new(:page_id => @page.id) if 'contacts' == @aspect
     if 'events' == @aspect
-      if params[:create]
+      if params[:create] or @page.events.empty?
         @event = Event.new(:page_id => @page.id,
           :start_at => (Time.now.beginning_of_day + 1.day + 10.hour),
           :stop_at => (Time.now.beginning_of_day + 1.day + 11.hour))

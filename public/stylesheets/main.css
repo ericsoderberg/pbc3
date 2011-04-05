@@ -477,9 +477,9 @@ div#notice {
 			background-color: #ccc;
 			text-decoration: none;
     }
-  .featured_nav_text {
-    padding: 10px 10px 20px 10px;
-  }
+    .featured_nav_text {
+      padding: 10px 10px 20px 10px;
+    }
     .featured_nav_link {
       margin-top: 10px;
     }
@@ -512,7 +512,7 @@ div#notice {
 
 #page_banner {
   height: 245px;
-  background-color: #c52;
+  background-color: #dfe1db;
 }
 
 #page_content {
@@ -860,6 +860,14 @@ input:focus, textarea:focus {
 .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
 .ui-timepicker-div td { font-size: 90%; }
 
+#sign_in, #sign_up {
+  margin: 0px auto;
+  width: 300px;
+  }
+  #sign_in form, #sign_up form {
+    text-align: left;
+    }
+
 #users td {
   padding-right: 20px;
   }
@@ -869,3 +877,32 @@ input:focus, textarea:focus {
   #users .administrator {
     color: #999;
     }
+
+#communities {
+  list-style-type: none;
+  margin: 0px 0px 20px 0px;
+  padding: 0px;
+  }
+  #communities li.group {
+    display: inline-table;
+    vertical-align: top;
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+    background-color: #eee;
+    }
+    #communities .group_image {
+      width: 200px;
+      height: 60px;
+      overflow: hidden;
+      }
+    #communities .group_text {
+      padding: 10px 10px 20px 10px;
+      }
+    #communities .delete_group {
+      float: right;
+      margin-top: 10px;
+      }
+    #communities ul {
+      list-style-type: none;
+      }

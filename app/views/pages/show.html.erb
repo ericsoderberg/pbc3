@@ -15,6 +15,9 @@
   </header>
 
   <div id="page_banner">
+    <% if @page.page_banner and @page.page_banner.image.exists? -%>
+      <%= image_tag @page.page_banner.image.url(:normal) %>
+    <% end -%>
   </div>
 </section>
 

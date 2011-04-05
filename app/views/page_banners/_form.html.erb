@@ -1,0 +1,25 @@
+<%= form_for(@page_banner, :html => { :multipart => true }) do |f| %>
+  <% if @page_banner.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page_banner.errors.count, "error") %> prohibited this page_banner from being saved:</h2>
+
+      <ul>
+      <% @page_banner.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :image %><br />
+    <% if @page_banner.image.exists? -%>
+      <%= image_tag @page_banner.image.url(:thumb) %>
+    <% end -%>
+    <%= f.file_field :image %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit "#{@page_banner.id ? 'Update' : 'Add'} Page Banner" %>
+  </div>
+<% end %>

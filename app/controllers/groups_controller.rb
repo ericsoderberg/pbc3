@@ -1,4 +1,7 @@
 class GroupsController < ApplicationController
+  before_filter :authenticate_user!, :except => :index
+  before_filter :administrator!, :except => :index
+  
   # GET /groups
   # GET /groups.xml
   def index

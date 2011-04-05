@@ -1,3 +1,4 @@
+<% if ! notes.empty? or (current_user and current_user.administrator) -%>
 <div id="notes">
 
   <h2>Highlights</h2>
@@ -15,4 +16,4 @@
   </ul>
   
 </div>
-
+<% end -%>

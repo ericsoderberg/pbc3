@@ -1,0 +1,29 @@
+<h1>Page Banners</h1>
+
+<table>
+  <tr>
+    <th>Thumbnail</th>
+    <th>File</th>
+    <th>Type</th>
+    <th>Size</th>
+    <th>Updated at</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @page_banners.each do |page_banner| %>
+  <tr>
+    <td><%= image_tag page_banner.image.url(:thumb) %></td>
+    <td><%= page_banner.image_file_name %></td>
+    <td><%= page_banner.image_content_type %></td>
+    <td><%= page_banner.image_file_size %></td>
+    <td><%= page_banner.image_updated_at %></td>
+    <td><%= link_to 'Edit', edit_page_banner_path(page_banner) %></td>
+    <td><%= link_to 'Delete', page_banner, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Add page banner', new_page_banner_path %>

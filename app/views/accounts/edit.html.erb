@@ -1,6 +1,12 @@
 <section>
   <header>
-    <h1>Editing <%= @user.email %></h1>
+    <h1>
+      <% if current_user.administrator -%>
+        Editing <%= @user.email %>
+      <% else -%>
+        Edit Account
+      <% end -%>
+    </h1>
   </header>
   
   <%= form_for(@user, :url => account_path(@user), :html => { :multipart => true }) do |f| %>
@@ -32,10 +38,10 @@
       <div class="form">
         
         <div class="field">
-          <%= f.label :avatar %><br />
+          <%= f.label :photo %><br />
           <% if @user.avatar.exists? -%>
             <%= image_tag @user.avatar.url(:normal) %>
-            <%= check_box_tag 'delete_avatar' %> delete avatar?
+            <%= check_box_tag 'delete_avatar' %> delete photo?
           <% end -%>
           <%= f.file_field :avatar %>
         </div>

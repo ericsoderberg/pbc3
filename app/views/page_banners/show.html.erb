@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Image file name:</b>
+  <%= @page_banner.image_file_name %>
+</p>
+
+<p>
+  <b>Image content type:</b>
+  <%= @page_banner.image_content_type %>
+</p>
+
+<p>
+  <b>Image file size:</b>
+  <%= @page_banner.image_file_size %>
+</p>
+
+<p>
+  <b>Image updated at:</b>
+  <%= @page_banner.image_updated_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_page_banner_path(@page_banner) %> |
+<%= link_to 'Back', page_banners_path %>

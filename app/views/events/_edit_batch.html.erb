@@ -3,10 +3,12 @@
     <ul id="events_list">
       <%= render :partial => @page.events, :locals => {:no_name => false} %>
     </ul>
-    <div id="add_event">
-      <%= link_to 'Add event',
-        edit_page_path(@page, :aspect => 'events', :create => true) %>
-    </div>
+    <% if @event.name -%>
+      <div id="add_event">
+        <%= link_to 'Add event',
+          edit_page_path(@page, :aspect => 'events', :create => true) %>
+      </div>
+    <% end -%>
   </section>
 
   <aside>

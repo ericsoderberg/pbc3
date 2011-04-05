@@ -1,12 +1,14 @@
 Pbc3::Application.routes.draw do
   
+  resources :page_banners
+
   resources :accounts
 
   resources :contacts
 
   resources :events
 
-  resources :groups
+  resources :communities, :as => :groups, :controller => :Groups
 
   resources :videos
 

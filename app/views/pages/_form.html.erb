@@ -21,10 +21,12 @@
 
   <aside>
     <div class="form">
+      
       <div class="field">
         <%= f.label :name %><br />
         <%= f.text_field :name %>
       </div>
+      
       <div class="field">
         <%= f.label :inline_image %><br />
         <% if @page.text_image.exists? -%>
@@ -33,6 +35,14 @@
         <% end -%>
         <%= f.file_field :text_image %>
       </div>
+      
+      <div class="field">
+        <%= f.label :banner %><br />
+        <%= collection_select(:page, :page_banner_id,
+          PageBanner.all, :id, :image_file_name, :prompt => true) %>
+        <%= link_to 'page banners', page_banners_path %>
+      </div>
+      
     </div>
   </aside>
 </div>

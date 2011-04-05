@@ -1,7 +1,30 @@
-<%= content_tag_for(:li, group) do %>
-  <%= link_to group.page.name, group.page %>
-  <div class="delete_gallery_item">
-    <%= link_to 'delete', group, :confirm => 'Are you sure?',
-      :method => :delete, :remote => true %>
+<%= content_tag_for(:li, group, :class => 'group') do %>
+  
+  <div class="group_image">
+    <% if group.page.feature_image.exists? then %>
+  	  <%= image_tag group.page.feature_image.url(:normal) %><br />
+    <% end %>
   </div>
+  
+  <%= link_to group.page.name, friendly_page_path(group.page) %>
+  
+  <div class="group_text">
+    <%= raw truncate(group.page.rendered_text.scan(/<p>(.*)<\/p>/)[0][0], :length => 40) %>
+  </div>
+  
+  <% unless group.page.children.empty? -%>
+    <ul class="sub_groups">
+      <% group.page.children.each do |child| -%>
+        <li><%= link_to child.name, friendly_page_path(child) %></li>
+      <% end -%>
+    </ul>
+  <% end -%>
+  
+  <% if current_user and current_user.administrator? -%>
+    <div class="delete_group">
+      <%= link_to 'delete', group, :confirm => 'Are you sure?',
+        :method => :delete, :remote => true %>
+    </div>
+  <% end -%>
+  
 <% end %>

@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :administrator!, :except => [:edit, :update]
   
   def index
     if current_user.administrator
