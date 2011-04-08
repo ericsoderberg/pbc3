@@ -11,7 +11,7 @@
     <%= link_to featured_page.name, root_path(:page => featured_page.id) %>
   </div>
   <div class="featured_nav_text">
-    <%= raw truncate(featured_page.rendered_feature_text.scan(/<p>(.*)<\/p>/)[0][0], :length => 40) %>
+    <%= raw truncate(featured_page.snippet_feature_text, :length => 40) %>
     <div class="featured_nav_link">
       <%= link_to "Learn more", friendly_page_path(featured_page) %>
     </div>

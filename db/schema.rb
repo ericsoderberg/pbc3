@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110405170247) do
+ActiveRecord::Schema.define(:version => 20110408161106) do
 
   create_table "contacts", :force => true do |t|
     t.integer  "page_id"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(:version => 20110405170247) do
     t.datetime "hero_background_update_at"
     t.integer  "parent_id"
     t.integer  "page_banner_id"
+    t.text     "snippet_text"
+    t.text     "snippet_feature_text"
   end
 
   create_table "photos", :force => true do |t|

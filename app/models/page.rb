@@ -31,10 +31,20 @@ class Page < ActiveRecord::Base
   def render_text
     self.rendered_text = BlueCloth.new(self.text).to_html
     self.rendered_feature_text = BlueCloth.new(self.feature_text).to_html
+    self.snippet_text = extract_first_paragraph(self.rendered_text)
+    self.snippet_feature_text =
+      extract_first_paragraph(self.rendered_feature_text)
   end
   
   def to_param
     url
+  end
+  
+  private
+  
+  def extract_first_paragraph(str)
+    matches = str.scan(/<p>(.*)<\/p>/)
+    return (matches and matches[0] ? matches[0][0] : '')
   end
   
 end

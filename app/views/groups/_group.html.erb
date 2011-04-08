@@ -9,7 +9,7 @@
   <%= link_to group.page.name, friendly_page_path(group.page) %>
   
   <div class="group_text">
-    <%= raw truncate(group.page.rendered_text.scan(/<p>(.*)<\/p>/)[0][0], :length => 40) %>
+    <%= raw truncate(group.page.snippet_text, :length => 40) %>
   </div>
   
   <% unless group.page.children.empty? -%>
