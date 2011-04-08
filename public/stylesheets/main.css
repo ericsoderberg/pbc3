@@ -1030,4 +1030,19 @@ input:focus, textarea:focus {
     }
   #calendar_list .name a {
     font-size: 14px;
+    }
+  
+#search_results {
+  margin: 0px;
+  padding: 0px;
   }
+  .search_result td {
+    font-size: 14px;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 20px;
+    }
+  .search_result td a {
+    font-size: 14px;
+    }
+    

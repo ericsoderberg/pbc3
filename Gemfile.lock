@@ -32,11 +32,19 @@ GEM
     bcrypt-ruby (2.1.4)
     bluecloth (2.1.0)
     builder (2.1.2)
+    capistrano (2.5.21)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.0.0)
     devise (1.1.8)
       bcrypt-ruby (~> 2.1.2)
       warden (~> 1.0.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    escape (0.0.4)
+    highline (1.6.1)
     i18n (0.5.0)
     jquery-rails (0.2.7)
       rails (~> 3.0)
@@ -47,11 +55,20 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.1.4)
+    net-ssh-gateway (1.0.1)
+      net-ssh (>= 1.99.1)
+    nokogiri (1.4.4)
     paperclip (2.3.8)
       activerecord
       activesupport
     pg (0.10.1)
     polyglot (0.3.1)
+    pr_geohash (1.0.0)
     rack (1.2.2)
     rack-mount (0.6.13)
       rack (>= 1.0.0)
@@ -71,7 +88,16 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     rake (0.8.7)
+    rsolr (0.12.1)
+      builder (>= 2.1.2)
     stringex (1.2.1)
+    sunspot (1.2.1)
+      escape (= 0.0.4)
+      pr_geohash (~> 1.0)
+      rsolr (= 0.12.1)
+    sunspot_rails (1.2.1)
+      nokogiri
+      sunspot (= 1.2.1)
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
@@ -84,9 +110,11 @@ PLATFORMS
 
 DEPENDENCIES
   bluecloth
+  capistrano
   devise
   jquery-rails
   paperclip (~> 2.3)
   pg
   rails (= 3.0.5)
   stringex
+  sunspot_rails (~> 1.2.1)
