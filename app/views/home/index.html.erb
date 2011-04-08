@@ -1,6 +1,7 @@
 <% content_for(:content_class) {'home'}%>
 <% if @hero_page -%>
-<div id="hero" style="background-image: url(<%= ENV['RAILS_RELATIVE_URL_ROOT'] + @hero_page.hero_background.url(:normal) %>); ">
+<div id="hero"
+  style="background-image: url(<%= @hero_page.hero_background.url(:normal) %>); ">
   <div id="hero_photos">
     <% if @hero_photo1 -%>
       <div id="hero_photo1">

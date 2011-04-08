@@ -17,6 +17,11 @@ class PagesController < ApplicationController
   # GET /pages/1.xml
   def show
     @page = Page.find_by_url(params[:id], :include => :children)
+    unless @page
+      redirect_to root_path
+      return
+    end
+    
     @nav_context = @page.parent || @page
     @new_note = Note.new(:page_id => @page.id)
 

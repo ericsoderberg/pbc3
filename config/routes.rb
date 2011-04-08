@@ -1,6 +1,6 @@
 Pbc3::Application.routes.draw do
   
-  scope "/pbc3" do
+  #scope "/pbc3" do
     
     # http://blog.grow20.com/fun-with-ssl-for-accounts-only
     class SSL
@@ -43,7 +43,7 @@ Pbc3::Application.routes.draw do
   
     match '/:id', :to => "pages#show", :as => 'friendly_page'
     
-  end # scope
+  #end # scope
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
