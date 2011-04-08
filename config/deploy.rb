@@ -8,9 +8,9 @@ require 'bundler/capistrano'
 
 set :application, "pbc3"
 
-role :web, "66.84.18.94"                          # Your HTTP server, Apache/etc
-role :app, "66.84.18.94"                          # This may be the same as your `Web` server
-role :db,  "66.84.18.94", :primary => true # This is where Rails migrations will run
+role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
+role :app, "test.pbc.org"                          # This may be the same as your `Web` server
+role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
 #role :db,  "your slave db-server here"
 
 #server
