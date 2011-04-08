@@ -17,8 +17,8 @@ role :db,  "66.84.18.94", :primary => true # This is where Rails migrations will
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :deploy_to, "/srv/rails/#{application}"
-set :jail_user, "webapp3"
-set :jail_group, "webapp3"
+set :user, "webapp3"
+set :group, "webapp"
 set :use_sudo, false
 
 # repository
