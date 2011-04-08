@@ -14,7 +14,7 @@
     </td>
     <td class="first_name"><%= user.first_name %></td>
     <td class="last_name"><%= user.last_name %></td>
-    <td><%= link_to user.email, edit_account_url(user) %></td>
+    <td><%= link_to user.email, edit_account_path(user) %></td>
     <td class="administrator">
       <% if user.administrator -%>
         administrator

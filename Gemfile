@@ -10,8 +10,9 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'bluecloth'
 gem 'paperclip', '~> 2.3'
-gem 'remotipart'
+#gem 'remotipart'
 gem 'stringex'
+#gem 'table_builder'
 
 # Use unicorn as the web server
 # gem 'unicorn'

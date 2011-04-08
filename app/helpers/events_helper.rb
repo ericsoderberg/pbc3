@@ -1,4 +1,5 @@
 module EventsHelper
+  
   def friendly_range(event, with_date=true)
     if with_date or event.start_at.to_date != event.stop_at.to_date
       event.start_at.strftime("%A") + " %d/%d" %
@@ -20,4 +21,5 @@ module EventsHelper
       event.stop_at.simple_time(true)
     end
   end
+  
 end

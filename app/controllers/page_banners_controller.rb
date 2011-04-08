@@ -47,7 +47,7 @@ class PageBannersController < ApplicationController
 
     respond_to do |format|
       if @page_banner.save
-        format.html { redirect_to(page_banners_path, :notice => 'Page banner was successfully created.') }
+        format.html { redirect_to(page_banners_url, :notice => 'Page banner was successfully created.') }
         format.xml  { render :xml => @page_banner, :status => :created, :location => @page_banner }
       else
         format.html { render :action => "new" }
@@ -63,7 +63,7 @@ class PageBannersController < ApplicationController
 
     respond_to do |format|
       if @page_banner.update_attributes(params[:page_banner])
-        format.html { redirect_to(page_banners_path, :notice => 'Page banner was successfully updated.') }
+        format.html { redirect_to(page_banners_url, :notice => 'Page banner was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

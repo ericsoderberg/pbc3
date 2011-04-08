@@ -1,0 +1,22 @@
+<section>
+  
+  <%= render :partial => 'controls', :locals => {:view => 'list'} %>
+
+<table id="calendar_list">
+  <% @events.each do |event| -%>
+  <tr>
+    <td class="day"><%= event.start_at.day.ordinalize %></td>
+    <td class="week_day"><%= event.start_at.strftime("%A") %></td>
+    <td class="time"><%= event.start_at.simple_time %></td>
+    <td class="name"><%= link_to event.name,
+      friendly_page_path(event.page) %></td>
+    <td>
+      <% if event.name != event.page.name -%>
+        <%= h(event.page.name) %>
+      <% end -%>
+    </td>
+  </tr>
+  <% end -%>
+</table>
+
+</section>

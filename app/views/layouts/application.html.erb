@@ -10,13 +10,13 @@
   <div id="content" class="<%= yield(:content_class) %>">
     
   <header id="site_header">
-    <h1><a href="/"><span>PENINSULA</span> BIBLE CHURCH</a></h1>
+    <h1><a href="<%= root_path %>"><span>PENINSULA</span> BIBLE CHURCH</a></h1>
     <h2>following Jesus in Silicon Valley</h2>
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
           <li><%= link_to current_user.email,
-            edit_account_path(current_user) %></li>
+            edit_account_url(current_user, :protocol => 'https') %></li>
           <li><%= link_to "Sign out", destroy_user_session_path %></li>
         </ul>
         <% else %>
@@ -30,8 +30,10 @@
   
   <nav id="site_nav">
     <ul>  
-      <li><%= link_to "Communities", groups_path %></li>
-      <li><a href="#">Calendar</a></li>
+      <li class="<%= (@page or @groups) ? 'active' : '' %>">
+        <%= link_to "Communities", groups_path %></li>
+      <li class="<%= @calendar ? 'active' : '' %>">
+        <%= link_to "Calendar", calendar_month_path %></li>
       <li><a href="#">Message Library</a></li>  
       <li><a href="#">About</a></li>  
     </ul>

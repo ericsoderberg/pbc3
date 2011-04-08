@@ -1,46 +1,49 @@
 Pbc3::Application.routes.draw do
   
-  resources :page_banners
-
-  resources :accounts
-
-  resources :contacts
-
-  resources :events
-
-  resources :communities, :as => :groups, :controller => :Groups
-
-  resources :videos
-
-  resources :photos
-
-  resources :notes
-  
-  # http://blog.grow20.com/fun-with-ssl-for-accounts-only
-  class SSL
-    def self.matches?(request)
-      # This way you don't need SSL for your development server
-      return true unless Rails.env.production?
-      request.port == 3002
+  scope "/pbc3" do
+    
+    # http://blog.grow20.com/fun-with-ssl-for-accounts-only
+    class SSL
+      def self.matches?(request)
+        # This way you don't need SSL for your development server
+        return true unless Rails.env.production?
+        #request.port == 443 # temporary, use below eventually
+        request.ssl?
+      end
     end
-  end
-
-  constraints SSL do
-    devise_for :users
-  end
+    
+    resources :page_banners
+    resources :contacts
+    resources :events
+    resources :communities, :as => :groups, :controller => :Groups
+    resources :videos
+    resources :photos
+    resources :notes
+    
+    constraints SSL do
+      resources :accounts
+      devise_for :users
+    end
   
-  # Redirect to SSL from non-SSL so you don't get 404s
-  # Repeat for any custom Devise routes
-  match "/users(/*path)", :to => redirect { |_, request|
-    "https://" + request.host + ":3002" + request.fullpath }
+    # Redirect to SSL from non-SSL so you don't get 404s
+    # Repeat for any custom Devise routes
+    #match "/users(/*path)", :to => redirect { |_, request|
+    #  "https://" + request.host_with_port + request.fullpath }
+    #match "/accounts(/*path)", :to => redirect { |_, request|
+    #  "https://" + request.host_with_port + request.fullpath }
 
-  get "home/index"
+    get "home/index"
+    get "calendar/month"
+    get "calendar/list"
+    get "calendar/day"
 
-  root :to => "home#index"
+    root :to => "home#index"
   
-  resources :pages
+    resources :pages
   
-  match '/:id', :to => "pages#show", :as => 'friendly_page'
+    match '/:id', :to => "pages#show", :as => 'friendly_page'
+    
+  end # scope
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

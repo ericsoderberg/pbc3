@@ -282,7 +282,7 @@ footer {
 	  border-bottom-left-radius: 4px;
 	}
 
-		#site_nav ul li a:hover {
+		#site_nav ul li a:hover, #site_nav ul li.active a {
 			color: #eee;
 			background-color: #999;
 			/*background: -moz-linear-gradient(100% 100% 90deg, #bbb, #666);
@@ -906,3 +906,128 @@ input:focus, textarea:focus {
     #communities ul {
       list-style-type: none;
       }
+
+.calendar_controls {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-weight: bold;
+  }
+  .calendar_controls a {
+    font-size: 18px;
+    padding: 0 10px;
+    }
+  #calendar_views {
+    float: right;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    }
+    #calendar_views li {
+      float: left;
+      }
+      #calendar_views a {
+        display: block;
+  		  padding-right: 15px;
+  		  padding-left: 15px;
+        font-size: 12px;
+        color: #999;
+        line-height: 20px;
+  		  text-align: center;
+  		  text-decoration: none;
+  		  border-radius: 3px;
+  		  -webkit-transition-property:color, background-color;
+        -webkit-transition-duration: 0.2s, 0.4s;
+        -webkit-transition-timing-function: linear, ease-in;
+        -moz-transition-property:color, background-color;
+        -moz-transition-duration: 0.2s, 0.4s;
+        -moz-transition-timing-function: linear, ease-in;
+        transition:color 0.3s ease-in;
+        transition-property:color, background-color;
+        transition-duration: 0.2s, 0.4s;
+        transition-timing-function: linear, ease-in;
+        }
+        #calendar_views a:hover {
+  			  color: #fff;
+  			  background-color: #999;
+  		    }
+    	  #calendar_views li.active a {
+    	    color: #666;
+    	    }
+    	  #calendar_views li.active a:hover {
+    	    color: #666;
+    	    background: inherit;
+    	    }
+  
+#calendar {
+  padding: 0px;
+  width: 100%;
+  font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
+  }
+  #calendar th {
+    color: #999;
+    font-size: 12px;
+    }
+  #calendar td {
+    width: 14%;
+    height: 60px;
+    font-size: 12px;
+    vertical-align: top;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    }
+    #calendar td.new_month {
+      border-top: 3px solid #ccc;
+      }
+    #calendar td.new_month_first {
+      border-left: 3px solid #ccc;
+      }
+    #calendar td.first {
+      border-left: none;
+      }
+    #calendar td.ref {
+      background: #ffc;
+      }
+    #calendar td .date, #calendar td .holiday {
+      margin: 0;
+      padding: 0;
+      text-align: right;
+      font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
+      font-size: 80%;
+      }
+    #calendar td .holiday {
+      font-size: 90%;
+      }
+    #calendar td ul {
+      margin: 0 3px 15px 3px;
+      padding: 0;
+      list-style-type: none;
+      }
+    #calendar td li {
+      text-indent: -1.5em;
+      margin-left: 1.5em;
+      }
+    #calendar td .time {
+      font-size: 90%;
+      color: #999;
+      }
+  #calendar a {
+    font-size: 11px;
+    text-decoration: none;
+    }
+
+#calendar_list {
+  padding: 0px;
+  }
+  #calendar_list td {
+    padding-left: 10px;
+    color: #666;
+  }
+  #calendar_list .day {
+    font-size: 16px;
+    font-weight: bold;
+    color: #aaa;
+    }
+  #calendar_list .name a {
+    font-size: 14px;
+  }

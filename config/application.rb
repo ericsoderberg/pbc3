@@ -42,6 +42,8 @@ module Pbc3
   end
 end
 
+require 'calendar'
+
 class Time
   def simple_time(meridian=true)
     (0 == self.min ? self.strftime("%l") : self.strftime("%l:%M")).strip +
