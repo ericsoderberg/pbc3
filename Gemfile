@@ -13,7 +13,7 @@ gem 'paperclip', '~> 2.3'
 #gem 'remotipart'
 gem 'stringex'
 #gem 'table_builder'
-gem 'sunspot_rails', '~> 1.2.1'
+#gem 'sunspot_rails', '~> 1.2.1'
 
 # Use unicorn as the web server
 # gem 'unicorn'

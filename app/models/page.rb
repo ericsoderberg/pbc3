@@ -45,10 +45,10 @@ class Page < ActiveRecord::Base
   
   validates_presence_of :name
   
-  searchable do
-    text :name, :default_boost => 2
-    text :text
-  end
+  #searchable do
+  #  text :name, :default_boost => 2
+  #  text :text
+  #end
 
   def render_text
     self.rendered_text = BlueCloth.new(self.text).to_html

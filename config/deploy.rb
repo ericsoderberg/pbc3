@@ -56,18 +56,18 @@ task :before_update_code do
   #run "cd #{current_path} && rake sunspot:solr:stop RAILS_ENV=production"
 end
 
-after "deploy:update_crontab", "deploy:solr:symlink"
+#after "deploy:update_crontab", "deploy:solr:symlink"
 
-namespace :solr do
-  desc <<-DESC
-    Symlink in-progress deployment to a shared Solr index.
-    DESC
-  task :symlink, :except => { :no_release => true } do
-    run "ln -nfs #{shared_path}/solr/data #{current_path}/solr/data"
-    run "ls -al #{current_path}/solr/pids/"
-    run "cd #{current_path} && rake sunspot:solr:start RAILS_ENV=production"
-  end
-end
+#namespace :solr do
+#  desc <<-DESC
+#    Symlink in-progress deployment to a shared Solr index.
+#    DESC
+#  task :symlink, :except => { :no_release => true } do
+#    run "ln -nfs #{shared_path}/solr/data #{current_path}/solr/data"
+#    run "ls -al #{current_path}/solr/pids/"
+#    run "cd #{current_path} && rake sunspot:solr:start RAILS_ENV=production"
+#  end
+#end
 
 #after 'deploy:update_code', 'deploy:symlink_shared'
 
