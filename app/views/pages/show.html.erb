@@ -7,11 +7,19 @@
     <ul class="nav">
       <%= render :partial => "sub_page", :collection => @nav_context.children %>
     </ul>
-    <% unless @nav_context.parent -%>
-    <div id="add_sub_page">
-      <%= link_to 'Add page', new_page_path(:parent_id => @nav_context.id) %>
-    </div>
+    
+    <% if user_signed_in? and current_user.administrator? -%>
+      <div id="page_admin">
+        <ul>
+          <li><%= link_to 'Edit page', edit_page_path(@page) %><li>
+          <% unless @nav_context.parent -%>
+            <li><%= link_to 'Add page',
+              new_page_path(:parent_id => @nav_context.id) %></li>
+          <% end -%>
+        </ul>
+      </div>
     <% end -%>
+    
   </header>
 
   <div id="page_banner">
@@ -19,6 +27,7 @@
       <%= image_tag @page.page_banner.image.url(:normal) %>
     <% end -%>
   </div>
+  
 </section>
 
 <div id="page_content">
@@ -30,12 +39,6 @@
     <% end -%>
     
     <%= raw @page.rendered_text %>
-    
-    <% if user_signed_in? -%>
-    <div id="page_admin">
-      <%= link_to 'Edit', edit_page_path(@page) %>
-    </div>
-    <% end -%>
     
   </section>
 

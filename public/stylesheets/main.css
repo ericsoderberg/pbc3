@@ -490,25 +490,34 @@ div#notice {
 
 #breadcrumbs {
   float: right;
-}
+  }
   #breadcrumbs a {
     font-size: 10px;
     font-weight: normal;
-  }
+    }
   
-#add_sub_page, #done_page_editing {
+#page_admin, #done_page_editing {
   float: right;
   margin-top: 10px;
-}
-  #add_sub_page a {
+  }
+  #page_admin ul {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    }
+    #page_admin ul li {
+      float: left;
+    }
+  #page_admin a {
     display: block;
 	  color: #bbb;
     font-weight: bold;
-  }
-  #add_sub_page a:hover {
-    color: #333;
-    background-color: inherit;
-  }
+    }
+    #page_admin a:hover {
+      color: #333;
+      background-color: inherit;
+      }
 
 #page_banner {
   height: 245px;
@@ -543,18 +552,9 @@ div#notice {
 	  width: 300px;
 	}
 	
-#page_admin, #add_event {
+#add_event {
   margin: 20px 0px;
 }
-  #page_admin ul {
-    display: inline-block;
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-  }
-    #page_admin ul li {
-      float: left;
-    }
       #page_admin a, #add_event a {
   		  display: inline-block;
   		  color: #bbb;
