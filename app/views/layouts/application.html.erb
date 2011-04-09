@@ -41,7 +41,8 @@
       <li><a href="#">About</a></li>  
     </ul>
     <form action="<%= search_path %>">
-      <input name="q" id="search" type="search" required />
+      <input name="q" id="search" type="search" required 
+        value="<%= @search_text || '' %>"/>
     </form>
   </nav>
   

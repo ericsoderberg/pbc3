@@ -7,7 +7,9 @@ class CalendarController < ApplicationController
     start_day =
       (@date.beginning_of_month + 1.day).beginning_of_week.yesterday
     stop_day = start_day + 5.weeks - 1.day
-    @calendar = Event.calendar(start_day, stop_day)
+    @calendar = Calendar.new(start_day, stop_day)
+    @events = Event.find_between(start_day, stop_day)
+    @calendar.populate(@events)
   end
 
   def list

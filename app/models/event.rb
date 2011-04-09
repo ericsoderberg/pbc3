@@ -1,6 +1,17 @@
 class Event < ActiveRecord::Base
   belongs_to :page
+  belongs_to :master, :class_name => 'Event'
+  has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
+    :autosave => true
+  
   validates_presence_of :page_id
+  
+  before_save do
+    self.replicas.each do |replica|
+      replica.name = self.name if replica.name != self.name
+      replica.location = self.location if replica.location != self.location
+    end
+  end
   
   def self.find_between(start, stop)
     conditions = []
@@ -10,25 +21,32 @@ class Event < ActiveRecord::Base
     self.find(:all, :conditions => conditions_sql, :order => 'start_at')
   end
   
-  def self.calendar(start, stop)
-    events = find_between(start, stop)
-    
-    calendar = Calendar.new(start, stop)
-    calendar.weeks.each do |week|
-      week.days.each do |day|
-        carry_over_events = []
-        while not events.empty? and events.first.start_at.to_date < (day.date + 1)
-          event = events.shift
-          day.events << event
-          # hold on to re-insert for the next day
-          carry_over_events << event if event.stop_at.to_date != day.date.to_date
-        end
-        # re-insert multi-day events
-        carry_over_events.reverse.each{|e| events.unshift(e)}
-      end
+  def replicate(dates)
+    # remove existing events that aren't checked
+    replicas.each do |event|
+      next if event == self
+      next if dates.include?(event.start_at.to_date)
+      event.destroy
     end
-    
-    calendar
+    # add new ones that we don't have yet
+    existing = replicas.map{|e| e.start_at.to_date}
+    dates.each do |date|
+      next if existing.include?(date)
+      replicas << copy(date)
+    end
+  end
+  
+  private
+  
+  def copy(date)
+    duration = self.stop_at - self.start_at
+    new_start_at = Time.parse(date.strftime("%Y-%m-%d") +
+      self.start_at.strftime(" %H:%M"))
+    params = {:name => self.name, :location => self.location,
+      :start_at => new_start_at,
+      :stop_at => (new_start_at + duration),
+      :page_id => self.page_id}
+    Event.new(params)
   end
   
 end

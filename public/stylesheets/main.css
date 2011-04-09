@@ -2,17 +2,17 @@
 {
 	margin: 0;
 	padding: 0;
-}
+  }
 
 /* Tell the browser to render HTML 5 elements as block */
 header, footer, aside, nav, article, page {
 	display: block;
-}
+  }
 
 div {
   margin: 0;
   padding: 0;
-}
+  }
 
 body {
   margin: 0px;
@@ -23,53 +23,53 @@ body {
   background: -moz-linear-gradient(100% 100% 90deg, #999, #111);
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#111));
   background-repeat: no-repeat;
-}
+  }
 
 div#content {
   margin: 0px auto;
   padding: 0px 30px 30px 30px;
 	width: 980px;
 	background: #fff;
-}
+  }
 
 h1 {
   font-size: 32px;
   line-height: 44px;
   padding: 0 0 8px 0;
-}
+  }
 
 h2 {
 	font-size: 28px;
 	line-height: 44px;
 	padding: 22px 0;
-}
+  }
 
 h3 {
 	font-size: 18px;
 	line-height: 22px;
 	padding: 11px 0;
-}
+  }
 
 a {
   text-decoration: none;
   color: #e59e24;
   font-size: 12px;
   font-weight: bold;
-}
+  }
 
 a:hover {
   background-color: inherit;
   text-decoration: underline;
-}
+  }
 
 p {
   margin: 0;
 	padding-bottom: 22px;
-}
+  }
 
 header {
   margin: 20px 0px;
-}
+  }
   header h1 {
     display: inline-block;
     vertical-align: middle;
@@ -527,6 +527,9 @@ div#notice {
 		vertical-align: top;
 		color: #666;
 	}
+	#page_content.multi_edit section {
+	  padding: 0px;
+	  }
 	
 	#page_text h1, #page_text h2 {
 	  color: #c52;
@@ -552,13 +555,13 @@ div#notice {
     #page_admin ul li {
       float: left;
     }
-      #page_admin ul li a, #add_event a {
-  		  display: block;
+      #page_admin a, #add_event a {
+  		  display: inline-block;
   		  color: #bbb;
 		    font-weight: bold;
   		  padding-right: 20px;
 		  }
-		  #page_admin ul li a:hover, #add_event a:hover {
+		  #page_admin a:hover, #add_event a:hover {
 		    color: #333;
 		    background-color: inherit;
 		  }
@@ -600,9 +603,9 @@ div#notice {
 #events {
   display: table;
   width: 400px;
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
   padding: 0px;
-}
+  }
   #events h2 {
     display: table-cell;
     font-size: 14px;
@@ -610,32 +613,49 @@ div#notice {
     width: 80px;
     margin: 0px;
     padding: 0px;
-  }
-  #events_list {
+    }
+  #events_list, #edit_events_list {
     display: table-cell;
     margin: 0px;
     padding: 0px;
     list-style: none;
-  }
-    #events_list li.event {
+    }
+    #events_list li.event, #edit_events_list li.event {
       padding: 10px 0px;
       border-top: 1px solid #ccc;
       color: #666;
       font-weight: normal;
-    }
-    #events_list li.active {
+      }
+    #edit_events_list li.active {
       background-color: #eee;
-    }
-    #events_list li:first-of-type {
+      }
+    #events_list li:first-of-type, #edit_events_list {
       border: none;
-    }
+      }
     #events_list .event_range {
       color: #333;
       font-weight: bold;
+      }
+    #edit_events_list li.event {
+      padding: 0px;
+      }
+    #edit_events_list a {
+      display: block;
+      padding: 10px 20px;
+      }
+      #edit_event_list a .event_range {
+        color: #333;
+        }
+  #add_event {
+    padding: 0px 20px;
     }
 #page_content aside .event_form {
   width: 600px;
-}
+  }
+  #page_content aside .event_form h3 {
+    margin-top: 0px;
+    padding-top: 0px;
+    }
 
 #notes {
   width: 350px;
@@ -1046,3 +1066,41 @@ input:focus, textarea:focus {
     font-size: 14px;
     }
     
+#recurrence_control {
+  margin-bottom: 10px;
+  }
+
+#recurrence {
+  padding: 0px;
+  margin-bottom: 20px;
+  font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
+  }
+  #recurrence th {
+    color: #999;
+    font-size: 12px;
+    }
+  #recurrence td {
+    width: 14%;
+    padding: 0px 5px;
+    font-size: 11px;
+    vertical-align: bottom;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    }
+  #recurrence td.ref {
+    color: #eee;
+    background-color: #999;
+    }
+  #recurrence td.active {
+    color: #eee;
+    background-color: #999;
+    }
+  #recurrence .month {
+    font-size: 12px;
+    font-weight: bold;
+    color: #999;
+    }
+  #recurrence .day {
+    display: inline-block;
+    width: 20px;
+    }

@@ -51,6 +51,8 @@
     <%= f.submit %>
     <% if @page.id -%>
      | <%= link_to 'Cancel', friendly_page_path(@page) %>
+     | <%= link_to 'Delete page', @page, :confirm => 'Are you sure?',
+      :method => :delete %>
     <% elsif @page.parent -%>
      | <%= link_to 'Cancel', friendly_page_path(@page.parent) %>
     <% else -%>

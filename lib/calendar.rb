@@ -1,7 +1,9 @@
 class Calendar
+  
   def initialize(start, stop)
     @weeks = []
-    date = start.tomorrow.beginning_of_week.yesterday.to_date
+    date = @start = start.tomorrow.beginning_of_week.yesterday.to_date
+    @stop = stop
     while (date <= stop.to_date) do
       @weeks << Week.new if 0 == date.wday
       day = Day.new(date)
@@ -9,7 +11,28 @@ class Calendar
       date = date + 1
     end
   end
-  attr_reader :weeks
+  
+  attr_reader :weeks, :start, :stop
+  
+  def populate(events)
+    weeks.each do |week|
+      week.days.each do |day|
+        carry_over_events = []
+        while not events.empty? and
+          events.first.start_at.to_date < (day.date + 1)
+          
+          event = events.shift
+          day.events << event
+          # hold on to re-insert for the next day
+          carry_over_events << event if event.stop_at.to_date != day.date.to_date
+        end
+        
+        # re-insert multi-day events
+        carry_over_events.reverse.each{|e| events.unshift(e)}
+      end
+    end
+  end
+  
 end
 
 class Week

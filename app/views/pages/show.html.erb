@@ -33,10 +33,7 @@
     
     <% if user_signed_in? -%>
     <div id="page_admin">
-      <ul>
-        <li><%= link_to 'Edit', edit_page_path(@page) %></li>
-        <li><%= link_to 'Delete', @page, :confirm => 'Are you sure?', :method => :delete %></li>
-      </ul>
+      <%= link_to 'Edit', edit_page_path(@page) %>
     </div>
     <% end -%>
     
@@ -48,7 +45,8 @@
         @page == @page.events.first.page -%>
         
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @page.events, :no_name => true} %>
+          :locals => {:events => @page.events.find_next,
+            :no_name => (@page.name == @page.events.first.name)} %>
           
         <%= render :partial => 'contacts/viewer',
           :locals => {:contacts => @page.contacts} %>
@@ -59,7 +57,7 @@
         :locals => {:contacts => @page.contacts} %>
     
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @page.events, :no_name => false} %>
+          :locals => {:events => @page.events.find_next, :no_name => false} %>
     <% end -%>
     
     <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>

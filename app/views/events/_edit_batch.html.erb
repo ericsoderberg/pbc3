@@ -1,7 +1,8 @@
-<div id="page_content">
+<div id="page_content" class="multi_edit">
   <section>
-    <ul id="events_list">
-      <%= render :partial => @page.events, :locals => {:no_name => false} %>
+    <ul id="edit_events_list">
+      <%= render :partial => 'events/edit_event',
+        :collection => @page.events.find_masters %>
     </ul>
     <% if @event.name -%>
       <div id="add_event">
@@ -13,8 +14,11 @@
 
   <aside>
     <div class="event_form">
+      
       <h3><%= (@event.name ? "Edit #{@event.name}" : 'Add Event') %></h3>
+      
       <%= render 'events/form' %>
+      
     </div>
   </aside>
 </div>

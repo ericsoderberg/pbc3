@@ -32,7 +32,16 @@
     <%= f.label :location %><br />
     <%= f.text_field :location %>
   </div>
+  <% if @event.name -%>
+    <div id="recurrence_control">
+      <%= link_to 'Recurrence' +
+        (@event.replicas.empty? ? '' : " (+#{@event.replicas.count})"),
+        recurrence_path(@event) %>
+    </div>
+  <% end -%>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit %> |
+    <%= link_to 'Delete event', @event, :confirm => 'Are you sure?',
+      :method => :delete %>
   </div>
 <% end %>

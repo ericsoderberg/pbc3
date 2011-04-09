@@ -1,8 +1,0 @@
-<%= content_tag_for(:li, view_event) do %>
-  <% unless (no_name || false) -%>
-    <%= view_event.name %>
-  <% end -%>
-  <div class="event_range">
-    <%= friendly_range(view_event, true) %>
-  </div>
-<% end %>

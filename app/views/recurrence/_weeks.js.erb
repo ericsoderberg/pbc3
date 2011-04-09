@@ -1,0 +1,9 @@
+$(function() {
+  <% @calendar.weeks.first.days.each do |day|
+    name = day.date.strftime("%a") -%>
+    $('#<%= name %>').click(function() {
+      $('input:checkbox.<%= name %>').attr('checked',
+        $('#<%= name %>').is(':checked'));
+    })
+  <% end -%>
+});

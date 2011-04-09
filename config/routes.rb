@@ -12,10 +12,12 @@ Pbc3::Application.routes.draw do
   resources :page_banners
   resources :contacts
   resources :events
+  resources :recurrence, :only => [:show, :update]
   resources :communities, :as => :groups, :controller => :Groups
   resources :videos
   resources :photos
   resources :notes
+  resources :recurrence 
     
   constraints SSL do
     resources :accounts
@@ -33,6 +35,8 @@ Pbc3::Application.routes.draw do
   get "calendar/month"
   get "calendar/list"
   get "calendar/day"
+  #get "recurrence/:event_id", :to => "recurrence#show", :as => 'recurrence'
+  #post "recurrence/:event_id", :to => "recurrence#update", :as => 'recurr'
   get "search", :to => "search#search"
 
   root :to => "home#index"

@@ -1,0 +1,53 @@
+<h1>Replicate <%=h @event.name %></h1>
+
+<% form_tag recurrence_path(@event), :method => :put do %>
+  <% hidden_field_tag :stop, @calendar.stop %>
+
+<table id="recurrence" class="recurrence">
+
+<tr>
+<% @calendar.weeks.first.days.each do |day|
+  name = day.date.strftime("%a") -%>
+  <th>
+    <%= check_box_tag name, name, @event.start_at.wday == day.date.wday,
+      :id => name %>
+    <%= name %>
+  </th>
+<% end -%>
+</tr>
+
+<% @calendar.weeks.each do |week| -%>
+<tr>
+  <% week.days.each do |day| -%>
+  <td <%= raw date_class(day, @date, (! day.events.empty?)) %> >
+    <% if 1 == day.date.day %>
+      <div class="month">
+        <%= day.date.strftime("%B") %>
+      </div>
+    <% end -%>
+    <span class="day">
+      <%= day.date.day %>
+    </span>
+    <% unless day.date <= @event.start_at.to_date -%>
+    <%= check_box_tag 'days[]', day.date.strftime('%Y-%m-%d'),
+      @event.start_at.wday == day.date.wday,
+      :class => day.date.strftime("%a") %>
+    <% end -%>
+  </td>
+  <% end -%>
+</tr>
+<% end -%>
+
+</table>
+
+<div class="actions">
+  <%= submit_tag("Update") %> |
+  <%= link_to 'Cancel', edit_page_url(@event.page,
+    :aspect => 'events', :event_id => @event.id)%>
+</div>
+
+<% end %>
+
+<%= javascript_tag do %>
+<%= render :partial => 'weeks.js' -%>
+<% end -%>
