@@ -7,7 +7,10 @@
         edit_page_path(@page, :aspect => aspect) %></li>
     <% end -%>
   </ul>
-  <div id="done_page_editing">
-    <%= button_to 'Done editing page', friendly_page_path(@page), :method => :get %>
-  </div>
+  <% unless %w(text feature).include?(@aspect) -%>
+    <div id="done_page_editing">
+      <%= button_to 'Done editing page', friendly_page_path(@page),
+        :method => :get %>
+    </div>
+  <% end -%>
 </header>
