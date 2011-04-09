@@ -53,7 +53,7 @@ end
 # http://www.hackido.com/2010/03/capistrano-sunspot-in-rails.html
 task :before_update_code do
   #stop solr:
-  run "cd #{current_path} && rake sunspot:solr:stop RAILS_ENV=production"
+  #run "cd #{current_path} && rake sunspot:solr:stop RAILS_ENV=production"
 end
 
 after "deploy:update_crontab", "deploy:solr:symlink"
