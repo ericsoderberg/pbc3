@@ -338,16 +338,16 @@ div#notice {
   -webkit-animation-timing-function: ease-in;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-delay: 0, 0.1s;
-}
+  }
 #hero:hover {
   opacity: 1.0;
-}
+  }
   #hero_photos {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
     width: 450px;
-  }
+    }
   /* http://line25.com/tutorials/how-to-create-a-pure-css-polaroid-photo-gallery */
   #hero_photo1 {
     position: absolute;
@@ -362,10 +362,10 @@ div#notice {
     z-index: 10;
     -webkit-transform: rotate(5deg);
     -moz-transform: rotate(5deg);
-  }
+    }
     #hero_photo1 img {
       width: 300px;
-    }
+      }
   #hero_photo2 {
     position: absolute;
     top: 10px;
@@ -379,22 +379,22 @@ div#notice {
     z-index: 5;
     -webkit-transform: rotate(-5deg);
     -moz-transform: rotate(-5deg);
-  }
+    }
     #hero_photo2 img {
       width: 240px;
-    }
+      }
   #hero_text {
     display: table-cell;
     vertical-align: top;
     padding: 10px 100px 10px 40px;
     font-size: 15px;
-  }
+    }
   #hero_text a {
     font-size: 16px;
-  }
+    }
   #hero_text a::after {
     content: " >>";
-  }
+    }
 
 #featured_nav {
   list-style-type: none;
@@ -409,7 +409,7 @@ div#notice {
   -webkit-animation-timing-function: ease-in;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-delay: 0, 0.3s;
-}
+  }
   #featured_nav li {
     display: inline-table;
     position: relative;
@@ -419,7 +419,7 @@ div#notice {
     height: 200px;
     background-color: #eee;
     border: 1px solid #ccc;
-  }
+    }
   /* http://jonrohan.me/guide/css/creating-triangles-in-css/ */
   #featured_nav li.heroed .hero_arrow_border {
     border-color: #fff transparent transparent transparent;
@@ -430,7 +430,7 @@ div#notice {
     position:absolute;
     top:-3px;
     left:30px;
-  }
+    }
   #featured_nav li.heroed .hero_arrow {
     border-color: #fff transparent transparent transparent;
     border-style: solid;
@@ -440,19 +440,18 @@ div#notice {
     position:absolute;
     top:0px;
     left:30px;
-  }
-  
+    }
   .featured_nav_image {
     width: 200px;
     height: 60px;
     overflow: hidden;
-  }
+    }
   .featured_nav_name {
     color: #fff;
     background-color: #333;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
     background: -moz-linear-gradient(100% 100% 90deg, #666, #333);
-  }
+    }
     .featured_nav_name a {
       display: block;
       font-size: 14px;
@@ -471,22 +470,21 @@ div#notice {
       transition-property:color, background;
       transition-duration: 0.2s, 0.4s;
       transition-timing-function: linear, ease-in;
-    }
+      }
     .featured_nav_name a:hover {
       color: #333;
 			background-color: #ccc;
 			text-decoration: none;
-    }
+      }
     .featured_nav_text {
-      padding: 10px 10px 20px 10px;
-    }
+      padding: 10px;
+      }
     .featured_nav_link {
       margin-top: 10px;
-    }
-    
+      }
     .featured_nav_link a::after {
       content: " >>";
-    }
+      }
 
 #breadcrumbs {
   float: right;

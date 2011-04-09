@@ -7,12 +7,12 @@ class Page < ActiveRecord::Base
       :thumb => '50x'
     }
   has_attached_file :feature_image, :styles => {
-      :normal => '200x',
+      :normal => '200x200',
       :thumb => '50x'
     }
   has_attached_file :hero_background, :styles => {
       :normal => '980x445',
-      :thumb => '50x'
+      :thumb => '50x25'
     }
   
   belongs_to :page_banner
