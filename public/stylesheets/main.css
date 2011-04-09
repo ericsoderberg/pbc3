@@ -343,7 +343,8 @@ div#notice {
   opacity: 1.0;
   }
   #hero_photos {
-    display: table-cell;
+    display: inline-block;
+    position: relative;
     vertical-align: middle;
     text-align: center;
     width: 450px;
@@ -384,7 +385,7 @@ div#notice {
       width: 240px;
       }
   #hero_text {
-    display: table-cell;
+    display: inline-block;
     vertical-align: top;
     padding: 10px 100px 10px 40px;
     font-size: 15px;
@@ -411,7 +412,8 @@ div#notice {
   -webkit-animation-delay: 0, 0.3s;
   }
   #featured_nav li {
-    display: inline-table;
+    display: inline-block;
+    vertical-align: top;
     position: relative;
     margin: 0px;
     padding: 0px;
@@ -715,7 +717,8 @@ div#notice {
   height: 400px;
 }
   #gallery li {
-    display: inline-table;
+    display: inline-block;
+    vertical-align: top;
     margin: 10px;
     padding: 10px;
     background-color: #eee;
@@ -832,7 +835,7 @@ input[type="submit"]:hover {
     design-a-prettier-web-form-with-css-3/ */
 input, textarea {
 	padding: 9px;
-	border: solid 1px #E5E5E5;
+	border: solid 1px #ccc;
 	outline: 0;
 	background: #FFFFFF;
 	}
@@ -843,7 +846,7 @@ textarea {
 
 input:hover, textarea:hover,
 input:focus, textarea:focus {
-	border-color: #C9C9C9;
+	border-color: #999;
 	}
 
 .form label {
@@ -902,7 +905,7 @@ input:focus, textarea:focus {
   padding: 0px;
   }
   #communities li.group {
-    display: inline-table;
+    display: inline-block;
     vertical-align: top;
     margin: 10px;
     padding: 10px;
