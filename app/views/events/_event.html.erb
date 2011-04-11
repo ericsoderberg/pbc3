@@ -3,7 +3,11 @@
     <%= event.name %>
   <% end -%>
   <div class="event_range">
-    <%= friendly_range(event, true) %>
+    <% if event.master or not event.replicas.empty? -%>
+      <%= event.start_at.strftime("%As ") + friendly_range(event, false) %>
+    <% else -%>
+      <%= friendly_range(event, true) %>
+    <% end -%>
   </div>
   <% if event.location and ! event.location.empty? -%>
     <div class="event_location">

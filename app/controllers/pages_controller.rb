@@ -52,14 +52,22 @@ class PagesController < ApplicationController
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
     @new_contact = Contact.new(:page_id => @page.id) if 'contacts' == @aspect
     if 'events' == @aspect
+      @event_aspect = params[:event_aspect] || 'event'
       if params[:create] or @page.events.empty?
+        ref = (Time.now + 1.day).beginning_of_day
         @event = Event.new(:page_id => @page.id,
-          :start_at => (Time.now.beginning_of_day + 1.day + 10.hour),
-          :stop_at => (Time.now.beginning_of_day + 1.day + 11.hour))
+          :start_at => (ref + 10.hour), :stop_at => (ref + 11.hour))
       elsif params[:event_id]
         @event = Event.find(params[:event_id])
       elsif ! @page.events.empty?
         @event = @page.events.first
+      end
+      if 'recurrence' == @event_aspect and @event
+        @date = @event.start_at
+        @replicas = @event.replicas || []
+        @calendar = Calendar.new(@event.start_at.beginning_of_month,
+          (@event.start_at + 6.months).end_of_month);
+        @calendar.populate(@replicas)
       end
     end
   end

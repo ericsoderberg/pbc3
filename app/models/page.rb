@@ -27,7 +27,7 @@ class Page < ActiveRecord::Base
       future_events = find_future(date)
       future_events.select do |e|
         # reject if there's an earlier similar one
-        not future_events.detect do |e2|
+        not e.master_id or not future_events.detect do |e2|
           ((e2.master_id == e.master_id or e2.id == e.master_id) and
           e2.start_at < e.start_at)
         end

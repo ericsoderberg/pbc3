@@ -18,11 +18,13 @@
   </div>
   <div class="field">
     <%= f.label :start_at %><br />
-    <%= f.text_field :start_at, :value => l(@event.start_at, :format => :form) %>
+    <%= f.text_field :start_at,
+      :value => l(@event.start_at, :format => :form) %>
   </div>
   <div class="field">
     <%= f.label :stop_at %><br />
-    <%= f.text_field :stop_at, :value => l(@event.stop_at, :format => :form) %>
+    <%= f.text_field :stop_at,
+      :value => l(@event.stop_at, :format => :form) %>
   </div>
   <div class="field">
     <%= f.label :all_day %><br />
@@ -32,16 +34,13 @@
     <%= f.label :location %><br />
     <%= f.text_field :location %>
   </div>
-  <% if @event.name -%>
-    <div id="recurrence_control">
-      <%= link_to 'Recurrence' +
-        (@event.replicas.empty? ? '' : " (+#{@event.replicas.count})"),
-        recurrence_path(@event) %>
-    </div>
-  <% end -%>
   <div class="actions">
     <%= f.submit %> |
     <%= link_to 'Delete event', @event, :confirm => 'Are you sure?',
       :method => :delete %>
   </div>
 <% end %>
+
+<%= javascript_tag do -%>
+  <%= render :partial => 'events/form_aids.js' %>
+<% end -%>

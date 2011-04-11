@@ -41,7 +41,8 @@ class Event < ActiveRecord::Base
   def copy(date)
     duration = self.stop_at - self.start_at
     new_start_at = Time.parse(date.strftime("%Y-%m-%d") +
-      self.start_at.strftime(" %H:%M"))
+      self.start_at.strftime(" %H:%M %z"))
+    logger.info("!!! copy #{date} from #{self.start_at} to get #{new_start_at}")
     params = {:name => self.name, :location => self.location,
       :start_at => new_start_at,
       :stop_at => (new_start_at + duration),

@@ -50,7 +50,8 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         format.html { redirect_to(edit_page_url(@event.page,
-            :aspect => 'events'), :notice => 'Event was successfully created.') }
+            :aspect => 'events', :event_id => @event.id),
+            :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
         format.html { render :action => "new" }
@@ -93,17 +94,14 @@ class EventsController < ApplicationController
   
   private
   
-  DATE_FORMAT =  '%m/%d/%Y @ %I:%M %p'
+  
   
   def parse_times
-    if params[:event][:start_at]
-      params[:event][:start_at] =
-        DateTime.strptime(params[:event][:start_at], DATE_FORMAT)
-    end
-    if params[:event][:stop_at]
-      params[:event][:stop_at] =
-        DateTime.strptime(params[:event][:stop_at], DATE_FORMAT)
-    end
+    params[:event][:start_at] =
+      DateTime.parse_from_form(params[:event][:start_at])
+    params[:event][:stop_at] =
+      DateTime.parse_from_form(params[:event][:stop_at])
+    logger.info "!!! start at #{params[:event][:start_at]}"
   end
   
 end

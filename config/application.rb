@@ -41,15 +41,3 @@ module Pbc3
     config.filter_parameters += [:password]
   end
 end
-
-require 'calendar'
-
-class Time
-  def simple_time(meridian=true)
-    (0 == self.min ? self.strftime("%l") : self.strftime("%l:%M")).strip +
-      (meridian ? self.strftime("%p").downcase : '')
-  end
-  def simple_date
-    "%d/%d" % [self.mon, self.mday]
-  end
-end

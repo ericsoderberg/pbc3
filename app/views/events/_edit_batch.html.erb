@@ -1,5 +1,6 @@
-<div id="page_content" class="multi_edit">
-  <section>
+<div id="edit_content">
+  
+  <aside>
     <ul id="edit_events_list">
       <%= render :partial => 'events/edit_event',
         :collection => @page.events.find_masters %>
@@ -10,15 +11,35 @@
           edit_page_path(@page, :aspect => 'events', :create => true) %>
       </div>
     <% end -%>
-  </section>
-
-  <aside>
-    <div class="event_form">
-      
-      <h3><%= (@event.name ? "Edit #{@event.name}" : 'Add Event') %></h3>
-      
-      <%= render 'events/form' %>
-      
-    </div>
   </aside>
+
+  <section>
+    
+    <header>
+      <h2><%= (@event.name ? "#{@event.name}" : 'Add Event') %></h2>
+      <% if @event.name -%>
+      <ul class="nav">
+        <li class="<%= @event_aspect == 'event' ? 'active' : '' %>">
+          <%= link_to 'Event',
+            edit_page_path(@page, :aspect => 'events',
+              :event_aspect => 'event', :event_id => @event.id) %>
+        </li>
+        <li class="<%= @event_aspect == 'recurrence' ? 'active' : '' %>">
+          <%= link_to 'Recurrence' +
+            (@event.replicas.empty? ? '' : " (#{@event.replicas.count})"),
+            edit_page_path(@page, :aspect => 'events',
+              :event_aspect => 'recurrence', :event_id => @event.id) %>
+        </li>
+      </ul>
+      <% end -%>
+    </header>
+    
+    <% if 'event' == @event_aspect -%>
+      <div class="event_form">
+        <%= render 'events/form' %>
+      </div>
+    <% elsif 'recurrence' == @event_aspect -%>
+      <%= render :partial => 'recurrence/form' %>
+    <% end -%>
+  </section>
 </div>

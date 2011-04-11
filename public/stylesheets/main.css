@@ -70,27 +70,25 @@ p {
 header {
   margin: 20px 0px;
   }
-  header h1 {
+  header h1, header h2, header h3 {
     display: inline-block;
     vertical-align: middle;
     margin: 0px;
     padding: 0px;
     padding-right: 40px;
     white-space: nowrap;
+	  font-weight: bold;
+	  color: #888;
+    }
+  header h1 {
     font-size: 18px;
-	  font-weight: bold;
-	  color: #888;
-  }
+    }
   header h2 {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0px;
-    padding-right: 40px;
-    white-space: nowrap;
     font-size: 14px;
-	  font-weight: bold;
-	  color: #888;
-  }
+    }
+  header h3 {
+    font-size: 13px;
+    }
   header h1 a {
     text-align: center;
     font-size: 18px;
@@ -498,8 +496,10 @@ div#notice {
   
 #page_admin, #done_page_editing {
   float: right;
-  margin-top: 10px;
   }
+  #page_admin {
+    margin-top: 10px;
+    }
   #page_admin ul {
     display: inline-block;
     list-style-type: none;
@@ -527,30 +527,25 @@ div#notice {
 #page_content {
 	display: table;
 	margin-top: 14px;
-}
-
+  }
 	#page_content section {
 		display: table-cell;
 		width: 100%;
 		padding: 0px 30px 20px 30px;
 		vertical-align: top;
 		color: #666;
-	}
-	#page_content.multi_edit section {
-	  padding: 0px;
 	  }
 	
 	#page_text h1, #page_text h2 {
 	  color: #c52;
-	}
-
+	  }
 	#page_content aside {
 		display: table-cell;
 		width: 400px;
-	}
+	  }
 	#page_content aside .form {
 	  width: 300px;
-	}
+	  }
 	
 #add_event {
   margin: 20px 0px;
@@ -565,7 +560,20 @@ div#notice {
 		    color: #333;
 		    background-color: inherit;
 		  }
-
+		  
+#edit_content {
+  display: table;
+  }
+  #edit_content aside {
+    display: table-cell;
+    width: 300px;
+    }
+  #edit_content section {
+    display: table-cell;
+    }
+    #edit_content section header {
+      margin-top: 0px;
+      }
 	
 .field aside {
   float: right;
@@ -643,6 +651,9 @@ div#notice {
       display: block;
       padding: 10px 20px;
       }
+      #edit_events_list a:hover {
+        background-color: #ccc;
+        }
       #edit_event_list a .event_range {
         color: #333;
         }
@@ -1074,6 +1085,7 @@ input:focus, textarea:focus {
 #recurrence {
   padding: 0px;
   margin-bottom: 20px;
+  width: 500px;
   font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
   }
   #recurrence th {
@@ -1105,3 +1117,8 @@ input:focus, textarea:focus {
     display: inline-block;
     width: 20px;
     }
+
+div.actions {
+  margin-top: 20px;
+  }
+  

@@ -48,4 +48,6 @@ Pbc3::Application.configure do
   config.active_support.deprecation = :notify
   
   config.action_mailer.default_url_options = { :host => 'test.pbc.org' }
+  
+  config.time_zone = "Pacific Time (US & Canada)"
 end
