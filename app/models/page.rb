@@ -44,6 +44,18 @@ class Page < ActiveRecord::Base
   has_many :contact_users, :through => :contacts, :source => :user
   
   validates_presence_of :name
+  validates_uniqueness_of :feature_index,
+    :unless => Proc.new{|p| not p.feature_index}
+    
+  before_validation do
+    if featured and feature_index
+      # make sure peers have lower indexes
+      Page.where(['feature_index >= ?', feature_index]).all.each do |page2|
+        page2.feature_index += 1
+        page2.save
+      end
+    end
+  end
   
   #searchable do
   #  text :name, :default_boost => 2

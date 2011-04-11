@@ -101,7 +101,10 @@ class PagesController < ApplicationController
         format.html { redirect_to(@page, :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html {
+          @aspect = params[:aspect] || 'text'
+          render :action => "edit"
+        }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end

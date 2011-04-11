@@ -14,6 +14,7 @@
 <div id="page_content">
   <section>
     <%= f.hidden_field :parent_id %>
+    <%= hidden_field_tag :aspect, @aspect %>
     <div class="field">
       <%= f.text_area :text, :size => '80x20' %>
     </div>

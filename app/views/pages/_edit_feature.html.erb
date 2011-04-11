@@ -13,6 +13,7 @@
 
   <div id="page_content">
     <section>
+      <%= hidden_field_tag :aspect, @aspect %>
       <div class="field">
         <%= f.label :feature_text %><br />
         <%= f.text_area :feature_text, :size => '60x10' %>
@@ -45,6 +46,10 @@
         <div class="field">
           <%= f.label :feature? %><br />
           <%= f.check_box :featured %>
+        </div>
+        <div class="field">
+          <%= f.label :feature_index %><br />
+          <%= f.text_field :feature_index, :size => 2 %>
         </div>
       </div>
     </aside>
