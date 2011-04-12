@@ -25,6 +25,9 @@ class StylesController < ApplicationController
   # GET /styles/new.xml
   def new
     @style = Style.new
+    @style.hero_text_color = 0x000000;
+    @style.gradient_upper_color = 0x666666;
+    @style.gradient_lower_color = 0x333333;
 
     respond_to do |format|
       format.html # new.html.erb
