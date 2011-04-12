@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110411160129) do
+ActiveRecord::Schema.define(:version => 20110412074012) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
@@ -74,22 +74,14 @@ ActiveRecord::Schema.define(:version => 20110411160129) do
     t.datetime "text_image_updated_at"
     t.string   "url"
     t.text     "feature_text"
-    t.string   "feature_image_file_name"
-    t.string   "feature_image_content_type"
-    t.integer  "feature_image_file_size"
-    t.datetime "feature_image_updated_at"
     t.text     "rendered_feature_text"
     t.boolean  "featured"
-    t.string   "hero_background_file_name"
-    t.string   "hero_background_content_type"
-    t.integer  "hero_background_file_size"
-    t.datetime "hero_background_update_at"
     t.integer  "parent_id"
-    t.integer  "page_banner_id"
     t.text     "snippet_text"
     t.text     "snippet_feature_text"
     t.integer  "feature_index"
     t.boolean  "private"
+    t.integer  "style_id"
   end
 
   create_table "photos", :force => true do |t|
@@ -101,6 +93,28 @@ ActiveRecord::Schema.define(:version => 20110411160129) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "page_id"
+  end
+
+  create_table "styles", :force => true do |t|
+    t.string   "name"
+    t.string   "hero_file_name"
+    t.string   "hero_content_type"
+    t.integer  "hero_file_size"
+    t.datetime "hero_updated_at"
+    t.string   "banner_file_name"
+    t.string   "banner_content_type"
+    t.integer  "banner_file_size"
+    t.datetime "banner_updated_at"
+    t.string   "feature_strip_file_name"
+    t.string   "feature_strip_content_type"
+    t.integer  "feature_strip_file_size"
+    t.datetime "feature_strip_updated_at"
+    t.integer  "gradient_upper_color"
+    t.integer  "gradient_lower_color"
+    t.integer  "hero_text_color"
+    t.text     "css"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

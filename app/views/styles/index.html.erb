@@ -1,0 +1,45 @@
+<h1>Styles</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Hero</th>
+    <th>Banner</th>
+    <th>Feature Strip</th>
+    <th>Colors</th>
+  </tr>
+
+<% @styles.each do |style| %>
+  <tr>
+    <td><%= link_to style.name, edit_style_path(style) %></td>
+    <td>
+      <% if style.hero.exists? then %>
+      	<%= image_tag style.hero.url(:thumb) %>
+      <% end %>
+    </td>
+    <td>
+      <% if style.banner.exists? then %>
+      	<%= image_tag style.banner.url(:thumb) %>
+      <% end %>
+    </td>
+    <td>
+      <% if style.feature_strip.exists? then %>
+      	<%= image_tag style.feature_strip.url(:thumb) %>
+      <% end %>
+    </td>
+    <td style="background-color: <%= "#%06x" % style.gradient_lower_color %>;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,
+      from(<%= "#%06x" % style.gradient_upper_color %>), to(<%= "#%06x" %  style.gradient_lower_color %>));
+    background: -moz-linear-gradient(100% 100% 90deg,
+      <%= "#%06x" % style.gradient_upper_color %>, <%= "#%06x" %  style.gradient_lower_color %>);
+      color: #fff;">
+      Featured Name
+    </td>
+    <td style="color: <%= "#%06x" % style.hero_text_color %>">
+      Hero text
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Add Style', new_style_path %>

@@ -6,16 +6,8 @@ class Page < ActiveRecord::Base
       :normal => '120x',
       :thumb => '50x'
     }
-  has_attached_file :feature_image, :styles => {
-      :normal => '200x200',
-      :thumb => '50x'
-    }
-  has_attached_file :hero_background, :styles => {
-      :normal => '980x445',
-      :thumb => '50x25'
-    }
   
-  belongs_to :page_banner
+  belongs_to :style
   has_many :notes, :order => 'created_at DESC'
   has_many :photos
   has_many :videos

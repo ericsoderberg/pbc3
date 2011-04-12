@@ -28,27 +28,11 @@
     <aside>
       <div class="form">
         <div class="field">
-          <%= f.label :feature_image %><br />
-          <% if @page.feature_image.exists? -%>
-            <%= image_tag @page.feature_image.url(:thumb) %>
-            <%= check_box_tag 'delete_feature_image' %> delete image?
-          <% end -%>
-          <%= f.file_field :feature_image %>
-        </div>
-        <div class="field">
-          <%= f.label :hero_background %><br />
-          <% if @page.hero_background.exists? -%>
-            <%= image_tag @page.hero_background.url(:thumb) %>
-            <%= check_box_tag 'delete_hero_background' %> delete image?
-          <% end -%>
-          <%= f.file_field :hero_background %>
-        </div>
-        <div class="field">
-          <%= f.label :feature? %><br />
+          <%= f.label :feature? %>
           <%= f.check_box :featured %>
         </div>
         <div class="field">
-          <%= f.label :feature_index %><br />
+          <%= f.label :feature_index %>
           <%= f.text_field :feature_index, :size => 2 %>
         </div>
       </div>

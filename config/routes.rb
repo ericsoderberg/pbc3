@@ -1,6 +1,4 @@
 Pbc3::Application.routes.draw do
-  
-  resources :authorizations
 
   # http://blog.grow20.com/fun-with-ssl-for-accounts-only
   class SSL
@@ -11,7 +9,6 @@ Pbc3::Application.routes.draw do
     end
   end
     
-  resources :page_banners
   resources :contacts
   resources :events
   resources :recurrence, :only => [:show, :update]
@@ -20,6 +17,8 @@ Pbc3::Application.routes.draw do
   resources :photos
   resources :notes
   resources :recurrence 
+  resources :authorizations
+  resources :styles
     
   constraints SSL do
     resources :accounts

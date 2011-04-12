@@ -36,7 +36,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
-    @page.page_banner = @page.parent.page_banner if @page.parent
+    @page.style = (@page.parent ? @page.style.page_banner : Style.first)
 
     respond_to do |format|
       format.html # new.html.erb

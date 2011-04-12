@@ -38,11 +38,11 @@
       </div>
       
       <div class="field">
-        <%= f.label :banner %><br />
-        <%= collection_select(:page, :page_banner_id,
-          PageBanner.all, :id, :image_file_name,
+        <%= f.label :style %><br />
+        <%= collection_select(:page, :style_id,
+          Style.all, :id, :name,
           :include_blank => true) %>
-        <%= link_to 'page banners', page_banners_path %>
+        <%= link_to 'styles', styles_path %>
       </div>
       
     </div>
