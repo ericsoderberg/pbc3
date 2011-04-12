@@ -1,7 +1,7 @@
 <header>
   <h1>Editing <%= @page.name %></h1>
   <ul class="nav">
-    <% %w(text photos videos feature contacts events).each do |aspect| -%>
+    <% %w(text photos videos events feature contacts access).each do |aspect| -%>
     <li class="<%= @aspect == aspect ? 'active' : '' %>">
       <%= link_to aspect.capitalize,
         edit_page_path(@page, :aspect => aspect) %></li>

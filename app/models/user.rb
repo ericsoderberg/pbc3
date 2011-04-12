@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   
   has_many :contacts
   has_many :contact_pages, :through => :contacts, :source => :page
+  has_many :authorizations
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',

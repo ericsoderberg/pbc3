@@ -25,5 +25,9 @@
   <% if 'contacts' == @aspect -%>
     <%= render 'contacts/edit_batch', :locals => {:page => @page} %>
   <% end -%>
+  
+  <% if 'access' == @aspect -%>
+    <%= render 'authorizations/edit_batch', :locals => {:page => @page} %>
+  <% end -%>
 
 </section>

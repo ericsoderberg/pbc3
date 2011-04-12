@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110411133735) do
+ActiveRecord::Schema.define(:version => 20110411160129) do
+
+  create_table "authorizations", :force => true do |t|
+    t.integer  "page_id"
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.boolean  "administrator"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "contacts", :force => true do |t|
     t.integer  "page_id"
@@ -80,6 +89,7 @@ ActiveRecord::Schema.define(:version => 20110411133735) do
     t.text     "snippet_text"
     t.text     "snippet_feature_text"
     t.integer  "feature_index"
+    t.boolean  "private"
   end
 
   create_table "photos", :force => true do |t|

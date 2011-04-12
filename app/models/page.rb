@@ -42,6 +42,7 @@ class Page < ActiveRecord::Base
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id
   has_many :contacts
   has_many :contact_users, :through => :contacts, :source => :user
+  has_many :authorizations
   
   validates_presence_of :name
   validates_uniqueness_of :feature_index,
@@ -72,6 +73,13 @@ class Page < ActiveRecord::Base
   
   def to_param
     url
+  end
+  
+  def authorized?(user)
+    return true unless self.private?
+    return true if user and user.administrator?
+    authorizations.each{|a| return true if user == a.user}
+    return false
   end
   
   private

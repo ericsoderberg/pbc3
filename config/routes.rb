@@ -1,5 +1,7 @@
 Pbc3::Application.routes.draw do
   
+  resources :authorizations
+
   # http://blog.grow20.com/fun-with-ssl-for-accounts-only
   class SSL
     def self.matches?(request)

@@ -578,6 +578,10 @@ div#notice {
 .field aside {
   float: right;
 }
+.field label {
+  display: inline-block;
+  width: 120px;
+  }
 
 .page_text_image {
   float: left;
@@ -622,39 +626,39 @@ div#notice {
     margin: 0px;
     padding: 0px;
     }
-  #events_list, #edit_events_list {
+  #events_list, #edit_list {
     display: table-cell;
     margin: 0px;
     padding: 0px;
     list-style: none;
     }
-    #events_list li.event, #edit_events_list li.event {
+    #events_list li.event, #edit_list li.event {
       padding: 10px 0px;
       border-top: 1px solid #ccc;
       color: #666;
       font-weight: normal;
       }
-    #edit_events_list li.active {
+    #edit_list li.active {
       background-color: #eee;
       }
-    #events_list li:first-of-type, #edit_events_list {
+    #events_list li:first-of-type, #edit_list {
       border: none;
       }
     #events_list .event_range {
       color: #333;
       font-weight: bold;
       }
-    #edit_events_list li.event {
+    #edit_list li {
       padding: 0px;
       }
-    #edit_events_list a {
+    #edit_list a {
       display: block;
       padding: 10px 20px;
       }
-      #edit_events_list a:hover {
+      #edit_list a:hover {
         background-color: #ccc;
         }
-      #edit_event_list a .event_range {
+      #edit_list a .event_range {
         color: #333;
         }
   #add_event {

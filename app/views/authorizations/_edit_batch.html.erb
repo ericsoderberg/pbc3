@@ -1,0 +1,28 @@
+<div id="edit_content">
+  <aside>
+    <ul id="edit_list">
+      <%= render :partial => @page.authorizations %>
+    </ul>
+  </aside>
+
+  <section>
+    <div class="form">
+      <%= form_for(@page, :remote => true) do |f| %>
+        <div class="field">
+          <%= f.label :private? %>
+          <%= f.check_box :private, :class => 'submittable' %>
+        </div>
+      <% end %>
+    </div>
+    <div class="form">
+      <h3>Add</h3>
+      <%= render 'authorizations/form' %>
+    </div>
+  </section>
+</div>
+
+<%= javascript_tag do %>
+$('.submittable').live('change', function() {
+  $(this).parents('form:first').submit();
+});
+<% end %>

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => :show
-  before_filter :administrator!, :except => [:index, :show]
+  before_filter :administrator!, :except => [:show]
   
   # GET /pages
   # GET /pages.xml
@@ -17,7 +17,7 @@ class PagesController < ApplicationController
   # GET /pages/1.xml
   def show
     @page = Page.find_by_url(params[:id], :include => :children)
-    unless @page
+    unless @page and @page.authorized?(current_user)
       redirect_to root_path
       return
     end
@@ -51,6 +51,7 @@ class PagesController < ApplicationController
     @new_photo = Photo.new(:page_id => @page.id) if 'photos' == @aspect
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
     @new_contact = Contact.new(:page_id => @page.id) if 'contacts' == @aspect
+    @new_authorization = Authorization.new(:page_id => @page.id) if 'access' == @aspect
     if 'events' == @aspect
       @event_aspect = params[:event_aspect] || 'event'
       if params[:create] or @page.events.empty?

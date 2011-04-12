@@ -1,0 +1,29 @@
+<h1>Listing authorizations</h1>
+
+<table>
+  <tr>
+    <th>Page</th>
+    <th>User</th>
+    <th>Group</th>
+    <th>Administrator</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @authorizations.each do |authorization| %>
+  <tr>
+    <td><%= authorization.page_id %></td>
+    <td><%= authorization.user_id %></td>
+    <td><%= authorization.group_id %></td>
+    <td><%= authorization.administrator %></td>
+    <td><%= link_to 'Show', authorization %></td>
+    <td><%= link_to 'Edit', edit_authorization_path(authorization) %></td>
+    <td><%= link_to 'Destroy', authorization, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Authorization', new_authorization_path %>
