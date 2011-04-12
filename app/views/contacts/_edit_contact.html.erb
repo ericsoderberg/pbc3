@@ -1,0 +1,7 @@
+<%= content_tag_for(:li, edit_contact,
+  :class => (edit_contact == @event ? 'active' : '')) do %>
+  <a href="<%= edit_page_path(@page, :aspect => 'contacts',
+    :contact_id => edit_contact.id) %>">
+  <%= edit_contact.user.name %>
+  </a>
+<% end %>

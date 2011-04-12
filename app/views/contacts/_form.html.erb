@@ -1,10 +1,10 @@
-<%= form_for(@new_contact) do |f| %>
-  <% if @new_contact.errors.any? %>
+<%= form_for(@contact) do |f| %>
+  <% if @contact.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@new_contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+      <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
 
       <ul>
-      <% @new_contact.errors.full_messages.each do |msg| %>
+      <% @contact.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -18,5 +18,9 @@
   </div>
   <div class="actions">
     <%= f.submit "Add contact" %>
+    <% if @contact.user -%>
+    | <%= link_to 'Remove contact', @contact, :confirm => 'Are you sure?',
+        :method => :delete %>
+    <% end -%>
   </div>
 <% end %>

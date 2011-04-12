@@ -35,9 +35,11 @@
     <%= f.text_field :location %>
   </div>
   <div class="actions">
-    <%= f.submit %> |
-    <%= link_to 'Delete event', @event, :confirm => 'Are you sure?',
-      :method => :delete %>
+    <%= f.submit %>
+    <% if @event.name -%>
+    | <%= link_to 'Delete event', @event, :confirm => 'Are you sure?',
+        :method => :delete %>
+    <% end -%>
   </div>
 <% end %>
 

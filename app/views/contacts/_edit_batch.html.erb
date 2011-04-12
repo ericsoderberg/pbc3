@@ -1,14 +1,17 @@
-<div id="page_content">
-  <section>
-    <ul id="gallery">
-      <%= render :partial => @page.contacts %>
-    </ul>
-  </section>
-
+<div id="edit_content">
   <aside>
+    <ul id="edit_list">
+      <%= render :partial => 'contacts/edit_contact',
+        :collection => @page.contacts %>
+    </ul>
+  </aside>
+
+  <section>
+    <header>
+      <h2><%= (@contact.user ? "#{@contact.user.name}" : 'Add Contact') %></h2>
+    </header>
     <div class="form">
-      <h3>Add Contact</h3>
       <%= render 'contacts/form' %>
     </div>
-  </aside>
+  </section>
 </div>

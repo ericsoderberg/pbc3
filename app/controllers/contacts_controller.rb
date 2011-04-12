@@ -65,7 +65,8 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
-        format.html { redirect_to(@contact, :notice => 'Contact was successfully updated.') }
+        format.html { redirect_to(edit_page_url(@page, :aspect => 'contacts'),
+          :notice => 'Contact was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -81,7 +82,7 @@ class ContactsController < ApplicationController
     @contact.destroy
 
     respond_to do |format|
-      format.html { redirect_to(contacts_url) }
+      format.html { redirect_to(edit_page_url(@page, :aspect => 'contacts')) }
       format.xml  { head :ok }
     end
   end

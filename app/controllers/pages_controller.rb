@@ -50,8 +50,17 @@ class PagesController < ApplicationController
     @aspect = params[:aspect] || 'text'
     @new_photo = Photo.new(:page_id => @page.id) if 'photos' == @aspect
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
-    @new_contact = Contact.new(:page_id => @page.id) if 'contacts' == @aspect
+
+    if 'contacts' == @aspect
+      if params[:contact_id]
+        @contact = @page.contacts.find(params[:contact_id])
+      else
+        @contact = Contact.new(:page_id => @page.id)
+      end
+    end
+
     @new_authorization = Authorization.new(:page_id => @page.id) if 'access' == @aspect
+
     if 'events' == @aspect
       @event_aspect = params[:event_aspect] || 'event'
       if params[:create] or @page.events.empty?
@@ -63,6 +72,7 @@ class PagesController < ApplicationController
       elsif ! @page.events.empty?
         @event = @page.events.first
       end
+
       if 'recurrence' == @event_aspect and @event
         @date = @event.start_at
         @replicas = @event.replicas || []
