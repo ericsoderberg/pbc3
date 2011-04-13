@@ -1,11 +1,12 @@
 class NotesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
+  before_filter :get_page
   
   # GET /notes
   # GET /notes.xml
   def index
-    @notes = Note.all
+    @notes = @page.notes
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +17,7 @@ class NotesController < ApplicationController
   # GET /notes/1
   # GET /notes/1.xml
   def show
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,7 +28,7 @@ class NotesController < ApplicationController
   # GET /notes/new
   # GET /notes/new.xml
   def new
-    @note = Note.new
+    @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,13 +38,14 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
   end
 
   # POST /notes
   # POST /notes.xml
   def create
     @note = Note.new(params[:note])
+    @page = @note.page
 
     respond_to do |format|
       if @note.save
@@ -61,7 +63,7 @@ class NotesController < ApplicationController
   # PUT /notes/1
   # PUT /notes/1.xml
   def update
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
 
     respond_to do |format|
       if @note.update_attributes(params[:note])
@@ -77,7 +79,7 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   # DELETE /notes/1.xml
   def destroy
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
     @note.destroy
 
     respond_to do |format|
