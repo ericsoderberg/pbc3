@@ -1,0 +1,17 @@
+<% form_tag page_event_reservations_path(@page, @event), :method => :put do %>
+
+<ul id="reservations" class="reservations">
+  <% @resources.each do |resource| -%>
+    <li>
+      <%= check_box_tag 'resources[]', resource.id,
+        @event.resources.include?(resource) %>
+      <%= resource.name %>
+    </li>
+  <% end -%>
+</ul>
+
+<div class="actions">
+  <%= submit_tag("Update Reservations") %>
+</div>
+
+<% end %>

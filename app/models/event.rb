@@ -3,6 +3,8 @@ class Event < ActiveRecord::Base
   belongs_to :master, :class_name => 'Event'
   has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
     :autosave => true
+  has_many :reservations
+  has_many :resources, :through => :reservations
   
   validates_presence_of :page, :name, :start_at, :stop_at
   

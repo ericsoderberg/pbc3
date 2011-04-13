@@ -38,6 +38,7 @@ Pbc3::Application.routes.draw do
   resources :pages do
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :Recurrence
+      resource :reservations, :only => [:show, :update]
     end
     resources :documents
     resources :photos

@@ -1111,4 +1111,13 @@ input:focus, textarea:focus {
 div.actions {
   margin-top: 20px;
   }
-  
+
+#reservations {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  }
+  #reservations li {
+    display: inline-block;
+    padding-right: 20px;
+    }

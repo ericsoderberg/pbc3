@@ -1,3 +1,5 @@
+<% title "PBC - #{@event.name} Reservations" -%>
+
 <section>
   
   <%= render :partial => 'pages/edit_header',
@@ -10,9 +12,11 @@
 
     <section>
       <%= render :partial => 'events/edit_header',
-        :locals => {:active_aspect => 'recurrence'} %>
+        :locals => {:active_aspect => 'reservations'} %>
       
       <%= render 'form' %>
+      
+      <%= link_to 'Resources', resources_path %>
     </section>
   </div>
 
