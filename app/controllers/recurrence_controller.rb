@@ -23,7 +23,7 @@ class RecurrenceController < ApplicationController
 
     respond_to do |format|
       if @event.replicate(dates)
-        format.html { redirect_to edit_page_event_url(@page, @event),
+        format.html { redirect_to(edit_page_event_url(@page, @event),
           :notice => 'Recurrence was successfully updated.') }
         format.xml  { head :ok }
       else
