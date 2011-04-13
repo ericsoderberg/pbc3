@@ -1,8 +1,8 @@
 <%= content_tag_for(:li, group, :class => 'group') do %>
   
   <div class="group_image">
-    <% if group.page.feature_image.exists? then %>
-  	  <%= image_tag group.page.feature_image.url(:normal) %><br />
+    <% if group.page.style and group.page.style.feature_strip.exists? then %>
+  	  <%= image_tag group.page.style.feature_strip.url(:normal) %><br />
     <% end %>
   </div>
   
