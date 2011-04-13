@@ -1,0 +1,22 @@
+<section>
+  <header>
+    <h1>Resources</h1>
+  </header>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+<% @resources.each do |resource| %>
+  <tr>
+    <td><%= link_to resource.name, edit_resource_path(resource) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Add Resource', new_resource_path %>
+
+</section>

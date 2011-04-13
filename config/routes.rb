@@ -1,7 +1,5 @@
 Pbc3::Application.routes.draw do
 
-  resources :documents
-
   # http://blog.grow20.com/fun-with-ssl-for-accounts-only
   class SSL
     def self.matches?(request)
@@ -10,16 +8,7 @@ Pbc3::Application.routes.draw do
       request.ssl?
     end
   end
-    
-  #resources :contacts
-  #resources :events
-  #resources :recurrence, :only => [:show, :update]
-  #resources :videos
-  #resources :photos
-  #resources :notes
-  #resources :recurrence 
-  #resources :authorizations
-  
+
   constraints SSL do
     resources :accounts
     devise_for :users
@@ -43,6 +32,7 @@ Pbc3::Application.routes.draw do
   root :to => "home#index"
 
   resources :styles
+  resources :resources
   resources :communities, :as => :groups, :controller => :Groups
 
   resources :pages do

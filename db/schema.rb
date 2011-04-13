@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110413150303) do
+ActiveRecord::Schema.define(:version => 20110413181834) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
@@ -104,6 +104,12 @@ ActiveRecord::Schema.define(:version => 20110413150303) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "page_id"
+  end
+
+  create_table "resources", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "styles", :force => true do |t|
