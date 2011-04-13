@@ -1,0 +1,9 @@
+<ul id="gallery">
+  <%= render :partial => 'gallery_photo', :collection => @page.photos %>
+</ul>
+
+<% if @photo.photo.exists? -%>
+<div id="add_content">
+  <%= link_to 'Add photo', new_page_photo_path(@page) %>
+</div>
+<% end -%>

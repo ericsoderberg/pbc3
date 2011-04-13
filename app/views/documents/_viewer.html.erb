@@ -1,0 +1,11 @@
+<% unless documents.empty? -%>
+<div id="documents">
+
+  <h2>Documents</h2>
+  
+  <ul id="documents_list">
+    <%= render :partial => 'documents/document', :collection => documents %>
+  </ul>
+  
+</div>
+<% end -%>

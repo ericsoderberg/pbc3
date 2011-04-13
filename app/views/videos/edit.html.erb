@@ -1,6 +1,19 @@
-<h1>Editing video</h1>
+<section>
 
-<%= render 'form' %>
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'videos'} %>
+  
+  <div id="page_content">
+    <section>
+      <%= render 'edit_gallery' %>
+    </section>
 
-<%= link_to 'Show', @video %> |
-<%= link_to 'Back', videos_path %>
+    <aside>
+      <header>
+        <h3>Edit Video</h3>
+      </header>
+      <%= render 'form' %>
+    </aside>
+  </div>
+
+<section>

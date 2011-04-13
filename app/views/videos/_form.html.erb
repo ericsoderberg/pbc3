@@ -1,10 +1,11 @@
-<%= form_for(@new_video, :html => { :multipart => true }) do |f| %>
-  <% if @new_video.errors.any? %>
+<%= form_for(@video, :url => [@page, @video],
+  :html => { :multipart => true }) do |f| %>
+  <% if @video.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@new_video.errors.count, "error") %> prohibited this video from being saved:</h2>
+      <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
 
       <ul>
-      <% @new_video.errors.full_messages.each do |msg| %>
+      <% @video.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -19,6 +20,10 @@
     <%= f.text_field :caption, :size => 40 %><br />
   </div>
   <div class="actions">
-    <%= f.submit 'Add video' %>
+    <%= f.submit 'Upload Video' %>
+    <% if @video.video.exists? -%>
+    | <%= link_to 'Delete video', [@page, @video], :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
   </div>
 <% end %>

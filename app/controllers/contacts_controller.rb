@@ -1,20 +1,12 @@
 class ContactsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
+  before_filter :get_page
   
-  # GET /contacts
-  # GET /contacts.xml
   def index
-    @contacts = Contact.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @contacts }
-    end
+    redirect_to new_page_contact_url(@page)
   end
 
-  # GET /contacts/1
-  # GET /contacts/1.xml
   def show
     @contact = Contact.find(params[:id])
 
@@ -24,24 +16,14 @@ class ContactsController < ApplicationController
     end
   end
 
-  # GET /contacts/new
-  # GET /contacts/new.xml
   def new
-    @contact = Contact.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @contact }
-    end
+    @contact = Contact.new(:page_id => @page.id)
   end
 
-  # GET /contacts/1/edit
   def edit
-    @contact = Contact.find(params[:id])
+    @contact = @page.contacts.find(params[:id])
   end
 
-  # POST /contacts
-  # POST /contacts.xml
   def create
     @contact = Contact.new(params[:contact])
     @page = @contact.page
@@ -49,7 +31,8 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to(edit_page_url(@page, :aspect => 'contacts'), :notice => 'Contact was successfully created.') }
+        format.html { redirect_to(new_page_contact_url(@page),
+          :notice => 'Contact was successfully created.') }
         format.xml  { render :xml => @contact, :status => :created, :location => @contact }
       else
         format.html { render :action => "new" }
@@ -58,14 +41,12 @@ class ContactsController < ApplicationController
     end
   end
 
-  # PUT /contacts/1
-  # PUT /contacts/1.xml
   def update
-    @contact = Contact.find(params[:id])
+    @contact = @page.contacts.find(params[:id])
 
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
-        format.html { redirect_to(edit_page_url(@page, :aspect => 'contacts'),
+        format.html { redirect_to(new_page_contact_url(@page),
           :notice => 'Contact was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -75,14 +56,12 @@ class ContactsController < ApplicationController
     end
   end
 
-  # DELETE /contacts/1
-  # DELETE /contacts/1.xml
   def destroy
-    @contact = Contact.find(params[:id])
+    @contact = @page.contacts.find(params[:id])
     @contact.destroy
 
     respond_to do |format|
-      format.html { redirect_to(edit_page_url(@page, :aspect => 'contacts')) }
+      format.html { redirect_to(new_page_contact_url(@page)) }
       format.xml  { head :ok }
     end
   end

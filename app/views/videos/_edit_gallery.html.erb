@@ -1,0 +1,9 @@
+<ul id="gallery">
+  <%= render :partial => 'gallery_video', :collection => @page.videos %>
+</ul>
+
+<% if @video.video.exists? -%>
+<div id="add_content">
+  <%= link_to 'Add video', new_page_video_path(@page) %>
+</div>
+<% end -%>

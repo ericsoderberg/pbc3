@@ -1,0 +1,11 @@
+<ul id="edit_list">
+  <%= render :partial => 'events/edit_event',
+    :collection => @page.events.find_masters %>
+</ul>
+
+<% if @event.name -%>
+<div id="add_content">
+  <%= link_to 'Add event',
+    new_page_event_path(@page) %>
+</div>
+<% end -%>

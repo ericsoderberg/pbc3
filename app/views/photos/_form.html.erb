@@ -1,10 +1,11 @@
-<%= form_for(@new_photo, :html => { :multipart => true }) do |f| %>
-  <% if @new_photo.errors.any? %>
+<%= form_for(@photo, :url => [@page, @photo],
+  :html => { :multipart => true }) do |f| %>
+  <% if @photo.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@photo.errors.count, "error") %> prohibited this photo from being saved:</h2>
 
       <ul>
-      <% @new_photo.errors.full_messages.each do |msg| %>
+      <% @photo.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -19,6 +20,10 @@
     <%= f.text_field :caption, :size => 40 %><br />
   </div>
   <div class="actions">
-    <%= f.submit 'Add photo' %>
+    <%= f.submit 'Upload Photo' %>
+    <% if @photo.photo.exists? -%>
+    | <%= link_to 'Delete photo', [@page, @photo], :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
   </div>
 <% end %>

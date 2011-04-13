@@ -1,3 +1,18 @@
-<h1>Replicate <%=h @event.name %></h1>
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'events'} %>
+  
+  <div id="edit_content">
+    <aside>
+      <%= render :partial => 'events/edit_list' %>
+    </aside>
 
-<%= render :partial => 'form' %>
+    <section>
+      <%= render :partial => 'events/edit_header',
+        :locals => {:active_aspect => 'recurrence'} %>
+      <%= render 'form' %>
+    </section>
+  </div>
+
+</section>

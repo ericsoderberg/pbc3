@@ -1,13 +1,12 @@
 <%= content_tag_for(:li, edit_event,
   :class => (edit_event == @event ? 'active' : '')) do %>
-  <a href="<%= edit_page_path(@page, :aspect => 'events',
-    :event_id => edit_event.id) %>">
-  <%= edit_event.name %>
-  <% unless edit_event.replicas.empty? -%>
-    (+<%= edit_event.replicas.count %>)
-  <% end -%>
-  <div class="event_range">
-    <%= friendly_range(edit_event, true) %>
-  </div>
+  <a href="<%= edit_page_event_path(@page, edit_event) %>">
+    <%= edit_event.name %>
+    <% unless edit_event.replicas.empty? -%>
+      (+<%= edit_event.replicas.count %>)
+    <% end -%>
+    <div class="event_range">
+      <%= friendly_range(edit_event, true) %>
+    </div>
   </a>
 <% end %>

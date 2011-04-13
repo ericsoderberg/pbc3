@@ -1,6 +1,6 @@
 <% title("Edit #{@page.name}") -%>
 <section>
-  <%= render 'edit_header' %>
+  <%= render :partial => 'edit_header', :locals => {:active_aspect => 'text'} %>
 
   <% if 'text' == @aspect -%>
     <%= render 'form' %>
@@ -18,8 +18,8 @@
     <%= render 'events/edit_batch', :locals => {:page => @page} %>
   <% end -%>
   
-  <% if 'feature' == @aspect -%>
-    <%= render 'edit_feature' %>
+  <% if 'documents' == @aspect -%>
+    <%= render 'documents/edit_batch', :locals => {:page => @page} %>
   <% end -%>
   
   <% if 'contacts' == @aspect -%>

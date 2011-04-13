@@ -45,6 +45,20 @@
         <%= link_to 'styles', styles_path %>
       </div>
       
+      <div class="field">
+        <%= f.label :feature_on_home_page? %>
+        <%= f.check_box :featured %>
+      </div>
+      <div class="field">
+        <%= f.label :home_strip_index %>
+        <%= f.text_field :feature_index, :size => 2 %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :home_hero_text %><br />
+        <%= f.text_area :feature_text, :size => '35x10' %>
+      </div>
+      
     </div>
   </aside>
 </div>

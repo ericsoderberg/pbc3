@@ -1,0 +1,8 @@
+<%= content_tag_for(:li, gallery_video) do %>
+  <video controls>
+    <source src="<%= gallery_video.video.url %>"/>
+  </video>
+  <a href="<%= edit_page_video_path(@page, gallery_video) %>">
+    <div class="caption"><%= gallery_video.caption %></div>
+  </a>
+<% end %>

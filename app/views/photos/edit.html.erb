@@ -1,6 +1,19 @@
-<h1>Editing photo</h1>
+<section>
 
-<%= render 'form' %>
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'photos'} %>
+  
+  <div id="page_content">
+    <section>
+      <%= render 'edit_gallery' %>
+    </section>
 
-<%= link_to 'Show', @photo %> |
-<%= link_to 'Back', photos_path %>
+    <aside>
+      <header>
+        <h3>Edit Photo</h3>
+      </header>
+      <%= render 'form' %>
+    </aside>
+  </div>
+
+<section>

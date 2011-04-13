@@ -11,6 +11,7 @@ class Page < ActiveRecord::Base
   has_many :notes, :order => 'created_at DESC'
   has_many :photos
   has_many :videos
+  has_many :documents
   has_many :events, :order => 'start_at ASC' do
     def find_future(date=Date.today)
       find(:all, :conditions => ["start_at >= ?", date])

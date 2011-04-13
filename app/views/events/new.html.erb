@@ -1,5 +1,19 @@
-<h1>New event</h1>
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'events'} %>
+  
+  <div id="edit_content">
+    <aside>
+      <%= render :partial => 'edit_list' %>
+    </aside>
 
-<%= render 'form' %>
+    <section>
+      <header>
+        <h2>Add Event</h2>
+      </header>
+      <%= render 'form' %>
+    </section>
+  </div>
 
-<%= link_to 'Back', events_path %>
+</section>

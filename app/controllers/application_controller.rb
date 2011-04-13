@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
     return true
   end
   
+  def get_page
+    @page = Page.find_by_url(params[:page_id])
+  end
+  
 end

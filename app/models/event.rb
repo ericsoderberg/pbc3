@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
     :autosave => true
   
-  validates_presence_of :page_id
+  validates_presence_of :page, :name, :start_at, :stop_at
   
   before_save do
     self.replicas.each do |replica|

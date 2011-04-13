@@ -23,7 +23,7 @@ class PagesController < ApplicationController
     end
     
     @nav_context = @page.parent || @page
-    @new_note = Note.new(:page_id => @page.id)
+    @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -50,6 +50,7 @@ class PagesController < ApplicationController
     @aspect = params[:aspect] || 'text'
     @new_photo = Photo.new(:page_id => @page.id) if 'photos' == @aspect
     @new_video = Video.new(:page_id => @page.id) if 'videos' == @aspect
+    @document = Document.new(:page_id => @page.id) if 'documents' == @aspect
 
     if 'contacts' == @aspect
       if params[:contact_id]

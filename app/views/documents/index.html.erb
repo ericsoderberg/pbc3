@@ -1,0 +1,21 @@
+<section>
+  <%= render 'pages/edit_header', :locals => {:aspect => 'documents'} %>
+  
+<div id="edit_content">
+  <aside>
+    <ul id="edit_list">
+      <%= render :partial => 'edit_document', :collection => @documents %>
+    </ul>
+  </aside>
+
+  <section>
+    <header>
+      <h2>Add Document</h2>
+    </header>
+    <div class="form">
+      <%= render 'documents/form' %>
+    </div>
+  </section>
+</div>
+
+</section>

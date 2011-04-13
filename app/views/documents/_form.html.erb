@@ -1,0 +1,31 @@
+<%= form_for(@document, :url => [@page, @document],
+  :html => {:multipart => true}) do |f| %>
+  <% if @document.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@document.errors.count, "error") %> prohibited this document from being saved:</h2>
+
+      <ul>
+      <% @document.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :page_id %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :file %><br />
+    <%= f.file_field :file %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Upload Document' %>
+    <% if @document.name -%>
+    | <%= link_to 'Delete document', [@page, @document], :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
+  </div>
+<% end %>

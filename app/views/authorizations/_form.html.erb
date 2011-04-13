@@ -1,10 +1,10 @@
-<%= form_for(@new_authorization) do |f| %>
-  <% if @new_authorization.errors.any? %>
+<%= form_for(@authorization, :url => [@page, @authorization]) do |f| %>
+  <% if @authorization.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@new_authorization.errors.count, "error") %> prohibited this authorization from being saved:</h2>
+      <h2><%= pluralize(@authorization.errors.count, "error") %> prohibited this authorization from being saved:</h2>
 
       <ul>
-      <% @new_authorization.errors.full_messages.each do |msg| %>
+      <% @authorization.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -14,7 +14,8 @@
   <%= f.hidden_field :page_id %>
   <div class="field">
     <%= f.label :user_email %><br \>
-    <%= text_field_tag :user_email %>
+    <%= text_field_tag :user_email, nil,
+      :disabled => (@authorization.user) %>
   </div>
   <div class="field">
     <%= f.label :administrator? %>
@@ -22,5 +23,9 @@
   </div>
   <div class="actions">
     <%= f.submit 'Allow Access' %>
+    <% if @authorization.user -%>
+    | <%= link_to 'Remove access', [@page, @authorization], :confirm => 'Are you sure?',
+        :method => :delete %>
+    <% end -%>
   </div>
 <% end %>

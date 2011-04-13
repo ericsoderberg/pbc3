@@ -1,6 +1,19 @@
-<h1>Editing authorization</h1>
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'access'} %>
+  
+  <div id="edit_content">
+    <aside>
+      <%= render :partial => 'edit_list' %>
+    </aside>
 
-<%= render 'form' %>
+    <section>
+      <header>
+        <h2>Edit <%= @authorization.user.name %></h2>
+      </header>
+      <%= render 'form' %>
+    </section>
+  </div>
 
-<%= link_to 'Show', @authorization %> |
-<%= link_to 'Back', authorizations_path %>
+</section>

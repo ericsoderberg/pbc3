@@ -1,0 +1,10 @@
+<ul id="edit_list">
+  <%= render :partial => 'edit_authorization',
+    :collection => @page.authorizations %>
+</ul>
+
+<% if @authorization.user -%>
+<div id="add_content">
+  <%= link_to 'Add access', new_page_authorization_path(@page) %>
+</div>
+<% end -%>

@@ -1,22 +1,14 @@
 class PhotosController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
+  before_filter :get_page
   
-  # GET /photos
-  # GET /photos.xml
   def index
-    @photos = Photo.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @photos }
-    end
+    redirect_to new_page_photo_url(@page)
   end
 
-  # GET /photos/1
-  # GET /photos/1.xml
   def show
-    @photo = Photo.find(params[:id])
+    @photo = @page.photos.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,31 +16,21 @@ class PhotosController < ApplicationController
     end
   end
 
-  # GET /photos/new
-  # GET /photos/new.xml
   def new
-    @photo = Photo.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @photo }
-    end
+    @photo = Photo.new(:page_id => @page.id)
   end
 
-  # GET /photos/1/edit
   def edit
-    @photo = Photo.find(params[:id])
+    @photo = @page.photos.find(params[:id])
   end
 
-  # POST /photos
-  # POST /photos.xml
   def create
     @photo = Photo.new(params[:photo])
     @page = @photo.page
 
     respond_to do |format|
       if @photo.save
-        format.html { redirect_to(edit_page_url(@page, :aspect => 'photos'),
+        format.html { redirect_to(new_page_photo_url(@page),
           :notice => 'Photo was successfully created.') }
         format.xml  { render :xml => @photo, :status => :created, :location => @photo }
       else
@@ -58,15 +40,13 @@ class PhotosController < ApplicationController
     end
   end
 
-  # PUT /photos/1
-  # PUT /photos/1.xml
   def update
-    @photo = Photo.find(params[:id])
-    @page = @photo.page
+    @photo = @page.photos.find(params[:id])
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to(@page, :notice => 'Photo was successfully updated.') }
+        format.html { redirect_to(new_page_photo_url(@page),
+          :notice => 'Photo was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -75,14 +55,12 @@ class PhotosController < ApplicationController
     end
   end
 
-  # DELETE /photos/1
-  # DELETE /photos/1.xml
   def destroy
-    @photo = Photo.find(params[:id])
+    @photo = @page.photos.find(params[:id])
     @photo.destroy
 
     respond_to do |format|
-      format.html { redirect_to(photos_url) }
+      format.html { redirect_to(new_page_photo_url(@page)) }
       format.xml  { head :ok }
       format.js
     end

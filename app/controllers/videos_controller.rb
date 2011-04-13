@@ -1,22 +1,14 @@
 class VideosController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
+  before_filter :get_page
   
-  # GET /videos
-  # GET /videos.xml
   def index
-    @videos = Video.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @videos }
-    end
+    redirect_to new_page_video_url(@page)
   end
 
-  # GET /videos/1
-  # GET /videos/1.xml
   def show
-    @video = Video.find(params[:id])
+    @video = @page.video.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,31 +16,21 @@ class VideosController < ApplicationController
     end
   end
 
-  # GET /videos/new
-  # GET /videos/new.xml
   def new
-    @video = Video.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @video }
-    end
+    @video = Video.new(:page_id => @page.id)
   end
 
-  # GET /videos/1/edit
   def edit
-    @video = Video.find(params[:id])
+    @video = @page.videos.find(params[:id])
   end
 
-  # POST /videos
-  # POST /videos.xml
   def create
     @video = Video.new(params[:video])
     @page = @video.page
 
     respond_to do |format|
       if @video.save
-        format.html { redirect_to(edit_page_url(@page, :aspect => 'videos'),
+        format.html { redirect_to(new_page_video_url(@page),
           :notice => 'Video was successfully created.') }
         format.xml  { render :xml => @video, :status => :created, :location => @video }
       else
@@ -58,14 +40,13 @@ class VideosController < ApplicationController
     end
   end
 
-  # PUT /videos/1
-  # PUT /videos/1.xml
   def update
-    @video = Video.find(params[:id])
+    @video = @page.videos.find(params[:id])
 
     respond_to do |format|
       if @video.update_attributes(params[:video])
-        format.html { redirect_to(@video, :notice => 'Video was successfully updated.') }
+        format.html { redirect_to(new_page_video_url(@page),
+          :notice => 'Video was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -74,15 +55,12 @@ class VideosController < ApplicationController
     end
   end
 
-  # DELETE /videos/1
-  # DELETE /videos/1.xml
   def destroy
-    @video = Video.find(params[:id])
-    @page = @video.page
+    @video = @page.videos.find(params[:id])
     @video.destroy
 
     respond_to do |format|
-      format.html { redirect_to(videos_url) }
+      format.html { redirect_to(new_page_video_url(@page)) }
       format.xml  { head :ok }
       format.js
     end

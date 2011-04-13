@@ -1,5 +1,7 @@
 Pbc3::Application.routes.draw do
 
+  resources :documents
+
   # http://blog.grow20.com/fun-with-ssl-for-accounts-only
   class SSL
     def self.matches?(request)
@@ -9,17 +11,15 @@ Pbc3::Application.routes.draw do
     end
   end
     
-  resources :contacts
-  resources :events
-  resources :recurrence, :only => [:show, :update]
-  resources :communities, :as => :groups, :controller => :Groups
-  resources :videos
-  resources :photos
-  resources :notes
-  resources :recurrence 
-  resources :authorizations
-  resources :styles
-    
+  #resources :contacts
+  #resources :events
+  #resources :recurrence, :only => [:show, :update]
+  #resources :videos
+  #resources :photos
+  #resources :notes
+  #resources :recurrence 
+  #resources :authorizations
+  
   constraints SSL do
     resources :accounts
     devise_for :users
@@ -41,8 +41,21 @@ Pbc3::Application.routes.draw do
   get "search", :to => "search#search"
 
   root :to => "home#index"
-  
-  resources :pages
+
+  resources :styles
+  resources :communities, :as => :groups, :controller => :Groups
+
+  resources :pages do
+    resources :events do
+      resource :recurrence, :only => [:show, :update], :controller => :Recurrence
+    end
+    resources :documents
+    resources :photos
+    resources :videos
+    resources :contacts
+    resources :authorizations
+    resources :notes
+  end
   
   match '/:id', :to => "pages#show", :as => 'friendly_page'
   

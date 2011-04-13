@@ -63,6 +63,9 @@
           :locals => {:events => @page.events.find_next, :no_name => false} %>
     <% end -%>
     
+    <%= render :partial => 'documents/viewer',
+      :locals => {:documents => @page.documents} %>
+    
     <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>
     
     <%= render :partial => 'photos/viewer', :locals => {:photos => @page.photos} %>

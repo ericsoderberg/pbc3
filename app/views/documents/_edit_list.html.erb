@@ -1,0 +1,9 @@
+<ul id="edit_list">
+  <%= render :partial => 'edit_document', :collection => @page.documents %>
+</ul>
+
+<% if @document.name -%>
+<div id="add_content">
+  <%= link_to 'Add document', new_page_document_path(@page) %>
+</div>
+<% end -%>

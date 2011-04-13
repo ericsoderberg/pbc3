@@ -1,20 +1,17 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
+  before_filter :get_page
   
-  # GET /events
-  # GET /events.xml
   def index
-    @events = Event.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @events }
+    @events = @page.events
+    if @events.empty?
+      redirect_to new_page_event_url(@page)
+    else
+      redirect_to edit_page_event_url(@page, @events.first)
     end
   end
 
-  # GET /events/1
-  # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
 
@@ -24,33 +21,29 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/new
-  # GET /events/new.xml
   def new
-    @event = Event.new
-    @event.page = Page.find_by_id(params[:page_id])
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event }
-    end
+    @event = Event.new(:page_id => @page.id)
+    @event.start_at = (Time.now + 1.day).beginning_of_day + 10.hour
+    @event.stop_at = @event.start_at + 1.hour
   end
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
+    @event = @page.events.find(params[:id])
+  end
+  
+  def edit_page
+    @page = Page.find(params[:id])
   end
 
-  # POST /events
-  # POST /events.xml
   def create
     parse_times
     @event = Event.new(params[:event])
+    @page = @event.page
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to(edit_page_url(@event.page,
-            :aspect => 'events', :event_id => @event.id),
+        format.html { redirect_to(edit_page_event_url(@page, @event),
             :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
@@ -60,16 +53,14 @@ class EventsController < ApplicationController
     end
   end
 
-  # PUT /events/1
-  # PUT /events/1.xml
   def update
     parse_times
-    @event = Event.find(params[:id])
+    @event = @page.events.find(params[:id])
+    @page = @event.page
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
-        format.html { redirect_to(edit_page_url(@event.page,
-            :aspect => 'events', :event_id => @event.id),
+        format.html { redirect_to(new_page_event_url(@page),
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -79,29 +70,23 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1
-  # DELETE /events/1.xml
   def destroy
-    @event = Event.find(params[:id])
+    @event = @page.events.find(params[:id])
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to(edit_page_url(@event.page,
-          :aspect => 'events')) }
+      format.html { redirect_to(new_page_event_url(@page)) }
       format.xml  { head :ok }
     end
   end
   
   private
-  
-  
-  
+
   def parse_times
     params[:event][:start_at] =
       DateTime.parse_from_form(params[:event][:start_at])
     params[:event][:stop_at] =
       DateTime.parse_from_form(params[:event][:stop_at])
-    logger.info "!!! start at #{params[:event][:start_at]}"
   end
   
 end

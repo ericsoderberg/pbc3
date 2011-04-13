@@ -1,0 +1,5 @@
+<%= content_tag_for(:li, edit_document,
+  :class => (edit_document == @document ? 'active' : '')) do %>
+  <%= link_to edit_document.name,
+    edit_page_document_path(@page, edit_document) %>
+<% end %>
