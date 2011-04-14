@@ -1,33 +1,11 @@
 <% title("Edit #{@page.name}") -%>
+
+<% content_for(:scripts) do -%>
+  <%= render :partial => 'yui_scripts' %> 
+<% end -%>
+
 <section>
   <%= render :partial => 'edit_header', :locals => {:active_aspect => 'text'} %>
 
-  <% if 'text' == @aspect -%>
-    <%= render 'form' %>
-  <% end -%>
-  
-  <% if 'photos' == @aspect -%>
-    <%= render 'photos/edit_batch', :locals => {:page => @page} %>
-  <% end -%>
-  
-  <% if 'videos' == @aspect -%>
-    <%= render 'videos/edit_batch', :locals => {:page => @page} %>
-  <% end -%>
-  
-  <% if 'events' == @aspect -%>
-    <%= render 'events/edit_batch', :locals => {:page => @page} %>
-  <% end -%>
-  
-  <% if 'documents' == @aspect -%>
-    <%= render 'documents/edit_batch', :locals => {:page => @page} %>
-  <% end -%>
-  
-  <% if 'contacts' == @aspect -%>
-    <%= render 'contacts/edit_batch', :locals => {:page => @page} %>
-  <% end -%>
-  
-  <% if 'access' == @aspect -%>
-    <%= render 'authorizations/edit_batch', :locals => {:page => @page} %>
-  <% end -%>
-
+  <%= render 'form' %>
 </section>

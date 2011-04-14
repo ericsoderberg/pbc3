@@ -11,11 +11,10 @@
     </div>
   <% end %>
   
-<div id="page_content">
+<div id="page_content" class="yui_editor">
   <section>
     <%= f.hidden_field :parent_id %>
-    <%= hidden_field_tag :aspect, @aspect %>
-    <div class="field">
+    <div class="field yui-skin-sam">
       <%= f.text_area :text, :size => '80x20' %>
     </div>
   </section>
@@ -72,3 +71,7 @@
     <% end -%>
   </div>
 <% end %>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'yui_editor.js' -%>
+<% end -%>

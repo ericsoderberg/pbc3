@@ -538,6 +538,9 @@ div#notice {
 		vertical-align: top;
 		color: #666;
 	  }
+	  #page_content.yui_editor section {
+	    padding-left: 0px;
+	    }
 	
 	#page_text h1, #page_text h2 {
 	  color: #c52;
@@ -863,7 +866,7 @@ form label {
 	color: #FFFFFF;
 	}
 
-input, textarea {
+input, textarea, .yui-skin-sam .yui-editor-container {
 	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;

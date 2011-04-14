@@ -57,7 +57,8 @@ class Page < ActiveRecord::Base
   #end
 
   def render_text
-    self.rendered_text = BlueCloth.new(self.text).to_html
+    #self.rendered_text = BlueCloth.new(self.text).to_html
+    self.rendered_text = self.text # since we're using the YUI editor
     self.rendered_feature_text = BlueCloth.new(self.feature_text).to_html
     self.snippet_text = extract_first_paragraph(self.rendered_text)
     self.snippet_feature_text =
