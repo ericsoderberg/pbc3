@@ -21,6 +21,7 @@ class Page < ActiveRecord::Base
   has_many :authorizations
   
   validates_presence_of :name
+  validates_uniqueness_of :name, :url
   validates_uniqueness_of :feature_index,
     :unless => Proc.new{|p| not p.feature_index}
     

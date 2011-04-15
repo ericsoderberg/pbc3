@@ -1,0 +1,23 @@
+$(function() {
+  if ($('#events_list li')[0]) {      
+    var i = 0;
+    $("#events_list > li").each(function(){
+      i = i+1;
+      $(this).toggle(i<=3);
+    });
+    if (i>3) {
+      ($('#events_list').append(
+        "<li  class='more'>" + (i-3) + " more...</li>").bind(
+          "click", function(){
+            var i = 0;
+            $("#events_list > li").each(function(){
+              i = i+1;
+              if (i>3) {
+                $(this).toggle(true);
+              }
+            });
+            $("#events_list > li.more").toggle(false);
+          } )  );
+    }
+  }
+});

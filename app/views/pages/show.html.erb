@@ -45,12 +45,12 @@
 
   <aside>
     
-    <% if @page.events.count == 1 and
+    <% if @upcoming_events.count == 1 and
         @page == @page.events.first.page -%>
         
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @page.events.upcoming,
-            :no_name => (@page.name == @page.events.first.name)} %>
+          :locals => {:events => @upcoming_events,
+            :no_name => (@page.name == @upcoming_events.first.name)} %>
           
         <%= render :partial => 'contacts/viewer',
           :locals => {:contacts => @page.contacts} %>
@@ -61,7 +61,7 @@
         :locals => {:contacts => @page.contacts} %>
     
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @page.events.upcoming, :no_name => false} %>
+          :locals => {:events => @upcoming_events, :no_name => false} %>
     <% end -%>
     
     <%= render :partial => 'documents/viewer',

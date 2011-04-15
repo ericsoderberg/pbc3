@@ -2,6 +2,11 @@ require 'test_helper'
 
 class CalendarControllerTest < ActionController::TestCase
   
+  setup do
+    # needed to work around devise problem
+    @request.env['warden'] = TestWarden.new(@controller)
+  end
+  
   test "should get month" do
     get :month
     assert_response :success

@@ -24,17 +24,27 @@ class Event < ActiveRecord::Base
   scope :masters,
     where("events.master_id = events.id OR events.master_id IS NULL")
   
-  def self.upcoming
-    # tried to do this in Arel but gave up
-    sql = "SELECT id FROM events, " +
-      "(SELECT master_id, min(start_at) as start_at FROM events " +
-      " GROUP BY master_id) as master_times " +
-      "WHERE events.master_id = master_times.master_id AND " +
-      "events.start_at = master_times.start_at " +
-      "UNION " +
-      "(SELECT id FROM events WHERE master_id IS NULL)"
-    ids = find_by_sql(sql)
-    where(:id => ids)
+  def self.prune(events)
+    today = Time.now.beginning_of_day
+    events.select do |e|
+      # today or later
+      e.stop_at >= today and
+      # nothing better
+      not events.detect{|e2|
+        # not the same
+        (e2 != e) and
+        # later than today
+        (e2.stop_at >= today) and
+        # not both masters
+        (e2.master_id or e.master_id) and
+        # related
+        (e2.master_id == e.master_id or
+         e2.id == e.master_id or
+         e2.master_id == e.id) and
+        # e2 earlier than e?
+        (e2.start_at < e.start_at)
+      }
+    end
   end
   
   before_save do
@@ -44,14 +54,6 @@ class Event < ActiveRecord::Base
       replica.location = self.location if replica.location != self.location
     end
   end
-  
-  #def self.find_between(start, stop)
-  #  conditions = []
-  #  conditions << "stop_at > '#{start.strftime("%Y-%m-%d %H:%M:%S")}'"
-  #  conditions << "start_at < '#{stop.strftime("%Y-%m-%d %H:%M:%S")}'"
-  #  conditions_sql = conditions.empty? ? nil : conditions.join(' AND ')
-  #  self.find(:all, :conditions => conditions_sql, :order => 'start_at')
-  #end
   
   def replicate(dates)
     # remove existing events that aren't checked

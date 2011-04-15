@@ -22,6 +22,7 @@ class PagesController < ApplicationController
       return
     end
     
+    @upcoming_events = Event.prune(@page.events)
     @nav_context = @page.parent || @page
     @note = Note.new(:page_id => @page.id)
 
