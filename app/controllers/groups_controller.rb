@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.all
+    @groups = Group.visible(current_user)
 
     respond_to do |format|
       format.html # index.html.erb

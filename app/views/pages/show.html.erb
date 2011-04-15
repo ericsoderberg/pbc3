@@ -5,7 +5,8 @@
     <h1 class="<%= @nav_context == @page ? 'active' : '' %>">
       <%= link_to @nav_context.name, @nav_context %></h1>
     <ul class="nav">
-      <%= render :partial => "sub_page", :collection => @nav_context.children %>
+      <%= render :partial => "sub_page",
+        :collection => @nav_context.children.visible(current_user) %>
     </ul>
     
     <% if user_signed_in? and current_user.administrator? -%>
@@ -48,7 +49,7 @@
         @page == @page.events.first.page -%>
         
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @page.events.find_next,
+          :locals => {:events => @page.events.upcoming,
             :no_name => (@page.name == @page.events.first.name)} %>
           
         <%= render :partial => 'contacts/viewer',
@@ -60,7 +61,7 @@
         :locals => {:contacts => @page.contacts} %>
     
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @page.events.find_next, :no_name => false} %>
+          :locals => {:events => @page.events.upcoming, :no_name => false} %>
     <% end -%>
     
     <%= render :partial => 'documents/viewer',

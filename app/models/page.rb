@@ -12,24 +12,7 @@ class Page < ActiveRecord::Base
   has_many :photos
   has_many :videos
   has_many :documents
-  has_many :events, :order => 'start_at ASC' do
-    def find_future(date=Date.today)
-      find(:all, :conditions => ["start_at >= ?", date])
-    end
-    def find_next(date=Date.today)
-      future_events = find_future(date)
-      future_events.select do |e|
-        # reject if there's an earlier similar one
-        not e.master_id or not future_events.detect do |e2|
-          ((e2.master_id == e.master_id or e2.id == e.master_id) and
-          e2.start_at < e.start_at)
-        end
-      end
-    end
-    def find_masters(date=Date.today)
-      find(:all, :conditions => "master_id IS NULL")
-    end
-  end
+  has_many :events, :order => 'start_at ASC'
   has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id
@@ -49,6 +32,13 @@ class Page < ActiveRecord::Base
         page2.save
       end
     end
+  end
+  
+  def self.visible(user)
+    includes(:authorizations).
+    where('? OR pages.private = ? OR authorizations.user_id = ?',
+      (user ? user.administrator? : false), false,
+      (user ? user.id : -1))
   end
   
   #searchable do

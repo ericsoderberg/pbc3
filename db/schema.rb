@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110413184453) do
+ActiveRecord::Schema.define(:version => 20110414134043) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20110413184453) do
     t.text     "snippet_text"
     t.text     "snippet_feature_text"
     t.integer  "feature_index"
-    t.boolean  "private"
+    t.boolean  "private",                 :default => true
     t.integer  "style_id"
   end
 

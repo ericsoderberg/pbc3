@@ -44,6 +44,7 @@
         <%= link_to 'styles', styles_path %>
       </div>
       
+      <% if @page.name -%>
       <div class="field">
         <%= f.label :feature_on_home_page? %>
         <%= f.check_box :featured %>
@@ -57,6 +58,7 @@
         <%= f.label :home_hero_text %><br />
         <%= f.text_area :feature_text, :size => '35x10' %>
       </div>
+      <% end -%>
       
     </div>
   </aside>

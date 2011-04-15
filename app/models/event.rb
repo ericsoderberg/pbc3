@@ -2,26 +2,49 @@ class Event < ActiveRecord::Base
   belongs_to :page
   belongs_to :master, :class_name => 'Event'
   has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
-    :autosave => true
+    :autosave => true, :dependent => :destroy
   has_many :reservations
   has_many :resources, :through => :reservations
   
   validates_presence_of :page, :name, :start_at, :stop_at
   
+  def self.on_or_after(date)
+    where("events.start_at >= ?", date)
+  end
+  def self.between(start, stop)
+    where("events.stop_at > ? AND events.start_at < ?", start, stop)
+  end
+  scope :masters,
+    where("events.master_id = events.id OR events.master_id IS NULL")
+  
+  def self.upcoming
+    # tried to do this in Arel but gave up
+    sql = "SELECT id FROM events, " +
+      "(SELECT master_id, min(start_at) as start_at FROM events " +
+      " GROUP BY master_id) as master_times " +
+      "WHERE events.master_id = master_times.master_id AND " +
+      "events.start_at = master_times.start_at " +
+      "UNION " +
+      "(SELECT id FROM events WHERE master_id IS NULL)"
+    ids = find_by_sql(sql)
+    where(:id => ids)
+  end
+  
   before_save do
+    # update replicas, TODO: add reservations!
     self.replicas.each do |replica|
       replica.name = self.name if replica.name != self.name
       replica.location = self.location if replica.location != self.location
     end
   end
   
-  def self.find_between(start, stop)
-    conditions = []
-    conditions << "stop_at > '#{start.strftime("%Y-%m-%d %H:%M:%S")}'"
-    conditions << "start_at < '#{stop.strftime("%Y-%m-%d %H:%M:%S")}'"
-    conditions_sql = conditions.empty? ? nil : conditions.join(' AND ')
-    self.find(:all, :conditions => conditions_sql, :order => 'start_at')
-  end
+  #def self.find_between(start, stop)
+  #  conditions = []
+  #  conditions << "stop_at > '#{start.strftime("%Y-%m-%d %H:%M:%S")}'"
+  #  conditions << "start_at < '#{stop.strftime("%Y-%m-%d %H:%M:%S")}'"
+  #  conditions_sql = conditions.empty? ? nil : conditions.join(' AND ')
+  #  self.find(:all, :conditions => conditions_sql, :order => 'start_at')
+  #end
   
   def replicate(dates)
     # remove existing events that aren't checked
