@@ -1,17 +1,19 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+single:
+  name: Single
+  start_at: <%= Time.zone.now + 1.day %>
+  stop_at: <%= Time.zone.now + 1.day + 1.hour %>
+  page: pages(:public)
+  
+recurring:
+  name: Recurring
+  start_at: <%= Time.zone.now + 1.day %>
+  stop_at: <%= Time.zone.now + 1.day + 1.hour %>
+  page: pages(:public)
 
-one:
-  name: MyString
-  start_at: 2011-03-31 08:11:59
-  stop_at: 2011-03-31 08:11:59
-  all_day: false
-  location: MyString
-  page_id: 1
-
-two:
-  name: MyString
-  start_at: 2011-03-31 08:11:59
-  stop_at: 2011-03-31 08:11:59
-  all_day: false
-  location: MyString
-  page_id: 1
+replica:
+  name: Recurring
+  start_at: <%= Time.zone.now + 1.week %>
+  stop_at: <%= Time.zone.now + 1.week + 1.hour %>
+  page: pages(:public)
+  master: events(:recurring)
+  

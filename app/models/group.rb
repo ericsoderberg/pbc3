@@ -3,9 +3,9 @@ class Group < ActiveRecord::Base
   validates_presence_of :page
   has_many :authorizations
   
-  scope :visible, lambda { |user|
+  def self.visible(user)
     joins(:page) & Page.visible(user)
-  }
+  end
   
   def name
     page.name

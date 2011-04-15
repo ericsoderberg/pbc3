@@ -69,6 +69,7 @@ class Page < ActiveRecord::Base
   private
   
   def extract_first_paragraph(str)
+    return '' unless str
     matches = str.scan(/<p>(.*)<\/p>/)
     return (matches and matches[0] ? matches[0][0] : '')
   end

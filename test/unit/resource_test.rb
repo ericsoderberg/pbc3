@@ -1,8 +1,20 @@
 require 'test_helper'
 
 class ResourceTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  
+  test "normal create" do
+    resource = Resource.new(:name => "Car")
+    assert resource.save
   end
+  
+  test "no name" do
+    resource = Resource.new
+    assert !resource.save
+  end
+  
+  test "duplicate name" do
+    resource = Resource.new(:name => "Room")
+    assert resource.save
+  end
+  
 end

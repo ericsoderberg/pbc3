@@ -1,13 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  page_id: 1
-  user_id: 1
-  group_id: 1
-  administrator: false
+special_private:
+  page: pages(:private)
+  user: users(:special)
+  administrator: true
 
-two:
-  page_id: 1
-  user_id: 1
-  group_id: 1
-  administrator: false

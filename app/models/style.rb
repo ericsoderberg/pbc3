@@ -13,15 +13,19 @@ class Style < ActiveRecord::Base
     }
   has_many :pages
   
+  validates_presence_of :name
+  
   before_save :update_css
   
   def update_css
-    self.css =<<CSS
+    if gradient_lower_color and gradient_upper_color
+      self.css =<<CSS
   background-color: ##{gradient_lower_color.to_s(16)};
   background: -webkit-gradient(linear, 0% 0%, 0% 100%,
     from(#{"#%06x" % gradient_upper_color}), to(#{"#%06x" % gradient_lower_color}));
   background: -moz-linear-gradient(100% 100% 90deg,
     #{"#%06x" % gradient_upper_color}, #{"#%06x" % gradient_lower_color});
 CSS
+    end
   end
 end

@@ -1,35 +1,3 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  hero_file_name: MyString
-  hero_content_type: MyString
-  hero_file_size: 1
-  hero_updated_at: 2011-04-11 23:44:59
-  banner_file_name: MyString
-  banner_content_type: MyString
-  banner_file_size: 1
-  banner_updated_at: 2011-04-11 23:44:59
-  feature_strip: 
-  feature_strip_content_type: MyString
-  feature_strip_file_size: 1
-  feature_strip_updated_at: 2011-04-11 23:44:59
-  gradient_upper_color: 1
-  gradient_lower_color: 1
-  css: MyText
-
-two:
-  hero_file_name: MyString
-  hero_content_type: MyString
-  hero_file_size: 1
-  hero_updated_at: 2011-04-11 23:44:59
-  banner_file_name: MyString
-  banner_content_type: MyString
-  banner_file_size: 1
-  banner_updated_at: 2011-04-11 23:44:59
-  feature_strip: 
-  feature_strip_content_type: MyString
-  feature_strip_file_size: 1
-  feature_strip_updated_at: 2011-04-11 23:44:59
-  gradient_upper_color: 1
-  gradient_lower_color: 1
-  css: MyText
+blank:
+  name: blank
+  

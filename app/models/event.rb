@@ -7,6 +7,13 @@ class Event < ActiveRecord::Base
   has_many :resources, :through => :reservations
   
   validates_presence_of :page, :name, :start_at, :stop_at
+  validate :start_before_stop
+  
+  def start_before_stop
+    if stop_at and start_at and stop_at < start_at
+      errors.add(:stop_at, "can't be before start")
+    end
+  end
   
   def self.on_or_after(date)
     where("events.start_at >= ?", date)

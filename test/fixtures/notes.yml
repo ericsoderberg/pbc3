@@ -1,7 +1,8 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+note1:
+  page: pages(:public)
+  text: hi
 
-one:
-  text: MyText
-
-two:
-  text: MyText
+note2:
+  page: pages(:public)
+  text: bye
+  

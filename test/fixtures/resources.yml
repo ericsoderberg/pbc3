@@ -1,7 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+room:
+  name: Room
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+projector:
+  name: Projector

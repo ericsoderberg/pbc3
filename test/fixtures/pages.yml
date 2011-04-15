@@ -1,9 +1,16 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  name: MyString
-  text: MyText
-
-two:
-  name: MyString
-  text: MyText
+public:
+  name: Public
+  text: hi
+  private: false
+  style: styles(:blank)
+  
+private:
+  name: Private
+  text: hi
+  private: true
+  
+sub_public:
+  name: Sub
+  text: hi
+  private: false
+  parent: pages(:public)
