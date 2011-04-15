@@ -13,7 +13,8 @@ class Style < ActiveRecord::Base
     }
   has_many :pages
   
-  validates_presence_of :name
+  validates_presence_of :name, :hero_text_color, :gradient_upper_color,
+    :gradient_lower_color
   
   before_save :update_css
   

@@ -1,3 +1,5 @@
 blank:
   name: blank
-  
+  hero_text_color: 0x0
+  gradient_upper_color: 0x0
+  gradient_lower_color: 0xffffff

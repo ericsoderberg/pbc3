@@ -2,7 +2,8 @@ require 'test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
   setup do
-    @group = groups(:one)
+    @group = groups(:public)
+    sign_in users(:admin)
   end
 
   test "should get index" do
@@ -18,10 +19,10 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should create group" do
     assert_difference('Group.count') do
-      post :create, :group => @group.attributes
+      post :create, :group => @group.attributes, :page => {:name => 'Test'}
     end
 
-    assert_redirected_to group_path(assigns(:group))
+    assert_redirected_to friendly_page_path(assigns(:group).page)
   end
 
   test "should show group" do
@@ -36,7 +37,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should update group" do
     put :update, :id => @group.to_param, :group => @group.attributes
-    assert_redirected_to group_path(assigns(:group))
+    assert_redirected_to friendly_page_path(assigns(:group).page)
   end
 
   test "should destroy group" do

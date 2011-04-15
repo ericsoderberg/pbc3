@@ -1,25 +1,2 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Page:</b>
-  <%= @authorization.page_id %>
-</p>
-
-<p>
-  <b>User:</b>
-  <%= @authorization.user_id %>
-</p>
-
-<p>
-  <b>Group:</b>
-  <%= @authorization.group_id %>
-</p>
-
-<p>
-  <b>Administrator:</b>
-  <%= @authorization.administrator %>
-</p>
-
-
-<%= link_to 'Edit', edit_authorization_path(@authorization) %> |
-<%= link_to 'Back', authorizations_path %>
+<%= link_to 'Edit', edit_page_authorization_path(@page, @authorization) %>

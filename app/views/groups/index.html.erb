@@ -1,15 +1,19 @@
 <% title('PBC - Communities') -%>
 
-<h1>Communities</h1>
+<section>
+  <header>
+    <h1>Communities</h1>
 
-<ul id="communities">
-  <%= render :partial => @groups %>
-</ul>
-
-<% if user_signed_in? -%>
+<% if current_user and current_user.administrator? -%>
 <div id="page_admin">
   <ul>
     <li><%= link_to 'Add', new_group_path %></li>
   </ul>
 </div>
 <% end -%>
+  </header>
+
+  <ul id="communities">
+    <%= render :partial => @groups %>
+  </ul>
+</section>

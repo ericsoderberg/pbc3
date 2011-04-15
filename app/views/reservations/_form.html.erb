@@ -1,4 +1,4 @@
-<% form_tag page_event_reservations_path(@page, @event), :method => :put do %>
+<%= form_tag page_event_reservations_path(@page, @event), :method => :put do %>
 
 <ul id="reservations" class="reservations">
   <% @resources.each do |resource| -%>

@@ -83,10 +83,14 @@ class EventsController < ApplicationController
   private
 
   def parse_times
-    params[:event][:start_at] =
-      DateTime.parse_from_form(params[:event][:start_at])
-    params[:event][:stop_at] =
-      DateTime.parse_from_form(params[:event][:stop_at])
+    if params[:event][:start_at] and params[:event][:start_at].is_a?(String)
+      params[:event][:start_at] =
+        DateTime.parse_from_form(params[:event][:start_at])
+    end
+    if params[:event][:stop_at] and params[:event][:stop_at].is_a?(String)
+      params[:event][:stop_at] =
+        DateTime.parse_from_form(params[:event][:stop_at])
+    end
   end
   
 end

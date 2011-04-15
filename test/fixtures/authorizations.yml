@@ -1,7 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 special_private:
-  page: pages(:private)
-  user: users(:special)
+  page: private
+  user: special
   administrator: true
 

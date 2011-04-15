@@ -1,8 +1,8 @@
 note1:
-  page: pages(:public)
+  page: public
   text: hi
 
 note2:
-  page: pages(:public)
+  page: public
   text: bye
   

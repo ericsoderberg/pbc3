@@ -2,7 +2,8 @@ require 'test_helper'
 
 class PagesControllerTest < ActionController::TestCase
   setup do
-    @page = pages(:one)
+    @page = pages(:public)
+    sign_in users(:admin)
   end
 
   test "should get index" do

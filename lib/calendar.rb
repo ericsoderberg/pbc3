@@ -24,7 +24,7 @@ class Calendar
           event = events.shift
           day.events << event
           # hold on to re-insert for the next day
-          carry_over_events << event if event.stop_at.to_date != day.date.to_date
+          carry_over_events << event if event.stop_at.to_date > day.date.to_date
         end
         
         # re-insert multi-day events

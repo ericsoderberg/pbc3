@@ -1,4 +1,4 @@
 guide:
   name: Guide
-  page: pages(:public)
+  page: public
   

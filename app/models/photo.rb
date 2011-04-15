@@ -4,4 +4,6 @@ class Photo < ActiveRecord::Base
       :normal => '400x',
       :thumb => '50x'
     }
+    
+  validates_presence_of :page
 end

@@ -8,7 +8,7 @@ class VideosController < ApplicationController
   end
 
   def show
-    @video = @page.video.find(params[:id])
+    @video = @page.videos.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

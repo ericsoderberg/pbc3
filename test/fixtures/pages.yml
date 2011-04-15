@@ -1,16 +1,19 @@
 public:
   name: Public
+  url: public
   text: hi
   private: false
-  style: styles(:blank)
+  style: blank
   
 private:
   name: Private
+  url: private
   text: hi
   private: true
   
 sub_public:
-  name: Sub
+  name: "Sub Public"
+  url: sub-public
   text: hi
   private: false
-  parent: pages(:public)
+  parent: public

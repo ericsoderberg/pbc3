@@ -91,15 +91,18 @@ class StylesController < ApplicationController
   private
   
   def fix_colors
-    if params[:style][:gradient_upper_color]
+    if params[:style][:gradient_upper_color] and
+        params[:style][:gradient_upper_color].is_a?(String)
       params[:style][:gradient_upper_color] =
         params[:style][:gradient_upper_color].hex
     end
-    if params[:style][:gradient_lower_color]
+    if params[:style][:gradient_lower_color] and
+        params[:style][:gradient_lower_color].is_a?(String)
       params[:style][:gradient_lower_color] =
         params[:style][:gradient_lower_color].hex
     end
-    if params[:style][:hero_text_color]
+    if params[:style][:hero_text_color] and
+        params[:style][:hero_text_color].is_a?(String)
       params[:style][:hero_text_color] =
         params[:style][:hero_text_color].hex
     end

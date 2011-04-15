@@ -4,7 +4,7 @@ class Group < ActiveRecord::Base
   has_many :authorizations
   
   def self.visible(user)
-    joins(:page) & Page.visible(user)
+    joins(:page).merge(Page.visible(user))
   end
   
   def name

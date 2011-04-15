@@ -33,11 +33,11 @@ Pbc3::Application.routes.draw do
 
   resources :styles
   resources :resources
-  resources :communities, :as => :groups, :controller => :Groups
+  resources :communities, :as => :groups, :controller => :groups
 
   resources :pages do
     resources :events do
-      resource :recurrence, :only => [:show, :update], :controller => :Recurrence
+      resource :recurrence, :only => [:show, :update], :controller => :recurrence
       resource :reservations, :only => [:show, :update]
     end
     resources :documents

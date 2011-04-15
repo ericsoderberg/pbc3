@@ -2,7 +2,8 @@ require 'test_helper'
 
 class ResourcesControllerTest < ActionController::TestCase
   setup do
-    @resource = resources(:one)
+    @resource = resources(:room)
+    sign_in users(:admin)
   end
 
   test "should get index" do
@@ -21,7 +22,7 @@ class ResourcesControllerTest < ActionController::TestCase
       post :create, :resource => @resource.attributes
     end
 
-    assert_redirected_to resource_path(assigns(:resource))
+    assert_redirected_to resources_path
   end
 
   test "should show resource" do
@@ -36,7 +37,7 @@ class ResourcesControllerTest < ActionController::TestCase
 
   test "should update resource" do
     put :update, :id => @resource.to_param, :resource => @resource.attributes
-    assert_redirected_to resource_path(assigns(:resource))
+    assert_redirected_to resources_path
   end
 
   test "should destroy resource" do

@@ -2,6 +2,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :event
   belongs_to :resource
   
+  validates_presence_of :event, :resource
+  
   def self.reserve(event, resources)
     # remove existing resources that aren't specified
     event.reservations.each do |reservation|

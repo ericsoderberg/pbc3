@@ -2,7 +2,8 @@ require 'test_helper'
 
 class StylesControllerTest < ActionController::TestCase
   setup do
-    @style = styles(:one)
+    @style = styles(:blank)
+    sign_in users(:admin)
   end
 
   test "should get index" do
@@ -21,7 +22,7 @@ class StylesControllerTest < ActionController::TestCase
       post :create, :style => @style.attributes
     end
 
-    assert_redirected_to style_path(assigns(:style))
+    assert_redirected_to styles_path
   end
 
   test "should show style" do
@@ -36,7 +37,7 @@ class StylesControllerTest < ActionController::TestCase
 
   test "should update style" do
     put :update, :id => @style.to_param, :style => @style.attributes
-    assert_redirected_to style_path(assigns(:style))
+    assert_redirected_to styles_path
   end
 
   test "should destroy style" do

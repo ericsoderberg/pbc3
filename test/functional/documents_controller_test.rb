@@ -2,48 +2,49 @@ require 'test_helper'
 
 class DocumentsControllerTest < ActionController::TestCase
   setup do
-    @document = documents(:one)
+    @document = documents(:guide)
+    @page = @document.page
+    sign_in users(:admin)
   end
 
   test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:documents)
+    get :index, :page_id => @page.url
+    assert_redirected_to edit_page_document_url(@page, @page.documents.first)
   end
 
   test "should get new" do
-    get :new
+    get :new, :page_id => @page.url
     assert_response :success
   end
 
   test "should create document" do
     assert_difference('Document.count') do
-      post :create, :document => @document.attributes
+      post :create, :page_id => @page.url, :document => @document.attributes
     end
 
-    assert_redirected_to document_path(assigns(:document))
+    assert_redirected_to new_page_document_path(:page_id => @page.url)
   end
 
   test "should show document" do
-    get :show, :id => @document.to_param
+    get :show, :page_id => @page.url, :id => @document.to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @document.to_param
+    get :edit, :page_id => @page.url, :id => @document.to_param
     assert_response :success
   end
 
   test "should update document" do
-    put :update, :id => @document.to_param, :document => @document.attributes
-    assert_redirected_to document_path(assigns(:document))
+    put :update, :page_id => @page.url, :id => @document.to_param, :document => @document.attributes
+    assert_redirected_to new_page_document_path(:page_id => @page.url)
   end
 
   test "should destroy document" do
     assert_difference('Document.count', -1) do
-      delete :destroy, :id => @document.to_param
+      delete :destroy, :page_id => @page.url, :id => @document.to_param
     end
 
-    assert_redirected_to documents_path
+    assert_redirected_to new_page_document_path(:page_id => @page.url)
   end
 end

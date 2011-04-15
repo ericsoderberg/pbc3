@@ -2,48 +2,49 @@ require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
   setup do
-    @event = events(:one)
+    @event = events(:single)
+    @page = @event.page
+    sign_in users(:admin)
   end
 
   test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:events)
+    get :index, :page_id => @page.url
+    assert_redirected_to edit_page_event_path(@page, @page.events.first)
   end
 
   test "should get new" do
-    get :new
+    get :new, :page_id => @page.url
     assert_response :success
   end
 
   test "should create event" do
     assert_difference('Event.count') do
-      post :create, :event => @event.attributes
+      post :create, :page_id => @page.url, :event => @event.attributes
     end
 
-    assert_redirected_to event_path(assigns(:event))
+    assert_redirected_to edit_page_event_path(:page_id => @page.url, :id => assigns(:event).id)
   end
 
   test "should show event" do
-    get :show, :id => @event.to_param
+    get :show, :page_id => @page.url, :id => @event.to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @event.to_param
+    get :edit, :page_id => @page.url, :id => @event.to_param
     assert_response :success
   end
 
   test "should update event" do
-    put :update, :id => @event.to_param, :event => @event.attributes
-    assert_redirected_to event_path(assigns(:event))
+    put :update, :page_id => @page.url, :id => @event.to_param, :event => @event.attributes
+    assert_redirected_to new_page_event_path(:page_id => @page.url)
   end
 
   test "should destroy event" do
     assert_difference('Event.count', -1) do
-      delete :destroy, :id => @event.to_param
+      delete :destroy, :page_id => @page.url, :id => @event.to_param
     end
 
-    assert_redirected_to events_path
+    assert_redirected_to new_page_event_path(:page_id => @page.url)
   end
 end

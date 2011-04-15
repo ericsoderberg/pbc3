@@ -1,49 +1,24 @@
 require 'test_helper'
 
 class ReservationsControllerTest < ActionController::TestCase
+  
   setup do
-    @reservation = reservations(:one)
+    @reservation = reservations(:single_room)
+    @event = @reservation.event
+    @page = @event.page
+    sign_in users(:admin)
   end
 
-  test "should get index" do
-    get :index
+  test "should show reservations" do
+    get :show, :page_id => @page.url, :event_id => @event.id
     assert_response :success
-    assert_not_nil assigns(:reservations)
+    assert_not_nil assigns(:resources)
   end
-
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
-  test "should create reservation" do
-    assert_difference('Reservation.count') do
-      post :create, :reservation => @reservation.attributes
-    end
-
-    assert_redirected_to reservation_path(assigns(:reservation))
-  end
-
-  test "should show reservation" do
-    get :show, :id => @reservation.to_param
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, :id => @reservation.to_param
-    assert_response :success
-  end
-
+  
   test "should update reservation" do
-    put :update, :id => @reservation.to_param, :reservation => @reservation.attributes
-    assert_redirected_to reservation_path(assigns(:reservation))
+    put :update, :page_id => @page.url, :event_id => @event.id,
+      :resources => Resource.all.map{|r| r.id}
+    assert_redirected_to edit_page_event_path(:page_id => @page.url, :id => @event.id)
   end
 
-  test "should destroy reservation" do
-    assert_difference('Reservation.count', -1) do
-      delete :destroy, :id => @reservation.to_param
-    end
-
-    assert_redirected_to reservations_path
-  end
 end
