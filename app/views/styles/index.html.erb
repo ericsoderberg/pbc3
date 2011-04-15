@@ -1,6 +1,6 @@
 <h1>Styles</h1>
 
-<table>
+<table id="styles">
   <tr>
     <th>Name</th>
     <th>Hero</th>
@@ -14,17 +14,18 @@
     <td><%= link_to style.name, edit_style_path(style) %></td>
     <td>
       <% if style.hero.exists? then %>
-      	<%= image_tag style.hero.url(:thumb) %>
+      	<%= link_to image_tag(style.hero.url(:thumb)), style.hero.url %>
       <% end %>
     </td>
     <td>
       <% if style.banner.exists? then %>
-      	<%= image_tag style.banner.url(:thumb) %>
+      	<%= link_to image_tag(style.banner.url(:thumb)), style.banner.url %>
       <% end %>
     </td>
     <td>
       <% if style.feature_strip.exists? then %>
-      	<%= image_tag style.feature_strip.url(:thumb) %>
+      	<%= link_to image_tag(style.feature_strip.url(:thumb)),
+      	  style.feature_strip.url %>
       <% end %>
     </td>
     <td style="background-color: <%= "#%06x" % style.gradient_lower_color %>;

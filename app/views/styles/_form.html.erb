@@ -16,7 +16,7 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :banner %><br />
+    <%= f.label :banner %> <span class="help">(980 x 245)</span><br />
     <% if @style.banner.exists? -%>
       <%= image_tag @style.banner.url(:thumb) %>
       <%= check_box_tag 'delete_banner' %> delete banner?
@@ -24,7 +24,7 @@
     <%= f.file_field :banner %>
   </div>
   <div class="field">
-    <%= f.label :hero %><br />
+    <%= f.label :hero %> <span class="help">(980 x 445)</span><br />
     <% if @style.hero.exists? -%>
       <%= image_tag @style.hero.url(:thumb) %>
       <%= check_box_tag 'delete_hero' %> delete hero?
@@ -32,7 +32,7 @@
     <%= f.file_field :hero %>
   </div>
   <div class="field">
-    <%= f.label :feature_strip %><br />
+    <%= f.label :feature_strip %> <span class="help">(200 x 60)</span><br />
     <% if @style.feature_strip.exists? -%>
       <%= image_tag @style.feature_strip.url(:thumb) %>
       <%= check_box_tag 'delete_feature_strip' %> delete feature strip?

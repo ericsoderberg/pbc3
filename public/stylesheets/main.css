@@ -588,6 +588,9 @@ div#notice {
   display: inline-block;
   width: 120px;
   }
+.field .help {
+  color: #999999;
+  }
 
 .page_text_image {
   float: left;
@@ -893,7 +896,7 @@ input:focus, textarea:focus {
     text-align: left;
     }
 
-#users td {
+#users td, #styles td {
   padding-right: 20px;
   }
   #users .first_name {

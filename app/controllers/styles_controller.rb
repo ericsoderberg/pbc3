@@ -63,6 +63,9 @@ class StylesController < ApplicationController
   def update
     fix_colors
     @style = Style.find(params[:id])
+    @style.banner = nil if params[:delete_banner]
+    @style.feature_strip = nil if params[:delete_feature_strip]
+    @style.hero = nil if params[:delete_hero]
 
     respond_to do |format|
       if @style.update_attributes(params[:style])
