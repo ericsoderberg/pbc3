@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @podcast.title %>
+</p>
+
+<p>
+  <b>Subtitle:</b>
+  <%= @podcast.subtitle %>
+</p>
+
+<p>
+  <b>Summary:</b>
+  <%= @podcast.summary %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @podcast.description %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @podcast.user_id %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @podcast.category %>
+</p>
+
+<p>
+  <b>Image file name:</b>
+  <%= @podcast.image_file_name %>
+</p>
+
+<p>
+  <b>Image content type:</b>
+  <%= @podcast.image_content_type %>
+</p>
+
+<p>
+  <b>Image file size:</b>
+  <%= @podcast.image_file_size %>
+</p>
+
+<p>
+  <b>Image updated at:</b>
+  <%= @podcast.image_updated_at %>
+</p>
+
+<p>
+  <b>Page:</b>
+  <%= @podcast.page_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_podcast_path(@podcast) %> |
+<%= link_to 'Back', podcasts_path %>

@@ -497,10 +497,10 @@ div#notice {
     font-weight: normal;
     }
   
-#page_admin, #done_page_editing {
+#page_admin, #done_page_editing, #page_feed_control {
   float: right;
   }
-  #page_admin {
+  #page_admin, #page_feed_control {
     margin-top: 10px;
     }
   #page_admin ul {

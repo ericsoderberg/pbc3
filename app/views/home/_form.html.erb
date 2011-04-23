@@ -1,0 +1,44 @@
+<%= form_for(@page, :url => page_feature_path(@page)) do |f| %>
+  <% if @page.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+      <ul>
+      <% @page.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div id="page_content" class="yui_editor">
+    <section>
+      <div class="field yui-skin-sam">
+        <%= f.text_area :feature_text, :size => '80x20' %>
+      </div>
+    </section>
+
+    <aside>
+      <div class="form">
+        <div class="field">
+          <%= f.label :feature_on_home_page? %>
+          <%= f.check_box :featured %>
+        </div>
+        <div class="field">
+          <%= f.label :feature_index %>
+          <%= f.text_field :feature_index, :size => 2 %>
+        </div>
+      </div>
+    </aside>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+    <%= render 'pages/cancel_controls' %>
+  </div>
+  
+<% end %>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'yui_editor.js' -%>
+<% end -%>

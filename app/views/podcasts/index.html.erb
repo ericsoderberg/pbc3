@@ -1,0 +1,43 @@
+<h1>Listing podcasts</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Subtitle</th>
+    <th>Summary</th>
+    <th>Description</th>
+    <th>User</th>
+    <th>Category</th>
+    <th>Image file name</th>
+    <th>Image content type</th>
+    <th>Image file size</th>
+    <th>Image updated at</th>
+    <th>Page</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @podcasts.each do |podcast| %>
+  <tr>
+    <td><%= podcast.title %></td>
+    <td><%= podcast.subtitle %></td>
+    <td><%= podcast.summary %></td>
+    <td><%= podcast.description %></td>
+    <td><%= podcast.user_id %></td>
+    <td><%= podcast.category %></td>
+    <td><%= podcast.image_file_name %></td>
+    <td><%= podcast.image_content_type %></td>
+    <td><%= podcast.image_file_size %></td>
+    <td><%= podcast.image_updated_at %></td>
+    <td><%= podcast.page_id %></td>
+    <td><%= link_to 'Show', podcast %></td>
+    <td><%= link_to 'Edit', edit_podcast_path(podcast) %></td>
+    <td><%= link_to 'Destroy', podcast, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Podcast', new_podcast_path %>

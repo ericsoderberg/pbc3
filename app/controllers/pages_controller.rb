@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  before_filter :authenticate_user!, :except => :show
-  before_filter :administrator!, :except => [:show]
+  before_filter :authenticate_user!, :except => [:show, :feed]
+  before_filter :administrator!, :except => [:show, :feed]
   
   # GET /pages
   # GET /pages.xml
@@ -29,6 +29,20 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @page }
+    end
+  end
+  
+  def feed
+    @page = Page.find_by_url(params[:id], :include => :children)
+    unless @page and @page.authorized?(current_user)
+      redirect_to root_path
+      return
+    end
+    @pages = @page.children.order("updated_at DESC").limit(20) 
+
+    respond_to do |format|
+      format.html
+      format.rss { render :layout => false } #feed.rss.builder
     end
   end
 

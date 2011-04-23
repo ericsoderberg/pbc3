@@ -19,6 +19,7 @@ class Page < ActiveRecord::Base
   has_many :contacts
   has_many :contact_users, :through => :contacts, :source => :user
   has_many :authorizations
+  has_one :podcast
   
   validates_presence_of :name
   validates_uniqueness_of :name, :url

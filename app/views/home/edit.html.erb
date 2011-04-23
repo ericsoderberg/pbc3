@@ -1,0 +1,12 @@
+<% content_for(:scripts) do -%>
+  <%= render :partial => 'pages/yui_scripts' %> 
+<% end -%>
+
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'feature'} %>
+  
+  <%= render 'form' %>
+  
+</section>

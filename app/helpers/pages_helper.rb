@@ -15,6 +15,14 @@ module PagesHelper
       page_authorizations_path(page)
     when 'contacts'
       page_contacts_path(page)
+    when 'feature'
+      edit_page_feature_path(page)
+    when 'podcast'
+      if page.podcast
+        edit_page_podcast_path(page)
+      else
+        new_page_podcast_path(page)
+      end
     end
   end
 end

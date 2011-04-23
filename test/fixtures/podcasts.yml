@@ -1,0 +1,7 @@
+public:
+  page: public
+  owner: admin
+  title: public
+  subtitle: "public sub title"
+  description: "public description"
+  category: "something"

@@ -1,4 +1,4 @@
-<% if ! notes.empty? or (current_user and current_user.administrator) -%>
+<% if not notes.empty? or (current_user and current_user.administrator?) -%>
 <div id="notes">
 
   <h2>Highlights</h2>

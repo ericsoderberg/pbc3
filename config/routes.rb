@@ -46,6 +46,8 @@ Pbc3::Application.routes.draw do
     resources :contacts
     resources :authorizations
     resources :notes
+    resource :feature, :only => [:edit, :update], :controller => :home
+    resource :podcast
   end
   
   match '/:id', :to => "pages#show", :as => 'friendly_page'
