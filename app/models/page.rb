@@ -21,7 +21,7 @@ class Page < ActiveRecord::Base
   has_many :authorizations
   has_one :podcast
   
-  validates_presence_of :name
+  validates_presence_of :name, :featured, :private
   validates_uniqueness_of :name, :url
   validates_uniqueness_of :feature_index,
     :unless => Proc.new{|p| not p.feature_index}

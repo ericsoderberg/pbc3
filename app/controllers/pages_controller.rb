@@ -52,6 +52,7 @@ class PagesController < ApplicationController
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
     @page.style = (@page.parent ? @page.parent.style : Style.first)
+    @page.private = @page.parent.private if @page.parent
 
     respond_to do |format|
       format.html # new.html.erb

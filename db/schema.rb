@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110423140552) do
+ActiveRecord::Schema.define(:version => 20110423153349) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
@@ -77,12 +77,12 @@ ActiveRecord::Schema.define(:version => 20110423140552) do
     t.string   "url"
     t.text     "feature_text"
     t.text     "rendered_feature_text"
-    t.boolean  "featured"
+    t.boolean  "featured",                :default => false
     t.integer  "parent_id"
     t.text     "snippet_text"
     t.text     "snippet_feature_text"
     t.integer  "feature_index"
-    t.boolean  "private",                 :default => true
+    t.boolean  "private",                 :default => false
     t.integer  "style_id"
   end
 
