@@ -3,5 +3,6 @@ public:
   owner: admin
   title: public
   subtitle: "public sub title"
+  summary: "public summary"
   description: "public description"
   category: "something"

@@ -7,7 +7,7 @@ class Podcast < ActiveRecord::Base
     }
     
   validates_presence_of :page, :user_id, :title, :subtitle,
-    :summary,:description, :category
+    :summary, :description, :category
   
   def pages
     page.children.order("updated_at DESC").limit(20) 

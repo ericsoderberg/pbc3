@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20110423153349) do
     t.string   "text_image_content_type"
     t.integer  "text_image_file_size"
     t.datetime "text_image_updated_at"
+    t.string   "url_name"
     t.string   "url"
     t.text     "feature_text"
     t.text     "rendered_feature_text"

@@ -6,6 +6,8 @@ class PodcastTest < ActiveSupport::TestCase
     podcast = Podcast.new()
     podcast.page = pages(:private)
     podcast.owner = users(:admin)
+    podcast.title = podcast.subtitle = podcast.summary = podcast.description =
+      podcast.category = "something"
     assert podcast.save
   end
   

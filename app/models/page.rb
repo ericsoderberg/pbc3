@@ -20,9 +20,11 @@ class Page < ActiveRecord::Base
   has_many :contact_users, :through => :contacts, :source => :user
   has_many :authorizations
   has_one :podcast
-  
-  validates_presence_of :name, :featured, :private
-  validates_uniqueness_of :name, :url
+
+  validates :name, :presence => true, :uniqueness => true
+  validates :featured, :inclusion => {:in => [true, false]}
+  validates :private, :inclusion => {:in => [true, false]}
+  validates :url, :uniqueness => true
   validates_uniqueness_of :feature_index,
     :unless => Proc.new{|p| not p.feature_index}
     
