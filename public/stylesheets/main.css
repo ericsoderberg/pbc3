@@ -326,7 +326,6 @@ div#notice {
 
 #hero {
   position: relative;
-  display: table;
   margin: 10px 0px;
   padding: 0px;
   width: 980px;
@@ -340,6 +339,25 @@ div#notice {
   -webkit-animation-iteration-count: 1;
   -webkit-animation-delay: 0, 0.1s;
   }
+  #hero #hero_list {
+  	margin:0 auto;
+		padding: 0;
+  	height:445px;
+  	overflow:auto; /* allow scrollbar */
+  	position:relative;
+		}
+		#hero_list .slide {
+			float: left;
+			margin:0 auto;
+			width:960px;
+	  	height:445px;
+		}
+	#hero .hero_background {
+		position:absolute;
+		z-index:1;
+		width:960px;
+		overflow: hidden;
+		}
 #hero:hover {
   opacity: 1.0;
   }
@@ -349,6 +367,7 @@ div#notice {
     vertical-align: middle;
     text-align: center;
     width: 450px;
+		z-index: 2;
     }
   /* http://line25.com/tutorials/how-to-create-a-pure-css-polaroid-photo-gallery */
   #hero_photo1 {
@@ -387,9 +406,11 @@ div#notice {
       }
   #hero_text {
     display: inline-block;
+		position: relative;
     vertical-align: top;
     padding: 10px 100px 10px 40px;
     font-size: 15px;
+		z-index: 3;
     }
   #hero_text a {
     font-size: 16px;
@@ -397,6 +418,26 @@ div#notice {
   #hero_text a::after {
     content: " >>";
     }
+	#hero .control {
+  	display:block;
+  	width:39px;
+  	height:445px;
+  	text-indent:-10000px;
+  	position:absolute;
+  	cursor: pointer;
+		}
+		#hero_left_control {
+  		top:0;
+  		left:0;
+			z-index: 4;
+  		background:transparent url(/images/control_left.png) no-repeat scroll center;
+			}
+		#hero_right_control {
+  		top:0;
+  		right:0;
+			z-index: 4;
+  		background:transparent url(/images/control_right.png) no-repeat scroll center;
+			}
 
 #featured_nav {
   list-style-type: none;
@@ -422,27 +463,6 @@ div#notice {
     height: 200px;
     background-color: #eee;
     border: 1px solid #ccc;
-    }
-  /* http://jonrohan.me/guide/css/creating-triangles-in-css/ */
-  #featured_nav li.heroed .hero_arrow_border {
-    border-color: #fff transparent transparent transparent;
-    border-style: solid;
-    border-width: 16px;
-    height:0;
-    width:0;
-    position:absolute;
-    top:-3px;
-    left:30px;
-    }
-  #featured_nav li.heroed .hero_arrow {
-    border-color: #fff transparent transparent transparent;
-    border-style: solid;
-    border-width: 16px;
-    height:0;
-    width:0;
-    position:absolute;
-    top:0px;
-    left:30px;
     }
   .featured_nav_image {
     width: 200px;

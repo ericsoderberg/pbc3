@@ -1,7 +1,4 @@
-<%= content_tag_for(:li, featured_page,
-  :class => (featured_page == @hero_page ? 'heroed' : '')) do %>
-  <div class="hero_arrow_border"></div>
-  <div class="hero_arrow"></div>
+<%= content_tag_for(:li, featured_page) do %>
   <div class="featured_nav_image">
     <% if featured_page.style and featured_page.style.feature_strip.exists? then %>
   	  <%= image_tag featured_page.style.feature_strip.url(:normal) %><br />
@@ -9,13 +6,11 @@
   </div>
   <div class="featured_nav_name"
     style="<%= raw (featured_page.style ? featured_page.style.css : '') %>">
-    <%= link_to featured_page.name, root_path(:page => featured_page.id) %>
+    <%= link_to featured_page.name, friendly_page_path(featured_page) %>
   </div>
   <div class="featured_nav_text">
-    <%= raw truncate(featured_page.snippet_feature_text, :length => 40) %>
-    <div class="featured_nav_link">
-      <%= link_to "Learn more", friendly_page_path(featured_page) %>
-    </div>
+    <%= raw truncate(featured_page.snippet_feature_text,
+      :length => featured_page.snippet_feature_text.length) %>
   </div>
   
 <% end %>

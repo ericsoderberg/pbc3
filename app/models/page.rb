@@ -38,6 +38,10 @@ class Page < ActiveRecord::Base
     end
   end
   
+  def self.home_pages(user=nil)
+    visible(user).where(['featured = ?', true]).order('feature_index ASC')
+  end
+  
   def self.visible(user)
     includes(:authorizations).
     where('? OR pages.private = ? OR authorizations.user_id = ?',
@@ -75,6 +79,7 @@ class Page < ActiveRecord::Base
   def extract_first_paragraph(str)
     return '' unless str
     matches = str.scan(/<p>(.*)<\/p>/)
+    # TODO: improve this to not include styling from yui editor
     return (matches and matches[0] ? matches[0][0] : '')
   end
   

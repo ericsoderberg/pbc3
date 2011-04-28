@@ -1,0 +1,22 @@
+<%= content_tag_for(:div, page_hero, :class => 'slide') do %>
+  <% if page_hero.style -%>
+    <div class="hero_background">
+      <%= image_tag page_hero.style.hero.url(:normal) %>
+    </div>
+  <% end -%>
+  <div id="hero_photos">
+    <% if page_hero.photos.length > 0 -%>
+      <div id="hero_photo1">
+        <%= image_tag page_hero.photos[0].photo.url(:normal) %>
+      </div>
+    <% end -%>
+    <% if page_hero.photos.length > 1 -%>
+      <div id="hero_photo2">
+        <%= image_tag page_hero.photots[1].photo.url(:normal) %>
+      </div>
+    <% end -%>
+  </div>
+  <div id="hero_text">
+    <%= raw page_hero.rendered_feature_text %>
+  </div>
+<% end %>

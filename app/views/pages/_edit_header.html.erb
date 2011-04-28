@@ -1,15 +1,15 @@
 <header>
   <h1>Editing <%= @page.name %></h1>
-  <ul class="nav">
-    <% %w(text photos videos audios documents contacts access feature podcast events).each do |aspect| -%>
-    <li class="<%= active_aspect == aspect ? 'active' : '' %>">
-      <%= link_to aspect.capitalize, edit_page_aspect_url(@page, aspect) %></li>
-    <% end -%>
-  </ul>
   <% unless %w(text feature podcast).include?(active_aspect) -%>
     <div id="done_page_editing">
       <%= button_to 'Done editing page', friendly_page_path(@page),
         :method => :get %>
     </div>
   <% end -%>
+  <ul class="nav">
+    <% %w(text photos videos audios documents contacts access feature podcast events).each do |aspect| -%>
+    <li class="<%= active_aspect == aspect ? 'active' : '' %>">
+      <%= link_to aspect.capitalize, edit_page_aspect_url(@page, aspect) %></li>
+    <% end -%>
+  </ul>
 </header>
