@@ -443,7 +443,6 @@ div#notice {
   list-style-type: none;
   margin: 0px;
   padding: 0px;
-  height: 200px;
   -webkit-box-shadow: 3px 3px 10px #ccc;
   -moz-box-shadow: 3px 3px 10px #ccc;
   box-shadow: 3px 3px 10px #ccc;
@@ -459,13 +458,13 @@ div#notice {
     position: relative;
     margin: 0px;
     padding: 0px;
-    width: 200px;
+    width: 194px;
     height: 200px;
     background-color: #eee;
     border: 1px solid #ccc;
     }
   .featured_nav_image {
-    width: 200px;
+    width: 194px;
     height: 60px;
     overflow: hidden;
     }
