@@ -1,6 +1,9 @@
 <% title @page.name -%>
 
+<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+
 <section>
+  
   <header>
     <h1 class="<%= @nav_context == @page ? 'active' : '' %>">
       <%= link_to @nav_context.name, friendly_page_path(@nav_context) %></h1>

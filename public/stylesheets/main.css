@@ -507,17 +507,10 @@ div#notice {
     .featured_nav_link a::after {
       content: " >>";
       }
-
-#breadcrumbs {
-  float: right;
-  }
-  #breadcrumbs a {
-    font-size: 10px;
-    font-weight: normal;
-    }
   
 #page_admin, #done_page_editing, #page_feed_control {
   float: right;
+	margin: 0;
   }
   #page_admin, #page_feed_control {
     margin-top: 10px;
@@ -579,7 +572,7 @@ div#notice {
   		  display: inline-block;
   		  color: #bbb;
 		    font-weight: bold;
-  		  padding-right: 20px;
+				padding-left: 20px;
 		  }
 		  #page_admin a:hover, #add_content a:hover {
 		    color: #333;
@@ -1197,4 +1190,30 @@ div.actions {
 				background-color: #ccc;
 				text-decoration: none;
 		    }
-				
+
+#breadcrumbs {
+	text-align: right;
+	margin: 0;
+	padding: 0;
+	height: 0;
+	font-size: 11px;
+	color: #ccc;
+	}
+	#breadcrumbs ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		}
+		#breadcrumbs li {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+			}
+			#breadcrumbs li:before {content: "\00B7";}
+			#breadcrumbs li:first-child:before {content: '';}
+			#breadcrumbs a {
+				font-size: 11px;
+				font-weight: normal;
+				color: #ccc;
+				padding: 0px 0px 0px 2px;
+				}

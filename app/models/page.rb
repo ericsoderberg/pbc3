@@ -90,6 +90,10 @@ class Page < ActiveRecord::Base
     parent ? parent.root : self
   end
   
+  def ancestors
+    parent ? (parent.ancestors << parent) : []
+  end
+  
   def includes?(page)
     children.each do |child|
       return true if page == child or child.includes?(page)
