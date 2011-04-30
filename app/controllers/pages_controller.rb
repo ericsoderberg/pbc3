@@ -51,7 +51,9 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
-    @page.index = @page.parent.children.map{|p| p.index || 1}.max + 1 if @page.parent
+    if @page.parent and not @page.parent.children.empty?
+      @page.index = @page.parent.children.length + 1
+    end
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
 
