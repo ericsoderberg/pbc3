@@ -1,0 +1,39 @@
+<% title @page.name -%>
+
+<section>
+  <header>
+    <h1 class="active'">
+      <%= link_to @page.name, friendly_page_path(@page) %></h1>
+    
+    <% if @page.podcast -%>
+    <div id="page_feed_control">
+      <%= link_to image_tag('feed.png'),
+        page_podcast_path(@page, :format => 'rss') -%>
+    </div>
+    <% end -%>
+    
+    <% if user_signed_in? and current_user.administrator? -%>
+      <div id="page_admin">
+        <ul>
+          <li><%= link_to 'Edit page', edit_page_path(@page) %><li>
+          <li><%= link_to 'Add page',
+            new_page_path(:parent_id => @page.id) %></li>
+        </ul>
+      </div>
+    <% end -%>
+    
+  </header>
+  
+  <div id="landing_page_text">
+    <%= raw @page.rendered_text %>
+  </div>
+
+  <div id="landing_page_content">
+    <ul class="sub_pages">
+      <%= render :partial => "landing_sub_page",
+        :collection => @page.children.visible(current_user) %>
+    </ul>
+  </div>
+  
+</section>
+

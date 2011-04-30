@@ -1,4 +1,7 @@
 class StylesController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :administrator!
+  
   # GET /styles
   # GET /styles.xml
   def index

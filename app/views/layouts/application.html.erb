@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title><%= yield(:title) || 'Peninsula Bible Church' %></title>
+  <title><%= yield(:title) || (@site ? @site.title : 'Site') %></title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
   <%= yield(:scripts) %>
@@ -12,8 +12,8 @@
   <div id="content" class="<%= yield(:content_class) %>">
     
   <header id="site_header">
-    <h1><a href="<%= root_path %>"><span>PENINSULA</span> BIBLE CHURCH</a></h1>
-    <h2>following Jesus in Silicon Valley</h2>
+    <h1><%= link_to raw(site_title), root_path %></h1>
+    <h2><%= @site ? @site.subtitle : '' %></h2>
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
@@ -35,12 +35,15 @@
   
   <nav id="site_nav">
     <ul>  
-      <li class="<%= (@page or @groups) ? 'active' : '' %>">
-        <%= link_to "Communities", groups_path %></li>
+      <li class="<%= (@page and @site and
+        @page.root == @site.communities_page) ? 'active' : '' %>">
+        <%= link_to "Communities", communities_path %></li>
       <li class="<%= (not @page and @calendar) ? 'active' : '' %>">
         <%= link_to "Calendar", calendar_month_path %></li>
       <li><a href="#">Message Library</a></li>  
-      <li><a href="#">About</a></li>  
+      <li class="<%= (@page and @site and
+        @page.root == @site.about_page) ? 'active' : '' %>">
+        <%= link_to "About", about_path %></li> 
     </ul>
     <form action="<%= search_path %>">
       <input name="q" id="search" type="search" required 
@@ -53,10 +56,12 @@
 <%= yield %>
 
   <footer>
-    Middlefield Road Palo Alto, CA 94043
-    <copyright>
-      Peninsula Bible Church All Rights Reserved 2011
-    </copyright>
+    <% if @site -%>
+      <%= @site.address %>
+      <copyright>
+        <%= @site.copyright %>
+      </copyright>
+    <% end -%>
   </footer>
   
   </div>

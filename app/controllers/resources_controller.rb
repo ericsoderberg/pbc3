@@ -1,4 +1,7 @@
 class ResourcesController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :administrator!
+  
   # GET /resources
   # GET /resources.xml
   def index

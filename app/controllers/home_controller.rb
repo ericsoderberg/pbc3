@@ -4,6 +4,14 @@ class HomeController < ApplicationController
   before_filter :get_page, :except => :index
   
   def index
+    unless @site
+      unless current_user
+        redirect_to new_user_registration_url(:protocol => 'https')
+      else
+        redirect_to new_site_url
+      end
+      return
+    end
     user = user_signed_in? ? current_user : nil
     @pages = Page.home_pages(user)
   end

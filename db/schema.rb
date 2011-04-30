@@ -10,12 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110430040624) do
+ActiveRecord::Schema.define(:version => 20110430135659) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
     t.integer  "user_id"
-    t.integer  "group_id"
     t.boolean  "administrator"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -51,12 +50,6 @@ ActiveRecord::Schema.define(:version => 20110430040624) do
     t.integer  "master_id"
   end
 
-  create_table "groups", :force => true do |t|
-    t.integer  "page_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "notes", :force => true do |t|
     t.text     "text"
     t.datetime "created_at"
@@ -86,6 +79,8 @@ ActiveRecord::Schema.define(:version => 20110430040624) do
     t.boolean  "private",                 :default => false
     t.integer  "style_id"
     t.integer  "index"
+    t.boolean  "landing"
+    t.boolean  "highlightable"
   end
 
   create_table "photos", :force => true do |t|
@@ -126,6 +121,17 @@ ActiveRecord::Schema.define(:version => 20110430040624) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "sites", :force => true do |t|
+    t.integer  "communities_page_id"
+    t.integer  "about_page_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "title"
+    t.string   "subtitle"
+    t.string   "address"
+    t.string   "copyright"
   end
 
   create_table "styles", :force => true do |t|

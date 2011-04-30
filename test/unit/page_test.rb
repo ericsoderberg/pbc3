@@ -17,4 +17,9 @@ class PageTest < ActiveSupport::TestCase
     assert !page.save
   end
   
+  test "possible parents" do
+    page = pages(:public)
+    assert page.possible_parents.length < Page.count
+  end
+  
 end

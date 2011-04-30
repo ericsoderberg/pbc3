@@ -1,0 +1,14 @@
+<%= content_tag_for(:li, landing_sub_page, :class => 'landing_sub') do %>
+  <div class="landing_sub_title"
+  style="<%= raw (landing_sub_page.style ? landing_sub_page.style.css : '') %>">
+    <%= link_to landing_sub_page.name,
+      friendly_page_path(landing_sub_page) %>
+  </div>
+  <% unless landing_sub_page.children.empty? -%>
+    <ul class="sub_sub_pages">
+      <% landing_sub_page.children.each do |child| -%>
+        <li><%= link_to child.name, friendly_page_path(child) %></li>
+      <% end -%>
+    </ul>
+  <% end -%>
+<% end %>

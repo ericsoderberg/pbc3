@@ -86,6 +86,23 @@ class Page < ActiveRecord::Base
     return false
   end
   
+  def root
+    parent ? parent.root : self
+  end
+  
+  def includes?(page)
+    children.each do |child|
+      return true if page == child or child.includes?(page)
+    end
+    return false
+  end
+  
+  def possible_parents
+    # don't allow circular references
+    Page.order('name').all.delete_if{|page|
+      self.includes?(page) or page == self}
+  end
+  
   private
   
   def extract_first_paragraph(str)

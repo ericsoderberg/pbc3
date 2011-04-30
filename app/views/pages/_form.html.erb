@@ -14,6 +14,9 @@
 <div id="page_content" class="yui_editor">
   <section>
     <%= f.hidden_field :parent_id %>
+    <% if @site_reference -%>
+      <%= hidden_field_tag 'site_reference', @site_reference %>
+    <% end -%>
     <div class="field yui-skin-sam">
       <%= f.text_area :text, :size => '80x20' %>
     </div>
@@ -42,6 +45,23 @@
           Style.all, :id, :name,
           :include_blank => true) %>
         <%= link_to 'styles', styles_path %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :allow_highlights? %>
+        <%= f.check_box :highlightable %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :landing_page? %>
+        <%= f.check_box :landing %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :parent_page %><br \>
+        <%= collection_select(:page, :parent_id,
+          @page.possible_parents, :id, :name,
+          :include_blank => true) %>
       </div>
       
       <% if @page.parent -%>

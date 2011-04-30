@@ -75,7 +75,9 @@
     <%= render :partial => 'documents/viewer',
       :locals => {:documents => @page.documents} %>
     
+    <% if @page.highlightable? -%>
     <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>
+    <% end -%>
     
     <%= render :partial => 'photos/viewer', :locals => {:photos => @page.photos} %>
     <%= render :partial => 'videos/viewer', :locals => {:videos => @page.videos} %>

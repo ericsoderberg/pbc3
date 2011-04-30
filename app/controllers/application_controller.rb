@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :get_site
   
   def administrator!
     unless current_user and current_user.administrator
@@ -11,6 +12,10 @@ class ApplicationController < ActionController::Base
   
   def get_page
     @page = Page.find_by_url(params[:page_id])
+  end
+  
+  def get_site
+    @site = Site.first
   end
   
 end

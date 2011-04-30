@@ -23,11 +23,12 @@ class PagesController < ApplicationController
     end
     
     @upcoming_events = Event.prune(@page.events)
-    @nav_context = @page.parent || @page
+    @nav_context = (@page.parent and not @page.parent.landing?) ? @page.parent : @page
     @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {
+          render :action => (@page.landing? ? 'show_landing' : 'show') }
       format.xml  { render :xml => @page }
     end
   end
@@ -56,6 +57,10 @@ class PagesController < ApplicationController
     end
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
+    if params[:site_page]
+      @site_reference = params[:site_page]
+      @page.name = @site_reference.capitalize
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -72,9 +77,13 @@ class PagesController < ApplicationController
   # POST /pages.xml
   def create
     @page = Page.new(params[:page])
+    if params[:site_reference]
+      @site.communities_page = @page if 'communities' == params[:site_reference]
+      @site.about_page = @page if 'about' == params[:site_reference]
+    end
 
     respond_to do |format|
-      if @page.save
+      if @page.save and (not params[:site_reference] or @site.save)
         format.html { redirect_to(@page, :notice => 'Page was successfully created.') }
         format.xml  { render :xml => @page, :status => :created, :location => @page }
       else

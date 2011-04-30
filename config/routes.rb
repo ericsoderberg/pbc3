@@ -12,6 +12,7 @@ Pbc3::Application.routes.draw do
   constraints SSL do
     resources :accounts
     devise_for :users
+    resource :site, :except => :show, :controller => 'site'
   end
   
   # Redirect to SSL from non-SSL so you don't get 404s
@@ -33,7 +34,6 @@ Pbc3::Application.routes.draw do
 
   resources :styles
   resources :resources
-  resources :communities, :as => :groups, :controller => :groups
 
   resources :pages do
     resources :events do

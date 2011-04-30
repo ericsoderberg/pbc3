@@ -4,6 +4,7 @@ public:
   text: hi
   private: false
   style: blank
+  highlightable: true
   
 private:
   name: Private
@@ -17,3 +18,9 @@ sub_public:
   text: hi
   private: false
   parent: public
+
+communities:
+  name: Communities
+  url: communities
+  landing: true
+  
