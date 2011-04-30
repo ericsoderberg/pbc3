@@ -16,10 +16,8 @@
       <div id="page_admin">
         <ul>
           <li><%= link_to 'Edit page', edit_page_path(@page) %><li>
-          <% unless @nav_context.parent -%>
-            <li><%= link_to 'Add page',
+          <li><%= link_to 'Add page',
               new_page_path(:parent_id => @nav_context.id) %></li>
-          <% end -%>
         </ul>
       </div>
     <% end -%>
