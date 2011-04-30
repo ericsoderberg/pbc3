@@ -50,18 +50,6 @@ class SiteController < ApplicationController
       end
     end
   end
-
-  # DELETE /sites/1
-  # DELETE /sites/1.xml
-  def destroy
-    @site = Site.find(params[:id])
-    @site.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(new_site_url) }
-      format.xml  { head :ok }
-    end
-  end
   
   private
   

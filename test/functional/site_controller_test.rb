@@ -25,12 +25,5 @@ class SiteControllerTest < ActionController::TestCase
     put :update, :id => @site.to_param, :site => @site.attributes
     assert_redirected_to root_path
   end
-
-  test "should destroy site" do
-    assert_difference('Site.count', -1) do
-      delete :destroy, :id => @site.to_param
-    end
-
-    assert_redirected_to new_site_path
-  end
+  
 end
