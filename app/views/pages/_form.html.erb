@@ -44,10 +44,12 @@
         <%= link_to 'styles', styles_path %>
       </div>
       
+      <% if @page.parent -%>
       <div class="field">
         <%= f.label :index_in_parent %><br />
         <%= f.text_field :index, :size => 2 %>
       </div>
+      <% end -%>
       
     </div>
   </aside>
