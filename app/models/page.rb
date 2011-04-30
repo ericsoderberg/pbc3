@@ -15,7 +15,8 @@ class Page < ActiveRecord::Base
   has_many :events, :order => 'start_at ASC'
   has_one :group
   belongs_to :parent, :class_name => 'Page'
-  has_many :children, :class_name => 'Page', :foreign_key => :parent_id
+  has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
+    :order => :index
   has_many :contacts
   has_many :contact_users, :through => :contacts, :source => :user
   has_many :authorizations
@@ -25,14 +26,25 @@ class Page < ActiveRecord::Base
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
   validates :url, :uniqueness => true
+  validates :index, :uniqueness => {:scope => :parent_id,
+    :unless => Proc.new{|p| not p.parent_id}}
   validates_uniqueness_of :feature_index,
     :unless => Proc.new{|p| not p.feature_index}
     
   before_validation do
     if featured and feature_index
-      # make sure peers have lower indexes
-      Page.where(['feature_index >= ?', feature_index]).all.each do |page2|
+      # make sure peers don't collide on index
+      Page.where(['featured = ? AND feature_index >= ?',
+        true, feature_index]).all.each do |page2|
         page2.feature_index += 1
+        page2.save
+      end
+    end
+    if parent_id
+      # make sure peers have different indexes
+      Page.where(['parent_id = ? AND index >= ?',
+        parent_id, index]).all.each do |page2|
+        page2.index += 1
         page2.save
       end
     end

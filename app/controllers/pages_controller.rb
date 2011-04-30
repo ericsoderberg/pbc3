@@ -51,6 +51,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
+    @page.index = @page.parent.children.map{|p| p.index || 1}.max + 1 if @page.parent
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
 
@@ -105,10 +106,11 @@ class PagesController < ApplicationController
   # DELETE /pages/1.xml
   def destroy
     @page = Page.find_by_url(params[:id])
+    parent = @page.parent
     @page.destroy
 
     respond_to do |format|
-      format.html { redirect_to(pages_url) }
+      format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }
       format.xml  { head :ok }
     end
   end
