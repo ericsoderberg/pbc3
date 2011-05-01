@@ -131,7 +131,8 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def related_events(start_date=nil, stop_date=nil)
+  def related_events(start_date=Date.today.beginning_of_day,
+      stop_date=Date.today.beginning_of_day + 6.months)
     result =
       events.between(start_date, stop_date).order("start_at ASC").all
     children.each do |child|
