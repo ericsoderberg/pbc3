@@ -22,4 +22,10 @@ class PageTest < ActiveSupport::TestCase
     assert page.possible_parents.length < Page.count
   end
   
+  test "includes" do
+    page = pages(:public)
+    sub_page = pages(:sub_public)
+    assert page.includes?(sub_page)
+  end
+  
 end

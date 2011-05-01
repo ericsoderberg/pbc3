@@ -70,6 +70,10 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def possible_pages
+    Page.order('name')
+  end
+  
   private
   
   def copy(date)
@@ -80,7 +84,8 @@ class Event < ActiveRecord::Base
     params = {:name => self.name, :location => self.location,
       :start_at => new_start_at,
       :stop_at => (new_start_at + duration),
-      :page_id => self.page_id}
+      :page_id => self.page_id,
+      :featured => self.featured}
     Event.new(params)
   end
   

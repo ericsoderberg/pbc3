@@ -13,4 +13,12 @@ module CalendarHelper
     return "class=\"#{tags.join(' ')}\""
   end
   
+  def calendar_path(args)
+    if args[:page_id]
+      page_calendar_path(args)
+    else
+      calendar_month_path(args)
+    end
+  end
+  
 end

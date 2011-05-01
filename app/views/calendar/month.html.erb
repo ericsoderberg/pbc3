@@ -2,6 +2,11 @@
 
 <section>
   
+  <% if @page -%>
+    <%= render :partial => 'pages/header',
+      :locals => {:active_aspect => 'calendar'} %>
+  <% end -%>
+  
   <%= render :partial => 'controls', :locals => {:view => 'grid'} %>
   
   <table id="calendar">

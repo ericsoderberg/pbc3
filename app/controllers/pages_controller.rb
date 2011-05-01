@@ -22,8 +22,7 @@ class PagesController < ApplicationController
       return
     end
     
-    @upcoming_events = Event.prune(@page.events)
-    @nav_context = (@page.parent and not @page.parent.landing?) ? @page.parent : @page
+    @upcoming_events = Event.prune(@page.related_events) unless @page.landing?
     @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|

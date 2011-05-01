@@ -23,4 +23,20 @@ class EventTest < ActiveSupport::TestCase
     assert !event.save
   end
   
+  test "possible pages" do
+    event = events(:single)
+    assert event.possible_pages.count == Page.count
+  end
+  
+  test "replicate" do
+    event = events(:single)
+    dates = [Date.today + 1.week]
+    event.replicate(dates)
+    assert event.replicas.count == 1
+    copy = event.replicas.first
+    assert copy.name == event.name
+    assert copy.page == event.page
+    assert copy.featured? == event.featured?
+  end
+  
 end

@@ -27,12 +27,21 @@
       :value => l(@event.stop_at, :format => :form) %>
   </div>
   <div class="field">
-    <%= f.label :all_day %><br />
+    <%= f.label :all_day? %>
     <%= f.check_box :all_day %>
   </div>
   <div class="field">
     <%= f.label :location %><br />
     <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :feature_on_main_calendar? %>
+    <%= f.check_box :featured %>
+  </div>
+  <div class="field">
+    <%= f.label :page %><br />
+    <%= collection_select(:event, :page_id,
+      @event.possible_pages, :id, :name) %>
   </div>
   <div class="actions">
     <%= f.submit %>

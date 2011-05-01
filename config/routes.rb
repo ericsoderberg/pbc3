@@ -26,8 +26,8 @@ Pbc3::Application.routes.draw do
   get "calendar/month"
   get "calendar/list"
   get "calendar/day"
-  #get "recurrence/:event_id", :to => "recurrence#show", :as => 'recurrence'
-  #post "recurrence/:event_id", :to => "recurrence#update", :as => 'recurr'
+  get ":page_id/calendar", :controller => 'calendar', :action => 'month',
+    :as => 'page_calendar'
   get "search", :to => "search#search"
 
   root :to => "home#index"

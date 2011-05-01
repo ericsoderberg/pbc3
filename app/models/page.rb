@@ -71,6 +71,10 @@ class Page < ActiveRecord::Base
     url
   end
   
+  def nav_context
+    (self.parent and not self.parent.landing?) ? self.parent : self
+  end
+  
   def authorized?(user)
     return true unless self.private?
     return true if user and user.administrator?
@@ -125,6 +129,14 @@ class Page < ActiveRecord::Base
         end
       end
     end
+  end
+  
+  def related_events
+    result = events
+    children.each do |child|
+      result += child.related_events
+    end
+    result
   end
   
   private

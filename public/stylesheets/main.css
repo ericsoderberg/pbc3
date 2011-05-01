@@ -642,7 +642,11 @@ div#notice {
     width: 90px;
     margin: 0px;
     padding: 0px;
+		padding-right: 20px;
     }
+		#events h2 img {
+			vertical-align: text-top;
+		}
   #events_list, #documents_list, #edit_list {
     display: table-cell;
     margin: 0px;
@@ -1229,27 +1233,3 @@ div.actions {
 		font-weight: bold;
 		color: #333;
 		}
-	
-/*
-#index {
-	color: #666;
-	font-size: 11px;
-	}
-	#index_context {
-		display: table;
-		margin-top: 10px;
-		}
-		#index_context text_input, #prev_page, #next_page {
-			display: table-cell;
-			}
-		#next_page {
-			width: 40%;
-			padding-left: 10px;
-			}
-		#prev_page {
-			width: 40%;
-			text-align: right;
-			padding-right: 10px;
-			}
-*/
-	

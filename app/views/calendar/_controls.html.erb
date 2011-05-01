@@ -1,14 +1,15 @@
+<% args = {:page_id => @page ? @page.url : nil} %>
 <header class="calendar_controls">
-  <%= link_to "<", :date =>
-    (@date.beginning_of_month-1.month).strftime("%Y-%m-%d") %>
+  <%= link_to "<", calendar_path(args.merge(:date =>
+    (@date.beginning_of_month-1.month).strftime("%Y-%m-%d"))) %>
   <%=h @date.strftime("%B %Y") %>
-  <%= link_to ">", :date =>
-    (@date.end_of_month+1.day).strftime("%Y-%m-%d") %>
+  <%= link_to ">", calendar_path(args.merge(:date =>
+    (@date.end_of_month+1.day).strftime("%Y-%m-%d"))) %>
   
   <ul id="calendar_views">
     <li class="<%= 'grid' == view ? 'active' : '' %>">
       <%= link_to 'Grid',
-        calendar_month_path(:date => @date.strftime("%Y-%m-%d")) %></li>
+        calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
     <li class="<%= 'list' == view ? 'active' : '' %>">
       <%= link_to 'List',
         calendar_list_path(:date => @date.strftime("%Y-%m-%d")) %></li>

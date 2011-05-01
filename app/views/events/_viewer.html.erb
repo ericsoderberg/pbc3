@@ -1,7 +1,10 @@
 <% unless events.empty? -%>
 <div id="events">
-
-  <h2><%= (events.count == 1 ? 'Event' : 'Events') %></h2>
+  <h2>
+    <%= link_to image_tag('calendar.png'), page_calendar_path(@page) %>
+    &nbsp;
+    <%= (events.count == 1 ? 'Event' : 'Events') %>
+  </h2>
   
   <ul id="events_list">
     <%= render :partial => 'events/event', :collection => events,

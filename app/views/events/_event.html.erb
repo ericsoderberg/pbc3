@@ -1,6 +1,10 @@
 <%= content_tag_for(:li, event) do %>
   <% unless (no_name || false) -%>
-    <%= event.name %>
+    <% if event.page != @page -%>
+      <%= link_to event.name, friendly_page_path(event.page) %>
+    <% else -%>
+      <%= event.name %>
+    <% end -%>
   <% end -%>
   <div class="event_range">
     <% if event.master or not event.replicas.empty? -%>
