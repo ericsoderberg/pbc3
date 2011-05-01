@@ -131,10 +131,11 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def related_events
-    result = events
+  def related_events(start_date=nil, stop_date=nil)
+    result =
+      events.between(start_date, stop_date).order("start_at ASC").all
     children.each do |child|
-      result += child.related_events
+      result += child.related_events(start_date, stop_date)
     end
     result
   end

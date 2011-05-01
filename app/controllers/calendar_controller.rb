@@ -5,12 +5,15 @@ class CalendarController < ApplicationController
     @date = params[:date] ? Time.parse(params[:date]) : Date.today
     # start with first week having the first day of the referenced month
     # deal with beginning_of_week being Monday instead of Sunday
-    start_day =
+    start_date =
       (@date.beginning_of_month + 1.day).beginning_of_week.yesterday
-    stop_day = start_day + 5.weeks - 1.day
-    @calendar = Calendar.new(start_day, stop_day)
-    source = @page ? @page.events : Event.where('featured = ?', true)
-    @events = source.between(start_day, stop_day).order("start_at ASC").all
+    stop_date = start_date + 5.weeks - 1.day
+    @calendar = Calendar.new(start_date, stop_date)
+    @events = if @page
+      @page.related_events(start_date, stop_date)
+    else
+      Event.where('featured = ?', true).between(start_date, stop_date).order("start_at ASC").all
+    end
     @calendar.populate(@events)
   end
 
@@ -18,8 +21,11 @@ class CalendarController < ApplicationController
     @date = params[:date] ? Time.parse(params[:date]) : Date.today
     start_day = @date.beginning_of_month
     stop_day = start_day + 1.month - 1.day
-    source = @page ? @page.events : Event
-    @events = source.between(start_day, stop_day).order("start_at ASC")
+    @events = if @page
+      @page.related_events(start_day, stop_day)
+    else
+      Event.where('featured = ?', true).between(start_day, stop_day).order("start_at ASC").all
+    end
     @calendar = true
   end
 
