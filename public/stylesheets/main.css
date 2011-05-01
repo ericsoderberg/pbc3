@@ -1216,3 +1216,40 @@ div.actions {
 				color: #ccc;
 				padding: 0px 0px 0px 2px;
 				}
+
+#indexer {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+	color: #666;
+	cursor: move;
+	}
+	#indexer li.active {
+		font-weight: bold;
+		color: #333;
+		}
+	
+/*
+#index {
+	color: #666;
+	font-size: 11px;
+	}
+	#index_context {
+		display: table;
+		margin-top: 10px;
+		}
+		#index_context text_input, #prev_page, #next_page {
+			display: table-cell;
+			}
+		#next_page {
+			width: 40%;
+			padding-left: 10px;
+			}
+		#prev_page {
+			width: 40%;
+			text-align: right;
+			padding-right: 10px;
+			}
+*/
+	

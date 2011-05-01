@@ -40,14 +40,6 @@ class Page < ActiveRecord::Base
         page2.save
       end
     end
-    if parent_id
-      # make sure peers have different indexes
-      Page.where(['parent_id = ? AND index >= ?',
-        parent_id, index]).all.each do |page2|
-        page2.index += 1
-        page2.save
-      end
-    end
   end
   
   def self.home_pages(user=nil)
@@ -105,6 +97,34 @@ class Page < ActiveRecord::Base
     # don't allow circular references
     Page.order('name').all.delete_if{|page|
       self.includes?(page) or page == self}
+  end
+  
+  def order_children(ids)
+    result = true
+    Page.transaction do
+      tmp_children = Page.find(ids)
+      ids.each_with_index do |id, i|
+        child = tmp_children.detect{|c| id == c.id}
+        child.index = i+1
+        # don't validate since it will fail as we haven't done them all yet
+        result = false unless child.save(:validate => false)
+      end
+    end
+    result
+  end
+  
+  def self.normalize_indexes(pages=nil)
+    pages = Page.all unless pages
+    Page.transaction do
+      pages.each do |page|
+        page.children.each_with_index do |child, i|
+          if (i+1) != child.index
+            child.index = i+1
+            child.save
+          end
+        end
+      end
+    end
   end
   
   private

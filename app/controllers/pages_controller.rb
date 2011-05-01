@@ -52,9 +52,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
-    if @page.parent and not @page.parent.children.empty?
-      @page.index = @page.parent.children.length + 1
-    end
+    @page.index = @page.parent ? @page.parent.children.length + 1 : 1
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
     if params[:site_page]
@@ -98,9 +96,11 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by_url(params[:id])
     @page.text_image = nil if params[:delete_text_image]
+    orderer_sub_ids = params[:sub_order].split(',').map{|id| id.to_i}
 
     respond_to do |format|
-      if @page.update_attributes(params[:page])
+      if @page.update_attributes(params[:page]) and
+        (not @page.parent or @page.parent.order_children(orderer_sub_ids))
         format.html { redirect_to(@page, :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
