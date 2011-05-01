@@ -75,6 +75,7 @@ class PagesController < ApplicationController
   # POST /pages.xml
   def create
     @page = Page.new(params[:page])
+    @page.index = @page.parent ? @page.parent.children.length + 1 : 1
     if params[:site_reference]
       @site.communities_page = @page if 'communities' == params[:site_reference]
       @site.about_page = @page if 'about' == params[:site_reference]
