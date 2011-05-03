@@ -21,6 +21,7 @@ class Page < ActiveRecord::Base
   has_many :contact_users, :through => :contacts, :source => :user
   has_many :authorizations
   has_one :podcast
+  has_many :forms
 
   validates :name, :presence => true, :uniqueness => true
   validates :featured, :inclusion => {:in => [true, false]}

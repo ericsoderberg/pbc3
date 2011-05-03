@@ -13,6 +13,10 @@ Pbc3::Application.routes.draw do
     resources :accounts
     devise_for :users
     resource :site, :except => [:show, :destroy], :controller => 'site'
+    resources :forms do
+      resources :fields, :controller => 'form_fields',
+        :except => [:index]
+    end
   end
   
   # Redirect to SSL from non-SSL so you don't get 404s

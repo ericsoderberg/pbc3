@@ -1,0 +1,31 @@
+<h1>Listing form_fields</h1>
+
+<table>
+  <tr>
+    <th>Form</th>
+    <th>Index</th>
+    <th>Name</th>
+    <th>Help</th>
+    <th>Type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @form_fields.each do |form_field| %>
+  <tr>
+    <td><%= form_field.form_id %></td>
+    <td><%= form_field.index %></td>
+    <td><%= form_field.name %></td>
+    <td><%= form_field.help %></td>
+    <td><%= form_field.type %></td>
+    <td><%= link_to 'Show', form_field %></td>
+    <td><%= link_to 'Edit', edit_form_field_path(form_field) %></td>
+    <td><%= link_to 'Destroy', form_field, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Form field', new_form_field_path %>

@@ -1,0 +1,12 @@
+age:
+  form: release 
+  index: 1
+  name: Age
+  field_type: field
+  size: 4
+
+gender:
+  form: release 
+  index: 2
+  name: Gender
+  field_type: "single choice"

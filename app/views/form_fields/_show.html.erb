@@ -1,0 +1,44 @@
+<% form_field ||= @form_field -%>
+
+<div class="dynamic_form_field_name">
+  <%= form_field.name %>
+</div>
+
+<div class="dynamic_form_field_value">
+<% case form_field.field_type -%>
+  <% when FormField::FIELD -%>
+    <%= text_field_tag form_field.html_name %>
+  <% when FormField::AREA -%>
+    <%= text_area_tag form_field.html_name %>
+  <% when FormField::SINGLE_CHOICE -%>
+    <ul>
+      <% form_field.form_field_options.each do |option| -%>
+      <li class="dynamic_form_option">
+        <%= radio_button_tag form_field.html_name, option.name %>
+        <%= option.name %>
+      </li>
+      <% end -%>
+    </ul>
+  <% when FormField::MULTIPLE_CHOICE -%>
+    <ul>
+      <% form_field.form_field_options.each do |option| -%>
+      <li class="dynamic_form_option">
+        <%= check_box_tag option.html_name, option.name %>
+        <%= option.name %>
+      </li>
+      <% end -%>
+    </ul>
+  <% when FormField::INSTRUCTIONS -%>
+<% end -%>
+</div>
+
+<div class="dynamic_form_field_help">
+  <%= form_field.help %>
+</div>
+
+<div class="dynamic_form_field_admin">
+  <%= link_to 'edit', edit_form_field_path(@form, form_field),
+    :remote => true %>
+  <%= link_to 'delete', form_field_path(@form, form_field),
+    :confirm => 'Are you sure?', :method => :delete, :remote => true %>
+</div>

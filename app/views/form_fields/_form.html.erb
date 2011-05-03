@@ -1,0 +1,81 @@
+<% @form_field ||= form_field -%>
+<%= form_for(@form_field, :url => form_field_path(@form, @form_field),
+  :remote => true) do |f| %>
+  <% if @form_field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@form_field.errors.count, "error") %> prohibited this form_field from being saved:</h2>
+
+      <ul>
+      <% @form_field.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :form_id %>
+  <div class="dynamic_form_field">
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br />
+    <!-- rails select doesn't honor an :id parameter :( -->
+    <%= f.select :field_type, options_for_select(FormField::TYPES,
+      @form_field.field_type), {}, :id => "field_type_#{@form_field.id}" %>
+  </div>
+  
+  <div id="size_<%= @form_field.id %>" class="field size"
+    style="<%= @form_field.sizeable? ? '' : 'display:none' %>">
+    <%= f.label :size %><br />
+    <%= f.text_field :size, :size => 5 %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :help %><br />
+    <%= f.text_area :help, :size => '20x4' %>
+  </div>
+  <div class="field">
+    <br />
+    <%= f.submit 'update' %>
+  </div>
+  </div>
+  
+  <div id="options_<%= @form_field.id %>" class="edit_options"
+    style="<%= @form_field.has_options? ? '' : 'display:none' %>">
+    <%= f.label :Choices%>
+    <table>
+      <tr><th>Label</th><th>Type</th><th>Size</th><th>Help</th>
+      <% (1..4).each do |i| -%>
+      <tr>
+        <td><%= text_field_tag "options[#{i}][name]", '' %></td>
+        <td><%= select_tag "options[#{i}][option_type]",
+          options_for_select(FormFieldOption::TYPES) %></td>
+        <td><%= text_field_tag "options[#{i}][size]", '', :size => 5 %></td>
+        <td><%= text_area_tag "options[#{i}][help]", '' %></td>
+      </tr>
+      <% end -%>
+    </table>
+  </div>
+  
+<% end %>
+
+<%= javascript_tag do %>
+  $(function() {
+    var id = '<%= @form_field.id %>';
+  	$('#field_type_' + id).change(function() {
+  	  var type = $('#field_type_' + id).val();
+      if ('single choice' == type || 'multiple choice' == type) {
+        $('#options_' + id).show();
+      } else {
+        $('#options_' + id).hide();
+      }
+      if ('field' == type || 'area' == type) {
+        $('#size_' + id).show();
+      } else {
+        $('#size_' + id).hide();
+      }
+    });
+  });
+<% end -%>

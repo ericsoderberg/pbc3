@@ -1,0 +1,26 @@
+<% title "Forms" -%>
+
+<section>
+  <header>
+    <h1>Forms</h1>
+  </header>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Page</th>
+  </tr>
+
+<% @forms.each do |form| %>
+  <tr>
+    <td><%= link_to form.name, edit_form_path(form) %></td>
+    <td><%= link_to form.page.name, friendly_page_path(form.page) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Form', new_form_path %>
+
+</section>

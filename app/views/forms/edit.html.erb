@@ -1,0 +1,39 @@
+<% title "#{@form.name}" -%>
+
+<% content_for(:scripts) do -%>
+  <%= render :partial => 'pages/yui_scripts' %> 
+<% end -%>
+
+<div id="page_content">
+<section>
+  
+  <header>
+    <h2>Edit Form</h2>
+    <div id="dynamic_form_form">
+      <%= render 'form' %>
+    </div>
+  </header>
+  
+  <hr />
+  
+  <ul id="dynamic_form_fields">
+    <% @form.form_fields.each do |field| -%>
+      <li id="ff_<%= field.id %>" class="dynamic_form_field">
+        <%= render :partial => 'form_fields/show',
+          :locals => {:form_field => field} %>
+      </li>
+    <% end -%>
+  </ul>
+  
+  <div id="add_content">
+    <%= link_to 'Add field',
+      new_form_field_path(@form), :remote => true %>
+  </div>
+  
+</section>
+
+</div>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'indexer.js' -%>
+<% end -%>

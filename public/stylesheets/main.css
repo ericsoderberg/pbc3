@@ -580,6 +580,7 @@ div#notice {
 		  
 #edit_content {
   display: table;
+	width: 980px;
   }
   #edit_content aside {
     display: table-cell;
@@ -587,6 +588,7 @@ div#notice {
     }
   #edit_content section {
     display: table-cell;
+		width: 640px;
     }
     #edit_content section header {
       margin-top: 0px;
@@ -1233,3 +1235,72 @@ div.actions {
 		font-weight: bold;
 		color: #333;
 		}
+
+#dynamic_form_form, #dynamic_form_form .field {
+	display: inline-block;
+	margin-right: 20px;
+	}
+	#dynamic_form_form .field label {
+		width: auto;
+		}
+#dynamic_form_form .actions {
+	display: inline-block;
+	}
+#dynamic_form_fields {
+	list-style: none;
+	margin: 0;
+	padding: 0px 20px 20px 0px;
+	}
+	#dynamic_form_fields li.dynamic_form_field {
+		margin: 20px 0px;
+	}
+	div.dynamic_form_field {
+		display: table;
+		}
+		div.dynamic_form_field .field
+		{
+			display: table-cell;
+			padding-right: 20px;
+			}
+.dynamic_form_field_admin {
+	clear: right;
+	float: right;
+	}
+	.dynamic_form_field_admin a {
+		color: #bbb;
+		}
+		.dynamic_form_field_admin a:hover {
+			color: #333;
+			}
+.edit_options th {
+	text-align: left;
+	font-weight: normal;
+	color: #666;
+	}
+.edit_options td {
+	padding-right: 20px;
+	}
+.dynamic_form_field_name {
+	display: inline-block;
+	vertical-align: top;
+	color: #666;
+	margin-right: 20px;
+	}
+.dynamic_form_field_value {
+	display: inline-block;
+	}
+	.dynamic_form_field_value ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		}
+		.dynamic_form_option {
+			float: left;
+			margin: 0;
+			padding-right: 20px;
+			}
+.dynamic_form_field_help {
+	display: inline-block;
+	color: #333;
+	}
+	

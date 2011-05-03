@@ -1,0 +1,37 @@
+<%= form_for(@form) do |f| %>
+  <% if @form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
+
+      <ul>
+      <% @form.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :page %>
+    <%= collection_select(:form, :page_id,
+      @form.possible_pages, :id, :name) %>
+  </div>
+  <%= hidden_field_tag 'field_order',
+    @form.form_fields.map{|ff| ff.id}.join(', '),
+    :id => 'field_order'%>
+  
+  <div class="actions">
+    <%= f.submit %>
+    | <%= link_to 'Cancel', forms_path %>
+    <% if @form.name -%>
+    | <%= link_to 'Delete form', @form, :confirm => 'Are you sure?',
+        :method => :delete %>
+    <% end -%>
+  </div>
+  
+<% end %>
+

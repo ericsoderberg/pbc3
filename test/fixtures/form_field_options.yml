@@ -1,0 +1,9 @@
+male:
+  form_field: gender
+  name: Male
+  option_type: fixed
+
+female:
+  form_field: gender
+  name: Female
+  option_type: fixed
