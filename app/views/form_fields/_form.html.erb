@@ -14,7 +14,7 @@
   <% end %>
 
   <%= f.hidden_field :form_id %>
-  <div class="dynamic_form_field">
+  <div class="form_field">
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -39,27 +39,16 @@
   <div class="field">
     <br />
     <%= f.submit 'update' %>
+    | <%= link_to 'Cancel', form_field_path(@form, @form_field),
+      :remote => true %>
   </div>
   </div>
-  
-  <div id="options_<%= @form_field.id %>" class="edit_options"
-    style="<%= @form_field.has_options? ? '' : 'display:none' %>">
-    <%= f.label :Choices%>
-    <table>
-      <tr><th>Label</th><th>Type</th><th>Size</th><th>Help</th>
-      <% (1..4).each do |i| -%>
-      <tr>
-        <td><%= text_field_tag "options[#{i}][name]", '' %></td>
-        <td><%= select_tag "options[#{i}][option_type]",
-          options_for_select(FormFieldOption::TYPES) %></td>
-        <td><%= text_field_tag "options[#{i}][size]", '', :size => 5 %></td>
-        <td><%= text_area_tag "options[#{i}][help]", '' %></td>
-      </tr>
-      <% end -%>
-    </table>
-  </div>
-  
 <% end %>
+
+<div id="options_<%= @form_field.id %>" class="edit_options"
+  style="<%= @form_field.has_options? ? '' : 'display:none' %>">
+  <%= render :partial => 'form_field_options/edit_batch' %>
+</div>
 
 <%= javascript_tag do %>
   $(function() {

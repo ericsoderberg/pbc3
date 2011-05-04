@@ -1,0 +1,16 @@
+<%= content_tag_for(:tr, edit_option) do %>
+  <%= form_for(edit_option,
+    :url => form_field_option_path(@form, @form_field, edit_option),
+    :remote => true) do |f| %>
+  <td><%= f.text_field :name %></td>
+  <td><%= f.select :option_type,
+      options_for_select(FormFieldOption::TYPES, edit_option.option_type) %></td>
+  <td><%= f.text_field :size, :size => 5 %></td>
+  <td><%= f.text_area :help, :size => "20x2" %></td>
+  <td>
+    <%= f.submit 'update' %>
+    | <%= link_to 'Cancel', form_field_option_path(@form, @form_field, edit_option),
+      :remote => true %>
+  </td>
+  <% end %>
+<% end %>

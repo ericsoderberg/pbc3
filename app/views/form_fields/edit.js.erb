@@ -1,1 +1,3 @@
-$('#ff_<%= @form_field.id %>').html('<%= escape_javascript(render "form") %>'); 
+$('#form_field_<%= @form_field.id %>').replaceWith(
+	'<%= escape_javascript(render :partial => "edit_field",
+		:locals => {:edit_field => @form_field}) %>'); 

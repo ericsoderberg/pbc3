@@ -22,6 +22,7 @@ class FormFieldsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @form_field }
+      format.js
     end
   end
 
@@ -71,14 +72,6 @@ class FormFieldsController < ApplicationController
   # PUT /form_fields/1.xml
   def update
     @form_field = @form.form_fields.find(params[:id])
-    # process options
-    i = 1
-    @form_field.form_field_options.clear
-    while params[:options][i.to_s] and params[:options][i.to_s][:name] and
-      not params[:options][i.to_s][:name].empty?
-      @form_field.form_field_options.build(params[:options][i.to_s])
-      i += 1
-    end
 
     respond_to do |format|
       if @form_field.update_attributes(params[:form_field])

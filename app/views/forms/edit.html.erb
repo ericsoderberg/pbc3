@@ -17,12 +17,8 @@
   <hr />
   
   <ul id="dynamic_form_fields">
-    <% @form.form_fields.each do |field| -%>
-      <li id="ff_<%= field.id %>" class="dynamic_form_field">
-        <%= render :partial => 'form_fields/show',
-          :locals => {:form_field => field} %>
-      </li>
-    <% end -%>
+    <%= render :partial => 'form_fields/show_field',
+      :collection => @form.form_fields %>
   </ul>
   
   <div id="add_content">

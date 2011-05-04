@@ -15,7 +15,10 @@ Pbc3::Application.routes.draw do
     resource :site, :except => [:show, :destroy], :controller => 'site'
     resources :forms do
       resources :fields, :controller => 'form_fields',
-        :except => [:index]
+        :except => [:index] do
+        resources :options, :controller => 'form_field_options',
+          :except => [:index]
+      end
     end
   end
   

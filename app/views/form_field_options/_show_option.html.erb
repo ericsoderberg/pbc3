@@ -1,0 +1,14 @@
+<%= content_tag_for(:tr, show_option) do %>
+  <td><%= show_option.name %></td>
+  <td><%= show_option.option_type %></td>
+  <td><%= show_option.size %></td>
+  <td><%= show_option.help %></td>
+  <td>
+    <%= link_to 'edit',
+      edit_form_field_option_path(@form, @form_field, show_option),
+      :remote => true %>
+    <%= link_to 'delete',
+      form_field_option_path(@form, @form_field, show_option),
+      :confirm => 'Are you sure?', :method => :delete, :remote => true %>
+  </td>
+<% end %>

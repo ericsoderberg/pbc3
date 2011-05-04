@@ -232,7 +232,7 @@ footer {
   background-color: #ccc;
   /*background: url(images/linear_bg_2.png);*/
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#bbb));
-  background: -moz-linear-gradient(100% 100% 90deg, #eee, #bbb);
+  background: -moz-linear-gradient(270deg, #eee, #bbb);
   border-radius: 4px;
 }
 .home #site_nav {
@@ -295,6 +295,13 @@ footer {
   margin-top: 8px;
   margin-right: 10px;
 }
+
+#search {
+	padding: 2px 7px;
+	font-size: 12px;
+	border: none;
+	border-radius: 9px;
+	}
 
 div#notice {
   line-height: 12px;
@@ -913,15 +920,19 @@ input:focus, textarea:focus {
     text-align: left;
     }
 
-#users td, #styles td {
+table.index td, table.index th {
   padding-right: 20px;
   }
-  #users .first_name {
-    text-align: right;
-    }
-  #users .administrator {
-    color: #999;
-    }
+	table.index th {
+		text-align: left;
+		color: #666;
+		}
+#users .first_name {
+  text-align: right;
+  }
+#users .administrator {
+  color: #999;
+  }
 
 #communities {
   list-style-type: none;
@@ -1251,13 +1262,13 @@ div.actions {
 	margin: 0;
 	padding: 0px 20px 20px 0px;
 	}
-	#dynamic_form_fields li.dynamic_form_field {
+	#dynamic_form_fields li.form_field {
 		margin: 20px 0px;
 	}
-	div.dynamic_form_field {
+	div.form_field {
 		display: table;
 		}
-		div.dynamic_form_field .field
+		div.form_field .field
 		{
 			display: table-cell;
 			padding-right: 20px;
@@ -1272,6 +1283,10 @@ div.actions {
 		.dynamic_form_field_admin a:hover {
 			color: #333;
 			}
+li.form_field.editing {
+	background-color: #f8f8f8;
+	padding: 10px;
+	}
 .edit_options th {
 	text-align: left;
 	font-weight: normal;

@@ -5,7 +5,7 @@ class FormsController < ApplicationController
   # GET /forms
   # GET /forms.xml
   def index
-    @forms = Form.all
+    @forms = Form.order('name ASC')
 
     respond_to do |format|
       format.html # index.html.erb
