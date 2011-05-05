@@ -8,4 +8,9 @@ class FormFieldOptionTest < ActiveSupport::TestCase
     assert option.save
   end
   
+  test "no field" do
+    option = FormFieldOption.new(:name => 'Testing', :option_type => 'fixed')
+    assert !option.save
+  end
+  
 end

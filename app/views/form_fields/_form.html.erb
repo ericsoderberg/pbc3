@@ -1,12 +1,12 @@
-<% @form_field ||= form_field -%>
-<%= form_for(@form_field, :url => form_field_path(@form, @form_field),
+<% form_field ||= @form_field -%>
+<%= form_for(form_field, :url => form_field_path(@form, form_field),
   :remote => true) do |f| %>
-  <% if @form_field.errors.any? %>
+  <% if form_field.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@form_field.errors.count, "error") %> prohibited this form_field from being saved:</h2>
+      <h2><%= pluralize(form_field.errors.count, "error") %> prohibited this form_field from being saved:</h2>
 
       <ul>
-      <% @form_field.errors.full_messages.each do |msg| %>
+      <% form_field.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -23,11 +23,11 @@
     <%= f.label :type %><br />
     <!-- rails select doesn't honor an :id parameter :( -->
     <%= f.select :field_type, options_for_select(FormField::TYPES,
-      @form_field.field_type), {}, :id => "field_type_#{@form_field.id}" %>
+      form_field.field_type), {}, :id => "field_type_#{form_field.id}" %>
   </div>
   
-  <div id="size_<%= @form_field.id %>" class="field size"
-    style="<%= @form_field.sizeable? ? '' : 'display:none' %>">
+  <div id="field_size_<%= form_field.id %>" class="field size"
+    style="<%= form_field.sizeable? ? '' : 'display:none' %>">
     <%= f.label :size %><br />
     <%= f.text_field :size, :size => 5 %>
   </div>
@@ -39,31 +39,32 @@
   <div class="field">
     <br />
     <%= f.submit 'update' %>
-    | <%= link_to 'Cancel', form_field_path(@form, @form_field),
+    | <%= link_to 'Cancel', form_field_path(@form, form_field),
       :remote => true %>
   </div>
   </div>
 <% end %>
 
-<div id="options_<%= @form_field.id %>" class="edit_options"
-  style="<%= @form_field.has_options? ? '' : 'display:none' %>">
-  <%= render :partial => 'form_field_options/edit_batch' %>
+<div id="options_<%= form_field.id %>" class="edit_options"
+  style="<%= form_field.has_options? ? '' : 'display:none' %>">
+  <%= render :partial => 'form_field_options/edit_batch',
+    :locals => {:form_field => form_field} %>
 </div>
 
 <%= javascript_tag do %>
   $(function() {
-    var id = '<%= @form_field.id %>';
+    var id = '<%= form_field.id %>';
   	$('#field_type_' + id).change(function() {
   	  var type = $('#field_type_' + id).val();
       if ('single choice' == type || 'multiple choice' == type) {
-        $('#options_' + id).show();
+        $('#options_' + id).show('fast');
       } else {
-        $('#options_' + id).hide();
+        $('#options_' + id).hide('fast');
       }
       if ('field' == type || 'area' == type) {
-        $('#size_' + id).show();
+        $('#field_size_' + id).show('slow');
       } else {
-        $('#size_' + id).hide();
+        $('#field_size_' + id).hide('slow');
       }
     });
   });

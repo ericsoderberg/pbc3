@@ -4,7 +4,8 @@ Pbc3::Application.routes.draw do
   class SSL
     def self.matches?(request)
       # This way you don't need SSL for your development server
-      return true unless Rails.env.production?
+      return true if Rails.env.production?
+      #return true unless Rails.env.production?
       request.ssl?
     end
   end
@@ -15,9 +16,9 @@ Pbc3::Application.routes.draw do
     resource :site, :except => [:show, :destroy], :controller => 'site'
     resources :forms do
       resources :fields, :controller => 'form_fields',
-        :except => [:index] do
+        :except => [:index, :new] do
         resources :options, :controller => 'form_field_options',
-          :except => [:index]
+          :except => [:index, :new]
       end
     end
   end

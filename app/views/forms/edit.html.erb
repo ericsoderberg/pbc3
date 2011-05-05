@@ -22,8 +22,8 @@
   </ul>
   
   <div id="add_content">
-    <%= link_to 'Add field',
-      new_form_field_path(@form), :remote => true %>
+    <%= button_to 'Add field',
+      form_fields_path(@form), :remote => true %>
   </div>
   
 </section>

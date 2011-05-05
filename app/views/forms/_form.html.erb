@@ -26,7 +26,11 @@
   
   <div class="actions">
     <%= f.submit %>
+    <% if @form.name -%>
     | <%= link_to 'Cancel', form_path(@form) %>
+    <% else -%>
+    | <%= link_to 'Cancel', forms_path() %>
+    <% end -%>
     <% if @form.name -%>
     | <%= link_to 'Delete form', @form, :confirm => 'Are you sure?',
         :method => :delete %>

@@ -1,0 +1,3 @@
+$('#dynamic_form_fields').append(
+	'<%= escape_javascript(render :partial => "edit_field",
+		:locals => {:edit_field => @form_field}) %>'); 

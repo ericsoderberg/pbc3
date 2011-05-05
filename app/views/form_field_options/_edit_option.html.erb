@@ -1,16 +1,50 @@
-<%= content_tag_for(:tr, edit_option) do %>
+<% form_field ||= @form_field -%>
+<% edit_option ||= @form_field_option -%>
+<%= content_tag_for(:li, edit_option, :class => 'editing') do %>
   <%= form_for(edit_option,
-    :url => form_field_option_path(@form, @form_field, edit_option),
+    :url => form_field_option_path(@form, form_field, edit_option),
     :remote => true) do |f| %>
-  <td><%= f.text_field :name %></td>
-  <td><%= f.select :option_type,
-      options_for_select(FormFieldOption::TYPES, edit_option.option_type) %></td>
-  <td><%= f.text_field :size, :size => 5 %></td>
-  <td><%= f.text_area :help, :size => "20x2" %></td>
-  <td>
+  <div class="field">
+    <%= f.label :name %><br/>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br/>
+    <%= f.select :option_type,
+        options_for_select(FormFieldOption::TYPES,
+          edit_option.option_type), {},
+          :id => "option_type_#{edit_option.id}" %>
+  </div>
+  <div id="option_size_<%= edit_option.id %>" class="field size"
+    style="<%= edit_option.sizeable? ? '' : 'display:none' %>">
+    <%= f.label :size %><br/>
+    <%= f.text_field :size, :size => 5 %>
+  </div>
+  <div class="field">
+    <%= f.label :help %><br/>
+    <%= f.text_area :help, :size => "20x2" %>
+  </div>
+  
+  <div class="field">
+    <br />
     <%= f.submit 'update' %>
-    | <%= link_to 'Cancel', form_field_option_path(@form, @form_field, edit_option),
+    | <%= link_to 'Cancel',
+      form_field_option_path(@form, form_field, edit_option),
       :remote => true %>
-  </td>
+  </div>
   <% end %>
 <% end %>
+
+<%= javascript_tag do %>
+  $(function() {
+    var id = '<%= edit_option.id %>';
+  	$('#option_type_' + id).change(function() {
+  	  var type = $('#option_type_' + id).val();
+      if ('field' == type || 'area' == type) {
+        $('#option_size_' + id).show('slow');
+      } else {
+        $('#option_size_' + id).hide('slow');
+      }
+    });
+  });
+<% end -%>

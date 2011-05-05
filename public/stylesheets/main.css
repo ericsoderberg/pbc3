@@ -604,7 +604,7 @@ div#notice {
 .field aside {
   float: right;
 }
-.field label {
+.field label, .edit_options label {
   display: inline-block;
   width: 120px;
   }
@@ -880,7 +880,7 @@ input:focus, textarea:focus {
 	border-color: #999;
 	}
 
-form label {
+form label, .edit_options label {
 	margin-left: 10px;
 	color: #999999;
 	}
@@ -1283,25 +1283,37 @@ div.actions {
 		.dynamic_form_field_admin a:hover {
 			color: #333;
 			}
-li.form_field.editing {
+.form_field.editing {
 	background-color: #f8f8f8;
-	padding: 10px;
+	padding: 20px;
 	}
-.edit_options th {
-	text-align: left;
-	font-weight: normal;
-	color: #666;
+.form_field_options {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	}
-.edit_options td {
-	padding-right: 20px;
+	
+.form_field_options.editing li {
+	border-top: 1px solid #fff;
 	}
-.dynamic_form_field_name {
+.form_field_option.editing {
+	background-color: #eeeeee;
+	padding: 20px;
+	}
+	.form_field_option.editing .field {
+		vertical-align: top;
+		display: inline-block;
+		}
+.edit_options .add_content {
+	margin-top: 20px;
+	}
+.dynamic_form_field_name, .dynamic_form_field_option_name {
 	display: inline-block;
 	vertical-align: top;
 	color: #666;
 	margin-right: 20px;
 	}
-.dynamic_form_field_value {
+.dynamic_form_field_value, .dynamic_form_field_option_value {
 	display: inline-block;
 	}
 	.dynamic_form_field_value ul {
@@ -1314,7 +1326,7 @@ li.form_field.editing {
 			margin: 0;
 			padding-right: 20px;
 			}
-.dynamic_form_field_help {
+.dynamic_form_field_help, .dynamic_form_field_option_help {
 	display: inline-block;
 	color: #333;
 	}

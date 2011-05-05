@@ -8,4 +8,9 @@ class FormFieldTest < ActiveSupport::TestCase
     assert field.save
   end
   
+  test "no form" do
+    field = FormField.new(:name => 'Testing', :field_type => 'field')
+    assert !field.save
+  end
+  
 end
