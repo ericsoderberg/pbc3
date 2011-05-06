@@ -96,7 +96,17 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by_url(params[:id])
     @page.text_image = nil if params[:delete_text_image]
-    orderer_sub_ids = params[:sub_order].split(',').map{|id| id.to_i}
+    if params[:page][:parent_id] != @page.parent_id
+      # user changed parent page
+      if params[:page][:parent_id]
+        # set index to the end
+        new_parent = Page.find(params[:page][:parent_id])
+        params[:page][:index] = new_parent.children.length + 1
+      end
+      orderer_sub_ids = []
+    else
+      orderer_sub_ids = params[:sub_order].split(',').map{|id| id.to_i}
+    end
 
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
