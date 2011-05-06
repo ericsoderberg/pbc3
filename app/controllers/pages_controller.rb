@@ -98,7 +98,8 @@ class PagesController < ApplicationController
     @page.text_image = nil if params[:delete_text_image]
     if params[:page][:parent_id] != @page.parent_id
       # user changed parent page
-      if params[:page][:parent_id]
+      if params[:page][:parent_id] and
+        not params[:page][:parent_id].empty?
         # set index to the end
         new_parent = Page.find(params[:page][:parent_id])
         params[:page][:index] = new_parent.children.length + 1
