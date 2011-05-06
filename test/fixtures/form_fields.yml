@@ -10,3 +10,11 @@ gender:
   index: 2
   name: Gender
   field_type: "single choice"
+
+size:
+  form: release
+  index: 3
+  name: Size
+  field_type: field
+  size: 20
+  

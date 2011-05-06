@@ -1,6 +1,8 @@
 class FormField < ActiveRecord::Base
   belongs_to :form
-  has_many :form_field_options, :order => 'index ASC'
+  has_many :form_field_options, :order => 'index ASC',
+    :dependent => :destroy
+  has_many :filled_fields, :dependent => :destroy
   
   FIELD = 'field'
   AREA = 'area'

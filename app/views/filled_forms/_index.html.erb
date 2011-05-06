@@ -1,0 +1,10 @@
+<div id="submitted_form_list">
+  <h2>Submitted</h2>
+<ul>
+  <% @form.filled_forms.each do |filled_form| -%>
+  <li class="<%= filled_form == @filled_form ? 'active' : '' %>">
+    <%= link_to filled_form.name,
+      edit_form_fill_path(@form, filled_form) %></li>
+  <% end -%>
+</ul>
+</div>

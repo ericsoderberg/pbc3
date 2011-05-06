@@ -1,0 +1,27 @@
+<h1>Listing filled_fields</h1>
+
+<table>
+  <tr>
+    <th>Filled form</th>
+    <th>Form field</th>
+    <th>Value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @filled_fields.each do |filled_field| %>
+  <tr>
+    <td><%= filled_field.filled_form_id %></td>
+    <td><%= filled_field.form_field_id %></td>
+    <td><%= filled_field.value %></td>
+    <td><%= link_to 'Show', filled_field %></td>
+    <td><%= link_to 'Edit', edit_filled_field_path(filled_field) %></td>
+    <td><%= link_to 'Destroy', filled_field, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Filled field', new_filled_field_path %>

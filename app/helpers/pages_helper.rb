@@ -7,6 +7,8 @@ module PagesHelper
       page_events_path(page)
     when 'documents'
       page_documents_path(page)
+    when 'forms'
+      forms_path(:page_id => page.url)
     when 'photos'
       page_photos_path(page)
     when 'videos'

@@ -7,7 +7,7 @@
     </div>
   <% end -%>
   <ul class="nav">
-    <% %w(text photos videos audios documents contacts access feature podcast events).each do |aspect| -%>
+    <% %w(text photos videos audios documents forms contacts access feature podcast events).each do |aspect| -%>
     <li class="<%= active_aspect == aspect ? 'active' : '' %>">
       <%= link_to aspect.capitalize, edit_page_aspect_url(@page, aspect) %></li>
     <% end -%>

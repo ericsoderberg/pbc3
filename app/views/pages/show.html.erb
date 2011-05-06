@@ -49,6 +49,9 @@
     
     <%= render :partial => 'documents/viewer',
       :locals => {:documents => @page.documents} %>
+      
+    <%= render :partial => 'forms/viewer',
+      :locals => {:forms => @page.forms} %>
     
     <% if @page.highlightable? -%>
     <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>

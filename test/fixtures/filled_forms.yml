@@ -1,0 +1,4 @@
+generic_release:
+  form: release
+  user: generic
+  name: "my first submit"

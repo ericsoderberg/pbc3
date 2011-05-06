@@ -1,6 +1,7 @@
 class Form < ActiveRecord::Base
   belongs_to :page
-  has_many :form_fields, :order => 'index ASC'
+  has_many :form_fields, :order => 'index ASC', :dependent => :destroy
+  has_many :filled_forms, :order => 'name ASC', :dependent => :destroy
   
   validates :name, :presence => true
   
@@ -20,6 +21,16 @@ class Form < ActiveRecord::Base
       end
     end
     result
+  end
+  
+  def build_fill()
+    filled_form = filled_forms.new
+    form_fields.each do |form_field|
+      filled_field = filled_form.filled_fields.build
+      filled_field.form_field = form_field
+      filled_field.value = ''
+    end
+    filled_form
   end
   
 end

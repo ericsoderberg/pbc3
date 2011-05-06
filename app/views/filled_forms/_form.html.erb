@@ -1,0 +1,30 @@
+<%= form_for(@filled_form, :url => (@filled_form.id ?
+    form_fill_path(@form, @filled_form) : form_fills_path(@form))) do |f| %>
+  <% if @filled_form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@filled_form.errors.count, "error") %> prohibited this filled_form from being saved:</h2>
+
+      <ul>
+      <% @filled_form.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <ul id="filled_fields">
+    <%= render :partial => 'filled_fields/fill_form_field',
+      :collection => @form.form_fields %>
+  </ul>
+  
+  <div class="actions">
+    <%= f.submit 'Submit' %>
+    <% if @filled_form.id -%>
+    | <%= link_to 'Print',
+      form_fill_path(@form, @filled_form, :format => 'text')%>
+    | <%= link_to 'Delete', form_fill_path(@form, @filled_form),
+        :confirm => 'Are you sure?', :method => :delete %>
+    <% end %>
+    | <%= link_to 'Add another', new_form_fill_path(@form) %>
+  </div>
+<% end %>

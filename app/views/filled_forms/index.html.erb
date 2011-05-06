@@ -1,0 +1,9 @@
+<h1>Submitted</h1>
+
+<ul>
+<% @filled_forms.each do |filled_form| -%>
+<li>
+  <%= link_to filled_form.name,
+    edit_form_fill_path(@form, filled_form) %></li>
+<% end -%>
+</ul>

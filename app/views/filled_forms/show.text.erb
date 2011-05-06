@@ -1,0 +1,7 @@
+
+<%= @form.page.name %> - <%= @form.name %>
+
+<%= render :partial => 'filled_fields/print_form_field',
+  :collection => @form.form_fields %>
+
+Printed <%= Time.now.strftime("%A %B %e at %r") %> by <%= current_user.name %>

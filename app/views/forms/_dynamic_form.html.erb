@@ -1,0 +1,14 @@
+<%= content_tag_for(:li, dynamic_form) do %>
+  <% if current_user -%>
+    <% first_filled_form = 
+      dynamic_form.filled_forms.where('user_id = ?', current_user.id).first -%>
+    <% if first_filled_form -%>
+      <%= link_to dynamic_form.name,
+        edit_form_fill_path(dynamic_form, first_filled_form) %>
+    <% else -%>
+      <%= link_to dynamic_form.name, new_form_fill_path(dynamic_form) %>
+    <% end -%>
+  <% else -%>
+    <%= link_to dynamic_form.name, form_path(dynamic_form) %>
+  <% end -%>
+<% end %>

@@ -1,0 +1,9 @@
+generic_age:
+  filled_form: generic_release
+  form_field: age
+  value: 12
+
+generic_gender:
+  filled_form: generic_release
+  form_field: gender
+  value: Male

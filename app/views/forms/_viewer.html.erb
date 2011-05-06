@@ -1,0 +1,11 @@
+<% unless forms.empty? -%>
+<div id="dynamic_forms">
+
+  <h2>Forms</h2>
+  
+  <ul id="dynamic_forms_list">
+    <%= render :partial => 'forms/dynamic_form', :collection => forms %>
+  </ul>
+  
+</div>
+<% end -%>

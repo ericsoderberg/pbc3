@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110503001806) do
+ActiveRecord::Schema.define(:version => 20110506000010) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
@@ -49,6 +49,22 @@ ActiveRecord::Schema.define(:version => 20110503001806) do
     t.datetime "updated_at"
     t.integer  "master_id"
     t.boolean  "featured"
+  end
+
+  create_table "filled_fields", :force => true do |t|
+    t.integer  "filled_form_id"
+    t.integer  "form_field_id"
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "filled_forms", :force => true do |t|
+    t.integer  "form_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "form_field_options", :force => true do |t|
