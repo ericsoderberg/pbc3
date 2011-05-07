@@ -1,0 +1,17 @@
+<header>
+  
+  <h1>
+    <%= link_to @form.page.name, friendly_page_path(@form.page) %>
+    &nbsp;&nbsp;
+    <%= @form.name %>
+  </h1>
+  
+  <div id="page_admin">
+    <ul>
+      <li><%= link_to 'Edit form', edit_form_path(@form) %><li>
+      <li><%= link_to 'Copy form', copy_form_path(@form) %><li>
+      <li><%= link_to 'forms', forms_path() %><li>
+    </ul>
+  </div>
+  
+</header>

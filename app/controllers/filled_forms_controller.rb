@@ -1,6 +1,6 @@
 class FilledFormsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :get_form
+  before_filter :get_form, :except => ['user_index']
   
   # GET /filled_forms
   # GET /filled_forms.xml
@@ -9,6 +9,16 @@ class FilledFormsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.xml  { render :xml => @filled_forms }
+    end
+  end
+  
+  def user_index
+    @user = User.find(params[:id])
+    @filled_forms = @user.filled_forms.all
+
+    respond_to do |format|
+      format.html # user_index.html.erb
       format.xml  { render :xml => @filled_forms }
     end
   end

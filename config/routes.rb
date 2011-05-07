@@ -10,10 +10,18 @@ Pbc3::Application.routes.draw do
   end
 
   constraints SSL do
-    resources :accounts
+    resources :accounts do
+      member do
+        get 'fills', :controller => 'filled_forms',
+          :action => 'user_index'
+      end
+    end
     devise_for :users
     resource :site, :except => [:show, :destroy], :controller => 'site'
     resources :forms do
+      member do
+        get 'copy'
+      end
       resources :fields, :controller => 'form_fields',
         :except => [:index, :new] do
         resources :options, :controller => 'form_field_options',

@@ -1348,6 +1348,8 @@ div.actions {
 		margin: 0px;
 		padding: 0px;
 		text-align: left;
+		max-height: 400px;
+		overflow: auto;
 		}
 		#submitted_form_list li {
 			padding: 2px 10px;
@@ -1367,7 +1369,7 @@ div.actions {
 	#filled_fields .form_field {
 		padding: 5px 0px;
 		}
-		#filled_fields .form_field_name {
+		.form_field_name {
 			display: inline-block;
 			vertical-align: top;
 			padding-right: 20px;
@@ -1376,7 +1378,7 @@ div.actions {
 			font-weight: bold;
 			min-width: 100px;
 			}
-		#filled_fields .form_field_help {
+		.form_field_help {
 			display: inline-block;
 			}
 		#filled_fields .options_list {
@@ -1393,3 +1395,7 @@ div.actions {
 			#filled_fields .option_help {
 				display: inline-block;
 				}
+.timestamp {
+	padding-top: 20px;
+	color: #999;
+	}

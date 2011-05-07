@@ -21,10 +21,9 @@
     <%= f.submit 'Submit' %>
     <% if @filled_form.id -%>
     | <%= link_to 'Print',
-      form_fill_path(@form, @filled_form, :format => 'text')%>
+      form_fill_path(@form, @filled_form)%>
     | <%= link_to 'Delete', form_fill_path(@form, @filled_form),
         :confirm => 'Are you sure?', :method => :delete %>
     <% end %>
-    | <%= link_to 'Add another', new_form_fill_path(@form) %>
   </div>
 <% end %>

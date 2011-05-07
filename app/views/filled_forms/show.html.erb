@@ -20,13 +20,17 @@
 
 <div id="page_content">
 <section>
-    
   
+  <ul id="filled_fields">
+    <%= render :partial => 'filled_fields/show_form_field',
+      :collection => @form.form_fields %>
+  </ul>
+
+  <div class="timestamp">
+    printed <%= Time.now.strftime("%A %B %e at %r") %>
+    by <%= current_user.name || current_user.email %>
+  </div>
 
 </section>
-
-<aside>
-  <%= render :partial => "filled_forms/index" %>
-</aside>
 
 </div>

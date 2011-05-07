@@ -1,13 +1,6 @@
 <section>
-  <header>
-    <h1>
-      <% if current_user.administrator -%>
-        Editing <%= @user.email %>
-      <% else -%>
-        Edit Account
-      <% end -%>
-    </h1>
-  </header>
+  
+  <%= render :partial => 'header' %>
   
   <%= form_for(@user, :url => account_path(@user), :html => { :multipart => true }) do |f| %>
     <% if @user.errors.any? %>

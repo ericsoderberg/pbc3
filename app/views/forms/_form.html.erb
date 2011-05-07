@@ -11,6 +11,10 @@
     </div>
   <% end %>
 
+  <% if @copy_form -%>
+    <%= hidden_field_tag :copy_form_id, @copy_form.id %>
+  <% end -%>
+
   <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name %>
@@ -26,12 +30,12 @@
   
   <div class="actions">
     <%= f.submit %>
-    <% if @form.name -%>
+    <% if @form.id -%>
     | <%= link_to 'Cancel', form_path(@form) %>
     <% else -%>
     | <%= link_to 'Cancel', forms_path() %>
     <% end -%>
-    <% if @form.name -%>
+    <% if @form.id -%>
     | <%= link_to 'Delete form', @form, :confirm => 'Are you sure?',
         :method => :delete %>
     <% end -%>

@@ -1,0 +1,14 @@
+<header>
+  <h1>
+    <% if current_user.administrator or @user == current_user -%>
+      <%= link_to @user.email, edit_account_path(@user) %>
+    <% else -%>
+      <%= link_to 'Account', edit_account_path(@user) %>
+    <% end -%>
+  </h1>
+  
+  <ul class="nav">
+    <li class="<%= @filled_forms ? 'active' : '' %>">
+      <%= link_to 'Forms', fills_account_path(@user) %></li>
+  </ul>
+</header>

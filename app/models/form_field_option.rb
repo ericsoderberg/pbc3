@@ -2,8 +2,8 @@ class FormFieldOption < ActiveRecord::Base
   belongs_to :form_field
   
   FIXED = 'fixed'
-  FIELD = 'field'
-  AREA = 'area'
+  FIELD = 'field' # TBD
+  AREA = 'area'   # TBD
   INSTRUCTIONS = 'instructions'
   TYPES = [FIXED, FIELD, AREA, INSTRUCTIONS]
   
@@ -21,4 +21,9 @@ class FormFieldOption < ActiveRecord::Base
     [FIELD, AREA].include?(option_type)
   end
   
+  def copy(source_option)
+    self.name = source_option.name
+    self.option_type = source_option.option_type
+    self.help = source_option.help
+  end
 end

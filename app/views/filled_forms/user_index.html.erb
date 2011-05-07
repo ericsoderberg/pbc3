@@ -1,0 +1,13 @@
+
+<%= render :partial => 'accounts/header' %>
+
+<ul>
+<% @filled_forms.each do |filled_form| -%>
+<li>
+  <%= link_to filled_form.form.page.name,
+    friendly_page_path(filled_form.form.page)%>
+  <%= filled_form.form.name %>
+  <%= link_to filled_form.name,
+    edit_form_fill_path(filled_form.form, filled_form) %></li>
+<% end -%>
+</ul>

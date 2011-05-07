@@ -28,11 +28,20 @@ class FormsController < ApplicationController
   # GET /forms/new.xml
   def new
     @form = Form.new
+    @copy_form = nil
 
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @form }
     end
+  end
+  
+  def copy
+    @copy_form = Form.find(params[:id])
+    @form = Form.new
+    @form.name = @copy_form.name + ' Copy'
+    @form.page = @copy_form.page
+    render :action => 'new'
   end
 
   # GET /forms/1/edit
@@ -44,6 +53,10 @@ class FormsController < ApplicationController
   # POST /forms.xml
   def create
     @form = Form.new(params[:form])
+    if params.has_key?(:copy_form_id)
+      @copy_form = Form.find(params[:copy_form_id])
+      @form.copy(@copy_form)
+    end
 
     respond_to do |format|
       if @form.save
