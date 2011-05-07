@@ -1,0 +1,33 @@
+genesis:
+  title: 'In the beginning'
+  url: in-the-beginning
+  verses: 'Genesis 1:1-10'
+  date: <%= Date.today - 1.month %>
+  author: prolific
+  dpid: 1
+  
+matthew:
+  title: 'First Gospel'
+  url: first-gospel
+  verses: Matthew
+  date: <%= Date.today - 1.month + 1.week %>
+  author: prolific
+  dpid: 2
+  message_set: gospels
+
+mark:
+  title: 'Second Gospel'
+  url: second-gospel
+  verses: Mark
+  date: <%= Date.today - 1.month + 2.week %>
+  author: prolific
+  dpid: 3
+  message_set: gospels
+
+revelation:
+  title: 'In the end'
+  url: in-the-end
+  verses: Revelation
+  date: <%= Date.today - 1.week %>
+  author: prolific
+  dpid: 4

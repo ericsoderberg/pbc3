@@ -10,6 +10,14 @@ class Time
   def simple_date
     "%d/%d" % [self.mon, self.mday]
   end
+  
+  def relative_str
+    if self.year == Date.today.year
+      strftime("%b ") + mday.ordinalize
+    else
+      strftime("%Y %b ") + mday.ordinalize
+    end
+  end
 
 end
 

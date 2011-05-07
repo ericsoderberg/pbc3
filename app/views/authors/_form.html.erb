@@ -1,0 +1,30 @@
+<%= form_for(@author) do |f| %>
+  <% if @author.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@author.errors.count, "error") %> prohibited this author from being saved:</h2>
+
+      <ul>
+      <% @author.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description, :size => '60x8' %>
+  </div>
+  <div class="actions">
+    <%= f.submit (@author.id ? 'Update Author' : 'Add Author') %>
+    | <%= link_to 'Cancel', authors_path %>
+    <% if @author.id -%>
+    | <%= link_to 'Delete author', @author, :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
+  </div>
+<% end %>

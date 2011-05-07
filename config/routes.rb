@@ -66,6 +66,11 @@ Pbc3::Application.routes.draw do
     resource :podcast
   end
   
+  resources :authors
+  resources :messages
+  resources :message_sets
+  resources :books, :only => [:index, :show]
+  
   match '/:id', :to => "pages#show", :as => 'friendly_page'
   
   # The priority is based upon order of creation:

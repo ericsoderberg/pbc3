@@ -1,0 +1,12 @@
+<table id="messages">
+<% @messages.each do |message| %>
+  <tr>
+    <td class="message_date"><%= message.date.relative_str %></td>
+    <td><%= link_to message.title, message_path(message) %></td>
+    <td class="message_verses"><%= message.verses %></td>
+    <td><% if message.author %>
+      <%= link_to message.author.name, author_path(message.author) %>
+    <% end %></td>
+  </tr>
+<% end %>
+</table>

@@ -1,0 +1,16 @@
+<header>
+  <h1>
+    <%= link_to 'Site', edit_site_path %>
+  </h1>
+  
+  <ul class="nav">
+    <li class="<%= @users ? 'active' : '' %>">
+      <%= link_to 'Accounts', accounts_path %></li>
+    <li class="<%= @pages ? 'active' : '' %>">
+      <%= link_to 'Pages', pages_path %></li>
+    <li class="<%= @styles ? 'active' : '' %>">
+      <%= link_to 'Styles', styles_path %></li>
+    <li class="<%= @authors ? 'active' : '' %>">
+      <%= link_to 'Authors', authors_path %></li>
+  </ul>
+</header>

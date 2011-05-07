@@ -1,0 +1,29 @@
+<% title @message.title -%>
+
+<section>
+  <header>
+    <h1><%= @message.title %></h1>
+    <h2><%= @message.verses %></h2>
+    
+    <% if current_user and current_user.administrator? -%>
+    <div id="page_admin">
+      <ul>
+        <li><%= link_to 'Edit message', edit_message_path(@message) %><li>
+      </ul>
+    </div>
+    <% end -%>
+    
+    <div id="message_details">
+      <div class="message_date">
+        <%= @message.date.relative_str -%>
+      </div>
+      <div class="message_author">
+        <%= link_to @message.author.name, author_path(@message.author) %>
+      </div>
+    </div>
+    
+  </header>
+
+<%= @message.description %>
+
+</section>

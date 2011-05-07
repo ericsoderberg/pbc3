@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @message_set.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @message_set.description %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @message_set.author_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_set_path(@message_set) %> |
+<%= link_to 'Back', message_sets_path %>

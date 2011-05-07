@@ -1,0 +1,11 @@
+
+genesis:
+  message: genesis
+  begin_index: 1001
+  end_index: 1010
+
+revelation:
+  message: revelation
+  begin_index: 65000000
+  end_index: 65999999
+  

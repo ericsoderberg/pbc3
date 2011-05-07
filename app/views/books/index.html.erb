@@ -1,0 +1,16 @@
+<section>
+  
+  <%= render :partial => 'messages/header' %>
+
+  <table id="books">
+  <% rows = array_to_rows(@books) -%>
+  <% rows.each do |row| -%>
+    <tr>
+    <% row.each do |book| -%>
+      <td><%= link_to book, book_path(:id => book) %></td>
+    <% end -%>
+    </tr>
+  <% end -%>
+  </table>
+  
+</section>

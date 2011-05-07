@@ -1,0 +1,13 @@
+<% title 'Message Library' -%>
+
+<%= render :partial => 'header' %>
+
+<%= render :partial => 'index' %>
+
+<br />
+
+<% if current_user and current_user.administrator? -%>
+<div id="add_content">
+  <%= link_to 'Add message', new_message_path %>
+</div>
+<% end -%>

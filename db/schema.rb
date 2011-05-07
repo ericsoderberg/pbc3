@@ -10,12 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506000010) do
+ActiveRecord::Schema.define(:version => 20110507140120) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
     t.integer  "user_id"
     t.boolean  "administrator"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "authors", :force => true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -96,6 +104,30 @@ ActiveRecord::Schema.define(:version => 20110506000010) do
     t.datetime "updated_at"
   end
 
+  create_table "message_sets", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.text     "description"
+    t.integer  "author_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.string   "verses"
+    t.datetime "date"
+    t.integer  "author_id"
+    t.string   "dpid"
+    t.text     "description"
+    t.integer  "message_set_id"
+    t.integer  "index"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "notes", :force => true do |t|
     t.text     "text"
     t.datetime "created_at"
@@ -113,7 +145,6 @@ ActiveRecord::Schema.define(:version => 20110506000010) do
     t.string   "text_image_content_type"
     t.integer  "text_image_file_size"
     t.datetime "text_image_updated_at"
-    t.string   "url_name"
     t.string   "url"
     t.text     "feature_text"
     t.text     "rendered_feature_text"
@@ -227,6 +258,14 @@ ActiveRecord::Schema.define(:version => 20110506000010) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "verse_ranges", :force => true do |t|
+    t.integer  "begin_index"
+    t.integer  "end_index"
+    t.integer  "message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "videos", :force => true do |t|
     t.string   "caption"

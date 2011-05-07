@@ -1,0 +1,8 @@
+prolific:
+  name: 'Prolific Author'
+  url: prolific-author
+
+infrequent:
+  name: 'Infrequent Author'
+  url: infrequent-author
+  description: Hi

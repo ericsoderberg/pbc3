@@ -1,0 +1,52 @@
+<%= form_for(@message) do |f| %>
+  <% if @message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
+
+      <ul>
+      <% @message.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :verses %><br />
+    <%= f.text_field :verses %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.text_field :date %>
+  </div>
+  <div class="field">
+    <%= f.label :author %><br />
+    <%= collection_select(:message, :author_id,
+      Author.all, :id, :name,
+      :include_blank => true) %>
+  </div>
+  <div class="field">
+    <%= f.label :dpid %><br />
+    <%= f.text_field :dpid, :size => '8' %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description, :size => '60x4' %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+    <% if @message.id -%>
+    | <%= link_to 'Cancel', message_path(@message) %>
+    <% else -%>
+    | <%= link_to 'Cancel', messages_path %>
+    <% end -%>
+    <% if @message.id -%>
+    | <%= link_to 'Delete message', @message, :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
+  </div>
+<% end %>

@@ -29,5 +29,17 @@ module ApplicationHelper
       new_page_path(:site_page => :about)
     end
   end
+  
+  def array_to_rows(array, columns=4)
+    row_count = (array.size + columns - 1) / columns
+    rows = (1..row_count).map{[]}
+    index = 0
+    array.each do |item|
+      rows[index] << item
+      index += 1
+      index = 0 if index >= row_count
+    end
+    rows
+  end
       
 end

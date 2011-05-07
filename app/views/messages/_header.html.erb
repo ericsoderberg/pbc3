@@ -1,0 +1,12 @@
+<header>
+  <h1>
+    <%= link_to 'Message Library', messages_path %>
+  </h1>
+  
+  <ul class="nav">
+    <li class="<%= (@authors || @author) ? 'active' : '' %>">
+      <%= link_to 'Authors/Speakers', authors_path %></li>
+    <li class="<%= (@books || @book) ? 'active' : '' %>">
+      <%= link_to 'Books of the Bible', books_path %></li>
+  </ul>
+</header>

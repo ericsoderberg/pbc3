@@ -22,14 +22,14 @@
           <li><%= link_to "Sign out",
             destroy_user_session_url(:protocol => 'https') %></li>
         </ul>
-        <% else %>
+      <% else %>
         <ul>
           <li><%= link_to "Sign up",
             new_user_registration_url(:protocol => 'https') %></li>
           <li><%= link_to "Sign in",
             new_user_session_url(:protocol => 'https') %></li>
         </ul>
-        <% end -%>
+      <% end -%>
     </div>
   </header>
   
@@ -40,7 +40,9 @@
         <%= link_to "Communities", communities_path %></li>
       <li class="<%= (not @page and @calendar) ? 'active' : '' %>">
         <%= link_to "Calendar", calendar_month_path %></li>
-      <li><a href="#">Message Library</a></li>  
+      <li class="<%= (@messages or @message or @authors or @books or @book) ?
+        'active' : '' %>">
+        <%= link_to 'Message Library', messages_path %></li>  
       <li class="<%= (@page and @site and
         @page.root == @site.about_page) ? 'active' : '' %>">
         <%= link_to "About", about_path %></li> 

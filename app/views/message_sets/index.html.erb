@@ -1,0 +1,27 @@
+<h1>Listing message_sets</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Author</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @message_sets.each do |message_set| %>
+  <tr>
+    <td><%= message_set.title %></td>
+    <td><%= message_set.description %></td>
+    <td><%= message_set.author_id %></td>
+    <td><%= link_to 'Show', message_set %></td>
+    <td><%= link_to 'Edit', edit_message_set_path(message_set) %></td>
+    <td><%= link_to 'Destroy', message_set, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Message set', new_message_set_path %>

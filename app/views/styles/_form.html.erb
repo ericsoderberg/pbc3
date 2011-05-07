@@ -55,7 +55,11 @@
       :value => "0x%06x" % @style.gradient_lower_color %>
   </div>
   <div class="actions">
-    <%= f.submit (@style.name ? 'Update Style' : 'Add Style') %>
+    <%= f.submit (@style.id ? 'Update Style' : 'Add Style') %>
     | <%= link_to 'Cancel', styles_path %>
+    <% if @style.id -%>
+    | <%= link_to 'Delete style', @style, :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
   </div>
 <% end %>

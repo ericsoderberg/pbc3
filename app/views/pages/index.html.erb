@@ -1,6 +1,10 @@
-<h1>Pages</h1>
+<section>
+  
+  <%= render :partial => 'site/header' %>
 
-<%= link_to 'New Page', new_page_path %>
+  <div id="add_content">
+    <%= link_to 'New Page', new_page_path %>
+  </div>
 
 <ul>
 <% @pages.each do |page| %>
@@ -8,3 +12,4 @@
 <% end %>
 </ul>
 
+</section>

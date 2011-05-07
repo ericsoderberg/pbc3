@@ -1,0 +1,17 @@
+<section>
+  
+  <%= render :partial => 'messages/header' %>
+
+  <ul id="authors">
+    <% @authors.each do |author| %>
+      <li><%= link_to author.name, author_path(author) %></li>
+    <% end %>
+  </ul>
+
+  <% if current_user and current_user.administrator? -%>
+  <div id="add_content">
+    <%= link_to 'New Author', new_author_path %>
+  </div>
+  <% end -%>
+  
+</section>
