@@ -39,12 +39,17 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     @message = Message.find_by_url(params[:id])
+    @message_file = @message.message_files.new
   end
 
   # POST /messages
   # POST /messages.xml
   def create
     @message = Message.new(params[:message])
+    if params[:message_file]
+      @message_file = @message.message_files.build(params[:message_file])
+      @message_file.message = @message
+    end
 
     respond_to do |format|
       if @message.save

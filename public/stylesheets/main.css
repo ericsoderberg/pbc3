@@ -1431,4 +1431,15 @@ div.actions {
 	float: right;
 	clear: right;
 	}
-	
+header audio {
+	vertical-align: middle;
+	}
+.message_files {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	}
+	.message_files li {
+		display: inline-block;
+		}
+		

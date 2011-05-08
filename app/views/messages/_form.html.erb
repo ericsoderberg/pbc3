@@ -1,4 +1,5 @@
-<%= form_for(@message) do |f| %>
+<%= form_for(@message,
+  :html => { :multipart => true }) do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
@@ -13,7 +14,7 @@
 
   <div class="field">
     <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :size => '60' %>
   </div>
   <div class="field">
     <%= f.label :verses %><br />
@@ -37,8 +38,14 @@
     <%= f.label :description %><br />
     <%= f.text_area :description, :size => '60x4' %>
   </div>
+  <% unless @message.id -%>
+  <div class="field">
+    <%= f.label :file %><br />
+    <%= file_field_tag 'message_file[file]' %>
+  </div>
+  <% end -%>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit (@message.id ? 'Update Message' : 'Add Message') %>
     <% if @message.id -%>
     | <%= link_to 'Cancel', message_path(@message) %>
     <% else -%>

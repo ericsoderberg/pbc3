@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>File file name:</b>
+  <%= @message_file.file_file_name %>
+</p>
+
+<p>
+  <b>File content type:</b>
+  <%= @message_file.file_content_type %>
+</p>
+
+<p>
+  <b>File file size:</b>
+  <%= @message_file.file_file_size %>
+</p>
+
+<p>
+  <b>File updated at:</b>
+  <%= @message_file.file_updated_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_file_path(@message_file) %> |
+<%= link_to 'Back', message_files_path %>

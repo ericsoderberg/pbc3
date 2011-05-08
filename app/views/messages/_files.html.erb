@@ -1,0 +1,7 @@
+<ul class="message_files">
+  <% message.message_files.each do |message_file| -%>
+    <% next if message_file.audio? -%>
+    <% next unless message_file.file.content_type -%>
+    <li><%= link_to message_file.file.content_type.split('/')[-1], message_file.file.url %></li>
+  <% end -%>
+</ul>

@@ -2,6 +2,7 @@ class Message < ActiveRecord::Base
   belongs_to :message_set
   belongs_to :author
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
+  has_many :message_files, :dependent => :destroy
   acts_as_url :title
   
   validates :title, :presence => true
@@ -36,6 +37,17 @@ class Message < ActiveRecord::Base
     Message.includes(:verse_ranges).
       where(wheres.join(' OR ')).
       order('verse_ranges.begin_index')
+  end
+  
+  def emebedded_content
+    message_file = message_files.where(
+      "file_file_name LIKE '%.txt' OR file_file_name LIKE '%.html'").first
+    return '' unless message_file
+    'TBD'
+  end
+  
+  def audio_message_files
+    message_files.select{|mf| mf.audio?}
   end
   
 end

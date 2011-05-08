@@ -3,7 +3,8 @@
 <section>
   <header>
     <h1><%= @message.title %></h1>
-    <h2><%= @message.verses %></h2>
+    
+    <%= render :partial => 'audio' %>
     
     <% if current_user and current_user.administrator? -%>
     <div id="page_admin">
@@ -20,10 +21,17 @@
       <div class="message_author">
         <%= link_to @message.author.name, author_path(@message.author) %>
       </div>
+      <div class="message_verses">
+        <%= @message.verses %>
+      </div>
     </div>
     
   </header>
 
-<%= @message.description %>
+  <%= @message.description %>
+
+  <div id="message_emebedded">
+    <%= raw @message.emebedded_content -%>
+  </div>
 
 </section>

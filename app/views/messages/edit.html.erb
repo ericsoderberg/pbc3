@@ -1,3 +1,23 @@
-<h1>Editing <%= @message.title %></h1>
+<div id="edit_content">
+  <section>
+    <h1>Editing <%= @message.title %></h1>
 
-<%= render 'form' %>
+    <%= render 'form' %>
+  </section>
+
+  <aside>
+    <h3>Files</h3>
+    <ul id="files">
+      <% @message.message_files.each do |message_file| -%>
+        <li>
+          <%= link_to message_file.file.original_filename,
+            message_file.file.url %>
+          <%= message_file.file.content_type %>
+        </li>
+      <% end -%>
+    </ul>
+    
+    <%= render :partial => 'message_files/new' %>
+    
+  </aside>
+</div>

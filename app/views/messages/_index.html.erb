@@ -7,6 +7,14 @@
     <td><% if message.author %>
       <%= link_to message.author.name, author_path(message.author) %>
     <% end %></td>
+    <td>
+      <%= render :partial => 'messages/audio',
+        :locals => {:message => message} %>
+    </td>
+    <td>
+      <%= render :partial => 'messages/files',
+        :locals => {:message => message} %>
+    </td>
   </tr>
 <% end %>
 </table>

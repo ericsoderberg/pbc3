@@ -1,0 +1,11 @@
+<%= form_for(@message_file,
+  :url => message_files_path(@message),
+  :html => { :multipart => true }) do |f| %>
+  <div class="field">
+    <%= f.label :file %><br />
+    <%= f.file_field :file %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Upload File' %>
+  </div>
+<% end %>

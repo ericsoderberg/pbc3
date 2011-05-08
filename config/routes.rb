@@ -67,7 +67,9 @@ Pbc3::Application.routes.draw do
   end
   
   resources :authors
-  resources :messages
+  resources :messages do
+    resources :files, :controller => :message_files
+  end
   resources :message_sets
   resources :books, :only => [:index, :show]
   
