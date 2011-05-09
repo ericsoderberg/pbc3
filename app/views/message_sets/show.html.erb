@@ -1,20 +1,38 @@
-<p id="notice"><%= notice %></p>
+<% title @message_set.title -%>
 
-<p>
-  <b>Title:</b>
-  <%= @message_set.title %>
-</p>
+<section>
+  <header>
+    <h1><%= @message_set.title %></h1>
+    
+    <% if current_user and current_user.administrator? -%>
+    <div id="page_admin">
+      <ul>
+        <li><%= link_to 'Edit series', edit_series_path(@message_set) %><li>
+      </ul>
+    </div>
+    <% end -%>
+    
+    <div id="message_details">
+      <% if @message_set.author -%>
+      <div class="message_author">
+        <%= link_to @message_set.author.name,
+          author_path(@message_set.author) %>
+      </div>
+      <% end -%>
+    </div>
+    
+  </header>
 
-<p>
-  <b>Description:</b>
   <%= @message_set.description %>
-</p>
+  
+  <%= render :partial => 'messages/index', 
+    :locals => {:messages => @message_set.messages} %>
+    
+  <% if current_user and current_user.administrator? -%>
+  <div id="add_content">
+    <%= link_to 'Add message',
+      new_message_path(:series_id => @message_set.url) %>
+  </div>
+  <% end -%>
 
-<p>
-  <b>Author:</b>
-  <%= @message_set.author_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_message_set_path(@message_set) %> |
-<%= link_to 'Back', message_sets_path %>
+</section>

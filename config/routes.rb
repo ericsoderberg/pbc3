@@ -70,7 +70,7 @@ Pbc3::Application.routes.draw do
   resources :messages do
     resources :files, :controller => :message_files
   end
-  resources :message_sets
+  resources :series, :controller => :message_sets
   resources :books, :only => [:index, :show]
   
   match '/:id', :to => "pages#show", :as => 'friendly_page'

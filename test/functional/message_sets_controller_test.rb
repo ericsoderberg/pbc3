@@ -22,7 +22,7 @@ class MessageSetsControllerTest < ActionController::TestCase
       post :create, :message_set => @message_set.attributes
     end
 
-    assert_redirected_to message_set_path(assigns(:message_set))
+    assert_redirected_to series_path(assigns(:message_set))
   end
 
   test "should show message_set" do
@@ -37,7 +37,7 @@ class MessageSetsControllerTest < ActionController::TestCase
 
   test "should update message_set" do
     put :update, :id => @message_set.to_param, :message_set => @message_set.attributes
-    assert_redirected_to message_set_path(assigns(:message_set))
+    assert_redirected_to series_path(assigns(:message_set))
   end
 
   test "should destroy message_set" do
@@ -45,6 +45,6 @@ class MessageSetsControllerTest < ActionController::TestCase
       delete :destroy, :id => @message_set.to_param
     end
 
-    assert_redirected_to message_sets_path
+    assert_redirected_to series_index_path
   end
 end

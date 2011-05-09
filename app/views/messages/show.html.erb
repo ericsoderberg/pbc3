@@ -18,12 +18,20 @@
       <div class="message_date">
         <%= @message.date.relative_str -%>
       </div>
+      <% if @message.author -%>
       <div class="message_author">
         <%= link_to @message.author.name, author_path(@message.author) %>
       </div>
+      <% end -%>
       <div class="message_verses">
         <%= @message.verses %>
       </div>
+      <% if @message.message_set -%>
+      <div class="message_series">
+        <%= link_to @message.message_set.title,
+          series_path(@message.message_set) %>
+      </div>
+      <% end -%>
     </div>
     
   </header>

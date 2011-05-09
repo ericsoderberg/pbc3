@@ -47,7 +47,8 @@ class MessageSetsController < ApplicationController
 
     respond_to do |format|
       if @message_set.save
-        format.html { redirect_to(@message_set, :notice => 'Message set was successfully created.') }
+        format.html { redirect_to(series_path(@message_set),
+          :notice => 'Message set was successfully created.') }
         format.xml  { render :xml => @message_set, :status => :created, :location => @message_set }
       else
         format.html { render :action => "new" }
@@ -63,7 +64,8 @@ class MessageSetsController < ApplicationController
 
     respond_to do |format|
       if @message_set.update_attributes(params[:message_set])
-        format.html { redirect_to(@message_set, :notice => 'Message set was successfully updated.') }
+        format.html { redirect_to(series_path(@message_set),
+          :notice => 'Message set was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,7 +81,7 @@ class MessageSetsController < ApplicationController
     @message_set.destroy
 
     respond_to do |format|
-      format.html { redirect_to(message_sets_url) }
+      format.html { redirect_to(series_index_url) }
       format.xml  { head :ok }
     end
   end

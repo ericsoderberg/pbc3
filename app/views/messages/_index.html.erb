@@ -1,5 +1,6 @@
+<% messages ||= @messages -%>
 <table id="messages">
-<% @messages.each do |message| %>
+<% messages.each do |message| %>
   <tr>
     <td class="message_date"><%= message.date.relative_str %></td>
     <td><%= link_to message.title, message_path(message) %></td>

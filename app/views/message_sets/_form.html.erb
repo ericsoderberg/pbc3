@@ -1,4 +1,6 @@
-<%= form_for(@message_set) do |f| %>
+<%= form_for(@message_set,
+  :url => (@message_set.id ? series_path(@message_set) :
+    series_index_path)) do |f| %>
   <% if @message_set.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@message_set.errors.count, "error") %> prohibited this message_set from being saved:</h2>
@@ -13,17 +15,28 @@
 
   <div class="field">
     <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :size => '60' %>
   </div>
   <div class="field">
     <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :size => '60x4' %>
   </div>
   <div class="field">
     <%= f.label :author_id %><br />
-    <%= f.text_field :author_id %>
+    <%= collection_select(:message, :author_id,
+      Author.all, :id, :name,
+      :include_blank => true) %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit (@message_set.id ? 'Update Series' : 'Add Series') %>
+    <% if @message_set.id -%>
+    | <%= link_to 'Cancel', series_path(@message_set) %>
+    <% else -%>
+    | <%= link_to 'Cancel', messages_path %>
+    <% end -%>
+    <% if @message_set.id -%>
+    | <%= link_to 'Delete series', series_path(@message_set), :confirm => 'Are you sure?',
+      :method => :delete %>
+    <% end -%>
   </div>
 <% end %>

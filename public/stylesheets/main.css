@@ -219,6 +219,7 @@ header {
   		}
   
 footer {
+	clear: both;
   padding-top: 20px;
   font-size: 11px;
   color: #666;
@@ -1442,4 +1443,17 @@ header audio {
 	.message_files li {
 		display: inline-block;
 		}
-		
+
+.series_title {
+	margin: 10px 0px;
+	padding: 0px;
+	}
+	.series_title a {
+		font-size: 16px;
+		color: #777;
+		}
+		.series_title a:hover {
+			text-decoration: none;
+			color: #000;
+			}
+			
