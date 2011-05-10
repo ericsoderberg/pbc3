@@ -2,21 +2,8 @@
 
 <%= render :partial => 'header' %>
 
-<% @messages_in_sets.each do |m| -%>
-  <% if m.is_a?(Message) -%>
-    <%= render :partial => 'index', :locals => {:messages => [m]} %>
-  <% else -%>
-    <h3 class="series_title"><%= link_to m.title, series_path(m) %></h3>
-    <%= render :partial => 'index', :locals => {:messages => m.messages} %>    
-    <br/>
-  <% end -%>
-<% end -%>
-
-<br />
-
-<% if current_user and current_user.administrator? -%>
-<div id="add_content">
-  <%= link_to 'Add message', new_message_path %>
-  <%= link_to 'Add series', new_series_path %>
+<div id="messages">
+  <%= render :partial => 'messages/messages',
+    :locals => {:messages => @messages} %>
+  <%= render :partial => 'messages/more_messages' %>
 </div>
-<% end -%>

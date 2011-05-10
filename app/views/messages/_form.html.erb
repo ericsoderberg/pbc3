@@ -50,7 +50,8 @@
     <% if @message.id -%>
     | <%= link_to 'Cancel', message_path(@message) %>
     <% else -%>
-    | <%= link_to 'Cancel', messages_path %>
+    | <%= link_to 'Cancel', (@message.message_set_id ?
+      series_path(@message_set) : messages_path) %>
     <% end -%>
     <% if @message.id -%>
     | <%= link_to 'Delete message', @message, :confirm => 'Are you sure?',

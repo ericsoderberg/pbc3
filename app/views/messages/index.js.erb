@@ -1,0 +1,6 @@
+$('#more_messages').remove();
+$('#messages').append(
+	'<%= escape_javascript(render :partial => "messages",
+		:locals => {:messages => @messages}) %>');
+$('#messages').append(
+	'<%= escape_javascript(render :partial => "more_messages") %>');

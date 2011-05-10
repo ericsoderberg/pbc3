@@ -1,15 +1,24 @@
-<p id="notice"><%= notice %></p>
+<section>
+  
+  <header>
+    <h1 id="author_title"><%= @author.name %></h1>
+    
+    <% if current_user and current_user.administrator? -%>
+    <div id="page_admin">
+      <ul>
+        <li><%= link_to 'Edit author', edit_author_path(@author) %><li>
+      </ul>
+    </div>
+    <% end -%>
+  </header>
+  
+  <% if @author.description and not @author.description.empty? -%>
+  <p><%= @author.description %></p>
+  <% end -%>
 
-<p>
-  <b>Name:</b>
-  <%= @author.name %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @author.description %>
-</p>
-
-
-<%= link_to 'Edit', edit_author_path(@author) %> |
-<%= link_to 'Back', authors_path %>
+  <div id="messages">
+    <%= render :partial => 'messages/messages',
+      :locals => {:messages => @messages} %>
+  </div>
+  
+</section>

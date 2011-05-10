@@ -1,9 +1,12 @@
 <section>
   
-  <%= render :partial => 'messages/header' %>
-  
-  <h2 id="book_title"><%= @book %></h2>
+  <header>
+    <h1 id="book_title"><%= @book %></h1>
+  </header>
 
-  <%= render :partial => 'messages/index' %>
+  <div id="messages">
+    <%= render :partial => 'messages/messages',
+      :locals => {:messages => @messages} %>
+  </div>
   
 </section>

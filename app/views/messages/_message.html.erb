@@ -1,0 +1,19 @@
+<div class="message">
+  <div class="message_date"><%= message.date.relative_str %></div>
+  <div class="message_title">
+    <%= link_to message.title, message_path(message) %></div>
+  <div class="message_verses"><%= message.verses %></div>
+  <% if message.author -%>
+    <div class="message_author">
+      <%= link_to message.author.name, author_path(message.author) %>
+    </div>
+  <% end -%>
+  <div class="message_audio">
+    <%= render :partial => 'messages/audio',
+      :locals => {:message => message} %>
+  </div>
+  <div class="message_files">
+    <%= render :partial => 'messages/files',
+      :locals => {:message => message} %>
+  </div>
+</div>

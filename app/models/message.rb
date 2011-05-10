@@ -3,7 +3,7 @@ class Message < ActiveRecord::Base
   belongs_to :author
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
   has_many :message_files, :dependent => :destroy
-  acts_as_url :title
+  acts_as_url :title, :sync_url => true
   
   validates :title, :presence => true
   
@@ -36,7 +36,12 @@ class Message < ActiveRecord::Base
     end
     Message.includes(:verse_ranges).
       where(wheres.join(' OR ')).
+      order('date desc').
       order('verse_ranges.begin_index')
+  end
+  
+  def self.between(start_date, end_date)
+    where('date >= ? AND date < ?', start_date, end_date)
   end
   
   def emebedded_content
@@ -48,6 +53,20 @@ class Message < ActiveRecord::Base
   
   def audio_message_files
     message_files.select{|mf| mf.audio?}
+  end
+  
+  def self.merge_messages_and_sets(messages, message_sets)
+    result = []
+    while (not messages.empty? or not message_sets.empty?) do
+      if not messages.empty? and
+        (message_sets.empty? or
+          message_sets.first.messages.first.date < messages.first.date)
+        result << messages.shift
+      else
+        result << message_sets.shift
+      end
+    end
+    result
   end
   
 end

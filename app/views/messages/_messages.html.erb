@@ -1,0 +1,19 @@
+<% prior_message_set = nil -%>
+<% messages.each do |message| -%>
+
+  <% if message.message_set != prior_message_set -%>
+    <% if message.message_set -%>
+    <h3 class="series_title">
+      <%= link_to message.message_set.title,
+        series_path(message.message_set) %>
+    </h3>
+    <% else -%>
+    <br />
+    <% end -%>
+  <% end -%>
+  
+  <%= render :partial => 'messages/message',
+    :locals => {:message => message} %>
+    
+  <% prior_message_set = message.message_set -%>
+<% end -%>

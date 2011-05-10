@@ -25,8 +25,12 @@
 
   <%= @message_set.description %>
   
-  <%= render :partial => 'messages/index', 
-    :locals => {:messages => @message_set.messages} %>
+  <div id="messages">
+    <% @message_set.messages.each do |message| -%>
+      <%= render :partial => 'messages/message',
+        :locals => {:message => message} %>
+    <% end -%>
+  </div>
     
   <% if current_user and current_user.administrator? -%>
   <div id="add_content">

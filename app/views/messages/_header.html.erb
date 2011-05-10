@@ -1,7 +1,16 @@
 <header>
-  <h1>
+  <h1 class="<%= @books or @authors or @book or @author  ? '' : 'active' %>">
     <%= link_to 'Message Library', messages_path %>
   </h1>
+  
+  <% if user_signed_in? and current_user.administrator? -%>
+    <div id="page_admin">
+      <ul>
+        <li><%= link_to 'Add message', new_message_path %></li>
+        <li><%= link_to 'Add series', new_series_path %></li>
+      </ul>
+    </div>
+  <% end -%>
   
   <ul class="nav">
     <li class="<%= (@authors || @author) ? 'active' : '' %>">

@@ -1456,4 +1456,16 @@ header audio {
 			text-decoration: none;
 			color: #000;
 			}
-			
+
+div#messages {
+	margin-bottom: 20px;
+	}
+.message .message_date, .message .message_title, .message .message_verses,
+.message .message_author {
+	display: inline-block;
+	margin-right: 10px;
+	}
+#more_messages {
+	padding-top: 30px;
+	}
+	
