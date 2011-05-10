@@ -23,6 +23,7 @@ class MessagesController < ApplicationController
   # GET /messages/1.xml
   def show
     @message = Message.find_by_url(params[:id])
+    @message = Message.find(params[:id]) unless @message
 
     respond_to do |format|
       format.html # show.html.erb
