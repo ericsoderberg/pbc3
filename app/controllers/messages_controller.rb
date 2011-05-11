@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @date = params[:date] ? params[:date].to_date : Time.now
+    @date = params[:date] ? params[:date].to_date : (Time.now + 3.months)
     @back_date = @date - 1.year
     @messages = Message.between(@back_date, @date).order('date desc')
 
