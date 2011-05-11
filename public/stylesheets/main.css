@@ -574,7 +574,11 @@ div#notice {
 	
 #add_content {
   margin: 20px 0px;
-}
+	}
+	#add_content.header_add_content {
+		float: right;
+		margin: 0px;
+		}
       #page_admin a, #add_content a {
   		  display: inline-block;
   		  color: #bbb;
@@ -1400,10 +1404,10 @@ div.actions {
 	padding-top: 20px;
 	color: #999;
 	}
-#books {
+table.grid {
 	margin: 20px auto;
 	}
-#books td {
+table.grid td {
 	padding-right: 20px;
 	}
 	#books a {

@@ -2,7 +2,7 @@
   
   <%= render :partial => 'messages/header' %>
 
-  <table id="books">
+  <table id="books" class="grid">
   <% rows = array_to_rows(@books) -%>
   <% rows.each do |row| -%>
     <tr>

@@ -1,24 +1,22 @@
 <% title "Resources" -%>
 
 <section>
-  <header>
-    <h1>Resources</h1>
-  </header>
+  
+  <%= render :partial => 'site/header' %>
+  
+  <div id="add_content" class="header_add_content">
+    <%= link_to 'Add Resource', new_resource_path %>
+  </div>
 
-<table>
-  <tr>
-    <th>Name</th>
-  </tr>
-
-<% @resources.each do |resource| %>
-  <tr>
-    <td><%= link_to resource.name, edit_resource_path(resource) %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'Add Resource', new_resource_path %>
+  <table id="resources" class="grid">
+  <% rows = array_to_rows(@resources) -%>
+  <% rows.each do |row| -%>
+    <tr>
+    <% row.each do |resource| -%>
+      <td><%= link_to resource.name, resource_path(resource) %></td>
+    <% end -%>
+    </tr>
+  <% end -%>
+  </table>
 
 </section>

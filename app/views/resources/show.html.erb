@@ -1,10 +1,32 @@
-<p id="notice"><%= notice %></p>
+<% title @resource.name -%>
 
-<p>
-  <b>Name:</b>
-  <%= @resource.name %>
-</p>
+<section>
 
+  <header>
+    <h1><%= @resource.name %></h1>
+    
+    <% if user_signed_in? and current_user.administrator? -%>
+      <div id="page_admin">
+        <ul>
+          <li><%= link_to 'Edit resource',
+            edit_resource_path(@resource) %><li>
+        </ul>
+      </div>
+    <% end -%>
+    
+    <ul class="nav">
+      <li><%= link_to 'Calendar' %></li>
+    </ul>
+    
+  </header>
+  
+  <table id="events">
+    <% @resource.events.each do |event| -%>
+      <tr>
+        <td><%= friendly_range(event, true) %></td>
+        <td><%= link_to event.name, friendly_page_path(event.page) %></td>
+      </tr>
+    <% end -%>
+  </table>
 
-<%= link_to 'Edit', edit_resource_path(@resource) %> |
-<%= link_to 'Back', resources_path %>
+</section>

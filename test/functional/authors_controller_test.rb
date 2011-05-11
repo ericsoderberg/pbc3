@@ -22,7 +22,7 @@ class AuthorsControllerTest < ActionController::TestCase
       post :create, :author => @author.attributes
     end
 
-    assert_redirected_to author_path(assigns(:author))
+    assert_redirected_to authors_path
   end
 
   test "should show author" do

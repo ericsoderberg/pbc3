@@ -48,7 +48,8 @@ class AuthorsController < ApplicationController
 
     respond_to do |format|
       if @author.save
-        format.html { redirect_to(@author, :notice => 'Author was successfully created.') }
+        format.html { redirect_to(authors_url,
+          :notice => 'Author was successfully created.') }
         format.xml  { render :xml => @author, :status => :created, :location => @author }
       else
         format.html { render :action => "new" }

@@ -1,19 +1,25 @@
 <header>
-  <h2><%= (@event.name ? "#{@event.name}" : 'Add Event') %></h2>
-  <% if @event.name -%>
+  
+  <h1 class="<%= active_aspect == 'event' ? 'active' : '' %>">
+    <% if @event.id -%>
+      <%= link_to @event.name, edit_page_event_path(@page, @event) %>
+    <% else -%>
+      Add Event
+    <% end -%>
+  </h1>
+  
+  <% if @event.id -%>
   <ul class="nav">
-    <li class="<%= active_aspect == 'event' ? 'active' : '' %>">
-      <%= link_to 'Event', edit_page_event_path(@page, @event) %>
+    <li class="<%= active_aspect == 'reservations' ? 'active' : '' %>">
+      <%= link_to 'Reservations' +
+        (@event.reservations.empty? ? '' :
+          " (#{@event.reservations.count})"),
+        page_event_reservations_path(@page, @event) %>
     </li>
     <li class="<%= active_aspect == 'recurrence' ? 'active' : '' %>">
       <%= link_to 'Recurrence' +
         (@event.replicas.empty? ? '' : " (#{@event.replicas.count})"),
           page_event_recurrence_path(@page, @event) %>
-    </li>
-    <li class="<%= active_aspect == 'reservations' ? 'active' : '' %>">
-      <%= link_to 'Reservations' +
-        (@event.reservations.empty? ? '' : " (#{@event.reservations.count})"),
-          page_event_reservations_path(@page, @event) %>
     </li>
   </ul>
   <% end -%>
