@@ -6,7 +6,10 @@ class Event < ActiveRecord::Base
   has_many :reservations, :autosave => true, :dependent => :destroy
   has_many :resources, :through => :reservations
   
-  validates_presence_of :page, :name, :start_at, :stop_at
+  validates_presence_of :page, :name, :stop_at
+  validates :start_at, :presence => true,
+    :uniqueness => {:scope => :master_id,
+      :unless => Proc.new{|p| not p.master_id and not p.master}}
   validate :start_before_stop
   validate :no_master_if_replicas
   
@@ -81,6 +84,7 @@ class Event < ActiveRecord::Base
     existing = replicas.map{|e| e.start_at.to_date}
     dates.each do |date|
       next if existing.include?(date)
+      next if date == self.start_at.to_date
       replicas << copy(date)
     end
     save

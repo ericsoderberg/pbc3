@@ -79,4 +79,11 @@ class EventTest < ActiveSupport::TestCase
     assert_equal prior_count, Event.count
   end
   
+  test "replicate to same day" do
+    event = events(:single)
+    prior_count = Event.count
+    event.replicate([event.start_at.to_date])
+    assert_equal prior_count, Event.count
+  end
+  
 end
