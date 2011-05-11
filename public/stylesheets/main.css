@@ -1461,7 +1461,7 @@ div#messages {
 	margin-bottom: 20px;
 	}
 .message .message_date, .message .message_title, .message .message_verses,
-.message .message_author {
+.message .message_author, .message .message_audio, .message .message_files {
 	display: inline-block;
 	margin-right: 10px;
 	}

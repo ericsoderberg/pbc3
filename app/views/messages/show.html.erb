@@ -32,6 +32,12 @@
           series_path(@message.message_set) %>
       </div>
       <% end -%>
+      <ul class="message_files">
+      <% @message.message_files.each do |message_file| -%>
+        <li><%= link_to message_file.file.content_type.split('/')[-1],
+          message_file.file.url %></li>
+      <% end -%>
+      </ul>
     </div>
     
   </header>

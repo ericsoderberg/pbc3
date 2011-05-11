@@ -8,9 +8,6 @@ class MessagesController < ApplicationController
     @date = params[:date] ? params[:date].to_date : Time.now
     @back_date = @date - 1.year
     @messages = Message.between(@back_date, @date).order('date desc')
-    #@messages = Message.where('message_set_id IS NULL').order('date desc').all
-    #@message_sets = MessageSet.includes(:messages).order('messages.date asc').all.reverse
-    #@messages_in_sets = Message.merge_messages_and_sets(@messages, @message_sets)
 
     respond_to do |format|
       format.html # index.html.erb
