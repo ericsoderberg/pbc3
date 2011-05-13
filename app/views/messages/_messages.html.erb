@@ -1,6 +1,12 @@
 <% prior_message_set = nil -%>
+<% prior_message_year = nil -%>
 <% messages.each do |message| -%>
 
+  <% if prior_message_year and message.date.year != prior_message_year %>
+  <div class="messages_year">
+    <%= message.date.year %>
+  </div>
+  <% end -%>
   <% if message.message_set != prior_message_set -%>
     <% if message.message_set -%>
     <h3 class="series_title">
@@ -16,4 +22,5 @@
     :locals => {:message => message} %>
     
   <% prior_message_set = message.message_set -%>
+  <% prior_message_year = message.date.year -%>
 <% end -%>

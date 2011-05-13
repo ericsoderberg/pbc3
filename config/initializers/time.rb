@@ -11,8 +11,8 @@ class Time
     "%d/%d" % [self.mon, self.mday]
   end
   
-  def relative_str
-    if self.year == Date.today.year
+  def relative_str(show_year=true)
+    if not show_year or self.year == Date.today.year
       strftime("%b ") + mday.ordinalize
     else
       strftime("%Y %b ") + mday.ordinalize

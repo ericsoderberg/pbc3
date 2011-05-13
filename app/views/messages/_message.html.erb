@@ -1,5 +1,12 @@
 <div class="message">
-  <div class="message_date"><%= message.date.relative_str %></div>
+  <div class="message_date">
+    <% if message.date.year != Date.today.year -%>
+    <div class="message_year">
+      <%= message.date.year -%>
+    </div>
+    <% end -%>
+    <%= message.date.relative_str(false) %>
+  </div>
   <div class="message_title">
     <%= link_to message.title, message_path(message) %></div>
   <div class="message_verses"><%= message.verses %></div>
