@@ -1,6 +1,6 @@
 <% message ||= @message -%>
 <% unless message.audio_message_files.empty? -%>
-<audio id="message_audio" controls preload="false">
+<audio id="message_audio" controls preload="none">
   <% message.audio_message_files.each do |message_file| -%>
     <source src="<%= message_file.file.url %>"
       type="<%= message_file.file.content_type %>" />
