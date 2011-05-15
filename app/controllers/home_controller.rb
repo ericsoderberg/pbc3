@@ -17,7 +17,7 @@ class HomeController < ApplicationController
   end
   
   def edit
-    @feature_pages = Page.where('featured = ?', true).all
+    @feature_pages = Page.where('featured = ?', true).order('feature_index ASC').all
     @feature_pages << @page unless @feature_pages.include?(@page)
   end
   
