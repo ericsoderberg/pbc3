@@ -13,7 +13,6 @@
   
 <div id="page_content" class="yui_editor">
   <section>
-    <%= f.hidden_field :parent_id %>
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
@@ -57,8 +56,9 @@
         <%= f.check_box :landing %>
       </div>
       
+      <% if @page.id -%>
       <hr/>
-      
+
       <div class="field">
         <%= f.label :parent_page %><br />
         <%= collection_select(:page, :parent_id,
@@ -66,20 +66,11 @@
           :include_blank => true) %>
       </div>
       
-      <% if @page.parent -%>
-      <div class="field">
-        <%= f.label :order_in_parent %>
-        <%= hidden_field_tag 'sub_order',
-          @page.parent.children.map{|c| c.id}.join(', '),
-          :id => 'sub_order' %>
-        <ul id="indexer">
-          <% @page.parent.children.each do |child| -%>
-            <li id="<%= child.id %>"
-              class="<%= child == @page ? 'active' : ''%>">
-              <%= child.name %></li>
-          <% end -%>
-        </ul>
+      <div id="parent_context">
+        <%= render :partial => 'edit_for_parent' -%>
       </div>
+      <% else -%>
+        <%= f.hidden_field :parent_id %>
       <% end -%>
       
     </div>
@@ -98,5 +89,8 @@
 
 <%= javascript_tag do %>
   <%= render :partial => 'yui_editor.js' -%>
-  <%= render :partial => 'indexer.js' -%>
+  
+  <% if @page.id -%>
+    <%= render :partial => 'parent_indexer.js' -%>
+  <% end -%>
 <% end -%>

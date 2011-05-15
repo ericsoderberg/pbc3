@@ -68,6 +68,15 @@ class PagesController < ApplicationController
   # GET /pages/1/edit
   def edit
     @page = Page.find_by_url(params[:id])
+    @siblings = @page.parent ? @page.parent.children : []
+  end
+  
+  def edit_for_parent
+    @page = Page.find_by_url(params[:id])
+    @parent = Page.find_by_id(params[:parent_id])
+    @siblings = @parent.children.all
+    @siblings << @page unless @siblings.include?(@page)
+    render :partial => 'edit_for_parent'
   end
 
   # POST /pages
@@ -95,19 +104,8 @@ class PagesController < ApplicationController
   # PUT /pages/1.xml
   def update
     @page = Page.find_by_url(params[:id])
-    @page.text_image = nil if params[:delete_text_image]
-    if params[:page][:parent_id] != @page.parent_id
-      # user changed parent page
-      if params[:page][:parent_id] and
-        not params[:page][:parent_id].empty?
-        # set index to the end
-        new_parent = Page.find(params[:page][:parent_id])
-        params[:page][:index] = new_parent.children.length + 1
-      end
-      orderer_sub_ids = []
-    else
-      orderer_sub_ids = params[:sub_order].split(',').map{|id| id.to_i}
-    end
+    orderer_sub_ids = params[:sub_order] ?
+      params[:sub_order].split(',').map{|id| id.to_i} : []
 
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
@@ -116,6 +114,7 @@ class PagesController < ApplicationController
         format.xml  { head :ok }
       else
         format.html {
+          @siblings = @page.parent ? @page.parent.children : []
           @aspect = params[:aspect] || 'text'
           render :action => "edit"
         }
@@ -130,6 +129,7 @@ class PagesController < ApplicationController
     @page = Page.find_by_url(params[:id])
     parent = @page.parent
     @page.destroy
+    # what about index and feature_index being shifted?
 
     respond_to do |format|
       format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }

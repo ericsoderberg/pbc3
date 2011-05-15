@@ -1,0 +1,15 @@
+$(function() {
+	$('#page_parent_id').change(function() {
+    $.ajax({
+      url: "<%= edit_for_parent_page_path(@page) %>" +
+        "?parent_id=" + $('#page_parent_id').val(),
+      cache: false,
+      success: function(html){
+        $('#parent_context').html(html);
+      },
+      error: function(html){
+        $('#parent_context').html(html);
+      }
+    });
+  });
+});

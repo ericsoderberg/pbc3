@@ -52,6 +52,9 @@ Pbc3::Application.routes.draw do
   resources :resources
 
   resources :pages do
+    member do
+      get :edit_for_parent
+    end
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence
       resource :reservations, :only => [:show, :update]

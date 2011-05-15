@@ -1,0 +1,19 @@
+<% if @siblings and not @siblings.empty? -%>
+<div class="field">
+  <%= label_tag :order_in_parent %>
+  <%= hidden_field_tag 'sub_order',
+    @siblings.map{|c| c.id}.join(', '),
+    :id => 'sub_order' %>
+  <ul id="indexer">
+    <% @siblings.each do |sibling| -%>
+      <li id="<%= sibling.id %>"
+        class="<%= sibling == @page ? 'active' : ''%>">
+        <%= sibling.name %></li>
+    <% end -%>
+  </ul>
+</div>
+<% end -%>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'indexer.js' -%>
+<% end -%>

@@ -29,8 +29,8 @@ class Page < ActiveRecord::Base
   validates :url, :uniqueness => true
   validates :index, :uniqueness => {:scope => :parent_id,
     :unless => Proc.new{|p| not p.parent_id}}
-  validates_uniqueness_of :feature_index,
-    :unless => Proc.new{|p| not p.feature_index}
+  validates :feature_index,
+    :uniqueness => {:if => Proc.new {|p| p.featured?}}
     
   before_validation do
     if featured and feature_index

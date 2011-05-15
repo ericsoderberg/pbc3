@@ -24,6 +24,18 @@ class PagesControllerTest < ActionController::TestCase
 
     assert_redirected_to page_path(assigns(:page))
   end
+  
+  test "should create sub page" do
+    @parent = pages(:communities)
+    assert_difference('Page.count') do
+      post :create, :page => {:name => 'Test', :parent_id => @parent.id}
+      assert_equal @parent, assigns(:page).parent
+      @parent.reload
+      assert @parent.children.include?(assigns(:page))
+    end
+
+    assert_redirected_to page_path(assigns(:page))
+  end
 
   test "should show page" do
     get :show, :id => @page.to_param
@@ -32,6 +44,12 @@ class PagesControllerTest < ActionController::TestCase
 
   test "should get edit" do
     get :edit, :id => @page.to_param
+    assert_response :success
+  end
+  
+  test "should get edit for parent" do
+    @parent = pages(:communities)
+    get :edit_for_parent, :id => @page.to_param, :parent_id => @parent.id
     assert_response :success
   end
 
