@@ -31,17 +31,6 @@ class Page < ActiveRecord::Base
     :unless => Proc.new{|p| not p.parent_id}}
   validates :feature_index,
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
-    
-  before_validation do
-    if featured and feature_index
-      # make sure peers don't collide on index
-      Page.where(['featured = ? AND feature_index >= ?',
-        true, feature_index]).all.each do |page2|
-        page2.feature_index += 1
-        page2.save
-      end
-    end
-  end
   
   def self.home_pages(user=nil)
     visible(user).where(['featured = ?', true]).order('feature_index ASC')
@@ -113,6 +102,20 @@ class Page < ActiveRecord::Base
         child.index = i+1
         # don't validate since it will fail as we haven't done them all yet
         result = false unless child.save(:validate => false)
+      end
+    end
+    result
+  end
+  
+  def self.order_features(ids)
+    result = true
+    Page.transaction do
+      tmp_features = Page.find(ids)
+      ids.each_with_index do |id, i|
+        feature_page = tmp_features.detect{|c| id == c.id}
+        feature_page.feature_index = i+1
+        # don't validate since it will fail as we haven't done them all yet
+        result = false unless feature_page.save(:validate => false)
       end
     end
     result

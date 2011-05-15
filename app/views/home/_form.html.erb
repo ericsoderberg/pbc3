@@ -24,9 +24,9 @@
           <%= f.label :feature_on_home_page? %>
           <%= f.check_box :featured %>
         </div>
-        <div class="field">
-          <%= f.label :feature_index %>
-          <%= f.text_field :feature_index, :size => 2 %>
+        <div id="feature_indexer"
+          <%= raw @page.featured? ? '' : 'style="display:none"' %>>
+          <%= render :partial => 'feature_indexer' -%>
         </div>
       </div>
     </aside>
@@ -41,4 +41,5 @@
 
 <%= javascript_tag do %>
   <%= render :partial => 'yui_editor.js' -%>
+  <%= render :partial => 'feature_indexer.js' -%>
 <% end -%>
