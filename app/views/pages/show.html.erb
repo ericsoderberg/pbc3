@@ -29,7 +29,7 @@
   <aside>
     
     <% if @upcoming_events.count == 1 and
-        @page == @page.events.first.page -%>
+        @page == @upcoming_events.first.page -%>
         
         <%= render :partial => 'events/viewer',
           :locals => {:events => @upcoming_events,
