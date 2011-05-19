@@ -39,14 +39,19 @@
         @page.root == @site.communities_page) ? 'active' : '' %>">
         <%= link_to "Communities", communities_path %></li>
       <li class="<%= (not @page and @calendar) ? 'active' : '' %>">
-        <%= link_to "Calendar", calendar_month_path %></li>
+        <%= link_to "Calendar", main_calendar_path %></li>
       <li class="<%= (@messages or @message or @message_set or
         @authors or @author or @books or @book) ?
         'active' : '' %>">
         <%= link_to 'Message Library', messages_path %></li>  
       <li class="<%= (@page and @site and
         @page.root == @site.about_page) ? 'active' : '' %>">
-        <%= link_to "About", about_path %></li> 
+        <%= link_to "About", about_path %></li>
+      <% if user_signed_in? and current_user.administrator? -%>
+        <li class="<%= (@pages or @users or @styles or
+          @resources) ? 'active' : '' %>">
+          <%= link_to "Admin", pages_path %></li>
+      <% end -%>
     </ul>
     <form action="<%= search_path %>">
       <input name="q" id="search" type="search" required 

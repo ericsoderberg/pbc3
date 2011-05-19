@@ -2,6 +2,10 @@
   
   <%= render :partial => 'site/header' %>
   
+  <div id="add_content" class="header_add_content">
+    <%= link_to 'Add Style', new_style_path %>
+  </div>
+  
 <table id="styles" class="index">
   <tr>
     <th>Name</th>
@@ -44,9 +48,5 @@
   </tr>
 <% end %>
 </table>
-
-<div id="add_content">
-  <%= link_to 'Add Style', new_style_path %>
-</div>
 
 </section>

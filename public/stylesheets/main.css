@@ -1025,6 +1025,18 @@ table.index td, table.index th {
     	    color: #666;
     	    background: inherit;
     	    }
+	  #calendar_views .search_date {
+			padding-right: 30px;
+			}
+		#calendar_views .search_date input {
+			padding: 3px;
+			border: solid 1px #ccc;
+			outline: 0;
+			background: #FFFFFF;
+			box-shadow: none;
+			-moz-box-shadow: none;
+			-webkit-box-shadow: none;
+			}
   
 #calendar {
   padding: 0px;
@@ -1497,3 +1509,8 @@ div#messages {
 #more_messages {
 	padding-top: 30px;
 	}
+.empty_indicator {
+	font-style: italic;
+	color: #999;
+	}
+	

@@ -39,11 +39,18 @@ Pbc3::Application.routes.draw do
   #  "https://" + request.host_with_port + request.fullpath }
 
   get "home/index"
-  get "calendar/month"
-  get "calendar/list"
-  get "calendar/day"
+  get "calendar", :controller => 'calendar', :action => 'month',
+    :as => 'main_calendar'
+  get "calendar/list", :as => 'main_calendar_list'
+  get "calendar/day", :as => 'main_calendar_day'
   get ":page_id/calendar", :controller => 'calendar', :action => 'month',
     :as => 'page_calendar'
+  get ":page_id/calendar/list", :controller => 'calendar', :action => 'list',
+    :as => 'page_calendar_list'
+  get "resources/:resource_id/calendar", :controller => 'calendar',
+    :action => 'month', :as => 'resource_calendar'
+  get "resources/:resource_id/calendar/list", :controller => 'calendar',
+    :action => 'list', :as => 'resource_calendar_list'
   get "search", :to => "search#search"
 
   root :to => "home#index"

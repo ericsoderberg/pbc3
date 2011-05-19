@@ -2,6 +2,14 @@
 
 <section>
   
+  <% if @page -%>
+    <%= render :partial => 'pages/header',
+      :locals => {:active_aspect => 'calendar'} %>
+  <% elsif @resource -%>
+    <%= render :partial => 'resources/header',
+      :locals => {:active_aspect => 'calendar'} %>
+  <% end -%>
+  
   <%= render :partial => 'controls', :locals => {:view => 'list'} %>
 
 <table id="calendar_list">
@@ -13,12 +21,17 @@
     <td class="name"><%= link_to event.name,
       friendly_page_path(event.page) %></td>
     <td>
-      <% if event.name != event.page.name -%>
+      <% if event.name != event.page.name and
+        (not @page or event.page != @page) -%>
         <%= h(event.page.name) %>
       <% end -%>
     </td>
   </tr>
   <% end -%>
 </table>
+
+<% if @events.empty? -%>
+<p class="empty_indicator">No events</p>
+<% end -%>
 
 </section>

@@ -5,6 +5,9 @@
   <% if @page -%>
     <%= render :partial => 'pages/header',
       :locals => {:active_aspect => 'calendar'} %>
+  <% elsif @resource -%>
+    <%= render :partial => 'resources/header',
+      :locals => {:active_aspect => 'calendar'} %>
   <% end -%>
   
   <%= render :partial => 'controls', :locals => {:view => 'grid'} %>

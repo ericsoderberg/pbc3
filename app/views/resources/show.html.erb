@@ -2,23 +2,8 @@
 
 <section>
 
-  <header>
-    <h1><%= @resource.name %></h1>
-    
-    <% if user_signed_in? and current_user.administrator? -%>
-      <div id="page_admin">
-        <ul>
-          <li><%= link_to 'Edit resource',
-            edit_resource_path(@resource) %><li>
-        </ul>
-      </div>
-    <% end -%>
-    
-    <ul class="nav">
-      <li><%= link_to 'Calendar' %></li>
-    </ul>
-    
-  </header>
+  <%= render :partial => 'header',
+    :locals => {:active_aspect => 'main'} %>
   
   <table id="events">
     <% @resource.events.each do |event| -%>

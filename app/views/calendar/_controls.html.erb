@@ -1,17 +1,27 @@
-<% args = {:page_id => @page ? @page.url : nil} %>
+<% args = {:page_id => @page ? @page.url : nil,
+    :resource_id => @resource ? @resource.id : nil} %>
 <header class="calendar_controls">
-  <%= link_to "<", calendar_path(args.merge(:date =>
-    (@date.beginning_of_month-1.month).strftime("%Y-%m-%d"))) %>
-  <%=h @date.strftime("%B %Y") %>
-  <%= link_to ">", calendar_path(args.merge(:date =>
-    (@date.end_of_month+1.day).strftime("%Y-%m-%d"))) %>
+  <%= link_to "<", previous_month_path(args) %>
+  <span id="focus_date"><%=h @date.strftime("%B %Y") %></span>
+  <%= link_to ">", next_month_path(args) %>
   
   <ul id="calendar_views">
+    <li class="search_date">
+      <%= form_tag date_search_path(args), :method => :get do %>
+        <% if @page -%>
+        <%= hidden_field_tag :page_id, @page.url %>
+        <% elsif @resource -%>
+        <%= hidden_field_tag :resource_id, @resource.id %>
+        <% end -%>
+        <%= text_field_tag :date, @date.strftime("%Y-%m-%d") %>
+        <%= submit_tag 'go' %>
+      <% end %>
+    </li>
     <li class="<%= 'grid' == view ? 'active' : '' %>">
       <%= link_to 'Grid',
         calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
     <li class="<%= 'list' == view ? 'active' : '' %>">
       <%= link_to 'List',
-        calendar_list_path(:date => @date.strftime("%Y-%m-%d")) %></li>
+        calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
   </ul>
 </header>

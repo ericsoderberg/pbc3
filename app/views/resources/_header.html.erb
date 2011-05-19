@@ -1,0 +1,19 @@
+<header>
+  <h1 class="<%= 'main' == active_aspect ? 'active' : '' %>">
+    <%= link_to @resource.name, resource_path(@resource) %></h1>
+  
+  <% if user_signed_in? and current_user.administrator? -%>
+    <div id="page_admin">
+      <ul>
+        <li><%= link_to 'Edit resource',
+          edit_resource_path(@resource) %><li>
+      </ul>
+    </div>
+  <% end -%>
+  
+  <ul class="nav">
+    <li class="<%= 'calendar' == active_aspect ? 'active' : '' %>">
+      <%= link_to 'Calendar', resource_calendar_path(@resource) %></li>
+  </ul>
+  
+</header>
