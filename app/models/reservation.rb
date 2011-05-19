@@ -17,6 +17,7 @@ class Reservation < ActiveRecord::Base
       next if event.resources.include?(resource)
       event.reservations.create(:event_id => event.id, :resource_id => resource.id)
     end
+    event.update_with_replicas
   end
   
   def copy(for_event)

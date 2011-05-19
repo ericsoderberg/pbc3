@@ -28,12 +28,13 @@
 
   <aside>
     
-    <% if @upcoming_events.count == 1 and
-        @page == @upcoming_events.first.page -%>
+    <% if @categorized_events[:all].count == 1 and
+        @page == @categorized_events[:all].first.page -%>
         
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @upcoming_events,
-            :no_name => (@page.name == @upcoming_events.first.name)} %>
+          :locals => {:categorized_events => @categorized_events,
+            :no_name =>
+              (@page.name == @categorized_events[:all].first.name)} %>
           
         <%= render :partial => 'contacts/viewer',
           :locals => {:contacts => @page.contacts} %>
@@ -44,7 +45,8 @@
         :locals => {:contacts => @page.contacts} %>
     
         <%= render :partial => 'events/viewer',
-          :locals => {:events => @upcoming_events, :no_name => false} %>
+          :locals => {:categorized_events => @categorized_events,
+            :no_name => false} %>
     <% end -%>
     
     <%= render :partial => 'documents/viewer',

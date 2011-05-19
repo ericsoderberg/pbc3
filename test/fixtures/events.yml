@@ -4,6 +4,18 @@ single:
   stop_at: <%= Time.zone.now + 1.day + 1.hour %>
   page: public
   featured: true
+
+expired:
+  name: Expired
+  start_at: <%= Time.zone.now - 1.month %>
+  stop_at: <%= Time.zone.now - 1.month + 1.hour %>
+  page: public
+  
+ancient:
+  name: Ancient
+  start_at: <%= Time.zone.now - 4.months %>
+  stop_at: <%= Time.zone.now - 4.months + 1.hour %>
+  page: public
   
 recurring:
   name: Recurring
@@ -18,3 +30,16 @@ replica:
   page: public
   master: recurring
   
+expired_replica:
+  name: Recurring
+  start_at: <%= Time.zone.now - 1.month %>
+  stop_at: <%= Time.zone.now - 1.month + 1.hour %>
+  page: public
+  master: recurring
+
+ancient_replica:
+  name: Recurring
+  start_at: <%= Time.zone.now - 4.months %>
+  stop_at: <%= Time.zone.now - 4.months + 1.hour %>
+  page: public
+  master: recurring

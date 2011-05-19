@@ -25,11 +25,9 @@
     <span class="day">
       <%= day.date.day %>
     </span>
-    <% unless day.date == @event.start_at.to_date -%>
     <%= check_box_tag 'days[]', day.date.strftime('%Y-%m-%d'),
       (! day.events.empty?),
       :class => day.date.strftime("%a") %>
-    <% end -%>
   </td>
   <% end -%>
 </tr>

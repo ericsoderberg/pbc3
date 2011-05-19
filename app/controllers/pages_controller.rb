@@ -22,7 +22,7 @@ class PagesController < ApplicationController
       return
     end
     
-    @upcoming_events = Event.prune(@page.related_events) unless @page.landing?
+    @categorized_events = Event.categorize(@page.related_events) unless @page.landing?
     @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|

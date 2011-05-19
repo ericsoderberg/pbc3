@@ -6,10 +6,12 @@ class RecurrenceController < ApplicationController
   
   def show
     @date = @event.start_at
-    @replicas = @event.replicas || []
-    @calendar = Calendar.new(@event.start_at.beginning_of_month,
+    master_and_replicas = @event.master_and_replicas
+    logger.info "!!! have #{master_and_replicas.count}"
+    master_and_replicas.each{|e| logger.info "!!! #{e.start_at}"}
+    @calendar = Calendar.new(@event.start_at - 1.month,
       (@event.start_at + 6.months).end_of_month);
-    @calendar.populate(@replicas)
+    @calendar.populate(master_and_replicas)
 
     respond_to do |format|
       format.html # replicas.html.erb

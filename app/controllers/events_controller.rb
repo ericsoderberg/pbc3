@@ -4,11 +4,11 @@ class EventsController < ApplicationController
   before_filter :get_page
   
   def index
-    @events = @page.events
-    if @events.empty?
+    categorized_events = @page.categorized_events
+    if categorized_events[:all].empty?
       redirect_to new_page_event_url(@page)
     else
-      redirect_to edit_page_event_url(@page, @events.first)
+      redirect_to edit_page_event_url(@page, categorized_events[:all].first)
     end
   end
 
@@ -59,7 +59,7 @@ class EventsController < ApplicationController
     @page = @event.page
 
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      if @event.update_with_replicas(params[:event])
         format.html { redirect_to(new_page_event_url(@page),
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }

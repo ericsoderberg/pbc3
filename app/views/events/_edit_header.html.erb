@@ -18,7 +18,8 @@
     </li>
     <li class="<%= active_aspect == 'recurrence' ? 'active' : '' %>">
       <%= link_to 'Recurrence' +
-        (@event.replicas.empty? ? '' : " (#{@event.replicas.count})"),
+        (@event.master_and_replicas.empty? ? '' :
+          " (#{@event.master_and_replicas.count})"),
           page_event_recurrence_path(@page, @event) %>
     </li>
   </ul>

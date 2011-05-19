@@ -145,6 +145,10 @@ class Page < ActiveRecord::Base
     result
   end
   
+  def categorized_events
+    Event.categorize(events)
+  end
+  
   private
   
   def extract_first_paragraph(str)

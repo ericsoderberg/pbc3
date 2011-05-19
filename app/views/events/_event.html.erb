@@ -5,7 +5,7 @@
       <ul>
         <li><%= link_to 'Edit',
           edit_page_event_path(@page,
-            (event.master ? event.master : event)) %><li>
+            event.best_replica(@page.events)) %><li>
       </ul>
     </div>
   <% end -%>

@@ -1,7 +1,13 @@
-<ul id="edit_list">
-  <%= render :partial => 'events/edit_event',
-    :collection => @page.events.masters %>
-</ul>
+<% categorized_events = @page.categorized_events -%>
+<% [:active, :expired, :ancient].each do |category| -%>
+  <% unless categorized_events[category].empty? -%>
+    <h4><%= label_tag category %></h4>
+    <ul class="edit_list">
+      <%= render :partial => 'events/edit_event',
+        :collection => categorized_events[category] %>
+    </ul>
+  <% end -%>
+<% end -%>
 
 <% if @event.name -%>
 <div id="add_content">

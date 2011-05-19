@@ -2,8 +2,9 @@ class Event < ActiveRecord::Base
   belongs_to :page
   belongs_to :master, :class_name => 'Event'
   has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
-    :autosave => true, :dependent => :destroy
-  has_many :reservations, :autosave => true, :dependent => :destroy
+    :order => :start_at, :autosave => true
+  has_many :reservations, :autosave => true, :dependent => :destroy,
+    :include => :resource
   has_many :resources, :through => :reservations
   
   validates_presence_of :page, :name, :stop_at
@@ -31,38 +32,66 @@ class Event < ActiveRecord::Base
   def self.between(start, stop)
     where("events.stop_at > ? AND events.start_at < ?", start, stop)
   end
-  scope :masters,
-    where("events.master_id = events.id OR events.master_id IS NULL")
+  #scope :masters,
+  #  where("events.master_id = events.id OR events.master_id IS NULL")
   
-  def self.prune(events)
+  # divide the events up into three categories: active, expired, ancient
+  # prune out replicas
+  def self.categorize(events)
+    result = {:active => [], :expired => [], :ancient => [], :all => []}
     today = Time.now.beginning_of_day
-    events.select do |e|
-      # today or later
-      e.stop_at >= today and
-      # nothing better
-      not events.detect{|e2|
-        # not the same
-        (e2 != e) and
-        # later than today
-        (e2.stop_at >= today) and
-        # not both masters
-        (e2.master_id or e.master_id) and
-        # related
-        (e2.master_id == e.master_id or
-         e2.id == e.master_id or
-         e2.master_id == e.id) and
-        # e2 earlier than e?
-        (e2.start_at < e.start_at)
-      }
+    ancient_threshold = today - 3.months
+    events.each do |e|
+      if e == e.best_replica(events)
+        # no replicas or the best replica
+        if e.stop_at >= today
+          result[:active] << e
+        elsif e.stop_at >= ancient_threshold
+          result[:expired] << e
+        else
+          result[:ancient] << e
+        end
+        result[:all] << e
+      end
     end
+    result
   end
   
-  before_save do
-    # update replicas, including reservations
-    self.replicas.each do |replica|
-      replica.name = self.name if replica.name != self.name
-      replica.location = self.location if replica.location != self.location
-      replica.align_reservations(self)
+  # find the replica that is the closest to today, preferably in the future
+  def best_replica(events)
+    return self if (not master_id) and replicas.empty? # no replicas
+    today = Time.now.beginning_of_day
+    candidate = self
+    events.each do |e|
+      # are we related?
+      next unless e.master_id == self.id or self.master_id == e.id or
+        (self.master_id and e.master_id == self.master_id)
+
+      if e.start_at >= today and (candidate.start_at > e.start_at or
+        candidate.start_at < today)
+        # today or later but sooner than candidate
+        candidate = e
+      elsif e.start_at < today and candidate.start_at < e.start_at
+        # earlier than today but later than candidate
+        candidate = e
+      end
+      
+    end
+    candidate
+  end
+  
+  def update_with_replicas(attrs={})
+    Event.transaction do
+      update_attributes(attrs)
+      # make me the master
+      become_master
+      # update replicas, including reservations
+      self.replicas.each do |replica|
+        replica.name = self.name
+        replica.location = self.location
+        replica.align_reservations(self)
+        replica.save
+      end
     end
   end
   
@@ -73,21 +102,37 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def master_and_replicas
+    result = if master
+        master.replicas.all.dup + [master]
+      elsif not replicas.empty?
+        replicas.all.dup + [self]
+      else
+        [self]
+      end
+    result.sort{|e1, e2| e1.start_at <=> e2.start_at}
+  end
+  
   def replicate(dates)
-    # remove existing events that aren't checked
-    replicas.each do |event|
-      next if event == self
-      next if dates.include?(event.start_at.to_date)
-      event.destroy
+    #logger.info "!!! replicate to #{dates.map{|e| e.to_s}.join(', ')}"
+    Event.transaction do
+      # throw out everything related except me
+      if master
+        master.replicas.delete(self)
+        master.replicas.each{|e| e.destroy}
+        master.destroy
+      else
+        replicas.each{|e| e.destroy}
+      end
+      
+      remaining_dates = dates.dup
+      # set me to first date
+      adjust_dates(remaining_dates.shift)
+      save
+      remaining_dates.each do |date|
+        replicas << copy(date)
+      end
     end
-    # add new ones that we don't have yet
-    existing = replicas.map{|e| e.start_at.to_date}
-    dates.each do |date|
-      next if existing.include?(date)
-      next if date == self.start_at.to_date
-      replicas << copy(date)
-    end
-    save
   end
   
   def possible_pages
@@ -95,6 +140,14 @@ class Event < ActiveRecord::Base
   end
   
   private
+  
+  def adjust_dates(date)
+    duration = self.stop_at - self.start_at
+    new_start_at = Time.parse(date.strftime("%Y-%m-%d") +
+      self.start_at.strftime(" %H:%M %z"))
+    self.start_at = new_start_at
+    self.stop_at = (new_start_at + duration)
+  end
   
   def copy(date)
     duration = self.stop_at - self.start_at
@@ -110,6 +163,14 @@ class Event < ActiveRecord::Base
       new_event.reservations << reservation.copy(new_event)
     end
     new_event
+  end
+  
+  def become_master
+    return unless master
+    tmp = master.replicas.all.dup
+    master.replicas.clear
+    replicas << master
+    tmp.each{|e| replicas << e unless e == self}
   end
   
 end

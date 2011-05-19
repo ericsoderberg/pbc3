@@ -11,7 +11,6 @@ class RecurrenceControllerTest < ActionController::TestCase
   test "should show recurrence" do
     get :show, :page_id => @page.url, :event_id => @event.id
     assert_response :success
-    assert_not_nil assigns(:replicas)
     assert_not_nil assigns(:calendar)
   end
   

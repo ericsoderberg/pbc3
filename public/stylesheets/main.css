@@ -124,7 +124,7 @@ header {
   		  text-align: center;
   		  color: #999;
 		    }
-		  header ul.nav li a, #edit_list li a {
+		  header ul.nav li a, .edit_list li a {
   		  text-decoration: none;
   		  border-radius: 3px;
   		  -webkit-transition-property:color, background-color;
@@ -138,16 +138,16 @@ header {
         transition-duration: 0.2s, 0.4s;
         transition-timing-function: linear, ease-in;
   	  }
-  	  header ul.nav li a:hover, #edit_list li a:hover {
+  	  header ul.nav li a:hover, .edit_list li a:hover {
 			  color: #fff;
 			  background-color: #999;
 			  text-decoration: none;
 		  }
   	
-  	  header ul.nav li.active a, #edit_list li.active a {
+  	  header ul.nav li.active a, .edit_list li.active a {
   	    color: #666;
   	  }
-  	  header ul.nav li.active a:hover, #edit_list li.active a:hover {
+  	  header ul.nav li.active a:hover, .edit_list li.active a:hover {
   	    color: #666;
   	    background: inherit;
   	  }
@@ -605,6 +605,10 @@ div#notice {
     #edit_content section header {
       margin-top: 0px;
       }
+		#edit_content h4 {
+			margin-bottom: 0px;
+			color: #888;
+			}
 	
 .field aside {
   float: right;
@@ -661,35 +665,35 @@ div#notice {
 		#events h2 img {
 			vertical-align: text-top;
 		}
-  #events_list, #documents_list, #edit_list, #dynamic_forms_list {
+  .events_list, #documents_list, .edit_list, #dynamic_forms_list {
     display: table-cell;
     margin: 0px;
     padding: 0px;
     list-style: none;
     }
-    #events_list li, #documents_list li, #edit_list li,
+    .events_list li, #documents_list li, .edit_list li,
  		#dynamic_forms_list li {
       padding: 10px 0px;
       border-top: 1px solid #ccc;
       color: #666;
       font-weight: normal;
       }
-    #events_list li:first-of-type, #documents_list li:first-of-type,
-		#edit_list li:first-of-type, #dynamic_forms_list li:first-of-type {
+    .events_list li:first-of-type, #documents_list li:first-of-type,
+		.edit_list li:first-of-type, #dynamic_forms_list li:first-of-type {
       border: none;
       }
-    #events_list .event_range {
+    .events_list .event_range {
       color: #333;
       font-weight: bold;
       }
-    #edit_list li {
+    .edit_list li {
       padding: 0px;
       }
-    #edit_list a {
+    .edit_list a {
       display: block;
       padding: 10px 20px;
       }
-      #edit_list a .event_range {
+      .edit_list a .event_range {
         color: #333;
         }
   #add_content {
