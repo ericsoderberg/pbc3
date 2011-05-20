@@ -1193,6 +1193,8 @@ div.actions {
 	#landing_page_content .sub_pages li.landing_sub {
 		display: inline-block;
 		width: 213px;
+		height: 200px;
+		overflow: hidden;
 		vertical-align: top;
 		background-color: #efefef;
 		border: 1px solid #fff;
@@ -1200,7 +1202,7 @@ div.actions {
 		margin: 0px 10px 10px 0px;
 		}
 		li.landing_sub .sub_sub_pages {
-			padding: 10px;			
+			padding: 10px;
 			}
 		.landing_sub_title {
 	    color: #fff;
