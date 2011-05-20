@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110507165023) do
+ActiveRecord::Schema.define(:version => 20110519161645) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "page_id"
@@ -166,8 +166,8 @@ ActiveRecord::Schema.define(:version => 20110507165023) do
     t.boolean  "private",                 :default => false
     t.integer  "style_id"
     t.integer  "index"
-    t.boolean  "landing"
     t.boolean  "highlightable"
+    t.string   "page_type",               :default => "main", :null => false
   end
 
   create_table "photos", :force => true do |t|

@@ -22,7 +22,10 @@ class Page < ActiveRecord::Base
   has_many :authorizations
   has_one :podcast
   has_many :forms
+  
+  TYPES = ['main', 'leaf', 'landing', 'blog', 'post']
 
+  validates :page_type, :inclusion => {:in => TYPES}
   validates :name, :presence => true, :uniqueness => true
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
@@ -31,8 +34,30 @@ class Page < ActiveRecord::Base
     :unless => Proc.new{|p| not p.parent_id}}
   validates :feature_index,
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
+  validate :page_type_for_parent
   
-  def self.home_pages(user=nil)
+  before_validation(:on => :create) do
+    if parent
+      self.index = (parent.children.map{|c| c.index}.max || 0) + 1
+    end
+  end
+  
+  def page_type_for_parent
+    return unless parent
+    if parent.leaf?
+      errors.add(:parent_id, "leaf pages can't contain pages")
+    elsif parent.post?
+      errors.add(:parent_id, "post pages can't contain pages")
+    elsif parent.blog? and not post?
+      errors.add(:parent_id, "blog pages can only contain post pages")
+    elsif parent.main? and not (leaf? or blog?)
+      errors.add(:parent_id, "main pages can only contain leaf or blog pages")
+    elsif parent.landing? and (leaf? or post?)
+      errors.add(:parent_id, "landing pages cannot contain leaf or post pages")
+    end
+  end
+  
+  def self.featured_pages(user=nil)
     visible(user).where(['featured = ?', true]).order('feature_index ASC')
   end
   
@@ -93,6 +118,41 @@ class Page < ActiveRecord::Base
       self.includes?(page) or page == self}
   end
   
+  def possible_types
+    if parent
+      case parent.page_type
+      when 'landing'
+        ['main', 'landing', 'blog']
+      when 'main'
+        ['leaf', 'blog']
+      when 'blog'
+        ['post']
+      when 'leaf', 'post'
+        []
+      end
+    else
+      Page::TYPES
+    end
+  end
+  
+  def possible_aspects
+    case page_type
+    when 'landing'
+      %w(text photos videos audios contacts access feature)
+    when 'main'
+      %w(text photos videos audios documents forms
+        contacts access feature podcast events)
+    when 'leaf'
+      %w(text photos videos audios documents forms
+        contacts access feature events)
+    when 'blog'
+      %w(text contacts access feature podcast)
+    when 'post'
+      %w(text photos videos audios
+        contacts access feature)
+    end
+  end
+  
   def order_children(ids)
     result = true
     Page.transaction do
@@ -147,6 +207,26 @@ class Page < ActiveRecord::Base
   
   def categorized_events
     Event.categorize(events)
+  end
+  
+  def landing?
+    'landing' == page_type
+  end
+  
+  def main?
+    'main' == page_type
+  end
+  
+  def leaf?
+    'leaf' == page_type
+  end
+  
+  def blog?
+    'blog' == page_type
+  end
+  
+  def post?
+    'post' == page_type
   end
   
   private

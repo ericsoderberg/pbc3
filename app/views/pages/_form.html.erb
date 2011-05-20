@@ -51,10 +51,15 @@
         <%= f.check_box :highlightable %>
       </div>
       
+      <% if @page.possible_types.length > 1 -%>
       <div class="field">
-        <%= f.label :landing_page? %>
-        <%= f.check_box :landing %>
+        <%= f.label :type_of_page %>
+        <%= f.select :page_type,
+          options_for_select(@page.possible_types, @page.page_type) %>
       </div>
+      <% else -%>
+        <%= f.hidden_field :page_type -%>
+      <% end -%>
       
       <% if @page.id -%>
       <hr/>

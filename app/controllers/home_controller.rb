@@ -13,12 +13,12 @@ class HomeController < ApplicationController
       return
     end
     user = user_signed_in? ? current_user : nil
-    @pages = Page.home_pages(user)
+    @featured_pages = Page.featured_pages(user)
   end
   
   def edit
-    @feature_pages = Page.where('featured = ?', true).order('feature_index ASC').all
-    @feature_pages << @page unless @feature_pages.include?(@page)
+    @featured_pages = Page.featured_pages(current_user)
+    @featured_pages << @page unless @featured_pages.include?(@page)
   end
   
   def update
@@ -33,8 +33,8 @@ class HomeController < ApplicationController
         format.xml  { head :ok }
       else
         format.html {
-          @feature_pages = Page.where('featured = ?', true).all
-          @feature_pages << @page unless @feature_pages.include?(@page)
+          @featured_pages = Page.featured_pages(current_user)
+          @featured_pages << @page unless @featured_pages.include?(@page)
           render :action => "edit"
         }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }

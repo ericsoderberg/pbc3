@@ -5,12 +5,14 @@ public:
   private: false
   style: blank
   highlightable: true
+  page_type: main
   
 private:
   name: Private
   url: private
   text: hi
   private: true
+  page_type: main
   
 sub_public:
   name: "Sub Public"
@@ -18,9 +20,24 @@ sub_public:
   text: hi
   private: false
   parent: public
+  index: 1
+  page_type: leaf
 
 communities:
   name: Communities
   url: communities
-  landing: true
+  page_type: landing
   
+blog:
+  name: Blog
+  url: blog
+  parent: public
+  index: 2
+  page_type: blog
+  
+post:
+  name: Post
+  url: post
+  parent: blog
+  index: 1
+  page_type: post

@@ -1,0 +1,50 @@
+<% title @page.name -%>
+
+<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+
+<section>
+  
+  <header>
+    <h1 class="active"><%= @page.name %></h1>
+    <h3><%= @page.created_at.relative_str %> in
+      <%= link_to @page.parent.name, friendly_page_path(@page.parent)%></h3>
+
+    <% if user_signed_in? and current_user.administrator? -%>
+      <div id="page_admin">
+        <ul>
+          <li><%= link_to 'Edit post', edit_page_path(@page) %><li>
+        </ul>
+      </div>
+    <% end -%>
+
+  </header>
+  
+
+  <% if @page.style and @page.style.banner.exists? -%>
+    <div id="page_banner">
+      <%= image_tag @page.style.banner.url(:normal) %>
+    </div>
+  <% end -%>
+  
+</section>
+
+<div id="page_content">
+
+  <section id="page_text">
+    
+    <% if @page.text_image.exists? -%>
+      <%= image_tag @page.text_image.url(:normal), :class => 'page_text_image' %>
+    <% end -%>
+    
+    <%= raw @page.rendered_text %>
+    
+  </section>
+
+  <aside>
+    
+    <%= render :partial => 'photos/viewer', :locals => {:photos => @page.photos} %>
+    <%= render :partial => 'videos/viewer', :locals => {:videos => @page.videos} %>
+  
+  </aside>
+  
+</div>

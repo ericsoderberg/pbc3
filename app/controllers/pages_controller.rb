@@ -12,6 +12,9 @@ class PagesController < ApplicationController
       format.xml  { render :xml => @pages }
     end
   end
+  
+  PAGE_TYPE_VIEWS = {'landing' => 'landing', 'blog' => 'blog',
+    'main' => 'main', 'leaf' => 'main', 'post' => 'post'}
 
   # GET /pages/1
   # GET /pages/1.xml
@@ -22,12 +25,14 @@ class PagesController < ApplicationController
       return
     end
     
-    @categorized_events = Event.categorize(@page.related_events) unless @page.landing?
+    if @page.main? or @page.leaf? or @page.post?
+      @categorized_events = Event.categorize(@page.related_events)
+    end
     @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|
-      format.html {
-          render :action => (@page.landing? ? 'show_landing' : 'show') }
+      format.html { render :action =>
+        "show_#{PAGE_TYPE_VIEWS[@page.page_type]}" }
       format.xml  { render :xml => @page }
     end
   end
@@ -52,6 +57,7 @@ class PagesController < ApplicationController
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
     @page.index = @page.parent ? @page.parent.children.length + 1 : 1
+    @page.page_type = @page.possible_types.first
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
     if params[:site_page]

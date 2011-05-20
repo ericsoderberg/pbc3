@@ -1,0 +1,34 @@
+<% title @page.name -%>
+
+<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+
+<section>
+  
+  <%= render :partial => 'header' %>
+
+  <% if @page.style and @page.style.banner.exists? -%>
+    <div id="page_banner">
+      <%= image_tag @page.style.banner.url(:normal) %>
+    </div>
+  <% end -%>
+  
+</section>
+
+<div id="page_content">
+  
+  <section id="page_text">
+    <%= raw @page.rendered_text %>
+  </section>
+      
+</div>
+
+<div id="blog_posts">
+  <% @page.children.reverse.each do |child| -%>
+    <div class="blog_post">
+      <h2>
+        <%= child.created_at.relative_str %>
+        <%= link_to child.name, friendly_page_path(child) %>
+      </h2>
+    </div>
+  <% end -%>
+</div>
