@@ -1,0 +1,6 @@
+one:
+  user: admin
+  auditable: public (Page)
+
+two:
+  user: admin

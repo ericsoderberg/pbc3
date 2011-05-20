@@ -5,6 +5,7 @@ class Podcast < ActiveRecord::Base
       :normal => '600x600',
       :thumb => '50x50'
     }
+  acts_as_audited
     
   validates_presence_of :page, :user_id, :title, :subtitle,
     :summary, :description, :category

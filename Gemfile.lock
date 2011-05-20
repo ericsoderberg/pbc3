@@ -28,6 +28,8 @@ GEM
       activemodel (= 3.0.5)
       activesupport (= 3.0.5)
     activesupport (3.0.5)
+    acts_as_audited (2.0.0.rc7)
+      rails (>= 3.0.3)
     arel (2.0.9)
     bcrypt-ruby (2.1.4)
     bluecloth (2.1.0)
@@ -97,6 +99,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_audited (= 2.0.0.rc7)
   bluecloth
   capistrano
   devise

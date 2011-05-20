@@ -29,6 +29,7 @@ Pbc3::Application.routes.draw do
       end
       resources :fills, :controller => 'filled_forms'
     end
+    resources :audit_logs
   end
   
   # Redirect to SSL from non-SSL so you don't get 404s

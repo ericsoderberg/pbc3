@@ -1,6 +1,7 @@
 class Note < ActiveRecord::Base
   belongs_to :page
-  validates_presence_of :page_id
+  acts_as_audited
   
+  validates_presence_of :page_id
   validates_presence_of :text, :page
 end

@@ -12,6 +12,7 @@ class Style < ActiveRecord::Base
       :thumb => '50x25'
     }
   has_many :pages
+  acts_as_audited
   
   validates_presence_of :name, :hero_text_color, :gradient_upper_color,
     :gradient_lower_color

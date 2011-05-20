@@ -1,0 +1,17 @@
+<%= form_for(@audit_log) do |f| %>
+  <% if @audit_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@audit_log.errors.count, "error") %> prohibited this audit_log from being saved:</h2>
+
+      <ul>
+      <% @audit_log.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -3,6 +3,7 @@ class Form < ActiveRecord::Base
   has_many :form_fields, :order => 'index ASC',
     :autosave => true, :dependent => :destroy
   has_many :filled_forms, :order => 'name ASC', :dependent => :destroy
+  acts_as_audited
   
   validates :name, :presence => true
   

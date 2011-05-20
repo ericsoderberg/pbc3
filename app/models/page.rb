@@ -22,6 +22,7 @@ class Page < ActiveRecord::Base
   has_many :authorizations
   has_one :podcast
   has_many :forms
+  acts_as_audited :except => [:index, :feature_index]
   
   TYPES = ['main', 'leaf', 'landing', 'blog', 'post']
 

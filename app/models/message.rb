@@ -4,6 +4,7 @@ class Message < ActiveRecord::Base
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
   has_many :message_files, :dependent => :destroy
   acts_as_url :title, :sync_url => true
+  acts_as_audited
   
   validates :title, :presence => true
   

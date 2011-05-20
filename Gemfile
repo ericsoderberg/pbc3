@@ -14,6 +14,7 @@ gem 'paperclip', '~> 2.3'
 gem 'stringex'
 #gem 'table_builder'
 #gem 'sunspot_rails', '~> 1.2.1'
+gem "acts_as_audited", "2.0.0.rc7"
 
 # Use unicorn as the web server
 # gem 'unicorn'

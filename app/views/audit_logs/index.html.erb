@@ -1,0 +1,24 @@
+<section>
+  
+  <%= render :partial => 'site/header' %>
+
+<table id="audit_logs" class="index">
+  <tbody>
+<% @audit_logs.each do |audit_log| %>
+  <tr>
+    <td><%= audit_log.created_at %></td>
+    <td><%= audit_log.user.name %></td>
+    <td>
+      <% if audit_log.auditable -%>
+        <%= link_to_audited_item(audit_log) %>
+      <% else -%>
+        <%= audit_log.auditable_type %>
+        <%= audit_log.auditable_id %>
+      <% end -%>
+    </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+</section>

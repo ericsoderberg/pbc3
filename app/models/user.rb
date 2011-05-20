@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :contact_pages, :through => :contacts, :source => :page
   has_many :authorizations
   has_many :filled_forms
+  acts_as_audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',
