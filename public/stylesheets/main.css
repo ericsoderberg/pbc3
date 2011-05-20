@@ -1513,4 +1513,21 @@ div#messages {
 	font-style: italic;
 	color: #999;
 	}
-	
+
+.blog_post {
+	margin-bottom: 30px;
+	}
+	.post_date {
+		color: #999;
+		font-size: 11px;
+		}
+	.post_title {
+		margin: 5px 0px 10px 0px;
+		padding: 0px;
+		}
+		.post_title a {
+			font-size: 28px;
+			}
+	.post_snippet {
+		
+		}

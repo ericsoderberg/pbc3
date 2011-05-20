@@ -72,14 +72,16 @@ class Page < ActiveRecord::Base
   #  text :name, :default_boost => 2
   #  text :text
   #end
+  
+  include ActionView::Helpers::SanitizeHelper
 
   def render_text
     #self.rendered_text = BlueCloth.new(self.text).to_html
     self.rendered_text = self.text # since we're using the YUI editor
     self.rendered_feature_text = BlueCloth.new(self.feature_text).to_html
-    self.snippet_text = extract_first_paragraph(self.rendered_text)
+    self.snippet_text = strip_tags(strip_links(self.rendered_text))
     self.snippet_feature_text =
-      extract_first_paragraph(self.rendered_feature_text)
+      strip_tags(strip_links(self.rendered_feature_text))
   end
   
   def to_param
