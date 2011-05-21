@@ -38,7 +38,7 @@ class SiteController < ApplicationController
   # PUT /sites/1
   # PUT /sites/1.xml
   def update
-    @site = Site.find(params[:id])
+    @site = Site.first
 
     respond_to do |format|
       if @site.update_attributes(params[:site])

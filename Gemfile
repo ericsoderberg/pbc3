@@ -15,6 +15,7 @@ gem 'stringex'
 #gem 'table_builder'
 #gem 'sunspot_rails', '~> 1.2.1'
 gem "acts_as_audited", "2.0.0.rc7"
+gem "uuidtools"
 
 # Use unicorn as the web server
 # gem 'unicorn'

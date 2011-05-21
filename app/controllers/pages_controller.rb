@@ -28,6 +28,9 @@ class PagesController < ApplicationController
     if @page.main? or @page.leaf? or @page.post?
       @categorized_events = Event.categorize(@page.related_events)
     end
+    if params[:invitation_key]
+      @invitation = Invitation.find_by_key(params[:invitation_key])
+    end
     @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|

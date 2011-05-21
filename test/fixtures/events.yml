@@ -43,3 +43,11 @@ ancient_replica:
   stop_at: <%= Time.zone.now - 4.months + 1.hour %>
   page: public
   master: recurring
+
+invited:
+  name: Invited
+  start_at: <%= Time.zone.now + 1.day %>
+  stop_at: <%= Time.zone.now + 1.day + 1.hour %>
+  page: public
+  featured: true
+  

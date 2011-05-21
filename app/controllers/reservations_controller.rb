@@ -33,4 +33,5 @@ class ReservationsController < ApplicationController
   def get_event
     @event = @page.events.find(params[:event_id])
   end
+  
 end

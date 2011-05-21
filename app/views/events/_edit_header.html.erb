@@ -22,6 +22,12 @@
           " (#{@event.master_and_replicas.count})"),
           page_event_recurrence_path(@page, @event) %>
     </li>
+    <li class="<%= active_aspect == 'invitations' ? 'active' : '' %>">
+      <%= link_to 'Invitations' +
+        (@event.invitations.empty? ? '' :
+          " (#{@event.invitations.count})"),
+          page_event_invitations_path(@page, @event) %>
+    </li>
   </ul>
   <% end -%>
 </header>

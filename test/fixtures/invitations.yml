@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+generic:
+  email: 'generic@localhost'
+  key: abcd
+  event: invited
+  user: generic
+  response: 'yes'
+
+random:
+  email: 'random@localhost'
+  key: defg
+  event: invited
+  response: 'unknown'

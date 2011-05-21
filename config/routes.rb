@@ -67,6 +67,11 @@ Pbc3::Application.routes.draw do
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence
       resource :reservations, :only => [:show, :update]
+      resources :invitations, :only => [:index, :update, :destroy] do
+        collection do
+          post :bulk_create
+        end
+      end
     end
     resources :documents
     resources :photos

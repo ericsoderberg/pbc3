@@ -1530,6 +1530,47 @@ div#messages {
 		.post_title a {
 			font-size: 28px;
 			}
-	.post_snippet {
-		
+
+#invitations {
+	list-style: none;
+	padding: 0px;
+	}
+	.invitation {
+		margin: 7px 0px;
+		}
+	.invitation .email {
+		display: inline-block;
+		width: 240px;
+		}
+	.invitation form {
+		display: inline-block;
+		margin: 0px 10px;
+		}
+	.invitation .response_note {
+		display: inline-block;
+		margin: 0px 10px;
+		color: #999;
+		}
+
+#invitation_response {
+	margin: 20px 0px;
+	padding: 20px;
+	background-color: #eee;
+	font-size: 18px;
+	}
+	#invitation_response h3 {
+		margin-top: 0px;
+		padding-top: 0px;
+		}
+	#invitation_response .response_option {
+		display: inline-block;
+		vertical-align: top;
+		margin-right: 10px;
+		}
+	#invitation_response .response_note {
+		display: inline-block;
+		margin-right: 10px;
+		}
+	#invitation_response input {
+		vertical-align: top;
 		}

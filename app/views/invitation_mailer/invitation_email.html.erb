@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Invitation to <%= @event.name %> from <%= @inviter.name %></h1>
+    <p>
+      <%= @event.invitation_message %>
+    </p>
+    <p>
+      To respond to the invitation, follow this link: <%= @url %>.
+    </p>
+  </body>
+</html>

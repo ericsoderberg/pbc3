@@ -1,11 +1,11 @@
 <%= content_tag_for(:li, event) do %>
   
   <% if user_signed_in? and current_user.administrator? -%>
+    <% best_event = event.best_replica(@page.events) -%>
     <div id="page_admin">
       <ul>
         <li><%= link_to 'Edit',
-          edit_page_event_path(@page,
-            event.best_replica(@page.events)) %><li>
+          edit_page_event_path(best_event.page, best_event) %><li>
       </ul>
     </div>
   <% end -%>

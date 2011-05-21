@@ -1,0 +1,67 @@
+<% title "PBC - #{@event.name} Invitations" -%>
+
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'events'} %>
+  
+  <div id="edit_content">
+    <aside>
+      <%= render :partial => 'events/edit_list' %>
+    </aside>
+
+    <section>
+      <%= render :partial => 'events/edit_header',
+        :locals => {:active_aspect => 'invitations'} %>
+      
+      <div id="inviter">
+      <%= form_tag bulk_create_page_event_invitations_path(@page, @event) do %>
+        <div class="field">
+          <%= label_tag :email_addresses %><br />
+          <%= text_area_tag :emails %>
+        </div>
+        <div class="field">
+          <%= label_tag :message %><br />
+          <%= text_area_tag :message, @event.invitation_message,
+            :size => '60x4' %>
+        </div>
+        <div class="actions">
+          <%= submit_tag 'Invite' %>
+        </div>
+      <% end %>
+      </div>
+      
+      <ul id="invitations">
+        <% @invitations.each do |invitation| -%>
+          <li class="invitation" id="<%= dom_id(invitation) %>">
+            <div class="email">
+              <%= invitation.email %>
+            </div>
+            <%= form_for invitation,
+              :url => page_event_invitation_path(@page, @event, invitation),
+              :remote => true do |f| %>
+              <%= f.hidden_field :key %>
+              <%= f.radio_button :response, 'yes' %>yes
+              <%= f.radio_button :response, 'no' %>no
+              <%= f.radio_button :response, 'maybe' %>maybe
+              <%= f.radio_button :response, 'unknown' %>unknown
+              <div class="response_note">
+                <%= invitation.note %>
+              </div>
+            <% end %>
+            <%= link_to 'Delete', [@page, @event, invitation],
+              :confirm => 'Are you sure?', :method => :delete,
+              :remote => true %>
+          </li>
+        <% end -%>
+      </ul>
+    </section>
+  </div>
+
+</section>
+
+<%= javascript_tag do %>
+  $('input[name="invitation[response]"]').click(function(){
+    $(this).closest('form').submit();
+  });
+<% end -%>

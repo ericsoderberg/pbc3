@@ -49,7 +49,7 @@
         <%= link_to "About", about_path %></li>
       <% if user_signed_in? and current_user.administrator? -%>
         <li class="<%= (@pages or @users or @styles or
-          @resources) ? 'active' : '' %>">
+          @resources or @audit_logs) ? 'active' : '' %>">
           <%= link_to "Admin", pages_path %></li>
       <% end -%>
     </ul>

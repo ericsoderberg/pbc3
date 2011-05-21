@@ -1,0 +1,23 @@
+<div id="invitation_response">
+  <h3><%= 'unknown' == @invitation.response ? 'Awaiting response' :
+    'Response' %>
+    from <%= @invitation.email.split('@')[0] %>@...</h3>
+  <%= form_for @invitation,
+    :url => page_event_invitation_path(@page,
+      @invitation.event, @invitation) do |f| %>
+    <%= f.hidden_field :key %>
+    <div class="response_option">
+      <%= f.radio_button :response, 'yes' %>yes
+    </div>
+    <div class="response_option">
+      <%= f.radio_button :response, 'no' %>no
+    </div>
+    <div class="response_option">
+      <%= f.radio_button :response, 'maybe' %>maybe
+    </div>
+    <div class="response_note">
+      <%= f.text_area :note, :size => '20x2' %>
+    </div>
+    <%= f.submit 'Respond' %>
+  <% end %>
+</div>

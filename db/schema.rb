@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110520113154) do
+ActiveRecord::Schema.define(:version => 20110521130941) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20110520113154) do
     t.datetime "updated_at"
     t.integer  "master_id"
     t.boolean  "featured"
+    t.text     "invitation_message"
   end
 
   create_table "filled_fields", :force => true do |t|
@@ -123,6 +124,17 @@ ActiveRecord::Schema.define(:version => 20110520113154) do
     t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "invitations", :force => true do |t|
+    t.string   "email"
+    t.string   "key"
+    t.integer  "event_id"
+    t.string   "response"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "note"
   end
 
   create_table "message_files", :force => true do |t|
@@ -240,6 +252,7 @@ ActiveRecord::Schema.define(:version => 20110520113154) do
     t.string   "subtitle"
     t.string   "address"
     t.string   "copyright"
+    t.string   "email"
   end
 
   create_table "styles", :force => true do |t|

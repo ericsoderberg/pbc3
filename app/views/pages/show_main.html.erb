@@ -22,6 +22,10 @@
       <%= image_tag @page.text_image.url(:normal), :class => 'page_text_image' %>
     <% end -%>
     
+    <% if @invitation -%>
+      <%= render :partial => 'invitations/response' %>
+    <% end -%>
+    
     <%= raw @page.rendered_text %>
     
   </section>

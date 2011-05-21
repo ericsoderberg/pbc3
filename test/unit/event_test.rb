@@ -136,7 +136,7 @@ class EventTest < ActiveSupport::TestCase
   
   test "categorization" do
     categorized = Event.categorize(Event.all)
-    assert_equal 2, categorized[:active].count, 'mismatched active'
+    assert_equal 3, categorized[:active].count, 'mismatched active'
     assert_equal 1, categorized[:expired].count, 'mismatched expired'
     assert_equal 1, categorized[:ancient].count, 'mismatched ancient'
   end

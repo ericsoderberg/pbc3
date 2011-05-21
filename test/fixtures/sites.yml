@@ -2,5 +2,6 @@ site:
   communities_page: communities
   title: 'Title'
   subtitle: 'sub title'
+  email: 'site@localhost'
   address: 'address'
   copyright: 'copyright'

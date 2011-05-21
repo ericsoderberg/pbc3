@@ -6,6 +6,7 @@ class Event < ActiveRecord::Base
   has_many :reservations, :autosave => true, :dependent => :destroy,
     :include => :resource
   has_many :resources, :through => :reservations
+  has_many :invitations, :dependent => :destroy, :order => :email
   acts_as_audited
   
   validates_presence_of :page, :name, :stop_at
