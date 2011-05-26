@@ -5,7 +5,12 @@ class FormsController < ApplicationController
   # GET /forms
   # GET /forms.xml
   def index
-    @forms = Form.order('name ASC')
+    @forms = if params[:page_id]
+        @page = Page.find(params[:page_id])
+        @page.forms
+      else
+        @forms = Form.order('name ASC')
+      end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,6 +33,7 @@ class FormsController < ApplicationController
   # GET /forms/new.xml
   def new
     @form = Form.new
+    @form.page = Page.find(params[:page_id]) if params[:page_id]
     @copy_form = nil
 
     respond_to do |format|
@@ -60,7 +66,8 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       if @form.save
-        format.html { redirect_to(edit_form_url(@form), :notice => 'Form was successfully created.') }
+        format.html { redirect_to(edit_form_url(@form),
+          :notice => 'Form was successfully created.') }
         format.xml  { render :xml => @form, :status => :created, :location => @form }
       else
         format.html { render :action => "new" }
@@ -78,7 +85,8 @@ class FormsController < ApplicationController
     respond_to do |format|
       if @form.update_attributes(params[:form]) and
         @form.order_fields(ordered_field_ids)
-        format.html { redirect_to(@form, :notice => 'Form was successfully updated.') }
+        format.html { redirect_to(new_form_fill_path(@form),
+          :notice => 'Form was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -17,8 +17,13 @@
       :collection => @form.form_fields %>
   </ul>
   
+  <% if @form.payable? -%>
+    <hr/>
+    <%= render :partial => 'payment_fields' %>
+  <% end -%>
+  
   <div class="actions">
-    <%= f.submit 'Submit' %>
+    <%= f.submit (@filled_form.id ? 'Update' : 'Submit') %>
     <% if @filled_form.id -%>
     | <%= link_to 'Print',
       form_fill_path(@form, @filled_form)%>

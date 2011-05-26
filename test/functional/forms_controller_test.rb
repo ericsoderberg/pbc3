@@ -25,11 +25,6 @@ class FormsControllerTest < ActionController::TestCase
     assert_redirected_to edit_form_path(assigns(:form))
   end
 
-  test "should show form" do
-    get :show, :id => @form.to_param
-    assert_response :success
-  end
-
   test "should get edit" do
     get :edit, :id => @form.to_param
     assert_response :success
@@ -38,7 +33,7 @@ class FormsControllerTest < ActionController::TestCase
   test "should update form" do
     put :update, :id => @form.to_param, :form => @form.attributes,
       :field_order => ''
-    assert_redirected_to form_path(assigns(:form))
+    assert_redirected_to new_form_fill_path(assigns(:form))
   end
 
   test "should destroy form" do

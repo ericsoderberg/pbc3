@@ -29,4 +29,11 @@
       <%= h event.location %>
     </div>
   <% end -%>
+  <% if user_signed_in? and current_user.administrator? and
+    not event.invitations.empty? -%>
+    <div class="event_invitations">
+      <%= link_to "invitations (#{event.invitations.where('response = ?', 'yes').count}/#{event.invitations.count})",
+        page_event_invitations_path(@page, event) %>
+    </div>
+  <% end -%>
 <% end %>

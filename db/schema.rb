@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110521130941) do
+ActiveRecord::Schema.define(:version => 20110525015025) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -117,6 +117,8 @@ ActiveRecord::Schema.define(:version => 20110521130941) do
     t.string   "size"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "required"
+    t.boolean  "monetary"
   end
 
   create_table "forms", :force => true do |t|
@@ -124,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20110521130941) do
     t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "payable"
   end
 
   create_table "invitations", :force => true do |t|
@@ -201,6 +204,13 @@ ActiveRecord::Schema.define(:version => 20110521130941) do
     t.integer  "index"
     t.boolean  "highlightable"
     t.string   "page_type",               :default => "main", :null => false
+  end
+
+  create_table "payments", :force => true do |t|
+    t.integer  "amount"
+    t.string   "method"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "photos", :force => true do |t|

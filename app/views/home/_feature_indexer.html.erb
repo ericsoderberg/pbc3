@@ -1,13 +1,13 @@
 <div class="field">
   <%= label_tag :feature_order %>
   <%= hidden_field_tag 'feature_order',
-    @feature_pages.map{|c| c.id}.join(', '),
+    @featured_pages.map{|c| c.id}.join(', '),
     :id => 'feature_order' %>
   <ul id="indexer">
-    <% @feature_pages.each do |feature_page| -%>
-      <li id="<%= feature_page.id %>"
-        class="<%= feature_page == @page ? 'active' : ''%>">
-        <%= feature_page.name %></li>
+    <% @featured_pages.each do |featured_page| -%>
+      <li id="<%= featured_page.id %>"
+        class="<%= featured_page == @page ? 'active' : ''%>">
+        <%= featured_page.name %></li>
     <% end -%>
   </ul>
 </div>

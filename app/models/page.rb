@@ -37,6 +37,10 @@ class Page < ActiveRecord::Base
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
   validate :page_type_for_parent
   
+  before_validation do
+    self.feature_index = nil if not featured?
+  end
+  
   before_validation(:on => :create) do
     if parent
       self.index = (parent.children.map{|c| c.index}.max || 0) + 1

@@ -1,6 +1,6 @@
 <%= content_tag_for(:li, fill_form_field) do %>
-  <% filled_field = @filled_form.filled_fields.where(
-    'form_field_id = ?', fill_form_field.id).first
+  <% filled_field = @filled_form.filled_fields.detect{|ff|
+      fill_form_field == ff.form_field}
     value = filled_field ? filled_field.value : ''
     html_id = "filled_fields[#{fill_form_field.id}][value]" -%>
   

@@ -14,16 +14,29 @@
   <% end %>
 
   <%= f.hidden_field :form_id %>
-  <div class="form_field">
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+  <div class="admin">
+    <br />
+    <%= f.submit 'update' %>
+    | <%= link_to 'Cancel', form_field_path(@form, form_field),
+      :remote => true %>
   </div>
+  <div class="form_field">
   <div class="field">
     <%= f.label :type %><br />
     <!-- rails select doesn't honor an :id parameter :( -->
     <%= f.select :field_type, options_for_select(FormField::TYPES,
       form_field.field_type), {}, :id => "field_type_#{form_field.id}" %>
+  </div>
+  <div class="field">
+    <%= f.label :monetary? %><br />
+    <%= f.check_box :monetary %>
+  </div>
+  </div>
+  
+  <div class="form_field">
+  <div class="field">
+    <%= f.label :label %><br />
+    <%= f.text_field :name %>
   </div>
   
   <div id="field_size_<%= form_field.id %>" class="field size"
@@ -36,13 +49,8 @@
     <%= f.label :help %><br />
     <%= f.text_area :help, :size => '20x4' %>
   </div>
-  <div class="field admin">
-    <br />
-    <%= f.submit 'update' %>
-    | <%= link_to 'Cancel', form_field_path(@form, form_field),
-      :remote => true %>
   </div>
-  </div>
+  
 <% end %>
 
 <div id="options_<%= form_field.id %>" class="edit_options"
