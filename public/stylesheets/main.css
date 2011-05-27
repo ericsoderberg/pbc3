@@ -30,6 +30,7 @@ body {
 	  right: 0;
 	  height: 100%;
 		bottom: 0;
+		z-index: -1;
 		}
 
 div#content {
