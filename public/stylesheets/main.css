@@ -19,11 +19,18 @@ body {
   padding: 0px 0px 40px 0px;
 	font: 14px/22px Arial, sans-serif;
 	background-color: #999;
-  /*background: url(images/linear_bg_2.png);*/
-  background: -moz-linear-gradient(100% 100% 90deg, #999, #111);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#111));
-  background-repeat: no-repeat;
   }
+	body:after {
+	  content: "";
+	  position: fixed;
+	  background: -moz-linear-gradient(100% 100% 90deg, #111, #999);
+	  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#111));
+	  background-repeat: no-repeat;
+	  left: 0;
+	  right: 0;
+	  height: 100%;
+		bottom: 0;
+		}
 
 div#content {
   margin: 0px auto;
