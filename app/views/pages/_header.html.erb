@@ -4,10 +4,17 @@
       friendly_page_path(@page.nav_context) %></h1>
   
   <% if @page.podcast -%>
-  <div id="page_feed_control">
-    <%= link_to image_tag('feed.png'),
-      page_podcast_path(@page, :format => 'rss') -%>
-  </div>
+    <div id="page_feed_control">
+      <%= link_to image_tag('feed.png'),
+        page_podcast_path(@page, :format => 'rss') -%>
+    </div>
+  <% end -%>
+  <% if (@events and not @events.empty?) or
+      (@categorized_events and not @categorized_events.empty?) -%>
+    <div id="page_calendar_control">
+      <%= link_to image_tag('calendar.png'),
+        page_calendar_path(@page.nav_context) %>
+    </div>
   <% end -%>
   
   <% if user_signed_in? and current_user.administrator? -%>

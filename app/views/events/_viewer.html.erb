@@ -1,11 +1,7 @@
 <% unless categorized_events[:all].empty? -%>
 
 <div id="events">
-  <h2>
-    <%= link_to image_tag('calendar.png'), page_calendar_path(@page) %>
-    &nbsp;
-    <%= (categorized_events[:all].count == 1 ? 'Event' : 'Events') %>
-  </h2>
+  <h2><%= (categorized_events[:all].count == 1 ? 'Event' : 'Events') %></h2>
   
   <% [:active, :expired, :ancient].each do |category| -%>
     <% unless categorized_events[category].empty? -%>

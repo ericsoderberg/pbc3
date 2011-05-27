@@ -2,11 +2,6 @@ class Page < ActiveRecord::Base
   before_save :render_text
   acts_as_url :name
   
-  has_attached_file :text_image, :styles => {
-      :normal => '120x',
-      :thumb => '50x'
-    }
-  
   belongs_to :style
   has_many :notes, :order => 'created_at DESC'
   has_many :photos

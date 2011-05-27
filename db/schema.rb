@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110525015025) do
+ActiveRecord::Schema.define(:version => 20110527042413) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -187,23 +187,19 @@ ActiveRecord::Schema.define(:version => 20110525015025) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "rendered_text"
-    t.string   "text_image_file_name"
-    t.string   "text_image_content_type"
-    t.integer  "text_image_file_size"
-    t.datetime "text_image_updated_at"
     t.string   "url"
     t.text     "feature_text"
     t.text     "rendered_feature_text"
-    t.boolean  "featured",                :default => false
+    t.boolean  "featured",              :default => false
     t.integer  "parent_id"
     t.text     "snippet_text"
     t.text     "snippet_feature_text"
     t.integer  "feature_index"
-    t.boolean  "private",                 :default => false
+    t.boolean  "private",               :default => false
     t.integer  "style_id"
     t.integer  "index"
     t.boolean  "highlightable"
-    t.string   "page_type",               :default => "main", :null => false
+    t.string   "page_type",             :default => "main", :null => false
   end
 
   create_table "payments", :force => true do |t|

@@ -27,6 +27,12 @@
     
   </header>
   
+  <% if @page.style and @page.style.banner.exists? -%>
+    <div id="page_banner">
+      <%= image_tag @page.style.banner.url(:normal) %>
+    </div>
+  <% end -%>
+  
   <div id="landing_page_intro">
   <div id="landing_page_text">
     <%= raw @page.rendered_text %>

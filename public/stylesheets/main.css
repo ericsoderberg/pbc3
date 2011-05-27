@@ -515,11 +515,12 @@ div#notice {
       content: " >>";
       }
   
-#page_admin, #done_page_editing, #page_feed_control {
+#page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
   float: right;
 	margin: 0;
+	margin-left: 20px;
   }
-  #page_admin, #page_feed_control {
+  #page_admin, #page_feed_control, #page_calendar_control {
     margin-top: 10px;
     }
   #page_admin ul {
@@ -626,36 +627,19 @@ div#notice {
   margin: 0px 20px 20px 0px;
 }
 
-#contacts {
-  display: table;
-  width: 400px;
-  margin: 0px 0px 10px 0px;
-  padding: 0px;
-}
-  #contacts h2 {
-    display: table-cell;
-    font-size: 14px;
-    color: #999;
-    width: 90px;
-    margin: 0px;
-    padding: 0px;
-  }
-  #contacts_list {
-    display: table-cell;
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-  }
-
-#events, #documents, #dynamic_forms {
+#events, #documents, #dynamic_forms, #contacts {
   display: table;
   width: 400px;
   margin: 0px 0px 20px 0px;
   padding: 0px;
   }
-  #events h2, #documents h2, #dynamic_forms h2 {
+#contacts {
+	margin-bottom: 10px;
+	}
+  #events h2, #documents h2, #dynamic_forms h2, #contacts h2 {
     display: table-cell;
     font-size: 14px;
+		line-height: 14px;
     color: #999;
     width: 90px;
     margin: 0px;
@@ -665,7 +649,7 @@ div#notice {
 		#events h2 img {
 			vertical-align: text-top;
 		}
-  .events_list, #documents_list, .edit_list, #dynamic_forms_list {
+  .events_list, #documents_list, .edit_list, #dynamic_forms_list, #contacts_list {
     display: table-cell;
     margin: 0px;
     padding: 0px;
