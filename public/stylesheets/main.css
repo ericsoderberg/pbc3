@@ -30,7 +30,7 @@ body {
 	  right: 0;
 	  height: 100%;
 		bottom: 0;
-		z-index: -1;
+		z-index: -2;
 		}
 
 div#content {
@@ -1584,3 +1584,25 @@ div#messages {
 	#invitation_response input {
 		vertical-align: top;
 		}
+		
+@media print {
+	body:after {
+	  content: "";
+	  position: fixed;
+	  background: #fff;
+	  left: 0;
+	  right: 0;
+	  height: 100%;
+		bottom: 0;
+		z-index: -1;
+		}
+	#site_header, footer, #site_nav, #submitted_form_list,
+	#page_admin, .admin, .actions {
+		display: none;
+		}
+	input, textarea {
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+	}
+}
