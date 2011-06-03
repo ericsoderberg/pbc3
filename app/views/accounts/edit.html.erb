@@ -54,6 +54,8 @@
       <%= f.submit %>
       <% if current_user.administrator -%>
        | <%= link_to 'Cancel', accounts_path %>
+       | <%= link_to 'Delete account', account_path(@user), :confirm => 'Are you sure?',
+           :method => :delete%>
       <% else -%>
        | <%= link_to 'Cancel', root_path %>
       <% end -%>

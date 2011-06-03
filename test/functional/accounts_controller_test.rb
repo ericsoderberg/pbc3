@@ -15,5 +15,13 @@ class AccountsControllerTest < ActionController::TestCase
     get :edit, :id => @user.id
     assert_response :success
   end
+  
+  test "should destroy" do
+    assert_difference('User.count', -1) do
+      delete :destroy, :id => @user.to_param
+    end
+
+    assert_redirected_to accounts_path
+  end
 
 end
