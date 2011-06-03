@@ -16,6 +16,7 @@ gem 'stringex'
 #gem 'sunspot_rails', '~> 1.2.1'
 gem "acts_as_audited", "2.0.0.rc7"
 gem "uuidtools"
+gem 'kaminari'
 
 # Use unicorn as the web server
 # gem 'unicorn'

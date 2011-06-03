@@ -2,7 +2,7 @@ class AuditLogsController < ApplicationController
   # GET /audit_logs
   # GET /audit_logs.xml
   def index
-    @audit_logs = AuditLog.order('created_at DESC').limit(100).all
+    @audit_logs = AuditLog.order('created_at DESC').page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

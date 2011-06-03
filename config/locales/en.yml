@@ -13,4 +13,11 @@ en:
       default: "%m/%d/%Y %l:%M %p"
       form: "%m/%d/%Y @ %I:%M %p"
       db: "%Y-%m-%d %I:%M %p"
+  views:
+    pagination:
+      first: "First"
+      previous: "&lt; Previous"
+      last: "Last"
+      next: "Next &gt;"
+      truncate: "..."
       
