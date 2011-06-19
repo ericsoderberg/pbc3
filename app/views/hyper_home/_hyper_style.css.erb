@@ -1,0 +1,76 @@
+<%= javascript_include_tag 'processing-1.2.1' %>
+<style>
+/* http://www.colourlovers.com/palette/307417/disco_night */
+body:after {
+  content: "";
+	background: none;
+  background-color: #010003; /*#4C00FF;*/
+	}
+div#content {
+	position: relative;
+  background: none; /*#280045;*/
+	color: #2FEBCB;
+	min-height: 800px;
+  }
+	div#content canvas {
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+		z-index: -1;
+		}
+#site_header h1 a {
+  text-decoration: none;
+  color: #2FEBCB;
+	}
+#site_header h2 {
+	color: #2FEBCB;
+	border: none;
+	}
+	@-webkit-keyframes pulse {
+	  from {
+	    -webkit-transform: scale(1.0);
+	    opacity: 0.75;
+	  }
+	  50% {
+	    -webkit-transform: scale(1.2);
+	    opacity: 1.0;
+	  }
+	  to { 
+	    -webkit-transform: scale(1.0);
+	    opacity: 0.75;
+	  }
+	}
+
+	.pulse {
+		opacity: 0.75;
+	  -webkit-animation-name: pulse; 
+	  -webkit-animation-duration: 1.5s; 
+	  -webkit-animation-iteration-count: infinite; 
+	}
+#site_header div#auth ul li a {
+	color: #2FEBCB;
+	}
+#site_nav {
+	height: 40px;
+  background-color: #7A0DFF;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#7A0DFF), to(#4C00FF));
+  background: -moz-linear-gradient(270deg, #7A0DFF, #4C00FF);
+  border-radius: 4px;
+	border: 2px solid #cccc33;
+	}
+#site_nav ul li a {
+	color: #fff;
+	}
+#site_nav ul li:first-of-type a {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+	}
+#site_nav ul li a:hover, #site_nav ul li.active a {
+	color: #280045;
+	background-color: #2FEBCB;
+	}
+footer {
+	position: absolute;
+	bottom: 30px;
+ }
+</style>

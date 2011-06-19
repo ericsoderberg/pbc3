@@ -1,5 +1,7 @@
 Pbc3::Application.routes.draw do
 
+  get "hyper_home/index"
+
   # http://blog.grow20.com/fun-with-ssl-for-accounts-only
   class SSL
     def self.matches?(request)
@@ -41,6 +43,8 @@ Pbc3::Application.routes.draw do
   #  "https://" + request.host_with_port + request.fullpath }
 
   get "home/index"
+  get "hyper", :controller => 'HyperHome', :action => 'index'
+  get "hyper/index", :controller => 'HyperHome', :action => 'index'
   get "calendar", :controller => 'calendar', :action => 'month',
     :as => 'main_calendar'
   get "calendar/list", :as => 'main_calendar_list'
