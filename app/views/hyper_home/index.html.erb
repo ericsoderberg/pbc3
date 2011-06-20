@@ -2,7 +2,19 @@
   <%= render :partial => 'hyper_style.css' %>
 <% end -%>
 
-<canvas datasrc="index.pjs" width="1040" height="800"></canvas>
+<canvas datasrc="/hyper/index.pjs" width="1040" height="800"></canvas>
 
-<h1>HyperHome#index</h1>
-<p>Find me in app/views/hyper_home/index.html.erb</p>
+<h1 id="hyper_title">!!!!! Welcome to PBC !!!!!</h1>
+
+<audio autoplay>
+  <source src="http://<%= request.host_with_port %>/audios/hyper.m4a"/>
+  <source src="http://<%= request.host_with_port %>/audios/hyper.mp3"/>
+</audio>
+
+<div id="hyper_photos">
+  <% @photos.each_with_index do |photo, index| -%>
+    <div class="photo photo_<%= index %>">
+      <%= image_tag photo.photo.url(:normal) %>
+    </div>
+  <% end -%>
+</div>

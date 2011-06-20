@@ -5,6 +5,8 @@
 // Built with Processing.js (processingjs.org)
 // by Felix Turner (airtightinteractive.com)
 
+/* @pjs transparent="true"; */
+
 float numParticles;
 float fadeAmount;
 float maxLen = 100;
@@ -17,8 +19,8 @@ int FIELDHEIGHT = 100;
 void setup() {
 	size(1040, 800);
 	colorMode(HSB, 100);
-	background(0x280045);  
-	randomize()
+	background(#9DCAFF);
+	randomize();
 }
 
 void randomize(){
@@ -40,7 +42,7 @@ void mouseClicked() {
 void draw() {
   
 	noStroke();
-	fill(0,fadeAmount);
+	fill(#330066,fadeAmount);
 	rect(0,0,width,height);//fade background
 
 	translate((width- FIELDWIDTH)/2,0);
@@ -72,8 +74,8 @@ class Particle {
 		id+=0.01;
 
 		if (mouseY == 0|| mouseX == 0){
-			mouseY = 1;
-			mouseX = 1;			
+			mouseY = random(1, height);
+			mouseX = random(1, width);
 		}
 
 		d=(noise(id,x/mouseY,y/mouseY)-0.5)*mouseX;  

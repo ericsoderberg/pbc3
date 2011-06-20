@@ -5,3 +5,5 @@
 # Mime::Type.register_alias "text/html", :iphone
 
 Mime::Type.register "application/processing", :pjs
+Mime::Type.register "audio/mp4", :m4a
+Mime::Type.register "audio/mpeg", :mp3

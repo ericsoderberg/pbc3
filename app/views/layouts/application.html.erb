@@ -14,7 +14,7 @@
     
   <header id="site_header">
     <h1><%= link_to raw(site_title), root_path %></h1>
-    <h2 class="pulse"><%= @site ? @site.subtitle : '' %></h2>
+    <h2><%= @site ? @site.subtitle : '' %></h2>
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
