@@ -37,10 +37,10 @@ Pbc3::Application.routes.draw do
   
   # Redirect to SSL from non-SSL so you don't get 404s
   # Repeat for any custom Devise routes
-  #match "/users(/*path)", :to => redirect { |_, request|
-  #  "https://" + request.host_with_port + request.fullpath }
-  #match "/accounts(/*path)", :to => redirect { |_, request|
-  #  "https://" + request.host_with_port + request.fullpath }
+  %w(users accounts forms site payments audit_logs).each do |area|
+    match "/#{area}(/*path)", :to => redirect { |_, request|
+      "https://" + request.host_with_port + request.fullpath }
+  end
 
   get "home/index"
   get "hyper", :controller => 'HyperHome', :action => 'index'
