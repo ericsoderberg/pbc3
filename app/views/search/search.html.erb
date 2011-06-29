@@ -14,7 +14,14 @@
       <td></td>
       <% elsif object.is_a? Event -%>
       <td><%= link_to object.name, friendly_page_path(object.page) %></td>
-      <td></td>
+      <td>
+        <% if object.name != object.page.title -%>
+          <%= object.page.title %>
+        <% end -%>
+      </td>
+      <% elsif object.is_a? Form -%>
+      <td><%= link_to object.name, form_path(object) %></td>
+      <td><%= link_to object.page.name, friendly_page_path(object.page) %></td>
       <% elsif object.is_a? User and user_signed_in? and current_user.administrator? -%>
       <td><%= link_to object.name, edit_account_path(object) %></td>
       <td></td>

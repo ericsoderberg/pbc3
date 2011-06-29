@@ -7,6 +7,10 @@ class Form < ActiveRecord::Base
   
   validates :name, :presence => true
   
+  searchable do
+    text :name, :default_boost => 2
+  end
+  
   def possible_pages
     Page.order('name')
   end

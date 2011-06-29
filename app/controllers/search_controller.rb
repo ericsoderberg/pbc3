@@ -3,6 +3,7 @@ class SearchController < ApplicationController
   def search
     @search_text = params[:q]
     classes = [Page, Message, Event]
+    classes << Form if user_signed_in?
     classes << User if user_signed_in? and current_user.administrator?
     @search = Sunspot.search(*classes) do
       keywords params[:q]
