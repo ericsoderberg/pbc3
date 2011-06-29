@@ -20,7 +20,7 @@ sub_public:
   text: hi
   private: false
   parent: public
-  index: 1
+  parent_index: 1
   page_type: leaf
 
 communities:
@@ -32,12 +32,12 @@ blog:
   name: Blog
   url: blog
   parent: public
-  index: 2
+  parent_index: 2
   page_type: blog
   
 post:
   name: Post
   url: post
   parent: blog
-  index: 1
+  parent_index: 1
   page_type: post

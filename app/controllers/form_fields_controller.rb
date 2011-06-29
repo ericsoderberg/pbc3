@@ -28,8 +28,8 @@ class FormFieldsController < ApplicationController
   def create
     @form_field = @form.form_fields.new
     @form_field.field_type = FormField::FIELD
-    @form_field.index = @form.form_fields.length + 1
-    @form_field.name = "New Field #{@form_field.index}"
+    @form_field.form_index = @form.form_fields.length + 1
+    @form_field.name = "New Field #{@form_field.form_index}"
 
     respond_to do |format|
       if @form_field.save

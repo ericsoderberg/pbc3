@@ -28,6 +28,14 @@ class Event < ActiveRecord::Base
     end
   end
   
+  searchable do
+    text :name, :default_boost => 1
+    time :start_at
+    boolean :best do |event|
+      not event.master_id or event.master_id == event.id
+    end
+  end
+  
   def self.on_or_after(date)
     where("events.start_at >= ?", date)
   end

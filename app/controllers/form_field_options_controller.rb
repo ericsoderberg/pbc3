@@ -27,7 +27,7 @@ class FormFieldOptionsController < ApplicationController
     @form_field_option = @form_field.form_field_options.new(
       :name => "Option-#{@form_field.form_field_options.length + 1}",
       :option_type => FormFieldOption::FIXED,
-      :index => (@form_field.form_field_options.length + 1))
+      :form_field_index => (@form_field.form_field_options.length + 1))
 
     respond_to do |format|
       if @form_field_option.save

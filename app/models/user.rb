@@ -25,4 +25,9 @@ class User < ActiveRecord::Base
     first_name + ' ' + last_name
   end
   
+  searchable do
+    text :name, :default_boost => 2
+    text :email, :default_boost => 2
+  end
+  
 end

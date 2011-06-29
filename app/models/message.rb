@@ -70,4 +70,8 @@ class Message < ActiveRecord::Base
     result
   end
   
+  searchable do
+    text :title, :default_boost => 2
+  end
+  
 end

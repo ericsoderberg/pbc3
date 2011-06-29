@@ -59,7 +59,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
-    @page.index = @page.parent ? @page.parent.children.length + 1 : 1
+    @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     @page.page_type = @page.possible_types.first
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
@@ -92,7 +92,7 @@ class PagesController < ApplicationController
   # POST /pages.xml
   def create
     @page = Page.new(params[:page])
-    @page.index = @page.parent ? @page.parent.children.length + 1 : 1
+    @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     if params[:site_reference]
       @site.communities_page = @page if 'communities' == params[:site_reference]
       @site.about_page = @page if 'about' == params[:site_reference]

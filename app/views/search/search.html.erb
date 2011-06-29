@@ -1,16 +1,28 @@
 <% title('Search') -%>
-
-<h1>Search</h1>
+<header>
+  <h1>Search for "<%= @search_text %>"</h1>
+</header>
 
 <table id="search_results">
-  <% @search.each_hit_with_result do |hit, page| -%>
+  <% @search.each_hit_with_result do |hit, object| -%>
     <tr class="search_result">
-      <td><%= link_to page.name, friendly_page_path(page) %></td>
-      <td><%= h truncate(page.snippet_text, :length => 100) %></td>
+      <% if object.is_a? Page -%>
+      <td><%= link_to object.name, friendly_page_path(object) %></td>
+      <td><%= h truncate(object.snippet_text, :length => 100) %></td>
+      <% elsif object.is_a? Message -%>
+      <td><%= link_to object.title, message_path(object) %></td>
+      <td></td>
+      <% elsif object.is_a? Event -%>
+      <td><%= link_to object.name, friendly_page_path(object.page) %></td>
+      <td></td>
+      <% elsif object.is_a? User and user_signed_in? and current_user.administrator? -%>
+      <td><%= link_to object.name, edit_account_path(object) %></td>
+      <td></td>
+      <% end -%>
     </tr>
   <% end -%>
 </table>
 
 <div id="pagination">
-  <!--%= will_paginate(@search.results) %-->
+  <%= will_paginate(@search.results) %>
 </div>

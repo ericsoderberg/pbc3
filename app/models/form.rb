@@ -1,6 +1,6 @@
 class Form < ActiveRecord::Base
   belongs_to :page
-  has_many :form_fields, :order => 'index ASC',
+  has_many :form_fields, :order => 'form_index ASC',
     :autosave => true, :dependent => :destroy
   has_many :filled_forms, :order => 'name ASC', :dependent => :destroy
   acts_as_audited
@@ -22,7 +22,7 @@ class Form < ActiveRecord::Base
       tmp_fields = FormField.find(ids)
       ids.each_with_index do |id, i|
         field = tmp_fields.detect{|ff| id == ff.id}
-        field.index = i+1
+        field.form_index = i+1
         # don't validate since it will fail as we haven't done them all yet
         result = false unless field.save(:validate => false)
       end

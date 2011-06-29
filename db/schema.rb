@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110527042413) do
+ActiveRecord::Schema.define(:version => 20110629102917) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(:version => 20110527042413) do
 
   create_table "form_field_options", :force => true do |t|
     t.integer  "form_field_id"
-    t.integer  "index"
+    t.integer  "form_field_index"
     t.string   "name"
     t.string   "option_type"
     t.text     "help"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20110527042413) do
 
   create_table "form_fields", :force => true do |t|
     t.integer  "form_id"
-    t.integer  "index"
+    t.integer  "form_index"
     t.string   "name"
     t.string   "field_type"
     t.text     "help"
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(:version => 20110527042413) do
     t.string   "dpid"
     t.text     "description"
     t.integer  "message_set_id"
-    t.integer  "index"
+    t.integer  "message_set_index"
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(:version => 20110527042413) do
     t.integer  "feature_index"
     t.boolean  "private",               :default => false
     t.integer  "style_id"
-    t.integer  "index"
+    t.integer  "parent_index"
     t.boolean  "highlightable"
     t.string   "page_type",             :default => "main", :null => false
   end

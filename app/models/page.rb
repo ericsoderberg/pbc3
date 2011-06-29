@@ -11,13 +11,13 @@ class Page < ActiveRecord::Base
   has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
-    :order => :index
+    :order => :parent_index
   has_many :contacts
   has_many :contact_users, :through => :contacts, :source => :user
   has_many :authorizations
   has_one :podcast
   has_many :forms
-  acts_as_audited :except => [:index, :feature_index]
+  acts_as_audited :except => [:parent_index, :feature_index]
   
   TYPES = ['main', 'leaf', 'landing', 'blog', 'post']
 
@@ -26,7 +26,7 @@ class Page < ActiveRecord::Base
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
   validates :url, :uniqueness => true
-  validates :index, :uniqueness => {:scope => :parent_id,
+  validates :parent_index, :uniqueness => {:scope => :parent_id,
     :unless => Proc.new{|p| not p.parent_id}}
   validates :feature_index,
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
@@ -38,7 +38,7 @@ class Page < ActiveRecord::Base
   
   before_validation(:on => :create) do
     if parent
-      self.index = (parent.children.map{|c| c.index}.max || 0) + 1
+      self.parent_index = (parent.children.map{|c| c.parent_index}.max || 0) + 1
     end
   end
   
@@ -68,10 +68,10 @@ class Page < ActiveRecord::Base
       (user ? user.id : -1))
   end
   
-  #searchable do
-  #  text :name, :default_boost => 2
-  #  text :text
-  #end
+  searchable do
+    text :name, :default_boost => 2
+    text :text
+  end
   
   include ActionView::Helpers::SanitizeHelper
 
@@ -161,7 +161,7 @@ class Page < ActiveRecord::Base
       tmp_children = Page.find(ids)
       ids.each_with_index do |id, i|
         child = tmp_children.detect{|c| id == c.id}
-        child.index = i+1
+        child.parent_index = i+1
         # don't validate since it will fail as we haven't done them all yet
         result = false unless child.save(:validate => false)
       end
@@ -188,8 +188,8 @@ class Page < ActiveRecord::Base
     Page.transaction do
       pages.each do |page|
         page.children.each_with_index do |child, i|
-          if (i+1) != child.index
-            child.index = i+1
+          if (i+1) != child.parent_index
+            child.parent_index = i+1
             child.save
           end
         end

@@ -8,16 +8,20 @@ require 'bundler/capistrano'
 
 set :application, "pbc3"
 
-role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
-role :app, "test.pbc.org"                          # This may be the same as your `Web` server
-role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
+role :web, "linode1.pbc.org"                          # Your HTTP server, Apache/etc
+role :app, "linode1.pbc.org"                          # This may be the same as your `Web` server
+role :db,  "linode1.pbc.org", :primary => true # This is where Rails migrations will run
+#role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
+#role :app, "test.pbc.org"                          # This may be the same as your `Web` server
+#role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
 #role :db,  "your slave db-server here"
 
 #server
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :deploy_to, "/srv/rails/#{application}"
-set :user, "webapp3"
+set :user, "webapp"
+#set :user, "webapp3"
 set :group, "webapp"
 set :use_sudo, false
 
