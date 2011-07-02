@@ -374,7 +374,7 @@ div#notice {
 		z-index: 3;
     }
   #hero_text a {
-    font-size: 16px;
+    font-size: 14px;
     }
   #hero_text a::after {
     content: " >>";
@@ -1533,16 +1533,6 @@ div#messages {
 		}
 		
 @media print {
-	body:after {
-	  content: "";
-	  position: fixed;
-	  background: #fff;
-	  left: 0;
-	  right: 0;
-	  height: 100%;
-		bottom: 0;
-		z-index: -1;
-		}
 	#site_header, footer, #site_nav, #submitted_form_list,
 	#page_admin, .admin, .actions {
 		display: none;

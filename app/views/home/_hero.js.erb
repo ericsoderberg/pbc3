@@ -5,6 +5,7 @@ $(function() {
 	var slides = $('.slide');
 	var numberOfSlides = slides.length;
 	var automate = true;
+	var showControls = false;
 
 	// Remove scrollbar in JS
 	$('#hero_list').css('overflow', 'hidden');
@@ -26,10 +27,21 @@ $(function() {
 	$('#hero')
 	  .prepend('<span class="control" id="hero_left_control">Move left</span>')
 	  .append('<span class="control" id="hero_right_control">Move right</span>');
+	
+	// Create listeners for hovering to show controls
+	$('#hero').hover(
+		function(){
+			showControls = true;
+			manageControls(currentPosition);
+		},
+		function(){
+			showControls = false;
+			manageControls(currentPosition);
+		});
 
 	// Hide left arrow control on first load
 	manageControls(currentPosition);
-
+	
 	// Create event listeners for .controls clicks
 	$('.control')
 		.bind('click', function(){
@@ -53,10 +65,12 @@ $(function() {
 	// manageControls: Hides and shows controls depending on currentPosition
 	function manageControls(position){
 	  // Hide left arrow if position is first slide
-	  if(position==0){ $('#hero_left_control').hide() }
+	  if(position==0 || showControls==false)
+			{ $('#hero_left_control').hide() }
 	  else{ $('#hero_left_control').show() }
 	  // Hide right arrow if position is last slide
-	  if(position==numberOfSlides-1){ $('#hero_right_control').hide() }
+	  if(position==numberOfSlides-1 || showControls==false)
+			{ $('#hero_right_control').hide() }
 	  else{ $('#hero_right_control').show() }
 	}
 	
