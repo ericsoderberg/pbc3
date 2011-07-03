@@ -19,7 +19,7 @@ class Page < ActiveRecord::Base
   has_many :forms
   acts_as_audited :except => [:parent_index, :feature_index]
   
-  TYPES = ['main', 'leaf', 'landing', 'blog', 'post']
+  TYPES = ['landing', 'main', 'leaf', 'blog', 'post']
 
   validates :page_type, :inclusion => {:in => TYPES}
   validates :name, :presence => true, :uniqueness => true
@@ -34,6 +34,10 @@ class Page < ActiveRecord::Base
   
   before_validation do
     self.feature_index = nil if not featured?
+    # handle re-parenting by adjusting page type
+    if 'leaf' == self.page_type && 'landing' == self.parent.page_type then
+      self.page_type = 'main'
+    end
   end
   
   before_validation(:on => :create) do
@@ -44,16 +48,8 @@ class Page < ActiveRecord::Base
   
   def page_type_for_parent
     return unless parent
-    if parent.leaf?
-      errors.add(:parent_id, "leaf pages can't contain pages")
-    elsif parent.post?
-      errors.add(:parent_id, "post pages can't contain pages")
-    elsif parent.blog? and not post?
-      errors.add(:parent_id, "blog pages can only contain post pages")
-    elsif parent.main? and not (leaf? or blog?)
-      errors.add(:parent_id, "main pages can only contain leaf or blog pages")
-    elsif parent.landing? and (leaf? or post?)
-      errors.add(:parent_id, "landing pages cannot contain leaf or post pages")
+    if not Page.possible_parent_types_for_type(page_type).include?(parent.page_type)
+      errors.add(:parent_id, "#{parent.page_type} pages cannot contain #{page_type} pages")
     end
   end
   
@@ -115,25 +111,46 @@ class Page < ActiveRecord::Base
   end
   
   def possible_parents
-    # don't allow circular references
-    Page.order('name').all.delete_if{|page|
-      self.includes?(page) or page == self}
+    Page.order('name').all.delete_if do |page|
+      (not Page.possible_parent_types_for_type(self.page_type).include?(page.page_type)) or
+      # don't allow circular references
+      page == self or self.includes?(page)
+    end
   end
   
   def possible_types
     if parent
-      case parent.page_type
-      when 'landing'
-        ['main', 'landing', 'blog']
-      when 'main'
-        ['leaf', 'blog']
-      when 'blog'
-        ['post']
-      when 'leaf', 'post'
-        []
-      end
+      Page.possible_types_for_parent_type(parent.page_type)
     else
       Page::TYPES
+    end
+  end
+  
+  def self.possible_types_for_parent_type(parent_page_type)
+    case parent_page_type
+    when 'landing'
+      ['main', 'landing', 'blog']
+    when 'main'
+      ['leaf', 'blog']
+    when 'blog'
+      ['post']
+    when 'leaf', 'post'
+      []
+    end
+  end
+  
+  def self.possible_parent_types_for_type(page_type)
+    case page_type
+    when 'landing'
+      ['landing']
+    when 'main'
+      ['landing']
+    when 'leaf'
+      ['main']
+    when 'blog'
+      ['landing', 'main']
+    when 'post'
+      ['blog']
     end
   end
   

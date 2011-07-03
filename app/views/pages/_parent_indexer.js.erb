@@ -1,15 +1,33 @@
 $(function() {
-	$('#page_parent_id').change(function() {
-    $.ajax({
-      url: "<%= edit_for_parent_page_path(@page) %>" +
-        "?parent_id=" + $('#page_parent_id').val(),
-      cache: false,
-      success: function(html){
-        $('#parent_context').html(html);
-      },
-      error: function(html){
-        $('#parent_context').html(html);
-      }
-    });
+  var initialDisplayValue = '<%= @page.parent ? @page.parent.name : ''%>';
+  var initialHiddenValue = '<%= @page.parent ? @page.parent.id : ''%>';
+  url = '<%= @page.id ? search_possible_parents_page_path(@page, :format => :js) :
+    search_pages_path(:format => :js) %>';
+  $('#parent_id').flexbox(url, {
+    initialDisplayValue: initialDisplayValue,
+    initialHiddenValue: initialHiddenValue,
+    width: 170,
+    paging: {
+      pageSize: 5
+    },
+    onSelect: updateIndexer
   });
 });
+
+$(function() {
+	$('#parent_id_hidden').change(updateIndexer);
+});
+
+function updateIndexer() {
+  $.ajax({
+    url: "<%= edit_for_parent_page_path(@page) %>" +
+      "?parent_id=" + $('#parent_id_hidden').val(),
+    cache: false,
+    success: function(html){
+      $('#parent_context').html(html);
+    },
+    error: function(html){
+      $('#parent_context').html(html);
+    }
+  });
+}

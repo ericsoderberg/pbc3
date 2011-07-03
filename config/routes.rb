@@ -65,9 +65,13 @@ Pbc3::Application.routes.draw do
   resources :resources
 
   resources :pages do
+    collection do
+      get :search
+    end
     member do
       get :edit_for_parent
       get :edit_for_feature
+      get :search_possible_parents
     end
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence

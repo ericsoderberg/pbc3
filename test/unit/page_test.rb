@@ -75,7 +75,7 @@ class PageTest < ActiveSupport::TestCase
       assert !page.save
     end
     parent = pages(:communities)
-    %w(leaf post).each do |type|
+    %w(post).each do |type| # leaf will be automatically changed to main
       page = Page.new(:name => 'Test', :page_type => type)
       page.parent = parent
       assert !page.save

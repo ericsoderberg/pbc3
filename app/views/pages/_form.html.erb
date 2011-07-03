@@ -57,9 +57,10 @@
 
       <div class="field">
         <%= f.label :parent_page %><br />
-        <%= collection_select(:page, :parent_id,
+        <div id="parent_id"></div>
+        <!--%= collection_select(:page, :parent_id,
           @page.possible_parents, :id, :name,
-          :include_blank => true) %>
+          :include_blank => true) %-->
       </div>
       
       <div id="parent_context">

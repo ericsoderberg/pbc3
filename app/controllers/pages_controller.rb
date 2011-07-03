@@ -13,6 +13,21 @@ class PagesController < ApplicationController
     end
   end
   
+  def search
+    result_page_size = params[:s].to_i
+    result_page = params[:p].to_i
+    @pages = Page.where("name ILIKE ?", (params[:q] || '') + '%').
+      offset((result_page - 1) * result_page_size).limit(result_page_size)
+    total = Page.where("name ILIKE ?", (params[:q] || '') + '%').count
+    
+    respond_to do |format|
+      format.js { render :json => {:results =>
+        @pages.map{|page| {:id => page.id, :name => page.name}},
+        :total => total}
+      }
+    end
+  end
+  
   PAGE_TYPE_VIEWS = {'landing' => 'landing', 'blog' => 'blog',
     'main' => 'main', 'leaf' => 'main', 'post' => 'post'}
 
@@ -51,6 +66,30 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html
       format.rss { render :layout => false } #feed.rss.builder
+    end
+  end
+  
+  def search_possible_parents
+    @page = Page.find_by_url(params[:id]);
+    all_pages = @page.possible_parents
+    # prune for search
+    search_text = params[:q]
+    matched_pages = if search_text and not search_text.empty?
+        all_pages.select{|page| page.name =~ /^#{search_text}/i}
+      else
+        all_pages
+      end
+    # limit amount
+    result_page_size = params[:s].to_i
+    result_page = params[:p].to_i
+    limited_pages =
+      matched_pages[(result_page - 1) * result_page_size, result_page_size]
+
+    respond_to do |format|
+      format.js { render :json => {:results =>
+        limited_pages.map{|page| {:id => page.id, :name => page.name}},
+        :total => matched_pages.length}
+      }
     end
   end
 
@@ -113,8 +152,10 @@ class PagesController < ApplicationController
   # PUT /pages/1.xml
   def update
     @page = Page.find_by_url(params[:id])
+    params[:page][:parent_id] = params[:parent_id] # due to flexbox
     orderer_sub_ids = params[:sub_order] ?
       params[:sub_order].split(',').map{|id| id.to_i} : []
+    params[:page][:parent_index] = -1; # will be re-ordered late
 
     respond_to do |format|
       if @page.update_attributes(params[:page]) and

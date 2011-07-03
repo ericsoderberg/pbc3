@@ -52,6 +52,17 @@ class PagesControllerTest < ActionController::TestCase
     get :edit_for_parent, :id => @page.to_param, :parent_id => @parent.id
     assert_response :success
   end
+  
+  test "should get search possible parents" do
+    get :search_possible_parents, :id => @page.to_param,
+      :q => 'P', :p => '1', :s => '1', :format => :js
+    assert_response :success
+  end
+  
+  test "should get search" do
+    get :search, :q => 'P', :p => '1', :s => '1', :format => :js
+    assert_response :success
+  end
 
   test "should update page" do
     put :update, :id => @page.to_param, :page => @page.attributes,
