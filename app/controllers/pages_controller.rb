@@ -16,7 +16,7 @@ class PagesController < ApplicationController
   def search
     result_page_size = params[:s].to_i
     result_page = params[:p].to_i
-    @pages = Page.where("name ILIKE ?", (params[:q] || '') + '%').
+    @pages = Page.where("name ILIKE ?", (params[:q] || '') + '%').order('name ASC').
       offset((result_page - 1) * result_page_size).limit(result_page_size)
     total = Page.where("name ILIKE ?", (params[:q] || '') + '%').count
     

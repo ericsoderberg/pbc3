@@ -14,6 +14,24 @@
   <% if @copy_form -%>
     <%= hidden_field_tag :copy_form_id, @copy_form.id %>
   <% end -%>
+
+  <%= f.hidden_field :page_id %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :payable? %>
+    <%= f.check_box :payable %>
+  </div>
+  <% if @form.id -%>
+  <div class="field">
+    <%= f.label :page %>
+    <div id="choose_page_id"></div>
+    <!--%= collection_select(:form, :page_id,
+      @form.possible_pages, :id, :name) %-->
+  </div>
+  <% end -%>
   
   <div class="actions">
     <%= f.submit %>
@@ -27,23 +45,15 @@
         :method => :delete %>
     <% end -%>
   </div>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :payable? %>
-    <%= f.check_box :payable %>
-  </div>
-  <div class="field">
-    <%= f.label :page %>
-    <%= collection_select(:form, :page_id,
-      @form.possible_pages, :id, :name) %>
-  </div>
+  
   <%= hidden_field_tag 'field_order',
     @form.form_fields.map{|ff| ff.id}.join(', '),
     :id => 'field_order'%>
   
 <% end %>
 
+<%= javascript_tag do -%>
+  <% if @form.id -%>
+    <%= render :partial => 'forms/form_aids.js' %>
+  <% end -%>
+<% end -%>

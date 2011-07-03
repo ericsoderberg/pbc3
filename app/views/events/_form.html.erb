@@ -38,11 +38,14 @@
     <%= f.label :feature_on_main_calendar? %>
     <%= f.check_box :featured %>
   </div>
+  <% if @event.id -%>
   <div class="field">
     <%= f.label :page %><br />
-    <%= collection_select(:event, :page_id,
-      @event.possible_pages, :id, :name) %>
+    <div id="choose_page_id"></div>
+    <!--%= collection_select(:event, :page_id,
+      @event.possible_pages, :id, :name) %-->
   </div>
+  <% end -%>
   <div class="actions">
     <%= f.submit %>
     <% if @event.name -%>

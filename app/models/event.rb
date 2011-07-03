@@ -145,10 +145,6 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def possible_pages
-    Page.order('name')
-  end
-  
   private
   
   def adjust_dates(date)

@@ -13,12 +13,10 @@
       <td><%= link_to object.title, message_path(object) %></td>
       <td></td>
       <% elsif object.is_a? Event -%>
-      <td><%= link_to object.name, friendly_page_path(object.page) %></td>
-      <td>
-        <% if object.name != object.page.title -%>
-          <%= object.page.title %>
+        <% if object.name != object.page.name -%>
+          <td><%= link_to object.name, friendly_page_path(object.page) %></td>
+          <td><%= object.page.title %></td>
         <% end -%>
-      </td>
       <% elsif object.is_a? Form -%>
       <td><%= link_to object.name, form_path(object) %></td>
       <td><%= link_to object.page.name, friendly_page_path(object.page) %></td>

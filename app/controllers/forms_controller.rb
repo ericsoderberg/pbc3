@@ -34,6 +34,7 @@ class FormsController < ApplicationController
   def new
     @form = Form.new
     @form.page = Page.find(params[:page_id]) if params[:page_id]
+    @page = @form.page
     @copy_form = nil
 
     respond_to do |format|
@@ -53,6 +54,7 @@ class FormsController < ApplicationController
   # GET /forms/1/edit
   def edit
     @form = Form.find(params[:id])
+    @page = @form.page
   end
 
   # POST /forms
@@ -81,6 +83,7 @@ class FormsController < ApplicationController
   def update
     @form = Form.find(params[:id])
     ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
+    params[:form][:page_id] = params[:choose_page_id] # due to flexbox
 
     respond_to do |format|
       if @form.update_attributes(params[:form]) and
@@ -99,10 +102,11 @@ class FormsController < ApplicationController
   # DELETE /forms/1.xml
   def destroy
     @form = Form.find(params[:id])
+    @page = @form.page
     @form.destroy
 
     respond_to do |format|
-      format.html { redirect_to(forms_url) }
+      format.html { redirect_to(forms_url(:page_id => @page.id)) }
       format.xml  { head :ok }
     end
   end

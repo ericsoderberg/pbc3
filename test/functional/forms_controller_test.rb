@@ -37,10 +37,11 @@ class FormsControllerTest < ActionController::TestCase
   end
 
   test "should destroy form" do
+    @page = @form.page
     assert_difference('Form.count', -1) do
       delete :destroy, :id => @form.to_param
     end
 
-    assert_redirected_to forms_path
+    assert_redirected_to forms_path(:page_id => @page.id)
   end
 end

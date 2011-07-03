@@ -1233,7 +1233,7 @@ div.actions {
 #dynamic_form_form .actions {
 	/*display: inline-block;*/
 	float: right;
-	margin-top: 0px;
+	margin-top: -50px;
 	}
 #dynamic_form_fields {
 	list-style: none;

@@ -17,6 +17,8 @@
       :collection => @form.form_fields %>
   </ul>
   
+  <% if not @form.form_fields.empty? -%>
+  
   <% if @form.payable? -%>
     <hr/>
     <%= render :partial => 'payment_fields' %>
@@ -31,6 +33,8 @@
         :confirm => 'Are you sure?', :method => :delete %>
     <% end %>
   </div>
+  
+  <% end -%>
 <% end %>
 
 <%= javascript_tag do %>

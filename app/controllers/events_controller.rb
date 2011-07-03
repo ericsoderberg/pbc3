@@ -25,6 +25,7 @@ class EventsController < ApplicationController
     @event = Event.new(:page_id => @page.id)
     @event.start_at = (Time.now + 1.day).beginning_of_day + 10.hour
     @event.stop_at = @event.start_at + 1.hour
+    @event.name = @page.name if @page.related_events.empty?
   end
 
   # GET /events/1/edit
@@ -57,10 +58,11 @@ class EventsController < ApplicationController
     parse_times
     @event = @page.events.find(params[:id])
     @page = @event.page
+    params[:event][:page_id] = params[:choose_page_id] # due to flexbox
 
     respond_to do |format|
       if @event.update_with_replicas(params[:event])
-        format.html { redirect_to(new_page_event_url(@page),
+        format.html { redirect_to(new_page_event_url(@event.page),
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
       else

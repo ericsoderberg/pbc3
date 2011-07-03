@@ -24,4 +24,15 @@ $(function() {
   $('#event_start_at').change(function() {
     $('#event_stop_at').val($('#event_start_at').val());
   });
+
+  $('#choose_page_id').flexbox(
+    '<%= search_pages_path(:format => :js) %>', {
+    initialDisplayValue: '<%= escape_javascript(@page.name) %>',
+    initialHiddenValue: '<%= @page.id %>',
+    width: 170,
+    maxCacheBytes: 0,
+    paging: {
+      pageSize: 5
+    }
+  });
 });

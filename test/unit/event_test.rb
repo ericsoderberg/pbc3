@@ -25,11 +25,6 @@ class EventTest < ActiveSupport::TestCase
     assert !event.save
   end
   
-  test "possible pages" do
-    event = events(:single)
-    assert event.possible_pages.count == Page.count
-  end
-  
   test "replicate" do
     event = events(:single)
     prior_count = Event.count
