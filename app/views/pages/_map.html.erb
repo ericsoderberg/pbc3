@@ -1,0 +1,10 @@
+<% unless pages.empty? -%>
+<ul class="page_map">
+  <% pages.each do |page| -%>
+  <li class="<%= page.page_type %>">
+    <%= link_to page.name, friendly_page_path(page) %>
+    <%= render :partial => 'map', :locals => {:pages => page.children} %>
+  </li>
+  <% end -%>
+</ul>
+<% end -%>

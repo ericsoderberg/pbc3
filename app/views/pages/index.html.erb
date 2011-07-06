@@ -5,16 +5,7 @@
   <div id="add_content" class="header_add_content">
     <%= link_to 'Add Page', new_page_path %>
   </div>
-
-  <table id="pages" class="grid">
-  <% rows = array_to_rows(@pages) -%>
-  <% rows.each do |row| -%>
-    <tr>
-    <% row.each do |page| -%>
-      <td><%= link_to page.name, friendly_page_path(page) %></td>
-    <% end -%>
-    </tr>
-  <% end -%>
-  </table>
+  
+  <%= render :partial => 'map', :locals => {:pages => @pages.where('parent_id IS NULL')} %>
 
 </section>

@@ -122,7 +122,7 @@ class Page < ActiveRecord::Base
     if parent
       Page.possible_types_for_parent_type(parent.page_type)
     else
-      Page::TYPES
+      ['main', 'landing', 'blog']
     end
   end
   

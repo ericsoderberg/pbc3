@@ -173,6 +173,7 @@ header {
   #site_header h2 {
     margin: 0px;
     padding-left: 10px;
+    padding-right: 10px;
     line-height: 16px;
     font-size: 12px;
     font-weight: normal;
@@ -181,17 +182,26 @@ header {
     border-left: 2px solid #999;
   }
   
+  div#notice {
+    position: absolute;
+    top: 10px;
+    width: 980px;
+    color: #696;
+    text-align: right;
+  }
+  
   #site_header div#auth {
     float: right;
   }
     #site_header div#auth ul {
+      display: table;
   	  margin: 0 auto;
   	  padding: 0;
   	  list-style: none;
     }
 
     #site_header div#auth ul li {
-  	  float: left;
+  	  display: table-cell;;
   	  border-left: 1px solid #999;
     }
 
@@ -206,6 +216,7 @@ header {
     		font-weight: normal;
     		text-align: center;
     		text-decoration: none;
+    		white-space: nowrap;
     		color: #666;
     	}
     	#site_header div#auth ul li a:hover {
@@ -298,12 +309,6 @@ footer {
 	border: none;
 	border-radius: 9px;
 	}
-
-div#notice {
-  line-height: 12px;
-  color: #6c6;
-  text-align: center;
-}
 
 /* http://css3.wikidot.com/blog:animated-page-entry-with-css3 */
 @-webkit-keyframes reset {
@@ -914,14 +919,14 @@ table.index td, table.index th {
       }
 
 .calendar_controls {
-  text-align: center;
   color: #666;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   }
   .calendar_controls a {
     font-size: 18px;
-    padding: 0 10px;
+    line-height: 28px;
+    padding: 0 5px;
     }
   #calendar_views {
     float: right;
@@ -964,21 +969,31 @@ table.index td, table.index th {
     	    color: #666;
     	    background: inherit;
     	    }
-	  #calendar_views .search_date {
-			padding-right: 30px;
+	  #calendar_controls_extended, #calendar_page_chooser {
+	    display: inline-block;
+	    vertical-align: top;
+	    padding-left: 10px;
 			}
-		#calendar_views .search_date input {
+		#calendar_controls_extended input {
+		  margin: 0px;
 			padding: 3px;
 			border: solid 1px #ccc;
+			color: #666;
+			font-size: 11px;
 			outline: 0;
 			background: #FFFFFF;
 			box-shadow: none;
 			-moz-box-shadow: none;
 			-webkit-box-shadow: none;
 			}
+		#calendar_controls_extended form {
+		  display: inline-block;
+		  padding-right: 10px;
+		}
   
 #calendar {
   padding: 0px;
+  border-spacing: 0px;
   width: 100%;
   font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
   }
@@ -994,25 +1009,34 @@ table.index td, table.index th {
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
     }
-    #calendar td.new_month {
+    /*#calendar td.new_month {
       border-top: 3px solid #ccc;
       }
     #calendar td.new_month_first {
       border-left: 3px solid #ccc;
-      }
+      }*/
     #calendar td.first {
       border-left: none;
       }
-    #calendar td.ref {
-      background: #ffc;
+    /*#calendar td.ref {
+      border: 2px solid #cc3;
+      }*/
+    #calendar td.odd_month {
+      background: #f6f6f6;
       }
     #calendar td .date, #calendar td .holiday {
       margin: 0;
       padding: 0;
       text-align: right;
       font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
-      font-size: 80%;
+      font-size: 10px;
       }
+      #calendar td .date .month {
+        font-weight: bold;
+        font-size: 12px;
+        padding-right: 5px;
+        color: #999;
+        }
     #calendar td .holiday {
       font-size: 90%;
       }
@@ -1062,6 +1086,9 @@ table.index td, table.index th {
     }
   .search_result td a {
     font-size: 14px;
+    }
+  .search_result_type {
+    color: #ccc;
     }
     
 #recurrence_control {
@@ -1531,6 +1558,24 @@ div#messages {
 	#invitation_response input {
 		vertical-align: top;
 		}
+		
+.page_map {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  }
+  .page_map li {
+    display: inline-block;
+    margin: 0px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    vertical-align: top;
+    }
+    .page_map li.leaf, .page_map li.post {
+      border: none;
+      }
 		
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,

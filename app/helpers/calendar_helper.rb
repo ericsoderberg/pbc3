@@ -9,6 +9,7 @@ module CalendarHelper
     tags << 'ref' if date.yday == reference.yday
     tags << 'active' if active
     tags << 'holiday' unless day.holidays.empty?
+    tags << 'odd_month' if (date.month % 2) != (reference.month % 2)
     return '' if tags.empty?
     return "class=\"#{tags.join(' ')}\""
   end
@@ -64,6 +65,15 @@ module CalendarHelper
   end
   
   def date_search_path(args)
+    if 'list' == params[:action]
+      calendar_list_path(args)
+    else
+      calendar_path(args)
+    end
+  end
+  
+  def today_path(args)
+    today_args = args.merge(:date => Date.today.strftime("%Y-%m-%d"))
     if 'list' == params[:action]
       calendar_list_path(args)
     else

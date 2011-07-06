@@ -23,10 +23,10 @@
     <% @calendar.weeks.each do |week| -%>
     <tr>
       <% week.days.each do |day| -%>
-      <td <%= date_class(day, @date) %> >
+      <td <%= raw date_class(day, @date) %> >
         <div class="date">
           <% if 1 == day.date.day %>
-            <span class="emphasis"><%= day.date.strftime("%B") %></span>
+            <span class="month"><%= day.date.strftime("%B") %></span>
           <% end -%>
           <%= link_to day.date.day, calendar_day_path(:date => day.date) %>
         </div>

@@ -15,6 +15,7 @@
   <header id="site_header">
     <h1><%= link_to raw(site_title), root_path %></h1>
     <h2><%= @site ? @site.subtitle : '' %></h2>
+    <div id="notice"><%= notice %><%= alert %></div>
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
@@ -59,8 +60,6 @@
         value="<%= @search_text || '' %>"/>
     </form>
   </nav>
-  
-  <div id="notice"><%= notice %><%= alert %></div>
 
 <%= yield %>
 

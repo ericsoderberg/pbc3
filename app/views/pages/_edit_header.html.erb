@@ -1,11 +1,9 @@
 <header>
   <h1>Editing <%= @page.name %></h1>
-  <% unless %w(text feature podcast).include?(active_aspect) -%>
-    <div id="done_page_editing">
-      <%= button_to 'Done editing page', friendly_page_path(@page),
-        :method => :get %>
-    </div>
-  <% end -%>
+  <div id="done_page_editing">
+    <%= button_to 'Done editing page', friendly_page_path(@page),
+      :method => :get %>
+  </div>
   <ul class="nav">
     <% @page.possible_aspects.each do |aspect| -%>
     <li class="<%= active_aspect == aspect ? 'active' : '' %>">

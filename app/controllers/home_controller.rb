@@ -14,6 +14,7 @@ class HomeController < ApplicationController
     end
     user = user_signed_in? ? current_user : nil
     @featured_pages = Page.featured_pages(user)
+    @feature_strip_pages = @featured_pages[0,5]
   end
   
   def edit

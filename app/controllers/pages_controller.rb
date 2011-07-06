@@ -16,13 +16,21 @@ class PagesController < ApplicationController
   def search
     result_page_size = params[:s].to_i
     result_page = params[:p].to_i
-    @pages = Page.where("name ILIKE ?", (params[:q] || '') + '%').order('name ASC').
-      offset((result_page - 1) * result_page_size).limit(result_page_size)
-    total = Page.where("name ILIKE ?", (params[:q] || '') + '%').count
+    filtered_pages = Page.where("pages.name ILIKE ?", (params[:q] || '') + '%')
+    if params[:date]
+      date = Time.parse(params[:date])
+      filtered_pages = filtered_pages.includes(:events).
+        where('events.start_at >= ? AND events.stop_at <= ?',
+          date.beginning_of_month, date.end_of_month)
+    end
+    ordered_pages = filtered_pages.order('pages.name ASC')
+    @pages = ordered_pages.offset((result_page - 1) * result_page_size).
+      limit(result_page_size)
+    total = filtered_pages.count
     
     respond_to do |format|
       format.js { render :json => {:results =>
-        @pages.map{|page| {:id => page.id, :name => page.name}},
+        @pages.map{|page| {:id => page.id, :name => page.name, :url => page.url}},
         :total => total}
       }
     end
@@ -139,7 +147,8 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.save and (not params[:site_reference] or @site.save)
-        format.html { redirect_to(@page, :notice => 'Page was successfully created.') }
+        format.html { redirect_to(edit_page_path(@page),
+          :notice => 'Page was successfully created.') }
         format.xml  { render :xml => @page, :status => :created, :location => @page }
       else
         format.html { render :action => "new" }
@@ -160,7 +169,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
         (not @page.parent or @page.parent.order_children(orderer_sub_ids))
-        format.html { redirect_to(@page, :notice => 'Page was successfully updated.') }
+        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html {

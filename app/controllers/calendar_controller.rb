@@ -15,6 +15,7 @@ class CalendarController < ApplicationController
   def list
     @start_date = @date.beginning_of_month
     @stop_date = @start_date + 1.month - 1.day
+    @full = params[:full] || false
     get_events
     @calendar = true
   end
@@ -32,7 +33,10 @@ class CalendarController < ApplicationController
   end
   
   def get_events
-    @events = if @page
+    @events = if @full
+        Event.between(@start_date, @stop_date).
+          order("start_at ASC").all
+      elsif @page
         @page.related_events(@start_date, @stop_date)
       elsif @resource
         @resource.events.between(@start_date, @stop_date)

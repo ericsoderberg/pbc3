@@ -33,7 +33,7 @@ module Pbc3
     # JavaScript files you want as :defaults (application.js is always included).
     config.action_view.javascript_expansions[:defaults] =
       %w(modernizr.min jquery-1.5.1.min jquery-ui-1.8.11.custom.min
-        jquery-ui-timepicker-addon jquery.flexbox.js rails)
+        jquery-ui-timepicker-addon jquery.flexbox.js date.js rails)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

@@ -22,7 +22,7 @@ class PagesControllerTest < ActionController::TestCase
       post :create, :page => {:name => 'Test'}
     end
 
-    assert_redirected_to page_path(assigns(:page))
+    assert_redirected_to edit_page_path(assigns(:page))
   end
   
   test "should create sub page" do
@@ -34,7 +34,7 @@ class PagesControllerTest < ActionController::TestCase
       assert @parent.children.include?(assigns(:page))
     end
 
-    assert_redirected_to page_path(assigns(:page))
+    assert_redirected_to edit_page_path(assigns(:page))
   end
 
   test "should show page" do
@@ -67,7 +67,7 @@ class PagesControllerTest < ActionController::TestCase
   test "should update page" do
     put :update, :id => @page.to_param, :page => @page.attributes,
       :sub_order => ''
-    assert_redirected_to page_path(assigns(:page))
+    assert_redirected_to edit_page_path(assigns(:page))
   end
 
   test "should destroy page" do
