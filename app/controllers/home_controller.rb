@@ -30,7 +30,7 @@ class HomeController < ApplicationController
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
         (not @page.featured? or Page.order_features(orderer_feature_ids))
-        format.html { redirect_to(@page, :notice => 'Page was successfully updated.') }
+        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html {
