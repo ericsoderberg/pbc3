@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   def index
     @date = params[:date] ? params[:date].to_date : (Time.now + 3.months)
     @back_date = @date - 1.year
-    @messages = Message.between(@back_date, @date).order('date desc')
+    @messages = Message.between_with_full_sets(@back_date, @date)
 
     respond_to do |format|
       format.html # index.html.erb

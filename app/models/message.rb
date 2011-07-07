@@ -2,7 +2,7 @@ class Message < ActiveRecord::Base
   belongs_to :message_set
   belongs_to :author
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
-  has_many :message_files, :dependent => :destroy
+  has_many :message_files, :order => 'file_content_type', :dependent => :destroy
   acts_as_url :title, :sync_url => true
   acts_as_audited
   
@@ -37,12 +37,33 @@ class Message < ActiveRecord::Base
     end
     Message.includes(:verse_ranges).
       where(wheres.join(' OR ')).
-      order('date desc').
+      order('messages.date desc').
       order('verse_ranges.begin_index')
   end
   
   def self.between(start_date, end_date)
-    where('date >= ? AND date < ?', start_date, end_date)
+    where('messages.date' => start_date..end_date)
+  end
+  
+  def self.between_with_full_sets(start_date, end_date)
+    # find message_sets between dates
+    message_sets = MessageSet.between(start_date, end_date)
+    # remove any sets that end after the end date
+    message_sets = message_sets.all.delete_if{|set|
+      set.messages(true) # reload
+      not set.ends_within?(start_date, end_date)}
+    message_set_ids = message_sets.map{|set| set.id}
+    
+    if message_set_ids.empty?
+      Message.between(start_date, end_date).order('date DESC')
+    else
+      Message.
+        where('message_set_id IN (?) OR ' +
+          '(message_set_id IS NULL AND ' +
+            'messages.date >= ? AND messages.date < ?)',
+          message_set_ids, start_date, end_date).
+        order('date DESC')
+    end
   end
   
   def emebedded_content

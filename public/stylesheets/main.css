@@ -1427,7 +1427,7 @@ table.grid td {
 	padding-right: 20px;
 	}
 .message_date {
-	font-size: 16px;
+	font-size: 12px;
 	font-weight: bold;
 	color: #999;
 	}
@@ -1479,9 +1479,12 @@ div#messages {
 		min-width: 120px;
 		}
 	.message .message_title {
-		min-width: 200px;
+		min-width: 300px;
 		}
 	.message .message_verses {
+		min-width: 200px;
+		}
+	.message .message_author {
 		min-width: 120px;
 		}
 .messages_year {
@@ -1490,7 +1493,7 @@ div#messages {
 	overflow: visible;
 	padding-top: 100px;
 	font-size: 244px;
-	color: #eee;
+	color: #f6f6f6;
 	}
 #more_messages {
 	padding-top: 30px;
@@ -1576,7 +1579,7 @@ div#messages {
     .page_map li.leaf, .page_map li.post {
       border: none;
       }
-		
+
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
 	#page_admin, .admin, .actions {

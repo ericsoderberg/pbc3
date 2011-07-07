@@ -9,4 +9,13 @@ class MessageSet < ActiveRecord::Base
     url
   end
   
+  def ends_within?(start_date, end_date)
+    messages.last.date < end_date
+  end
+  
+  def self.between(start_date, end_date)
+    MessageSet.includes(:messages).
+      where('messages.date' => start_date..end_date)
+  end
+  
 end

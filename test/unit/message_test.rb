@@ -15,4 +15,10 @@ class MessageTest < ActiveSupport::TestCase
     assert !message.save
   end
   
+  test "between with full sets" do
+    today = Date.today
+    messages = Message.between_with_full_sets(today - 2.weeks, today + 1.week)
+    assert_equal 3, messages.count
+  end
+  
 end

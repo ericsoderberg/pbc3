@@ -15,10 +15,6 @@
       <%= link_to message.author.name, author_path(message.author) %>
     </div>
   <% end -%>
-  <div class="message_audio">
-    <%= render :partial => 'messages/audio',
-      :locals => {:message => message} %>
-  </div>
   <div class="message_files">
     <%= render :partial => 'messages/files',
       :locals => {:message => message} %>
