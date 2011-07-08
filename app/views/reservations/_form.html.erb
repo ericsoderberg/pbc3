@@ -6,9 +6,19 @@
 <% rows.each do |row| -%>
   <tr>
   <% row.each do |resource| -%>
+    <% conflicts = resource.other_events_during(@event) -%>
     <td><%= check_box_tag 'resources[]', resource.id,
-      @event.resources.include?(resource) %>
-    <%= resource.name %></td>
+      @event.resources.include?(resource),
+      :disabled => (not conflicts.empty?) %>
+      <%= resource.name %>
+      <% unless conflicts.empty? -%>
+        <span class="empty_indicator">
+          <% conflicts.each do |conflict| -%>
+            <%= link_to conflict.name, friendly_page_path(conflict) %>
+          <% end -%>
+        </span>
+      <% end -%>
+    </td>
   <% end -%>
   </tr>
 <% end -%>

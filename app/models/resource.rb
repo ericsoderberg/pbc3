@@ -11,4 +11,9 @@ class Resource < ActiveRecord::Base
   scope :room, where(:resource_type => 'room')
   scope :equipment, where(:resource_type => 'equipment')
   
+  def other_events_during(event)
+    reservations.between(event.start_at, event.stop_at).
+      where('events.id != ?', event.id).map{|reservation| reservation.event}
+  end
+  
 end

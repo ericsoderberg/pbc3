@@ -17,4 +17,11 @@ class ResourceTest < ActiveSupport::TestCase
     assert resource.save
   end
   
+  test "other events during" do
+    resource = resources(:room)
+    single = events(:single)
+    conflicts = resource.other_events_during(single)
+    assert_equal 0, conflicts.length
+  end
+  
 end

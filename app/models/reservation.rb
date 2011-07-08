@@ -20,6 +20,10 @@ class Reservation < ActiveRecord::Base
     event.update_with_replicas
   end
   
+  def self.between(start, stop)
+    includes(:event).where("events.stop_at > ? AND events.start_at < ?", start, stop)
+  end
+  
   def copy(for_event)
     reservation = Reservation.new
     reservation.resource = self.resource
