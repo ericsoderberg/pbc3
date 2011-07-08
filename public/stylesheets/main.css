@@ -473,6 +473,7 @@ footer {
       padding: 10px;
 			font-size: 14px;
 			color: #666;
+			height: 60px;
 			overflow: hidden;
       }
       .featured_nav_text h1, .featured_nav_text h2, .featured_nav_text h3,
