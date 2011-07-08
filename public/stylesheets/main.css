@@ -374,16 +374,22 @@ footer {
 		position: relative;
     vertical-align: top;
 		margin-left: 530px;
-    padding: 50px 100px 50px 40px;
-    font-size: 14px;
+    padding: 20px 100px 20px 40px;
+    font-size: 16px;
 		z-index: 3;
     }
-  #hero_text a {
-    font-size: 14px;
-    }
-  #hero_text a::after {
-    content: " >>";
-    }
+    #hero_text h2 {
+      padding: 0px;
+      }
+    #hero_text h2 a {
+      font-size: 20px;
+      }
+    #hero_text a {
+      font-size: 16px;
+      }
+      #hero_text a::after {
+        content: " >>";
+        }
 	#hero .control {
   	display:block;
   	width:77px;
@@ -467,7 +473,15 @@ footer {
       padding: 10px;
 			font-size: 14px;
 			color: #666;
+			overflow: hidden;
       }
+      .featured_nav_text h1, .featured_nav_text h2, .featured_nav_text h3,
+      .featured_nav_text h4 {
+        font-size: 14px;
+        }
+      .featured_nav_text font {
+        font-size: 12px;
+        }
     .featured_nav_link {
       margin-top: 10px;
       }

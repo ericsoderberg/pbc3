@@ -9,8 +9,7 @@
     <%= link_to featured_page.name, friendly_page_path(featured_page) %>
   </div>
   <div class="featured_nav_text">
-    <%= raw truncate(featured_page.snippet_feature_text,
-      :length => featured_page.snippet_feature_text.length) %>
+    <%= raw featured_page.snippet_feature_text %>
   </div>
   
 <% end %>
