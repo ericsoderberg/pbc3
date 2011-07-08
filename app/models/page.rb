@@ -1,6 +1,6 @@
 class Page < ActiveRecord::Base
   before_save :render_text
-  acts_as_url :name
+  acts_as_url :name, :sync_url => true
   
   belongs_to :style
   has_many :notes, :order => 'created_at DESC'
