@@ -1475,8 +1475,11 @@ div#messages {
 		min-width: 120px;
 		}
 	.message .message_title {
-		min-width: 300px;
+		min-width: 350px;
 		}
+		.message .message_title a {
+		  font-size: 14px;
+		  }
 	.message .message_verses {
 		min-width: 200px;
 		}
@@ -1491,6 +1494,17 @@ div#messages {
 	font-size: 244px;
 	color: #f6f6f6;
 	}
+#messages_threshold {
+  }
+  #mt_future, #mt_past {
+    text-align: right;
+    color: #999;
+  }
+  #mt_separator {
+    background-color: #eee;
+    height: 2px;
+    margin: 3px 0px;
+    }
 #more_messages {
 	padding-top: 30px;
 	}
@@ -1587,6 +1601,30 @@ div#messages {
       background-color: #eee;
       border-style: dotted;
       }
+      
+#messages_loading {
+  display: inline-block;
+  padding: 0px 10px;
+  color: #999;
+  background-color: #eee;
+  border: 3px solid #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-animation-name:stretch;
+  -webkit-animation-duration:10s;
+  -webkit-animation-iteration-count:once;
+  -webkit-animation-timing-function:linear;
+  }
+  #messages_loading_text {
+    vertical-align: top;
+    }
+
+@-webkit-keyframes stretch {
+  from {width: 50px; opacity: 0.1;}
+  5% {width: 50px; opacity: 1;}
+  to {width: 800px; opacity: 1;}
+}
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,

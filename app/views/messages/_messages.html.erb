@@ -1,13 +1,20 @@
-<% prior_message_set = nil -%>
-<% prior_message_year = nil -%>
+<% prior_message = nil -%>
 <% messages.each do |message| -%>
 
-  <% if prior_message_year and message.date.year != prior_message_year %>
+  <% if prior_message and prior_message.date.future? and
+    not message.date.future? -%>
+  <div id="messages_threshold">
+    <div id="mt_future">Upcoming</div>
+    <div id="mt_separator"></div>
+    <div id="mt_past">Past</div>
+  </div>
+  <% end -%>
+  <% if prior_message and message.date.year != prior_message.date.year -%>
   <div class="messages_year">
     <%= message.date.year %>
   </div>
   <% end -%>
-  <% if message.message_set != prior_message_set -%>
+  <% if not prior_message or message.message_set != prior_message.message_set -%>
     <% if message.message_set -%>
     <h3 class="series_title">
       <%= link_to message.message_set.title,
@@ -21,6 +28,5 @@
   <%= render :partial => 'messages/message',
     :locals => {:message => message} %>
     
-  <% prior_message_set = message.message_set -%>
-  <% prior_message_year = message.date.year -%>
+  <% prior_message = message -%>
 <% end -%>
