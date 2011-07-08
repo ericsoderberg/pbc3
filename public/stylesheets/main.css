@@ -1135,16 +1135,6 @@ div.actions {
   margin-top: 20px;
   }
 
-#reservations {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-  }
-  #reservations li {
-    display: inline-block;
-    padding-right: 20px;
-    }
-
 #landing_page_intro {
 	display: table;
 	margin-bottom: 20px;
@@ -1409,9 +1399,15 @@ div.actions {
 table.grid {
 	margin: 20px auto;
 	}
-table.grid td {
-	padding-right: 20px;
-	}
+  table.grid td {
+	  padding-right: 20px;
+	  }
+	table.grid caption {
+	  font-size: 14px;
+		font-weight: bold;
+		text-align: left;
+		color: #999;
+	  }
 	#books a {
 		font-size: 14px;
 		}

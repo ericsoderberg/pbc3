@@ -7,9 +7,22 @@
   <div id="add_content" class="header_add_content">
     <%= link_to 'Add Resource', new_resource_path %>
   </div>
-
+  
   <table id="resources" class="grid">
-  <% rows = array_to_rows(@resources) -%>
+    <caption>Rooms</caption>
+  <% rows = array_to_rows(@resources.room) -%>
+  <% rows.each do |row| -%>
+    <tr>
+    <% row.each do |resource| -%>
+      <td><%= link_to resource.name, resource_path(resource) %></td>
+    <% end -%>
+    </tr>
+  <% end -%>
+  </table>
+  
+  <table id="resources" class="grid">
+    <caption>Equipment</caption>
+  <% rows = array_to_rows(@resources.equipment) -%>
   <% rows.each do |row| -%>
     <tr>
     <% row.each do |resource| -%>

@@ -1,14 +1,32 @@
 <%= form_tag page_event_reservations_path(@page, @event), :method => :put do %>
 
-<ul id="reservations" class="reservations">
-  <% @resources.each do |resource| -%>
-    <li>
-      <%= check_box_tag 'resources[]', resource.id,
-        @event.resources.include?(resource) %>
-      <%= resource.name %>
-    </li>
+<table id="reservations" class="grid">
+  <caption>Rooms</caption>
+<% rows = array_to_rows(@resources.room) -%>
+<% rows.each do |row| -%>
+  <tr>
+  <% row.each do |resource| -%>
+    <td><%= check_box_tag 'resources[]', resource.id,
+      @event.resources.include?(resource) %>
+    <%= resource.name %></td>
   <% end -%>
-</ul>
+  </tr>
+<% end -%>
+</table>
+
+<table id="reservations" class="grid">
+  <caption>Equipment</caption>
+<% rows = array_to_rows(@resources.equipment) -%>
+<% rows.each do |row| -%>
+  <tr>
+  <% row.each do |resource| -%>
+    <td><%= check_box_tag 'resources[]', resource.id,
+      @event.resources.include?(resource) %>
+    <%= resource.name %></td>
+  <% end -%>
+  </tr>
+<% end -%>
+</table>
 
 <div class="actions">
   <%= submit_tag("Update Reservations") %>

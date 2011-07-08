@@ -21,7 +21,7 @@ class Page < ActiveRecord::Base
   
   TYPES = ['landing', 'main', 'leaf', 'blog', 'post']
 
-  validates :page_type, :inclusion => {:in => TYPES}
+  validates :page_type, :presence => true, :inclusion => {:in => TYPES}
   validates :name, :presence => true, :uniqueness => true
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
@@ -101,6 +101,10 @@ class Page < ActiveRecord::Base
   
   def ancestors
     parent ? (parent.ancestors << parent) : []
+  end
+  
+  def descendants
+    children.map{|child| [child] + child.descendants}.flatten
   end
   
   def includes?(page)
@@ -216,11 +220,11 @@ class Page < ActiveRecord::Base
   
   def related_events(start_date=Date.today.beginning_of_day,
       stop_date=Date.today.beginning_of_day + 6.months)
+    page_ids = [self.id] + self.descendants.map{|page| page.id}
     result =
-      events.between(start_date, stop_date).order("start_at ASC").all
-    children.each do |child|
-      result += child.related_events(start_date, stop_date)
-    end
+      Event.between(start_date, stop_date).
+      where(:page_id => page_ids).
+      order("start_at ASC").all
     result
   end
   

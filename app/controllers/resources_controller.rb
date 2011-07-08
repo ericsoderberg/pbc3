@@ -5,7 +5,7 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
   def index
-    @resources = Resource.all
+    @resources = Resource.order('name ASC')
 
     respond_to do |format|
       format.html # index.html.erb

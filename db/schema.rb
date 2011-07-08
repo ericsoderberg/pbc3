@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110629102917) do
+ActiveRecord::Schema.define(:version => 20110708022056) do
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -247,6 +247,7 @@ ActiveRecord::Schema.define(:version => 20110629102917) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "resource_type", :default => "room"
   end
 
   create_table "sites", :force => true do |t|

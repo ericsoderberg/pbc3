@@ -5,7 +5,7 @@ class ReservationsController < ApplicationController
   before_filter :get_event
   
   def show
-    @resources = Resource.find(:all)
+    @resources = Resource.order('name ASC')
     
     respond_to do |format|
       format.html # show.html.erb

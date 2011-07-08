@@ -15,6 +15,11 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.select :resource_type,
+      options_for_select(Resource::TYPES, @resource.resource_type) %>
+  </div>
   <div class="actions">
     <%= f.submit %>
     <% if @resource.id -%>

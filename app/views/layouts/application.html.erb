@@ -50,8 +50,8 @@
         @page.root == @site.about_page) ? 'active' : '' %>">
         <%= link_to "About", about_path %></li>
       <% if user_signed_in? and current_user.administrator? -%>
-        <li class="<%= (@pages or @users or @styles or
-          @resources or @audit_logs) ? 'active' : '' %>">
+        <li class="<%= ((@pages or @users or @styles or
+          @resources or @audit_logs) and not @event) ? 'active' : '' %>">
           <%= link_to "Admin", pages_path %></li>
       <% end -%>
     </ul>
