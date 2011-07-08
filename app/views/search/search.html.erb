@@ -24,6 +24,10 @@
       <td class="search_result_type">Form</td>
       <td><%= link_to object.name, form_path(object) %></td>
       <td><%= link_to object.page.name, friendly_page_path(object.page) %></td>
+      <% elsif object.is_a? Document -%>
+      <td class="search_result_type">Document</td>
+      <td><%= link_to object.name, object.file.url %></td>
+      <td><%= link_to object.page.name, friendly_page_path(object.page) %></td>
       <% elsif object.is_a? User and user_signed_in? and current_user.administrator? -%>
       <td class="search_result_type">Account</td>
       <td><%= link_to object.name, edit_account_path(object) %></td>

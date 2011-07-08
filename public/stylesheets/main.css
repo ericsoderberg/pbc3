@@ -637,6 +637,17 @@ footer {
       color: #666;
       font-weight: normal;
       }
+      .edit_list li.active {
+        background-color: #999;
+        border-radius: 3px;
+        color: #fff;
+        }
+        .edit_list li.active a, .edit_list li.active a:hover {
+          color: #fff;
+          }
+        .edit_list li.active .event_range {
+          color: #fff;
+          }
     .events_list li:first-of-type, #documents_list li:first-of-type,
 		.edit_list li:first-of-type, #dynamic_forms_list li:first-of-type {
       border: none;
