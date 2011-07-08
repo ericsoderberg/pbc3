@@ -12,11 +12,11 @@
       :disabled => (not conflicts.empty?) %>
       <%= resource.name %>
       <% unless conflicts.empty? -%>
-        <span class="empty_indicator">
+        <ul class="resource_conflicts">
           <% conflicts.each do |conflict| -%>
-            <%= link_to conflict.name, friendly_page_path(conflict) %>
+            <li><%= link_to conflict.name, friendly_page_path(conflict) %></li>
           <% end -%>
-        </span>
+        </ul>
       <% end -%>
     </td>
   <% end -%>
