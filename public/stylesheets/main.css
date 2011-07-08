@@ -1573,11 +1573,23 @@ div#messages {
     padding: 5px 10px;
     margin-left: 10px;
     margin-bottom: 10px;
-    border: 1px solid #eee;
+    background-color: #fff;
+    border: 2px solid #fff;
     vertical-align: top;
     }
     .page_map li.leaf, .page_map li.post {
       border: none;
+      }
+    .page_map li.landing {
+      background-color: #ccc;
+      }
+    .page_map li.main {
+      background-color: #eee;
+      border: none;
+      }
+    .page_map li.blog {
+      background-color: #eee;
+      border-style: dotted;
       }
 
 @media print {
