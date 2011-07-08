@@ -28,7 +28,8 @@
 
   <aside>
     
-    <% if @categorized_events[:all].count == 1 and
+    <% if @categorized_events and
+        @categorized_events[:all].count == 1 and
         @page == @categorized_events[:all].first.page -%>
         
         <%= render :partial => 'events/viewer',

@@ -1,4 +1,4 @@
-<% unless categorized_events[:all].empty? -%>
+<% if categorized_events and not categorized_events[:all].empty? -%>
 
 <div id="events">
   <h2><%= (categorized_events[:all].count == 1 ? 'Event' : 'Events') %></h2>

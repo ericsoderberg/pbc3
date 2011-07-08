@@ -48,7 +48,8 @@ class PagesController < ApplicationController
       return
     end
     
-    if @page.main? or @page.leaf? or @page.post?
+    if (@page.landing? or @page.main? or @page.leaf? or @page.post?) and
+        (@page != @site.communities_page and @page != @site.about_page)
       @categorized_events = Event.categorize(@page.related_events)
     end
     if params[:invitation_key]
