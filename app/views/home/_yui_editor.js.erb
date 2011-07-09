@@ -1,4 +1,4 @@
-var myEditor = new YAHOO.widget.SimpleEditor('page_feature_text', {
+var myEditor = new YAHOO.widget.SimpleEditor('page_hero_text', {
   height: '200px',
   width: '400px',
   handleSubmit: true,
@@ -21,9 +21,6 @@ var myEditor = new YAHOO.widget.SimpleEditor('page_feature_text', {
             ]
           },
           { type: 'spin', label: '13', value: 'fontsize', range: [ 9, 75 ], disabled: true },
-          { type: 'separator' },
-          { type: 'color', label: 'Font Color', value: 'forecolor', disabled: true },
-          { type: 'color', label: 'Background Color', value: 'backcolor', disabled: true },
           { type: 'separator' }, 
           { type: 'push', label: 'Create an Unordered List', value: 'insertunorderedlist' }, 
           { type: 'push', label: 'Create an Ordered List', value: 'insertorderedlist' },

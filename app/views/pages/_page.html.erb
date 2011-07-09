@@ -3,5 +3,5 @@
   	<%= image_tag page.feature_image.url(:normal) %><br />
   <% end %>
   <%= link_to page.name, friendly_page_path(page) %>
-  <%= raw page.rendered_feature_text %>
+  <%= raw page.feature_phrase %>
 <% end %>

@@ -8,8 +8,8 @@
     style="<%= raw (featured_page.style ? featured_page.style.css : '') %>">
     <%= link_to featured_page.name, friendly_page_path(featured_page) %>
   </div>
-  <div class="featured_nav_text">
-    <%= raw featured_page.snippet_feature_text %>
+  <div class="featured_nav_phrase">
+    <%= raw featured_page.feature_phrase %>
   </div>
   
 <% end %>

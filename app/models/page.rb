@@ -72,21 +72,7 @@ class Page < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
 
   def render_text
-    #self.rendered_text = BlueCloth.new(self.text).to_html
-    self.rendered_text = self.text # since we're using the YUI editor
-    #self.rendered_feature_text = BlueCloth.new(self.feature_text).to_html
-    self.rendered_feature_text = self.feature_text
-    self.snippet_text = strip_tags(strip_links(self.rendered_text))
-    #self.snippet_feature_text =
-    #  strip_tags(strip_links(self.rendered_feature_text))
-    if self.rendered_feature_text
-      self.snippet_feature_text = self.rendered_feature_text.
-        gsub(/<font .*?>|<\/font>/, '').
-        gsub(/<strong>|<\/strong>/, '').
-        gsub(/<br><br>/, '<br>')
-    else
-      self.snippet_feature_text = '';
-    end
+    self.snippet_text = strip_tags(strip_links(self.text))
   end
   
   def to_param

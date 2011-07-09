@@ -4,7 +4,7 @@
   <a href="<%= edit_page_event_path(@page, edit_event) %>">
     <%= edit_event.name %>
     <% unless edit_event.replicas.empty? -%>
-      (+<%= edit_event.replicas.count %>)
+      (<%= edit_event.replicas.count %>)
     <% end -%>
     <div class="event_range">
       <%= friendly_range(edit_event, true) %>

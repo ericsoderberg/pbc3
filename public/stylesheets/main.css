@@ -470,20 +470,13 @@ footer {
 			background-color: #ccc;
 			text-decoration: none;
       }
-    .featured_nav_text {
+    .featured_nav_phrase {
       padding: 10px;
 			font-size: 14px;
 			color: #666;
 			height: 60px;
 			overflow: hidden;
       }
-      .featured_nav_text h1, .featured_nav_text h2, .featured_nav_text h3,
-      .featured_nav_text h4 {
-        font-size: 14px;
-        }
-      .featured_nav_text font {
-        font-size: 12px;
-        }
     .featured_nav_link {
       margin-top: 10px;
       }
@@ -955,6 +948,9 @@ table.index td, table.index th {
     line-height: 28px;
     padding: 0 5px;
     }
+  .calendar_controls #focus_date {
+    margin-right: 20px;
+    }
   #calendar_views {
     float: right;
     margin: 0;
@@ -1001,7 +997,7 @@ table.index td, table.index th {
 	    vertical-align: top;
 	    padding-left: 10px;
 			}
-		#calendar_controls_extended input {
+		.calendar_controls input {
 		  margin: 0px;
 			padding: 3px;
 			border: solid 1px #ccc;
@@ -1013,8 +1009,9 @@ table.index td, table.index th {
 			-moz-box-shadow: none;
 			-webkit-box-shadow: none;
 			}
-		#calendar_controls_extended form {
+		.calendar_controls form {
 		  display: inline-block;
+	    vertical-align: top;
 		  padding-right: 10px;
 		}
   
@@ -1152,6 +1149,9 @@ table.index td, table.index th {
     font-size: 12px;
     font-weight: bold;
     color: #999;
+    }
+  #recurrence td.odd_month {
+    background: #f6f6f6;
     }
   #recurrence .day {
     display: inline-block;

@@ -5,6 +5,7 @@
   <%= link_to ">", next_month_path(args) %>
   <span id="focus_date"><%=h @date.strftime("%B %Y") %></span>
   <div id="calendar_controls_extended" style="display:none">
+    <% if user_signed_in? and current_user.administrator? -%>
     <%= form_tag date_search_path(args), :method => :get do %>
       <% if @page -%>
       <%= hidden_field_tag :page_id, @page.url %>
@@ -14,9 +15,7 @@
       <%= text_field_tag :date, @date.strftime("%Y-%m-%d") %>
       <%= submit_tag 'go' %>
     <% end %>
-    <%= button_to "Today", today_path(args), :method => :get %>
-    <% if user_signed_in? and current_user.administrator? -%>
-      <div id="calendar_page_chooser"></div>
+    <div id="calendar_page_chooser"></div>
     <% end -%>
   </div>
   

@@ -33,7 +33,7 @@ class EventTest < ActiveSupport::TestCase
     assert_equal prior_count + 1, Event.count,
       event.errors.full_messages.join("\n") +
       event.replicas.map{|e| e.errors.full_messages.join("\n")}.join("\n")
-    assert_equal 1, event.replicas.count, "mismatched replica count"
+    assert_equal 2, event.replicas.count, "mismatched replica count"
     copy = event.replicas.first
     assert_equal event.name, copy.name, "mismatched name"
     assert_equal event.page, copy.page, "mismatched page"
@@ -70,24 +70,23 @@ class EventTest < ActiveSupport::TestCase
   
   test "replicate master" do
     event = events(:recurring)
-    prior_count = event.replicas.count
-    existing_dates = event.master_and_replicas.map{|e| e.start_at.to_date}
+    prior_count = event.master.replicas.count
+    existing_dates = event.master.replicas.map{|e| e.start_at.to_date}
     dates = existing_dates + [Date.today + 6.months]
     event.replicate(dates)
     event.reload
-    assert_equal prior_count + 1, event.replicas.count, "mismatched replicas"
+    assert_equal prior_count + 1, event.master.replicas.count, "mismatched replicas"
     event.replicas.each{|e| assert_equal event, e.master}
   end
   
   test "replicate replica" do
     event = events(:replica)
-    prior_count = event.replicas.count
-    prior_master_count = event.master.replicas.count
-    existing_dates = event.master_and_replicas.map{|e| e.start_at.to_date}
+    prior_count = event.master.replicas.count
+    existing_dates = event.master.replicas.map{|e| e.start_at.to_date}
     dates = existing_dates + [Date.today + 6.months]
     event.replicate(dates)
     event.reload
-    assert_equal prior_master_count + 1, event.replicas.count
+    assert_equal prior_count + 1, event.master.replicas.count
     event.replicas.each{|e| assert_equal event, e.master}
   end
   
@@ -100,18 +99,22 @@ class EventTest < ActiveSupport::TestCase
   
   test "best non replica" do
     event = events(:single)
-    best = event.best_replica(events)
+    assert_equal 0, event.replicas.count
+    best = event.best_replica(Event.all)
     assert_equal event, best
   end
   
   test "best self replica" do
     event = events(:recurring)
-    best = event.best_replica(events)
+    assert_equal 4, event.master.replicas.count
+    best = event.best_replica(Event.all)
     assert_equal event, best
   end
   
   test "best other replica" do
     event = events(:ancient_replica)
+    assert_equal event.master, events(:recurring)
+    assert_equal 4, event.master.replicas.count
     best = event.best_replica(Event.all)
     assert_equal events(:recurring), best
   end
@@ -120,10 +123,10 @@ class EventTest < ActiveSupport::TestCase
     event = events(:recurring)
     prior_count = event.replicas.count
     existing_dates = event.replicas.map{|e| e.start_at.to_date}
-    dates = existing_dates # left off master date
+    # leave off master date
+    dates = existing_dates.delete_if{|d| d == event.start_at.to_date}
     event.replicate(dates)
     event.reload
-    assert_nil event.master
     assert_equal existing_dates.first, event.start_at.to_date
     assert_equal prior_count - 1, event.replicas.count, "mismatched replicas"
     event.replicas.each{|e| assert_equal event, e.master}

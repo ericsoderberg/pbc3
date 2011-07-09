@@ -18,7 +18,7 @@
     <% end -%>
   <% end -%>
   <div class="event_range">
-    <% if event.master or not event.replicas.empty? -%>
+    <% if event.regular? -%>
       <%= event.start_at.strftime("%As ") + friendly_range(event, false) %>
     <% else -%>
       <%= friendly_range(event, true) %>

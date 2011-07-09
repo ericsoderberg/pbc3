@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
   end
   
   def no_master_if_replicas
-    if master and master.master
+    if slave? and master.master
       errors.add(:master_id, "can't be a replica of a replica")
     end
   end
@@ -31,19 +31,41 @@ class Event < ActiveRecord::Base
   searchable do
     text :name, :default_boost => 1
     time :start_at
-    boolean :best do |event|
-      not event.master_id or event.master_id == event.id
-    end
+    boolean :best do |event| not event.slave? end
   end
   
   def self.on_or_after(date)
     where("events.start_at >= ?", date)
   end
+  
   def self.between(start, stop)
     where("events.stop_at > ? AND events.start_at < ?", start, stop)
   end
-  #scope :masters,
-  #  where("events.master_id = events.id OR events.master_id IS NULL")
+  
+  scope :masters,
+    where("events.master_id = events.id OR events.master_id IS NULL")
+    
+  def related_to?(event)
+    event.master and self.master == event.master
+  end
+  
+  def slave?
+    master and self != master
+  end
+  
+  def regular?
+    master and
+    master.replicas.between(Date.today, Date.today + 1.month).count > 2
+  end
+  
+  def occasional?
+    master and
+    master.replicas.between(Date.today, Date.today + 1.month).count <= 2
+  end
+  
+  def singular?
+    not master or master.replicas.count <= 1
+  end
   
   # divide the events up into three categories: active, expired, ancient
   # prune out replicas
@@ -69,13 +91,12 @@ class Event < ActiveRecord::Base
   
   # find the replica that is the closest to today, preferably in the future
   def best_replica(events)
-    return self if (not master_id) and replicas.empty? # no replicas
+    return self if not master or master.replicas.empty? # no replicas
     today = Time.now.beginning_of_day
     candidate = self
     events.each do |e|
       # are we related?
-      next unless e.master_id == self.id or self.master_id == e.id or
-        (self.master_id and e.master_id == self.master_id)
+      next unless self.related_to?(e)
 
       if e.start_at >= today and (candidate.start_at > e.start_at or
         candidate.start_at < today)
@@ -97,6 +118,7 @@ class Event < ActiveRecord::Base
       become_master
       # update replicas, including reservations
       self.replicas.each do |replica|
+        next if self == replica
         replica.name = self.name
         replica.location = self.location
         replica.align_reservations(self)
@@ -112,36 +134,31 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def master_and_replicas
-    result = if master
-        master.replicas.all.dup + [master]
-      elsif not replicas.empty?
-        replicas.all.dup + [self]
-      else
-        [self]
-      end
-    result.sort{|e1, e2| e1.start_at <=> e2.start_at}
-  end
-  
   def replicate(dates)
     #logger.info "!!! replicate to #{dates.map{|e| e.to_s}.join(', ')}"
     Event.transaction do
-      # throw out everything related except me
-      if master
-        master.replicas.delete(self)
-        master.replicas.each{|e| e.destroy}
-        master.destroy
-      else
-        replicas.each{|e| e.destroy}
-      end
+      dereplicate
       
       remaining_dates = dates.dup
       # set me to first date
       adjust_dates(remaining_dates.shift)
-      save
+      self.master_id = self.id
+      #logger.info "!!! #{self.master_id}"
       remaining_dates.each do |date|
-        replicas << copy(date)
+        slave = copy(date)
+        slave.master_id = self.id
+        slave.save
       end
+      save
+    end
+  end
+  
+  def self.re_replicate
+    Event.all.each do |event|
+      next if event.replicas.empty? # skip singles and slaves
+      next if event.replicas.exists?(:id => event.id) # already converted
+      event.master = event
+      event.save
     end
   end
   
@@ -149,8 +166,7 @@ class Event < ActiveRecord::Base
   
   def adjust_dates(date)
     duration = self.stop_at - self.start_at
-    new_start_at = Time.parse(date.strftime("%Y-%m-%d") +
-      self.start_at.strftime(" %H:%M %z"))
+    new_start_at = self.start_at.change(:year => date.year, :month => date.month, :day => date.day)
     self.start_at = new_start_at
     self.stop_at = (new_start_at + duration)
   end
@@ -172,11 +188,20 @@ class Event < ActiveRecord::Base
   end
   
   def become_master
-    return unless master
+    return unless master and self != master
     tmp = master.replicas.all.dup
     master.replicas.clear
-    replicas << master
-    tmp.each{|e| replicas << e unless e == self}
+    tmp.each{|e| replicas << e}
+  end
+  
+  def dereplicate
+    if master
+      # throw out everything related except me
+      master.replicas.delete(self)
+      master.replicas.each{|e| e.destroy}
+      self.master = nil
+      self.save
+    end
   end
   
 end

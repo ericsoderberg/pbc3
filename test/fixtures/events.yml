@@ -22,6 +22,7 @@ recurring:
   start_at: <%= Time.zone.now + 1.day %>
   stop_at: <%= Time.zone.now + 1.day + 1.hour %>
   page: public
+  master: recurring
 
 replica:
   name: Recurring

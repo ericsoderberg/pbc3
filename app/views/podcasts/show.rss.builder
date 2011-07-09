@@ -18,7 +18,7 @@ xml.rss :version => "2.0" do
     for page in @podcast.pages
       xml.item do
         xml.title page.name
-        xml.description page.rendered_text
+        xml.description page.snippet_text
         xml.pubDate page.updated_at.to_s(:rfc822)
         xml.link friendly_page_url(page)
         xml.guid friendly_page_url(page)
