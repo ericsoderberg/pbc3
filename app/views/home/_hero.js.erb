@@ -66,12 +66,12 @@ $(function() {
 	function manageControls(position){
 	  // Hide left arrow if position is first slide
 	  if(position==0 || showControls==false)
-			{ $('#hero_left_control').hide() }
-	  else{ $('#hero_left_control').show() }
+			{ $('#hero_left_control').fadeOut() }
+	  else{ $('#hero_left_control').fadeIn('slow') }
 	  // Hide right arrow if position is last slide
 	  if(position==numberOfSlides-1 || showControls==false)
-			{ $('#hero_right_control').hide() }
-	  else{ $('#hero_right_control').show() }
+			{ $('#hero_right_control').fadeOut() }
+	  else{ $('#hero_right_control').fadeIn('slow') }
 	}
 	
 	var timer = setInterval(function(){

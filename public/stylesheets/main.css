@@ -382,7 +382,7 @@ footer {
       padding: 0px;
       }
     #hero_text h2 a {
-      font-size: 20px;
+      font-size: 25px;
       }
     #hero_text a {
       font-size: 16px;
@@ -401,15 +401,16 @@ footer {
 		#hero_left_control {
   		top:0;
   		left:0;
-			z-index: 4;
   		background:transparent url(/images/control_left.png) no-repeat scroll center;
 			}
 		#hero_right_control {
   		top:0;
   		right:0;
-			z-index: 4;
   		background:transparent url(/images/control_right.png) no-repeat scroll center;
 			}
+		#hero_left_control, #hero_right_control {
+			z-index: 4;
+		  }
 
 #featured_nav {
   list-style-type: none;
@@ -1470,7 +1471,11 @@ header audio {
 	}
 	.message_files li {
 		display: inline-block;
+		margin-right: 5px;
 		}
+		.message_files img {
+		  vertical-align: middle;
+		  }
 
 .series_title {
 	margin: 10px 0px;
