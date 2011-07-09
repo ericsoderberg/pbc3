@@ -1,4 +1,5 @@
 <% prior_message = nil -%>
+<% next_year_countdown = 0 -%>
 <% messages.each do |message| -%>
 
   <% if prior_message and prior_message.date.future? and
@@ -9,10 +10,14 @@
     <div id="mt_past">Past</div>
   </div>
   <% end -%>
-  <% if prior_message and message.date.year != prior_message.date.year -%>
+  <% if messages.length > 30 and
+    (not prior_message or (prior_message and
+    message.date.year != prior_message.date.year)) and
+    0 == next_year_countdown -%>
   <div class="messages_year">
     <%= message.date.year %>
   </div>
+    <% next_year_countdown = 8 -%>
   <% end -%>
   <% if not prior_message or message.message_set != prior_message.message_set -%>
     <% if message.message_set -%>
@@ -29,4 +34,5 @@
     :locals => {:message => message} %>
     
   <% prior_message = message -%>
+  <% next_year_countdown = [0, (next_year_countdown - 1)].max %>
 <% end -%>

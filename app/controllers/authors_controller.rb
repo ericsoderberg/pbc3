@@ -5,7 +5,12 @@ class AuthorsController < ApplicationController
   # GET /authors
   # GET /authors.xml
   def index
-    @authors = Author.order('name asc').all
+    @authors = Author.all
+    @authors.sort!{|a1, a2| a2.first_year <=> a1.first_year}
+    first_decade = (Message.order('date ASC').first.date.year / 10)
+    last_decade = (Message.order('date ASC').last.date.year / 10)
+    @decades = (first_decade..last_decade).map{|d| d * 10}
+    @num_years = (@decades.last + 10) - @decades.first
     
     respond_to do |format|
       format.html # index.html.erb

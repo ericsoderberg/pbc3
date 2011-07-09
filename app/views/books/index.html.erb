@@ -1,16 +1,26 @@
 <section>
   
   <%= render :partial => 'messages/header' %>
-
-  <table id="books" class="grid">
-  <% rows = array_to_rows(@books) -%>
-  <% rows.each do |row| -%>
-    <tr>
-    <% row.each do |book| -%>
-      <td><%= link_to book, book_path(:id => book) %></td>
+  
+  <ul id="book_sections">
+  <% @sections.each do |section| -%>
+    <% if 'Gospels' == section[:name] -%>
+      <li id="testament_divider">
+        <div id="testament_labels">
+          <div id="old_testament">Old Testament</div>
+          <div id="new_testament">New Testament</div>
+        </div>
+      </li>
     <% end -%>
-    </tr>
+    <li>
+      <h3><%= section[:name] %></h3>
+      <ul id="book_section">
+        <% section[:books].each do |book| -%>
+          <li><%= link_to book, book_path(:id => book) %></li>
+        <% end -%>
+      </ul>
+    </li>
   <% end -%>
-  </table>
+  </ul>
   
 </section>

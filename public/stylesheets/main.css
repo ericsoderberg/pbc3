@@ -1439,9 +1439,17 @@ table.grid {
 		font-size: 14px;
 		}
 #authors {
-	margin-left: 160px;
 	list-style: none;
+	clear: both;
 	}
+	#authors li {
+	  white-space: nowrap;
+	  position: relative;
+    text-align: center;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    border-radius: 3px;
+	  }
 	#authors a {
 		font-size: 14px;
 		}
@@ -1497,25 +1505,26 @@ div#messages {
 .message .message_author, .message .message_audio, .message .message_files {
 	display: inline-block;
 	margin-right: 10px;
+	vertical-align: top;
 	}
 	.message .message_date .message_year {
 		display: inline-block;
 		color: #ccc;
 		}
 	.message .message_date {
-		min-width: 120px;
+		width: 120px;
 		}
 	.message .message_title {
-		min-width: 350px;
+		width: 350px;
 		}
 		.message .message_title a {
 		  font-size: 14px;
 		  }
 	.message .message_verses {
-		min-width: 200px;
+		width: 200px;
 		}
 	.message .message_author {
-		min-width: 120px;
+		width: 120px;
 		}
 .messages_year {
 	float: left;
@@ -1663,6 +1672,79 @@ div#messages {
   margin: 0px;
   list-style: none;
   }
+  
+#timeline_axis {
+  list-style: none;
+  display: table;
+  width: 100%;
+  margin: 0px;
+  margin-bottom: 20px;
+  padding: 0px;
+  }
+  #timeline_axis li {
+    display: table-cell;
+    border-left: 1px solid #ccc;
+    margin: 0px;
+    padding-left: 10px;
+    color: #999;
+    }
+    
+#book_sections {
+  display: table;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  }
+  #book_sections li {
+    display: table-cell;
+    vertical-align: top;
+    margin: 0px;
+    padding-right: 10px;
+    height: 100%;
+    }
+    #testament_divider {
+      width: 7px;
+      border-left: 2px solid #eee;
+      vertical-align: bottom;
+    }
+    #testament_labels {
+      position: relative;
+      display: inline-block;
+      height: 520px;
+      vertical-align: bottom;
+    }
+    #old_testament, #new_testament {
+      position: absolute;
+      bottom: 0px;
+      font-style: italic;
+      color: #666;
+      white-space: nowrap;
+    }
+    #old_testament {
+      left: -120px;
+    }
+    #new_testament {
+      left: 20px;
+    }
+    #book_sections h3 {
+      font-size: 14px;
+      color: #999;
+      width: 80px;
+      height: 30px;
+      margin-top: 0px;
+      padding-top: 0px;
+      }
+#book_section {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  }
+  #book_section li {
+    display: block;
+    }
+    #book_section a {
+      font-size: 14px;
+      }
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,

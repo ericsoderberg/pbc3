@@ -9,4 +9,16 @@ class Author < ActiveRecord::Base
     url
   end
   
+  def first_year
+    messages.empty? ? Date.today.year : messages.last.date.year
+  end
+  
+  def last_year
+    messages.empty? ? Date.today.year : messages.first.date.year
+  end
+  
+  def yearly_density
+    messages.count.to_f / ([1, (last_year - first_year)].max)
+  end
+  
 end
