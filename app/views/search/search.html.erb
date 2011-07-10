@@ -3,6 +3,13 @@
   <h1>Search for "<%= @search_text %>"</h1>
 </header>
 
+<% if @messages -%>
+  <div id="messages">
+    <%= render :partial => 'messages/messages',
+      :locals => {:messages => @messages} %>
+  </div>
+<% else -%>
+
 <table id="search_results">
   <% @search.each_hit_with_result do |hit, object| -%>
     <tr class="search_result">
@@ -40,3 +47,5 @@
 <div id="pagination">
   <%= will_paginate(@search.results) %>
 </div>
+
+<% end -%>

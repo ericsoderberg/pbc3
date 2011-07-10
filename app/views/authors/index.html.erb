@@ -28,8 +28,7 @@
     <% end -%>
   </ul>
   
-  <div class="empty_indicator">
-    Darker bars mean more messages.
-  </div>
+  <%= render :partial => 'authors/messages_key',
+    :locals => {:min => 'less per year', :max => 'more per year'} %>
   
 </section>

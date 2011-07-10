@@ -154,10 +154,13 @@ end
     BOOK_OFFSET = 1000000
     CHAPTER_OFFSET = 1000
 
-    def initialize(string=nil)
+    def initialize(string=nil, strict=false)
       @s = string ? string.strip : ''
+      self.strict = strict
       @ranges = nil
     end
+    
+    attr_accessor :strict;
 
     def ranges
       parse_ranges if @ranges.nil?
@@ -286,6 +289,7 @@ end
             book = i
             break
           end
+          break if strict # only first full pattern is checked when strict
         end
         break unless book.nil?
       end

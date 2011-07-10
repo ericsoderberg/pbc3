@@ -1678,12 +1678,12 @@ div#messages {
   display: table;
   width: 100%;
   margin: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   padding: 0px;
   }
   #timeline_axis li {
     display: table-cell;
-    border-left: 1px solid #ccc;
+    border-left: 2px solid #ccc;
     margin: 0px;
     padding-left: 10px;
     color: #999;
@@ -1699,7 +1699,7 @@ div#messages {
     display: table-cell;
     vertical-align: top;
     margin: 0px;
-    padding-right: 10px;
+    padding-right: 5px;
     height: 100%;
     }
     #testament_divider {
@@ -1710,7 +1710,7 @@ div#messages {
     #testament_labels {
       position: relative;
       display: inline-block;
-      height: 520px;
+      height: 620px;
       vertical-align: bottom;
     }
     #old_testament, #new_testament {
@@ -1741,10 +1741,36 @@ div#messages {
   }
   #book_section li {
     display: block;
+    margin-bottom: 5px;
+    padding: 0px 10px;
+    border-radius: 3px;
     }
     #book_section a {
       font-size: 14px;
       }
+
+#messages_key {
+  display: inline-block;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 15px;
+  font-style: italic;
+  font-size: 11px;
+  color: #666;
+  }
+  #messages_key .gradient {
+    display: inline-block;
+    margin-left: 10px;
+    width: 200px;
+    background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#f6f6f6), to(#c4c4c4));
+    background: -moz-linear-gradient(0deg, #f6f6f6, #c4c4c4);
+    padding: 0px 10px;
+    border-radius: 3px;
+    }
+    #messages_key .more {
+      float: right;
+    }
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,

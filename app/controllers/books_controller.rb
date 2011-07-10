@@ -4,6 +4,7 @@ class BooksController < ApplicationController
     @books = VerseParser::BIBLE_BOOKS.map{|b| b[0]}
     @sections = []
     section = nil
+    @max_count = 0
     @books.each do |book|
       if 'Genesis' == book
         section = {:name => 'Pentatuch', :books => []}
@@ -33,7 +34,9 @@ class BooksController < ApplicationController
         section = {:name => 'Prophecy', :books => []}
         @sections << section
       end
-      section[:books] << book
+      count = Message.count_for_book(book)
+      section[:books] << {:book => book, :count => count}
+      @max_count = [@max_count, count].max
     end
   end
 

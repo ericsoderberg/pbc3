@@ -41,6 +41,15 @@ class Message < ActiveRecord::Base
       order('verse_ranges.begin_index')
   end
   
+  def self.count_for_book(book)
+    ranges = VerseParser.new(book).ranges
+    return 0 if ranges.empty?
+    Message.includes(:verse_ranges).
+      where('verse_ranges.end_index >= ? AND verse_ranges.begin_index <= ?',
+        ranges.first[:begin][:index], ranges.first[:end][:index]).
+      count
+  end
+  
   def self.between(start_date, end_date)
     where('messages.date' => start_date..end_date)
   end

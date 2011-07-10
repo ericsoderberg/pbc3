@@ -16,11 +16,16 @@
       <h3><%= section[:name] %></h3>
       <ul id="book_section">
         <% section[:books].each do |book| -%>
-          <li><%= link_to book, book_path(:id => book) %></li>
+          <% opacity = [1.0, [(book[:count].to_f / @max_count), 0.15].max].min -%>
+          <li style="background-color: rgba(196, 196, 196, <%= opacity %>)">
+            <%= link_to book[:book], book_path(:id => book[:book]) %></li>
         <% end -%>
       </ul>
     </li>
   <% end -%>
   </ul>
+  
+  <%= render :partial => 'authors/messages_key',
+    :locals => {:min => 'less messages', :max => 'more messages'} %>
   
 </section>
