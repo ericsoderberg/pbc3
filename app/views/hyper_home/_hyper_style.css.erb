@@ -1,9 +1,7 @@
 <%= javascript_include_tag 'processing-1.2.1' %>
 <style>
 /* http://www.colourlovers.com/palette/307417/disco_night */
-body:after {
-  content: "";
-	background: none;
+body {
   background-color: #F300FF; /* #010003; #4C00FF;*/
 	}
 div#content {
@@ -29,6 +27,9 @@ div#content {
 	opacity: 0.75;
 	-webkit-animation: pulse 1.5s infinite;
 	}
+#auth {
+  -webkit-animation: fades 5s infinite;
+  }
 
 @-webkit-keyframes pulse {
   from {
@@ -42,6 +43,33 @@ div#content {
   to { 
     -webkit-transform: scale(1.0);
     opacity: 1;
+  }
+}
+
+@-webkit-keyframes fades {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to { 
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slides {
+  from {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  50% {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  to { 
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 
@@ -90,7 +118,11 @@ div#content {
   background: -moz-linear-gradient(270deg, #7A0DFF, #4C00FF);
   border-radius: 4px;
 	border: 2px solid #cccc33;
+	-webkit-animation: fades 5s infinite;
 	}
+#site_nav li {
+	/*-webkit-animation: slides 3s infinite;*/
+}
 #site_nav ul li a {
 	color: #fff;
 	}
