@@ -38,7 +38,7 @@ class PageTest < ActiveSupport::TestCase
       assert page.save, page.errors.full_messages.join("\n")
     end
     parent = pages(:public)
-    %w(leaf blog).each do |type|
+    %w(leaf blog main landing).each do |type|
       parent.reload
       page = Page.new(:name => "Test #{parent.name} #{type}",
         :page_type => type)
@@ -60,25 +60,29 @@ class PageTest < ActiveSupport::TestCase
     %w(landing main blog leaf post).each do |type|
       page = Page.new(:name => 'Test', :page_type => type)
       page.parent = parent
-      assert !page.save
+      assert !page.save,
+        "able to create a #{type} page in a #{parent.page_type} page"
     end
     parent = pages(:blog)
     %w(landing main blog leaf).each do |type|
       page = Page.new(:name => 'Test', :page_type => type)
       page.parent = parent
-      assert !page.save
+      assert !page.save,
+        "able to create a #{type} page in a #{parent.page_type} page"
     end
     parent = pages(:public)
-    %w(landing main post).each do |type|
+    %w(post).each do |type|
       page = Page.new(:name => 'Test', :page_type => type)
       page.parent = parent
-      assert !page.save
+      assert !page.save,
+        "able to create a #{type} page in a #{parent.page_type} page"
     end
     parent = pages(:communities)
     %w(post).each do |type| # leaf will be automatically changed to main
       page = Page.new(:name => 'Test', :page_type => type)
       page.parent = parent
-      assert !page.save
+      assert !page.save,
+        "able to create a #{type} page in a #{parent.page_type} page"
     end
   end
   

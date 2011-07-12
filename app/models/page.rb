@@ -30,14 +30,17 @@ class Page < ActiveRecord::Base
     :unless => Proc.new{|p| not p.parent_id}}
   validates :feature_index,
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
-  validate :page_type_for_parent
+  validate :page_type_rules
   
   before_validation do
     self.feature_index = nil if not featured?
     # handle re-parenting by adjusting page type
-    if 'leaf' == self.page_type && 'landing' == self.parent.page_type then
+    if self.leaf? and self.parent.landing? then
       self.page_type = 'main'
     end
+    #if self.main? and self.parent.main? and self.children.empty? then
+    #  self.page_type = 'leaf'
+    #end
   end
   
   before_validation(:on => :create) do
@@ -46,10 +49,24 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def page_type_for_parent
-    return unless parent
-    if not Page.possible_parent_types_for_type(page_type).include?(parent.page_type)
-      errors.add(:parent_id, "#{parent.page_type} pages cannot contain #{page_type} pages")
+  def page_type_rules
+    if parent and (parent.post? or parent.leaf?)
+      errors.add(:parent_id, "post and leaf pages cannot contain pages")
+    end
+    if parent and parent.blog? and not post?
+      errors.add(:parent_id, "blog pages can only contain post pages")
+    end
+    if leaf? and not children.empty?
+      errors.add(:parent_id, "leaf pages cannot contain pages")
+    end
+    if post? and not children.empty?
+      errors.add(:parent_id, "post pages cannot contain pages")
+    end
+    if post? and parent and not parent.blog?
+      errors.add(:parent_id, "post pages can only be contained in blogs")
+    end
+    if main? and children.length > 5
+      errors.add(:parent_id, "main pages can only contain up to five pages")
     end
   end
   
@@ -80,7 +97,7 @@ class Page < ActiveRecord::Base
   end
   
   def nav_context
-    (self.parent and not self.parent.landing?) ? self.parent : self
+    (self.parent and self.leaf?) ? self.parent : self
   end
   
   def authorized?(user)
@@ -109,48 +126,31 @@ class Page < ActiveRecord::Base
     return false
   end
   
+  def possible_types
+    # blog and post remain as they are
+    return ['blog'] if blog?
+    return ['post'] if post? or (parent and parent.blog?)
+    # landing, main, leaf
+    return ['landing'] if children.count > 5
+    return ['main', 'landing', 'blog'] if not parent or parent.landing?
+    return ['leaf', 'main', 'landing', 'blog'] if parent.main?
+    ['main', 'landing', 'blog']
+  end
+  
   def possible_parents
     Page.order('name').all.delete_if do |page|
-      (not Page.possible_parent_types_for_type(self.page_type).include?(page.page_type)) or
+      (not page.could_parent?(self)) or
       # don't allow circular references
       page == self or self.includes?(page)
     end
   end
   
-  def possible_types
-    if parent
-      Page.possible_types_for_parent_type(parent.page_type)
-    else
-      ['main', 'landing', 'blog']
-    end
-  end
-  
-  def self.possible_types_for_parent_type(parent_page_type)
-    case parent_page_type
-    when 'landing'
-      ['main', 'landing', 'blog']
-    when 'main'
-      ['leaf', 'blog']
-    when 'blog'
-      ['post']
-    when 'leaf', 'post'
-      []
-    end
-  end
-  
-  def self.possible_parent_types_for_type(page_type)
-    case page_type
-    when 'landing'
-      ['landing']
-    when 'main'
-      ['landing']
-    when 'leaf'
-      ['main']
-    when 'blog'
-      ['landing', 'main']
-    when 'post'
-      ['blog']
-    end
+  def could_parent?(child)
+    return true if blog? and child.post?
+    return false if child.post?
+    return true if landing?
+    return true if main? and children.count < 5
+    false
   end
   
   def possible_aspects
