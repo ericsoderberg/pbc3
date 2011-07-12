@@ -64,6 +64,18 @@ module CalendarHelper
     end
   end
   
+  def previous_day_path(args)
+    previous_args = args.merge(:date =>
+      (@date - 1.day).strftime("%Y-%m-%d"))
+    calendar_day_path(previous_args)
+  end
+  
+  def next_day_path(args)
+    next_args = args.merge(:date =>
+      (@date + 1.day).strftime("%Y-%m-%d"))
+    calendar_day_path(next_args)
+  end
+  
   def date_search_path(args)
     if 'list' == params[:action]
       calendar_list_path(args)

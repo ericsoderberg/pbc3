@@ -21,6 +21,11 @@ class CalendarController < ApplicationController
   end
 
   def day
+    @start_date = @date.beginning_of_day
+    @stop_date = @date.end_of_day
+    @full = params[:full] || false
+    get_events
+    @calendar = true
   end
   
   private

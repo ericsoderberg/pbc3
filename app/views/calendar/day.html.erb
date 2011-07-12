@@ -1,2 +1,53 @@
-<h1>Calendar#day</h1>
-<p>Find me in app/views/calendar/day.html.erb</p>
+<% args = {:page_id => @page ? @page.url : nil,
+    :resource_id => @resource ? @resource.id : nil} %>
+<section>
+  
+  <% if @page -%>
+    <%= render :partial => 'pages/header',
+      :locals => {:active_aspect => 'calendar'} %>
+  <% elsif @resource -%>
+    <%= render :partial => 'resources/header',
+      :locals => {:active_aspect => 'calendar'} %>
+  <% end -%>
+  
+  <header class="calendar_controls">
+    <%= link_to "<", previous_day_path(args) %>
+    <%= link_to ">", next_day_path(args) %>
+    <%=h @date.strftime("%A") %>
+    <%= link_to @date.strftime("%B"),
+      calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %>
+    <%=h @date.strftime("%e %Y") %>
+  </header>
+  
+<table id="calendar_list">
+  <% @events.each do |event| -%>
+  <tr>
+    <td class="day"><%= event.start_at.day.ordinalize %></td>
+    <td class="week_day"><%= event.start_at.strftime("%A") %></td>
+    <td class="time"><%= event.start_at.simple_time %></td>
+    <% if @full -%>
+    <td>- <%= event.stop_at.simple_time %></td>
+    <% end -%>
+    <td class="name"><%= link_to event.name,
+      friendly_page_path(event.page) %></td>
+    <td>
+      <% if event.name != event.page.name and
+        (not @page or event.page != @page) -%>
+        <%= h(event.page.name) %>
+      <% end -%>
+    </td>
+    <% if @full -%>
+    <td>
+      <%= event.reservations.map{|r| r.resource.name}.join(', ') %>
+    </td>
+    <% end -%>
+  </tr>
+  <% end -%>
+</table>
+
+<% if @events.empty? -%>
+<p class="empty_indicator">No events</p>
+<% end -%>
+
+</section>
+
