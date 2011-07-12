@@ -20,6 +20,11 @@ class AuditLogsController < ApplicationController
       format.xml  { render :xml => @audit_log }
     end
   end
+  
+  def details
+    @audit_log = AuditLog.find(params[:id])
+    render :text => @audit_log.audited_changes
+  end
 
   # GET /audit_logs/new
   # GET /audit_logs/new.xml

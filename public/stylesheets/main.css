@@ -1772,6 +1772,16 @@ div#messages {
       float: right;
     }
 
+#audit_logs tr:hover td {
+  background-color: #eee;
+  }
+#audit_details {
+  float: right;
+  background-color: #eee;
+  width: 400px;
+  padding: 20px;
+  }
+
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
 	#page_admin, .admin, .actions {
