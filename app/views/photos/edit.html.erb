@@ -11,6 +11,11 @@
     <aside>
       <header>
         <h3>Edit Photo</h3>
+        <% if @photo.photo.exists? then %>
+        	<%= image_tag @photo.photo.url(:thumb) %>
+        <% else %>
+          &nbsp;
+        <% end %>
       </header>
       <%= render 'form' %>
     </aside>

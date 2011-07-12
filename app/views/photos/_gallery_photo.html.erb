@@ -2,6 +2,8 @@
   <a href="<%= edit_page_photo_path(@page, gallery_photo) %>">
   <% if gallery_photo.photo.exists? then %>
   	<%= image_tag gallery_photo.photo.url(:thumb) %>
+  <% else %>
+    &nbsp;
   <% end %>
   <div class="caption"><%= gallery_photo.caption %></div>
   </a>

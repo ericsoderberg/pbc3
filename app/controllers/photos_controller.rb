@@ -29,7 +29,7 @@ class PhotosController < ApplicationController
     @page = @photo.page
 
     respond_to do |format|
-      if @photo.save
+      if @photo.photo.content_type and @photo.save
         format.html { redirect_to(new_page_photo_url(@page),
           :notice => 'Photo was successfully created.') }
         format.xml  { render :xml => @photo, :status => :created, :location => @photo }
