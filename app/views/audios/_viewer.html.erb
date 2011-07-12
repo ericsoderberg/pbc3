@@ -1,0 +1,9 @@
+<% if audios and not audios.empty? -%>
+<div id="audios">
+  <audio controls>
+    <% audios.each do |audio| -%>
+      <source src="<%= audio.audio.url %>"/>
+    <% end -%>
+  </audio>
+</div>
+<% end -%>

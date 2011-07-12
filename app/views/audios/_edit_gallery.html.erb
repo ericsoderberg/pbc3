@@ -1,0 +1,9 @@
+<ul id="gallery">
+  <%= render :partial => 'gallery_audio', :collection => @page.audios %>
+</ul>
+
+<% if @audio.audio.exists? -%>
+<div id="add_content">
+  <%= link_to 'Add audio', new_page_audio_path(@page) %>
+</div>
+<% end -%>

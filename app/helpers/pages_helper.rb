@@ -13,6 +13,8 @@ module PagesHelper
       page_photos_path(page)
     when 'videos'
       page_videos_path(page)
+    when 'audios'
+      page_audios_path(page)
     when 'access'
       page_authorizations_path(page)
     when 'contacts'

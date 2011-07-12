@@ -1,0 +1,8 @@
+<%= content_tag_for(:li, gallery_audio) do %>
+  <audio controls>
+    <source src="<%= gallery_audio.audio.url %>"/>
+  </audio>
+  <a href="<%= edit_page_audio_path(@page, gallery_audio) %>">
+    <div class="caption"><%= gallery_audio.caption %></div>
+  </a>
+<% end %>

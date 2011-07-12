@@ -85,6 +85,7 @@ Pbc3::Application.routes.draw do
     resources :documents
     resources :photos
     resources :videos
+    resources :audios
     resources :contacts
     resources :authorizations
     resources :notes
