@@ -1,6 +1,8 @@
 <div id="more_messages">
   <%= link_to('more ...', messages_path(:date => @back_date),
     :id => 'more_control', :remote => true) -%>
+  <%= link_to('back to top', "#top",
+    :id => 'top_control') -%>
   <div id="messages_loading" style="display: none">
     <div id="messages_loading_text">
       Loading <%= "." * 200 %> ?
@@ -11,7 +13,7 @@
 <%= javascript_tag do -%>
   $(function() {
 
-    $('#more_messages > a').click(function() {
+    $('#more_control').click(function() {
       $('#more_messages > a').hide();
       $('#messages_loading').show();
     });

@@ -1552,6 +1552,9 @@ div#messages {
 	font-style: italic;
 	color: #999;
 	}
+	#more_control {
+	  padding-right: 30px;
+	  }
 
 .blog_post {
 	margin-bottom: 30px;
