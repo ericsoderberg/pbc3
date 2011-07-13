@@ -162,6 +162,10 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def authorized?(user)
+    return page.authorized?(user)
+  end
+  
   private
   
   def adjust_dates(date)

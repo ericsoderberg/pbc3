@@ -49,6 +49,7 @@ class CalendarController < ApplicationController
         Event.where('featured = ?', true).between(@start_date, @stop_date).
           order("start_at ASC").all
       end
+    @events = @events.delete_if{|e| not e.authorized?(current_user)}
   end
 
 end

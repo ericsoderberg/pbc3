@@ -36,7 +36,7 @@ class Page < ActiveRecord::Base
   before_validation do
     self.feature_index = nil if not featured?
     # handle re-parenting by adjusting page type
-    if self.leaf? and self.parent.landing? then
+    if self.leaf? and (not self.parent or self.parent.landing?) then
       self.page_type = 'main'
     end
     #if self.main? and self.parent.main? and self.children.empty? then
