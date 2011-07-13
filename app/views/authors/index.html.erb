@@ -8,21 +8,28 @@
   </div>
   <% end -%>
   
+  <ul class="timeline_axis">
+    <% @decades.each do |decade| -%>
+      <li><%= decade %></li>
+    <% end -%>
+  </ul>
+  
   <ul id="authors">
     <% @authors.each do |author| -%>
       <% width_ratio = (1 + author.last_year - author.first_year).to_f / @num_years  -%>
       <% left_ratio = (author.first_year - @decades.first).to_f / @num_years  -%>
-      <% opacity = [1.0, [(author.yearly_density / 18), 0.15].max].min %>
+      <% opacity = [1.0, [(author.yearly_density / 18), 0.25].max].min %>
       <li style="
         width: <%= width_ratio * 100 %>%;
         left: <%= left_ratio * 100 %>%;
-        background-color: rgba(212, 212, 212, <%= opacity %>)">
+        background-color: rgba(196, 196, 196, <%= opacity %>)">
         <%= link_to author.name, author_path(author) %>
         <!-- author.first_year > - < author.last_year -->
       </li>
     <% end -%>
   </ul>
-  <ul id="timeline_axis">
+  
+  <ul class="timeline_axis">
     <% @decades.each do |decade| -%>
       <li><%= decade %></li>
     <% end -%>
