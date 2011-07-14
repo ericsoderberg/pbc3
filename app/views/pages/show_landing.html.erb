@@ -40,6 +40,8 @@
     </div>
   <% end -%>
   
+  <% if not @page.text.empty? or
+    not @page.photos.empty? or not @page.videos.empty? -%>
   <div id="landing_page_intro">
   <div id="landing_page_text">
     <%= raw @page.text %>
@@ -56,6 +58,7 @@
     </div>
   <% end -%>
   </div>
+  <% end -%>
 
   <div id="landing_page_content">
     <ul class="sub_pages">

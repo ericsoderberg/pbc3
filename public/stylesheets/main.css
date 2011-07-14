@@ -514,6 +514,7 @@ footer {
 #page_banner {
   height: 245px;
   background-color: #dfe1db;
+  margin-bottom: 25px;
 }
 
 #page_content {
@@ -1164,7 +1165,6 @@ div.actions {
 
 #landing_page_intro {
 	display: table;
-	margin-bottom: 20px;
 	}
 	#landing_page_text {
 		display: table-cell;
@@ -1175,6 +1175,9 @@ div.actions {
 		display: table-cell;
 		width: 400px;
 		}
+#landing_page_content {
+  margin-top: 20px;
+  }
 #landing_page_content .sub_pages {
 	list-style: none;
 	margin: 0;
