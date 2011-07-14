@@ -4,7 +4,8 @@
       <%= image_tag page_hero.style.hero.url(:normal) %>
     </div>
   <% end -%>
-  <div id="hero_text">
+  <div id="hero_text"
+    style="color: #<%= page_hero.style.hero_text_color.to_s(16) %>">
     <h2><%= link_to page_hero.name, friendly_page_path(page_hero) %></h2>
     
     <%= raw page_hero.hero_text %>
