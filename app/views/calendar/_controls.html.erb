@@ -1,5 +1,7 @@
 <% args = {:page_id => @page ? @page.url : nil,
-    :resource_id => @resource ? @resource.id : nil} %>
+    :resource_id => @resource ? @resource.id : nil,
+    :full => @full ? @full : nil,
+    :singular => @singular ? @singular : nil} %>
 <header class="calendar_controls">
   <%= link_to "<", previous_month_path(args) %>
   <%= link_to ">", next_month_path(args) %>

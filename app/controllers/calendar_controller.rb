@@ -15,7 +15,6 @@ class CalendarController < ApplicationController
   def list
     @start_date = @date.beginning_of_month
     @stop_date = @start_date + 1.month - 1.day
-    @full = params[:full] || false
     get_events
     @calendar = true
   end
@@ -23,7 +22,6 @@ class CalendarController < ApplicationController
   def day
     @start_date = @date.beginning_of_day
     @stop_date = @date.end_of_day
-    @full = params[:full] || false
     get_events
     @calendar = true
   end
@@ -33,6 +31,8 @@ class CalendarController < ApplicationController
   def get_context
     @date = params[:date] ? Time.parse(params[:date]) : Date.today
     @page = params[:page_id] ? Page.find_by_url(params[:page_id]) : nil
+    @full = params[:full] || false
+    @singular = params[:singular] || false
     @resource = params[:resource_id] ?
       Resource.find_by_id(params[:resource_id]) : nil
   end
@@ -49,7 +49,9 @@ class CalendarController < ApplicationController
         Event.where('featured = ?', true).between(@start_date, @stop_date).
           order("start_at ASC").all
       end
-    @events = @events.delete_if{|e| not e.authorized?(current_user)}
+    @events = @events.delete_if do |e|
+      not e.authorized?(current_user) or (@singular and e.master)
+    end
   end
 
 end
