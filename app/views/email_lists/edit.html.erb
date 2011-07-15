@@ -1,0 +1,65 @@
+<div id="edit_content">
+  <h1><%= @email_list.name %><%= @site.email_domain %></h1>
+
+<%= form_tag email_list_path(@email_list), :method => :put do %>
+
+<% if @email_list.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@email_list.errors.count, "error") %> prohibited this email list from being saved:</h2>
+
+    <ul>
+    <% @email_list.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+  <div class="field">
+    <%= label_tag :name %><br />
+    <%= text_field_tag 'email_list[name]', @email_list.name %><%= @site.email_domain %>
+  </div>
+  <div class="field">
+    <%= label_tag :add_addresses %>
+    <span class="help">Enter one address per line</span>
+    <br />
+    <%= text_area_tag 'add_addresses', '', :size => '40x5' %>
+  </div>
+  <div class="field">
+    <%= label_tag :remove_addresses %>
+    <span class="help">Enter one address per line</span>
+    <br />
+    <%= text_area_tag 'remove_addresses', '', :size => '40x5' %>
+  </div>
+  <div class="actions">
+    <%= submit_tag 'Update Email List' %>
+    | <%= link_to 'Cancel', email_lists_path %>
+    | <%= link_to 'Delete email list', @email_list, :confirm => 'Are you sure?',
+      :method => :delete %>
+  </div>
+  
+<% end %>
+
+<aside>
+  <h3>Addresses</h3>
+  <ul id="email_addresses">
+    <% @email_list.addresses.sort.each do |address| -%>
+      <li>
+        <%= address %>
+        <div id="<%= address %>" class="email_address_remover">remove</div>
+      </li>
+    <% end -%>
+  </ul>
+</aside>
+
+</div>
+
+<%= javascript_tag do -%>
+  $(function() {
+  	$('.email_address_remover').click(
+  		function(){
+  		  $('#remove_addresses').val($('#remove_addresses').val() + '\n' + $(this).attr('id'))
+  		});
+  });
+<% end -%>
+

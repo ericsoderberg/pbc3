@@ -998,10 +998,11 @@ table.index td, table.index th {
 	    vertical-align: top;
 	    padding-left: 10px;
 			}
-		.calendar_controls input {
+		.calendar_controls input, #email_lists_controls input, #email_lists_controls #search {
 		  margin: 0px;
 			padding: 3px;
 			border: solid 1px #ccc;
+			border-radius: 0px;
 			color: #666;
 			font-size: 11px;
 			outline: 0;
@@ -1010,7 +1011,7 @@ table.index td, table.index th {
 			-moz-box-shadow: none;
 			-webkit-box-shadow: none;
 			}
-		.calendar_controls form {
+		.calendar_controls form, #email_lists_controls form {
 		  display: inline-block;
 	    vertical-align: top;
 		  padding-right: 10px;
@@ -1786,6 +1787,16 @@ div#messages {
   background-color: #eee;
   width: 400px;
   padding: 20px;
+  }
+  
+#email_addresses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  }
+.email_address_remover {
+  float: right;
+  color: #999;
   }
 
 @media print {

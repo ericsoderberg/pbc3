@@ -8,4 +8,7 @@ class Site < ActiveRecord::Base
   validates :title, :presence => true
   validates :email, :presence => true
   
+  def email_domain
+    "@#{email.split('@')[1]}"
+  end
 end

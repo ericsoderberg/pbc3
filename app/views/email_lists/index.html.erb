@@ -1,0 +1,37 @@
+<section>
+  
+  <%= render :partial => 'site/header' %>
+  
+  <div id="add_content" class="header_add_content">
+    <%= link_to 'Add Email List', new_email_list_path %>
+  </div>
+  
+  <div id="email_lists_controls">
+  <%= form_tag email_lists_path, :method => :get do %>
+    <%= text_field_tag :search, @search ? @search : '', :placeholder => 'search for email' %>
+    <%= submit_tag 'search' %>
+  <% end %>
+  
+  <%= form_tag replace_address_email_lists_path do %>
+    <%= text_field_tag :old_address, '', :placeholder => 'old address' %>
+    <%= text_field_tag :new_address, '', :placeholder => 'new address' %>
+    <%= submit_tag 'replace' %>
+  <% end %>
+  </div>
+  
+  <table id="email_lists" class="grid">
+  <% rows = array_to_rows(@email_lists) -%>
+  <% rows.each do |row| -%>
+    <tr>
+    <% row.each do |email_list| -%>
+      <td><%= link_to email_list.name, edit_email_list_path(email_list) %></td>
+    <% end -%>
+    </tr>
+  <% end -%>
+  </table>
+  
+  <% if @email_lists.empty? -%>
+  <p class="empty_indicator">No email lists</p>
+  <% end -%>
+
+</section>

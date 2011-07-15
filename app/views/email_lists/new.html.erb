@@ -1,0 +1,33 @@
+<h1>Add email list</h1>
+
+<%= form_tag email_lists_path do %>
+
+<% if @email_list.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@email_list.errors.count, "error") %> prohibited this email list from being saved:</h2>
+
+    <ul>
+    <% @email_list.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+  <div class="field">
+    <%= label_tag :name %><br />
+    <%= text_field_tag 'email_list[name]' %><%= @site.email_domain %>
+  </div>
+  <div class="field">
+    <%= label_tag :addresses %>
+    <span class="help">Enter one address per line</span>
+    <br />
+    <%= text_area_tag 'email_list[addresses]', '', :size => '40x10' %>
+  </div>
+  <div class="actions">
+    <%= submit_tag 'Add Email List' %>
+    | <%= link_to 'Cancel', email_lists_path %>
+  </div>
+  
+<% end %>
+

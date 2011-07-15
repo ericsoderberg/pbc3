@@ -37,6 +37,11 @@ Pbc3::Application.routes.draw do
         get 'details'
       end
     end
+    resources :email_lists do
+      collection do
+        post 'replace_address'
+      end
+    end
   end
   
   # Redirect to SSL from non-SSL so you don't get 404s
