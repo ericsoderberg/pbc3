@@ -21,6 +21,20 @@ class Time
 
 end
 
+class Date
+  
+  # align with datepicker format used
+  FORM_YEAR_FORMAT =  '%m/%d/%Y'
+  
+  # parses the date in the event form into a Date object
+  def self.parse_from_form(str)
+    return nil unless str
+    strptime(str, FORM_YEAR_FORMAT)
+  end
+  
+end
+
+
 class DateTime
   
   # align with datetimepicker format used

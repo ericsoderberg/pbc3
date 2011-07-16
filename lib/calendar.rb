@@ -14,7 +14,7 @@ class Calendar
   
   attr_reader :weeks, :start, :stop
   
-  def populate(events)
+  def populate(events, holidays=[])
     weeks.each do |week|
       week.days.each do |day|
         carry_over_events = []
@@ -29,6 +29,11 @@ class Calendar
         
         # re-insert multi-day events
         carry_over_events.reverse.each{|e| events.unshift(e)}
+        
+        # add holidays
+        if holidays.first and holidays.first.date == day.date
+          day.holidays << holidays.shift
+        end
       end
     end
   end

@@ -9,7 +9,8 @@ class CalendarController < ApplicationController
     @stop_date = @start_date + 5.weeks - 1.day
     @calendar = Calendar.new(@start_date, @stop_date)
     get_events
-    @calendar.populate(@events)
+    @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC')
+    @calendar.populate(@events, @holidays)
   end
 
   def list

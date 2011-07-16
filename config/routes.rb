@@ -49,6 +49,7 @@ Pbc3::Application.routes.draw do
         post 'remove'
       end
     end
+    resources :holidays
   end
   
   # Redirect to SSL from non-SSL so you don't get 404s

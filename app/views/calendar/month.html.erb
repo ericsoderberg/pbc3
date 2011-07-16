@@ -42,6 +42,9 @@
             <% end %>
           </ul>
     		</div>
+    		<% if not day.holidays.empty? -%>
+    		  <div class="holiday"><%= day.holidays.first.name %></div>
+    		<% end -%>
       </td>
       <% end -%>
     </tr>
