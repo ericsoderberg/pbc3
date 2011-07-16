@@ -55,6 +55,15 @@ class ContactsController < ApplicationController
       end
     end
   end
+  
+  def email
+    @contact = @page.contacts.find(params[:id])
+  end
+  
+  def send_email
+    @contact = @page.contacts.find(params[:id])
+    redirect_to friendly_page_url(@page), :notice => 'Email sent'
+  end
 
   def destroy
     @contact = @page.contacts.find(params[:id])

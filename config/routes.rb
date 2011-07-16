@@ -40,6 +40,13 @@ Pbc3::Application.routes.draw do
     resources :email_lists do
       collection do
         post 'replace_address'
+        get 'search'
+      end
+      member do
+        get 'subscribe'
+        post 'add'
+        get 'unsubscribe'
+        post 'remove'
       end
     end
   end
@@ -95,7 +102,12 @@ Pbc3::Application.routes.draw do
     resources :photos
     resources :videos
     resources :audios
-    resources :contacts
+    resources :contacts do
+      member do
+        get :email
+        post :send_email
+      end
+    end
     resources :authorizations
     resources :notes
     resource :feature, :only => [:edit, :update], :controller => :home

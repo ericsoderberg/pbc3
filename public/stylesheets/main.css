@@ -208,7 +208,7 @@ header {
     #site_header div#auth ul li:first-of-type {
       border: none;
     }
-      #site_header div#auth ul li a {
+      #site_header div#auth ul li a, form.inline a {
     		display: block;
     		padding-right: 5px;
     		padding-left: 5px;
@@ -586,7 +586,7 @@ footer {
 }
 .field label, .edit_options label {
   display: inline-block;
-  width: 120px;
+  width: 180px;
   }
 .field .help {
   color: #999999;
@@ -597,7 +597,7 @@ footer {
   margin: 0px 20px 20px 0px;
 }
 
-#events, #documents, #dynamic_forms, #contacts {
+#events, #documents, #dynamic_forms, #contacts, #email_list {
   display: table;
   width: 400px;
   margin: 0px 0px 20px 0px;
@@ -606,7 +606,7 @@ footer {
 #contacts {
 	margin-bottom: 10px;
 	}
-  #events h2, #documents h2, #dynamic_forms h2, #contacts h2 {
+  #events h2, #documents h2, #dynamic_forms h2, #contacts h2, #email_list h2 {
     display: table-cell;
     font-size: 14px;
 		line-height: 14px;
@@ -616,10 +616,12 @@ footer {
     padding: 0px;
 		padding-right: 20px;
     }
-		#events h2 img {
-			vertical-align: text-top;
+		#events h2 img, #contacts img {
+			vertical-align: text-bottom;
+			margin-left: 10px;
 		}
-  .events_list, #documents_list, .edit_list, #dynamic_forms_list, #contacts_list {
+  .events_list, #documents_list, .edit_list, #dynamic_forms_list, #contacts_list,
+  #email_subscribe {
     display: table-cell;
     margin: 0px;
     padding: 0px;
@@ -744,7 +746,7 @@ footer {
 	width: 400px;
 	height: 300px;
 	overflow: hidden;
-	margin-bottom: 20px;		
+	margin: 20px 0px;
   }
   #slides_slide, #slides_nav {
     list-style-type: none;
@@ -998,24 +1000,32 @@ table.index td, table.index th {
 	    vertical-align: top;
 	    padding-left: 10px;
 			}
-		.calendar_controls input, #email_lists_controls input, #email_lists_controls #search {
-		  margin: 0px;
-			padding: 3px;
-			border: solid 1px #ccc;
-			border-radius: 0px;
+		.calendar_controls input, #email_lists_controls input,
+		#email_lists_controls #search, #email_subscribe input {
+		  margin: 5px 5px;
+			padding: 3px 6px;
 			color: #666;
 			font-size: 11px;
-			outline: 0;
-			background: #FFFFFF;
-			box-shadow: none;
-			-moz-box-shadow: none;
-			-webkit-box-shadow: none;
 			}
 		.calendar_controls form, #email_lists_controls form {
 		  display: inline-block;
 	    vertical-align: top;
 		  padding-right: 10px;
-		}
+		  }
+		form.inline a {
+    	display: inline-block;
+  		padding-right: 5px;
+  		padding-left: 5px;
+  		font-size: 12px;
+  		font-weight: normal;
+  		text-decoration: none;
+  		white-space: nowrap;
+  		color: #666;
+  	  }
+  	  form.inline a:hover {
+    		color: #111;
+    		background-color: #ccc;
+  		  }
   
 #calendar {
   padding: 0px;
@@ -1797,6 +1807,17 @@ div#messages {
 .email_address_remover {
   float: right;
   color: #999;
+  }
+  
+#email_list {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0px;
+}
+  
+#send_email {
+  margin: 0 auto;
+  width: 400px;
   }
 
 @media print {

@@ -1,0 +1,16 @@
+<% email_list ||= @email_list -%>
+<% if email_list -%>
+<div id="email_list">
+
+  <h2>Email List</h2>
+
+<%= form_tag add_email_list_path(@email_list), :id => 'email_subscribe',
+  :class => 'inline' do %>
+  <%= text_field_tag 'email_address', '', :placeholder => 'email address',
+    :size => 40 %><br />
+  <%= submit_tag 'Subscribe' %>
+  <%= submit_tag 'Unsubscribe' %>
+<% end %>
+
+</div>
+<% end -%>

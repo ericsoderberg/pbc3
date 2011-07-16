@@ -11,7 +11,6 @@ class EmailList
   def initialize(attributes = nil)
     @new_record = true
     if attributes
-      p attributes
       @name = attributes[:name]
       @addresses = attributes[:addresses] || []
     end
@@ -23,7 +22,7 @@ class EmailList
   
   def self.all
     self.load
-    @@lists
+    @@lists.sort{|l1, l2| l1.name <=> l2.name}
   end
   
   def self.find(name)
@@ -31,12 +30,20 @@ class EmailList
     nil
   end
   
+  def self.find_by_search(search_text)
+    result = []
+    all.each do |list|
+      result << list if list.name =~ %r(search_text)
+    end
+    result.sort{|l1, l2| l1.name <=> l2.name}
+  end
+  
   def self.find_by_address(address)
     result = []
     all.each do |list|
       result << list if list.addresses.include?(address)
     end
-    result
+    result.sort{|l1, l2| l1.name <=> l2.name}
   end
   
   def update_attributes(attributes)
@@ -52,11 +59,11 @@ class EmailList
     all.each do |list|
       if list.addresses.include?(old_address)
         list.addresses = list.addresses.delete_if{|a| a == old_address}
+        if not list.addresses.include?(new_address)
+          list.addresses << new_address
+        end
+        list.save
       end
-      if not list.addresses.include?(new_address)
-        list.addresses << new_address
-      end
-      list.save
     end
   end
   

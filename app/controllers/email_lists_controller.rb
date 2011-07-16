@@ -15,6 +15,22 @@ class EmailListsController < ApplicationController
       format.xml  { render :xml => @email_lists }
     end
   end
+  
+  def search
+    result_page_size = params[:s].to_i
+    result_page = params[:p].to_i
+    @email_lists = EmailList.find_by_search(params[:q] || '')
+    total = @email_lists.count
+    @email_lists =
+      @email_lists[((result_page - 1) * result_page_size),result_page_size]
+    
+    respond_to do |format|
+      format.js { render :json => {
+        :results => @email_lists.map{|list| list.name},
+        :total => total}
+      }
+    end
+  end
 
   def show
     @email_list = EmailList.find(params[:id])
@@ -77,6 +93,32 @@ class EmailListsController < ApplicationController
     EmailList.replace_address(params[:old_address], params[:new_address])
     redirect_to(email_lists_url,
       :notice => "Replaced #{params[:old_address]} with #{params[:new_address]}")
+  end
+  
+  def subscribe
+    @email_list = EmailList.find(params[:id])
+    @page = Page.find_by_email_list(@email_list.name)
+  end
+  
+  def unsubscribe
+    @email_list = EmailList.find(params[:id])
+    @page = Page.find_by_email_list(@email_list.name)
+  end
+  
+  def add
+    @email_list = EmailList.find(params[:id])
+    @page = Page.find_by_email_list(@email_list.name)
+    @email_list.add_addresses([params[:email_address]])
+    redirect_to friendly_page_path(@page),
+      :notice => "Subscribed to #{@email_list.name}"
+  end
+  
+  def remove
+    @email_list = EmailList.find(params[:id])
+    @page = Page.find_by_email_list(@email_list.name)
+    @email_list.remove_addresses([params[:email_address]])
+    redirect_to friendly_page_path(@page),
+      :notice => "Unsubscribed from #{@email_list.name}"
   end
 
   def destroy

@@ -39,15 +39,21 @@
           
         <%= render :partial => 'contacts/viewer',
           :locals => {:contacts => @page.contacts} %>
+        
+        <%= render :partial => 'email_lists/subscribe',
+          :locals => {:email_list => EmailList.find(@page.email_list)} %>
           
     <% else -%>
     
       <%= render :partial => 'contacts/viewer',
         :locals => {:contacts => @page.contacts} %>
+      
+      <%= render :partial => 'email_lists/subscribe',
+        :locals => {:email_list => EmailList.find(@page.email_list)} %>
     
-        <%= render :partial => 'events/viewer',
-          :locals => {:categorized_events => @categorized_events,
-            :no_name => false} %>
+      <%= render :partial => 'events/viewer',
+        :locals => {:categorized_events => @categorized_events,
+          :no_name => false} %>
     <% end -%>
     
     <%= render :partial => 'documents/viewer',

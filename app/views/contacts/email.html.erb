@@ -1,0 +1,26 @@
+<div id="send_email">
+<header>
+<h2>Send email to <%= @contact.user.name %></h2>
+</header>
+
+<%= form_tag send_email_page_contact_path(@page, @contact) do %>
+
+  <div class="field">
+    <%= label_tag :your_name %><br />
+    <%= text_field_tag 'name', '', :size => 40 %>
+  </div>
+  <div class="field">
+    <%= label_tag :your_email_address %><br />
+    <%= text_field_tag 'email_address', '', :size => 40 %>
+  </div>
+  <div class="field">
+    <%= label_tag :message %><br />
+    <%= text_area_tag 'message', '', :size => '40x10' %>
+  </div>
+  <div class="actions">
+    <%= submit_tag 'Send' %>
+    | <%= link_to 'Cancel', friendly_page_path(@page) %>
+  </div>
+  
+<% end %>
+</div>

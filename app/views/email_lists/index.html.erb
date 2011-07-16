@@ -7,7 +7,7 @@
   </div>
   
   <div id="email_lists_controls">
-  <%= form_tag email_lists_path, :method => :get do %>
+  <%= form_tag email_lists_path, :method => :get, :class => 'inline' do %>
     <%= text_field_tag :search, @search ? @search : '', :placeholder => 'search for email' %>
     <%= submit_tag 'search' %>
   <% end %>

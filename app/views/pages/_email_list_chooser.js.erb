@@ -1,0 +1,10 @@
+$(function() {
+  url = '<%= search_email_lists_path(:format => :js) %>';
+  $('#email_list').flexbox(url, {
+    width: 170,
+		maxCacheBytes: 0,
+    paging: {
+      pageSize: 5
+    }
+  });
+});

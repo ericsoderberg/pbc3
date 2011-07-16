@@ -1,0 +1,17 @@
+<header>
+<h2>Subscribe to <%= @email_list.name %><%= @site.email_domain %></h2>
+</header>
+
+<%= form_tag subscribe_email_list_path(@email_list) do %>
+
+  <div class="field">
+    <%= label_tag :email_address %><br />
+    <%= text_field_tag 'email_address', '', :size => 40 %>
+  </div>
+  <div class="actions">
+    <%= submit_tag 'Subscribe' %>
+    | <%= link_to 'Cancel', friendly_page_path(@page) %>
+  </div>
+  
+<% end %>
+
