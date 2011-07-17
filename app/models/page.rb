@@ -20,7 +20,7 @@ class Page < ActiveRecord::Base
   has_many :forms
   acts_as_audited :except => [:parent_index, :feature_index]
   
-  TYPES = ['landing', 'main', 'leaf', 'blog', 'post']
+  TYPES = ['landing', 'main', 'leaf', 'blog', 'post', 'library']
 
   validates :page_type, :presence => true, :inclusion => {:in => TYPES}
   validates :name, :presence => true
@@ -146,9 +146,9 @@ class Page < ActiveRecord::Base
     return ['post'] if post? or (parent and parent.blog?)
     # landing, main, leaf
     return ['landing'] if children.count > 5
-    return ['main', 'landing', 'blog'] if not parent or parent.landing?
-    return ['leaf', 'main', 'landing', 'blog'] if parent.main?
-    ['main', 'landing', 'blog']
+    return ['main', 'landing', 'blog', 'library'] if not parent or parent.landing?
+    return ['leaf', 'main', 'landing', 'blog', 'library'] if parent.main?
+    ['main', 'landing', 'blog', 'library']
   end
   
   def possible_parents
@@ -182,6 +182,8 @@ class Page < ActiveRecord::Base
     when 'post'
       %w(text photos videos audios
         contacts access feature)
+    when 'library'
+      %w(text photos videos audios documents contacts access feature)
     end
   end
   
@@ -259,6 +261,10 @@ class Page < ActiveRecord::Base
   
   def post?
     'post' == page_type
+  end
+  
+  def library?
+    'library' == page_type
   end
   
   private

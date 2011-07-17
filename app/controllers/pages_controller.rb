@@ -35,7 +35,8 @@ class PagesController < ApplicationController
   end
   
   PAGE_TYPE_VIEWS = {'landing' => 'landing', 'blog' => 'blog',
-    'main' => 'main', 'leaf' => 'main', 'post' => 'post'}
+    'main' => 'main', 'leaf' => 'main', 'post' => 'post',
+    'library' => 'library'}
 
   def show
     @page = Page.find_by_url(params[:id], :include => :children)

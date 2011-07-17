@@ -1,0 +1,15 @@
+<table id="library">
+<% documents.each do |document| -%>
+  <tr>
+    <td class="document_date">
+      <%= document.published_at.to_time.relative_str(true) %>
+    </td>
+    <td>
+      <%= link_to document.name, document.file.url %>
+      <% if document.summary and not document.summary.empty? -%>
+        <br /><%=h document.summary %>
+      <% end -%>
+    </td>
+  </tr>
+<% end -%>
+</table>

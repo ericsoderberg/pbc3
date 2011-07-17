@@ -5,11 +5,7 @@ class DocumentsController < ApplicationController
   
   def index
     @documents = @page.documents
-    if @documents.empty?
-      redirect_to new_page_document_url(@page)
-    else
-      redirect_to edit_page_document_url(@page, @documents.first)
-    end
+    redirect_to new_page_document_url(@page)
   end
 
   def show
@@ -30,6 +26,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
+    parse_date
     @document = Document.new(params[:document])
     @page = @document.page
 
@@ -46,6 +43,7 @@ class DocumentsController < ApplicationController
   end
 
   def update
+    parse_date
     @document = @page.documents.find(params[:id])
 
     respond_to do |format|
@@ -69,4 +67,15 @@ class DocumentsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def parse_date
+    if params[:document][:published_at] and
+      params[:document][:published_at].is_a?(String)
+      params[:document][:published_at] =
+        Date.parse_from_form(params[:document][:published_at])
+    end
+  end
+  
 end

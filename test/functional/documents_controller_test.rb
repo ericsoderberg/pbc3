@@ -9,7 +9,7 @@ class DocumentsControllerTest < ActionController::TestCase
 
   test "should get index" do
     get :index, :page_id => @page.url
-    assert_redirected_to edit_page_document_url(@page, @page.documents.first)
+    assert_redirected_to new_page_document_url(:page_id => @page.url)
   end
 
   test "should get new" do

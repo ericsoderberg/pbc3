@@ -1471,10 +1471,11 @@ table.grid {
 		font-size: 14px;
 		}
 		
-#messages td, #holidays td {
+#messages td, #holidays td, #library td {
 	padding-right: 20px;
+	vertical-align: top;
 	}
-.message_date, .holiday_date {
+.message_date, .holiday_date, .document_date {
 	font-size: 12px;
 	font-weight: bold;
 	color: #999;

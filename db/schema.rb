@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110717151147) do
+ActiveRecord::Schema.define(:version => 20110717203808) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(:version => 20110717151147) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.text     "summary"
+    t.date     "published_at"
   end
 
   create_table "events", :force => true do |t|
