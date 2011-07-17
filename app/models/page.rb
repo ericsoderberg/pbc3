@@ -1,6 +1,6 @@
 class Page < ActiveRecord::Base
   before_save :render_text
-  acts_as_url :name, :sync_url => true
+  acts_as_url :prefixed_name, :sync_url => true
   
   belongs_to :style
   has_many :notes, :order => 'created_at DESC'
@@ -23,7 +23,7 @@ class Page < ActiveRecord::Base
   TYPES = ['landing', 'main', 'leaf', 'blog', 'post']
 
   validates :page_type, :presence => true, :inclusion => {:in => TYPES}
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
   validates :url, :uniqueness => true
@@ -32,6 +32,7 @@ class Page < ActiveRecord::Base
   validates :feature_index,
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
   validate :page_type_rules
+  validate :reserved_urls
   
   before_validation do
     self.feature_index = nil if not featured?
@@ -48,6 +49,10 @@ class Page < ActiveRecord::Base
     if parent
       self.parent_index = (parent.children.map{|c| c.parent_index}.max || 0) + 1
     end
+  end
+  
+  def prefixed_name
+    "#{url_prefix} #{name}".strip
   end
   
   def page_type_rules
@@ -68,6 +73,14 @@ class Page < ActiveRecord::Base
     end
     if main? and children.length > 5
       errors.add(:parent_id, "main pages can only contain up to five pages")
+    end
+  end
+  
+  def reserved_urls
+    if %w(styles resources accounts users site forms payments
+      audit_logs email_lists holidays home hyper calendar search
+      authors messages series books).include?(url)
+      errors.add(:name, "that url prefix + name is reserved")
     end
   end
   

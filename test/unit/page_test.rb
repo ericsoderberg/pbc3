@@ -12,8 +12,8 @@ class PageTest < ActiveSupport::TestCase
     assert !page.save
   end
   
-  test "duplicate name" do
-    page = Page.new(:name => 'Public')
+  test "reserved name" do
+    page = Page.new(:name => 'Resources')
     assert !page.save
   end
   

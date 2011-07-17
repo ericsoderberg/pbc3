@@ -30,6 +30,11 @@
       </div>
       
       <div class="field">
+        <%= f.label :url_prefix %><br />
+        <%= f.text_field :url_prefix %>
+      </div>
+      
+      <div class="field">
         <%= f.label :style %><br />
         <%= collection_select(:page, :style_id,
           Style.all, :id, :name,
