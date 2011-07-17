@@ -6,6 +6,8 @@
     <%= link_to 'Add Email List', new_email_list_path %>
   </div>
   
+  <div class="under_construction">Email lists are still under construction</div>
+  
   <div id="email_lists_controls">
   <%= form_tag email_lists_path, :method => :get, :class => 'inline' do %>
     <%= text_field_tag :search, @search ? @search : '', :placeholder => 'search for email' %>

@@ -42,12 +42,10 @@
         <%= f.check_box :highlightable %>
       </div>
       
-      <div class="field">
+      <div class="field under_construction">
         <%= f.label :email_list %><br />
+        <div>under construction</div>
         <div id="email_list"></div>
-        <!--%= collection_select(:page, :parent_id,
-          @page.possible_parents, :id, :name,
-          :include_blank => true) %-->
       </div>
       
       <% if @page.possible_types.length > 1 -%>

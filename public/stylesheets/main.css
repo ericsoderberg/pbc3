@@ -1822,6 +1822,15 @@ div#messages {
   margin: 0 auto;
   width: 400px;
   }
+  
+.under_construction {
+  border: 2px dashed #ffcc33;
+  font-style: italic;
+  font-size: 14px;
+  color: #cc9966;
+  padding: 3px 5px;
+  text-align: center;
+}
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
