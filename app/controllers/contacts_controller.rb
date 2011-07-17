@@ -62,6 +62,8 @@ class ContactsController < ApplicationController
   
   def send_email
     @contact = @page.contacts.find(params[:id])
+    UserMailer.contact_email(@page, @contact, params[:message],
+      params[:name], params[:email_address]).deliver
     redirect_to friendly_page_url(@page), :notice => 'Email sent'
   end
 

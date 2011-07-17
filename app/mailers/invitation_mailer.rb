@@ -1,5 +1,4 @@
-class InvitationMailer < ActionMailer::Base
-  default :from => "from@example.com"
+class InvitationMailer < ActionMailer::Base  
   
   def invitation_email(invitation, current_user)
     @invitation = invitation
