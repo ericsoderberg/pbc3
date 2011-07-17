@@ -1,7 +1,12 @@
 $(function() {
   url = '<%= search_email_lists_path(:format => :js) %>';
+  initialValue = '<%= @page.email_list || '' %>';
   $('#email_list').flexbox(url, {
+    hiddenValue: 'name',
+    initialDisplayValue: initialValue,
+    initialHiddenValue: initialValue,
     width: 170,
+    queryDelay: 300,
 		maxCacheBytes: 0,
     paging: {
       pageSize: 5

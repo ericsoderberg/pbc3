@@ -2,8 +2,6 @@ class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
   before_filter :administrator!, :except => [:show, :feed]
   
-  # GET /pages
-  # GET /pages.xml
   def index
     @pages = Page.order("name ASC")
 
@@ -39,8 +37,6 @@ class PagesController < ApplicationController
   PAGE_TYPE_VIEWS = {'landing' => 'landing', 'blog' => 'blog',
     'main' => 'main', 'leaf' => 'main', 'post' => 'post'}
 
-  # GET /pages/1
-  # GET /pages/1.xml
   def show
     @page = Page.find_by_url(params[:id], :include => :children)
     unless @page and @page.authorized?(current_user)
@@ -102,8 +98,6 @@ class PagesController < ApplicationController
     end
   end
 
-  # GET /pages/new
-  # GET /pages/new.xml
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
@@ -122,7 +116,6 @@ class PagesController < ApplicationController
     end
   end
 
-  # GET /pages/1/edit
   def edit
     @page = Page.find_by_url(params[:id])
     @siblings = @page.parent ? @page.parent.children : []
@@ -136,8 +129,6 @@ class PagesController < ApplicationController
     render :partial => 'edit_for_parent'
   end
 
-  # POST /pages
-  # POST /pages.xml
   def create
     @page = Page.new(params[:page])
     @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
@@ -158,11 +149,10 @@ class PagesController < ApplicationController
     end
   end
 
-  # PUT /pages/1
-  # PUT /pages/1.xml
   def update
     @page = Page.find_by_url(params[:id])
     params[:page][:parent_id] = params[:parent_id] # due to flexbox
+    params[:page][:email_list] = params[:email_list] # due to flexbox
     orderer_sub_ids = params[:sub_order] ?
       params[:sub_order].split(',').map{|id| id.to_i} : []
     params[:page][:parent_index] = -1; # will be re-ordered late
@@ -183,8 +173,6 @@ class PagesController < ApplicationController
     end
   end
 
-  # DELETE /pages/1
-  # DELETE /pages/1.xml
   def destroy
     @page = Page.find_by_url(params[:id])
     parent = @page.parent

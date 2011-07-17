@@ -26,7 +26,7 @@ class EmailListsController < ApplicationController
     
     respond_to do |format|
       format.js { render :json => {
-        :results => @email_lists.map{|list| list.name},
+        :results => @email_lists.map{|list| {:name => list.name}},
         :total => total}
       }
     end

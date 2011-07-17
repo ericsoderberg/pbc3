@@ -539,7 +539,7 @@ footer {
 		display: table-cell;
 		width: 400px;
 	  }
-	#page_content aside form {
+	#page_content aside .form {
 	  width: 300px;
 	  }
 	
@@ -597,7 +597,7 @@ footer {
   margin: 0px 20px 20px 0px;
 }
 
-#events, #documents, #dynamic_forms, #contacts, #email_list {
+#events, #documents, #dynamic_forms, #contacts, #subscribe {
   display: table;
   width: 400px;
   margin: 0px 0px 20px 0px;
@@ -606,7 +606,7 @@ footer {
 #contacts {
 	margin-bottom: 10px;
 	}
-  #events h2, #documents h2, #dynamic_forms h2, #contacts h2, #email_list h2 {
+  #events h2, #documents h2, #dynamic_forms h2, #contacts h2, #subscribe h2 {
     display: table-cell;
     font-size: 14px;
 		line-height: 14px;
@@ -1812,7 +1812,7 @@ div#messages {
   color: #999;
   }
   
-#email_list {
+#subscribe {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   padding: 10px 0px;

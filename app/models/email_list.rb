@@ -33,7 +33,7 @@ class EmailList
   def self.find_by_search(search_text)
     result = []
     all.each do |list|
-      result << list if list.name =~ %r(search_text)
+      result << list if search_text.empty? or list.name =~ /#{search_text}/
     end
     result.sort{|l1, l2| l1.name <=> l2.name}
   end
