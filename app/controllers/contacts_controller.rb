@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :administrator!
+  before_filter :authenticate_user!, :except => [:email, :send_email]
+  before_filter :administrator!, :except => [:email, :send_email]
   before_filter :get_page
   
   def index

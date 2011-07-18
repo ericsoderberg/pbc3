@@ -20,7 +20,7 @@ class Page < ActiveRecord::Base
   has_many :forms
   acts_as_audited :except => [:parent_index, :feature_index]
   
-  TYPES = ['landing', 'main', 'leaf', 'blog', 'post', 'library']
+  TYPES = ['landing', 'main', 'leaf', 'blog', 'post', 'library', 'lineup']
 
   validates :page_type, :presence => true, :inclusion => {:in => TYPES}
   validates :name, :presence => true
@@ -56,17 +56,16 @@ class Page < ActiveRecord::Base
   end
   
   def page_type_rules
-    if parent and (parent.post? or parent.leaf?)
-      errors.add(:parent_id, "post and leaf pages cannot contain pages")
+    if parent and (parent.post? or parent.leaf? or parent.library? or parent.lineup?)
+      errors.add(:parent_id,
+        "post, leaf, library, and lineup pages cannot contain pages")
     end
     if parent and parent.blog? and not post?
       errors.add(:parent_id, "blog pages can only contain post pages")
     end
-    if leaf? and not children.empty?
-      errors.add(:parent_id, "leaf pages cannot contain pages")
-    end
-    if post? and not children.empty?
-      errors.add(:parent_id, "post pages cannot contain pages")
+    if (leaf? or post? or library? or lineup?) and not children.empty?
+      errors.add(:parent_id,
+        "leaf, post, library, and lineup pages cannot contain pages")
     end
     if post? and parent and not parent.blog?
       errors.add(:parent_id, "post pages can only be contained in blogs")
@@ -111,7 +110,8 @@ class Page < ActiveRecord::Base
   end
   
   def nav_context
-    (self.parent and self.leaf?) ? self.parent : self
+    (self.parent and (self.leaf? or
+      (self.parent.main? and (self.library? or self.lineup?)))) ? self.parent : self
   end
   
   def authorized?(user)
@@ -142,13 +142,13 @@ class Page < ActiveRecord::Base
   
   def possible_types
     # blog and post remain as they are
-    return ['blog'] if blog?
-    return ['post'] if post? or (parent and parent.blog?)
+    return %w(blog) if blog?
+    return %w(post) if post? or (parent and parent.blog?)
     # landing, main, leaf
-    return ['landing'] if children.count > 5
-    return ['main', 'landing', 'blog', 'library'] if not parent or parent.landing?
-    return ['leaf', 'main', 'landing', 'blog', 'library'] if parent.main?
-    ['main', 'landing', 'blog', 'library']
+    return %w(landing) if children.count > 5
+    return %w(main landing blog library lineup) if not parent or parent.landing?
+    return %w(leaf main landing blog library lineup) if parent.main?
+    %w(main landing blog library lineup)
   end
   
   def possible_parents
@@ -180,10 +180,11 @@ class Page < ActiveRecord::Base
     when 'blog'
       %w(text contacts access feature podcast)
     when 'post'
-      %w(text photos videos audios
-        contacts access feature)
+      %w(text photos videos audios contacts access feature)
     when 'library'
       %w(text photos videos audios documents contacts access feature)
+    when 'lineup'
+      %w(text contacts access feature)
     end
   end
   
@@ -265,6 +266,10 @@ class Page < ActiveRecord::Base
   
   def library?
     'library' == page_type
+  end
+  
+  def lineup?
+    'lineup' == page_type
   end
   
   private

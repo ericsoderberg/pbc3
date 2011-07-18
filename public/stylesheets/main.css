@@ -907,6 +907,7 @@ table.index td, table.index th {
 		}
 #users .first_name {
   text-align: right;
+  padding-right: 2px;
   }
 #users .administrator {
   color: #999;
@@ -1831,6 +1832,98 @@ div#messages {
   color: #cc9966;
   padding: 3px 5px;
   text-align: center;
+}
+
+#lineup {
+  -webkit-padding-start: 0px;
+}
+
+.card-pile {
+  position: relative; margin: 0px auto;
+  list-style-type: none;
+}
+
+.card-container {
+  float: left;
+	width: 190px; height: 240px;
+	margin: 20px 20px;
+	-webkit-perspective: 1000;
+}
+
+.card-card {
+	width: 190px; height: 240px;
+	border: 1px solid #ccc;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: 0.5s;
+	-moz-transition-duration: 0.5s;
+}
+
+  .card-container:hover .card-card {
+	  -webkit-transform: rotateY(180deg);
+	  -moz-transform: rotateY(180deg);
+  }
+
+.card-face {
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+}
+
+.card-face .portrait {
+  width: 150px;
+  height: 200px;
+}
+.card-face h4 {
+  margin: 0px;
+  }
+.card-face a img {
+	vertical-align: text-bottom;
+	margin-left: 5px;
+  }
+
+.card-face .card-name {
+  margin-top: -7px;
+}
+
+.card-face dt, .card-face dd {
+  font-family: fixed;
+  font-size: 70%;
+}
+.card-face dt {
+  width: 80px;
+  word-wrap: break-word;
+  color: #999;
+}
+.card-face dd {
+  margin-left:85px;
+  width: 115px;
+}
+
+.card-container:nth-child(2n+1) {
+	-webkit-transform: rotate(2deg);
+	-moz-transform: rotate(2deg);
+}
+.card-container:nth-child(2n) {
+	-webkit-transform: rotate(-2deg);
+	-moz-transform: rotate(-2deg);
+}
+  .card-front {
+	  width: 150px; height: 200px; padding: 20px;
+    background-color: #fff;
+	}
+	.card-back {
+		width: 150px; height: 200px; padding: 20px;
+		-webkit-transform: rotateY(180deg);
+		-moz-transform: rotateY(180deg);
+		background-color: #eee;
+	}
+
+.card-front {
+  z-index: 10;
+}
+
+.card-container:hover .card-front {
+  z-index: 0;
 }
 
 @media print {

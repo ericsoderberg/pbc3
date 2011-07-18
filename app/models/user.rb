@@ -8,7 +8,10 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :first_name, :last_name, :administrator,
     :avatar_file_name, :avatar_content_type, :avatar_file_size,
-    :avatar_updated_at, :avatar
+    :avatar_updated_at, :avatar,
+    :portrait_file_name, :portrait_content_type, :portrait_file_size,
+    :portrait_updated_at, :portrait,
+    :bio
   
   has_many :contacts
   has_many :contact_pages, :through => :contacts, :source => :page
@@ -18,6 +21,10 @@ class User < ActiveRecord::Base
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',
+    }
+  has_attached_file :portrait, :styles => {
+      :normal => '400x',
+      :thumb => '50x'
     }
   
   def name

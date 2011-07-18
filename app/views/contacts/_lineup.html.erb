@@ -1,0 +1,29 @@
+<ul id="lineup" class="card-pile">
+  <% contacts.each do |contact| -%>
+    <li class="card-container">
+      <div class="card-card">
+        <div class="card-face card-front">
+          <% if contact.user.portrait.exists? -%>
+            <%= image_tag contact.user.portrait.url(:normal),
+              :size => '150x200', :class => 'portrait' %>
+          <% end -%>
+          <div class="card-name">
+            <%= contact.user.name %>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <h4>
+            <%= contact.user.name %>
+            <%= link_to image_tag('mail.png'),
+              email_page_contact_path(@page, contact) %>
+          </h4>
+          <%= contact.user.bio %>
+        </div>
+      </div>
+    </li>
+  <% end -%>
+</ul>
+
+<% if contacts.empty? -%>
+<p class="empty_indicator">Nobody here</p>
+<% end -%>

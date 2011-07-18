@@ -29,6 +29,7 @@ class AccountsController < ApplicationController
       params[:user][:name].split(' ', 2)
     params[:user].delete(:name)
     @user.avatar = nil if params[:delete_avatar]
+    @user.portrait = nil if params[:delete_portrait]
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
