@@ -1875,6 +1875,7 @@ div#messages {
 }
 .card-face h4 {
   margin: 0px;
+  margin-bottom: 5px;
   }
 .card-face a img {
 	vertical-align: text-bottom;
