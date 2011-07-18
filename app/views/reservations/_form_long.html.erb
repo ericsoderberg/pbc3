@@ -1,0 +1,79 @@
+<%= form_tag page_event_reservations_path(@page, @event), :method => :put do %>
+
+<table class="reservations_long">
+  <caption>Rooms</caption>
+  <tr>
+    <th></th>
+    <th>Room</th>
+    <th>Pre Time</th>
+    <th>Post Time</th>
+    <th>Conflicts</th>
+  </tr>
+  <% @resources.rooms.each do |resource| -%>
+    <% conflicts = resource.other_events_during(@event) -%>
+    <% reservation = @event.reservations.where(:resource_id => resource.id).first -%>
+  <tr>
+    <td><%= check_box_tag 'resources[]', resource.id,
+      @event.resources.include?(resource),
+      :disabled => (not conflicts.empty?) %></td>
+    <td><%= resource.name %></td>
+    <td><%= select_tag "options[#{resource.id}][pre_time]",
+      options_for_select(Reservation::PRE_POST_OPTIONS,
+        (reservation ? reservation.pre_time : 0)) %></td>
+    <td><%= select_tag "options[#{resource.id}][post_time]",
+      options_for_select(Reservation::PRE_POST_OPTIONS,
+        (reservation ? reservation.post_time : 0)) %></td>
+    <td>
+      <% unless conflicts.empty? -%>
+        <ul class="resource_conflicts">
+          <% conflicts.each do |conflict| -%>
+            <li><%= link_to conflict.name, friendly_page_path(conflict) %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+    </td>
+  </tr>
+  <% end -%>
+</table>
+
+<table class="reservations_long">
+  <caption>Equipment</caption>
+  <tr>
+    <th></th>
+    <th>Equipment</th>
+    <th>Pre Time</th>
+    <th>Post Time</th>
+    <th>Conflicts</th>
+  </tr>
+  <% @resources.equipment.each do |resource| -%>
+    <% conflicts = resource.other_events_during(@event) -%>
+    <% reservation = @event.reservations.where(:resource_id => resource.id).first -%>
+  <tr>
+    <td><%= check_box_tag 'resources[]', resource.id,
+      @event.resources.include?(resource),
+      :disabled => (not conflicts.empty?) %></td>
+    <td><%= resource.name %></td>
+    <td><%= select_tag "options[#{resource.id}][pre_time]",
+      options_for_select(Reservation::PRE_POST_OPTIONS,
+        (reservation ? reservation.pre_time : 0)) %></td>
+    <td><%= select_tag "options[#{resource.id}][post_time]",
+      options_for_select(Reservation::PRE_POST_OPTIONS,
+        (reservation ? reservation.post_time : 0)) %></td>
+    <td>
+      <% unless conflicts.empty? -%>
+        <ul class="resource_conflicts">
+          <% conflicts.each do |conflict| -%>
+            <li><%= link_to conflict.name, friendly_page_path(conflict) %></li>
+          <% end -%>
+        </ul>
+      <% end -%>
+    </td>
+  </tr>
+  <% end -%>
+</table>
+
+<div class="actions">
+  <%= submit_tag("Update Reservations") %>
+</div>
+
+<% end %>

@@ -6,6 +6,7 @@ class ReservationsController < ApplicationController
   
   def show
     @resources = Resource.order('name ASC')
+    @long = params[:long] || false
     
     respond_to do |format|
       format.html # show.html.erb
@@ -17,7 +18,7 @@ class ReservationsController < ApplicationController
     @resources = Resource.find(params[:resources])
 
     respond_to do |format|
-      if Reservation.reserve(@event, @resources)
+      if Reservation.reserve(@event, @resources, params[:options])
         format.html { redirect_to(edit_page_event_url(@page, @event),
           :notice => 'Reservations were successfully updated.') }
         format.xml  { head :ok }

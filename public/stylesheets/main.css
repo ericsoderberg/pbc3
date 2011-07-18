@@ -1927,6 +1927,13 @@ div#messages {
   z-index: 0;
 }
 
+.reservations_long {
+  margin-bottom: 10px;
+  }
+  .reservations_long th, .reservations_long td {
+    padding-right: 20px;
+    }
+
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
 	#page_admin, .admin, .actions {

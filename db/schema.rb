@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110718001526) do
+ActiveRecord::Schema.define(:version => 20110718153147) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -261,6 +261,8 @@ ActiveRecord::Schema.define(:version => 20110718001526) do
     t.integer  "resource_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "pre_time"
+    t.integer  "post_time"
   end
 
   create_table "resources", :force => true do |t|

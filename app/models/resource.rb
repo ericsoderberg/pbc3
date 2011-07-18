@@ -8,7 +8,7 @@ class Resource < ActiveRecord::Base
   validates_presence_of :name
   validates :resource_type, :presence => true, :inclusion => {:in => TYPES}
   
-  scope :room, where(:resource_type => 'room')
+  scope :rooms, where(:resource_type => 'room')
   scope :equipment, where(:resource_type => 'equipment')
   
   def other_events_during(event)
