@@ -14,7 +14,11 @@
       <% elsif @resource -%>
       <%= hidden_field_tag :resource_id, @resource.id %>
       <% end -%>
-      <%= text_field_tag :date, @date.strftime("%Y-%m-%d") %>
+      From
+      <%= text_field_tag :date, @date.strftime("%Y-%m-%d"), :size => 11 %>
+      for
+      <%= text_field_tag :months, @months, :size => 1 %>
+      months
       <%= submit_tag 'go' %>
     <% end %>
     <div id="calendar_page_chooser"></div>

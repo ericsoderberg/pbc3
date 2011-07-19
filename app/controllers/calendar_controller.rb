@@ -6,7 +6,7 @@ class CalendarController < ApplicationController
     # deal with beginning_of_week being Monday instead of Sunday
     @start_date =
       (@date.beginning_of_month + 1.day).beginning_of_week.yesterday
-    @stop_date = @start_date + 5.weeks - 1.day
+    @stop_date = (@start_date + @months.months).end_of_month.end_of_week.yesterday
     @calendar = Calendar.new(@start_date, @stop_date)
     get_events
     @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC')
@@ -15,7 +15,7 @@ class CalendarController < ApplicationController
 
   def list
     @start_date = @date.beginning_of_month
-    @stop_date = @start_date + 1.month - 1.day
+    @stop_date = @start_date + @months.month - 1.day
     get_events
     @calendar = true
   end
@@ -31,6 +31,7 @@ class CalendarController < ApplicationController
   
   def get_context
     @date = params[:date] ? Time.parse(params[:date]) : Date.today
+    @months = [(params[:months] ? params[:months].to_i : 1), 1].max
     @page = params[:page_id] ? Page.find_by_url(params[:page_id]) : nil
     @full = params[:full] || false
     @singular = params[:singular] || false

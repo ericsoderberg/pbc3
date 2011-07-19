@@ -1000,6 +1000,7 @@ table.index td, table.index th {
 	    display: inline-block;
 	    vertical-align: top;
 	    padding-left: 10px;
+	    font-size: 12px;
 			}
 		.calendar_controls input, #email_lists_controls input,
 		#email_lists_controls #search, #email_subscribe input {
@@ -1157,7 +1158,7 @@ table.index td, table.index th {
     color: #eee;
     background-color: #999;
     }
-  #recurrence td.active {
+  #recurrence td.active, #recurrence td.active.odd_month {
     color: #eee;
     background-color: #999;
     }
@@ -1167,7 +1168,7 @@ table.index td, table.index th {
     color: #999;
     }
   #recurrence td.odd_month {
-    background: #f6f6f6;
+    background-color: #f6f6f6;
     }
   #recurrence .day {
     display: inline-block;
