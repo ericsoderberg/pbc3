@@ -122,6 +122,7 @@ class Event < ActiveRecord::Base
         replica.name = self.name
         replica.location = self.location
         replica.align_reservations(self)
+        replica.master_id = self.id
         replica.save
       end
     end

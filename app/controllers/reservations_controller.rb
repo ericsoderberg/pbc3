@@ -15,7 +15,7 @@ class ReservationsController < ApplicationController
   end
 
   def update
-    @resources = Resource.find(params[:resources])
+    @resources = Resource.find(params[:resources] || [])
 
     respond_to do |format|
       if Reservation.reserve(@event, @resources, params[:options])
