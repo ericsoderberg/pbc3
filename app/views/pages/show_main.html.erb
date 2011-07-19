@@ -6,11 +6,7 @@
   
   <%= render :partial => 'header' %>
 
-  <% if @page.style and @page.style.banner.exists? -%>
-    <div id="page_banner">
-      <%= image_tag @page.style.banner.url(:normal) %>
-    </div>
-  <% end -%>
+  <%= render :partial => 'banner' %>
   
 </section>
 

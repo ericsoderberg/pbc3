@@ -1,0 +1,5 @@
+<%= content_tag_for(:div, animated_page, :class => 'slide') do %>
+  <% if animated_page.style -%>
+    <%= image_tag animated_page.style.banner.url(:normal) %>
+  <% end -%>
+<% end %>

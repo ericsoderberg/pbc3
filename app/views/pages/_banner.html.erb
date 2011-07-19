@@ -1,0 +1,26 @@
+<% if @page.style and @page.style.banner.exists? -%>
+  <% if @page.animate_banner -%>
+  <div id="animated_banners">
+    <div id="animated_banners_list">
+      <% ([@page] + @page.children).each do |animated_page| -%>
+        <div class="slide">
+          <% if animated_page.style -%>
+          <div class="slide_background">
+            <%= image_tag animated_page.style.banner.url(:normal) %>
+          </div>
+          <% end -%>
+        </div>
+      <% end -%>
+    </div>
+  </div>
+  
+  <%= javascript_tag do %>
+    <%= render :partial => 'banner_animation.js' %>
+  <% end -%>
+  
+  <% else -%>
+  <div id="page_banner">
+    <%= image_tag @page.style.banner.url(:normal) %>
+  </div>
+  <% end -%>
+<% end -%>

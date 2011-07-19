@@ -332,11 +332,13 @@ footer {
   }
 }
 
-#hero {
+#hero, #animated_banners {
   position: relative;
-  margin: 12px 0px;
   padding: 0px;
   width: 980px;
+  }
+#hero {
+  margin: 12px 0px;
   height: 445px;
   -webkit-box-shadow: 3px 3px 10px #ccc;
   -moz-box-shadow: 3px 3px 10px #ccc;
@@ -347,26 +349,39 @@ footer {
   -webkit-animation-iteration-count: 1;
   -webkit-animation-delay: 0, 0.1s;
   }
-  #hero #hero_list {
+#animated_banners {
+  height: 245px;    
+  }
+  #hero_list, #animated_banners_list {
   	margin:0 auto;
 		padding: 0;
-  	height:445px;
   	overflow:auto; /* allow scrollbar */
   	position:relative;
 		}
-		#hero_list .slide {
+	#hero_list {
+  	height:445px;	  
+	  }
+	#animated_banners_list {
+  	height:245px;
+	  }
+		#hero_list .slide, #animated_banners .slide {
 			float: left;
 			margin:0 auto;
 			width:960px;
-	  	height:445px;
 		}
-	#hero .hero_background {
+		#hero_list .slide {
+	  	height:445px;		  
+		}
+		#animated_banners .slide {
+		  height:245px;
+		}
+	#hero .hero_background, #animated_banners .slide_background {
 		position:absolute;
 		z-index:1;
 		width:960px;
 		overflow: hidden;
 		}
-#hero:hover {
+#hero:hover, #animated_banners:hover {
   opacity: 1.0;
   }
   #hero_text {
@@ -390,25 +405,31 @@ footer {
       #hero_text a::after {
         content: " >>";
         }
-	#hero .control {
+	#hero .control, #animated_banners .control {
   	display:block;
   	width:77px;
-  	height:445px;
   	text-indent:-10000px;
   	position:absolute;
   	cursor: pointer;
 		}
-		#hero_left_control {
+	#hero .control {
+  	height:445px;	  
+	}
+	#animated_banners .control {
+	  height:245px;
+	}
+		#hero_left_control, #banner_left_control {
   		top:0;
   		left:0;
   		background:transparent url(/images/control_left.png) no-repeat scroll center;
 			}
-		#hero_right_control {
+		#hero_right_control, #banner_right_control {
   		top:0;
   		right:0;
   		background:transparent url(/images/control_right.png) no-repeat scroll center;
 			}
-		#hero_left_control, #hero_right_control {
+		#hero_left_control, #hero_right_control,
+		#banner_left_control, #banner_right_control {
 			z-index: 4;
 		  }
 
