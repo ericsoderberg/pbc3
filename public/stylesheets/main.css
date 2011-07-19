@@ -1954,7 +1954,18 @@ div#messages {
   }
   .reservations_long th, .reservations_long td {
     padding-right: 20px;
+    vertical-align: top;
     }
+  .reservation_time .time_slider {
+    display: inline-block;
+    width: 100px;
+    }
+  .reservation_time input {
+    margin: 5px 5px;
+		padding: 3px 6px;
+		color: #666;
+		font-size: 11px;
+  }
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,

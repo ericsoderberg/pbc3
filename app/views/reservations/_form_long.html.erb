@@ -17,12 +17,16 @@
       @event.resources.include?(resource),
       :disabled => (not conflicts.empty?) %></td>
     <td><%= resource.name %></td>
-    <td><%= select_tag "options[#{resource.id}][pre_time]",
-      options_for_select(Reservation::PRE_POST_OPTIONS,
-        (reservation ? reservation.pre_time : 0)) %></td>
-    <td><%= select_tag "options[#{resource.id}][post_time]",
-      options_for_select(Reservation::PRE_POST_OPTIONS,
-        (reservation ? reservation.post_time : 0)) %></td>
+    <td class="reservation_time">
+      <%= text_field_tag "options[#{resource.id}][pre_time]",
+        (reservation ? reservation.pre_time : 0),
+        :id => "#{resource.id}_pre_value", :size => 2 %> hours
+    </td>
+    <td class="reservation_time">
+      <%= text_field_tag "options[#{resource.id}][post_time]",
+        (reservation ? reservation.post_time : 0),
+        :id => "#{resource.id}_post_value", :size => 2 %> hours
+    </td>
     <td>
       <% unless conflicts.empty? -%>
         <ul class="resource_conflicts">
@@ -53,12 +57,16 @@
       @event.resources.include?(resource),
       :disabled => (not conflicts.empty?) %></td>
     <td><%= resource.name %></td>
-    <td><%= select_tag "options[#{resource.id}][pre_time]",
-      options_for_select(Reservation::PRE_POST_OPTIONS,
-        (reservation ? reservation.pre_time : 0)) %></td>
-    <td><%= select_tag "options[#{resource.id}][post_time]",
-      options_for_select(Reservation::PRE_POST_OPTIONS,
-        (reservation ? reservation.post_time : 0)) %></td>
+    <td class="reservation_time">
+      <%= text_field_tag "options[#{resource.id}][pre_time]",
+        (reservation ? reservation.pre_time : 0),
+        :id => "#{resource.id}_pre_value", :size => 2 %> hours
+    </td>
+    <td class="reservation_time">
+      <%= text_field_tag "options[#{resource.id}][post_time]",
+        (reservation ? reservation.post_time : 0),
+        :id => "#{resource.id}_post_value", :size => 2 %> hours
+    </td>
     <td>
       <% unless conflicts.empty? -%>
         <ul class="resource_conflicts">
@@ -77,3 +85,7 @@
 </div>
 
 <% end %>
+
+<%= javascript_tag do -%>
+  <%= render :partial => 'form_aids.js' %>
+<% end -%>

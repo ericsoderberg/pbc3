@@ -1,0 +1,13 @@
+// event date picker
+$(function() {
+  $(".time_slider").slider({
+  	value:0,
+  	min: 0,
+  	max: 8,
+  	step: 1,
+  	slide: function( event, ui ) {
+  	  value_id = $(this).attr('id') + '_value';
+  	  $("#" + value_id).val(ui.value);
+  	}
+  });
+});
