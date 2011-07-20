@@ -55,6 +55,19 @@ class Page < ActiveRecord::Base
     "#{url_prefix} #{name}".strip
   end
   
+  def self.find_by_url_or_alias(url)
+    result = Page.find_by_url(url)
+    if not result
+      Page.where('url_aliases ILIKE ?', '%' + url + '%').each do |page|
+        if page.url_aliases.split.include?(url)
+          result = page
+          break
+        end
+      end
+    end
+    result
+  end
+  
   def page_type_rules
     if parent and (parent.post? or parent.leaf? or parent.library? or parent.lineup?)
       errors.add(:parent_id,

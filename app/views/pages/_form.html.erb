@@ -30,8 +30,13 @@
       </div>
       
       <div class="field">
-        <%= f.label :url_prefix %><br />
+        <%= f.label :url_prefix %><span class="help"><br />
         <%= f.text_field :url_prefix %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :url_aliases %><br />
+        <%= f.text_area :url_aliases, :size => '30x2' %>
       </div>
       
       <div class="field">

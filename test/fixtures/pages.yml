@@ -6,6 +6,7 @@ public:
   style: blank
   highlightable: true
   page_type: main
+  url_aliases: 'public_alias'
   
 private:
   name: Private

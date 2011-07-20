@@ -41,6 +41,11 @@ class PagesControllerTest < ActionController::TestCase
     get :show, :id => @page.to_param
     assert_response :success
   end
+  
+  test "should show page alias" do
+    get :show, :id => @page.url_aliases.split.first
+    assert_redirected_to friendly_page_path(assigns(:page))
+  end
 
   test "should get edit" do
     get :edit, :id => @page.to_param

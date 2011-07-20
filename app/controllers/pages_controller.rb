@@ -39,9 +39,13 @@ class PagesController < ApplicationController
     'library' => 'library', 'lineup' => 'lineup'}
 
   def show
-    @page = Page.find_by_url(params[:id], :include => :children)
+    @page = Page.find_by_url_or_alias(params[:id])
     unless @page and @page.authorized?(current_user)
       redirect_to root_path
+      return
+    end
+    if @page.url != params[:id]
+      redirect_to friendly_page_url(@page)
       return
     end
     
