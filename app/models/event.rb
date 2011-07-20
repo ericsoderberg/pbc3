@@ -197,6 +197,7 @@ class Event < ActiveRecord::Base
     tmp = master.replicas.all.dup
     master.replicas.clear
     tmp.each{|e| replicas << e}
+    save
   end
   
   def dereplicate
