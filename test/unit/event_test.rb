@@ -81,12 +81,13 @@ class EventTest < ActiveSupport::TestCase
   
   test "replicate replica" do
     event = events(:replica)
-    prior_count = event.master.replicas.count
-    existing_dates = event.master.replicas.map{|e| e.start_at.to_date}
+    prior_count = event.peers.count
+    existing_dates = event.peers.map{|e| e.start_at.to_date}
     dates = existing_dates + [Date.today + 6.months]
     event.replicate(dates)
     event.reload
-    assert_equal prior_count + 1, event.master.replicas.count
+    assert_equal prior_count + 1, event.peers.count
+    assert_equal prior_count + 1, event.replicas.count
     event.replicas.each{|e| assert_equal event, e.master}
   end
   
@@ -125,10 +126,21 @@ class EventTest < ActiveSupport::TestCase
     existing_dates = event.replicas.map{|e| e.start_at.to_date}
     # leave off master date
     dates = existing_dates.delete_if{|d| d == event.start_at.to_date}
-    event.replicate(dates)
+    event = event.replicate(dates)
     event.reload
     assert_equal existing_dates.first, event.start_at.to_date
     assert_equal prior_count - 1, event.replicas.count, "mismatched replicas"
+    event.replicas.each{|e| assert_equal event, e.master}
+  end
+  
+  test "delete existing replicas" do
+    event = events(:recurring)
+    prior_count = event.replicas.count
+    dates = [Date.today + 6.months]
+    event = event.replicate(dates)
+    event.reload
+    assert_equal dates.first, event.start_at.to_date
+    assert_equal 1, event.replicas.count, "mismatched replicas"
     event.replicas.each{|e| assert_equal event, e.master}
   end
   

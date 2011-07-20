@@ -2,9 +2,8 @@ class Event < ActiveRecord::Base
   belongs_to :page
   belongs_to :master, :class_name => 'Event'
   has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
-    :order => :start_at, :autosave => true
-  has_many :reservations, :autosave => true, :dependent => :destroy,
-    :include => :resource
+    :order => :start_at
+  has_many :reservations, :dependent => :destroy, :include => :resource
   has_many :resources, :through => :reservations
   has_many :invitations, :dependent => :destroy, :order => :email
   acts_as_audited
@@ -23,8 +22,8 @@ class Event < ActiveRecord::Base
   end
   
   def no_master_if_replicas
-    if slave? and master.master
-      errors.add(:master_id, "can't be a replica of a replica")
+    if slave? and master.master and master.master != master
+      errors.add(:master_id, "can't be a replica of a replica (master: #{master.id}, master.master: #{master.master.id})")
     end
   end
   
@@ -65,6 +64,18 @@ class Event < ActiveRecord::Base
   
   def singular?
     not master or master.replicas.count <= 1
+  end
+  
+  def authorized?(user)
+    return page.authorized?(user)
+  end
+  
+  def peers
+    if master
+      master.replicas
+    else
+      [self]
+    end
   end
   
   # divide the events up into three categories: active, expired, ancient
@@ -115,15 +126,18 @@ class Event < ActiveRecord::Base
     Event.transaction do
       update_attributes(attrs)
       # make me the master
-      become_master
+      #become_master
       # update replicas, including reservations
-      self.replicas.each do |replica|
-        next if self == replica
-        replica.name = self.name
-        replica.location = self.location
-        replica.align_reservations(self)
-        replica.master_id = self.id
-        replica.save
+      tmp_peers = peers
+      self.master = self
+      tmp_peers.each do |peer|
+        peer.master = self
+        if self != peer
+          peer.name = self.name
+          peer.location = self.location
+          peer.align_reservations(self)
+        end
+        peer.save!
       end
     end
   end
@@ -137,7 +151,51 @@ class Event < ActiveRecord::Base
   
   def replicate(dates)
     #logger.info "!!! replicate to #{dates.map{|e| e.to_s}.join(', ')}"
+    current_dates = peers.map{|e| e.start_at.to_date}
+
+    tmp_peers = peers
+    new_peers = []
+    new_master = self
+
     Event.transaction do
+      
+      # add new ones that we don't have yet
+      # do this first in case we destroy this event
+      dates.each do |date|
+        if not current_dates.include?(date)
+          peer = copy(date)
+          new_peers << peer
+        end
+      end
+      
+      # remove existing dates that aren't specified
+      tmp_peers.each do |peer|
+        if not dates.include?(peer.start_at.to_date)
+          new_master = nil if self == peer
+          peer.destroy
+        else
+          new_peers << peer
+        end
+      end
+      
+      # pick new master
+      if new_master
+        self.master = new_master # so validation of prior peers works
+      else
+        # we've destroyed ourself, pick a new master
+        new_master = new_peers.first
+        # now, we need to save this new master with a master_id pointing to itself
+        # need to save it w/o a master_id first so we generate an id
+        new_master.save!
+        new_master.master = new_master
+      end
+
+      new_peers.each do |peer|
+        peer.master = new_master
+        peer.save!
+      end
+      
+=begin
       dereplicate
       
       remaining_dates = dates.dup
@@ -146,14 +204,18 @@ class Event < ActiveRecord::Base
       self.master_id = self.id
       #logger.info "!!! #{self.master_id}"
       remaining_dates.each do |date|
-        slave = copy(date)
-        slave.master_id = self.id
-        slave.save
+        replica = copy(date)
+        replica.master_id = self.id
+        replica.save
       end
       save
+=end
     end
+    
+    new_master
   end
-  
+
+=begin
   def self.re_replicate
     Event.all.each do |event|
       next if event.replicas.empty? # skip singles and slaves
@@ -162,19 +224,18 @@ class Event < ActiveRecord::Base
       event.save
     end
   end
-  
-  def authorized?(user)
-    return page.authorized?(user)
-  end
+=end
   
   private
-  
+
+=begin
   def adjust_dates(date)
     duration = self.stop_at - self.start_at
     new_start_at = self.start_at.change(:year => date.year, :month => date.month, :day => date.day)
     self.start_at = new_start_at
     self.stop_at = (new_start_at + duration)
   end
+=end
   
   def copy(date)
     duration = self.stop_at - self.start_at
@@ -193,13 +254,14 @@ class Event < ActiveRecord::Base
   end
   
   def become_master
-    return unless master and self != master
-    tmp = master.replicas.all.dup
-    master.replicas.clear
-    tmp.each{|e| replicas << e}
-    save
+    if master and self != master
+      self.replicas = master.replicas
+      master.replicas.clear
+      self.replicas.each{|e| e.master = self}
+    end
   end
   
+=begin
   def dereplicate
     if master
       # throw out everything related except me
@@ -209,5 +271,6 @@ class Event < ActiveRecord::Base
       self.save
     end
   end
+=end
   
 end

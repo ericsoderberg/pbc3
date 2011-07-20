@@ -6,13 +6,13 @@ class RecurrenceController < ApplicationController
   
   def show
     @date = @event.start_at
-    replicas = @event.replicas
+    peers = @event.peers
     @calendar = Calendar.new(@event.start_at - 1.month,
       (@event.start_at + 9.months).end_of_month);
-    @calendar.populate(replicas)
+    @calendar.populate(peers)
 
     respond_to do |format|
-      format.html # replicas.html.erb
+      format.html
       format.xml  { render :xml => @event }
     end
   end
@@ -22,7 +22,7 @@ class RecurrenceController < ApplicationController
     dates = params[:days].map{|day| Date.parse(day)}
 
     respond_to do |format|
-      if @event.replicate(dates)
+      if (@event = @event.replicate(dates))
         format.html { redirect_to(edit_page_event_url(@page, @event),
           :notice => 'Recurrence was successfully updated.') }
         format.xml  { head :ok }

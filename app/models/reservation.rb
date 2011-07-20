@@ -13,7 +13,7 @@ class Reservation < ActiveRecord::Base
     # remove existing resources that aren't specified
     event.reservations.each do |reservation|
       next if resources.include?(reservation.resource)
-      reservation.destroy
+      event.reservations.delete(reservation)
     end
     # add new ones that we don't have yet
     resources.each do |resource|

@@ -16,7 +16,7 @@ class RecurrenceControllerTest < ActionController::TestCase
   
   test "should update recurrence" do
     put :update, :page_id => @page.url, :event_id => @event.id,
-      :days => [(Date.today + 2.week).strftime("%Y-%m-%d")]
+      :days => [@event.start_at.strftime("Y%-%m-%d"), (Date.today + 2.week).strftime("%Y-%m-%d")]
     assert_redirected_to edit_page_event_path(:page_id => @page.url, :id => @event.id)
   end
 
