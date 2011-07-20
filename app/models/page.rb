@@ -108,7 +108,8 @@ class Page < ActiveRecord::Base
   end
   
   searchable do
-    text :name, :default_boost => 2
+    text :name, :default_boost => 3
+    text :url_aliases, :default_boost => 2
     text :text
   end
   
