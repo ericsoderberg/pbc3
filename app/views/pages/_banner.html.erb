@@ -6,7 +6,8 @@
         <div class="slide">
           <% if animated_page.style -%>
           <div class="slide_background">
-            <%= image_tag animated_page.style.banner.url(:normal) %>
+            <%= link_to image_tag(animated_page.style.banner.url(:normal)),
+              friendly_page_path(animated_page) %>
           </div>
           <% end -%>
         </div>
