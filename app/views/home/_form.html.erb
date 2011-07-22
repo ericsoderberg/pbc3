@@ -14,14 +14,14 @@
   <div id="page_content" class="yui_editor">
     <section>
       <div class="field yui-skin-sam">
-        <%= f.label :hero_text %>
+        <%= f.label :hero_text %><br/>
         <span class="help">The text overlaying the hero image on the home page.</span>
         <br />
         <%= f.text_area :hero_text, :size => '80x20' %>
       </div>
       
       <div class="field">
-        <%= f.label :feature_phrase %>
+        <%= f.label :feature_phrase %><br/>
         <span class="help">The short phrase at the bottom of the home page. Keep it to about 15 words.</span>
         <br />
         <%= f.text_field :feature_phrase, :size => '60' %>
@@ -31,7 +31,7 @@
     <aside>
       <div class="form">
         <div class="field">
-          <%= f.label :feature_on_home_page? %>
+          <%= f.label :feature_on_home_page?, :class => 'inline' %>
           <%= f.check_box :featured %>
         </div>
         <div id="feature_indexer"

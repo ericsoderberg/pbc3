@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110719234430) do
+ActiveRecord::Schema.define(:version => 20110722122023) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20110719234430) do
     t.integer  "master_id"
     t.boolean  "featured"
     t.text     "invitation_message"
+    t.text     "notes"
   end
 
   create_table "filled_fields", :force => true do |t|

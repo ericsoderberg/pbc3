@@ -185,18 +185,13 @@ class Page < ActiveRecord::Base
     case page_type
     when 'landing'
       %w(text photos videos audios contacts access feature)
-    when 'main'
+    when 'main', 'gallery', 'leaf'
       %w(text photos videos audios documents forms
         contacts access feature podcast events)
-    when 'leaf'
-      %w(text photos videos audios documents forms
-        contacts access feature events)
     when 'blog'
       %w(text contacts access feature podcast)
     when 'post'
       %w(text photos videos audios contacts access feature)
-    when 'gallery'
-      %w(text photos videos audios documents contacts access feature)
     end
   end
   

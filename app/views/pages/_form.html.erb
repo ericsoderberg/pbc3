@@ -40,7 +40,7 @@
       </div>
       
       <div class="field">
-        <%= f.label :style %><br />
+        <%= f.label :style, :class => 'inline' %>
         <%= collection_select(:page, :style_id,
           Style.all, :id, :name,
           :include_blank => true) %>
@@ -48,12 +48,12 @@
       </div>
       
       <div class="field">
-        <%= f.label :animate_banners? %>
+        <%= f.label :animate_banners?, :class => 'inline' %>
         <%= f.check_box :animate_banner %>
       </div>
       
       <div class="field">
-        <%= f.label :allow_highlights? %>
+        <%= f.label :allow_highlights?, :class => 'inline' %>
         <%= f.check_box :highlightable %>
       </div>
       
@@ -65,7 +65,7 @@
       
       <% if @page.possible_types.length > 1 -%>
       <div class="field">
-        <%= f.label :type_of_page %>
+        <%= f.label :type_of_page, :class => 'inline' %>
         <%= f.select :page_type,
           options_for_select(@page.possible_types, @page.page_type) %>
       </div>

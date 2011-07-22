@@ -1,3 +1,4 @@
+<% include_notes ||= false -%>
 <%= content_tag_for(:li, event) do %>
   
   <% if user_signed_in? and current_user.administrator? -%>
@@ -14,7 +15,9 @@
     <% if event.page != @page -%>
       <%= link_to event.name, friendly_page_path(event.page) %>
     <% else -%>
-      <%= event.name %>
+      <div class="event_name">
+        <%= event.name %>
+      </div>
     <% end -%>
   <% end -%>
   <div class="event_range">
@@ -27,6 +30,11 @@
   <% if event.location and ! event.location.empty? -%>
     <div class="event_location">
       <%= h event.location %>
+    </div>
+  <% end -%>
+  <% if include_notes and event.notes and ! event.notes.empty? -%>
+    <div class="event_notes">
+      <%= h event.notes %>
     </div>
   <% end -%>
   <% if user_signed_in? and current_user.administrator? and

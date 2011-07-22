@@ -609,9 +609,20 @@ footer {
   display: inline-block;
   width: 180px;
   }
+  .field label.inline {
+    width: auto;
+    padding-right: 10px;
+    }
 .field .help {
   color: #999999;
+  margin-left: 10px;
   }
+  .field .help:before {
+    content: "(";
+    }
+  .field .help:after {
+    content: ")";
+    }
 
 #events, #documents, #dynamic_forms, #contacts, #subscribe {
   display: table;
@@ -698,11 +709,25 @@ footer {
 .gallery {
   list-style-type: none;
   }
-  .gallery li {
+  .gallery > li {
     display: inline-block;
     vertical-align: top;
-    margin: 0px 30px 30px 0px;
+    margin: 0px 40px 30px 0px;
     padding: 0px;
+    }
+  .gallery > li.event {
+    min-width: 400px;
+    }
+  .gallery .event_name {
+    font-size: 18px;
+    margin-bottom: 5px;
+    }
+  .gallery .event_range, .gallery .event_location {
+    display: inline-block;
+    margin-right: 10px;
+    }
+  .gallery .event_notes {
+    margin-top: 10px;
     }
 
 #notes {

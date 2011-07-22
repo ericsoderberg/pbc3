@@ -27,16 +27,20 @@
       :value => l(@event.stop_at, :format => :form) %>
   </div>
   <div class="field">
-    <%= f.label :all_day? %>
+    <%= f.label :all_day?, :class => 'inline' %>
     <%= f.check_box :all_day %>
   </div>
   <div class="field">
-    <%= f.label :location %>
+    <%= f.label :location %><br/>
     <span class="help">Remember to make reservations!</span><br />
     <%= f.text_field :location %>
   </div>
   <div class="field">
-    <%= f.label :feature_on_main_calendar? %>
+    <%= f.label :notes %><br/>
+    <%= f.text_area :notes, :size => '30x2' %>
+  </div>
+  <div class="field">
+    <%= f.label :feature_on_main_calendar?, :class => 'inline' %>
     <%= f.check_box :featured %>
   </div>
   <% if @event.id -%>

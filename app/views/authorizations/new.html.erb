@@ -12,7 +12,7 @@
       
       <%= form_for(@page, :remote => true) do |f| %>
         <div class="field">
-          <%= f.label :private? %>
+          <%= f.label :private?, :class => 'inline' %>
           <%= f.check_box :private, :class => 'submittable' %>
         </div>
       <% end %>
