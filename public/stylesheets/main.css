@@ -613,11 +613,6 @@ footer {
   color: #999999;
   }
 
-.page_text_image {
-  float: left;
-  margin: 0px 20px 20px 0px;
-}
-
 #events, #documents, #dynamic_forms, #contacts, #subscribe {
   display: table;
   width: 400px;
@@ -695,7 +690,7 @@ footer {
     padding-top: 0px;
     }
     
-.gallery, .library {
+.gallery, .library , #page_text {
   clear: both;
   -webkit-padding-start: 0px;
   margin: 0px 0px 20px 0px;

@@ -12,13 +12,15 @@
 
 <div id="page_content">
 
-  <section id="page_text">
+  <section>
     
     <% if @invitation -%>
       <%= render :partial => 'invitations/response' %>
     <% end -%>
     
-    <%= raw @page.text %>
+    <div id="page_text">
+      <%= raw @page.text %>
+    </div>
     
   </section>
 

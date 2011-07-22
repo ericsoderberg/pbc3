@@ -17,7 +17,10 @@
 <div id="page_content">
 
   <section>
-    <%= raw @page.text %>
+    
+    <div id="page_text">
+      <%= raw @page.text %>
+    </div>
     
     <%= render :partial => 'contacts/lineup',
       :locals => {:contacts => @page.contacts} %>
