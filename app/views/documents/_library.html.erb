@@ -1,8 +1,10 @@
-<table id="library">
+<table class="library">
 <% documents.each do |document| -%>
   <tr>
     <td class="document_date">
-      <%= document.published_at.to_time.relative_str(true) %>
+      <% if document.published_at -%>
+        <%= document.published_at.to_time.relative_str(true) %>
+      <% end -%>
     </td>
     <td>
       <%= link_to document.name, document.file.url %>

@@ -1,0 +1,9 @@
+<% if categorized_events and not categorized_events[:all].empty? -%>
+<ul class="gallery">
+  <% events.each do |event| -%>
+    <%= render :partial => 'events/event',
+      :collection => categorized_events[category],
+      :locals => {:no_name => (no_name || false)} %>
+  <% end -%>
+</ul>
+<% end -%>

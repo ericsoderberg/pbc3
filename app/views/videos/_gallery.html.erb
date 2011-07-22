@@ -1,0 +1,5 @@
+<% if videos and not videos.empty? -%>
+<ul class="gallery">
+  <%= render :partial => 'videos/video', :collection => videos %>
+</ul>
+<% end -%>

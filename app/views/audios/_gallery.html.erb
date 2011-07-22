@@ -1,0 +1,5 @@
+<% if audios and not audios.empty? -%>
+<ul class="gallery">
+  <%= render :partial => 'audios/audio', :collection => audios %>
+</ul>
+<% end -%>

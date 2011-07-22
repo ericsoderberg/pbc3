@@ -1,0 +1,10 @@
+<%= content_tag_for(:li, edit_photo) do %>
+  <a href="<%= edit_page_photo_path(@page, edit_photo) %>">
+  <% if edit_photo.photo.exists? then %>
+  	<%= image_tag edit_photo.photo.url(:thumb) %>
+  <% else %>
+    &nbsp;
+  <% end %>
+  <div class="caption"><%= edit_photo.caption %></div>
+  </a>
+<% end %>

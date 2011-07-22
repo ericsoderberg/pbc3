@@ -1,0 +1,6 @@
+<%= content_tag_for(:li, video) do %>
+  <video controls>
+    <source src="<%= video.video.url %>"/>
+  </video>
+  <div class="caption"><%= video.caption %></div>
+<% end %>

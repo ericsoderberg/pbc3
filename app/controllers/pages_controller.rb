@@ -36,7 +36,7 @@ class PagesController < ApplicationController
   
   PAGE_TYPE_VIEWS = {'landing' => 'landing', 'blog' => 'blog',
     'main' => 'main', 'leaf' => 'main', 'post' => 'post',
-    'library' => 'library', 'lineup' => 'lineup'}
+    'gallery' => 'gallery', 'library' => 'library', 'lineup' => 'lineup'}
 
   def show
     @page = Page.find_by_url_or_alias(params[:id])
@@ -49,7 +49,7 @@ class PagesController < ApplicationController
       return
     end
     
-    if (@page.landing? or @page.main? or @page.leaf? or @page.post?) and
+    if (@page.landing? or @page.main? or @page.leaf? or @page.gallery? or @page.post?) and
         (@page != @site.communities_page and @page != @site.about_page)
       @categorized_events = Event.categorize(@page.related_events)
     end

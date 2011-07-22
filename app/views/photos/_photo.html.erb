@@ -1,0 +1,8 @@
+<%= content_tag_for(:li, photo) do %>
+  <% if photo.photo.exists? then %>
+  	<%= image_tag photo.photo.url(:normal) %>
+  <% else %>
+    &nbsp;
+  <% end %>
+  <div class="caption"><%= photo.caption %></div>
+<% end %>

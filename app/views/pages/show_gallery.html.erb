@@ -1,0 +1,46 @@
+<% title @page.prefixed_name -%>
+
+<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+
+<section>
+
+  <%= render :partial => 'header' %>
+
+  <% if @page.style and @page.style.banner.exists? -%>
+    <div id="page_banner">
+      <%= image_tag @page.style.banner.url(:normal) %>
+    </div>
+  <% end -%>
+
+</section>
+
+<div id="page_content">
+
+  <section>
+    <%= raw @page.text %>
+    
+    <%= render :partial => 'contacts/lineup',
+      :locals => {:contacts => @page.contacts} %>
+      
+    <%= render :partial => 'events/gallery',
+      :locals => {:categorized_events => @categorized_events,
+        :no_name => false} %>
+      
+    <%= render :partial => 'documents/library',
+      :locals => {:documents => @page.documents} %>
+      
+    <%= render :partial => 'forms/library',
+      :locals => {:forms => @page.forms} %>
+    
+    <%= render :partial => 'photos/gallery',
+      :locals => {:photos => @page.photos} %>
+      
+    <%= render :partial => 'videos/gallery',
+      :locals => {:videos => @page.videos} %>
+      
+    <%= render :partial => 'audios/gallery',
+      :locals => {:audios => @page.audios} %>
+    
+  </section>
+
+</div>

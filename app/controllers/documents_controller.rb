@@ -72,9 +72,12 @@ class DocumentsController < ApplicationController
   
   def parse_date
     if params[:document][:published_at] and
+      not params[:document][:published_at].empty?
       params[:document][:published_at].is_a?(String)
       params[:document][:published_at] =
         Date.parse_from_form(params[:document][:published_at])
+    else
+      params[:document][:published_at] = nil
     end
   end
   

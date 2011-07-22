@@ -1,0 +1,5 @@
+<% if photos and not photos.empty? -%>
+<ul class="gallery">
+  <%= render :partial => 'photos/photo', :collection => photos %>
+</ul>
+<% end -%>

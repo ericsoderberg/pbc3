@@ -1,0 +1,6 @@
+<%= content_tag_for(:li, audio) do %>
+  <audio controls>
+    <source src="<%= audio.audio.url %>"/>
+  </audio>
+  <div class="caption"><%= audio.caption %></div>
+<% end %>

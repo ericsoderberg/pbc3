@@ -1,4 +1,4 @@
-<ul id="lineup" class="card-pile">
+<ul class="card-pile gallery">
   <% contacts.each do |contact| -%>
     <li class="card-container">
       <div class="card-card">
@@ -23,7 +23,3 @@
     </li>
   <% end -%>
 </ul>
-
-<% if contacts.empty? -%>
-<p class="empty_indicator">Nobody here</p>
-<% end -%>
