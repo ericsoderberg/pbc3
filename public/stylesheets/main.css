@@ -716,7 +716,7 @@ footer {
     padding: 0px;
     }
   .gallery > li.event {
-    min-width: 400px;
+    width: 400px;
     }
   .gallery .event_name {
     font-size: 18px;

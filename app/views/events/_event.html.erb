@@ -32,7 +32,7 @@
       <%= h event.location %>
     </div>
   <% end -%>
-  <% if include_notes and event.notes and ! event.notes.empty? -%>
+  <% if event.notes and ! event.notes.empty? -%>
     <div class="event_notes">
       <%= h event.notes %>
     </div>

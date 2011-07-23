@@ -1,4 +1,5 @@
 $(function() {
+  // shorten list and expand with a 'X more ...' link
   if ($('.events_list li')[0]) {      
     var i = 0;
     $(".events_list > li").each(function(){
@@ -20,4 +21,15 @@ $(function() {
           } )  );
     }
   }
+  
+  // show notes on hover
+  $('.events_list .event_notes').css('display', 'none');
+  $('.events_list li').hover(
+    function(){
+      $(this).find('.event_notes').slideDown();
+    },
+    function(){
+      $(this).find('.event_notes').slideUp();      
+    }
+    );
 });
