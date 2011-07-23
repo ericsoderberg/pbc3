@@ -1,0 +1,25 @@
+<% title @page.prefixed_name -%>
+
+<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+
+<section>
+  
+  <%= render :partial => 'header' %>
+
+  <% if @page.style and @page.style.banner.exists? -%>
+    <div id="page_banner">
+      <%= image_tag @page.style.banner.url(:normal) %>
+    </div>
+  <% end -%>
+  
+</section>
+
+<div id="page_content" class="under_construction">  
+  <section id="page_text">
+    Forums are still under construction.
+    
+    <%= raw @page.text %>
+  </section>
+      
+</div>
+
