@@ -33,10 +33,6 @@ class PagesController < ApplicationController
       }
     end
   end
-  
-  PAGE_TYPE_VIEWS = {'landing' => 'landing', 'blog' => 'blog',
-    'main' => 'main', 'leaf' => 'main', 'post' => 'post',
-    'gallery' => 'gallery', 'library' => 'library', 'lineup' => 'lineup'}
 
   def show
     @page = Page.find_by_url_or_alias(params[:id])
@@ -49,8 +45,7 @@ class PagesController < ApplicationController
       return
     end
     
-    if (@page.landing? or @page.main? or @page.leaf? or @page.gallery? or @page.post?) and
-        (@page != @site.communities_page and @page != @site.about_page)
+    if (@page != @site.communities_page and @page != @site.about_page)
       @categorized_events = Event.categorize(@page.related_events)
     end
     if params[:invitation_key]
@@ -59,8 +54,7 @@ class PagesController < ApplicationController
     @note = Note.new(:page_id => @page.id)
 
     respond_to do |format|
-      format.html { render :action =>
-        "show_#{PAGE_TYPE_VIEWS[@page.page_type]}" }
+      format.html { render :action => "show_#{@page.layout}" }
       format.xml  { render :xml => @page }
     end
   end
@@ -107,7 +101,7 @@ class PagesController < ApplicationController
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
     @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
-    @page.page_type = @page.possible_types.first
+    @page.layout = 'regular'
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
     if params[:site_page]

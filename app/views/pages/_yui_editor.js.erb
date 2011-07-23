@@ -36,3 +36,6 @@ var myEditor = new YAHOO.widget.SimpleEditor('page_text', {
   }
 });
 myEditor.render();
+myEditor.on('editorKeyDown', function(ev) {
+    $('#done_page_editing').fadeOut();
+    }, myEditor, true);

@@ -194,48 +194,12 @@ class Event < ActiveRecord::Base
         peer.master = new_master
         peer.save!
       end
-      
-=begin
-      dereplicate
-      
-      remaining_dates = dates.dup
-      # set me to first date
-      adjust_dates(remaining_dates.shift)
-      self.master_id = self.id
-      #logger.info "!!! #{self.master_id}"
-      remaining_dates.each do |date|
-        replica = copy(date)
-        replica.master_id = self.id
-        replica.save
-      end
-      save
-=end
     end
     
     new_master
   end
-
-=begin
-  def self.re_replicate
-    Event.all.each do |event|
-      next if event.replicas.empty? # skip singles and slaves
-      next if event.replicas.exists?(:id => event.id) # already converted
-      event.master = event
-      event.save
-    end
-  end
-=end
   
   private
-
-=begin
-  def adjust_dates(date)
-    duration = self.stop_at - self.start_at
-    new_start_at = self.start_at.change(:year => date.year, :month => date.month, :day => date.day)
-    self.start_at = new_start_at
-    self.stop_at = (new_start_at + duration)
-  end
-=end
   
   def copy(date)
     duration = self.stop_at - self.start_at
@@ -244,7 +208,8 @@ class Event < ActiveRecord::Base
     params = {:name => self.name, :location => self.location,
       :start_at => new_start_at,
       :stop_at => (new_start_at + duration),
-      :featured => self.featured}
+      :featured => self.featured,
+      :notes => self.notes}
     new_event = Event.new(params)
     new_event.page = self.page
     self.reservations.each do |reservation|
@@ -260,17 +225,5 @@ class Event < ActiveRecord::Base
       self.replicas.each{|e| e.master = self}
     end
   end
-  
-=begin
-  def dereplicate
-    if master
-      # throw out everything related except me
-      master.replicas.delete(self)
-      master.replicas.each{|e| e.destroy}
-      self.master = nil
-      self.save
-    end
-  end
-=end
   
 end

@@ -5,7 +5,7 @@ public:
   private: false
   style: blank
   highlightable: true
-  page_type: main
+  layout: regular
   url_aliases: 'public_alias'
   
 private:
@@ -13,7 +13,7 @@ private:
   url: private
   text: hi
   private: true
-  page_type: main
+  layout: regular
   
 sub_public:
   name: "Sub Public"
@@ -22,23 +22,23 @@ sub_public:
   private: false
   parent: public
   parent_index: 1
-  page_type: leaf
+  layout: regular
 
 communities:
   name: Communities
   url: communities
-  page_type: landing
+  layout: landing
   
 blog:
   name: Blog
   url: blog
   parent: public
   parent_index: 2
-  page_type: blog
+  layout: blog
   
 post:
   name: Post
   url: post
   parent: blog
   parent_index: 1
-  page_type: post
+  layout: regular

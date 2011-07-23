@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110722122023) do
+ActiveRecord::Schema.define(:version => 20110723103313) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -218,11 +218,12 @@ ActiveRecord::Schema.define(:version => 20110722122023) do
     t.integer  "style_id"
     t.integer  "parent_index"
     t.boolean  "highlightable"
-    t.string   "page_type",      :default => "main", :null => false
+    t.string   "layout",         :default => "regular", :null => false
     t.string   "email_list"
     t.string   "url_prefix"
     t.boolean  "animate_banner", :default => false
     t.text     "url_aliases"
+    t.boolean  "obscure"
   end
 
   create_table "payments", :force => true do |t|

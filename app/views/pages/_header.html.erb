@@ -20,12 +20,12 @@
   <% if user_signed_in? and current_user.administrator? -%>
     <div id="page_admin">
       <ul>
-        <li><%= link_to 'Edit page', edit_page_path(@page) %><li>
+        <li><%= link_to 'Edit page', edit_page_path(@page) %></li>
         <li>
-          <% if @page.main? -%>
-            <%= link_to 'Add page', new_page_path(:parent_id => @page.id) %>
-          <% elsif @page.blog? -%>
+          <% if @page.blog? or @page.forum? -%>
             <%= link_to 'Add post', new_page_path(:parent_id => @page.id) %>
+          <% else -%>
+            <%= link_to 'Add page', new_page_path(:parent_id => @page.id) %>
           <% end -%>
         </li>
       </ul>
@@ -34,7 +34,8 @@
   
   <ul class="nav">
     <%= render :partial => "pages/sub_page",
-      :collection => @page.nav_context.children.visible(current_user) %>
+      :collection => @page.nav_context.children.visible(current_user).
+      where('pages.obscure != ? OR pages.id = ?', true, @page.id) %>
   </ul>
   
 </header>

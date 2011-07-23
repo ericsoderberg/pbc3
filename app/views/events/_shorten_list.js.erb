@@ -8,16 +8,16 @@ $(function() {
     });
     if (i>3) {
       ($('.events_list').append(
-        "<li  class='more'>" + (i-3) + " more...</li>").bind(
+        "<li class='more'>" + (i-3) + " more...</li>").css('cursor', 'pointer').bind(
           "click", function(){
+            $(".events_list > li.more").remove();
             var i = 0;
             $(".events_list > li").each(function(){
               i = i+1;
               if (i>3) {
-                $(this).toggle(true);
+                $(this).slideDown('slow');
               }
             });
-            $(".events_list > li.more").toggle(false);
           } )  );
     }
   }
@@ -26,7 +26,7 @@ $(function() {
   $('.events_list .event_notes').css('display', 'none');
   $('.events_list li').hover(
     function(){
-      $(this).find('.event_notes').slideDown();
+      $(this).find('.event_notes').slideDown('slow');
     },
     function(){
       $(this).find('.event_notes').slideUp();      

@@ -20,9 +20,9 @@ class Page < ActiveRecord::Base
   has_many :forms
   acts_as_audited :except => [:parent_index, :feature_index]
   
-  TYPES = ['landing', 'main', 'leaf', 'blog', 'post', 'gallery']
+  LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
 
-  validates :page_type, :presence => true, :inclusion => {:in => TYPES}
+  validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
   validates :name, :presence => true
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
@@ -31,18 +31,14 @@ class Page < ActiveRecord::Base
     :unless => Proc.new{|p| not p.parent_id}}
   validates :feature_index,
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
-  validate :page_type_rules
   validate :reserved_urls
   
   before_validation do
     self.feature_index = nil if not featured?
-    # handle re-parenting by adjusting page type
-    if self.leaf? and (not self.parent or self.parent.landing?) then
-      self.page_type = 'main'
+    # map old page_types to new layouts
+    if %w(main leaf post).include?(self.layout)
+      self.layout = 'regular'
     end
-    #if self.main? and self.parent.main? and self.children.empty? then
-    #  self.page_type = 'leaf'
-    #end
   end
   
   before_validation(:on => :create) do
@@ -66,26 +62,6 @@ class Page < ActiveRecord::Base
       end
     end
     result
-  end
-  
-  def page_type_rules
-    if parent and (parent.post? or parent.leaf? or parent.gallery?)
-      errors.add(:parent_id,
-        "post, leaf, and gallery pages cannot contain pages")
-    end
-    if parent and parent.blog? and not post?
-      errors.add(:parent_id, "blog pages can only contain post pages")
-    end
-    if (leaf? or post? or gallery?) and not children.empty?
-      errors.add(:parent_id,
-        "leaf, post, and gallery pages cannot contain pages")
-    end
-    if post? and parent and not parent.blog?
-      errors.add(:parent_id, "post pages can only be contained in blogs")
-    end
-    if main? and children.length > 5
-      errors.add(:parent_id, "main pages can only contain up to five pages")
-    end
   end
   
   def reserved_urls
@@ -124,8 +100,8 @@ class Page < ActiveRecord::Base
   end
   
   def nav_context
-    (self.parent and (self.leaf? or
-      (self.parent.main? and self.gallery?))) ? self.parent : self
+    (self.parent and self.parent.regular? and
+    self.children.empty?) ? self.parent : self
   end
   
   def authorized?(user)
@@ -154,44 +130,20 @@ class Page < ActiveRecord::Base
     return false
   end
   
-  def possible_types
-    # blog and post remain as they are
-    return %w(blog) if blog?
-    return %w(post) if post? or (parent and parent.blog?)
-    # landing, main, leaf
-    return %w(landing) if children.count > 5
-    return %w(main landing blog gallery) if not parent or parent.landing?
-    return %w(leaf main landing blog gallery) if parent.main?
-    %w(main landing blog gallery)
-  end
-  
   def possible_parents
     Page.order('name').all.delete_if do |page|
-      (not page.could_parent?(self)) or
       # don't allow circular references
       page == self or self.includes?(page)
     end
   end
   
-  def could_parent?(child)
-    return true if blog? and child.post?
-    return false if child.post?
-    return true if landing?
-    return true if main? and children.count < 5
-    false
-  end
-  
   def possible_aspects
-    case page_type
-    when 'landing'
-      %w(text photos videos audios contacts access feature)
-    when 'main', 'gallery', 'leaf'
+    case layout
+    when 'landing', 'blog', 'forum'
+      %w(text contacts access feature)
+    else
       %w(text photos videos audios documents forms
         contacts access feature podcast events)
-    when 'blog'
-      %w(text contacts access feature podcast)
-    when 'post'
-      %w(text photos videos audios contacts access feature)
     end
   end
   
@@ -252,27 +204,23 @@ class Page < ActiveRecord::Base
   end
   
   def landing?
-    'landing' == page_type
+    'landing' == layout
   end
   
-  def main?
-    'main' == page_type
-  end
-  
-  def leaf?
-    'leaf' == page_type
+  def regular?
+    'regular' == layout
   end
   
   def blog?
-    'blog' == page_type
+    'blog' == layout
   end
   
-  def post?
-    'post' == page_type
+  def forum?
+    'forum' == layout
   end
   
   def gallery?
-    'gallery' == page_type
+    'gallery' == layout
   end
   
   private

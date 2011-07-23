@@ -30,7 +30,10 @@
       </div>
       
       <div class="field">
-        <%= f.label :url_prefix %><span class="help"><br />
+        <%= f.label :name_prefix %><br />
+        <div class="help">
+          Use the parent page name here for generic page names like 'Resources'
+        </div>
         <%= f.text_field :url_prefix %>
       </div>
       
@@ -63,15 +66,16 @@
         <div id="email_list"></div>
       </div>
       
-      <% if @page.possible_types.length > 1 -%>
       <div class="field">
-        <%= f.label :type_of_page, :class => 'inline' %>
-        <%= f.select :page_type,
-          options_for_select(@page.possible_types, @page.page_type) %>
+        <%= f.label :layout, :class => 'inline' %>
+        <%= f.select :layout,
+          options_for_select(Page::LAYOUTS, @page.layout) %>
       </div>
-      <% else -%>
-        <%= f.hidden_field :page_type -%>
-      <% end -%>
+      
+      <div class="field">
+        <%= f.label :obscure?, :class => 'inline' %>
+        <%= f.check_box :obscure %>
+      </div>
       
       <% if @page.id -%>
       <hr/>
@@ -109,6 +113,7 @@
   <%= render :partial => 'yui_editor.js' -%>
   
   <% if @page.id -%>
+    <%= render :partial => 'form_aids.js' -%>
     <%= render :partial => 'parent_indexer.js' -%>
     <%= render :partial => 'email_list_chooser.js' -%>
   <% end -%>
