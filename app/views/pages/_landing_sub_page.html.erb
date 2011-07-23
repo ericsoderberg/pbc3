@@ -6,7 +6,8 @@
   </div>
   <% unless landing_sub_page.children.empty? -%>
     <ul class="sub_sub_pages">
-      <% landing_sub_page.children.limit(5).each do |child| -%>
+      <% landing_sub_page.children.where(:obscure => false).limit(5).
+        each do |child| -%>
         <li><%= link_to child.name, friendly_page_path(child) %></li>
       <% end -%>
       <% if landing_sub_page.children.count > 5 -%>

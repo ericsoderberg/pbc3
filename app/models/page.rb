@@ -100,7 +100,7 @@ class Page < ActiveRecord::Base
   end
   
   def nav_context
-    (self.parent and self.parent.regular? and
+    (not self.landing? and self.parent and self.parent.regular? and
     self.children.empty?) ? self.parent : self
   end
   

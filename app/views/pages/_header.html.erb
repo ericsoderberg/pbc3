@@ -33,9 +33,7 @@
   <% end -%>
   
   <ul class="nav">
-    <%= render :partial => "pages/sub_page",
-      :collection => @page.nav_context.children.visible(current_user).
-      where('pages.obscure != ? OR pages.id = ?', true, @page.id) %>
+    <%= render :partial => "pages/sub_page", :collection => @children %>
   </ul>
   
 </header>

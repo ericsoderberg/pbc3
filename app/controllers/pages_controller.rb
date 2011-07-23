@@ -52,6 +52,9 @@ class PagesController < ApplicationController
       @invitation = Invitation.find_by_key(params[:invitation_key])
     end
     @note = Note.new(:page_id => @page.id)
+    
+    @children = @page.nav_context.children.visible(current_user).
+      where('pages.obscure != ? OR pages.id = ?', true, @page.id)
 
     respond_to do |format|
       format.html { render :action => "show_#{@page.layout}" }

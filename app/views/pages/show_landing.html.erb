@@ -62,8 +62,7 @@
 
   <div id="landing_page_content">
     <ul class="sub_pages">
-      <%= render :partial => "landing_sub_page",
-        :collection => @page.children.visible(current_user) %>
+      <%= render :partial => "landing_sub_page", :collection => @children %>
     </ul>
   </div>
   
