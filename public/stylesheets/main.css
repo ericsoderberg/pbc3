@@ -721,8 +721,8 @@ footer {
     display: inline-block;
     margin-right: 10px;
     }
-  .gallery .event_notes {
-    margin-top: 10px;
+  .event_notes {
+    margin: 10px 0px;
     }
 
 #notes {
