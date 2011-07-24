@@ -549,9 +549,6 @@ footer {
 		vertical-align: top;
 		color: #666;
 	  }
-	  #page_content.yui_editor section {
-	    padding-left: 0px;
-	    }
 	
 	#page_text h1, #page_text h2 {
 	  color: #c52;
@@ -922,7 +919,7 @@ form label, .edit_options label {
 	color: #FFFFFF;
 	}
 
-input, textarea, .yui-skin-sam .yui-editor-container {
+input, textarea, .textedit {
 	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
@@ -1993,6 +1990,46 @@ div#messages {
 		color: #666;
 		font-size: 11px;
   }
+  
+/* Rich Text Editor lite, align rte.css too */
+#page_content section.text_editing {
+  padding: 0px;
+  }
+
+.textedit {
+  width: 600px;
+  height: 400px;
+  margin: 0;
+  padding: 20px;
+  }
+  iframe.textedit {
+    width: 620px;
+    padding: 0px;
+    }
+
+.rte-toolbar {
+  overflow: hidden;
+  background-color: #eee;
+  border: 1px #ccc solid;
+  width: 600px;
+  padding: 5px 10px;
+  }
+
+.rte-toolbar a, .rte-toolbar a img {
+	border: 0;
+	vertical-align: middle;
+  }
+
+.rte-toolbar p {
+  float: left;
+  margin: 0;
+  margin-right: 10px;
+  padding: 0px;
+  font-size: 12px;
+  }
+  .rte-toolbar p.mode {
+    float: right;
+    }
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,

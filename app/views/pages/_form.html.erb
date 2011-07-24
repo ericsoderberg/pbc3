@@ -11,13 +11,13 @@
     </div>
   <% end %>
   
-<div id="page_content" class="yui_editor">
-  <section>
+<div id="page_content">
+  <section class="text_editing">
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
-    <div class="field yui-skin-sam">
-      <%= f.text_area :text, :size => '80x20' %>
+    <div class="field">
+      <%= f.text_area :text, :size => '80x20', :class => 'textedit' %>
     </div>
   </section>
 
@@ -110,7 +110,7 @@
 <% end %>
 
 <%= javascript_tag do %>
-  <%= render :partial => 'yui_editor.js' -%>
+  <%= render :partial => 'text_editor.js' -%>
   
   <% if @page.id -%>
     <%= render :partial => 'form_aids.js' -%>

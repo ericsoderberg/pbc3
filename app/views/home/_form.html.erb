@@ -17,7 +17,7 @@
         <%= f.label :hero_text %><br/>
         <span class="help">The text overlaying the hero image on the home page.</span>
         <br />
-        <%= f.text_area :hero_text, :size => '80x20' %>
+        <%= f.text_area :hero_text, :size => '80x20', :class => 'textedit' %>
       </div>
       
       <div class="field">
@@ -50,7 +50,7 @@
 <% end %>
 
 <%= javascript_tag do %>
-  <%= render :partial => 'yui_editor.js' -%>
+  <%= render :partial => 'pages/text_editor.js' -%>
   <%= render :partial => 'feature_indexer.js' -%>
   <%= render :partial => 'pages/form_aids.js' -%>
 <% end -%>

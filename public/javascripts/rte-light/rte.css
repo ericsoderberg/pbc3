@@ -1,0 +1,19 @@
+.frameBody {
+  margin: 0px;
+  padding: 20px;
+  width: 580px;
+  height: 380px;
+  font: 14px/22px Arial, sans-serif;
+  }
+
+#page_text {
+  width: 580px;
+  height: 380px;
+  margin: 0px;
+  padding: 0px;
+  border: 1px #ccc solid;
+  clear: both;
+  display: block;
+  }
+
+
