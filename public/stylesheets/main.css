@@ -550,9 +550,6 @@ footer {
 		color: #666;
 	  }
 	
-	#page_text h1, #page_text h2 {
-	  color: #c52;
-	  }
 	#page_content aside {
 		display: table-cell;
 		width: 400px;
@@ -691,6 +688,19 @@ footer {
   #page_content aside .event_form h3 {
     margin-top: 0px;
     padding-top: 0px;
+    }
+    
+#page_text p, #page_text h1, #page_text h2 {
+  margin: 20px 0px;
+  padding: 0px;
+  }
+  #page_text h1 {
+    font-size: 26px;
+    font-weight: normal;
+    }
+  #page_text h2 {
+    font-size: 20px;
+    font-weight: normal;
     }
     
 .gallery, .library , #page_text {
