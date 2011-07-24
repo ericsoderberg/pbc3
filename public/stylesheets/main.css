@@ -702,6 +702,9 @@ footer {
     font-size: 20px;
     font-weight: normal;
     }
+  #page_text blockquote {
+    font-style: italic;
+    }
     
 .gallery, .library , #page_text {
   clear: both;
