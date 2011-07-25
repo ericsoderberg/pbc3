@@ -1932,6 +1932,7 @@ div#messages {
   position: absolute;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
+  overflow: hidden;
 }
 
 .card-face .portrait {
