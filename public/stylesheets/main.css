@@ -818,13 +818,19 @@ footer {
 		top: 0;
 		left: 0;
 		z-index: 0;
+		width: 400px;
+		height: 300px;
+		background-color: #fff;
 	}
 	#slides_slide li img {
+	  display: block;
 		opacity: 0;
 		filter:alpha(opacity=0);
 		-webkit-transition: 2s;
 		-moz-transition: 2s;
 		transition: 2s;
+		height: 300px;
+		margin: 0px auto;
 	}
 	#slides_slide li.first img {
 		opacity: 1;
