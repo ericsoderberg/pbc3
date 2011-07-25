@@ -16,6 +16,10 @@
     <%= f.label :user_email %><br />
     <%= text_field_tag :user_email, '' %>
   </div>
+  <div class="field">
+    <%= f.label :role %><br />
+    <%= f.text_field :role %>
+  </div>
   <div class="actions">
     <%= f.submit "#{@contact.user ? 'Update' : 'Add'} contact" %>
     <% if @contact.user -%>

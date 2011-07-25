@@ -14,7 +14,8 @@ class Page < ActiveRecord::Base
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
     :order => :parent_index
   has_many :contacts
-  has_many :contact_users, :through => :contacts, :source => :user
+  has_many :contact_users, :through => :contacts, :source => :user,
+    :order => 'users.first_name ASC'
   has_many :authorizations
   has_one :podcast
   has_many :forms
