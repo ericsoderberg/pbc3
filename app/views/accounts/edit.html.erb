@@ -40,7 +40,7 @@
       <div class="form">
         
         <div class="field">
-          <%= f.label :portrait %><br />
+          <%= f.label :portrait %>  <span class="help">(150 x 200)</span><br />
           <% if @user.portrait.exists? -%>
             <%= image_tag @user.portrait.url(:thumb) %>
             <%= check_box_tag 'delete_portrait' %> delete photo?
