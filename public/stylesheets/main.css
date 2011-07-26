@@ -390,7 +390,8 @@ footer {
     vertical-align: top;
 		margin-left: 530px;
     padding: 20px 100px 20px 40px;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 22px;
 		z-index: 3;
     }
     #hero_text h2 {
@@ -400,7 +401,9 @@ footer {
       font-size: 25px;
       }
     #hero_text a {
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 21px;
       }
       #hero_text a::after {
         font-family: "Wingdings 3";
