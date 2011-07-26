@@ -52,7 +52,12 @@
   </div>
   <% end -%>
   <div class="actions">
-    <%= f.submit %>
+    <% if @event.peers.count > 1 -%>
+      <%= f.submit 'Update all' %>
+      | <%= f.submit "Update current only"%>
+    <% else -%>
+      <%= f.submit %>
+    <% end -%>
     <% if @event.name -%>
     | <%= link_to 'Delete event', [@page, @event], :confirm => 'Are you sure?',
         :method => :delete %>

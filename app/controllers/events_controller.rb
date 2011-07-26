@@ -59,9 +59,11 @@ class EventsController < ApplicationController
     @event = @page.events.find(params[:id])
     @page = @event.page
     params[:event][:page_id] = params[:choose_page_id] # due to flexbox
+    update_method = 'Update all' == params[:commit] ?
+      'update_with_replicas' : 'update_attributes'
 
     respond_to do |format|
-      if @event.update_with_replicas(params[:event])
+      if @event.send(update_method, params[:event])
         format.html { redirect_to(new_page_event_url(@event.page),
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }

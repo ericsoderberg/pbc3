@@ -9,7 +9,7 @@ class Reservation < ActiveRecord::Base
   PRE_POST_OPTIONS = [['none', 0], ['1 hour', 60], ['2 hours', 120],
     ['4 hours', 240], ['6 hours', 360], ['8 hours', 480]]
   
-  def self.reserve(event, resources, options={})
+  def self.reserve(event, resources, update_replicas=false, options={})
     # remove existing resources that aren't specified
     event.reservations.each do |reservation|
       next if resources.include?(reservation.resource)
@@ -28,7 +28,7 @@ class Reservation < ActiveRecord::Base
         reservation.save
       end
     end
-    event.update_with_replicas
+    update_replicas ? event.update_with_replicas : true
   end
   
   def self.between(start, stop)

@@ -48,7 +48,12 @@
 </table>
 
 <div class="actions">
-  <%= submit_tag("Update Reservations") %>
+  <% if @event.peers.count > 1 -%>
+    <%= submit_tag("Update for all") %>
+    | <%= submit_tag("Update for #{@event.start_at.simple_date} only")%>
+  <% else -%>
+    <%= submit_tag("Update Reservations") %>
+  <% end -%>
 </div>
 
 <% end %>
