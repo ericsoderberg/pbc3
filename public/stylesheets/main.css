@@ -403,7 +403,9 @@ footer {
       font-size: 16px;
       }
       #hero_text a::after {
-        content: " >>";
+        font-family: "Wingdings 3";
+        letter-spacing: -0.2em;
+        content: " \007D\007D";
         }
 	#hero .control, #animated_banners .control {
   	display:block;
