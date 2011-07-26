@@ -405,7 +405,7 @@ footer {
       font-weight: bold;
       line-height: 21px;
       }
-      #hero_text a::after {
+      #hero_text a::after, .featured_nav_link a::after {
         font-family: "Wingdings 3";
         letter-spacing: -0.2em;
         content: " \007D\007D";
@@ -497,17 +497,14 @@ footer {
 			text-decoration: none;
       }
     .featured_nav_phrase {
-      padding: 10px;
+      margin: 10px;
 			font-size: 14px;
 			color: #666;
-			height: 60px;
+			height: 40px;
 			overflow: hidden;
       }
     .featured_nav_link {
-      margin-top: 10px;
-      }
-    .featured_nav_link a::after {
-      content: " >>";
+      margin: 10px;
       }
   
 #page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
