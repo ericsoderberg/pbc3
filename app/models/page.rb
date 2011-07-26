@@ -13,7 +13,7 @@ class Page < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Page'
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
     :order => :parent_index
-  has_many :contacts
+  has_many :contacts, :include => :user, :order => 'users.first_name ASC'
   has_many :contact_users, :through => :contacts, :source => :user,
     :order => 'users.first_name ASC'
   has_many :authorizations
