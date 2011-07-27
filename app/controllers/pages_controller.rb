@@ -28,7 +28,7 @@ class PagesController < ApplicationController
     
     respond_to do |format|
       format.js { render :json => {:results =>
-        @pages.map{|page| {:id => page.id, :name => page.name, :url => page.url}},
+        @pages.map{|page| {:id => page.id, :name => page.prefixed_name, :url => page.url}},
         :total => total}
       }
     end

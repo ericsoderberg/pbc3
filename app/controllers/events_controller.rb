@@ -4,12 +4,7 @@ class EventsController < ApplicationController
   before_filter :get_page
   
   def index
-    categorized_events = @page.categorized_events
-    if categorized_events[:all].empty?
-      redirect_to new_page_event_url(@page)
-    else
-      redirect_to edit_page_event_url(@page, categorized_events[:all].first)
-    end
+    redirect_to new_page_event_url(@page)
   end
 
   def show

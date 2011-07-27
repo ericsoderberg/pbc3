@@ -9,7 +9,7 @@ class EventsControllerTest < ActionController::TestCase
 
   test "should get index" do
     get :index, :page_id => @page.url
-    assert_redirected_to edit_page_event_path(@page, @page.events.first)
+    assert_redirected_to new_page_event_path(:page_id => @page.url)
   end
 
   test "should get new" do

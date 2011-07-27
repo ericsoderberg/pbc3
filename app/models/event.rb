@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
   end
   
   def authorized?(user)
-    return page.authorized?(user)
+    return (page and page.authorized?(user))
   end
   
   def peers

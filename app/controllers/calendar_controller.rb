@@ -53,7 +53,7 @@ class CalendarController < ApplicationController
       end
     @events = @events.delete_if do |e|
       not e.authorized?(current_user) or (@singular and e.master)
-    end
+    end unless @full
   end
 
 end
