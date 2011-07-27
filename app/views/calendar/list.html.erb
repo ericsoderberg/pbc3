@@ -19,7 +19,7 @@
     <td class="week_day"><%= event.start_at.strftime("%A") %></td>
     <td class="time"><%= event.start_at.simple_time %></td>
     <% if @full -%>
-    <td>- <%= event.stop_at.simple_time %></td>
+    <td class="time">- <%= event.stop_at.simple_time %></td>
     <% end -%>
     <td class="name"><%= link_to event.name,
       friendly_page_path(event.page) %></td>

@@ -6,39 +6,14 @@
   
   <header>
     <h1 class="active'">
-      <%= link_to @page.name, friendly_page_path(@page) %></h1>
+      <%= link_to @page.name, friendly_page_path(@page) %>
+    </h1>
     
-    <% if @page.podcast -%>
-    <div id="page_feed_control">
-      <%= link_to image_tag('feed.png'),
-        page_podcast_path(@page, :format => 'rss') -%>
-    </div>
-    <% end -%>
-    <% if (@events and not @events.empty?) or
-        (@categorized_events and not @categorized_events[:all].empty?) -%>
-      <div id="page_calendar_control">
-        <%= link_to image_tag('calendar.png'),
-          page_calendar_path(@page.nav_context) %>
-      </div>
-    <% end -%>
-    
-    <% if user_signed_in? and current_user.administrator? -%>
-      <div id="page_admin">
-        <ul>
-          <li><%= link_to 'Edit page', edit_page_path(@page) %><li>
-          <li><%= link_to 'Add page',
-            new_page_path(:parent_id => @page.id) %></li>
-        </ul>
-      </div>
-    <% end -%>
+    <%= render :partial => "pages/header_controls" %>
     
   </header>
   
-  <% if @page.style and @page.style.banner.exists? -%>
-    <div id="page_banner">
-      <%= image_tag @page.style.banner.url(:normal) %>
-    </div>
-  <% end -%>
+  <%= render :partial => 'banner' %>
   
   <% if not @page.text.empty? or
     not @page.photos.empty? or not @page.videos.empty? -%>

@@ -1183,6 +1183,9 @@ table.index td, table.index th {
   #calendar_list .name a {
     font-size: 14px;
     }
+  #calendar_list .time {
+    white-space: nowrap;
+    }
   
 #search_results {
   margin: 0px;
