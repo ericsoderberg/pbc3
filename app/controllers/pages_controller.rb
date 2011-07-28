@@ -105,6 +105,8 @@ class PagesController < ApplicationController
     @page.parent = Page.find_by_id(params[:parent_id])
     @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     @page.layout = 'regular'
+    @page.child_layout = 'header'
+    @page.aspect_order = 't,c,e,d,f,p,v,a'
     @page.style = (@page.parent ? @page.parent.style : Style.first)
     @page.private = @page.parent.private if @page.parent
     if params[:site_page]
