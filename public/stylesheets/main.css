@@ -547,7 +547,7 @@ footer {
 	#regular_content section {
 		display: table-cell;
 		width: 100%;
-		padding: 0px 30px 20px 30px;
+		padding: 0px 30px 20px 0px;
 		vertical-align: top;
 		color: #666;
 	  }
