@@ -4,42 +4,26 @@
 
 <section>
   
-  <header>
-    <h1 class="active'">
-      <%= link_to @page.name, friendly_page_path(@page) %>
-    </h1>
-    
-    <%= render :partial => "pages/header_controls" %>
-    
-  </header>
+  <%= render :partial => 'header' %>
   
   <%= render :partial => 'banner' %>
   
-  <% if not @page.text.empty? or
-    not @page.photos.empty? or not @page.videos.empty? -%>
-  <div id="landing_page_intro">
-  <div id="landing_page_text">
-    <%= raw @page.text %>
-  </div>
-  <% if not @page.photos.empty? -%>
-    <div id="landing_page_photos">
-      <%= render :partial => 'photos/viewer',
-        :locals => {:photos => @page.photos} %>
-    </div>
-  <% elsif not @page.videos.empty? -%>
-    <div id="landing_page_videos">
-      <%= render :partial => 'videos/viewer',
-        :locals => {:videos => @page.videos} %>
-    </div>
-  <% end -%>
-  </div>
-  <% end -%>
-
-  <div id="landing_page_content">
-    <ul class="sub_pages">
-      <%= render :partial => "landing_sub_page", :collection => @children %>
-    </ul>
-  </div>
-  
 </section>
 
+<ul class="landing_content primary">
+  
+  <% @page.aspect_order.split(',')[0..1].each do |aspect| -%>
+    <%= render_page_panel(@page, aspect, @chilren, @categorized_events) -%>
+  <% end -%>
+
+</ul>
+
+<%= render :partial => 'children' %>
+
+<ul class="landing_content secondary">
+  
+  <% @page.aspect_order.split(',')[2..-1].each do |aspect| -%>
+    <%= render_page_panel(@page, aspect, @chilren, @categorized_events) -%>
+  <% end -%>
+
+</ul>

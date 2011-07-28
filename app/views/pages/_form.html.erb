@@ -11,7 +11,7 @@
     </div>
   <% end %>
   
-<div id="page_content">
+<div id="regular_content">
   <section class="text_editing">
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
@@ -55,11 +55,6 @@
         <%= f.check_box :animate_banner %>
       </div>
       
-      <div class="field">
-        <%= f.label :allow_highlights?, :class => 'inline' %>
-        <%= f.check_box :highlightable %>
-      </div>
-      
       <div class="field under_construction">
         <%= f.label :email_list %><br />
         <div>under construction</div>
@@ -70,6 +65,20 @@
         <%= f.label :layout, :class => 'inline' %>
         <%= f.select :layout,
           options_for_select(Page::LAYOUTS, @page.layout) %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :child_layout, :class => 'inline' %>
+        <%= f.select :child_layout,
+          options_for_select(Page::CHILD_LAYOUTS, @page.child_layout) %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :content_order %><br />
+        <div class="help">
+          Comma separated list of (t)ext, (e)vents, (c)ontacts, (d)ocuments, (f)orms, child pa(g)es, (p)hotos, (v)ideos, (a)udio, (h)ighlights.
+        </div>
+        <%= f.text_field :aspect_order %>
       </div>
       
       <div class="field">

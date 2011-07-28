@@ -1,0 +1,11 @@
+<% if 'feature' == @page.child_layout -%>
+  <ul id="featured_nav">
+    <%= render :partial => "home/featured_page", :collection => @children %>
+  </ul>
+<% elsif 'landing' == @page.child_layout -%>
+  <div class="landing_content">
+    <ul class="sub_pages">
+      <%= render :partial => "pages/landing_sub_page", :collection => @children %>
+    </ul>
+  </div>
+<% end -%>

@@ -6,7 +6,9 @@ public:
   style: blank
   highlightable: true
   layout: regular
+  child_layout: header
   url_aliases: 'public_alias'
+  aspect_order: 't,c,e,d,f,p,v,a'
   
 private:
   name: Private
@@ -14,6 +16,8 @@ private:
   text: hi
   private: true
   layout: regular
+  child_layout: header
+  aspect_order: 't,c,e,d,f,p,v,a'
   
 sub_public:
   name: "Sub Public"
@@ -23,11 +27,15 @@ sub_public:
   parent: public
   parent_index: 1
   layout: regular
+  child_layout: header
+  aspect_order: 't,c,e,d,f,p,v,a'
 
 communities:
   name: Communities
   url: communities
   layout: landing
+  child_layout: landing
+  aspect_order: 't,c,e,d,f,p,v,a'
   
 blog:
   name: Blog
@@ -35,6 +43,7 @@ blog:
   parent: public
   parent_index: 2
   layout: blog
+  child_layout: header
   
 post:
   name: Post
@@ -42,3 +51,5 @@ post:
   parent: blog
   parent_index: 1
   layout: regular
+  child_layout: header
+  aspect_order: 't,c,e,d,f,p,v,a'

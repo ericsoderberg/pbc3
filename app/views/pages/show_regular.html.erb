@@ -10,7 +10,7 @@
   
 </section>
 
-<div id="page_content">
+<div id="regular_content">
 
   <section>
     
@@ -18,38 +18,24 @@
       <%= render :partial => 'invitations/response' %>
     <% end -%>
     
-    <div id="page_text">
+    <div id="text">
       <%= raw @page.text %>
     </div>
+    
+    <%= render :partial => "pages/children" %>
     
   </section>
 
   <aside>
     
-    <%= render :partial => 'contacts/viewer',
-      :locals => {:contacts => @page.contacts} %>
+    <ul id="regular_aside">
+      <% @page.aspect_order.split(',').each do |aspect| -%>
+        <% if not %w(t g).include?(aspect) -%>
+          <%= render_page_panel(@page, aspect, @chilren, @categorized_events) -%>
+        <% end -%>
+      <% end -%>
+    </ul>
     
-    <%= render :partial => 'email_lists/subscribe',
-      :locals => {:email_list => EmailList.find(@page.email_list)} %>
-  
-    <%= render :partial => 'events/viewer',
-      :locals => {:categorized_events => @categorized_events,
-        :no_name => false} %>
-    
-    <%= render :partial => 'documents/viewer',
-      :locals => {:documents => @page.documents} %>
-      
-    <%= render :partial => 'forms/viewer',
-      :locals => {:forms => @page.forms} %>
-    
-    <% if @page.highlightable? -%>
-    <%= render :partial => 'notes/viewer', :locals => {:notes => @page.notes} %>
-    <% end -%>
-    
-    <%= render :partial => 'photos/viewer', :locals => {:photos => @page.photos} %>
-    <%= render :partial => 'videos/viewer', :locals => {:videos => @page.videos} %>
-    <%= render :partial => 'audios/viewer', :locals => {:audios => @page.audios} %>
-  
   </aside>
   
 </div>

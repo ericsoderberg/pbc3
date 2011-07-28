@@ -5,8 +5,10 @@
   
   <%= render :partial => "pages/header_controls" %>
   
-  <ul class="nav">
-    <%= render :partial => "pages/sub_page", :collection => @children %>
-  </ul>
+  <% if 'header' == @page.child_layout -%>
+    <ul class="nav">
+      <%= render :partial => "pages/sub_page", :collection => @children %>
+    </ul>
+  <% end -%>
   
 </header>

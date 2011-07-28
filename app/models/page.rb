@@ -22,8 +22,14 @@ class Page < ActiveRecord::Base
   acts_as_audited :except => [:parent_index, :feature_index]
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
+  CHILD_LAYOUTS = ['header', 'landing', 'feature', 'panel']
+  
+  # order matters since we store an index to this array
+  CONTENT_TYPES = ['text', 'events and contacts', 'documents and forms',
+    'child pages', 'photos', 'vides', 'audios']
 
   validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
+  validates :child_layout, :presence => true, :inclusion => {:in => CHILD_LAYOUTS}
   validates :name, :presence => true
   validates :featured, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
@@ -39,6 +45,9 @@ class Page < ActiveRecord::Base
     # map old page_types to new layouts
     if %w(main leaf post).include?(self.layout)
       self.layout = 'regular'
+    end
+    if not self.child_layout
+      self.child_layout = (self.landing? ? 'landing' : 'header')
     end
   end
   
@@ -68,7 +77,7 @@ class Page < ActiveRecord::Base
   def reserved_urls
     if %w(styles resources accounts users site forms payments
       audit_logs email_lists holidays home hyper calendar search
-      authors messages series books).include?(url)
+      authors messages series books blogs forums).include?(url)
       errors.add(:name, "that url prefix + name is reserved")
     end
   end
@@ -140,12 +149,45 @@ class Page < ActiveRecord::Base
   
   def possible_aspects
     case layout
-    when 'landing', 'blog', 'forum'
+    when 'blog', 'forum'
       %w(text contacts access feature)
     else
       %w(text photos videos audios documents forms
         contacts access feature podcast events)
     end
+  end
+  
+  # aspects can be a concatenated string of characters
+  def render_aspects?(aspects, children, categorized_events)
+    aspects.split('').each do |aspect|
+      # if any match, return true
+      case aspect
+      when 't'
+        return (text and not text.empty?)
+      when 'e'
+        return (categorized_events and categorized_events.empty?)
+      when 'c'
+        return (not contacts.empty?)
+      when 'd'
+        return (not documents.empty?)
+      when 'f'
+        return (not forms.empty?)
+      when 'p'
+        return (not photos.empty?)
+      when 'v'
+        return (not videos.empty?)
+      when 'a'
+        return (not audios.empty?)
+      when 'h'
+        return true # always can show if asked for since that's where we edit (change?)
+      when 'g'
+        return ('panel' == child_layout and children and not children.empty?)
+      else
+        logger.error "Unknown page aspect: #{aspect}"
+        return false
+      end
+    end
+    return false
   end
   
   def order_children(ids)
