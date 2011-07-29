@@ -2,59 +2,45 @@
     :resource_id => @resource ? @resource.id : nil,
     :full => @full ? @full : nil,
     :singular => @singular ? @singular : nil} %>
-<header class="calendar_controls">
-  <%= link_to "<", previous_month_path(args) %>
-  <%= link_to ">", next_month_path(args) %>
-  <span id="focus_date"><%=h @date.strftime("%B %Y") %></span>
-  <div id="calendar_controls_extended" style="display:none">
-    <% if user_signed_in? and current_user.administrator? -%>
+<header id="calendar_header">
+  <h2 id="focus_date"><%=h @date.strftime("%B %Y") %></h2>
+
+  <% if (user_signed_in? and current_user.administrator?) or @full -%>
+  <div id="calendar_controls_extended">
     <%= form_tag date_search_path(args), :method => :get do %>
       <% if @page -%>
-      <%= hidden_field_tag :page_id, @page.url %>
+        <%= hidden_field_tag :page_id, @page.url %>
       <% elsif @resource -%>
-      <%= hidden_field_tag :resource_id, @resource.id %>
+        <%= hidden_field_tag :resource_id, @resource.id %>
       <% end -%>
-      From
+      Date:
       <%= text_field_tag :date, @date.strftime("%Y-%m-%d"), :size => 11 %>
-      for
+      Months:
       <%= text_field_tag :months, @months, :size => 1 %>
-      months
+      Full?:
+      <%= check_box_tag :full, 'true', @full %>
       <%= submit_tag 'go' %>
     <% end %>
-    <div id="calendar_page_chooser"></div>
-    <% end -%>
+  </div>
+  <% end -%>
+  
+  <div id="calendar_nav">
+    <%= link_to image_tag('left.png'), previous_month_path(args),
+      :class => 'icon' %> |
+    <%= link_to "Today", today_path(args) %> |
+    <%= link_to image_tag('right.png'), next_month_path(args),
+      :class => 'icon' %>
   </div>
   
-  <ul id="calendar_views">
-    <li class="<%= 'grid' == view ? 'active' : '' %>">
-      <%= link_to 'Grid',
-        calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
-    <li class="<%= 'list' == view ? 'active' : '' %>">
-      <%= link_to 'List',
-        calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
-  </ul>
+  <div id="calendar_views">
+    <ul>
+      <li class="<%= 'grid' == view ? 'active' : '' %>">
+        <%= link_to 'Grid',
+          calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
+      <li class="<%= 'list' == view ? 'active' : '' %>">
+        <%= link_to 'List',
+          calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
+    </ul>
+  </div>
+  
 </header>
-
-<%= javascript_tag do %>
-  $(function() {
-    $('#focus_date').click(function() {
-        $('#calendar_controls_extended').toggle()
-      });
-      
-    $('#calendar_page_chooser').flexbox(
-      '<%= search_pages_path(:format => :js, :date => @date) %>', {
-      hiddenValue: 'url',
-      initialDisplayValue: '<%= @page ? escape_javascript(@page.name) : '' %>',
-      initialHiddenValue: '<%= @page ? @page.url : '' %>',
-      width: 170,
-      maxCacheBytes: 0,
-      paging: {
-        pageSize: 5
-      },
-      onSelect: function() {
-        window.location.href =
-          "/" + $('#calendar_page_chooser_hidden').val() +"/calendar";
-      }
-    });
-  });
-<% end -%>

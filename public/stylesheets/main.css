@@ -405,10 +405,15 @@ footer {
       font-weight: bold;
       line-height: 21px;
       }
+      #hero_text h2 a::after {
+        content: url('/images/right.png');
+        vertical-align: baseline;
+        margin-left: 7px;
+        }
       #hero_text a::after, .featured_nav_link a::after {
-        font-family: "Wingdings 3";
-        letter-spacing: -0.2em;
-        content: " \007D\007D";
+        content: url('/images/right_small.png');
+        vertical-align: baseline;
+        margin-left: 5px;
         }
 	#hero .control, #animated_banners .control {
   	display:block;
@@ -610,7 +615,7 @@ footer {
     min-width: 100px;
     padding-right: 10px;
     }
-.field .help {
+.help {
   color: #999999;
   font-style: italic;
   margin-left: 10px;
@@ -1088,27 +1093,55 @@ table.index td, table.index th {
       list-style-type: none;
       }
 
-.calendar_controls {
+#calendar_header {
+  display: table;
   color: #666;
   font-size: 18px;
   font-weight: bold;
   }
-  .calendar_controls a {
+  #calendar_header h2 {
+    display: table-cell;
+    font-size: 18px;
+    color: #666;
+    width: 100%;
+    margin-right: 20px;
+    vertical-align: middle;
+    }
+  #calendar_header a {
     font-size: 18px;
     line-height: 28px;
     padding: 0 5px;
     }
-  .calendar_controls #focus_date {
-    margin-right: 20px;
+  #calendar_nav {
+    display: table-cell;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 18px;
+    padding-right: 20px;   
+    color: #999; 
     }
+    #calendar_nav a {
+      font-size: 16px;
+      }
+    #calendar_nav a.icon {
+      display: inline-block;
+      }
+      #calendar_nav a.icon img {
+        vertical-align: middle;
+        }
   #calendar_views {
-    float: right;
+    display: table-cell;
+    vertical-align: middle;
+    }
+  #calendar_views ul {
+    display: table;
     margin: 0;
     padding: 0;
     list-style: none;
     }
     #calendar_views li {
-      float: left;
+      display: table-cell;
+      white-space: nowrap;
       }
       #calendar_views a {
         display: block;
@@ -1142,23 +1175,32 @@ table.index td, table.index th {
     	    color: #666;
     	    background: inherit;
     	    }
+    #calendar_controls_extended {
+      display: table-cell;
+      padding-right: 20px;
+      }
+    #calendar_page_chooser {
+      display: inline-block;
+      }
 	  #calendar_controls_extended, #calendar_page_chooser {
-	    display: inline-block;
-	    vertical-align: top;
-	    padding-left: 10px;
+	    vertical-align: middle;
+	    margin: 0px 10px;
 	    font-size: 12px;
+	    white-space: nowrap;
 			}
-		.calendar_controls input, #email_lists_controls input,
+		#calendar_header input, #email_lists_controls input,
 		#email_lists_controls #search, #email_subscribe input {
 		  margin: 5px 5px;
 			padding: 3px 6px;
 			color: #666;
 			font-size: 11px;
+			vertical-align: middle;
 			}
-		.calendar_controls form, #email_lists_controls form {
+		#calendar_header form, #email_lists_controls form {
 		  display: inline-block;
 	    vertical-align: top;
 		  padding-right: 10px;
+		  vertical-align: middle;
 		  }
 		form.inline a {
     	display: inline-block;
@@ -1176,6 +1218,7 @@ table.index td, table.index th {
   		  }
   
 #calendar {
+  margin: 20px 0px;
   padding: 0px;
   border-spacing: 0px;
   width: 100%;
@@ -1250,7 +1293,12 @@ table.index td, table.index th {
   }
   #calendar_list td {
     padding-left: 10px;
+    vertical-align: top;
     color: #666;
+  }
+  #calendar_list tr.new_day td {
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
   }
   #calendar_list .day {
     font-size: 16px;

@@ -13,10 +13,20 @@
   <%= render :partial => 'controls', :locals => {:view => 'list'} %>
 
 <table id="calendar_list">
+  <% prior_day = nil -%>
   <% @events.each do |event| -%>
-  <tr>
-    <td class="day"><%= event.start_at.day.ordinalize %></td>
-    <td class="week_day"><%= event.start_at.strftime("%A") %></td>
+    <% new_day = prior_day != event.start_at.day -%>
+  <tr class="<%= new_day ? 'new_day' : '' %>">
+    <td class="day">
+      <% if new_day -%>
+        <%= event.start_at.day.ordinalize %>
+      <% end -%>
+    </td>
+    <td class="week_day">
+      <% if new_day -%>
+        <%= event.start_at.strftime("%A") %>
+      <% end -%>
+    </td>
     <td class="time"><%= event.start_at.simple_time %></td>
     <% if @full -%>
     <td class="time">- <%= event.stop_at.simple_time %></td>
@@ -35,6 +45,7 @@
     </td>
     <% end -%>
   </tr>
+  <% prior_day = event.start_at.day -%>
   <% end -%>
 </table>
 
