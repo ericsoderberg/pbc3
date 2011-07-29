@@ -165,7 +165,7 @@ class Page < ActiveRecord::Base
       when 't'
         return (text and not text.empty?)
       when 'e'
-        return (categorized_events and categorized_events.empty?)
+        return (categorized_events and not categorized_events.empty?)
       when 'c'
         return (not contacts.empty?)
       when 'd'

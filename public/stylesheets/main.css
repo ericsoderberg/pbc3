@@ -700,6 +700,14 @@ footer {
       color: #666;
       font-weight: normal;
       }
+      .events_list li:first-of-type, #documents_list li:first-of-type,
+      .edit_list li:first-of-type, #dynamic_forms_list li:first-of-type {
+   		  padding-top: 0px;
+   		  }
+   		.events_list li:last-of-type, #documents_list li:last-of-type,
+   		.edit_list li:last-of-type, #dynamic_forms_list li:last-of-type {
+   		  padding-bottom: 0px;
+   		  }
       .edit_list li.active {
         background-color: #999;
         border-radius: 3px;
