@@ -135,6 +135,9 @@ class Event < ActiveRecord::Base
         if self != peer
           peer.name = self.name
           peer.location = self.location
+          peer.featured = self.featured
+          peer.notes = self.notes
+          peer.all_day = self.all_day
           peer.align_reservations(self)
         end
         peer.save!
