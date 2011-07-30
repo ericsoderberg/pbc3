@@ -52,14 +52,16 @@ class EmailListsController < ApplicationController
 
   def edit
     @email_list = EmailList.find(params[:id])
+    @pages = Page.where(:email_list => @email_list.name)
   end
 
   def create
-    params[:email_list][:addresses] = params[:email_list][:addresses].split
     @email_list = EmailList.new(params[:email_list])
+    add_addresses = params[:add_addresses].split
 
     respond_to do |format|
-      if @email_list.save
+      if @email_list.save(current_user) and
+        @email_list.add_addresses(add_addresses)
         format.html { redirect_to(email_lists_url,
           :notice => 'Email list was successfully created.') }
         format.xml  { render :xml => @email_list, :status => :created, :location => @email_list }
@@ -76,8 +78,7 @@ class EmailListsController < ApplicationController
     remove_addresses = params[:remove_addresses].split
 
     respond_to do |format|
-      if @email_list.update_attributes(params[:email_list]) and
-        @email_list.remove_addresses(remove_addresses) and
+      if @email_list.remove_addresses(remove_addresses) and
         @email_list.add_addresses(add_addresses)
         format.html { redirect_to(email_lists_url,
           :notice => 'Email list was successfully updated.') }

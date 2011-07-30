@@ -23,6 +23,9 @@ module PagesHelper
     when 'c'
       render :partial => 'contacts/viewer',
         :locals => {:contacts => page.contacts}
+    when 'm'
+      render :partial => 'email_lists/subscribe',
+        :locals => {:email_list => page.email_list}
     when 'd'
       render :partial => 'documents/viewer',
         :locals => {:documents => page.documents}

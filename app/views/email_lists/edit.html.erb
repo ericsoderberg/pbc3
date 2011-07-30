@@ -16,10 +16,6 @@
 <% end %>
 
   <div class="field">
-    <%= label_tag :name %><br />
-    <%= text_field_tag 'email_list[name]', @email_list.name %><%= @site.email_domain %>
-  </div>
-  <div class="field">
     <%= label_tag :add_addresses %>
     <span class="help">Enter one address per line</span>
     <br />
@@ -41,6 +37,13 @@
 <% end %>
 
 <aside>
+  <h3>Pages</h3>
+  <ul id="pages">
+    <% @pages.each do |page| -%>
+      <li><%= link_to page.prefixed_name, friendly_page_path(page) %></li>
+    <% end -%>
+  </ul>
+  
   <h3>Addresses</h3>
   <ul id="email_addresses">
     <% @email_list.addresses.sort.each do |address| -%>

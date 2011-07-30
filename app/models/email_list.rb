@@ -2,9 +2,7 @@ require 'active_model'
 
 class EmailList
   include ActiveModel::Validations
-  attr_accessor :name, :addresses
-  cattr_accessor :lists
-  @@lists = []
+  attr_accessor :name, :new_record
   
   validates :name, :format => /^[^@\s]+$/
   
@@ -12,7 +10,6 @@ class EmailList
     @new_record = true
     if attributes
       @name = attributes[:name]
-      @addresses = attributes[:addresses] || []
     end
   end
   
@@ -20,9 +17,12 @@ class EmailList
     @name
   end
   
+  def addresses
+    %x(list_members #{@name}).split
+  end
+  
   def self.all
-    self.load
-    @@lists.sort{|l1, l2| l1.name <=> l2.name}
+    self.load("list_lists -b")
   end
   
   def self.find(name)
@@ -39,85 +39,59 @@ class EmailList
   end
   
   def self.find_by_address(address)
-    result = []
-    all.each do |list|
-      result << list if list.addresses.include?(address)
-    end
-    result.sort{|l1, l2| l1.name <=> l2.name}
-  end
-  
-  def update_attributes(attributes)
-    if attributes.has_key?(:name)
-      @old_name = @name
-      @name = attributes[:name]
-    end
-    @addresses = attributes[:addresses] if attributes.has_key?(:addresses)
-    save
+    self.load("find_member #{address}")
   end
   
   def self.replace_address(old_address, new_address)
-    all.each do |list|
-      if list.addresses.include?(old_address)
-        list.addresses = list.addresses.delete_if{|a| a == old_address}
-        if not list.addresses.include?(new_address)
-          list.addresses << new_address
-        end
-        list.save
-      end
-    end
+    system("clone_member -a -r #{old_address} #{new_address}")
   end
   
   def add_addresses(new_addresses)
-    new_addresses.each do |address|
-      next if address.empty?
-      next if @addresses.include?(address)
-      @addresses << address
+    if new_addresses.empty?
+      true
+    else
+      IO.popen("add_members -w n -a n -r - #{@name}", 'w') do |io|
+        io.write(new_addresses.join("\n"))
+      end
+      0 == $?
     end
-    save
   end
   
   def remove_addresses(old_addresses)
-    @addresses = @addresses.delete_if do |address|
-      old_addresses.include?(address)
+    if old_addresses.empty?
+      true
+    else
+      IO.popen("remove_members -n -N -f - #{@name}", 'w') do |io|
+        io.write(old_addresses.join("\n"))
+      end
+      0 == $?
     end
-    save
   end
   
-  def save
-    if valid?
-      File.unlink(EmailList.data_file(@old_name)) if @old_name
-      EmailList.setup
-      File.open(EmailList.data_file(@name), 'w'){|f| f.write(self.to_json)}
+  def save(user)
+    if valid? and @new_record
+      if system("newlist -q #{@name} #{user.email} #{user.name}")
+        @new_record = false
+        true
+      end
     end
   end
   
   def destroy
-    File.unlink(EmailList.data_file(@name))
+    system("rmlist -a #{@name}")
   end
   
   private
   
-  TMP_DIR_PATH = '/tmp/email_lists'
-  
-  def self.data_file(name)
-    File.join(TMP_DIR_PATH, "#{name}.json")
-  end
-  
-  def self.setup
-    Dir.mkdir(TMP_DIR_PATH) unless Dir.exists?(TMP_DIR_PATH)
-  end
-  
-  def self.load
-    @@lists = []
-    Dir.glob(File.join(TMP_DIR_PATH, '*')).each do |path|
-      File.open(path, 'r') do |file|
-        data = ActiveSupport::JSON.decode(file.read)
-        list = EmailList.new(:name => data['name'])
-        list.addresses = data['addresses']
-        @@lists << list
-      end
+  def self.load(cmd)
+    result = []
+    %x(#{cmd}).split("\n").map do |name|
+      next if name =~ /:$/ or 'mailman' == name.strip
+      list = EmailList.new(:name => name.strip)
+      list.new_record = false
+      result << list
     end
-    @@lists
+    result.sort{|l1, l2| l1.name <=> l2.name}
   end
   
 end

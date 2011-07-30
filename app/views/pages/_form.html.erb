@@ -55,9 +55,8 @@
         <%= f.check_box :animate_banner %>
       </div>
       
-      <div class="field under_construction">
+      <div class="field">
         <%= f.label :email_list %><br />
-        <div>under construction</div>
         <div id="email_list"></div>
       </div>
       
@@ -76,7 +75,9 @@
       <div class="field">
         <%= f.label :content_order %><br />
         <div class="help">
-          Comma separated list of (t)ext, (e)vents, (c)ontacts, (d)ocuments, (f)orms, child pa(g)es, (p)hotos, (v)ideos, (a)udio, (h)ighlights.
+          Comma separated list of (t)ext, (e)vents, (c)ontacts,
+          e(m)ail list, (d)ocuments, (f)orms, child pa(g)es,
+          (p)hotos, (v)ideos, (a)udio, (h)ighlights.
         </div>
         <%= f.text_field :aspect_order %>
       </div>

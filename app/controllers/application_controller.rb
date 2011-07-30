@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :get_site
   
   def administrator!
-    unless current_user and current_user.administrator
+    unless current_user and current_user.administrator?
       redirect_to root_url
       return false
     end

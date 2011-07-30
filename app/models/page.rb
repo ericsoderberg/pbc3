@@ -168,6 +168,8 @@ class Page < ActiveRecord::Base
         return (categorized_events and not categorized_events.empty?)
       when 'c'
         return (not contacts.empty?)
+      when 'm'
+        return (email_list and not email_list.empty?)
       when 'd'
         return (not documents.empty?)
       when 'f'

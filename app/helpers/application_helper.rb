@@ -41,5 +41,9 @@ module ApplicationHelper
     end
     rows
   end
+  
+  def administrator?
+    current_user and current_user.administrator?
+  end
       
 end
