@@ -48,7 +48,12 @@
   <ul id="email_addresses">
     <% @email_list.addresses.sort.each do |address| -%>
       <li>
-        <%= address %>
+        <% user = User.find_by_email(address) -%>
+        <% if user -%>
+          <%= link_to address, edit_account_path(user) %>
+        <% else -%>
+          <%= address %>
+        <% end -%>
         <div id="<%= address %>" class="email_address_remover">remove</div>
       </li>
     <% end -%>

@@ -9,12 +9,36 @@ class AccountsController < ApplicationController
       @users = [current_user]
     end
   end
+  
+  def new
+    @user = User.new
+  end
 
   def edit
     @user = User.find(params[:id])
     unless @user == current_user || current_user.administrator
       redirect_to root_url
       return
+    end
+  end
+  
+  def create
+    params[:user][:first_name], params[:user][:last_name] =
+      params[:user][:name].split(' ', 2)
+    params[:user].delete(:name)
+    @user = User.new(params[:user])
+    @user.password = SecureRandom.base64(12);
+    @user.password_confirmation = @user.password
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(accounts_url,
+          :notice => 'Account was successfully created.') }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
     end
   end
   

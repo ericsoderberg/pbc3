@@ -1,0 +1,40 @@
+<section>
+  
+  <header>
+    <h1>Add Account</h1>
+  </header>
+  
+  <%= form_for(@user, :url => accounts_path) do |f| %>
+    <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this account from being saved:</h2>
+
+        <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div id="regular_content">
+      <section>
+        <div class="field">
+          <%= f.label :name %><br />
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.text_field :email %>
+        </div>
+      
+      </section>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+      | <%= link_to 'Cancel', accounts_path %>
+    </div>
+  <% end %>
+  
+</section>

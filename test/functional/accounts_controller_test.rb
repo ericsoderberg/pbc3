@@ -10,6 +10,19 @@ class AccountsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+  
+  test "should get new" do
+    get :new
+    assert_response :success
+  end
+  
+  test "should create account" do
+    assert_difference('User.count') do
+      post :create, :user => {:name => 'Test User', :email => "test@email.com"}
+    end
+
+    assert_redirected_to accounts_path
+  end
 
   test "should get edit" do
     get :edit, :id => @user.id
