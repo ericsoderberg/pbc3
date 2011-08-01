@@ -59,9 +59,10 @@ class FilledFormsController < ApplicationController
     populate_filled_fields
 
     respond_to do |format|
-      if @filled_form.save
+      if @filled_form.save and
+        FormMailer.form_email(@filled_form).deliver
         format.html { redirect_to(edit_form_fill_path(@form, @filled_form),
-          :notice => 'Filled form was successfully created.') }
+          :notice => "#{@form.name} was successfully submitted.") }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else
         format.html { render :action => "new" }
@@ -77,9 +78,10 @@ class FilledFormsController < ApplicationController
     populate_filled_fields
 
     respond_to do |format|
-      if @filled_form.save
+      if @filled_form.save and
+        FormMailer.form_email(@filled_form).deliver
         format.html { redirect_to(edit_form_fill_path(@form, @filled_form),
-          :notice => 'Filled form was successfully updated.') }
+          :notice => "#{@form.name} was successfully updated.") }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
