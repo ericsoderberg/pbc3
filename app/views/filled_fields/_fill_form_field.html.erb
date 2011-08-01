@@ -1,4 +1,5 @@
-<%= content_tag_for(:li, fill_form_field) do %>
+<%= content_tag_for(:li, fill_form_field,
+  :class => "#{fill_form_field.field_type}") do %>
   <% filled_field = @filled_form.filled_fields.detect{|ff|
       fill_form_field == ff.form_field}
     value = filled_field ? filled_field.value : ''
@@ -8,6 +9,7 @@
     <%= fill_form_field.name %>
   </div>
   
+  <div class="form_field_value">
   <% case fill_form_field.field_type -%>
     <% when FormField::FIELD -%>
       <%= text_field_tag html_id, value, :size => fill_form_field.size %>
@@ -48,5 +50,6 @@
   
   <div class="form_field_help">
     <%= fill_form_field.help %>
+  </div>
   </div>
 <% end %>
