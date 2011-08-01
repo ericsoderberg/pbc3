@@ -516,9 +516,10 @@ footer {
   float: right;
 	margin: 0;
 	margin-left: 20px;
+  vertical-align: middle;
   }
   #page_admin, #page_feed_control, #page_calendar_control {
-    /*margin-top: 10px;*/
+    margin-top: 10px;
     }
   #page_admin ul {
     display: inline-block;
@@ -737,6 +738,10 @@ footer {
       .edit_list a .event_range, .edit_list a .role {
         color: #333;
         }
+  #contacts_list .contact_name {
+    display: inline-block;
+    min-width: 120px;
+    }
   #add_content {
     padding: 0px 20px;
     }
