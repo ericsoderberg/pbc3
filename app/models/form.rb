@@ -40,9 +40,9 @@ class Form < ActiveRecord::Base
       filled_field = filled_form.filled_fields.build
       filled_field.form_field = form_field
       filled_field.value = ''
-      if FormField::SINGLE_CHOICE == form_field.field_type
+      if FormField::SINGLE_CHOICE == form_field.field_type and
+        not form_field.form_field_options.empty?
         filled_field.value = form_field.form_field_options.first.name
-        logger.info "!!! start #{filled_field} with #{filled_field.value}"
       end
     end
     filled_form

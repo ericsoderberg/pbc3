@@ -666,12 +666,9 @@ footer {
   display: table;
   border-spacing: 0px;
   width: 100%;
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
   padding: 0px;
   }
-#contacts {
-	margin-bottom: 10px;
-	}
   #events h2, #documents h2, #dynamic_forms h2, #contacts h2, #subscribe h2 {
     display: table-cell;
     font-size: 14px;
@@ -764,9 +761,12 @@ footer {
     font-size: 20px;
     font-weight: normal;
     }
-  #text blockquote {
-    font-style: italic;
-    }
+#text blockquote {
+  font-style: italic;
+  }
+#text a {
+  font-size: inherit;
+  }
     
 .gallery, .library {
   clear: both;
@@ -864,18 +864,18 @@ footer {
   }
 
 /* http://www.ie7nomore.com/fun/slideshow/#slide1 */
-#slideshow, #slides_slide {
+#slideshow, #slides_slide, #slides_slide li {
   width: 400px;
 	height: 300px;
   }
-.secondary #slideshow, .secondary #slides_slide {
+.secondary #slideshow, .secondary #slides_slide, .secondary #slides_slide li {
   width: 313px;
 	height: 235px;
   }
 #slides_slide li img {
   height: 300px;
   }
-.secondary n#slides_slide li img {
+.secondary #slides_slide li img {
   height: 240px;
   }
 #slideshow {
