@@ -54,7 +54,8 @@ Pbc3::Application.routes.draw do
   
   # Redirect to SSL from non-SSL so you don't get 404s
   # Repeat for any custom Devise routes
-  %w(users accounts forms site payments audit_logs).each do |area|
+  %w(users accounts forms site payments audit_logs email_lists
+    holidays).each do |area|
     match "/#{area}(/*path)", :to => redirect { |_, request|
       "https://" + request.host_with_port + request.fullpath }
   end
