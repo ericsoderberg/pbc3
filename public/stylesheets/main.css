@@ -557,13 +557,16 @@ footer {
 		color: #666;
 	  }
 	
-	#regular_content aside {
+	#regular_aside {
 		display: table-cell;
 		width: 400px;
 	  }
-	#regular_content aside .form {
+	#regular_aside .form {
 	  width: 300px;
 	  }
+	  #regular_aside #dynamic_forms_list .form {
+	    width: auto;
+	    }
 	
 #add_content {
   margin: 20px 0px;
