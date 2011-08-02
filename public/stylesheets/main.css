@@ -208,6 +208,10 @@ header {
     #site_header div#auth ul li:first-of-type {
       border: none;
     }
+      #site_header div#auth img {
+        height: 22px;
+        vertical-align: middle;
+        }
       #site_header div#auth ul li a, form.inline a {
     		display: block;
     		padding-right: 5px;
@@ -519,7 +523,7 @@ footer {
   vertical-align: middle;
   }
   #page_admin, #page_feed_control, #page_calendar_control {
-    margin-top: 10px;
+    margin-top: 10px;A
     }
   #page_admin ul {
     display: inline-block;
@@ -1072,6 +1076,9 @@ table.index td, table.index th {
 		text-align: left;
 		color: #666;
 		}
+#users td {
+  vertical-align: top;
+  }
 #users .first_name {
   text-align: right;
   padding-right: 2px;
@@ -1079,6 +1086,20 @@ table.index td, table.index th {
 #users .administrator {
   color: #999;
   }
+  #users .account_pages {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    }
+    #users .account_pages li {
+      display: inline-block;
+      }
+      #users .account_pages li:after {
+        content: ", ";
+      }
+      #users .account_pages li:last-of-type:after {
+        content: "";
+      }
 
 #communities {
   list-style-type: none;

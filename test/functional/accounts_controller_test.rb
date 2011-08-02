@@ -20,7 +20,9 @@ class AccountsControllerTest < ActionController::TestCase
     assert_difference('User.count') do
       post :create, :user => {:name => 'Test User', :email => "test@email.com"}
     end
-
+    
+    assert_equal 'Test', assigns(:user).first_name
+    assert_equal 'User', assigns(:user).last_name
     assert_redirected_to accounts_path
   end
 

@@ -19,8 +19,11 @@
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
-          <li><%= link_to current_user.email,
-            edit_account_url(current_user, :protocol => 'https') %></li>
+          <li>
+          <%= link_to (current_user.avatar.exists? ?
+              (image_tag current_user.avatar.url(:normal)) : current_user.email),
+            edit_account_url(current_user, :protocol => 'https') %>
+          </li>
           <li><%= link_to "Sign out",
             destroy_user_session_url(:protocol => 'https') %></li>
         </ul>

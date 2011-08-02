@@ -23,6 +23,13 @@
         administrator
       <% end -%>
     </td>
+    <td>
+      <ul class="account_pages">
+      <% user.contact_pages.each do |page| -%>
+        <li><%= link_to page.prefixed_name, friendly_page_path(page) %></li>
+      <% end -%>
+      </ul>
+    </td>
   </tr>
 <% end %>
   </tbody>

@@ -23,9 +23,9 @@ class AccountsController < ApplicationController
   end
   
   def create
-    params[:user][:first_name], params[:user][:last_name] =
-      params[:user][:name].split(' ', 2)
-    params[:user].delete(:name)
+    #params[:user][:first_name], params[:user][:last_name] =
+    #  params[:user][:name].split(' ', 2)
+    #params[:user].delete(:name)
     @user = User.new(params[:user])
     @user.password = SecureRandom.base64(12);
     @user.password_confirmation = @user.password
@@ -49,9 +49,9 @@ class AccountsController < ApplicationController
       return
     end
     
-    params[:user][:first_name], params[:user][:last_name] =
-      params[:user][:name].split(' ', 2)
-    params[:user].delete(:name)
+    #params[:user][:first_name], params[:user][:last_name] =
+    #  params[:user][:name].split(' ', 2)
+    #params[:user].delete(:name)
     @user.avatar = nil if params[:delete_avatar]
     @user.portrait = nil if params[:delete_portrait]
 

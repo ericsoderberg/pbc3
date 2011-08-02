@@ -3,17 +3,20 @@ generic:
   email: 'generic@localhost'
   first_name: 'Generic'
   last_name: 'User'
+  name: 'Generic User'
   administrator: false
   
 special:
   email: 'special@localhost'
   first_name: 'Special'
   last_name: 'User'
+  name: 'Special User'
   administrator: false
   
 admin:
   email: 'admin@localhost'
   first_name: 'Admin'
   last_name: 'User'
+  name: 'Admin User'
   administrator: true
   
