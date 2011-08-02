@@ -649,13 +649,13 @@ footer {
   display: table;
   border-spacing: 20px;
   border-style: hidden;
-  margin: -20px -20px 0px -20px;
+  margin: 0px -20px 0px -20px;
   padding: 0px;
   width: 1020px;
   list-style: none;
   }
   .landing_content.primary {
-    margin-top: -20px;
+    margin-top: 0px;
     }
   .landing_content > li {
     display: table-cell;
