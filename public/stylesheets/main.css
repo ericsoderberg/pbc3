@@ -36,31 +36,31 @@ h1 {
 
 h2 {
 	font-size: 28px;
-	line-height: 44px;
-	padding: 22px 0;
+	line-height: 28px;
+	margin: 15px 0;
   }
 
 h3 {
 	font-size: 18px;
 	line-height: 22px;
-	padding: 11px 0;
+	margin: 15px 0;
   }
 
 a {
   text-decoration: none;
-  color: #D44302; /*#e59e24;*/
-  font-size: 12px;
+  color: #0b6199; /*#ba5532; #D44302; #e59e24;*/
+  font-size: 14px;
   font-weight: bold;
   }
 
 a:hover {
+  opacity: 0.5;
   background-color: inherit;
-  text-decoration: underline;
   }
 
 p {
   margin: 0;
-	padding-bottom: 22px;
+	margin-bottom: 15px;
   }
 
 header {
@@ -87,7 +87,7 @@ header {
     }
   header h1 a {
     text-align: center;
-    font-size: 18px;
+    font-size: 30px;
 	  text-decoration: none;
 	  color: #999;
   }
@@ -96,7 +96,7 @@ header {
     color: #000;
   }
   header h1.active a {
-    color: #666;
+    color: #000;
     background: inherit;
   }
   header ul.nav {
@@ -114,7 +114,7 @@ header {
   		  display: block;
   		  padding-right: 15px;
   		  padding-left: 15px;
-  		  font-size: 14px;
+  		  font-size: 16px;
   		  font-weight: bold;
   		  line-height: 28px;
   		  text-align: center;
@@ -141,7 +141,7 @@ header {
 		  }
   	
   	  header ul.nav li.active a, .edit_list li.active a {
-  	    color: #666;
+  	    color: #000;
   	  }
   	  header ul.nav li.active a:hover, .edit_list li.active a:hover {
   	    color: #666;
@@ -202,7 +202,7 @@ header {
 
     #site_header div#auth ul li {
   	  display: table-cell;;
-  	  border-left: 1px solid #999;
+  	  border-left: 1px solid #ccc;
     }
 
     #site_header div#auth ul li:first-of-type {
@@ -393,7 +393,7 @@ footer {
 		position: relative;
     vertical-align: top;
 		margin-left: 530px;
-    padding: 20px 100px 20px 40px;
+    padding: 40px 100px 40px 40px;
     font-size: 14px;
     line-height: 22px;
 		z-index: 3;
@@ -420,27 +420,27 @@ footer {
         margin-left: 5px;
         }
 	#hero .control, #animated_banners .control {
-  	display:block;
-  	width:77px;
-  	text-indent:-10000px;
-  	position:absolute;
+  	display: block;
+  	width: 77px;
+  	text-indent: -10000px;
+  	position: absolute;
   	cursor: pointer;
 		}
 	#hero .control {
-  	height:445px;	  
+  	height: 445px;	  
 	}
 	#animated_banners .control {
-	  height:245px;
+	  height: 245px;
 	}
 		#hero_left_control, #banner_left_control {
-  		top:0;
-  		left:0;
+  		top: 0px;
+  		left: 40px;
   		background:transparent url(/images/control_left.png) no-repeat scroll center;
 			}
 		#hero_right_control, #banner_right_control {
-  		top:0;
-  		right:0;
-  		background:transparent url(/images/control_right.png) no-repeat scroll center;
+  		top: 0px;
+  		right: 40px;
+  		background: transparent url(/images/control_right.png) no-repeat scroll center;
 			}
 		#hero_left_control, #hero_right_control,
 		#banner_left_control, #banner_right_control {
@@ -506,14 +506,14 @@ footer {
 			text-decoration: none;
       }
     .featured_nav_phrase {
-      margin: 10px;
+      margin: 10px 10px 0px 10px;
 			font-size: 14px;
+			max-height: 44px;
 			color: #666;
-			height: 40px;
 			overflow: hidden;
       }
     .featured_nav_link {
-      margin: 10px;
+      margin: 0px 10px;
       }
   
 #page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
@@ -649,13 +649,13 @@ footer {
   display: table;
   border-spacing: 20px;
   border-style: hidden;
-  margin: 0px -20px;
+  margin: -20px -20px 0px -20px;
   padding: 0px;
   width: 1020px;
   list-style: none;
   }
   .landing_content.primary {
-    margin-top: 0px;
+    margin-top: -20px;
     }
   .landing_content > li {
     display: table-cell;
@@ -679,8 +679,8 @@ footer {
   }
   #events h2, #documents h2, #dynamic_forms h2, #contacts h2, #subscribe h2 {
     display: table-cell;
-    font-size: 14px;
-		line-height: 14px;
+    font-size: 16px;
+		line-height: 16px;
     color: #999;
     width: 90px;
     margin: 0px;
@@ -689,7 +689,7 @@ footer {
     }
 		#events h2 img, #contacts img {
 			vertical-align: text-bottom;
-			margin-left: 10px;
+			margin-right: 10px;
 		}
   .events_list, #documents_list, .edit_list, #dynamic_forms_list, #contacts_list,
   #email_subscribe {
@@ -744,7 +744,6 @@ footer {
         }
   #contacts_list .contact_name {
     display: inline-block;
-    min-width: 120px;
     }
   #add_content {
     padding: 0px 20px;
@@ -762,14 +761,14 @@ footer {
   padding: 0px 20px;
 }
 #text p, #text h1, #text h2 {
-  margin: 0px;
+  margin: 0px 0px 15px 0px;
   padding: 0px;
   }
-  #text h1 {
-    font-size: 26px;
+  #text h2 {
+    font-size: 24px;
     font-weight: normal;
     }
-  #text h2 {
+  #text h3 {
     font-size: 20px;
     font-weight: normal;
     }
@@ -1462,6 +1461,31 @@ div.actions {
 				background-color: #ccc;
 				text-decoration: none;
 		    }
+		    
+.landing_content #child_pages {
+  padding: 20px;
+  background-color: #e4e4e4;
+  }
+  .landing_content #child_pages h2 {
+    color: #666;
+    font-size: 24px;
+    margin: 15px 0px;
+    padding: 0px 0px 15px 0px;
+    border-bottom: 1px solid #bbb;
+    }
+  #child_pages #pages_list {
+    margin: 0px;
+    padding: 0px;
+    border-spacing: 0px;
+    }
+    #child_pages #pages_list td {
+      width: 220px;
+      padding: 0px;
+      }
+    #child_pages #pages_list a {
+      font-size: 16px;
+      line-height: 28px;
+      }
 
 #breadcrumbs {
 	text-align: right;

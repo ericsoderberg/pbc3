@@ -12,18 +12,23 @@
 
 <ul class="landing_content primary">
   
-  <% @page.aspect_order.split(',')[0..1].each do |aspect| -%>
-    <%= render_page_panel(@page, aspect, @chilren, @categorized_events) -%>
+  <% @aspects[0..1].each do |aspect| -%>
+    <%= render_page_panel(@page, aspect, @children, @categorized_events) -%>
   <% end -%>
 
 </ul>
 
 <%= render :partial => 'children' %>
 
+<% if @aspects.length > 2 -%>
 <ul class="landing_content secondary">
   
-  <% @page.aspect_order.split(',')[2..-1].each do |aspect| -%>
-    <%= render_page_panel(@page, aspect, @chilren, @categorized_events) -%>
+  <% @aspects[2..-1].each do |aspect| -%>
+    <%= render_page_panel(@page, aspect, @children, @categorized_events) -%>
+  <% end -%>
+  <% ((@aspects.length+1)..5).each do -%>
+    <li class="panel"></li>
   <% end -%>
 
 </ul>
+<% end -%>

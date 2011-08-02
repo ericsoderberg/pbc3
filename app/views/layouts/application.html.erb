@@ -19,6 +19,11 @@
     <div id="auth">
       <% if user_signed_in? -%>
         <ul>
+          <% if current_user.administrator? -%>
+            <li>
+              <%= link_to image_tag('admin.png'), pages_path %>
+            </li>
+          <% end -%>
           <li>
           <%= link_to (current_user.avatar.exists? ?
               (image_tag current_user.avatar.url(:normal)) : current_user.email),
@@ -39,7 +44,10 @@
   </header>
   
   <nav id="site_nav">
-    <ul>  
+    <ul>
+      <li class="<%= (@page and @site and
+        @page.root == @site.about_page) ? 'active' : '' %>">
+        <%= link_to "About", about_path %></li>
       <li class="<%= (@page and @site and
         @page.root == @site.communities_page) ? 'active' : '' %>">
         <%= link_to "Communities", communities_path %></li>
@@ -49,14 +57,6 @@
         @authors or @author or @books or @book) ?
         'active' : '' %>">
         <%= link_to 'Message Library', messages_path %></li>  
-      <li class="<%= (@page and @site and
-        @page.root == @site.about_page) ? 'active' : '' %>">
-        <%= link_to "About", about_path %></li>
-      <% if user_signed_in? and current_user.administrator? -%>
-        <li class="<%= ((@pages or @users or @styles or
-          @resources or @audit_logs or @email_lists) and not @event) ? 'active' : '' %>">
-          <%= link_to "Admin", pages_path %></li>
-      <% end -%>
     </ul>
     <form action="<%= search_path %>">
       <input name="q" id="search" type="search" required 

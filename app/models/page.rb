@@ -158,6 +158,12 @@ class Page < ActiveRecord::Base
     end
   end
   
+  def visible_aspects(children, categorized_events)
+    aspect_order.split(',').delete_if do |aspects|
+      not render_aspects?(aspects, children, categorized_events)
+    end
+  end
+  
   # aspects can be a concatenated string of characters
   def render_aspects?(aspects, children, categorized_events)
     aspects.split('').each do |aspect|
@@ -166,7 +172,8 @@ class Page < ActiveRecord::Base
       when 't'
         return (text and not text.empty?)
       when 'e'
-        return (categorized_events and not categorized_events.empty?)
+        return (categorized_events and not categorized_events.empty? and
+          not categorized_events[:all].empty?)
       when 'c'
         return (not contacts.empty?)
       when 'm'

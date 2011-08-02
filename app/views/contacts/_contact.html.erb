@@ -1,4 +1,4 @@
 <%= content_tag_for(:li, contact) do %>
-  <div class="contact_name"><%= contact.user.name %></div>
   <%= link_to image_tag('mail.png'), email_page_contact_path(@page, contact) %>
+  <div class="contact_name"><%= contact.user.name %></div>
 <% end %>

@@ -2,6 +2,7 @@ module PagesHelper
   
   def render_page_panel(page, aspects, children, categorized_events)
     if page.render_aspects?(aspects, children, categorized_events)
+      logger.info "!!! render #{aspects}"
       content_tag(:li, :class => 'panel') do
         raw (aspects.split('').map{|aspect|
           render_page_aspect(page, aspect, children, categorized_events)
