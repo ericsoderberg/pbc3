@@ -523,7 +523,7 @@ footer {
   vertical-align: middle;
   }
   #page_admin, #page_feed_control, #page_calendar_control {
-    margin-top: 10px;A
+    margin-top: 10px;
     }
   #page_admin ul {
     display: inline-block;
@@ -1222,6 +1222,7 @@ table.index td, table.index th {
 	    vertical-align: middle;
 	    margin: 0px 10px;
 	    font-size: 12px;
+	    font-weight: normal;
 	    white-space: nowrap;
 			}
 		#calendar_header input, #email_lists_controls input,
@@ -1231,6 +1232,9 @@ table.index td, table.index th {
 			color: #666;
 			font-size: 11px;
 			vertical-align: middle;
+			box-shadow: none;
+  		-moz-box-shadow: none;
+  		-webkit-box-shadow: none;
 			}
 		#calendar_header form, #email_lists_controls form {
 		  display: inline-block;
