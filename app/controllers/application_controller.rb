@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_site
+  before_filter :get_communities
   
   def administrator!
     unless current_user and current_user.administrator?
@@ -16,6 +17,10 @@ class ApplicationController < ActionController::Base
   
   def get_site
     @site = Site.first
+  end
+  
+  def get_communities
+    @communities = (@site ? @site.communities_page.children : [])
   end
   
 end
