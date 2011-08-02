@@ -478,12 +478,12 @@ footer {
 	}
 		#hero_left_control, #banner_left_control {
   		top: 0px;
-  		left: 40px;
+  		left: 20px;
   		background:transparent url(/images/control_left.png) no-repeat scroll center;
 			}
 		#hero_right_control, #banner_right_control {
   		top: 0px;
-  		right: 40px;
+  		right: 20px;
   		background: transparent url(/images/control_right.png) no-repeat scroll center;
 			}
 		#hero_left_control, #hero_right_control,
