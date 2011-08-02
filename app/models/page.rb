@@ -41,6 +41,7 @@ class Page < ActiveRecord::Base
   validate :reserved_urls
   
   before_validation do
+    self.featured = false unless self.style_id
     self.feature_index = nil if not featured?
     # map old page_types to new layouts
     if %w(main leaf post).include?(self.layout)

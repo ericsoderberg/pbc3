@@ -3,6 +3,10 @@
   <%= render :partial => 'pages/edit_header',
     :locals => {:active_aspect => 'feature'} %>
   
-  <%= render 'form' %>
+  <% if @page.style -%>
+    <%= render 'form' %>
+  <% else -%>
+    <p class="help">You must set a style for the page in order to feature it.</p>
+  <% end -%>
   
 </section>
