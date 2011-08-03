@@ -459,8 +459,8 @@ footer {
       }
       #hero_text a::after, .featured_nav_link a::after {
         content: url('/images/right_small.png');
+        margin-left: 1px;
         vertical-align: baseline;
-        margin-left: 3px;
         }
         #hero_text h2 a::after {
           content: '';
