@@ -64,7 +64,7 @@ p {
   }
 
 header {
-  margin: 20px 0px;
+  margin: 35px 0px 15px 0px;
   }
   header h1, header h2, header h3 {
     display: inline-block;
@@ -78,6 +78,7 @@ header {
     }
   header h1 {
     font-size: 18px;
+    line-height: 18px;
     }
   header h2 {
     font-size: 14px;
@@ -87,7 +88,7 @@ header {
     }
   header h1 a {
     text-align: center;
-    font-size: 30px;
+    font-size: 28px;
 	  text-decoration: none;
 	  color: #999;
   }
@@ -674,7 +675,7 @@ footer {
   }
   
 #regular_content {
-  margin-top: 20px;
+  margin-top: 30px;
   }
   
 #regular_aside {
@@ -688,6 +689,10 @@ footer {
     width: 400px;
     margin-bottom: 20px;
     }
+    
+.regular_top, .landing_top {
+  margin: 20px 0px;
+  }
   
 .landing_content {
   display: table;
@@ -699,7 +704,7 @@ footer {
   list-style: none;
   }
   .landing_content.primary {
-    margin-top: 0px;
+    margin-top: -20px;
     }
   .landing_content > li {
     display: table-cell;
@@ -733,7 +738,7 @@ footer {
     }
 		#events h2 img, #contacts img {
 			vertical-align: text-bottom;
-			margin-right: 10px;
+			margin-right: 0px;
 		}
   .events_list, #documents_list, .edit_list, #dynamic_forms_list, #contacts_list,
   #email_subscribe {
@@ -1181,7 +1186,7 @@ table.index td, table.index th {
   }
   #calendar_header h2 {
     display: table-cell;
-    font-size: 18px;
+    font-size: 28px;
     color: #666;
     width: 100%;
     margin-right: 20px;
@@ -1201,7 +1206,8 @@ table.index td, table.index th {
     color: #999; 
     }
     #calendar_nav a {
-      font-size: 16px;
+      font-size: 24px;
+      font-weight: normal;
       }
     #calendar_nav a.icon {
       display: inline-block;
@@ -1511,14 +1517,16 @@ div.actions {
 		    }
 		    
 .landing_content #child_pages {
-  padding: 20px;
+  padding: 30px 50px 40px 30px;
   background-color: #e4e4e4;
   }
   .landing_content #child_pages h2 {
     color: #666;
     font-size: 24px;
-    margin: 15px 0px;
-    padding: 0px 0px 15px 0px;
+    line-height: 24px;
+    font-weight: normal;
+    margin: 0px 0px 15px 0px;
+    padding: 0px 0px 10px 0px;
     border-bottom: 1px solid #bbb;
     }
   #child_pages #pages_list {
