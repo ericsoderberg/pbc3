@@ -433,7 +433,7 @@ footer {
 		width:960px;
 		overflow: hidden;
 		}
-#hero:hover, #animated_banners:hover {
+#hero:hover, #animated_banners:hover, #animated_banners a:hover {
   opacity: 1.0;
   }
   #hero_text {
@@ -564,31 +564,38 @@ footer {
   
 #page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
   float: right;
+  display: block;
 	margin: 0;
-	margin-left: 20px;
+	height: 32px;
+	line-height: 32px;
   vertical-align: middle;
   }
-  #page_admin, #page_feed_control, #page_calendar_control {
-    margin-top: 10px;
+  #page_feed_control, #page_calendar_control {
+    margin-left: 15px;
     }
   #page_admin ul {
-    display: inline-block;
     list-style-type: none;
     margin: 0px;
     padding: 0px;
+    vertical-align: baseline;
     }
     #page_admin ul li {
       float: left;
+      height: 32px;
     }
   #page_admin a {
     display: block;
 	  color: #bbb;
     font-weight: bold;
+    vertical-align: baseline;
     }
     #page_admin a:hover {
       color: #333;
       background-color: inherit;
       }
+  #page_feed_control img, #page_calendar_control img {
+    vertical-align: middle;
+    }
 
 #page_banner {
   height: 245px;

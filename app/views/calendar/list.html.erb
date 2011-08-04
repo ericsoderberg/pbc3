@@ -3,11 +3,15 @@
 <section>
   
   <% if @page -%>
-    <%= render :partial => 'pages/header',
-      :locals => {:active_aspect => 'calendar'} %>
+    <header>
+      <h1 class="active">
+        <%= link_to @page.name, friendly_page_path(@page) %></h1>
+    </header>
   <% elsif @resource -%>
-    <%= render :partial => 'resources/header',
-      :locals => {:active_aspect => 'calendar'} %>
+    <header>
+      <h1 class="active">
+        <%= link_to @resource.name, resource_path(@resource) %></h1>
+    </header>
   <% end -%>
   
   <%= render :partial => 'controls', :locals => {:view => 'list'} %>
