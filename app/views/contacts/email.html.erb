@@ -1,25 +1,30 @@
-<div id="send_email">
-<header>
-<h2>Send email to <%= @contact.user.name %></h2>
-</header>
+<% title("Contact #{@contact.user.name}") -%>
 
+<div id="send_email">
 <%= form_tag send_email_page_contact_path(@page, @contact) do %>
 
-  <div class="field">
-    <%= label_tag :your_name %><br />
-    <%= text_field_tag 'name', '', :size => 40 %>
+  <div id="addressing">
+  <div id="contact_name" class="field">
+    <%= label_tag :to %>
+    <%= text_field_tag 'contact', @contact.user.name, :size => 30,
+      :enabled => false %>
   </div>
-  <div class="field">
-    <%= label_tag :your_email_address %><br />
-    <%= text_field_tag 'email_address', '', :size => 40 %>
+  <div id="senders_name" class="field">
+    <%= label_tag :from %>
+    <%= text_field_tag 'name', '', :size => 30 %>
   </div>
-  <div class="field">
-    <%= label_tag :message %><br />
-    <%= text_area_tag 'message', '', :size => '40x10' %>
+  <div id="senders_email" class="field">
+    <%= label_tag :return_email %>
+    <%= text_field_tag 'email_address', '', :size => 30 %>
   </div>
-  <div class="actions">
-    <%= submit_tag 'Send' %>
-    | <%= link_to 'Cancel', friendly_page_path(@page) %>
+  </div>
+  <div id="messaging" class="field">
+    <%= label_tag :message %>
+    <%= text_area_tag 'message', '', :size => '40x12' %>
+  </div>
+  <div id="delivery">
+  <%= submit_tag 'Send' %>
+  <%= link_to 'Cancel', friendly_page_path(@page), :id => 'cancel_email' %>
   </div>
   
 <% end %>
