@@ -1,10 +1,12 @@
 <% args = {:page_id => @page ? @page.url : nil,
     :resource_id => @resource ? @resource.id : nil,
     :full => @full ? @full : nil,
+    :months => @months ? @months : nil,
     :singular => @singular ? @singular : nil} %>
 <header id="calendar_header">
   <h2 id="focus_date"><%=h @date.strftime("%B %Y") %></h2>
 
+  <div id="calendar_controls">
   <% if (user_signed_in? and current_user.administrator?) or @full -%>
   <div id="calendar_controls_extended">
     <%= form_tag date_search_path(args), :method => :get do %>
@@ -13,11 +15,11 @@
       <% elsif @resource -%>
         <%= hidden_field_tag :resource_id, @resource.id %>
       <% end -%>
-      Date:
+      <%= label_tag :date %>
       <%= text_field_tag :date, @date.strftime("%Y-%m-%d"), :size => 11 %>
-      Months:
+      <%= label_tag :months %>
       <%= text_field_tag :months, @months, :size => 1 %>
-      Full?:
+      <%= label_tag :full? %>
       <%= check_box_tag :full, 'true', @full %>
       <%= submit_tag 'go' %>
     <% end %>
@@ -25,10 +27,10 @@
   <% end -%>
   
   <div id="calendar_nav">
-    <%= link_to image_tag('left.png'), previous_month_path(args),
+    <%= link_to image_tag('left_small.png'), previous_month_path(args),
       :class => 'icon' %>
     <%= link_to "Today", today_path(args) %>
-    <%= link_to image_tag('right.png'), next_month_path(args),
+    <%= link_to image_tag('right_small.png'), next_month_path(args),
       :class => 'icon' %>
   </div>
   
@@ -41,6 +43,7 @@
         <%= link_to 'List',
           calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
     </ul>
+  </div>
   </div>
   
 </header>

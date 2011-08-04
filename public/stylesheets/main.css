@@ -1182,42 +1182,51 @@ table.index td, table.index th {
 #calendar_header {
   display: table;
   color: #666;
+  width: 100%;
   font-size: 18px;
   font-weight: bold;
   }
-  #calendar_header h2 {
+  #calendar_header #focus_date {
     display: table-cell;
     font-size: 28px;
     color: #666;
-    width: 100%;
     margin-right: 20px;
     vertical-align: middle;
     }
   #calendar_header a {
-    font-size: 18px;
-    line-height: 28px;
     padding: 0 5px;
     }
-  #calendar_nav {
+  #calendar_header #calendar_controls {
     display: table-cell;
+    text-align: right;
+    }
+  #calendar_nav {
+    display: inline-block;
     white-space: nowrap;
     vertical-align: middle;
-    font-size: 18px;
-    padding-right: 20px;   
-    color: #999; 
+    font-size: 16px;
+    line-height: 20px;
+    height: 20px;
+    margin: 0px 20px;   
+    color: #999;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#f6f6f6));
+    background: -moz-linear-gradient(100% 100% 90deg, #ffffff, #f6f6f6);
     }
     #calendar_nav a {
-      font-size: 24px;
       font-weight: normal;
+      vertical-align: baseline;
+      padding: 0px 10px;
       }
-    #calendar_nav a.icon {
-      display: inline-block;
-      }
-      #calendar_nav a.icon img {
-        vertical-align: middle;
+      #calendar_nav a:first-of-type {
+        border-right: 1px solid #eee;
+        }
+      #calendar_nav a:last-of-type {
+        border-left: 1px solid #eee;
         }
   #calendar_views {
-    display: table-cell;
+    display: inline-block;
     vertical-align: middle;
     }
   #calendar_views ul {
@@ -1232,8 +1241,7 @@ table.index td, table.index th {
       }
       #calendar_views a {
         display: block;
-  		  padding-right: 15px;
-  		  padding-left: 15px;
+  		  padding: 0px 15px;
         font-size: 12px;
         color: #999;
         line-height: 20px;
@@ -1263,26 +1271,28 @@ table.index td, table.index th {
     	    background: inherit;
     	    }
     #calendar_controls_extended {
-      display: table-cell;
-      padding-right: 20px;
-      }
-    #calendar_page_chooser {
       display: inline-block;
-      }
-	  #calendar_controls_extended, #calendar_page_chooser {
+      line-height: 16px;
+      padding: 0px;
+      margin-right: 0px 20px;
 	    vertical-align: middle;
-	    margin: 0px 10px;
 	    font-size: 12px;
 	    font-weight: normal;
 	    white-space: nowrap;
 			}
+			#calendar_controls_extended form {
+			  display: none;
+			  }
+			#calendar_controls_extended:hover form {
+			  display: inline-block;
+			  }
 		#calendar_header input, #email_lists_controls input,
 		#email_lists_controls #search, #email_subscribe input {
-		  margin: 5px 5px;
-			padding: 3px 6px;
+		  margin: 0px 5px;
+		  padding: 2px;
 			color: #666;
 			font-size: 11px;
-			vertical-align: middle;
+			vertical-align: baseline;
 			box-shadow: none;
   		-moz-box-shadow: none;
   		-webkit-box-shadow: none;
@@ -1290,7 +1300,6 @@ table.index td, table.index th {
 		#calendar_header form, #email_lists_controls form {
 		  display: inline-block;
 	    vertical-align: top;
-		  padding-right: 10px;
 		  vertical-align: middle;
 		  }
 		form.inline a {
@@ -1381,16 +1390,34 @@ table.index td, table.index th {
 
 #calendar_list {
   padding: 0px;
+  border-spacing: 0px;
+  width: 100%;
   }
   #calendar_list td {
-    padding-left: 10px;
+    padding: 5px 20px 5px 0px;
     vertical-align: top;
     color: #666;
-  }
+    white-space: nowrap;
+    }
+  #calendar_list td.time.first {
+    padding-right: 3px;
+    text-align: right;
+    }
+  #calendar_list td:last-of-type {
+    white-space: normal;
+    width: 30%;
+    }
+  #calendar_list tr.new_day2 td {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    }
   #calendar_list tr.new_day td {
-    border-top: 1px solid #ccc;
     padding-top: 15px;
-  }
+    }
+  #calendar_list .new_month {
+    padding-top: 30px;
+    font-size: 24px;
+    }
   #calendar_list .day {
     font-size: 16px;
     font-weight: bold;

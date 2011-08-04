@@ -45,8 +45,9 @@ module CalendarHelper
   end
   
   def previous_month_path(args)
+    months = args[:months] || 1
     previous_args = args.merge(:date =>
-      (@date.beginning_of_month-1.month).strftime("%Y-%m-%d"))
+      (@date.beginning_of_month - months.month).strftime("%Y-%m-%d"))
     if 'list' == params[:action]
       calendar_list_path(previous_args)
     else
@@ -55,8 +56,9 @@ module CalendarHelper
   end
   
   def next_month_path(args)
+    months = args[:months] || 1
     next_args = args.merge(:date =>
-      (@date.end_of_month+1.day).strftime("%Y-%m-%d"))
+      (@date.beginning_of_month + months.month).strftime("%Y-%m-%d"))
     if 'list' == params[:action]
       calendar_list_path(next_args)
     else
