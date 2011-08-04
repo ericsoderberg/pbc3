@@ -15,12 +15,18 @@
   <%= f.hidden_field :page_id %>
   <div class="field">
     <%= f.label :file %><br />
-    <%= f.file_field :video %><br />
+    <%= f.file_field :video %>
+  </div>
+  <div class="field">
+    <%= f.label "YouTube ID" %><br />
+    <%= f.text_field :youtube_id, :size => 40 %>
+  </div>
+  <div class="field">
     <%= f.label :caption %><br />
-    <%= f.text_field :caption, :size => 40 %><br />
+    <%= f.text_field :caption, :size => 40 %>
   </div>
   <div class="actions">
-    <%= f.submit 'Upload Video' %>
+    <%= f.submit 'Add Video' %>
     <% if @video.id -%>
     | <%= link_to 'Delete video', [@page, @video], :confirm => 'Are you sure?',
       :method => :delete %>

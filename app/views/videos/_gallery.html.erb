@@ -1,5 +1,9 @@
 <% if videos and not videos.empty? -%>
 <ul class="gallery">
-  <%= render :partial => 'videos/video', :collection => videos %>
+  <% videos.each do |video| -%>
+  <li>
+    <%= render :partial => 'videos/video', :locals => {:video => video} %>
+  </li>
+  <% end -%>
 </ul>
 <% end -%>

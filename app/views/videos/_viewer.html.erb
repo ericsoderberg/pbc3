@@ -1,9 +1,24 @@
 <% if videos and not videos.empty? -%>
-<div id="videos">
-  <video controls>
-    <% videos.each do |video| -%>
-      <source src="<%= video.video.url %>"/>
-    <% end -%>
-  </video>
+<div id="video_slideshow">
+  
+  <% if videos.length > 1 -%>
+  <ul id="video_slides_nav">
+  <% videos.each_with_index do |video, i| -%>
+    <li>
+  	  <%= link_to i+1, "#slide_#{i + 1}"%>
+  	</li>
+  <% end -%>
+  </ul>
+  <% end -%>
+  
+  <ul id="video_slides_slide">
+  <% videos.each_with_index do |video, i| -%>
+    <li id="slide_<%= i + 1 %>" class="<%= 0 == i ? 'first' : '' %>">
+  	  <%= render :partial => 'videos/video', :locals => {:video => video} %>
+  	</li>
+  <% end -%>
+  </ul>
+  
 </div>
 <% end -%>
+

@@ -1,6 +1,11 @@
-<%= content_tag_for(:li, video) do %>
+<% if video.video.exists? -%>
   <video controls>
     <source src="<%= video.video.url %>"/>
   </video>
-  <div class="caption"><%= video.caption %></div>
-<% end %>
+<% elsif video.youtube_id and not video.youtube_id.empty? -%>
+  <iframe class="youtube-player" type="text/html" width="400" height="300"
+    src="http://www.youtube.com/embed/<%= video.youtube_id %>"
+    frameborder="0">
+  </iframe>
+<% end -%>
+<div class="caption"><%= video.caption %></div>
