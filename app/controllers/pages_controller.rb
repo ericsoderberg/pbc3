@@ -55,7 +55,8 @@ class PagesController < ApplicationController
     
     @children = @page.nav_context.children.visible(current_user).
       where('pages.obscure != ? OR pages.id = ?', true, @page.id)
-    @aspects = @page.visible_aspects(@children, @categorized_events)
+    @aspects = @page.visible_aspects(:children => @children,
+      :categorized_events => @categorized_events)
 
     respond_to do |format|
       format.html { render :action => "show_#{@page.layout}" }

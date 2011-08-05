@@ -13,7 +13,10 @@
 <ul class="landing_content primary">
   
   <% @aspects[0..1].each do |aspect| -%>
-    <%= render_page_panel(@page, aspect, @children, @categorized_events) -%>
+    <%= render_page_panel(@page, aspect,
+      {:children => @children,
+        :categorized_events => @categorized_events,
+        :width => 480, :height => 360}) -%>
   <% end -%>
 
 </ul>
@@ -23,11 +26,16 @@
 <% if @aspects.length > 2 -%>
 <ul class="landing_content secondary">
   
-  <% @aspects[2..-1].each do |aspect| -%>
-    <%= render_page_panel(@page, aspect, @children, @categorized_events) -%>
+  <% @aspects[2..4].each do |aspect| -%>
+    <%= render_page_panel(@page, aspect,
+      {:children => @children,
+        :categorized_events => @categorized_events,
+        :width => 313, :height => 235}) -%>
   <% end -%>
-  <% ((@aspects.length+1)..5).each do -%>
+  <% if @aspects.length < 5 -%>
+  <% ((@aspects.length)..4).each do -%>
     <li class="panel"></li>
+  <% end -%>
   <% end -%>
 
 </ul>

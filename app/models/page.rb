@@ -158,22 +158,23 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def visible_aspects(children, categorized_events)
+  def visible_aspects(args={})
     aspect_order.split(',').delete_if do |aspects|
-      not render_aspects?(aspects, children, categorized_events)
+      not render_aspects?(aspects, args)
     end
   end
   
   # aspects can be a concatenated string of characters
-  def render_aspects?(aspects, children, categorized_events)
+  def render_aspects?(aspects, args={})
     aspects.split('').each do |aspect|
       # if any match, return true
       case aspect
       when 't'
         return (text and not text.empty?)
       when 'e'
-        return (categorized_events and not categorized_events.empty? and
-          not categorized_events[:all].empty?)
+        return (args[:categorized_events] and
+          not args[:categorized_events].empty? and
+          not args[:categorized_events][:all].empty?)
       when 'c'
         return (not contacts.empty?)
       when 'm'
@@ -191,10 +192,12 @@ class Page < ActiveRecord::Base
       when 'h'
         return true # always can show if asked for since that's where we edit (change?)
       when 'g'
-        return ('panel' == child_layout and children and not children.empty?)
-      when 's'
-        return ((facebook_url and not facebook_url.empty?) or
-          (twitter_name and not twitter_name.empty?))
+        return ('panel' == child_layout and
+          args[:children] and not args[:children].empty?)
+      when 'F'
+        return (facebook_url and not facebook_url.empty?)
+      when 'T'
+        return (twitter_name and not twitter_name.empty?)
       else
         logger.error "Unknown page aspect: #{aspect}"
         return false

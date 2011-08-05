@@ -726,6 +726,16 @@ footer {
     .landing_content.secondary > li {
       width: 313px;
       }
+      
+.gallery_content {
+  list-style: none;
+  margin: 20px 0px;
+  padding: 0px;
+  }
+  .gallery_content li {
+    margin: 20px 0px;
+    padding: 0px;
+    }
 
 #events, #documents, #dynamic_forms, #contacts, #subscribe {
   display: table;
@@ -850,9 +860,18 @@ footer {
     margin: 0px 40px 30px 0px;
     padding: 0px;
     }
+  .landing_content.secondary .gallery > li {
+    margin: 0px 0px 15px 0px;
+    }
   .gallery > li.event {
     width: 400px;
     }
+    .landing_content.primary .gallery > li.event {
+      width: 480px;
+      }
+    .landing_content.secondary .gallery > li.event {
+      width: 313px;
+      }
   .gallery .event_name {
     font-size: 18px;
     margin-bottom: 5px;
@@ -936,6 +955,10 @@ footer {
   width: 400px;
 	height: 300px;
   }
+.primary #slideshow, .primary #slides_slide, .primary #slides_slide li {
+  width: 480px;
+	height: 360px;
+  }
 .secondary #slideshow, .secondary #slides_slide, .secondary #slides_slide li {
   width: 313px;
 	height: 235px;
@@ -943,8 +966,11 @@ footer {
 #slides_slide li img {
   height: 300px;
   }
+.primary #slides_slide li img {
+  height: 360px;
+  }
 .secondary #slides_slide li img {
-  height: 240px;
+  height: 235px;
   }
 #slideshow {
 	position: relative;
@@ -1019,6 +1045,10 @@ footer {
     width: 400px;
     height: 300px;
   }
+.primary #videos, .primary #videos video {
+  width: 480px;
+  height: 360px;
+  }
 .secondary #videos, .secondary #videos video {
   width: 313px;
   height: 235px;
@@ -1032,6 +1062,11 @@ footer {
     width: 400px;
     height: 340px;
     }
+.primary #video_slideshow, .primary #video_slides_slide,
+.primary #video_slides_slide li {
+  width: 480px;
+	height: 360px;
+  }
 .secondary #video_slideshow, .secondary #video_slides_slide,
 .secondary #video_slides_slide li {
   width: 313px;
@@ -1040,6 +1075,9 @@ footer {
 #video_slides_slide li video, #video_slides_slide li .youtube-player {
   width: 400px;
   height: 300px;
+  }
+.secondary #video_slides_slide li video {
+  height: 370px;
   }
 .secondary #video_slides_slide li video {
   height: 240px;
@@ -1116,6 +1154,9 @@ footer {
   }
   #audios audio {
     width: 400px;
+  }
+.primary #audios, .primary #audios audios {
+  width: 480px;
   }
 .secondary #audios, .secondary #audios audios {
   width: 313px;
@@ -2434,16 +2475,23 @@ div#messages {
 		font-size: 11px;
   }
   
-#social {
-  margin: 20px 0px;
-  }
-  #social iframe {
-    margin: 20px 0px;
-    }
-  
 /* Rich Text Editor lite, align rte.css too */
 #regular_content section.text_editing {
   padding: 0px;
+  }
+  
+.twtr-doc {
+  height: 300px;
+  }
+.primary .twtr-doc {
+  height: 360px;
+  }
+.secondary .twtr-doc {
+  height: 235px;
+  }
+.twtr-doc a {
+  font-weight: normal;
+  font-size: 12px;
   }
 
 .textedit {

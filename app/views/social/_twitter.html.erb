@@ -1,14 +1,16 @@
-<div id="social">
 <% if @page.twitter_name -%>
+<% width ||= 400 -%>
+<% height ||= 300 -%>
+<div id="social">
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
 <script>
 new TWTR.Widget({
   version: 2,
   type: 'profile',
-  rpp: 2,
+  rpp: <%= ((height - 100) / 55).to_i %>,
   interval: 6000,
   width: <%= width %>,
-  height: 200,
+  height: <%= height %>,
   theme: {
     shell: {
       background: '#dddddd',
@@ -29,11 +31,7 @@ new TWTR.Widget({
     avatars: false,
     behavior: 'all'
   }
-}).render().setUser(<%= @page.twitter_name %>).start();
+}).render().setUser('<%= @page.twitter_name %>').start();
 </script>
-<% end -%>
-
-<% if @page.facebook_url -%>
-<iframe src="http://www.facebook.com/plugins/likebox.php?href=<%= @page.facebook_url %>&amp;width=292&amp;colorscheme=light&amp;show_faces=true&amp;border_color=%23cccccc&amp;stream=true&amp;header=false&amp;height=200&amp;width=<%= width %>" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:<%= width %>px; height:200px;" allowtransparency="true"></iframe>
-<% end -%>
 </div>
+<% end -%>
