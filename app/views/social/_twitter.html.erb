@@ -1,4 +1,4 @@
-<% if @page.twitter_name -%>
+<% if @page.twitter_name and not @page.twitter_name.empty? -%>
 <% width ||= 400 -%>
 <% height ||= 300 -%>
 <div id="social">

@@ -1,5 +1,7 @@
-<% if @page.facebook_url -%>
+<% if @page.facebook_url and not @page.facebook_url.empty? -%>
 <% width ||= 400 -%>
 <% height ||= 300 -%>
+<div id="social">
 <iframe src="http://www.facebook.com/plugins/likebox.php?href=<%= @page.facebook_url %>&amp;colorscheme=light&amp;show_faces=true&amp;border_color=%23cccccc&amp;stream=true&amp;header=false&amp;height=<%= height %>&amp;width=<%= width %>" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:<%= width %>px; height:<%= height %>px;" allowtransparency="true"></iframe>
+</div>
 <% end -%>
