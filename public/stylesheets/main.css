@@ -2434,6 +2434,13 @@ div#messages {
 		font-size: 11px;
   }
   
+#social {
+  margin: 20px 0px;
+  }
+  #social iframe {
+    margin: 20px 0px;
+    }
+  
 /* Rich Text Editor lite, align rte.css too */
 #regular_content section.text_editing {
   padding: 0px;

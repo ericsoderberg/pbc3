@@ -1,0 +1,37 @@
+<%= form_for(@page, :url => page_social_path(@page)) do |f| %>
+  <% if @page.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+      <ul>
+      <% @page.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div id="regular_content">
+    <section>
+      <div class="field">
+        <%= f.label :facebook_url %><br/>
+        <%= f.text_field :facebook_url, :size => '100' %>
+      </div>
+      <div class="field">
+        <%= f.label :twitter_name %><br/>
+        <%= f.text_field :twitter_name, :size => '40' %>
+      </div>
+    </section>
+
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+    <%= render 'pages/cancel_controls' %>
+  </div>
+  
+<% end %>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'pages/form_aids.js' -%>
+<% end -%>

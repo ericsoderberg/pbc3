@@ -1,0 +1,39 @@
+<div id="social">
+<% if @page.twitter_name -%>
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 2,
+  interval: 6000,
+  width: 'auto',
+  height: 200,
+  theme: {
+    shell: {
+      background: '#dddddd',
+      color: '#666666'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#333333',
+      links: '#0b6099'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: false,
+    hashtags: false,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('iamjedidiah').start();
+</script>
+<% end -%>
+
+<% if @page.facebook_url -%>
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=<%= @page.facebook_url %>&amp;width=292&amp;colorscheme=light&amp;show_faces=true&amp;border_color=%23cccccc&amp;stream=true&amp;header=false&amp;height=200&amp;width=400" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:200px;" allowtransparency="true"></iframe>
+<% end -%>
+</div>

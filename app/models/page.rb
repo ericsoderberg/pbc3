@@ -26,7 +26,7 @@ class Page < ActiveRecord::Base
   
   # order matters since we store an index to this array
   CONTENT_TYPES = ['text', 'events and contacts', 'documents and forms',
-    'child pages', 'photos', 'vides', 'audios']
+    'child pages', 'photos', 'vides', 'audios', 'social']
 
   validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
   validates :child_layout, :presence => true, :inclusion => {:in => CHILD_LAYOUTS}
@@ -154,7 +154,7 @@ class Page < ActiveRecord::Base
       %w(text contacts access feature)
     else
       %w(text photos videos audios documents forms
-        contacts access feature podcast events)
+        contacts access feature podcast social events)
     end
   end
   
@@ -192,6 +192,9 @@ class Page < ActiveRecord::Base
         return true # always can show if asked for since that's where we edit (change?)
       when 'g'
         return ('panel' == child_layout and children and not children.empty?)
+      when 's'
+        return ((facebook_url and not facebook_url.empty?) or
+          (twitter_name and not twitter_name.empty?))
       else
         logger.error "Unknown page aspect: #{aspect}"
         return false

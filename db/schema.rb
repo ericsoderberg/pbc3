@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110804163635) do
+ActiveRecord::Schema.define(:version => 20110805022451) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -227,6 +227,8 @@ ActiveRecord::Schema.define(:version => 20110804163635) do
     t.boolean  "obscure",        :default => false
     t.string   "child_layout"
     t.string   "aspect_order"
+    t.string   "facebook_url"
+    t.string   "twitter_name"
   end
 
   create_table "payments", :force => true do |t|

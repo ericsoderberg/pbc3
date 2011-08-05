@@ -2,7 +2,6 @@ module PagesHelper
   
   def render_page_panel(page, aspects, children, categorized_events)
     if page.render_aspects?(aspects, children, categorized_events)
-      logger.info "!!! render #{aspects}"
       content_tag(:li, :class => 'panel') do
         raw (aspects.split('').map{|aspect|
           render_page_aspect(page, aspect, children, categorized_events)
@@ -42,6 +41,8 @@ module PagesHelper
       render :partial => 'notes/viewer', :locals => {:notes => page.notes}
     when 'g'
       render :partial => 'pages/viewer', :locals => {:pages => children}
+    when 's'
+      render :partial => 'social/viewer'
     end
   end
   
@@ -73,6 +74,8 @@ module PagesHelper
       else
         new_page_podcast_path(page)
       end
+    when 'social'
+      edit_page_social_path(page)
     end
   end
 end

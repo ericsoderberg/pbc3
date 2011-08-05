@@ -114,6 +114,7 @@ Pbc3::Application.routes.draw do
     resources :notes
     resource :feature, :only => [:edit, :update], :controller => :home
     resource :podcast
+    resource :social, :only => [:edit, :update], :controller => :social
   end
   
   resources :authors
