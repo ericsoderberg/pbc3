@@ -85,6 +85,7 @@ class EmailList
   
   def self.load(cmd)
     result = []
+    logger.info("Running #{cmd}")
     %x(#{cmd}).split("\n").map do |name|
       next if name =~ /:$/ or 'mailman' == name.strip
       list = EmailList.new(:name => name.strip)
