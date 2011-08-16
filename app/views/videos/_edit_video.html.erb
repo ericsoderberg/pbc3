@@ -1,4 +1,5 @@
-<%= content_tag_for(:li, edit_video) do %>
+<%= content_tag_for(:li, edit_video,
+  :class => ((edit_video == @video) ? 'active' : '')) do %>
   <% if edit_video.video.exists? -%>
     <video controls>
       <source src="<%= edit_video.video.url %>"/>
@@ -9,7 +10,6 @@
       frameborder="0">
     </iframe>
   <% end -%>
-  <a href="<%= edit_page_video_path(@page, edit_video) %>">
-    <div class="caption"><%= edit_video.caption %></div>
-  </a>
+  <div class="caption"><%= edit_video.caption %></div>
+  <a href="<%= edit_page_video_path(@page, edit_video) %>">Edit</a>
 <% end %>

@@ -51,7 +51,7 @@
       <li id="communities_nav" class="<%= (@page and @site and
         @page.root == @site.communities_page) ? 'active' : '' %>">
         <%= link_to "Communities", communities_path %>
-        <ul styleX="display:none">
+        <ul>
         <% @communities.each do |page| -%>
             <li><%= link_to page.name, friendly_page_path(page) %></li>
         <% end -%>
