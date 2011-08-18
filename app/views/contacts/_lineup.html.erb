@@ -3,10 +3,12 @@
     <li class="card-container">
       <div class="card-card">
         <div class="card-face card-front">
+          <div class="card-image">
           <% if contact.user.portrait.exists? -%>
             <%= image_tag contact.user.portrait.url(:normal),
-              :size => '150x200', :class => 'portrait' %>
+              :width => '210px', :class => 'portrait' %>
           <% end -%>
+          </div>
           <div class="card-name">
             <%= contact.user.name %><br/>
             <%= contact.role %>
@@ -18,7 +20,9 @@
             <%= link_to image_tag('mail.png'),
               email_page_contact_path(@page, contact) %>
           </h4>
-          <%= contact.user.bio %>
+          <div class="bio">
+            <%= contact.user.bio %>
+          </div>
         </div>
       </div>
     </li>

@@ -1,11 +1,13 @@
 <% if videos and not videos.empty? -%>
+<% width ||= 400 -%>
+<% height ||= 300 -%>
 <div id="video_slideshow">
   
   <% if videos.length > 1 -%>
   <ul id="video_slides_nav">
   <% videos.each_with_index do |video, i| -%>
     <li>
-  	  <%= link_to i+1, "#slide_#{i + 1}"%>
+  	  <%= link_to i+1, "#vslide_#{i + 1}"%>
   	</li>
   <% end -%>
   </ul>
@@ -13,8 +15,9 @@
   
   <ul id="video_slides_slide">
   <% videos.each_with_index do |video, i| -%>
-    <li id="slide_<%= i + 1 %>" class="<%= 0 == i ? 'first' : '' %>">
-  	  <%= render :partial => 'videos/video', :locals => {:video => video} %>
+    <li id="vslide_<%= i + 1 %>" class="<%= 0 == i ? 'first' : '' %>">
+  	  <%= render :partial => 'videos/video', :locals => {:video => video,
+  	    :width => width, :height => height} %>
   	</li>
   <% end -%>
   </ul>
@@ -22,3 +25,26 @@
 </div>
 <% end -%>
 
+<%= javascript_tag do %>
+// By Chris Coyier & tweaked by Mathias Bynens
+$(function() {
+  // Find all YouTube videos
+  var $allVideos = $(".youtube-player");
+  // Figure out and save aspect ratio for each video
+  $allVideos.each(function() {
+    $(this)
+      .data('aspectRatio', this.height / this.width)
+      // and remove the hard coded width/height
+      .removeAttr('height')
+      .removeAttr('width');
+  });
+  // Resize all videos according to their own aspect ratio
+  $allVideos.each(function() {
+    var $el = $(this);
+    $el
+      .width(<%= width %>)
+      .height(<%= width %> * $el.data('aspectRatio'));
+  });
+});
+
+<% end -%>

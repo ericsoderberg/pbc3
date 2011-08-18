@@ -876,8 +876,8 @@ footer {
     
 .gallery, .library {
   clear: both;
-  -webkit-padding-start: 0px;
   margin: 0px 0px 20px 0px;
+  padding: 0px 20px;
   }
 .gallery {
   list-style-type: none;
@@ -1122,10 +1122,11 @@ footer {
   width: 400px;
   height: 300px;
   }
-.secondary #video_slides_slide li video {
+/*.secondary #video_slides_slide li video {
   height: 370px;
-  }
+  }*/
 .secondary #video_slides_slide li video {
+  width: 313px;
   height: 240px;
   }
 #video_slideshow {
@@ -2410,21 +2411,22 @@ div#messages {
 }
 
 .card-pile {
-  position: relative; margin: 0px auto;
-  -webkit-padding-start: 0px;
+  position: relative;
+  margin: 0px auto;
+  padding: 0px 0px 0px 12px;
   list-style-type: none;
 }
 
 .card-container {
   float: left;
-	width: 190px; height: 240px;
+	width: 201px; height: 308px;
 	margin: 20px 20px;
 	-webkit-perspective: 1000;
 }
 
 .card-card {
-	width: 190px; height: 260px;
-	border: 1px solid #ccc;
+	width: 201px; height: 308px;
+	/*border: 1px solid #fff;*/
 	-webkit-transform-style: preserve-3d;
 	-webkit-transition-duration: 0.5s;
 	-moz-transition-duration: 0.5s;
@@ -2442,10 +2444,13 @@ div#messages {
   -moz-backface-visibility: hidden;
   overflow: hidden;
 }
-
+.card-face .card-image {
+  width: 201px;
+  height: 268px;
+  overflow: hidden;
+}
 .card-face .portrait {
-  width: 150px;
-  height: 200px;
+  width: 201px;
 }
 .card-face h4 {
   margin: 0px;
@@ -2455,9 +2460,15 @@ div#messages {
 	vertical-align: text-bottom;
 	margin-left: 5px;
   }
+.card-face .bio {
+  width: 161px;
+  height: 238px;
+  overflow: hidden;
+}
 
 .card-face .card-name {
-  margin-top: -3px;
+  margin: 5px;
+  margin-top: 3px;
   line-height: 16px;
 }
 
@@ -2484,13 +2495,12 @@ div#messages {
 	-moz-transform: rotate(-2deg);
 }
   .card-front {
-	  width: 150px; height: 200px; padding: 20px;
-	  padding-bottom: 40px;
-    background-color: #fff;
+	  width: 201px; height: 308px; padding: 0px;
+    background-color: #444;
+    color: #fff;
 	}
 	.card-back {
-		width: 150px; height: 200px; padding: 20px;
-		padding-bottom: 40px;
+		width: 161px; height: 268px; padding: 20px;
 		-webkit-transform: rotateY(180deg);
 		-moz-transform: rotateY(180deg);
 		background-color: #eee;

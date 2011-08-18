@@ -1,10 +1,13 @@
 <% if video.video.exists? -%>
+<% width ||= 400 -%>
+<% height ||= 300 -%>
   <video controls>
     <source src="<%= video.video.url %>"/>
   </video>
 <% elsif video.youtube_id and not video.youtube_id.empty? -%>
-  <iframe class="youtube-player" type="text/html" width="400" height="300"
-    src="http://www.youtube.com/embed/<%= video.youtube_id %>"
+  <iframe class="youtube-player" type="text/html"
+    width="<%= width %>" height="<%= height %>"
+    src="http://www.youtube.com/embed/<%= video.youtube_id %>?width=<%= width %>"
     frameborder="0">
   </iframe>
 <% end -%>

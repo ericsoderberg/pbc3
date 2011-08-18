@@ -62,7 +62,8 @@ module PagesHelper
       if @page.gallery?
         render :partial => 'videos/gallery', :locals => {:videos => page.videos}
       else
-        render :partial => 'videos/viewer', :locals => {:videos => page.videos}
+        render :partial => 'videos/viewer', :locals => {:videos => page.videos,
+          :width => args[:width], :height => args[:height]}
       end
     when 'a'
       if @page.gallery?
