@@ -18,7 +18,7 @@ module PagesHelper
         raw page.text
       end
     when 'e'
-      if @page.gallery? or @page.landing?
+      if @page.gallery?
         render :partial => 'events/gallery',
           :locals => {:categorized_events => args[:categorized_events],
             :no_name => false}

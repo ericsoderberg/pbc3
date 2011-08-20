@@ -63,6 +63,10 @@ p {
 	margin-bottom: 15px;
   }
 
+img, a img {
+  border: none;
+}
+
 header {
   margin: 35px 0px 15px 0px;
   }
@@ -840,6 +844,10 @@ footer {
   #contacts_list .contact_name {
     display: inline-block;
     }
+    #contacts_list .contact_role {
+      color: #666;
+      margin-left: 10px;
+      }
   #add_content {
     padding: 0px 20px;
     }
