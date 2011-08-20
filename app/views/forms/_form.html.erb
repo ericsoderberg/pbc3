@@ -38,7 +38,12 @@
     <% if @form.id -%>
     | <%= link_to 'Cancel', form_path(@form) %>
     <% else -%>
-    | <%= link_to 'Cancel', forms_path() %>
+    |
+      <% if @page -%>
+        <%= link_to 'Cancel', forms_path(:page_id => @page.id) %>
+      <% else -%>
+        <%= link_to 'Cancel', forms_path() %>
+      <% end -%>
     <% end -%>
     <% if @form.id -%>
     | <%= link_to 'Delete form', @form, :confirm => 'Are you sure?',

@@ -34,6 +34,16 @@ class Form < ActiveRecord::Base
     result
   end
   
+  def create_default_fields
+    form_fields.create({:field_type => FormField::INSTRUCTIONS,
+      :form_index => 1, :name => "Instructions",
+      :help => "Please change this to say something helpful"}) and
+    form_fields.create({:field_type => FormField::FIELD,
+      :form_index => 2, :name => "Name"}) and
+    form_fields.create({:field_type => FormField::FIELD,
+      :form_index => 3, :name => "Email"})
+  end
+  
   def build_fill()
     filled_form = filled_forms.new
     form_fields.each do |form_field|

@@ -67,7 +67,7 @@ class FormsController < ApplicationController
     end
 
     respond_to do |format|
-      if @form.save
+      if @form.save and (@copy_form or @form.create_default_fields)
         format.html { redirect_to(edit_form_url(@form),
           :notice => 'Form was successfully created.') }
         format.xml  { render :xml => @form, :status => :created, :location => @form }

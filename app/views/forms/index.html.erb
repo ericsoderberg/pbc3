@@ -1,13 +1,15 @@
 <% title "Forms" -%>
 
 <section>
-  <header>
-    <h1>
-      <% if @page -%>
-        <%= link_to @page.name, friendly_page_path(@page) %>
-      <% end -%>
-      Forms</h1>
-  </header>
+  
+  <% if @page %>
+    <%= render :partial => 'pages/edit_header',
+      :locals => {:active_aspect => 'forms'} %>
+  <% else -%>
+    <header>
+      <h1>Forms</h1>
+    </header>
+  <% end -%>
 
 <% unless @forms.empty? -%>
 <table class="index">
@@ -20,7 +22,7 @@
 
 <% @forms.each do |form| %>
   <tr>
-    <td><%= link_to form.name, form_path(form) %></td>
+    <td><%= link_to form.name, edit_form_path(form) %></td>
     <% unless @page -%>
     <td><%= link_to form.page.name, friendly_page_path(form.page) %></td>
     <% end -%>

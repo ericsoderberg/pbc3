@@ -81,8 +81,8 @@ header {
 	  color: #888;
     }
   header h1 {
-    font-size: 18px;
-    line-height: 18px;
+    font-size: 28px;
+    line-height: 28px;
     }
   header h2 {
     font-size: 14px;
@@ -111,6 +111,11 @@ header {
 	  padding: 0px;
     list-style: none;
   }
+  header.editing ul.nav {
+    margin-top: 20px;
+    padding: 5px;
+    background: #eee;
+    }
     header ul.nav li {
 	    float: left;
 	    margin: 2px;
@@ -147,6 +152,10 @@ header {
   	
   	  header ul.nav li.active a, .edit_list li.active a {
   	    color: #000;
+  	  }
+  	  header.editing ul.nav li.active a {
+  	    color: #fff;
+  	    background-color: #999;
   	  }
   	  header ul.nav li.active a:hover, .edit_list li.active a:hover {
   	    color: #666;
@@ -550,10 +559,15 @@ footer {
     border: 1px solid #ccc;
     }
   .featured_nav_image {
+    position: relative;
     width: 194px;
     height: 60px;
     overflow: hidden;
     }
+    .featured_nav_image img {
+      position: absolute;
+      top: 0px;
+      }
   .featured_nav_name {
     color: #fff;
     background-color: #333;

@@ -31,8 +31,12 @@
     <aside>
       <div class="form">
         <div class="field">
-          <%= f.label :feature_on_home_page?, :class => 'inline' %>
+          <%= f.label :on_home_page?, :class => 'inline' %>
           <%= f.check_box :featured %>
+        </div>
+        <div class="field">
+          <%= f.label :upcoming?, :class => 'inline' %>
+          <%= f.check_box :feature_upcoming %>
         </div>
         <div id="feature_indexer"
           <%= raw @page.featured? ? '' : 'style="display:none"' %>>

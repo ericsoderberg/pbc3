@@ -1,7 +1,10 @@
 <%= content_tag_for(:li, featured_page) do %>
   <div class="featured_nav_image">
     <% if featured_page.style and featured_page.style.feature_strip.exists? then %>
-  	  <%= image_tag featured_page.style.feature_strip.url(:normal) %><br />
+  	  <%= image_tag featured_page.style.feature_strip.url(:normal) %>
+  	  <% if featured_page.feature_upcoming? -%>
+	      <%= image_tag 'upcoming.png' %>
+	    <% end -%>
     <% end %>
   </div>
   <div class="featured_nav_name"
