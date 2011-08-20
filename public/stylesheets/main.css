@@ -759,6 +759,11 @@ footer {
       width: 313px;
       }
       
+.landing_content.primary #text {
+  padding: 0px;
+  margin-bottom: 30px;
+  }
+      
 .gallery_content {
   list-style: none;
   margin: 20px 0px;
