@@ -16,6 +16,8 @@ Pbc3::Application.routes.draw do
       member do
         get 'fills', :controller => 'filled_forms',
           :action => 'user_index'
+        get 'payments', :controller => 'payments',
+          :action => 'user_index'
       end
     end
     devise_for :users

@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
     :order => 'LOWER(pages.name) ASC'
   has_many :authorizations
   has_many :filled_forms
+  has_many :payments
   acts_as_audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {

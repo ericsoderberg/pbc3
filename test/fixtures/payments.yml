@@ -1,9 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  amount: 1
-  method: MyString
-
-two:
-  amount: 1
-  method: MyString
+retreat:
+  amount: 100
+  method: "online paypal"
+  user: generic

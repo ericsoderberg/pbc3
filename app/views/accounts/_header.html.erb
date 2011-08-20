@@ -10,5 +10,7 @@
   <ul class="nav">
     <li class="<%= @filled_forms ? 'active' : '' %>">
       <%= link_to 'Forms', fills_account_path(@user) %></li>
+    <li class="<%= @payments ? 'active' : '' %>">
+      <%= link_to 'Payments', payments_account_path(@user) %></li>
   </ul>
 </header>

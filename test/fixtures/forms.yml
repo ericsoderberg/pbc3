@@ -2,3 +2,7 @@ release:
   name: "Medical Release"
   page: private
 
+retreat_registration:
+  name: "Retreat Registration"
+  page: public
+  payable: true

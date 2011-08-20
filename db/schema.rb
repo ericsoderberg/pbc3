@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110805022451) do
+ActiveRecord::Schema.define(:version => 20110820134741) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20110805022451) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "payment_id"
   end
 
   create_table "form_field_options", :force => true do |t|
@@ -236,6 +237,7 @@ ActiveRecord::Schema.define(:version => 20110805022451) do
     t.string   "method"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "photos", :force => true do |t|

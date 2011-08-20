@@ -2,3 +2,9 @@ generic_release:
   form: release
   user: generic
   name: "my first submit"
+  
+retreat_registration:
+  form: retreat_registration
+  user: generic
+  name: "my registration"
+  payment: retreat

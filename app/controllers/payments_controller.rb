@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
-  # GET /payments
-  # GET /payments.xml
+  before_filter :authenticate_user!
+  
   def index
     @payments = Payment.all
 
@@ -9,9 +9,17 @@ class PaymentsController < ApplicationController
       format.xml  { render :xml => @payments }
     end
   end
+  
+  def user_index
+    @user = User.find(params[:id])
+    @payments = @user.payments.all
 
-  # GET /payments/1
-  # GET /payments/1.xml
+    respond_to do |format|
+      format.html # user_index.html.erb
+      format.xml  { render :xml => @filled_forms }
+    end
+  end
+
   def show
     @payment = Payment.find(params[:id])
 
@@ -21,8 +29,6 @@ class PaymentsController < ApplicationController
     end
   end
 
-  # GET /payments/new
-  # GET /payments/new.xml
   def new
     @payment = Payment.new
 
@@ -32,13 +38,10 @@ class PaymentsController < ApplicationController
     end
   end
 
-  # GET /payments/1/edit
   def edit
     @payment = Payment.find(params[:id])
   end
 
-  # POST /payments
-  # POST /payments.xml
   def create
     @payment = Payment.new(params[:payment])
 
@@ -53,8 +56,6 @@ class PaymentsController < ApplicationController
     end
   end
 
-  # PUT /payments/1
-  # PUT /payments/1.xml
   def update
     @payment = Payment.find(params[:id])
 
@@ -69,8 +70,6 @@ class PaymentsController < ApplicationController
     end
   end
 
-  # DELETE /payments/1
-  # DELETE /payments/1.xml
   def destroy
     @payment = Payment.find(params[:id])
     @payment.destroy
