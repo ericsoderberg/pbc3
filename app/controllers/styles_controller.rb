@@ -69,6 +69,7 @@ class StylesController < ApplicationController
     @style.banner = nil if params[:delete_banner]
     @style.feature_strip = nil if params[:delete_feature_strip]
     @style.hero = nil if params[:delete_hero]
+    @style.bio_back = nil if params[:delete_bio_back]
 
     respond_to do |format|
       if @style.update_attributes(params[:style])
@@ -111,6 +112,11 @@ class StylesController < ApplicationController
         params[:style][:hero_text_color].is_a?(String)
       params[:style][:hero_text_color] =
         params[:style][:hero_text_color].hex
+    end
+    if params[:style][:bio_back_color] and
+        params[:style][:bio_back_color].is_a?(String)
+      params[:style][:bio_back_color] =
+        params[:style][:bio_back_color].hex
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110820195830) do
+ActiveRecord::Schema.define(:version => 20110820200713) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -316,6 +316,11 @@ ActiveRecord::Schema.define(:version => 20110820195830) do
     t.text     "css"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "bio_back_file_name"
+    t.string   "bio_back_content_type"
+    t.integer  "bio_back_file_size"
+    t.datetime "bio_back_updated_at"
+    t.integer  "bio_back_color",             :default => 0
   end
 
   create_table "users", :force => true do |t|

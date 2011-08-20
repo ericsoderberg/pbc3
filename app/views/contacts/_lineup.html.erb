@@ -14,7 +14,11 @@
             <%= contact.role %>
           </div>
         </div>
-        <div class="card-face card-back">
+        <div class="card-face card-back"
+          style="<%= (@page.style and @page.style.bio_back.exists?) ?
+            ("background: url(#{@page.style.bio_back.url}); color: " +
+              ("#%06x" % @page.style.bio_back_color)) : '' %>"
+          >
           <h4>
             <%= contact.user.name %>
             <%= link_to image_tag('mail.png'),

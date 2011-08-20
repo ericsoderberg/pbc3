@@ -14,6 +14,7 @@
     <th>Hero</th>
     <th>Banner</th>
     <th>Feature Strip</th>
+    <th>Bio Card</th>
     <th>Colors</th>
   </tr>
 
@@ -34,6 +35,12 @@
       <% if style.feature_strip.exists? then %>
       	<%= link_to image_tag(style.feature_strip.url(:thumb)),
       	  style.feature_strip.url %>
+      <% end %>
+    </td>
+    <td>
+      <% if style.bio_back.exists? then %>
+      	<%= link_to image_tag(style.bio_back.url(:thumb), :height => 24),
+      	  style.bio_back.url %>
       <% end %>
     </td>
     <td style="background-color: <%= "#%06x" % style.gradient_lower_color %>;

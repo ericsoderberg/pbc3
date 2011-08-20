@@ -11,6 +11,10 @@ class Style < ActiveRecord::Base
       :normal => '980x445',
       :thumb => '50x25'
     }
+  has_attached_file :bio_back, :styles => {
+      :normal => '201x308',
+      :thumb => '50x'
+    }
   has_many :pages
   acts_as_audited
   

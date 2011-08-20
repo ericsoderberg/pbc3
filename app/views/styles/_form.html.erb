@@ -40,6 +40,19 @@
     <%= f.file_field :feature_strip %>
   </div>
   <div class="field">
+    <%= f.label :bio_back %> <span class="help">(201 x 308)</span><br />
+    <% if @style.bio_back.exists? -%>
+      <%= image_tag @style.bio_back.url(:thumb) %>
+      <%= check_box_tag 'delete_bio_back' %> delete bio back?
+    <% end -%>
+    <%= f.file_field :bio_back %>
+  </div>
+  <div class="field">
+    <%= f.label :bio_back_color %><br />
+    <%= f.text_field :bio_back_color,
+      :value => "0x%06x" % @style.bio_back_color %>
+  </div>
+  <div class="field">
     <%= f.label :hero_text_color %><br />
     <%= f.text_field :hero_text_color,
       :value => "0x%06x" % @style.hero_text_color %>
