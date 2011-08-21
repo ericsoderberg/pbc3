@@ -1024,7 +1024,7 @@ footer {
       .edit_gallery li.active a {
         display: none;
         }
-    .edit_gallery .page_admin {
+    .edit_gallery .page_admin, #files .page_admin {
       height: 22px;
       line-height: 22px;
       padding-left: 0px;

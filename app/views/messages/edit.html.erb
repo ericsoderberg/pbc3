@@ -14,8 +14,10 @@
             message_file.file.url %>
           <%= message_file.file.content_type %>
           
+          <div class="page_admin">
           <%= link_to 'Delete file', message_file_path(@message, message_file),
             :confirm => 'Are you sure?', :method => :delete %>
+          </div>
         </li>
       <% end -%>
     </ul>
