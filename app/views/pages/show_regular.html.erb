@@ -10,7 +10,7 @@
   
 </section>
 
-<div id="regular_content">
+<div class="regular_content">
 
   <section>
     
@@ -28,7 +28,7 @@
 
   <aside>
     
-    <ul id="regular_aside">
+    <ul class="regular_aside">
       <% @page.aspect_order.split(',').each do |aspect| -%>
         <% if not %w(t g).include?(aspect) -%>
           <%= render_page_panel(@page, aspect,

@@ -3,7 +3,7 @@
   <%= render :partial => 'messages/header' %>
 
   <% if current_user and current_user.administrator? -%>
-  <div id="add_content" class="header_add_content">
+  <div class="add_content header_add_content">
     <%= link_to 'Add Author', new_author_path %>
   </div>
   <% end -%>

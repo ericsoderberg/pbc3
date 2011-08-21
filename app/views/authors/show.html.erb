@@ -10,7 +10,7 @@
     <h1 id="author_title"><%= @author.name %></h1>
     
     <% if current_user and current_user.administrator? -%>
-    <div id="page_admin">
+    <div class="page_admin">
       <ul>
         <li><%= link_to 'Edit author', edit_author_path(@author) %><li>
       </ul>

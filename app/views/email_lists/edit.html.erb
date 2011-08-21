@@ -1,6 +1,6 @@
 <% title(@email_list.name) -%>
 
-<div id="edit_content">
+<div class="edit_content">
   <h1><%= @email_list.name %><%= @site.email_domain %></h1>
 
 <%= form_tag email_list_path(@email_list), :method => :put do %>

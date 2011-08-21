@@ -1,6 +1,6 @@
 
 <% if user_signed_in? and current_user.administrator? -%>
-  <div id="page_admin">
+  <div class="page_admin">
     <ul>
       <li><%= link_to 'Edit page', edit_page_path(@page) %></li>
       <li>

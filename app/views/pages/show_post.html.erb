@@ -10,7 +10,7 @@
       <%= link_to @page.parent.name, friendly_page_path(@page.parent)%></h3>
 
     <% if user_signed_in? and current_user.administrator? -%>
-      <div id="page_admin">
+      <div class="page_admin">
         <ul>
           <li><%= link_to 'Edit post', edit_page_path(@page) %><li>
         </ul>
@@ -28,7 +28,7 @@
   
 </section>
 
-<div id="regular_content">
+<div class="regular_content">
 
   <section id="page_text">
     <%= raw @page.text %>

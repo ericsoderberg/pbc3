@@ -1,4 +1,4 @@
-<div id="edit_content">
+<div class="edit_content">
   <section>
     <h1>Editing <%= @message.title %></h1>
 
@@ -13,6 +13,9 @@
           <%= link_to message_file.file.original_filename,
             message_file.file.url %>
           <%= message_file.file.content_type %>
+          
+          <%= link_to 'Delete file', message_file_path(@message, message_file),
+            :confirm => 'Are you sure?', :method => :delete %>
         </li>
       <% end -%>
     </ul>

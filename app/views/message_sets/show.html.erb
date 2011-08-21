@@ -5,7 +5,7 @@
     <h1><%= @message_set.title %></h1>
     
     <% if current_user and current_user.administrator? -%>
-    <div id="page_admin">
+    <div class="page_admin">
       <ul>
         <li><%= link_to 'Edit series', edit_series_path(@message_set) %><li>
       </ul>
@@ -33,7 +33,7 @@
   </div>
     
   <% if current_user and current_user.administrator? -%>
-  <div id="add_content">
+  <div class="add_content">
     <%= link_to 'Add message',
       new_message_path(:series_id => @message_set.url) %>
   </div>

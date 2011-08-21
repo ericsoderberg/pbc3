@@ -7,7 +7,7 @@
   </h1>
   
   <% if current_user and current_user.administrator? -%>
-  <div id="page_admin">
+  <div class="page_admin">
     <ul>
       <li><%= link_to 'Edit form', edit_form_path(@form) %><li>
       <li><%= link_to 'Copy form', copy_form_path(@form) %><li>

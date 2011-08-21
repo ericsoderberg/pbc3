@@ -7,7 +7,7 @@
     <%= render :partial => 'audio' %>
     
     <% if current_user and current_user.administrator? -%>
-    <div id="page_admin">
+    <div class="page_admin">
       <ul>
         <li><%= link_to 'Edit message', edit_message_path(@message) %><li>
       </ul>

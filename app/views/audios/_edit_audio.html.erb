@@ -2,7 +2,10 @@
   <audio controls>
     <source src="<%= edit_audio.audio.url %>"/>
   </audio>
-  <a href="<%= edit_page_audio_path(@page, edit_audio) %>">
+  <div class="footer">
     <div class="caption"><%= edit_audio.caption %></div>
-  </a>
+    <div class="page_admin">
+      <a href="<%= edit_page_audio_path(@page, edit_audio) %>">Edit</a>
+    </div>
+  </div>
 <% end %>

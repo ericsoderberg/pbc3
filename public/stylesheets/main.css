@@ -608,7 +608,7 @@ footer {
       margin: 0px 10px;
       }
   
-#page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
+.page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
   float: right;
   display: block;
 	margin: 0;
@@ -619,23 +619,23 @@ footer {
   #page_feed_control, #page_calendar_control {
     margin-left: 15px;
     }
-  #page_admin ul {
+  .page_admin ul {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
     vertical-align: baseline;
     }
-    #page_admin ul li {
+    .page_admin ul li {
       float: left;
       height: 32px;
     }
-  #page_admin a {
+  .page_admin a {
     display: block;
 	  color: #bbb;
     font-weight: bold;
     vertical-align: baseline;
     }
-    #page_admin a:hover {
+    .page_admin a:hover {
       color: #333;
       background-color: inherit;
       }
@@ -649,11 +649,11 @@ footer {
   margin-bottom: 25px;
 }
 
-#regular_content {
+.regular_content {
 	display: table;
 	margin-top: 25px;
   }
-	#regular_content section {
+	.regular_content section {
 		display: table-cell;
 		width: 100%;
 		padding: 0px 30px 20px 0px;
@@ -661,51 +661,51 @@ footer {
 		color: #666;
 	  }
 	
-	#regular_aside {
+	.regular_aside {
 		display: table-cell;
 		width: 400px;
 	  }
-	#regular_aside .form {
+	.regular_aside .form {
 	  width: 300px;
 	  }
-	  #regular_aside #dynamic_forms_list .form {
+	  .regular_aside #dynamic_forms_list .form {
 	    width: auto;
 	    }
 	
-#add_content {
+.add_content {
   margin: 20px 0px;
 	}
-	#add_content.header_add_content {
+	.add_content.header_add_content {
 		float: right;
 		margin: 0px;
 		}
-      #page_admin a, #add_content a {
+      .page_admin a, .add_content a {
   		  display: inline-block;
   		  color: #bbb;
 		    font-weight: bold;
 				padding-left: 20px;
 		  }
-		  #page_admin a:hover, #add_content a:hover {
+		  .page_admin a:hover, .add_content a:hover {
 		    color: #333;
 		    background-color: inherit;
 		  }
 		  
-#edit_content {
+.edit_content {
   display: table;
 	width: 980px;
   }
-  #edit_content aside {
+  .edit_content aside {
     display: table-cell;
     width: 300px;
     }
-  #edit_content section {
+  .edit_content section {
     display: table-cell;
 		width: 640px;
     }
-    #edit_content section header {
+    .edit_content section header {
       margin-top: 0px;
       }
-		#edit_content h4 {
+		.edit_content h4 {
 			margin-bottom: 0px;
 			color: #888;
 			}
@@ -728,17 +728,17 @@ footer {
   margin-left: 10px;
   }
   
-#regular_content {
+.regular_content {
   margin-top: 30px;
   }
   
-#regular_aside {
+.regular_aside {
   margin: 0px;
   padding: 0px;
   width: 400px;
   list-style: none;
   }
-  #regular_aside > li {
+  .regular_aside > li {
     display: block;
     width: 400px;
     margin-bottom: 20px;
@@ -868,7 +868,7 @@ footer {
       color: #666;
       margin-left: 10px;
       }
-  #add_content {
+  .add_content {
     padding: 0px 20px;
     }
     
@@ -879,10 +879,10 @@ footer {
   vertical-align: top;
 }
 
-#regular_content aside .event_form {
+.regular_content aside .event_form {
   width: 600px;
   }
-  #regular_content aside .event_form h3 {
+  .regular_content aside .event_form h3 {
     margin-top: 0px;
     padding-top: 0px;
     }
@@ -1000,13 +1000,13 @@ footer {
     background-color: inherit;
   }
 
-#edit_gallery {
+.edit_gallery {
   list-style-type: none;
   margin: 0px 0px 20px 0px;
   background-color: #666;
   padding: 20px;
   }
-  #edit_gallery li {
+  .edit_gallery li {
     display: inline-block;
     position: relative;
     vertical-align: top;
@@ -1014,22 +1014,23 @@ footer {
     padding: 10px;
     background-color: #eee;
     }
-    #edit_gallery li.active {
+    .edit_gallery li.active {
       background-color: #999;
       color: #fff;
     }
-    #edit_gallery li video {
-      display: block;
-      }
-    #edit_gallery li .caption, #edit_gallery li a {
+    .edit_gallery li .caption {
       display: inline-block;
       }
-    #edit_gallery li a {
-      position: absolute;
-      right: 10px;
-      }
-      #edit_gallery li.active a {
+      .edit_gallery li.active a {
         display: none;
+        }
+    .edit_gallery .page_admin {
+      height: 22px;
+      line-height: 22px;
+      padding-left: 0px;
+      }
+      .edit_gallery .page_admin a {
+        padding-left: 10px;
         }
 
 /* http://www.ie7nomore.com/fun/slideshow/#slide1 */
@@ -2066,6 +2067,12 @@ header audio {
 		.message_files img {
 		  vertical-align: middle;
 		  }
+.edit_content #files {
+  margin: 0px;
+  margin-bottom: 20px;
+  padding: 0px;
+  list-style: none;
+}
 
 .series_title {
 	margin: 10px 0px;
@@ -2577,7 +2584,7 @@ div#messages {
   }
   
 /* Rich Text Editor lite, align rte.css too */
-#regular_content section.text_editing {
+.regular_content section.text_editing {
   padding: 0px;
   }
   
@@ -2632,7 +2639,7 @@ div#messages {
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
-	#page_admin, .admin, .actions {
+	.page_admin, .admin, .actions {
 		display: none;
 		}
 	input, textarea {

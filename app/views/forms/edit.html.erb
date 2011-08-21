@@ -4,7 +4,7 @@
   <%= render :partial => 'pages/yui_scripts' %> 
 <% end -%>
 
-<div id="regular_content">
+<div class="regular_content">
 <section>
   
   <header>
@@ -21,7 +21,7 @@
       :collection => @form.form_fields %>
   </ul>
   
-  <div id="add_content">
+  <div class="add_content">
     <%= button_to 'Add field',
       form_fields_path(@form), :remote => true %>
   </div>

@@ -8,7 +8,7 @@
   </h1>
   
   <% if user_signed_in? and current_user.administrator? -%>
-  <div id="page_admin">
+  <div class="page_admin">
     <ul>
       <li><%= link_to 'Edit form', edit_form_path(@form) %><li>
       <li><%= link_to 'forms', forms_path() %><li>
@@ -18,7 +18,7 @@
   
 </header>
 
-<div id="regular_content">
+<div class="regular_content">
 <section>
   
   <ul id="filled_fields">
