@@ -23,7 +23,8 @@
   </div>
   <div class="field">
     <%= f.label :date %><br />
-    <%= f.text_field :date %>
+    <%= f.text_field :date,
+      :value => l(@message.date.to_date()) %>
   </div>
   <div class="field">
     <%= f.label :author %><br />
@@ -59,3 +60,7 @@
     <% end -%>
   </div>
 <% end %>
+
+<%= javascript_tag do -%>
+  <%= render :partial => 'messages/form_aids.js' %>
+<% end -%>

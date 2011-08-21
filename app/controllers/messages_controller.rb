@@ -55,6 +55,7 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.xml
   def create
+    parse_date
     @message = Message.new(params[:message])
     if params[:message_file]
       @message_file = @message.message_files.build(params[:message_file])
@@ -77,6 +78,7 @@ class MessagesController < ApplicationController
   # PUT /messages/1
   # PUT /messages/1.xml
   def update
+    parse_date
     @message = Message.find_by_url(params[:id])
 
     respond_to do |format|
@@ -99,6 +101,15 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(messages_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  private
+
+  def parse_date
+    if params[:message][:date] and params[:message][:date].is_a?(String)
+      params[:message][:date] =
+        Date.parse_from_form(params[:message][:date])
     end
   end
   
