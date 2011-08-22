@@ -68,11 +68,11 @@ img, a img {
 }
 
 header {
-  margin: 35px 0px 15px 0px;
+  margin: 35px 0px 10px 0px;
   }
   header h1, header h2, header h3 {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
     margin: 0px;
     padding: 0px;
     padding-right: 40px;
@@ -106,7 +106,7 @@ header {
   }
   header ul.nav {
     display: inline-block;
-    vertical-align: middle;
+    /*vertical-align: baseline;*/
     margin: 0px;
 	  padding: 0px;
     list-style: none;
@@ -117,17 +117,19 @@ header {
     background: #eee;
     }
     header ul.nav li {
-	    float: left;
-	    margin: 2px;
+      display: inline-block;
+      margin-right: 5px;
+	    /*float: left;*/
+	    /*margin: 2px;*/
     }
       header ul.nav li a {
   		  display: block;
-  		  padding-right: 15px;
-  		  padding-left: 15px;
+  		  padding: 5px 15px;
   		  font-size: 16px;
   		  font-weight: bold;
-  		  line-height: 28px;
+  		  /*line-height: 28px;*/
   		  text-align: center;
+  	    vertical-align: baseline;
   		  color: #999;
 		    }
 		  header ul.nav li a, .edit_list li a {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110820200713) do
+ActiveRecord::Schema.define(:version => 20110822041037) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -211,26 +211,27 @@ ActiveRecord::Schema.define(:version => 20110820200713) do
     t.datetime "updated_at"
     t.string   "url"
     t.text     "hero_text"
-    t.boolean  "featured",         :default => false
+    t.boolean  "featured",             :default => false
     t.integer  "parent_id"
     t.text     "snippet_text"
     t.text     "feature_phrase"
     t.integer  "feature_index"
-    t.boolean  "private",          :default => false
+    t.boolean  "private",              :default => false
     t.integer  "style_id"
     t.integer  "parent_index"
     t.boolean  "highlightable"
-    t.string   "layout",           :default => "regular", :null => false
+    t.string   "layout",               :default => "regular", :null => false
     t.string   "email_list"
     t.string   "url_prefix"
-    t.boolean  "animate_banner",   :default => false
+    t.boolean  "animate_banner",       :default => false
     t.text     "url_aliases"
-    t.boolean  "obscure",          :default => false
+    t.boolean  "obscure",              :default => false
     t.string   "child_layout"
     t.string   "aspect_order"
     t.string   "facebook_url"
     t.string   "twitter_name"
-    t.boolean  "feature_upcoming", :default => false
+    t.boolean  "feature_upcoming",     :default => false
+    t.boolean  "allow_for_email_list", :default => false
   end
 
   create_table "payments", :force => true do |t|

@@ -15,6 +15,15 @@
           <%= f.label :private?, :class => 'inline' %>
           <%= f.check_box :private, :class => 'submittable' %>
         </div>
+        <% if @page.email_list -%>
+        <div class="field">
+          <%= f.label :allow_for_email_list?, :class => 'inline' %>
+          <%= f.check_box :allow_for_email_list, :class => 'submittable' %>
+          <div class="help">
+            <%= @page.email_list %><%= @site.email_domain %>
+          </div>
+        </div>
+        <% end -%>
       <% end %>
       
       <header>

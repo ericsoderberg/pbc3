@@ -88,10 +88,16 @@ class Page < ActiveRecord::Base
   end
   
   def self.visible(user)
+    email_list_names = []
+    if (user and not user.administrator?)
+      # special case this one since we have to check with the email lists
+      email_list_names = user.email_lists.map{|el| el.name}
+    end
     includes(:authorizations).
-    where('? OR pages.private = ? OR authorizations.user_id = ?',
+    where('? OR pages.private = ? OR authorizations.user_id = ? OR ' +
+      '(pages.allow_for_email_list = ? AND pages.email_list IN (?))',
       (user ? user.administrator? : false), false,
-      (user ? user.id : -1))
+      (user ? user.id : -1), true, email_list_names)
   end
   
   searchable do
@@ -119,6 +125,8 @@ class Page < ActiveRecord::Base
     return true unless self.private?
     return true if user and user.administrator?
     authorizations.each{|a| return true if user == a.user}
+    return false unless email_list and allow_for_email_list? and user
+    return true if user.email_lists.map{|el| el.name}.include?(email_list)
     return false
   end
   

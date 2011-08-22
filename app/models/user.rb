@@ -41,4 +41,8 @@ class User < ActiveRecord::Base
     text :email, :default_boost => 2
   end
   
+  def email_lists
+    EmailList.find_by_address(email)
+  end
+  
 end
