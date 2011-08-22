@@ -19,6 +19,7 @@ class Page < ActiveRecord::Base
   has_many :authorizations
   has_one :podcast
   has_many :forms
+  has_many :conversations, :order => 'created_at DESC'
   acts_as_audited :except => [:parent_index, :feature_index]
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']

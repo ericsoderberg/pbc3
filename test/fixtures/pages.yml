@@ -53,3 +53,12 @@ post:
   layout: regular
   child_layout: header
   aspect_order: 't,c,e,d,f,p,v,a'
+  
+forum:
+  name: Forum
+  url: forum
+  parent: public
+  parent_index: 3
+  layout: regular
+  child_layout: header
+  aspect_order: 't,c,e,d,f,p,v,a'

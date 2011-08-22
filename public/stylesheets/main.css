@@ -1797,6 +1797,29 @@ div.actions {
       font-size: 16px;
       line-height: 28px;
       }
+      
+#conversations_list {
+  margin: 20px;
+  padding: 0px;
+  list-style: none;
+  }
+  #conversations_list > li {
+    position: relative;
+    margin: 0px 0px;
+    padding: 10px 0px 20px 0px;
+    border-top: 1px solid #ccc;
+    }
+    #conversations_list .poster {
+      font-size: 16px;
+      margin-bottom: 10px;
+      }
+    #conversations_list .timestamp {
+      float: right;
+      padding: 0px;
+      }
+    #conversations_list .page_admin {
+      clear: right;
+      }
 
 #breadcrumbs {
 	text-align: right;

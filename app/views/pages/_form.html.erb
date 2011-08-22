@@ -17,22 +17,23 @@
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
     <div class="field">
+      <%= f.label :title %><br />
+      <%= f.text_field :name, :size => 110 %>
+    </div>
+    <div class="field">
+      <%= f.label :text %><br />
       <%= f.text_area :text, :size => '80x20', :class => 'textedit' %>
     </div>
   </section>
 
+  <% if current_user.administrator? -%>
   <aside>
     <div class="form">
       
       <div class="field">
-        <%= f.label :page_name %><br />
-        <%= f.text_field :name %>
-      </div>
-      
-      <div class="field">
-        <%= f.label :name_prefix %><br />
+        <%= f.label :title_prefix %><br />
         <div class="help">
-          Use the parent page name here for generic page names like 'Resources'
+          Use the parent page title here for generic page titles like 'Resources'
         </div>
         <%= f.text_field :url_prefix %>
       </div>
@@ -108,6 +109,7 @@
       
     </div>
   </aside>
+  <% end -%>
 </div>
 
   <div class="actions">

@@ -117,6 +117,9 @@ Pbc3::Application.routes.draw do
     resource :feature, :only => [:edit, :update], :controller => :home
     resource :podcast
     resource :social, :only => [:edit, :update], :controller => :social
+    resources :conversations do
+      resources :comments
+    end
   end
   
   resources :authors

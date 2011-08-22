@@ -106,6 +106,7 @@ class PagesController < ApplicationController
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
     @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
+    @page.text = '<p>please edit</p>'
     @page.layout = 'regular'
     @page.child_layout = 'header'
     @page.aspect_order = 't,c,e,d,f,p,v,a'
@@ -124,6 +125,7 @@ class PagesController < ApplicationController
 
   def edit
     @page = Page.find_by_url(params[:id])
+    @page.text = '<p>please edit</p>' if @page.text.empty?
     @siblings = @page.parent ? @page.parent.children : []
   end
   

@@ -15,7 +15,8 @@ if(typeof $.fn.rte === "undefined") {
         media_url: "",
         content_css_url: "rte.css",
         dot_net_button_class: null,
-        max_height: 350
+        max_height: 350,
+        enable_code_mode: true,
     };
 
     $.fn.rte = function(options) {
@@ -40,7 +41,7 @@ if(typeof $.fn.rte === "undefined") {
 
             // Mozilla needs this to display caret
             if($.trim(content)=='') {
-                content = '<br />';
+                content = '<p>please edit</p>'; //'<br />';
             }
 
             // already created? show/hide
@@ -51,6 +52,7 @@ if(typeof $.fn.rte === "undefined") {
                 $(iframe).show();
                 $("#toolbar-" + element_id).remove();
                 textarea.before(toolbar());
+                iframe.contentWindow.focus();
                 return true;
             }
 
@@ -131,8 +133,7 @@ if(typeof $.fn.rte === "undefined") {
             var tb = $("<div class='rte-toolbar' id='toolbar-"+ element_id +"'><div>\
                 <p>\
                     <select>\
-                        <option value=''>Block style</option>\
-                        <option value='p'>Paragraph</option>\
+                        <option value='p' selected='true'>Paragraph</option>\
                         <option value='h2'>Header</option>\
                         <option value='h3'>Sub Header</option>\
                         <option value='blockquote'>Quote</option>\

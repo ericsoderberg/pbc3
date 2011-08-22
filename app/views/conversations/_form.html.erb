@@ -1,0 +1,25 @@
+<%= form_for(@conversation, :url => [@page, @conversation]) do |f| %>
+  <% if @conversation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@conversation.errors.count, "error") %> prohibited this conversation from being saved:</h2>
+
+      <ul>
+      <% @conversation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_area :text, :size => '80x20', :class => 'textedit' %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+    | <%= link_to 'Cancel', friendly_page_path(@page) %>
+  </div>
+<% end %>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'pages/text_editor.js' -%>
+<% end -%>

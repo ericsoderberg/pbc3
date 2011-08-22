@@ -1,0 +1,9 @@
+chatter:
+  text: Bye
+  user: generic
+  conversation: chat
+
+discusser:
+  text: Goodbye
+  user: special
+  conversation: discuss

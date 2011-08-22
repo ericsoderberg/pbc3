@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110822041037) do
+ActiveRecord::Schema.define(:version => 20110822140848) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -60,12 +60,28 @@ ActiveRecord::Schema.define(:version => 20110822041037) do
     t.datetime "updated_at"
   end
 
+  create_table "comments", :force => true do |t|
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "conversation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "contacts", :force => true do |t|
     t.integer  "page_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "role"
+  end
+
+  create_table "conversations", :force => true do |t|
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "page_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "documents", :force => true do |t|

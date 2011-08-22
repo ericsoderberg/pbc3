@@ -1,0 +1,9 @@
+chat:
+  text: Hi
+  user: special
+  page: forum
+
+discuss:
+  text: Hello
+  user: generic
+  page: forum
