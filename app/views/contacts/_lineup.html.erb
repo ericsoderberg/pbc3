@@ -16,7 +16,7 @@
         </div>
         <div class="card-face card-back"
           style="<%= (@page.style and @page.style.bio_back.exists?) ?
-            ("background: url(#{@page.style.bio_back.url}); color: " +
+            ("background: url('#{@page.style.bio_back.url}'); color: " +
               ("#%06x" % @page.style.bio_back_color)) : '' %>"
           >
           <h4>
