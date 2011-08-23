@@ -1,11 +1,12 @@
 <div class="site_nav_menu">
   <% offset = 0 -%>
+  <% size = (pages.length > 10 ? ((pages.length+1) / 2) : pages.length) %>
   <% while offset < pages.length -%>
     <ul>
-      <% pages[offset,10].each do |page| -%>
+      <% pages[offset,size].each do |page| -%>
         <li><%= link_to page.name, friendly_page_path(page) %></li>
       <% end -%>
     </ul>
-    <% offset += 10 -%>
+    <% offset += size -%>
   <% end -%>
 </div>
