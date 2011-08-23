@@ -5,7 +5,7 @@
       :method => :get %>
   </div>
   <ul class="nav">
-    <% @page.possible_aspects.each do |aspect| -%>
+    <% @page.possible_aspects(current_user).each do |aspect| -%>
     <li class="<%= active_aspect == aspect ? 'active' : '' %>">
       <%= link_to aspect.capitalize, edit_page_aspect_url(@page, aspect) %></li>
     <% end -%>

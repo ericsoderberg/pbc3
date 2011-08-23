@@ -1,7 +1,7 @@
 class AudiosController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!
   before_filter :get_page
+  before_filter :page_administrator!
   
   def index
     redirect_to new_page_audio_url(@page)

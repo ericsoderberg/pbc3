@@ -45,5 +45,5 @@ module ApplicationHelper
   def administrator?
     current_user and current_user.administrator?
   end
-      
+  
 end

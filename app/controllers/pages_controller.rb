@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
-  before_filter :administrator!, :except => [:show, :feed]
+  before_filter :administrator!, :except => [:show, :feed, :edit, :update]
+  # edit and update are handled inline below
   
   def index
     @pages = Page.order("name ASC")
@@ -125,6 +126,7 @@ class PagesController < ApplicationController
 
   def edit
     @page = Page.find_by_url(params[:id])
+    return unless page_administrator!
     @page.text = '<p>please edit</p>' if @page.text.empty?
     @siblings = @page.parent ? @page.parent.children : []
   end
@@ -159,6 +161,7 @@ class PagesController < ApplicationController
 
   def update
     @page = Page.find_by_url(params[:id])
+    return unless page_administrator!
     params[:page][:parent_id] = params[:parent_id] # due to flexbox
     params[:page][:email_list] = params[:email_list] # due to flexbox
     orderer_sub_ids = params[:sub_order] ?

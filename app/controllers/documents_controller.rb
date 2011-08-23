@@ -1,7 +1,7 @@
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!
   before_filter :get_page
+  before_filter :page_administrator!
   
   def index
     @documents = @page.documents

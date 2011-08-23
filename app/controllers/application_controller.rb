@@ -11,6 +11,16 @@ class ApplicationController < ActionController::Base
     return true
   end
   
+  def page_administrator!
+    unless (current_user and
+        (current_user.administrator? or
+          (@page and @page.administrator?(current_user))))
+      redirect_to root_url
+      return false
+    end
+    return true
+  end
+  
   def get_page
     @page = Page.find_by_url(params[:page_id])
   end
