@@ -27,9 +27,8 @@
   <% if @form.id -%>
   <div class="field">
     <%= f.label :page %>
-    <div id="choose_page_id"></div>
-    <!--%= collection_select(:form, :page_id,
-      @form.possible_pages, :id, :name) %-->
+    <div id="choose_page_id"
+      style="display: inline-block; vertical-align: bottom"></div>
   </div>
   <% end -%>
   
