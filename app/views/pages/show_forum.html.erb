@@ -21,45 +21,7 @@
       <%= raw @page.text %>
     </div>
 
-    <ul id="conversations_list">
-      <% @page.conversations.each do |conversation| -%>
-        <li>
-          <div class="timestamp">
-            <%= time_ago_in_words(conversation.created_at) %> ago
-          </div>
-          <div class="page_admin">
-            <ul>
-              <li>
-                <%= link_to 'Edit',
-                  edit_page_conversation_path(@page, conversation) %>
-              </li>
-              <li>
-                <%= link_to 'Delete', [@page, conversation],
-                  :confirm => 'Are you sure?', :method => :delete %>
-              </li>
-            </ul>
-          </div>
-          <div class="poster">
-            <%= conversation.user.name %>
-          </div>
-          
-          
-          <%= raw conversation.text %>
-          
-          <ul class="comments">
-            <% conversation.comments.each do |comment | -%>
-              <li>
-                <%= raw comment.text %>
-                <div class="attribution">
-                  <%= comment.user.name %>
-                  <%= time_ago_in_words(comment.created_at) %> ago
-                </div>
-              </li>
-            <% end -%>
-          </ul>
-        </li>
-      <% end -%>
-    </ul>
+    <%= render :partial => 'conversations/index' %>
   </section>
 
   <aside>

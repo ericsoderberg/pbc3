@@ -1815,22 +1815,45 @@ div.actions {
   list-style: none;
   }
   #conversations_list > li {
-    position: relative;
+    position: static;
+    clear: right;
     margin: 0px 0px;
     padding: 10px 0px 20px 0px;
     border-top: 1px solid #ccc;
     }
-    #conversations_list .poster {
-      font-size: 16px;
-      margin-bottom: 10px;
-      }
-    #conversations_list .timestamp {
+    #conversations_list .details {
       float: right;
-      padding: 0px;
+      text-align: right;
+      padding-bottom: 10px;
       }
-    #conversations_list .page_admin {
-      clear: right;
-      }
+      #conversations_list .details div {
+        padding-left: 10px;
+        }
+      #conversations_list .poster {
+        color: #333;
+        }
+      #conversations_list .timestamp {
+        padding: 0px;
+        }
+      #conversations_list .admin a {
+        color: #999;
+        }
+      
+.comments {
+  list-style: none;
+  }
+  .comments > li {
+    clear: right;
+    padding: 10px 0px 20px 0px;
+    border-top: 1px solid #ccc;
+    }
+.new_comment {
+  clear: right;
+  margin-left: 20px;
+  }
+a.new_comment {
+  color: #999;
+  }
 
 #breadcrumbs {
 	text-align: right;

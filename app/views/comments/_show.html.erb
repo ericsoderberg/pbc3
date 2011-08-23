@@ -1,0 +1,23 @@
+<% comment ||= @comment -%>
+<li class="comment">
+  <div class="details">
+    <div class="poster">
+      <%= comment.user.name %>
+    </div>
+    <div class="timestamp">
+      <%= time_ago_in_words(comment.created_at) %> ago
+    </div>
+    <% if current_user.administrator? or comment.user == current_user -%>
+      <div class="admin">
+        <% if false -%>
+        <%= link_to 'Edit',
+          edit_page_conversation_comment_path(@page, comment.conversation, comment) %>
+        <% end -%>
+        <%= link_to 'Delete', [@page, comment.conversation, comment],
+          :confirm => 'Are you sure?', :method => :delete, :remote => true,
+          :class => 'delete' %>
+      </div>
+    <% end -%>
+  </div>
+  <%= raw comment.text %>
+</li>
