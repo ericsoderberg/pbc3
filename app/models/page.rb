@@ -131,6 +131,13 @@ class Page < ActiveRecord::Base
     return false
   end
   
+  def administrator?(user)
+    return false unless user
+    return true if user.administrator?
+    authorizations.each{|a| return true if user == a.user and a.administrator?}
+    return false
+  end
+  
   def root
     parent ? parent.root : self
   end
