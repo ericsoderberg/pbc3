@@ -15,7 +15,7 @@
           <%= f.label :private?, :class => 'inline' %>
           <%= f.check_box :private, :class => 'submittable' %>
         </div>
-        <% if @page.email_list -%>
+        <% if @page.email_list and not @page.email_list.empty? -%>
         <div class="field">
           <%= f.label :allow_for_email_list?, :class => 'inline' %>
           <%= f.check_box :allow_for_email_list, :class => 'submittable' %>

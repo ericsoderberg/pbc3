@@ -1,5 +1,9 @@
 <%= content_tag_for(:li, edit_authorization,
   :class => (edit_authorization == @authorization ? 'active' : '')) do %>
-  <%= link_to edit_authorization.user.name  ,
-      edit_page_authorization_path(@page, edit_authorization)  %>
+  <a href="<%= edit_page_authorization_path(@page, edit_authorization) %>">
+    <%= edit_authorization.user.name %>
+    <% if edit_authorization.administrator? -%>
+      <div class="role">Administrator</div>
+    <% end -%>
+  </a>
 <% end %>

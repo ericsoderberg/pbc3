@@ -26,11 +26,6 @@ class ContactsControllerTest < ActionController::TestCase
     assert_redirected_to new_page_contact_path(:page_id => @page.url)
   end
 
-  test "should show contact" do
-    get :show, :page_id => @page.url, :id => @contact.to_param
-    assert_response :success
-  end
-
   test "should get edit" do
     get :edit, :page_id => @page.url, :id => @contact.to_param
     assert_response :success
