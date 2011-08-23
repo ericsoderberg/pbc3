@@ -45,17 +45,17 @@
   
   <nav id="site_nav">
     <ul>
-      <li class="<%= (@page and @site and
+      <li class="menu_parent <%= (@page and @site and
         @page.root == @site.about_page) ? 'active' : '' %>">
-        <%= link_to "About", about_path %></li>
-      <li id="communities_nav" class="<%= (@page and @site and
+        <%= link_to "About", about_path %>
+        <%= render :partial => 'layouts/site_nav_menu',
+          :locals => {:pages => @abouts} %>
+      </li>
+      <li class="menu_parent <%= (@page and @site and
         @page.root == @site.communities_page) ? 'active' : '' %>">
         <%= link_to "Communities", communities_path %>
-        <ul>
-        <% @communities.each do |page| -%>
-            <li><%= link_to page.name, friendly_page_path(page) %></li>
-        <% end -%>
-        </ul>
+        <%= render :partial => 'layouts/site_nav_menu',
+          :locals => {:pages => @communities} %>
       </li>
       <li class="<%= (not @page and @calendar) ? 'active' : '' %>">
         <%= link_to "Calendar", main_calendar_path %></li>

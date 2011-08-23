@@ -1,5 +1,6 @@
 site:
   communities_page: communities
+  about_page: about
   title: 'Title'
   subtitle: 'sub title'
   email: 'site@localhost'

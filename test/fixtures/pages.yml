@@ -36,6 +36,13 @@ communities:
   layout: landing
   child_layout: landing
   aspect_order: 't,c,e,d,f,p,v,a'
+
+about:
+  name: About
+  url: about
+  layout: landing
+  child_layout: landing
+  aspect_order: 't,c,e,d,f,p,v,a'
   
 blog:
   name: Blog

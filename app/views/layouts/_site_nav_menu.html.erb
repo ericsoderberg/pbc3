@@ -1,0 +1,11 @@
+<div class="site_nav_menu">
+  <% offset = 0 -%>
+  <% while offset < pages.length -%>
+    <ul>
+      <% pages[offset,10].each do |page| -%>
+        <li><%= link_to page.name, friendly_page_path(page) %></li>
+      <% end -%>
+    </ul>
+    <% offset += 10 -%>
+  <% end -%>
+</div>

@@ -281,7 +281,7 @@ footer {
 	list-style: none;
 }
 
-#site_nav ul li {
+#site_nav > ul > li {
 	float: left;
 	border-left: 1px solid #999;
 }
@@ -328,63 +328,74 @@ footer {
   margin-right: 10px;
 }
 
-#site_nav #communities_nav {
+#site_nav .menu_parent {
   position: relative;
   }
-#site_nav #communities_nav ul {
+#site_nav .menu_parent .site_nav_menu {
+  display: table;
+  border-spacing: 0px;
   opacity: 0;
   position: absolute;
   top: 40px;
   z-index: 200;
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
   background-color: #797977;
   -webkit-box-shadow: 3px 3px 8px #666;
   -moz-box-shadow: 3px 3px 8px #666;
   box-shadow: 3px 3px 8px #666;
-  width: 200px;
-  height: auto;
-  line-height: 0px;
+  white-space: nowrap;
   -webkit-transition: all 0.5s ease 0.2s;
   -moz-transition: all 0.5s ease 0.2s;
   transition: all 0.5s ease 0.2s;
   }
-  #site_nav #communities_nav:hover ul {
+  #site_nav .menu_parent:hover .site_nav_menu {
     opacity: 1;
     }
-  #site_nav #communities_nav ul li {
-    position: relative;
-    float: none;
-    padding: 0px 10px;
+  #site_nav .site_nav_menu ul {
+    display: table-cell;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    }
+  #site_nav .menu_parent ul li,
+  #site_nav .menu_parent ul li a {
     height: 0px;
+    width: 0px;
     line-height: 0px;
     -webkit-transition: all 0.5s ease 0.2s;
     -moz-transition: all 0.5s ease 0.2s;
     transition: all 0.5s ease 0.2s;
     }
-    #site_nav #communities_nav:hover ul li {
-      height: 36px;
-      line-height: 36px;
-      }
-    #site_nav #communities_nav ul li a {
+  #site_nav .menu_parent:hover ul li,
+  #site_nav .menu_parent:hover ul li a {
+    height: 36px;
+    width: auto;
+    line-height: 36px;
+    -webkit-transition: color 0;
+    -moz-transition: color 0;
+    transition: color 0;
+    }
+  #site_nav .site_nav_menu ul li {
+    position: static;
+    float: none;
+    padding: 0px 0px;
+    }
+  #site_nav .menu_parent:hover ul li {
+    padding: 0px 10px;
+    }
+    #site_nav .site_nav_menu ul li a {
       color: #fff;
       background-color: inherit;
       font-weight: normal;
       text-align: left;
-      height: 0px;
-      line-height: 0px;
       padding: 0px;
       border-top: 1px solid #888;
       border-top-left-radius: 0px;
   	  border-bottom-left-radius: 0px;
-  	  -webkit-transition: all 0.5s ease 0.2s;
-      -moz-transition: all 0.5s ease 0.2s;
-      transition: all 0.5s ease 0.2s;
       }
-      #site_nav #communities_nav:hover ul li a {
-        height: 36px;
-        line-height: 36px;
+      #site_nav .site_nav_menu ul li:hover,
+      #site_nav .site_nav_menu ul li:hover a {
+        color: #000;
+        background-color: #999;
         }
 
 #search {
