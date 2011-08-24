@@ -14,8 +14,12 @@
 
   <%= f.hidden_field :page_id %>
   <div class="field">
-    <%= f.label :file %><br />
+    <%= f.label :file_1 %><span class="help">H.264 format</span><br />
     <%= f.file_field :video %>
+  </div>
+  <div class="field">
+    <%= f.label :file_2 %><span class="help">VP8/WebM format</span><br />
+    <%= f.file_field :video2 %>
   </div>
   <div class="field">
     <%= f.label "YouTube ID" %><br />

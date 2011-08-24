@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110824115214) do
+ActiveRecord::Schema.define(:version => 20110824124546) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -392,6 +392,10 @@ ActiveRecord::Schema.define(:version => 20110824115214) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "youtube_id"
+    t.string   "video2_file_name"
+    t.string   "video2_content_type"
+    t.integer  "video2_file_size"
+    t.datetime "video2_updated_at"
   end
 
 end

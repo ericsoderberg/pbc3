@@ -3,6 +3,9 @@
   <% if edit_video.video.exists? -%>
     <video controls>
       <source src="<%= edit_video.video.url %>"/>
+      <% if edit_video.video2.exists? -%>
+      <source src="<%= edit_video.video2.url %>"/>
+      <% end -%>
     </video>
   <% elsif edit_video.youtube_id and not edit_video.youtube_id.empty? -%>
     <iframe class="youtube-player" type="text/html" width="400" height="300"
