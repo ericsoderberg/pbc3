@@ -15,8 +15,7 @@
     
 <%= form_tag add_email_list_path(email_list), :id => 'email_subscribe',
   :class => 'inline' do %>
-  <%= text_field_tag 'email_address', '', :placeholder => 'email address',
-    :size => 36 %><br />
+  <%= text_field_tag 'email_address', '', :placeholder => 'email address' %>
   <%= submit_tag 'Subscribe' %>
 <% end %>
   </div>

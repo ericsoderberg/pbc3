@@ -2453,6 +2453,9 @@ div#messages {
   border-bottom: 1px solid #ccc;
   padding: 10px 0px;
 }
+  #subscribe input[type=text] {
+    width: 190px;
+  }
   
 #send_email {
   position: relative;
