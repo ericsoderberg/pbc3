@@ -16,15 +16,9 @@
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
-    <% if current_user.administrator? -%>
     <div class="field">
-      <%= f.label :title %><br />
-      <%= f.text_field :name, :size => 90 %>
-    </div>
-    <% end -%>
-    <div class="field">
-      <%= f.label :text %><br />
-      <%= f.text_area :text, :size => '80x20', :class => 'textedit' %>
+      <%= f.label :banner_text %><br />
+      <%= f.text_area :banner_text, :style => "height:200px", :class => 'textedit' %>
     </div>
   </section>
 
@@ -33,43 +27,40 @@
     <div class="form">
       
       <div class="field">
-        <%= f.label :title_prefix %><br />
+        <%= f.label :style, :class => 'inline' %>
+        <%= collection_select(:page, :style_id,
+          Style.all, :id, :name,
+          :include_blank => true) %>
+        <%= link_to 'styles', styles_path %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :animate_banners?, :class => 'inline' %>
+        <%= f.check_box :animate_banner %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :layout, :class => 'inline' %>
+        <%= f.select :layout,
+          options_for_select(Page::LAYOUTS, @page.layout) %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :child_layout, :class => 'inline' %>
+        <%= f.select :child_layout,
+          options_for_select(Page::CHILD_LAYOUTS, @page.child_layout) %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :content_order %><br />
         <div class="help">
-          Use the parent page title here for generic page titles like 'Resources'
+          Comma separated list of (t)ext, (e)vents, (c)ontacts,
+          e(m)ail list, (d)ocuments, (f)orms, child pa(g)es,
+          (p)hotos, (v)ideos, (a)udio, (h)ighlights, (F)acebook,
+          (T)witter
         </div>
-        <%= f.text_field :url_prefix %>
+        <%= f.text_field :aspect_order %>
       </div>
-      
-      <div class="field">
-        <%= f.label :url_aliases %><br />
-        <%= f.text_area :url_aliases, :size => '30x2' %>
-      </div>
-      
-      <div class="field">
-        <%= f.label :email_list %><br />
-        <div id="email_list"></div>
-      </div>
-      
-      <br />
-      
-      <div class="field">
-        <%= f.label :obscure?, :class => 'inline' %>
-        <%= f.check_box :obscure %>
-      </div>
-      
-      <% if @page.id -%>
-
-      <div class="field">
-        <%= f.label :parent_page %><br />
-        <div id="parent_id"></div>
-      </div>
-      
-      <div id="parent_context">
-        <%= render :partial => 'edit_for_parent' -%>
-      </div>
-      <% else -%>
-        <%= f.hidden_field :parent_id %>
-      <% end -%>
       
     </div>
   </aside>
@@ -79,15 +70,11 @@
   <div class="actions">
     <%= f.submit %>
     <%= render 'cancel_controls' %>
-    <% if @page.id -%>
-     | <%= link_to 'Delete page', @page, :confirm => 'Are you sure?',
-      :method => :delete %>
-    <% end -%>
   </div>
 <% end %>
 
 <%= javascript_tag do %>
-  <%= render :partial => 'text_editor.js' -%>
+  <%= render :partial => 'text_editor.js', :locals => {:height => 200} -%>
   
   <% if @page.id -%>
     <%= render :partial => 'form_aids.js' -%>

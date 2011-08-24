@@ -104,6 +104,8 @@ module PagesHelper
       page_authorizations_path(page)
     when 'contacts'
       page_contacts_path(page)
+    when 'style'
+      edit_style_page_path(page)
     when 'feature'
       edit_page_feature_path(page)
     when 'podcast'

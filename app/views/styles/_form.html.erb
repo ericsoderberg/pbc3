@@ -48,6 +48,11 @@
     <%= f.file_field :bio_back %>
   </div>
   <div class="field">
+    <%= f.label :banner_text_color %><br />
+    <%= f.text_field :banner_text_color,
+      :value => "0x%06x" % @style.banner_text_color %>
+  </div>
+  <div class="field">
     <%= f.label :bio_back_color %><br />
     <%= f.text_field :bio_back_color,
       :value => "0x%06x" % @style.bio_back_color %>

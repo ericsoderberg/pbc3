@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110822140848) do
+ActiveRecord::Schema.define(:version => 20110824115214) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(:version => 20110822140848) do
     t.string   "twitter_name"
     t.boolean  "feature_upcoming",     :default => false
     t.boolean  "allow_for_email_list", :default => false
+    t.text     "banner_text"
   end
 
   create_table "payments", :force => true do |t|
@@ -338,6 +339,7 @@ ActiveRecord::Schema.define(:version => 20110822140848) do
     t.integer  "bio_back_file_size"
     t.datetime "bio_back_updated_at"
     t.integer  "bio_back_color",             :default => 0
+    t.integer  "banner_text_color",          :default => 0
   end
 
   create_table "users", :force => true do |t|

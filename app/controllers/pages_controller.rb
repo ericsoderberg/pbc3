@@ -127,8 +127,12 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find_by_url(params[:id])
     return unless page_administrator!
-    @page.text = '<p>please edit</p>' if @page.text.empty?
     @siblings = @page.parent ? @page.parent.children : []
+  end
+  
+  def edit_style
+    @page = Page.find_by_url(params[:id])
+    return unless page_administrator!
   end
   
   def edit_for_parent

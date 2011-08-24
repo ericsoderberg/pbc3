@@ -16,7 +16,7 @@ if(typeof $.fn.rte === "undefined") {
         content_css_url: "rte.css",
         dot_net_button_class: null,
         max_height: 350,
-        enable_code_mode: true,
+        height: 400
     };
 
     $.fn.rte = function(options) {
@@ -41,7 +41,7 @@ if(typeof $.fn.rte === "undefined") {
 
             // Mozilla needs this to display caret
             if($.trim(content)=='') {
-                content = '<p>please edit</p>'; //'<br />';
+                content = '<br />';
             }
 
             // already created? show/hide
@@ -52,7 +52,6 @@ if(typeof $.fn.rte === "undefined") {
                 $(iframe).show();
                 $("#toolbar-" + element_id).remove();
                 textarea.before(toolbar());
-                iframe.contentWindow.focus();
                 return true;
             }
 
@@ -61,7 +60,7 @@ if(typeof $.fn.rte === "undefined") {
             iframe.frameBorder=0;
             iframe.frameMargin=0;
             iframe.framePadding=0;
-            iframe.height=400;
+            iframe.height=opts.height;
             if(textarea.attr('class'))
                 iframe.className = textarea.attr('class');
             if(textarea.attr('id'))
@@ -133,7 +132,8 @@ if(typeof $.fn.rte === "undefined") {
             var tb = $("<div class='rte-toolbar' id='toolbar-"+ element_id +"'><div>\
                 <p>\
                     <select>\
-                        <option value='p' selected='true'>Paragraph</option>\
+                        <option value=''>Block style</option>\
+                        <option value='p'>Paragraph</option>\
                         <option value='h2'>Header</option>\
                         <option value='h3'>Sub Header</option>\
                         <option value='blockquote'>Quote</option>\
@@ -145,7 +145,7 @@ if(typeof $.fn.rte === "undefined") {
                     <a href='#' class='link'><img src='"+opts.media_url+"link.png' alt='link' /></a>\
                 </p>\
                 <p class='mode'>\
-                  design | <a href='#' class='disable'>code</a>\
+                    design | <a href='#' class='disable'>code</a>\
                 </p></div></div>");
 
             $('select', tb).change(function(){
@@ -156,18 +156,11 @@ if(typeof $.fn.rte === "undefined") {
                 }
             });
             $('.bold', tb).click(function(){ formatText('bold');return false; });
-            $('.italic', tb).click(function(){ formatText('italic');return false; });
             $('.unorderedlist', tb).click(function(){ formatText('insertunorderedlist');return false; });
             $('.link', tb).click(function(){
                 var p=prompt("URL:");
                 if(p)
                     formatText('CreateLink', p);
-                return false; });
-
-            $('.image', tb).click(function(){
-                var p=prompt("image URL:");
-                if(p)
-                    formatText('InsertImage', p);
                 return false; });
 
             $('.disable', tb).click(function() {
@@ -214,7 +207,6 @@ if(typeof $.fn.rte === "undefined") {
                     var h = Math.min(opts.max_height, iframe_height+body.scrollTop()) + 'px';
                     iframe.style['height'] = h;
                 }
-                $('#done_page_editing').fadeOut();
                 return true;
             });
 

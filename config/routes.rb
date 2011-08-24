@@ -92,6 +92,7 @@ Pbc3::Application.routes.draw do
       get :edit_for_parent
       get :edit_for_feature
       get :search_possible_parents
+      get :edit_style
     end
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence

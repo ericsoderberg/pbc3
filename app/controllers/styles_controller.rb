@@ -118,5 +118,10 @@ class StylesController < ApplicationController
       params[:style][:bio_back_color] =
         params[:style][:bio_back_color].hex
     end
+    if params[:style][:banner_text_color] and
+        params[:style][:banner_text_color].is_a?(String)
+      params[:style][:banner_text_color] =
+        params[:style][:banner_text_color].hex
+    end
   end
 end

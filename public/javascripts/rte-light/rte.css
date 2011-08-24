@@ -1,12 +1,12 @@
 .frameBody {
   margin: 0px;
   padding: 20px;
-  width: 580px;
-  height: 380px;
+  /*width: 580px;
+  height: 380px;*/
   font: 14px/22px Arial, sans-serif;
   }
 
-#page_text {
+/*#text {
   width: 580px;
   height: 380px;
   margin: 0px;
@@ -30,5 +30,5 @@
       }
     #page_text blockquote {
       font-style: italic;
-      }
+      }*/
 

@@ -20,8 +20,16 @@
     <% end -%>
   
   <% else -%>
-    <div id="page_banner">
-      <%= image_tag @page.style.banner.url(:normal) %>
+    <div id="banner">
+      <div class="banner_background">
+        <%= image_tag @page.style.banner.url(:normal) %>
+      </div>
+      <% if @page.banner_text and not @page.banner_text.empty? -%>
+      <div id="banner_text"
+        style="color: #<%= @page.style.banner_text_color.to_s(16) %>">
+        <%= raw @page.banner_text %>
+      </div>
+      <% end -%>
     </div>
   <% end -%>
 <% end -%>

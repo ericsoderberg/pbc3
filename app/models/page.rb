@@ -179,7 +179,7 @@ class Page < ActiveRecord::Base
     else
       if user.administrator?
         %w(text photos videos audios documents forms
-          contacts access feature podcast social events)
+          contacts access style feature podcast social events)
       else
         %w(text photos videos audios documents)
       end
