@@ -166,15 +166,23 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by_url(params[:id])
     return unless page_administrator!
-    params[:page][:parent_id] = params[:parent_id] # due to flexbox
-    params[:page][:email_list] = params[:email_list] # due to flexbox
-    orderer_sub_ids = params[:sub_order] ?
-      params[:sub_order].split(',').map{|id| id.to_i} : []
-    params[:page][:parent_index] = -1; # will be re-ordered late
+    if params[:parent_id]
+      params[:page][:parent_id] = params[:parent_id] # due to flexbox
+    end
+    if params[:email_list]
+      params[:page][:email_list] = params[:email_list] # due to flexbox
+    end
+    if params[:sub_order]
+      orderer_sub_ids = params[:sub_order] ?
+        params[:sub_order].split(',').map{|id| id.to_i} : []
+      params[:page][:parent_index] = -1; # will be re-ordered late
+    end
 
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
-        (not @page.parent or @page.parent.order_children(orderer_sub_ids))
+        (not params[:parent_id] or
+          not @page.parent or
+          @page.parent.order_children(orderer_sub_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
