@@ -106,13 +106,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
-    @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
-    @page.text = '<p>please edit</p>'
-    @page.layout = 'regular'
-    @page.child_layout = 'header'
-    @page.aspect_order = 't,c,e,d,f,p,v,a'
-    @page.style = (@page.parent ? @page.parent.style : Style.first)
-    @page.private = @page.parent.private if @page.parent
+    @page.text = ''
     if params[:site_page]
       @site_reference = params[:site_page]
       @page.name = @site_reference.capitalize
@@ -145,7 +139,7 @@ class PagesController < ApplicationController
 
   def create
     @page = Page.new(params[:page])
-    @page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
+    #@page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     if params[:site_reference]
       @site.communities_page = @page if 'communities' == params[:site_reference]
       @site.about_page = @page if 'about' == params[:site_reference]

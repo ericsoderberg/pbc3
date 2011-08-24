@@ -41,6 +41,15 @@ class Page < ActiveRecord::Base
     :uniqueness => {:if => Proc.new {|p| p.featured?}}
   validate :reserved_urls
   
+  before_create do
+    self.layout = 'regular'
+    self.child_layout = 'header'
+    self.aspect_order = 't,c,e,d,f,p,v,a'
+    self.style = (self.parent ? self.parent.style : Style.first)
+    self.private = self.parent.private if self.parent
+    self.parent_index = self.parent ? self.parent.children.length + 1 : 1
+  end
+  
   before_validation do
     self.featured = false unless self.style_id
     self.feature_index = nil if not featured?
