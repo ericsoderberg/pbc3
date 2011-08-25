@@ -487,7 +487,7 @@ footer {
 #hero:hover, #animated_banners:hover, #animated_banners a:hover {
   opacity: 1.0;
   }
-  #hero_text, #banner_text {
+  .hero_text, #banner_text {
     display: inline-block;
 		position: relative;
     vertical-align: top;
@@ -500,23 +500,23 @@ footer {
   #banner_text {
     padding: 20px 60px 20px 20px;
     }
-    #hero_text h2, #banner_text h2 {
+    .hero_text h2, #banner_text h2 {
       padding: 0px;
       }
-    #hero_text h2 a, #banner_text h2 a {
+    .hero_text h2 a, #banner_text h2 a {
       font-size: 25px;
       }
-    #hero_text a, #banner_text a {
+    .hero_text a, #banner_text a {
       font-size: 14px;
       font-weight: bold;
       line-height: 21px;
       }
-      #hero_text a::after, .featured_nav_link a::after {
+      .hero_text a::after, .featured_nav_link a::after {
         content: url('/images/right_small.png');
         margin-left: 1px;
         vertical-align: baseline;
         }
-        #hero_text h2 a::after {
+        .hero_text h2 a::after {
           content: '';
           }
 	#hero .control, #animated_banners .control {
