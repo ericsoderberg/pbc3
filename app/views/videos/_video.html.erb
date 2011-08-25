@@ -1,8 +1,10 @@
-<% if video.video.exists? -%>
+<% if video.video.exists? or video.video2.exists? -%>
 <% width ||= 400 -%>
 <% height ||= 300 -%>
   <video controls>
+    <% if video.video.exists? -%>
     <source src="<%= video.video.url %>"/>
+    <% end -%>
     <% if video.video2.exists? -%>
     <source src="<%= video.video2.url %>"/>
     <% end -%>

@@ -1,8 +1,10 @@
 <%= content_tag_for(:li, edit_video,
   :class => ((edit_video == @video) ? 'active' : '')) do %>
-  <% if edit_video.video.exists? -%>
+  <% if edit_video.video.exists? or edit_video.video2.exists? -%>
     <video controls>
+      <% if edit_video.video.exists? -%>
       <source src="<%= edit_video.video.url %>"/>
+      <% end -%>
       <% if edit_video.video2.exists? -%>
       <source src="<%= edit_video.video2.url %>"/>
       <% end -%>
