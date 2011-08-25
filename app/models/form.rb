@@ -6,6 +6,7 @@ class Form < ActiveRecord::Base
   acts_as_audited
   
   validates :name, :presence => true
+  validates :page, :presence => true
   
   searchable do
     text :name, :default_boost => 2

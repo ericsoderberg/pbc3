@@ -1,7 +1,7 @@
 class InvitationsController < ApplicationController
   before_filter :authenticate_user!, :except => :update
-  before_filter :administrator!, :except => :update
   before_filter :get_page
+  before_filter :page_administrator!, :except => :update
   before_filter :get_event
    
   # GET /invitations

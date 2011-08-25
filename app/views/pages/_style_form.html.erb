@@ -22,7 +22,6 @@
     </div>
   </section>
 
-  <% if current_user.administrator? -%>
   <aside>
     <div class="form">
       
@@ -31,7 +30,9 @@
         <%= collection_select(:page, :style_id,
           Style.all, :id, :name,
           :include_blank => true) %>
-        <%= link_to 'styles', styles_path %>
+        <% if current_user.administrator? -%>
+          <%= link_to 'styles', styles_path %>
+        <% end -%>
       </div>
       
       <div class="field">
@@ -64,7 +65,6 @@
       
     </div>
   </aside>
-  <% end -%>
 </div>
 
   <div class="actions">

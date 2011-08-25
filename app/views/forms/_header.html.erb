@@ -6,12 +6,14 @@
     <%= @form.name %>
   </h1>
   
-  <% if current_user and current_user.administrator? -%>
+  <% if current_user and @form.page.administrator?(current_user) -%>
   <div class="page_admin">
     <ul>
       <li><%= link_to 'Edit form', edit_form_path(@form) %><li>
       <li><%= link_to 'Copy form', copy_form_path(@form) %><li>
+      <% if current_user.administrator? -%>
       <li><%= link_to 'forms', forms_path() %><li>
+      <% end -%>
     </ul>
   </div>
   <% end -%>

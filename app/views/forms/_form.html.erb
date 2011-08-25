@@ -35,13 +35,13 @@
   <div class="actions">
     <%= f.submit %>
     <% if @form.id -%>
-    | <%= link_to 'Cancel', form_path(@form) %>
+    | <%= link_to 'Done', form_path(@form) %>
     <% else -%>
     |
       <% if @page -%>
-        <%= link_to 'Cancel', forms_path(:page_id => @page.id) %>
+        <%= link_to 'Done', forms_path(:page_id => @page.id) %>
       <% else -%>
-        <%= link_to 'Cancel', forms_path() %>
+        <%= link_to 'Done', forms_path() %>
       <% end -%>
     <% end -%>
     <% if @form.id -%>

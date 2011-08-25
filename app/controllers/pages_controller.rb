@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
-  before_filter :administrator!, :except => [:show, :feed, :edit, :update]
+  before_filter :administrator!,
+    :except => [:show, :feed, :edit, :edit_style, :update]
   # edit and update are handled inline below
   
   def index

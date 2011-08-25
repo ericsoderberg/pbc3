@@ -190,7 +190,7 @@ class Page < ActiveRecord::Base
         %w(text photos videos audios documents forms
           contacts access style feature podcast social events)
       else
-        %w(text photos videos audios documents)
+        %w(text photos videos audios documents forms style social events)
       end
     end
   end

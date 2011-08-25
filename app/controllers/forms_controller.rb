@@ -1,14 +1,15 @@
 class FormsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!
   
   # GET /forms
   # GET /forms.xml
   def index
     @forms = if params[:page_id]
         @page = Page.find(params[:page_id])
+        return unless page_administrator!
         @page.forms
       else
+        return unless administrator!
         @forms = Form.order('name ASC')
       end
 
@@ -22,6 +23,8 @@ class FormsController < ApplicationController
   # GET /forms/1.xml
   def show
     @form = Form.find(params[:id])
+    @page = @form.page
+    return unless page_administrator!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -35,6 +38,7 @@ class FormsController < ApplicationController
     @form = Form.new
     @form.page = Page.find(params[:page_id]) if params[:page_id]
     @page = @form.page
+    return unless page_administrator!
     @copy_form = nil
 
     respond_to do |format|
@@ -48,6 +52,8 @@ class FormsController < ApplicationController
     @form = Form.new
     @form.name = @copy_form.name + ' Copy'
     @form.page = @copy_form.page
+    @page = @form.page
+    return unless page_administrator!
     render :action => 'new'
   end
 
@@ -55,6 +61,7 @@ class FormsController < ApplicationController
   def edit
     @form = Form.find(params[:id])
     @page = @form.page
+    return unless page_administrator!
   end
 
   # POST /forms
@@ -65,6 +72,8 @@ class FormsController < ApplicationController
       @copy_form = Form.find(params[:copy_form_id])
       @form.copy(@copy_form)
     end
+    @page = @form.page
+    return unless page_administrator!
 
     respond_to do |format|
       if @form.save and (@copy_form or @form.create_default_fields)
@@ -82,6 +91,8 @@ class FormsController < ApplicationController
   # PUT /forms/1.xml
   def update
     @form = Form.find(params[:id])
+    @page = @form.page
+    return unless page_administrator!
     ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
     params[:form][:page_id] = params[:choose_page_id] # due to flexbox
 
@@ -103,6 +114,7 @@ class FormsController < ApplicationController
   def destroy
     @form = Form.find(params[:id])
     @page = @form.page
+    return unless page_administrator!
     @form.destroy
 
     respond_to do |format|

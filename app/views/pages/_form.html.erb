@@ -16,12 +16,10 @@
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
-    <% if current_user.administrator? -%>
     <div class="field">
       <%= f.label :title %><br />
       <%= f.text_field :name, :size => 90 %>
     </div>
-    <% end -%>
     <div class="field">
       <%= f.label :text %><br />
       <%= f.text_area :text, :size => '80x20', :class => 'textedit' %>

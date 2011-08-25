@@ -1,18 +1,15 @@
 <% title "#{@form.name}" -%>
 
-<% content_for(:scripts) do -%>
-  <%= render :partial => 'pages/yui_scripts' %> 
-<% end -%>
+<header>
+  <h1>Edit Form</h1>
+  <div id="dynamic_form_form">
+    <%= render 'form' %>
+  </div>
+</header>
 
 <div class="regular_content">
-<section>
   
-  <header>
-    <h2>Edit Form</h2>
-    <div id="dynamic_form_form">
-      <%= render 'form' %>
-    </div>
-  </header>
+<section>
   
   <hr />
   
