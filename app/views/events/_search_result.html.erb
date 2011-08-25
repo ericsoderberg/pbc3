@@ -1,0 +1,5 @@
+<% if event.page and event.name != event.page.name -%>
+  <td class="search_result_type">Event</td>
+  <td><%= link_to event.name, friendly_page_path(event.page) %></td>
+  <td><%= event.page.name %></td>
+<% end -%>

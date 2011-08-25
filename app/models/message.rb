@@ -8,6 +8,14 @@ class Message < ActiveRecord::Base
   
   validates :title, :presence => true
   
+  searchable do
+    text :title, :default_boost => 2
+  end
+  
+  def authorized?(user)
+    true
+  end
+  
   def to_param
     url
   end
@@ -98,10 +106,6 @@ class Message < ActiveRecord::Base
       end
     end
     result
-  end
-  
-  searchable do
-    text :title, :default_boost => 2
   end
   
 end

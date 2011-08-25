@@ -5,6 +5,14 @@ class Author < ActiveRecord::Base
   
   validates :name, :presence => true
   
+  searchable do
+    text :name, :default_boost => 2
+  end
+  
+  def authorized?(user)
+    true
+  end
+  
   def to_param
     url
   end

@@ -43,6 +43,10 @@ class Event < ActiveRecord::Base
   
   scope :masters,
     where("events.master_id = events.id OR events.master_id IS NULL")
+  
+  def authorized?(user)
+    page.authorized?(user)
+  end
     
   def related_to?(event)
     event.master and self.master == event.master

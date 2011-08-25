@@ -9,4 +9,8 @@ class Document < ActiveRecord::Base
     text :name, :default_boost => 2
   end
   
+  def authorized?(user)
+    page.authorized?(user)
+  end
+  
 end

@@ -20,6 +20,14 @@ class Style < ActiveRecord::Base
   
   validates_presence_of :name, :hero_text_color, :gradient_upper_color,
     :gradient_lower_color
+    
+  searchable do
+    text :name, :default_boost => 2
+  end
+  
+  def authorized?(user)
+    user and user.administrator?
+  end
   
   before_save :update_css
   

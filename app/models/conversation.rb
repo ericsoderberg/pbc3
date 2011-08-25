@@ -5,4 +5,9 @@ class Conversation < ActiveRecord::Base
   
   validate :text, :presence => true
   validate :user, :presence => true
+  
+  def authorized?(user)
+    page.authorized?(user)
+  end
+  
 end

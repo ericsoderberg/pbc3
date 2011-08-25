@@ -11,6 +11,10 @@ class Form < ActiveRecord::Base
     text :name, :default_boost => 2
   end
   
+  def authorized?(user)
+    page.authorized?(user)
+  end
+  
   def possible_pages
     Page.order('name')
   end

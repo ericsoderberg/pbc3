@@ -7,9 +7,10 @@ class SearchController < ApplicationController
     if not ranges.empty? # verse
       @messages = Message.find_by_verses(@search_text)
     else
-      classes = [Page, Message, Event, Document]
+      classes = [Page, Message, MessageSet, Event, Document, Author]
       classes << Form if user_signed_in?
-      classes << User if user_signed_in? and current_user.administrator?
+      classes << User if user_signed_in?
+      classes << Style if user_signed_in? and current_user.administrator?
       @search = Sunspot.search(*classes) do
         keywords params[:q]
         paginate(:page => (params[:page] || 1))

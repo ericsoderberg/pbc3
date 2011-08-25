@@ -6,4 +6,9 @@ class Photo < ActiveRecord::Base
     }
     
   validates_presence_of :page
+  
+  def authorized?(user)
+    page.authorized?(user)
+  end
+  
 end

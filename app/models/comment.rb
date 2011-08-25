@@ -4,4 +4,9 @@ class Comment < ActiveRecord::Base
   
   validate :text, :presence => true
   validate :user, :presence => true
+  
+  def authorized?(user)
+    conversation.authorized?(user)
+  end
+  
 end

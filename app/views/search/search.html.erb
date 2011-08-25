@@ -12,35 +12,11 @@
 
 <table id="search_results">
   <% @search.each_hit_with_result do |hit, object| -%>
+    <% if object.authorized?(current_user) -%>
     <tr class="search_result">
-      <% if object.is_a? Page -%>
-      <td class="search_result_type">Page</td>
-      <td><%= link_to object.name, friendly_page_path(object) %></td>
-      <td><%= h truncate(object.snippet_text, :length => 100) %></td>
-      <% elsif object.is_a? Message -%>
-      <td class="search_result_type">Message</td>
-      <td><%= link_to object.title, message_path(object) %></td>
-      <td></td>
-      <% elsif object.is_a? Event -%>
-        <% if object.name != object.page.name -%>
-          <td class="search_result_type">Event</td>
-          <td><%= link_to object.name, friendly_page_path(object.page) %></td>
-          <td><%= object.page.name %></td>
-        <% end -%>
-      <% elsif object.is_a? Form -%>
-      <td class="search_result_type">Form</td>
-      <td><%= link_to object.name, form_path(object) %></td>
-      <td><%= link_to object.page.name, friendly_page_path(object.page) %></td>
-      <% elsif object.is_a? Document -%>
-      <td class="search_result_type">Document</td>
-      <td><%= link_to object.name, object.file.url %></td>
-      <td><%= link_to object.page.name, friendly_page_path(object.page) %></td>
-      <% elsif object.is_a? User and user_signed_in? and current_user.administrator? -%>
-      <td class="search_result_type">Account</td>
-      <td><%= link_to object.name, edit_account_path(object) %></td>
-      <td></td>
-      <% end -%>
+      <%= render_search_result(object) %>
     </tr>
+    <% end -%>
   <% end -%>
 </table>
 

@@ -32,7 +32,7 @@
     <% end -%>
   </ul>
   
-  <% if 'event' == active_aspect -%>
+  <% if 'event' == active_aspect and @event.peers.count > 1 -%>
   <div class="page_admin">
     <ul>
       <li>
