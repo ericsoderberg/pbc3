@@ -8,3 +8,11 @@
   <% end -%>
 </audio>
 <% end -%>
+
+<%= javascript_tag do %>
+$(function() {
+  if (!Modernizr.audio.mp3) {
+    $('audio').hide();
+  }
+});
+<% end -%>

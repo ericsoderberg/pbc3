@@ -2158,6 +2158,9 @@ header audio {
 			color: #000;
 			}
 
+#message_audio {
+  vertical-align: baseline;
+  }
 div#messages {
 	margin-bottom: 20px;
 	}
