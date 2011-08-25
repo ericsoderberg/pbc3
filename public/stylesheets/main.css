@@ -251,7 +251,7 @@ footer {
   font-size: 14px;
   color: #ccc;
 }
-  footer copyright {
+  footer #copyright {
     float: right;
   }
 
