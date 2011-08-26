@@ -5,19 +5,16 @@
   <h2>Email List</h2>
 
   <div>
-    <% if administrator? -%>
-    <div class="page_admin">
-      <ul>
-        <li><%= link_to 'Edit', edit_email_list_path(email_list) %><li>
-      </ul>
-    </div>
-    <% end -%>
-    
 <%= form_tag add_email_list_path(email_list), :id => 'email_subscribe',
   :class => 'inline' do %>
   <%= text_field_tag 'email_address', '', :placeholder => 'email address' %>
   <%= submit_tag 'Subscribe' %>
 <% end %>
+
+    <% if administrator? -%>
+      <%= link_to "#{email_list.name}#{@site.email_domain}",
+        edit_email_list_path(email_list) %>
+    <% end -%>
   </div>
 
 </div>

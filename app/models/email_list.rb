@@ -26,7 +26,9 @@ class EmailList
   end
   
   def self.find(name)
-    all.each{|list| return list if name == list.name}
+    if name and not name.empty?
+      all.each{|list| return list if name == list.name}
+    end
     nil
   end
   

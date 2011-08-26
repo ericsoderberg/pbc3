@@ -37,7 +37,7 @@ module PagesHelper
       end
     when 'm'
       render :partial => 'email_lists/subscribe',
-        :locals => {:email_list => page.email_list}
+        :locals => {:email_list => EmailList.find(page.email_list)}
     when 'd'
       if @page.gallery?
         render :partial => 'documents/library',
