@@ -5,7 +5,7 @@ class StylesController < ApplicationController
   # GET /styles
   # GET /styles.xml
   def index
-    @styles = Style.all
+    @styles = Style.order('LOWER(name) ASC');
 
     respond_to do |format|
       format.html # index.html.erb
