@@ -15,9 +15,15 @@
   <%= f.hidden_field :page_id %>
   <div class="field">
     <%= f.label :file %><br />
-    <%= f.file_field :audio %><br />
+    <%= f.file_field :audio %>
+  </div>
+  <div class="field">
     <%= f.label :caption %><br />
-    <%= f.text_field :caption, :size => 40 %><br />
+    <%= f.text_field :caption, :size => 40 %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.text_field :published_at, :size => 20 %>
   </div>
   <div class="actions">
     <%= f.submit 'Upload Audio' %>

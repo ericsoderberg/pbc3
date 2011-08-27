@@ -52,7 +52,7 @@ class EmailList
     if new_addresses.empty?
       true
     else
-      IO.popen("add_members -w n -a n -r - #{@name}", 'w') do |io|
+      IO.popen("invite_members -a n -r - #{@name}", 'w') do |io|
         io.write(new_addresses.join("\n"))
       end
       0 == $?
