@@ -37,7 +37,7 @@ class AudiosControllerTest < ActionController::TestCase
   end
 
   test "should update audio" do
-    put :update, :page_id => @page.url, :id => @audio.to_param, :video => @audio.attributes
+    put :update, :page_id => @page.url, :id => @audio.to_param, :audio => @audio.attributes
     assert_redirected_to new_page_audio_path(:page_id => @page.url)
   end
 

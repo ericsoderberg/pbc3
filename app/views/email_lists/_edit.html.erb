@@ -17,8 +17,12 @@
   <% end -%>
 
   <div class="field">
-    <%= label_tag :add_addresses %>
-    <span class="help">Enter one address per line</span>
+    <%= label_tag :invite_addresses %>
+    <div class="help">Enter one address per line.<br/>
+      An invitation will be sent to each address,
+      which must be confirmed by the recipient.<br/>
+      You may use a site email list address,
+      which will invite each member individually.</div>
     <br />
     <%= text_area_tag 'add_addresses', '', :size => '40x5' %>
   </div>
@@ -40,7 +44,9 @@
 <% end %>
 
 <aside>
-  <h3>Addresses</h3>
+  <h3>Confirmed Addresses</h3>
+  <div class="help">Addresses that have been invited but not confirmed yet
+    do not show up here.</div><br/>
   <ul id="email_addresses">
     <% @email_list.addresses.sort.each do |address| -%>
       <li>

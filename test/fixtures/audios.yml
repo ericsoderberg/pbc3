@@ -1,4 +1,6 @@
 empty:
   caption: Empty
   page: public
+  date: <%= Date.today - 2.weeks %>
+  
 
