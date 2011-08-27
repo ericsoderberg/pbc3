@@ -27,4 +27,8 @@ Pbc3::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost' }
   
   config.time_zone = "Pacific Time (US & Canada)"
+  
+  config.after_initialize do
+    Configuration.mailman_dir = '/usr/local/bin'
+  end
 end

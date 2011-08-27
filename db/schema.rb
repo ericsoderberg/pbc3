@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20110827224809) do
     t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "published_at"
+    t.datetime "date"
   end
 
   create_table "audits", :force => true do |t|

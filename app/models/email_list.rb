@@ -18,11 +18,11 @@ class EmailList
   end
   
   def addresses
-    %x(list_members #{@name}).split
+    %x(#{Configuration.mailman_dir}/list_members #{@name}).split
   end
   
   def self.all
-    self.load("list_lists -b")
+    self.load("#{Configuration.mailman_dir}/list_lists -b")
   end
   
   def self.find(name)
@@ -41,18 +41,18 @@ class EmailList
   end
   
   def self.find_by_address(address)
-    self.load("find_member #{address}")
+    self.load("#{Configuration.mailman_dir}/find_member #{address}")
   end
   
   def self.replace_address(old_address, new_address)
-    system("clone_member -a -r #{old_address} #{new_address}")
+    system("#{Configuration.mailman_dir}/clone_member -a -r #{old_address} #{new_address}")
   end
   
   def add_addresses(new_addresses)
     if new_addresses.empty?
       true
     else
-      IO.popen("invite_members -a n -r - #{@name}", 'w') do |io|
+      IO.popen("#{Configuration.mailman_dir}/invite_members -a n -r - #{@name}", 'w') do |io|
         io.write(new_addresses.join("\n"))
       end
       0 == $?
@@ -63,7 +63,7 @@ class EmailList
     if old_addresses.empty?
       true
     else
-      IO.popen("remove_members -n -N -f - #{@name}", 'w') do |io|
+      IO.popen("#{Configuration.mailman_dir}/remove_members -n -N -f - #{@name}", 'w') do |io|
         io.write(old_addresses.join("\n"))
       end
       0 == $?
@@ -72,7 +72,7 @@ class EmailList
   
   def save(user)
     if valid? and @new_record
-      if system("newlist -q #{@name} #{user.email} #{user.name}")
+      if system("#{Configuration.mailman_dir}/newlist -q #{@name} #{user.email} #{user.name}")
         @new_record = false
         true
       end
@@ -80,7 +80,7 @@ class EmailList
   end
   
   def destroy
-    system("rmlist -a #{@name}")
+    system("#{Configuration.mailman_dir}/rmlist -a #{@name}")
   end
   
   private

@@ -22,8 +22,9 @@
     <%= f.text_field :caption, :size => 40 %>
   </div>
   <div class="field">
-    <%= f.label :date %><br />
-    <%= f.text_field :published_at, :size => 20 %>
+    <%= f.label :date %><span class="help">MM/DD/YYYY</span><br />
+    <%= f.text_field :date,
+      :value => (@audio.date ? l(@audio.date.to_date()) : '') %>
   </div>
   <div class="actions">
     <%= f.submit 'Upload Audio' %>
