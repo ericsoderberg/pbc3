@@ -18,7 +18,7 @@
       <div class="field">
         <%= f.label :style, :class => 'inline' %>
         <%= collection_select(:page, :style_id,
-          Style.all, :id, :name,
+          Style.order('LOWER(name) ASC'), :id, :name,
           :include_blank => true) %>
         <% if current_user.administrator? -%>
           <%= link_to 'styles', styles_path %>
