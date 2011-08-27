@@ -1,15 +1,5 @@
 <%= form_for(@page, :html => { :multipart => true }) do |f| %>
-  <% if @page.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
-
-      <ul>
-      <% @page.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render :partial => 'form_errors' %>
   
 <div class="regular_content">
   <section class="text_editing">
@@ -41,11 +31,6 @@
       <div class="field">
         <%= f.label :url_aliases %><br />
         <%= f.text_area :url_aliases, :size => '30x2' %>
-      </div>
-      
-      <div class="field">
-        <%= f.label :email_list %><br />
-        <div id="email_list"></div>
       </div>
       
       <br />
@@ -90,6 +75,5 @@
   <% if @page.id -%>
     <%= render :partial => 'form_aids.js' -%>
     <%= render :partial => 'parent_indexer.js' -%>
-    <%= render :partial => 'email_list_chooser.js' -%>
   <% end -%>
 <% end -%>

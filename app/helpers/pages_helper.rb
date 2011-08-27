@@ -100,6 +100,8 @@ module PagesHelper
       page_videos_path(page)
     when 'audios'
       page_audios_path(page)
+    when 'email'
+      edit_email_page_path(page)
     when 'access'
       page_authorizations_path(page)
     when 'contacts'

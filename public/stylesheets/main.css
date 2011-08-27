@@ -1534,8 +1534,8 @@ table.index td, table.index th {
 			#calendar_controls_extended:hover form {
 			  display: inline-block;
 			  }
-		#calendar_header input, #email_lists_controls input,
-		#email_lists_controls #search, #email_subscribe input {
+		#calendar_header input, .email_lists_controls input,
+		.email_lists_controls #search, #email_subscribe input {
 		  margin: 0px 10px 0px 0px;
 		  padding: 2px;
 			color: #666;
@@ -1545,10 +1545,19 @@ table.index td, table.index th {
   		-moz-box-shadow: none;
   		-webkit-box-shadow: none;
 			}
-		#calendar_header form, #email_lists_controls form {
+		#calendar_header form, .email_lists_controls form {
 		  display: inline-block;
-	    vertical-align: top;
 		  vertical-align: middle;
+		  }
+		.email_lists_controls {
+		  margin: 20px 0px;
+		  }
+		.email_lists_controls > form > div, .email_lists_controls div.actions {
+		  display: inline-block;
+		  vertical-align: middle;
+		  margin-top: 0px;
+		  margin-bottom: 0px;
+		  margin-left: 10px;
 		  }
 		form.inline a {
     	display: inline-block;

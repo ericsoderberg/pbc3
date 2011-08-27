@@ -141,13 +141,15 @@ class Page < ActiveRecord::Base
   end
   
   def administrator?(user)
-    logger.info("!!! check page admin")
     return false unless user
-    logger.info("!!! A")
     return true if user.administrator?
-    logger.info("!!! B")
     authorizations.each{|a| return true if user == a.user and a.administrator?}
-    logger.info("!!! C")
+    return false
+  end
+  
+  def access_administrator?(user)
+    return false unless user
+    authorizations.each{|a| return true if user == a.user and a.administrator?}
     return false
   end
   
@@ -181,16 +183,16 @@ class Page < ActiveRecord::Base
     case layout
     when 'blog', 'forum'
       if user.administrator?
-        %w(text contacts access feature)
+        %w(text email contacts access feature)
       else
-        %w(text)
+        %w(text email)
       end
     else
       if user.administrator?
-        %w(text photos videos audios documents forms
+        %w(text photos videos audios documents forms email
           contacts access style feature podcast social events)
       else
-        %w(text photos videos audios documents forms style social events)
+        %w(text photos videos audios documents forms email style social events)
       end
     end
   end

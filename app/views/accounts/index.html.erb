@@ -28,7 +28,12 @@
     <td>
       <ul class="account_pages">
       <% user.contact_pages.each do |page| -%>
-        <li><%= link_to page.prefixed_name, friendly_page_path(page) %></li>
+        <li>
+          <%= link_to page.prefixed_name, friendly_page_path(page) %>
+          <% if false and page.access_administrator?(user) -%>
+            (A)
+          <% end -%>
+        </li>
       <% end -%>
       </ul>
     </td>

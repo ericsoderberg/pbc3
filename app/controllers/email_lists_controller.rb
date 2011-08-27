@@ -1,6 +1,6 @@
 class EmailListsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!
+  before_filter :administrator!, :except => [:update]
   
   def index
     @email_lists = if params[:search] and not params[:search].empty?
@@ -76,11 +76,17 @@ class EmailListsController < ApplicationController
     @email_list = EmailList.find(params[:id])
     add_addresses = params[:add_addresses].split
     remove_addresses = params[:remove_addresses].split
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
+      return unless page_administrator!
+    else
+      return unless administrator!
+    end
 
     respond_to do |format|
       if @email_list.remove_addresses(remove_addresses) and
         @email_list.add_addresses(add_addresses)
-        format.html { redirect_to(email_lists_url,
+        format.html { redirect_to((@page ? edit_page_url(@page) : email_lists_url),
           :notice => 'Email list was successfully updated.') }
         format.xml  { head :ok }
       else

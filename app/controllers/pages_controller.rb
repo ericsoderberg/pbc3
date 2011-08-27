@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
   before_filter :administrator!,
-    :except => [:show, :feed, :edit, :edit_style, :update]
+    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update]
   # edit and update are handled inline below
   
   def index
@@ -128,6 +128,12 @@ class PagesController < ApplicationController
   def edit_style
     @page = Page.find_by_url(params[:id])
     return unless page_administrator!
+  end
+  
+  def edit_email
+    @page = Page.find_by_url(params[:id])
+    return unless page_administrator!
+    @email_list = EmailList.find(@page.email_list)
   end
   
   def edit_for_parent

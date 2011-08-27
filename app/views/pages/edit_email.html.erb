@@ -1,0 +1,40 @@
+<% title("Edit #{@page.name} Email") -%>
+
+<section>
+  <%= render :partial => 'edit_header', :locals => {:active_aspect => 'email'} %>
+
+  <% if current_user.administrator? -%>
+  <div class="email_lists_controls">
+    <%= form_for(@page) do |f| %>
+      <%= render :partial => 'form_errors' %>
+
+      <%= f.hidden_field :name %>
+      <%= f.label :email_list %>
+      <div id="email_list"></div>
+
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    <% end %>
+  </div>
+  <% end -%>
+  
+  <% if @email_list -%>
+    <h2><%= @email_list.name %><%= @site.email_domain %></h2>
+    <%= render :partial => "email_lists/edit" %>
+  <% else -%>
+    <div class="empty_indicator">
+      This page doesn't have an email list associated with it.
+      <% unless current_user.administrator? -%>
+      <br/>
+      Please contact a site administrator if you would like to add one.
+      <% end -%>
+    </div>
+  <% end -%>
+  
+</section>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'form_aids.js' -%>
+  <%= render :partial => 'email_list_chooser.js' -%>
+<% end -%>
