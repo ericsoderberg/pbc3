@@ -20,4 +20,7 @@
     </div>
     <%= f.submit 'Respond' %>
   <% end %>
+  <% if 'unknown' != @invitation.response -%>
+  <span class="help">Thanks for your response.</span>
+  <% end -%>
 </div>

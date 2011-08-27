@@ -18,8 +18,22 @@ class InvitationsController < ApplicationController
   def bulk_create
     invitations = []
     params[:emails].split(%r{[,:\n]}).each do |email|
-      invitations << @event.invitations.new(:email => email.strip,
-        :response => 'unknown')
+      # see if this address is an email list
+      name, domain = email.strip.split('@')
+      email_list = nil
+      if "@#{domain}" == @site.email_domain
+        email_list = EmailList.find(name)
+      end
+      if email_list
+        # invite everyone on the list
+        email_list.addresses.each do |email|
+          invitations << @event.invitations.new(:email => email.strip,
+            :response => 'unknown')
+        end
+      else
+        invitations << @event.invitations.new(:email => email.strip,
+          :response => 'unknown')
+      end
     end
 
     respond_to do |format|

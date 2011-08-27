@@ -49,6 +49,11 @@ class PagesController < ApplicationController
     
     if (@page != @site.communities_page and @page != @site.about_page)
       @categorized_events = Event.categorize(@page.related_events)
+      if current_user
+        @categorized_events[:all].each do |event|
+          @invitation = event.invitations.where(:email => current_user.email).first
+        end
+      end
     end
     if params[:invitation_key]
       @invitation = Invitation.find_by_key(params[:invitation_key])
