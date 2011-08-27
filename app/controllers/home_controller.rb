@@ -20,8 +20,10 @@ class HomeController < ApplicationController
   def edit
     @home_feature_pages = Page.home_feature_pages(current_user)
     @home_feature_pages << @page unless @home_feature_pages.include?(@page)
-    @parent_feature_pages = @page.parent.feature_children(current_user)
-    @parent_feature_pages << @page unless @parent_feature_pages.include?(@page)
+    if @page.parent
+      @parent_feature_pages = @page.parent.feature_children(current_user)
+      @parent_feature_pages << @page unless @parent_feature_pages.include?(@page)
+    end
   end
   
   def update

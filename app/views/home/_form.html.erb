@@ -29,6 +29,7 @@
 
     <aside class="regular_aside">
       <div class="form">
+        <% if @page.parent -%>
         <div class="field">
           <%= f.label :on_parent_page?, :class => 'inline' %>
           <%= f.check_box :parent_feature %>
@@ -37,6 +38,7 @@
           <%= raw @page.parent_feature? ? '' : 'style="display:none"' %>>
           <%= render :partial => 'parent_feature_indexer' -%>
         </div>
+        <% end -%>
         
         <div class="field">
           <%= f.label :on_home_page?, :class => 'inline' %>
@@ -64,6 +66,8 @@
 <%= javascript_tag do %>
   <%= render :partial => 'pages/text_editor.js' -%>
   <%= render :partial => 'home_feature_indexer.js' -%>
+  <% if @page.parent -%>
   <%= render :partial => 'parent_feature_indexer.js' -%>
+  <% end -%>
   <%= render :partial => 'pages/form_aids.js' -%>
 <% end -%>
