@@ -1,0 +1,16 @@
+<h3>Files</h3>
+<ul id="files">
+  <% @message.message_files.each do |message_file| -%>
+    <li>
+      <div class="page_admin">
+      <%= link_to 'Edit', edit_message_path(@message, :message_file_id => message_file.id) %>
+      </div>
+      <div>
+      <%= link_to message_file.file.original_filename,
+        message_file.file.url %>
+      <%= message_file.file.content_type %>
+      </div>
+      <%= message_file.caption %>
+    </li>
+  <% end -%>
+</ul>

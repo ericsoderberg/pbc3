@@ -6,23 +6,10 @@
   </section>
 
   <aside>
-    <h3>Files</h3>
-    <ul id="files">
-      <% @message.message_files.each do |message_file| -%>
-        <li>
-          <%= link_to message_file.file.original_filename,
-            message_file.file.url %>
-          <%= message_file.file.content_type %>
-          
-          <div class="page_admin">
-          <%= link_to 'Delete file', message_file_path(@message, message_file),
-            :confirm => 'Are you sure?', :method => :delete %>
-          </div>
-        </li>
-      <% end -%>
-    </ul>
-    
-    <%= render :partial => 'message_files/new' %>
-    
+    <% if @message_file.id -%>
+      <%= render :partial => 'message_files/edit' %>
+    <% else -%>
+      <%= render :partial => 'message_files/new' %>
+    <% end -%>
   </aside>
 </div>

@@ -2133,8 +2133,13 @@ header audio {
 	}
 	.message_files li {
 		display: inline-block;
+		padding-right: 5px;
 		margin-right: 5px;
+		border-right: 1px solid #ccc;
 		}
+		.message_files li:last-of-type {
+		  border-right: none;
+		  }
 		.message_files img {
 		  vertical-align: middle;
 		  }
@@ -2143,7 +2148,10 @@ header audio {
   margin-bottom: 20px;
   padding: 0px;
   list-style: none;
-}
+  }
+  .edit_content #files li {
+    margin-bottom: 10px;
+    }
 
 .series_title {
 	margin: 10px 0px;
@@ -2164,10 +2172,13 @@ header audio {
 div#messages {
 	margin-bottom: 20px;
 	}
+.message {
+  display: table;
+  }
 .message .message_date, .message .message_title, .message .message_verses,
 .message .message_author, .message .message_audio, .message .message_files {
-	display: inline-block;
-	margin-right: 10px;
+	display: table-cell;
+	padding-right: 30px;
 	vertical-align: top;
 	}
 	.message .message_date .message_year {
@@ -2175,20 +2186,23 @@ div#messages {
 		color: #ccc;
 		}
 	.message .message_date {
-		width: 120px;
+		width: 100px;
 		}
 	.message .message_title {
-		width: 350px;
+		width: 250px;
 		}
 		.message .message_title a {
 		  font-size: 14px;
 		  }
 	.message .message_verses {
-		width: 200px;
+		width: 150px;
 		}
 	.message .message_author {
 		width: 120px;
 		}
+	.message .message_files {
+	  padding-right: 0px;
+	  }
 .messages_year {
 	float: left;
 	width: 0;

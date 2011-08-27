@@ -1,3 +1,4 @@
+<% message ||= @message -%>
 <% if message.message_files.empty? -%>
 <span class="empty_indicator">(pending)</span>
 <% else -%>
@@ -12,6 +13,7 @@
         <%= link_to image_tag('document.png', :size => '16x16'),
           message_file.file.url %>
       <% end -%>
+      <%= message_file.caption %>
     </li>
   <% end -%>
 </ul>

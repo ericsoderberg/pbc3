@@ -49,7 +49,11 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     @message = Message.find_by_url(params[:id])
-    @message_file = @message.message_files.new
+    @message_file = if params[:message_file_id]
+      @message.message_files.find(params[:message_file_id])
+    else
+      @message_file = @message.message_files.new
+    end
   end
 
   # POST /messages
