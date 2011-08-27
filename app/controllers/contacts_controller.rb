@@ -1,7 +1,7 @@
 class ContactsController < ApplicationController
   before_filter :authenticate_user!, :except => [:email, :send_email]
-  before_filter :administrator!, :except => [:email, :send_email]
   before_filter :get_page
+  before_filter :page_administrator!, :except => [:email, :send_email]
   
   def index
     redirect_to new_page_contact_url(@page)
