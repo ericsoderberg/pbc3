@@ -20,18 +20,24 @@ class HomeController < ApplicationController
   def edit
     @home_feature_pages = Page.home_feature_pages(current_user)
     @home_feature_pages << @page unless @home_feature_pages.include?(@page)
-    @parent_feature_pages = @page.children.parent_feature_pages(current_user)
+    @parent_feature_pages = @page.parent.feature_children(current_user)
     @parent_feature_pages << @page unless @parent_feature_pages.include?(@page)
   end
   
   def update
-    orderer_feature_ids = params[:feature_order] ?
-      params[:feature_order].split(',').map{|id| id.to_i} : []
-    params[:page][:home_feature_index] = orderer_feature_ids.length + 100
+    orderer_home_feature_ids = params[:home_feature_order] ?
+      params[:home_feature_order].split(',').map{|id| id.to_i} : []
+    params[:page][:home_feature_index] = orderer_home_feature_ids.length + 100
+    orderer_parent_feature_ids = params[:parent_feature_order] ?
+      params[:parent_feature_order].split(',').map{|id| id.to_i} : []
+    params[:page][:parent_feature_index] = orderer_parent_feature_ids.length + 100
     
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
-        (not @page.home_feature? or Page.order_home_features(orderer_feature_ids))
+        (not @page.home_feature? or
+          Page.order_home_features(orderer_home_feature_ids)) and
+        (not @page.parent_feature? or
+          Page.order_parent_features(orderer_parent_feature_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else

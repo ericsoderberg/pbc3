@@ -103,8 +103,8 @@ class Page < ActiveRecord::Base
     visible(user).where(['home_feature = ?', true]).order('home_feature_index ASC')
   end
   
-  def self.parent_feature_pages(user=nil)
-    visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
+  def feature_children(user=nil)
+    Page.where(:parent_id => self.id).visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
   end
   
   def self.visible(user)
@@ -277,6 +277,20 @@ class Page < ActiveRecord::Base
       ids.each_with_index do |id, i|
         feature_page = tmp_features.detect{|c| id == c.id}
         feature_page.home_feature_index = i+1
+        # don't validate since it will fail as we haven't done them all yet
+        result = false unless feature_page.save(:validate => false)
+      end
+    end
+    result
+  end
+  
+  def self.order_parent_features(ids)
+    result = true
+    Page.transaction do
+      tmp_features = Page.find(ids)
+      ids.each_with_index do |id, i|
+        feature_page = tmp_features.detect{|c| id == c.id}
+        feature_page.parent_feature_index = i+1
         # don't validate since it will fail as we haven't done them all yet
         result = false unless feature_page.save(:validate => false)
       end
