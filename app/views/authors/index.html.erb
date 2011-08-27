@@ -14,8 +14,8 @@
     <% end -%>
   </ul>
   
-  <ul id="authors">
-    <% @authors.each do |author| -%>
+  <ul class="authors">
+    <% @multiple_authors.each do |author| -%>
       <% width_ratio = (1 + author.last_year - author.first_year).to_f / @num_years  -%>
       <% left_ratio = (author.first_year - @decades.first).to_f / @num_years  -%>
       <% opacity = [1.0, [(author.yearly_density / 18), 0.25].max].min %>
@@ -24,7 +24,6 @@
         left: <%= left_ratio * 100 %>%;
         background-color: rgba(196, 196, 196, <%= opacity %>)">
         <%= link_to author.name, author_path(author) %>
-        <!-- author.first_year > - < author.last_year -->
       </li>
     <% end -%>
   </ul>
@@ -37,5 +36,20 @@
   
   <%= render :partial => 'authors/messages_key',
     :locals => {:min => 'less per year', :max => 'more per year'} %>
+    
+  <h3>Single Messages</h3>
+  
+  <ul class="authors">
+    <% @single_authors.each do |author| -%>
+      <li>
+        <% unless author.messages.empty? -%>
+        <span class="message_date message_year">
+          <%= author.messages.first.date.year %>
+        </span>
+        <% end -%>
+        <%= link_to author.name, author_path(author) %>
+      </li>
+    <% end -%>
+  </ul>
   
 </section>

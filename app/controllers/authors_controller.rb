@@ -6,7 +6,16 @@ class AuthorsController < ApplicationController
   # GET /authors.xml
   def index
     @authors = Author.all
+    @single_authors = []
+    @multiple_authors = []
     @authors.sort!{|a1, a2| a2.first_year <=> a1.first_year}
+    @authors.each do |author|
+      if author.messages.count > 1
+        @multiple_authors << author
+      else
+        @single_authors << author
+      end
+    end
     first_decade = (Message.order('date ASC').first.date.year / 10)
     last_decade = (Message.order('date ASC').last.date.year / 10)
     @decades = (first_decade..last_decade).map{|d| d * 10}

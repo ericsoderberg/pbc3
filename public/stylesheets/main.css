@@ -2091,11 +2091,13 @@ table.grid {
 	#books a {
 		font-size: 14px;
 		}
-#authors {
+.authors {
 	list-style: none;
 	clear: both;
+	margin: 0;
+	padding: 0;
 	}
-	#authors li {
+	.authors li {
 	  white-space: nowrap;
 	  position: relative;
     text-align: left;
@@ -2103,7 +2105,7 @@ table.grid {
     padding-left: 10px;
     border-radius: 3px;
 	  }
-	#authors a {
+	.authors a {
 		font-size: 14px;
 		}
 		
