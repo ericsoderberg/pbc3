@@ -15,11 +15,14 @@ class Style < ActiveRecord::Base
       :normal => '201x308',
       :thumb => '50x'
     }
-  has_many :pages
+  has_attached_file :child_feature, :styles => {
+      :normal => '313x',
+      :thumb => '50x'
+    }
+  has_many :pages, :dependent => :nullify
   acts_as_audited
   
-  validates_presence_of :name, :hero_text_color, :gradient_upper_color,
-    :gradient_lower_color
+  validates_presence_of :name, :hero_text_color, :feature_color
     
   searchable do
     text :name, :default_boost => 2
@@ -32,14 +35,8 @@ class Style < ActiveRecord::Base
   before_save :update_css
   
   def update_css
-    if gradient_lower_color and gradient_upper_color
-      self.css =<<CSS
-  background-color: ##{gradient_lower_color.to_s(16)};
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%,
-    from(#{"#%06x" % gradient_upper_color}), to(#{"#%06x" % gradient_lower_color}));
-  background: -moz-linear-gradient(100% 100% 90deg,
-    #{"#%06x" % gradient_upper_color}, #{"#%06x" % gradient_lower_color});
-CSS
+    if feature_color
+      self.css = "background-color: ##{feature_color.to_s(16)};"
     end
   end
 end

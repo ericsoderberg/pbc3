@@ -11,10 +11,11 @@
 <table id="styles" class="index">
   <tr>
     <th>Name</th>
-    <th>Hero</th>
     <th>Banner</th>
-    <th>Feature Strip</th>
+    <th>Home Hero</th>
+    <th>Home Feature</th>
     <th>Bio Card</th>
+    <th>Child Feature</th>
     <th>Colors</th>
   </tr>
 
@@ -22,13 +23,13 @@
   <tr>
     <td><%= link_to style.name, edit_style_path(style) %></td>
     <td>
-      <% if style.hero.exists? then %>
-      	<%= link_to image_tag(style.hero.url(:thumb)), style.hero.url %>
+      <% if style.banner.exists? then %>
+      	<%= link_to image_tag(style.banner.url(:thumb)), style.banner.url %>
       <% end %>
     </td>
     <td>
-      <% if style.banner.exists? then %>
-      	<%= link_to image_tag(style.banner.url(:thumb)), style.banner.url %>
+      <% if style.hero.exists? then %>
+      	<%= link_to image_tag(style.hero.url(:thumb)), style.hero.url %>
       <% end %>
     </td>
     <td>
@@ -43,19 +44,24 @@
       	  style.bio_back.url %>
       <% end %>
     </td>
-    <td style="background-color: <%= "#%06x" % style.gradient_lower_color %>;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%,
-      from(<%= "#%06x" % style.gradient_upper_color %>), to(<%= "#%06x" %  style.gradient_lower_color %>));
-    background: -moz-linear-gradient(100% 100% 90deg,
-      <%= "#%06x" % style.gradient_upper_color %>, <%= "#%06x" %  style.gradient_lower_color %>);
-      color: #fff;">
-      Featured Name
-    </td>
-    <td style="color: <%= "#%06x" % style.hero_text_color %>">
-      Hero text
+    <td>
+      <% if style.child_feature.exists? then %>
+      	<%= link_to image_tag(style.child_feature.url(:thumb), :height => 24),
+      	  style.child_feature.url %>
+      <% end %>
     </td>
     <td style="color: <%= "#%06x" % style.banner_text_color %>">
       Banner text
+    </td>
+    <td style="color: <%= "#%06x" % style.child_feature_text_color %>">
+      Child feature text
+    </td>
+    <td style="background-color: <%= "#%06x" % style.feature_color %>;
+      color: #fff;">
+      Home feature text
+    </td>
+    <td style="color: <%= "#%06x" % style.hero_text_color %>">
+      Home hero text
     </td>
   </tr>
 <% end %>

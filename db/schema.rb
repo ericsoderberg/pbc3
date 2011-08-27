@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110827140606) do
+ActiveRecord::Schema.define(:version => 20110827195330) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -233,11 +233,11 @@ ActiveRecord::Schema.define(:version => 20110827140606) do
     t.datetime "updated_at"
     t.string   "url"
     t.text     "hero_text"
-    t.boolean  "featured",             :default => false
+    t.boolean  "home_feature",         :default => false
     t.integer  "parent_id"
     t.text     "snippet_text"
     t.text     "feature_phrase"
-    t.integer  "feature_index"
+    t.integer  "home_feature_index"
     t.boolean  "private",              :default => false
     t.integer  "style_id"
     t.integer  "parent_index"
@@ -255,6 +255,8 @@ ActiveRecord::Schema.define(:version => 20110827140606) do
     t.boolean  "feature_upcoming",     :default => false
     t.boolean  "allow_for_email_list", :default => false
     t.text     "banner_text"
+    t.boolean  "parent_feature",       :default => false
+    t.integer  "parent_feature_index"
   end
 
   create_table "payments", :force => true do |t|
@@ -334,8 +336,7 @@ ActiveRecord::Schema.define(:version => 20110827140606) do
     t.string   "feature_strip_content_type"
     t.integer  "feature_strip_file_size"
     t.datetime "feature_strip_updated_at"
-    t.integer  "gradient_upper_color"
-    t.integer  "gradient_lower_color"
+    t.integer  "feature_color"
     t.integer  "hero_text_color"
     t.text     "css"
     t.datetime "created_at"
@@ -346,6 +347,11 @@ ActiveRecord::Schema.define(:version => 20110827140606) do
     t.datetime "bio_back_updated_at"
     t.integer  "bio_back_color",             :default => 0
     t.integer  "banner_text_color",          :default => 0
+    t.string   "child_feature_file_name"
+    t.string   "child_feature_content_type"
+    t.integer  "child_feature_file_size"
+    t.datetime "child_feature_updated_at"
+    t.integer  "child_feature_text_color",   :default => 0
   end
 
   create_table "users", :force => true do |t|

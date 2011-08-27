@@ -3,3 +3,20 @@
 <h1>Editing style</h1>
 
 <%= render 'form' %>
+
+<h4>Pages using this style</h4>
+
+<table id="pages" class="grid">
+<% rows = array_to_rows(@pages) -%>
+<% rows.each do |row| -%>
+  <tr>
+  <% row.each do |page| -%>
+    <td><%= link_to page.name, friendly_page_path(page) %></td>
+  <% end -%>
+  </tr>
+<% end -%>
+</table>
+
+<% if @pages.empty? -%>
+<p class="empty_indicator">No pages</p>
+<% end -%>

@@ -1,0 +1,17 @@
+<div class="field">
+  <%= label_tag :home_feature_order %>
+  <%= hidden_field_tag 'home_feature_order',
+    @home_feature_pages.map{|c| c.id}.join(', '),
+    :id => 'home_feature_order' %>
+  <ul id="home_indexer">
+    <% @home_feature_pages.each do |feature_page| -%>
+      <li id="<%= feature_page.id %>"
+        class="<%= feature_page == @page ? 'active' : ''%>">
+        <%= feature_page.name %></li>
+    <% end -%>
+  </ul>
+</div>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'home_indexer.js' -%>
+<% end -%>

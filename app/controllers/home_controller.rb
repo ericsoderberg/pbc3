@@ -13,29 +13,33 @@ class HomeController < ApplicationController
       return
     end
     user = user_signed_in? ? current_user : nil
-    @featured_pages = Page.featured_pages(user)
-    @feature_strip_pages = @featured_pages[0,5]
+    @feature_pages = Page.home_feature_pages(user)
+    @feature_strip_pages = @feature_pages[0,5]
   end
   
   def edit
-    @featured_pages = Page.featured_pages(current_user)
-    @featured_pages << @page unless @featured_pages.include?(@page)
+    @home_feature_pages = Page.home_feature_pages(current_user)
+    @home_feature_pages << @page unless @home_feature_pages.include?(@page)
+    @parent_feature_pages = Page.parent_feature_pages(current_user)
+    @parent_feature_pages << @page unless @parent_feature_pages.include?(@page)
   end
   
   def update
     orderer_feature_ids = params[:feature_order] ?
       params[:feature_order].split(',').map{|id| id.to_i} : []
-    params[:page][:feature_index] = orderer_feature_ids.length + 100
+    params[:page][:home_feature_index] = orderer_feature_ids.length + 100
     
     respond_to do |format|
       if @page.update_attributes(params[:page]) and
-        (not @page.featured? or Page.order_features(orderer_feature_ids))
+        (not @page.home_feature? or Page.order_home_features(orderer_feature_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html {
-          @featured_pages = Page.featured_pages(current_user)
-          @featured_pages << @page unless @featured_pages.include?(@page)
+          @home_feature_pages = Page.home_feature_pages(current_user)
+          @home_feature_pages << @page unless @home_feature_pages.include?(@page)
+          @parent_feature_pages = Page.parent_feature_pages(current_user)
+          @parent_feature_pages << @page unless @parent_feature_pages.include?(@page)
           render :action => "edit"
         }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }

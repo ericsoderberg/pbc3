@@ -20,10 +20,11 @@ class Page < ActiveRecord::Base
   has_one :podcast
   has_many :forms
   has_many :conversations, :order => 'created_at DESC'
-  acts_as_audited :except => [:parent_index, :feature_index]
+  acts_as_audited :except => [:parent_index,
+    :home_feature_index, :parent_feature_index]
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
-  CHILD_LAYOUTS = ['header', 'landing', 'feature', 'panel']
+  CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
   
   # order matters since we store an index to this array
   CONTENT_TYPES = ['text', 'events and contacts', 'documents and forms',
@@ -32,13 +33,14 @@ class Page < ActiveRecord::Base
   validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
   validates :child_layout, :presence => true, :inclusion => {:in => CHILD_LAYOUTS}
   validates :name, :presence => true
-  validates :featured, :inclusion => {:in => [true, false]}
+  validates :home_feature, :inclusion => {:in => [true, false]}
+  validates :parent_feature, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
   validates :url, :uniqueness => true
   validates :parent_index, :uniqueness => {:scope => :parent_id,
     :unless => Proc.new{|p| not p.parent_id}}
-  validates :feature_index,
-    :uniqueness => {:if => Proc.new {|p| p.featured?}}
+  validates :home_feature_index,
+    :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
   validate :reserved_urls
   
   before_create do
@@ -51,8 +53,12 @@ class Page < ActiveRecord::Base
   end
   
   before_validation do
-    self.featured = false unless self.style_id
-    self.feature_index = nil if not featured?
+    unless self.style_id
+      self.home_feature = false
+      self.parent_feature = false
+    end
+    self.home_feature_index = nil if not home_feature?
+    self.parent_feature_index = nil if not parent_feature?
     # map old page_types to new layouts
     if %w(main leaf post).include?(self.layout)
       self.layout = 'regular'
@@ -93,8 +99,12 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def self.featured_pages(user=nil)
-    visible(user).where(['featured = ?', true]).order('feature_index ASC')
+  def self.home_feature_pages(user=nil)
+    visible(user).where(['home_feature = ?', true]).order('home_feature_index ASC')
+  end
+  
+  def self.parent_feature_pages(user=nil)
+    visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
   end
   
   def self.visible(user)
@@ -260,13 +270,13 @@ class Page < ActiveRecord::Base
     result
   end
   
-  def self.order_features(ids)
+  def self.order_home_features(ids)
     result = true
     Page.transaction do
       tmp_features = Page.find(ids)
       ids.each_with_index do |id, i|
         feature_page = tmp_features.detect{|c| id == c.id}
-        feature_page.feature_index = i+1
+        feature_page.home_feature_index = i+1
         # don't validate since it will fail as we haven't done them all yet
         result = false unless feature_page.save(:validate => false)
       end
@@ -327,7 +337,7 @@ class Page < ActiveRecord::Base
   def extract_first_paragraph(str)
     return '' unless str
     matches = str.scan(/<p>(.*)<\/p>/)
-    # TODO: improve this to not include styling from yui editor
+    # TODO: improve this to not include styling from text editor
     return (matches and matches[0] ? matches[0][0] : '')
   end
   

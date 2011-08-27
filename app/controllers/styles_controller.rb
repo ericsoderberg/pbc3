@@ -29,8 +29,7 @@ class StylesController < ApplicationController
   def new
     @style = Style.new
     @style.hero_text_color = 0x000000;
-    @style.gradient_upper_color = 0x666666;
-    @style.gradient_lower_color = 0x333333;
+    @style.feature_color = 0x333333;
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +40,7 @@ class StylesController < ApplicationController
   # GET /styles/1/edit
   def edit
     @style = Style.find(params[:id])
+    @pages = @style.pages
   end
 
   # POST /styles
@@ -70,6 +70,7 @@ class StylesController < ApplicationController
     @style.feature_strip = nil if params[:delete_feature_strip]
     @style.hero = nil if params[:delete_hero]
     @style.bio_back = nil if params[:delete_bio_back]
+    @style.child_feature = nil if params[:delete_child_feature]
 
     respond_to do |format|
       if @style.update_attributes(params[:style])
@@ -98,15 +99,10 @@ class StylesController < ApplicationController
   private
   
   def fix_colors
-    if params[:style][:gradient_upper_color] and
-        params[:style][:gradient_upper_color].is_a?(String)
-      params[:style][:gradient_upper_color] =
-        params[:style][:gradient_upper_color].hex
-    end
-    if params[:style][:gradient_lower_color] and
-        params[:style][:gradient_lower_color].is_a?(String)
-      params[:style][:gradient_lower_color] =
-        params[:style][:gradient_lower_color].hex
+    if params[:style][:feature_color] and
+        params[:style][:feature_color].is_a?(String)
+      params[:style][:feature_color] =
+        params[:style][:feature_color].hex
     end
     if params[:style][:hero_text_color] and
         params[:style][:hero_text_color].is_a?(String)
@@ -122,6 +118,11 @@ class StylesController < ApplicationController
         params[:style][:banner_text_color].is_a?(String)
       params[:style][:banner_text_color] =
         params[:style][:banner_text_color].hex
+    end
+    if params[:style][:child_feature_text_color] and
+        params[:style][:child_feature_text_color].is_a?(String)
+      params[:style][:child_feature_text_color] =
+        params[:style][:child_feature_text_color].hex
     end
   end
 end

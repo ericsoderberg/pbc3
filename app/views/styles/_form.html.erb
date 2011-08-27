@@ -11,67 +11,102 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :banner %> <span class="help">(980 x 245)</span><br />
-    <% if @style.banner.exists? -%>
-      <%= image_tag @style.banner.url(:thumb) %>
-      <%= check_box_tag 'delete_banner' %> delete banner?
-    <% end -%>
-    <%= f.file_field :banner %>
-  </div>
-  <div class="field">
-    <%= f.label :hero %> <span class="help">(980 x 445)</span><br />
-    <% if @style.hero.exists? -%>
-      <%= image_tag @style.hero.url(:thumb) %>
-      <%= check_box_tag 'delete_hero' %> delete hero?
-    <% end -%>
-    <%= f.file_field :hero %>
-  </div>
-  <div class="field">
-    <%= f.label :feature_strip %> <span class="help">(200 x 60)</span><br />
-    <% if @style.feature_strip.exists? -%>
-      <%= image_tag @style.feature_strip.url(:thumb) %>
-      <%= check_box_tag 'delete_feature_strip' %> delete feature strip?
-    <% end -%>
-    <%= f.file_field :feature_strip %>
-  </div>
-  <div class="field">
-    <%= f.label :bio_back %> <span class="help">(201 x 308)</span><br />
-    <% if @style.bio_back.exists? -%>
-      <%= image_tag @style.bio_back.url(:thumb) %>
-      <%= check_box_tag 'delete_bio_back' %> delete bio back?
-    <% end -%>
-    <%= f.file_field :bio_back %>
-  </div>
-  <div class="field">
-    <%= f.label :banner_text_color %><br />
-    <%= f.text_field :banner_text_color,
-      :value => "0x%06x" % @style.banner_text_color %>
-  </div>
-  <div class="field">
-    <%= f.label :bio_back_color %><br />
-    <%= f.text_field :bio_back_color,
-      :value => "0x%06x" % @style.bio_back_color %>
-  </div>
-  <div class="field">
-    <%= f.label :hero_text_color %><br />
-    <%= f.text_field :hero_text_color,
-      :value => "0x%06x" % @style.hero_text_color %>
-  </div>
-  <div class="field">
-    <%= f.label :gradient_upper_color %><br />
-    <%= f.text_field :gradient_upper_color,
-      :value => "0x%06x" % @style.gradient_upper_color %>
-  </div>
-  <div class="field">
-    <%= f.label :gradient_lower_color %><br />
-    <%= f.text_field :gradient_lower_color,
-      :value => "0x%06x" % @style.gradient_lower_color %>
-  </div>
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+  
+    <h3>Within the page</h3>
+    
+    <fieldset>
+      <caption>Banner at the top</caption>
+    <div class="field">
+      <%= f.label :image %> <span class="help">(980 x 245)</span><br />
+      <% if @style.banner.exists? -%>
+        <%= image_tag @style.banner.url(:thumb) %>
+        <%= check_box_tag 'delete_banner' %> delete image?
+      <% end -%>
+      <%= f.file_field :banner %>
+    </div>
+    <div class="field">
+      <%= f.label :text_color %><br />
+      <%= f.text_field :banner_text_color,
+        :value => "0x%06x" % @style.banner_text_color %>
+    </div>
+    </fieldset>
+    
+    <fieldset>
+      <caption>Contact card bio background</caption>
+    <div class="field">
+      <%= f.label :image %> <span class="help">(201 x 308)</span><br />
+      <% if @style.bio_back.exists? -%>
+        <%= image_tag @style.bio_back.url(:thumb) %>
+        <%= check_box_tag 'delete_bio_back' %> delete bio back?
+      <% end -%>
+      <%= f.file_field :bio_back %>
+    </div>
+    <div class="field">
+      <%= f.label :text_color %><br />
+      <%= f.text_field :bio_back_color,
+        :value => "0x%06x" % @style.bio_back_color %>
+    </div>
+    </fieldset>
+    
+    <h3>On the parent's page</h3>
+    
+    <fieldset>
+      <caption>Featured child</caption>
+    <div class="field">
+      <%= f.label :image %> <span class="help">(313 x 177)</span><br />
+      <% if @style.child_feature.exists? -%>
+        <%= image_tag @style.child_feature.url(:thumb) %>
+        <%= check_box_tag 'delete_child_feature' %> delete image?
+      <% end -%>
+      <%= f.file_field :child_feature %>
+    </div>
+    <div class="field">
+      <%= f.label :text_color %><br />
+      <%= f.text_field :child_feature_text_color,
+        :value => "0x%06x" % @style.child_feature_text_color %>
+    </div>
+    </fieldset>
+    
+    <h3>On the home page</h3>
+    
+    <fieldset>
+      <caption>Hero</caption>
+    <div class="field">
+      <%= f.label :image %> <span class="help">(980 x 445)</span><br />
+      <% if @style.hero.exists? -%>
+        <%= image_tag @style.hero.url(:thumb) %>
+        <%= check_box_tag 'delete_hero' %> delete hero?
+      <% end -%>
+      <%= f.file_field :hero %>
+    </div>
+    <div class="field">
+      <%= f.label :text_color %><br />
+      <%= f.text_field :hero_text_color,
+        :value => "0x%06x" % @style.hero_text_color %>
+    </div>
+    </fieldset>
+    
+    <fieldset>
+      <caption>Feature box</caption>
+    <div class="field">
+      <%= f.label :image %> <span class="help">(200 x 60)</span><br />
+      <% if @style.feature_strip.exists? -%>
+        <%= image_tag @style.feature_strip.url(:thumb) %>
+        <%= check_box_tag 'delete_feature_strip' %> delete feature strip?
+      <% end -%>
+      <%= f.file_field :feature_strip %>
+    </div>
+    <div class="field">
+      <%= f.label :box_color_below_image %><br />
+      <%= f.text_field :feature_color,
+        :value => "0x%06x" % @style.feature_color %>
+    </div>
+    </fieldset>
+  
   <div class="actions">
     <%= f.submit (@style.id ? 'Update Style' : 'Add Style') %>
     | <%= link_to 'Cancel', styles_path %>
@@ -80,4 +115,5 @@
       :method => :delete %>
     <% end -%>
   </div>
+  
 <% end %>

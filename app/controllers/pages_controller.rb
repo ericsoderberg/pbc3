@@ -57,6 +57,7 @@ class PagesController < ApplicationController
     
     @children = @page.nav_context.children.visible(current_user).
       where('pages.obscure != ? OR pages.id = ?', true, @page.id)
+    @feature_children = @children.parent_feature_pages(current_user)
     @aspects = @page.visible_aspects(:children => @children,
       :categorized_events => @categorized_events)
 

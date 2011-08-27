@@ -1,12 +1,12 @@
 $(function() {
-	$('#indexer').sortable({
+	$('#parent_indexer').sortable({
 		axis: "y",
 		cursor: "move",
 		update: function() {
 	  	var orderVal =
-	    	$('#indexer li').map(function(i, e){
+	    	$('#parent_indexer li').map(function(i, e){
 	      	return $(e).attr('id')}).get().join(", ");
-	  	$('#feature_order').val(orderVal);
+	  	$('#parent_feature_order').val(orderVal);
 		}
 	});
 });

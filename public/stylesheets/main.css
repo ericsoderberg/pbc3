@@ -480,8 +480,8 @@ footer {
 	#hero .hero_background, #animated_banners .slide_background,
 	#banner .banner_background {
 		position:absolute;
-		z-index:1;
-		width:980px;
+		z-index: 1;
+		width: 980px;
 		overflow: hidden;
 		}
 #hero:hover, #animated_banners:hover, #animated_banners a:hover {
@@ -511,7 +511,7 @@ footer {
       font-weight: bold;
       line-height: 21px;
       }
-      .hero_text a::after, .featured_nav_link a::after {
+      .hero_text a::after, .feature_nav_link a::after {
         content: url('/images/right_small.png');
         margin-left: 1px;
         vertical-align: baseline;
@@ -547,7 +547,7 @@ footer {
 			z-index: 4;
 		  }
 
-#featured_nav {
+#feature_nav {
   list-style-type: none;
   margin: 0px;
   padding: 0px;
@@ -565,7 +565,7 @@ footer {
   -moz-animation-iteration-count: 1;
   -moz-animation-delay: 0, 0.3s;
   }
-  #featured_nav li {
+  #feature_nav li {
     display: inline-block;
     vertical-align: top;
     position: relative;
@@ -576,23 +576,23 @@ footer {
     background-color: #fff;
     border: 1px solid #ccc;
     }
-  .featured_nav_image {
+  .feature_nav_image {
     position: relative;
     width: 194px;
     height: 60px;
     overflow: hidden;
     }
-    .featured_nav_image img {
+    .feature_nav_image img {
       position: absolute;
       top: 0px;
       }
-  .featured_nav_name {
+  .feature_nav_name {
     color: #fff;
     background-color: #333;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
     background: -moz-linear-gradient(100% 100% 90deg, #666, #333);
     }
-    .featured_nav_name a {
+    .feature_nav_name a {
       display: block;
       font-weight: bold;
       color: #fff;
@@ -610,19 +610,19 @@ footer {
       transition-duration: 0.2s, 0.4s;
       transition-timing-function: linear, ease-in;
       }
-    .featured_nav_name a:hover {
+    .feature_nav_name a:hover {
       color: #333;
 			background-color: #ccc;
 			text-decoration: none;
       }
-    .featured_nav_phrase {
+    .feature_nav_phrase {
       margin: 10px 10px 0px 10px;
 			font-size: 14px;
 			max-height: 44px;
 			color: #666;
 			overflow: hidden;
       }
-    .featured_nav_link {
+    .feature_nav_link {
       margin: 0px 10px;
       }
   
@@ -728,6 +728,17 @@ footer {
 			margin-bottom: 0px;
 			color: #888;
 			}
+			
+fieldset {
+  display: table;
+  border: 1px solid #ddd;
+  color: #999;
+  border-spacing: 20px 5px;
+  margin-bottom: 20px;
+  }
+  fieldset > * {
+    display: table-cell;
+    }
 	
 .field aside {
   float: right;
@@ -1268,6 +1279,31 @@ footer {
 .secondary #audios, .secondary #audios audios {
   width: 313px;
   }
+  
+.panel.feature_child {
+  width: 313px;
+  height: 177px;
+  }
+  .feature_child_background {
+    position:absolute;
+	  z-index: 1;
+	  width: 317px;
+	  overflow: hidden;
+    }
+  .feature_child_text {
+    display: inline-block;
+		position: relative;
+    vertical-align: top;
+		margin-left: 150px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 18px;
+		z-index: 3;
+    }
+    .feature_child_text h2 {
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
     
 input[type="file"] {
   background-color: inherit;
