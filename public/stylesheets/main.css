@@ -866,9 +866,12 @@ footer {
 		#forms_list li:first-of-type, #payments_list li:first-of-type {
       border: none;
       }
-    .events_list .event_range {
+    .events_list .event_name {
       color: #333;
       font-weight: bold;
+      }
+    .events_list .event_range {
+      color: #666;
       }
     .edit_list li {
       padding: 0px;
@@ -909,6 +912,7 @@ footer {
 #text {
   margin: 0px;
   padding: 0px 20px;
+  color: #666;
 }
 #text p, #text h1, #text h2 {
   margin: 0px 0px 15px 0px;
