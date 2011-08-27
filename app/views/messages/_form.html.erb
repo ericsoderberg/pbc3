@@ -29,7 +29,7 @@
   <div class="field">
     <%= f.label :author %><br />
     <%= collection_select(:message, :author_id,
-      Author.all, :id, :name,
+      @authors, :id, :name,
       :include_blank => true) %>
   </div>
   <div class="field">

@@ -39,6 +39,7 @@ class MessagesController < ApplicationController
       @message = Message.new
     end
     @message.date = Date.today
+    @authors = Author.order('name ASC')
 
     respond_to do |format|
       format.html # new.html.erb
@@ -54,6 +55,7 @@ class MessagesController < ApplicationController
     else
       @message_file = @message.message_files.new
     end
+    @authors = Author.order('name ASC')
   end
 
   # POST /messages
