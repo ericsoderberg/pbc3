@@ -43,6 +43,7 @@ class ContactsController < ApplicationController
 
   def update
     @contact = @page.contacts.find(params[:id])
+    @contact.portrait = nil if params[:delete_portrait]
 
     respond_to do |format|
       if @contact.update_attributes(params[:contact])

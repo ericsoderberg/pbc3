@@ -4,8 +4,10 @@
       <div class="card-card">
         <div class="card-face card-front">
           <div class="card-image">
-          <% if contact.user.portrait.exists? -%>
-            <%= image_tag contact.user.portrait.url(:normal),
+            <% portrait = (contact.portrait.exists? ? contact.portrait :
+              contact.user.portrait) -%>
+          <% if portrait.exists? -%>
+            <%= image_tag portrait.url(:normal),
               :width => '210px', :class => 'portrait' %>
           <% end -%>
           </div>
@@ -25,7 +27,8 @@
               email_page_contact_path(@page, contact) %>
           </h4>
           <div class="bio">
-            <%= contact.user.bio %>
+            <%= (contact.bio and not contact.bio.empty?) ? contact.bio : 
+              contact.user.bio %>
           </div>
         </div>
       </div>
