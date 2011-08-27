@@ -17,15 +17,16 @@
 <% end -%>
 
 <% if @page.podcast -%>
-  <div id="page_feed_control">
-    <%= link_to image_tag('feed.png'),
+  <div class="page_control">
+    <%= link_to image_tag('rss.png'),
       page_podcast_path(@page, :format => 'rss') -%>
   </div>
 <% end -%>
 <% if (@events and not @events.empty?) or
     (@categorized_events and not @categorized_events[:all].empty?) -%>
-  <div id="page_calendar_control">
-    <%= link_to image_tag('calendar.png'),
+  <div class="page_control">
+    <%= link_to image_tag('calendar-3.png'),
       page_calendar_path(@page.nav_context) %>
   </div>
 <% end -%>
+<%= render :partial => 'social/tools' %>

@@ -1,0 +1,16 @@
+<% if @page.twitter_name -%>
+<div class="page_control">
+  <%= link_to image_tag('twitter-2.png'),
+    "http://twitter.com/#!/#{@page.twitter_name}" %>
+</div>
+<% if false -%>
+<div class="page_control">
+  <a href="http://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+</div>
+<% end -%>
+<% end -%>
+<% if @page.facebook_url -%>
+<div class="page_control">
+  <%= link_to image_tag('facebook.png'), @page.facebook_url %>
+</div>
+<% end -%>

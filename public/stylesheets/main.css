@@ -626,7 +626,7 @@ footer {
       margin: 0px 10px;
       }
   
-.page_admin, #done_page_editing, #page_feed_control, #page_calendar_control {
+.page_admin, #done_page_editing, .page_control {
   float: right;
   display: block;
 	margin: 0;
@@ -634,7 +634,7 @@ footer {
 	line-height: 32px;
   vertical-align: middle;
   }
-  #page_feed_control, #page_calendar_control {
+  .page_control {
     margin-left: 15px;
     }
   .page_admin ul {
@@ -657,7 +657,7 @@ footer {
       color: #333;
       background-color: inherit;
       }
-  #page_feed_control img, #page_calendar_control img {
+  .page_control img {
     vertical-align: middle;
     }
 
