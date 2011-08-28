@@ -70,9 +70,9 @@ class EmailList
     end
   end
   
-  def save(user)
+  def save(site)
     if valid? and @new_record
-      if system("#{Configuration.mailman_dir}/newlist -q #{@name} #{user.email} #{user.name}")
+      if system("#{Configuration.mailman_dir}/newlist -q #{@name} #{site.mailman_owner} #{UUIDTools::UUID.random_create.to_s}")
         @new_record = false
         true
       end

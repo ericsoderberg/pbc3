@@ -60,7 +60,7 @@ class EmailListsController < ApplicationController
     add_addresses = params[:add_addresses].split
 
     respond_to do |format|
-      if @email_list.save(current_user) and
+      if @email_list.save(@site) and
         @email_list.add_addresses(add_addresses)
         format.html { redirect_to(email_lists_url,
           :notice => 'Email list was successfully created.') }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110827224809) do
+ActiveRecord::Schema.define(:version => 20110828002728) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -321,6 +321,7 @@ ActiveRecord::Schema.define(:version => 20110827224809) do
     t.string   "address"
     t.string   "copyright"
     t.string   "email"
+    t.string   "mailman_owner"
   end
 
   create_table "styles", :force => true do |t|
