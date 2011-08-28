@@ -24,7 +24,7 @@ Pbc3::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
   
-  config.action_mailer.default_url_options = { :host => 'localhost' }
+  config.action_mailer.default_url_options = { :host => 'UNCONFIGURED' }
   
   config.time_zone = "Pacific Time (US & Canada)"
   

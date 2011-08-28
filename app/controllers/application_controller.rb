@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
   
   def get_site
     @site = Site.first
+    ActionMailer::Base.default_url_options = {:host => request.host_with_port}
   end
   
   def get_nav_pages

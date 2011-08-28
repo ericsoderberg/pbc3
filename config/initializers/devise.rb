@@ -3,7 +3,8 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "info@pbc.org"
+  # Should figure out a way to tie this into the Site data
+  config.mailer_sender = Proc.new {Site.first.email}
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

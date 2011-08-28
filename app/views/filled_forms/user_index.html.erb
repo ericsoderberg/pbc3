@@ -20,7 +20,7 @@
     <% if filled_form.payment -%>
      Paid by <%= filled_form.payment.method%>
      on <%= filled_form.payment.created_at %>
-    <% else -%>
+    <% elsif false -%><!-- !!! need to fix this for registrations! -->
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
       <input type="hidden" name="cmd" value="_buynow">
       <input type="hidden" name="business" value="eric_soderberg@pbc.org">
