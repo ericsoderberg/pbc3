@@ -20,7 +20,7 @@ Pbc3::Application.routes.draw do
           :action => 'user_index'
       end
     end
-    devise_for :users
+    devise_for :users, :controllers => {:registrations => "registrations"}
     resource :site, :except => [:show, :destroy], :controller => 'site'
     resources :forms do
       member do

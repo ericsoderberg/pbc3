@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
     :avatar_updated_at, :avatar,
     :portrait_file_name, :portrait_content_type, :portrait_file_size,
     :portrait_updated_at, :portrait,
-    :bio
+    :bio, :email_confirmation
   
   has_many :contacts
   has_many :contact_pages, :through => :contacts, :source => :page,
@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
   searchable do
     text :name, :default_boost => 2
     text :email, :default_boost => 2
+  end
+  
+  def email_confirmation
+    email
   end
   
   def authorized?(user)

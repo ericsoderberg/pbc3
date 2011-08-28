@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110828002728) do
+ActiveRecord::Schema.define(:version => 20110828043808) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -383,6 +383,7 @@ ActiveRecord::Schema.define(:version => 20110828002728) do
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
     t.string   "name"
+    t.string   "email_confirmation"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

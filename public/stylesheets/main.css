@@ -2780,6 +2780,18 @@ div#messages {
   .rte-toolbar p.mode {
     float: right;
     }
+    
+#sign_up_email_confirmation {
+  opacity: 0.01;
+  float: right;
+  margin-top: -80px;
+  margin-right: -100px;
+  }
+  #sign_up_email_confirmation input {
+    box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+  }
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
