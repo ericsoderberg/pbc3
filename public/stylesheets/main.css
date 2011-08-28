@@ -2791,7 +2791,14 @@ div#messages {
     box-shadow: none;
 		-moz-box-shadow: none;
 		-webkit-box-shadow: none;
-  }
+    }
+
+#email_address_confirmation {
+  opacity: 0.1;
+  position: absolute;
+  top: 0px;
+  right: -50px;
+}
 
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
