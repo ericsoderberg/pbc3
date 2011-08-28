@@ -14,6 +14,8 @@
     <% if administrator? -%>
       <%= link_to "#{email_list.name}#{@site.email_domain}",
         edit_email_list_path(email_list) %>
+    <% elsif current_user -%>
+      <span class="help"><%= "#{email_list.name}#{@site.email_domain}" %></span>
     <% end -%>
   </div>
 

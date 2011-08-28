@@ -755,7 +755,9 @@ fieldset {
 .help {
   color: #999999;
   font-style: italic;
-  margin-left: 10px;
+  }
+  .field .help {
+    margin-left: 10px;
   }
   
 .regular_content {

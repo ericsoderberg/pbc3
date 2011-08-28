@@ -51,7 +51,10 @@ class PagesController < ApplicationController
       @categorized_events = Event.categorize(@page.related_events)
       if current_user
         @categorized_events[:all].each do |event|
-          @invitation = event.invitations.where(:email => current_user.email).first
+          if @page == event.page 
+            @invitation =
+              event.invitations.where(:email => current_user.email).first
+          end
         end
       end
     end
