@@ -799,8 +799,14 @@ fieldset {
     padding: 0px;
     }
     .landing_content.primary > li {
+      position: relative;
       width: 480px;
       }
+      .landing_content.primary #child_pages {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        }
     .landing_content.secondary > li {
       width: 313px;
       }
