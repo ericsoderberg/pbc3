@@ -7,6 +7,7 @@ en:
       default: "%m/%d/%Y"
       db: "%Y-%m-%d"
       short: "%m/%d"
+      medium: "%B %e %Y"
       long: "%A %B %d, %Y"
   time:
     formats:

@@ -14,6 +14,11 @@
   <li class="<%= filled_form == @filled_form ? 'active' : '' %>">
     <a href="<%= edit_form_fill_path(@form, filled_form)  %>">
       <%= filled_form.name %>
+      <% if @form.payable? -%>
+      <div class="form_amount">
+        $<%= filled_form.payable_amount.to_s %>
+      </div>
+      <% end -%>
       <div class="form_date">
         <%= filled_form.updated_at.relative_str %>
       </div>

@@ -4,6 +4,7 @@ class PaymentsControllerTest < ActionController::TestCase
   
   setup do
     @payment = payments(:retreat)
+    @unpaid_filled_form = filled_forms(:unpaid_retreat_registration)
     sign_in users(:admin)
   end
 
@@ -14,13 +15,14 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, :filled_form_id => @unpaid_filled_form.id
     assert_response :success
   end
 
   test "should create payment" do
     assert_difference('Payment.count') do
-      post :create, :payment => @payment.attributes
+      post :create, :payment => @payment.attributes,
+        :filled_form_ids => [@unpaid_filled_form.id]
     end
 
     assert_redirected_to payment_path(assigns(:payment))
@@ -37,7 +39,8 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   test "should update payment" do
-    put :update, :id => @payment.to_param, :payment => @payment.attributes
+    put :update, :id => @payment.to_param, :payment => @payment.attributes,
+      :filled_form_ids => [@unpaid_filled_form.id]
     assert_redirected_to payment_path(assigns(:payment))
   end
 

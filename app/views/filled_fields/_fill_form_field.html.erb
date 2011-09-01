@@ -12,6 +12,7 @@
   <div class="form_field_value">
   <% case fill_form_field.field_type -%>
     <% when FormField::FIELD -%>
+      <% if fill_form_field.monetary? %>$<% end -%>
       <%= text_field_tag html_id, value, :size => fill_form_field.size %>
     <% when FormField::AREA -%>
       <%= text_area_tag html_id, value, :size => fill_form_field.size %>
@@ -22,6 +23,7 @@
             <%= radio_button_tag html_id, option.name,
               (value == option.name) %>
             <div class="option_name">
+              <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>
             </div>
             <div class="option_help">
@@ -37,6 +39,7 @@
             <%= check_box_tag html_id+'[]', option.name,
               value.split(',').include?(option.name) %>
             <div class="option_name">
+              <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>
             </div>
             <div class="option_help">

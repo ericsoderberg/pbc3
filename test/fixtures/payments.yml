@@ -1,4 +1,4 @@
 retreat:
-  amount: 100
-  method: "online paypal"
+  amount: 10000
+  method: paypal
   user: generic

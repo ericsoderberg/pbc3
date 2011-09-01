@@ -1,15 +1,44 @@
-<p id="notice"><%= notice %></p>
+<% title 'Payment' %>
+
+<h1>Payment</h1>
+
+<div class="page_admin">
+  <ul>
+    <li><%= link_to 'Edit', edit_payment_path(@payment) %></li>
+  </ul>
+</div>
 
 <p>
   <b>Amount:</b>
-  <%= @payment.amount %>
+  $<%= @payment.amount %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @payment.sent_at ? l(@payment.sent_at.to_date) : '' %>
 </p>
 
 <p>
   <b>Method:</b>
-  <%= @payment.method %>
+  <%= @payment.attributes['method'] %>
 </p>
 
+<p>
+  <b>Notes:</b>
+  <%= @payment.notes %>
+</p>
 
-<%= link_to 'Edit', edit_payment_path(@payment) %> |
-<%= link_to 'Back', payments_path %>
+<h3>Forms</h3>
+
+<table class="payment_forms">
+  <% @payment.filled_forms.each do |filled_form| -%>
+    <tr>
+      <td><%= link_to filled_form.name,
+        edit_form_fill_path(filled_form.form, filled_form) %></td>
+      <td><%= filled_form.created_at.relative_str %></td>
+      <td><%= filled_form.form.name %></td>
+      <td><%= link_to filled_form.form.page.name,
+        friendly_page_path(filled_form.form.page) %></td>
+    </tr>
+  <% end -%>
+</table>

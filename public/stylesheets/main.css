@@ -2140,6 +2140,29 @@ a.new_comment {
 			#filled_fields .option_help {
 				display: inline-block;
 				}
+.filled_form_payment {
+  margin-bottom: 20px;
+  }
+  .filled_form_payment h3 {
+    margin: 0px 0px 15px 0px;
+    }
+    
+.payment_forms td {
+  padding-right: 10px;
+  }
+.payment_methods {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  }
+  .payment_methods li {
+    display: inline-block;
+    padding-right: 20px;
+    }
+    .payment_methods input {
+      margin-right: 10px;
+      }
+  
 .timestamp {
 	padding-top: 20px;
 	color: #999;

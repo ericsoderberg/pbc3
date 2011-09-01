@@ -1,8 +1,21 @@
-<div class="form_field_name">
-  Payment Instructions
+<div class="filled_form_payment">
+<% if not @filled_form.id -%>
+  <h3>Payment Instructions</h3>
+  <p>After submitting, you will be given further instructions on how to pay as well as an option to submit additional forms and pay them all together.</p>
+<% elsif @filled_form.payment -%>
+  <h3>Payment</h3>
+  <p>Payed via payment on
+    <%= link_to l(@filled_form.payment.sent_at.to_date, :format => :long),
+      edit_payment_path(@filled_form.payment) %>.</p>
+<% else -%>
+  <h3>Payment</h3>
+  <p>You will be able to add others to your payment.</p>
+  <%= form_tag new_payment_path(), :method => :get do %>
+    <%= hidden_field_tag :filled_form_id, @filled_form.id %>
+    <%= submit_tag 'Pay' %>
+  <% end %>
+<% end -%>
 </div>
-
-<p>After submitting, you will be given further instructions on how to pay as well as an option to submit additional forms and pay them all together.</p>
 
 <!--
 <ul class="options_list">

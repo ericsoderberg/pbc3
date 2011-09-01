@@ -1,3 +1,5 @@
+<p>We offer several methods of payment. You may send us a check, pay with an online transaction from your bank, or use PayPal. This form merely records which method you will be using. We will update this when we have received your payment.</p>
+
 <%= form_for(@payment) do |f| %>
   <% if @payment.errors.any? %>
     <div id="error_explanation">
@@ -10,16 +12,94 @@
       </ul>
     </div>
   <% end %>
-
+  
   <div class="field">
-    <%= f.label :amount %><br />
-    <%= f.text_field :amount %>
+    <table class="payment_forms">
+    <% @filled_forms.each do |filled_form| -%>
+      <% amount = filled_form.payable_amount -%>
+      <tr>
+        <td><%= check_box_tag 'filled_form_ids[]', filled_form.id,
+          @payment.filled_forms.include?(filled_form),
+          'data-amount' => amount %></td>
+        <td>$<%= amount %></td>
+        <td><%= link_to filled_form.name,
+          edit_form_fill_path(filled_form.form, filled_form) %></td>
+        <td><%= l(filled_form.created_at.to_date, :format => :medium) %></td>
+        <td><%= filled_form.form.name %></td>
+        <td><%= link_to filled_form.form.page.name,
+          friendly_page_path(filled_form.form.page) %></td>
+      </tr>
+    <% end -%>
+    </table>
   </div>
-  <div class="field">
-    <%= f.label :method %><br />
-    <%= f.text_field :method %>
+  
+  <div class="regular_content">
+    <section>
+      <h3>Sent</h3>
+      <div class="field">
+        <%= f.label :amount %><br />
+        $<%= text_field_tag :amount, @payment.amount.to_s, :size => '5',
+          :id => 'payment_amount', :name => 'payment[amount]' %>
+      </div>
+      <div class="field">
+        <%= f.label :sent_on %><br />
+        <%= f.text_field :sent_at,
+          :value => (@payment.sent_at ?
+            l(@payment.sent_at.to_date()) : '') %>
+      </div>
+      <div class="field">
+        <%= f.label :method %><br />
+        <ul class="payment_methods">
+          <% Payment::METHODS.each do |method| -%>
+            <li><%= f.radio_button :method, method %><%= method %></li>
+          <% end -%>
+        </ul>
+      </div>
+      <div class="field">
+        <%= f.label :notes %><br />
+        <%= f.text_area :notes, :size => '40x4' %>
+      </div>
+    </section>
+    
+    <% if current_user.administrator? -%>
+    <aside>
+      <div class="form">
+        <h3>Received</h3>
+        <div class="field">
+          <%= f.label :received_amount %><br />
+          $<%= text_field_tag :received_amount,
+            @payment.received_amount.to_s, :size => '5',
+            :id => 'payment_received_amount',
+            :name => 'payment[received_amount]' %>
+        </div>
+        <div class="field">
+          <%= f.label :received_on %><br />
+          <%= f.text_field :received_at,
+            :value => (@payment.received_at ?
+              l(@payment.received_at.to_date()) : '') %>
+        </div>
+        <div class="field">
+          <%= f.label :notes %><br />
+          <%= f.text_area :received_notes, :size => '40x4' %>
+        </div>
+      </div>
+    </aside>
+    <% end -%>
   </div>
+  
   <div class="actions">
     <%= f.submit %>
+    <% if @filled_form -%>
+      | <%= link_to 'Cancel',
+        edit_form_fill_path(@filled_form.form, @filled_form) %>
+    <% end -%>
+    <% if @payment.id -%>
+      | <%= link_to 'Delete payment record', @payment,
+        :confirm => 'Are you sure?', :method => :delete %>
+    <% end -%>
   </div>
+<% end %>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'form_aids.js' -%>
 <% end %>

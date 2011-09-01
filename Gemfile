@@ -18,6 +18,7 @@ gem "will_paginate", "~> 3.0.pre2"
 gem "acts_as_audited", "2.0.0.rc7"
 gem "uuidtools"
 gem 'kaminari'
+gem 'money'
 
 # Use unicorn as the web server
 # gem 'unicorn'

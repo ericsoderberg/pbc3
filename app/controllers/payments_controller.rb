@@ -12,6 +12,7 @@ class PaymentsController < ApplicationController
   
   def user_index
     @user = User.find(params[:id])
+    @user = current_user unless current_user.administrator?
     @payments = @user.payments.all
 
     respond_to do |format|
@@ -22,6 +23,7 @@ class PaymentsController < ApplicationController
 
   def show
     @payment = Payment.find(params[:id])
+    return unless payment_authorized!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,6 +33,17 @@ class PaymentsController < ApplicationController
 
   def new
     @payment = Payment.new
+    @payment.user = current_user
+    @payment.method = Payment::METHODS.first
+    @payment.sent_at = Date.today
+    if params[:filled_form_id]
+      @filled_form = FilledForm.find(params[:filled_form_id])
+      @payment.filled_forms << @filled_form
+      @payment.amount = @filled_form.payable_amount
+      logger.info("!!! amount: #{@payment.amount}")
+    end
+    @filled_forms = current_user.filled_forms.includes(:form).
+      where('forms.payable' => true, :payment_id => nil)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,10 +53,18 @@ class PaymentsController < ApplicationController
 
   def edit
     @payment = Payment.find(params[:id])
+    @filled_forms = current_user.filled_forms.includes(:form).
+      where('forms.payable' => true, :payment_id => [nil, @payment.id])
+    return unless payment_authorized!
   end
 
   def create
+    parse_date
     @payment = Payment.new(params[:payment])
+    @payment.user = current_user
+    params[:filled_form_ids].each do |filled_form_id|
+      @payment.filled_forms << FilledForm.find(filled_form_id)
+    end
 
     respond_to do |format|
       if @payment.save
@@ -58,6 +79,8 @@ class PaymentsController < ApplicationController
 
   def update
     @payment = Payment.find(params[:id])
+    return unless payment_authorized!
+    parse_date
 
     respond_to do |format|
       if @payment.update_attributes(params[:payment])
@@ -72,6 +95,7 @@ class PaymentsController < ApplicationController
 
   def destroy
     @payment = Payment.find(params[:id])
+    return unless payment_authorized!
     @payment.destroy
 
     respond_to do |format|
@@ -79,4 +103,33 @@ class PaymentsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def payment_authorized!
+    if not current_user or
+      (not current_user.administrator? and
+        @payment.user != current_user)
+      
+      redirect_to root_url
+      return false
+    end
+    return true
+  end
+  
+  def parse_date
+    if params[:payment][:sent_at] and
+      params[:payment][:sent_at].is_a?(String) and
+      not params[:payment][:sent_at].empty?
+      params[:payment][:sent_at] =
+        Date.parse_from_form(params[:payment][:sent_at])
+    end
+    if params[:payment][:received_at] and
+      params[:payment][:received_at].is_a?(String) and
+      not params[:payment][:received_at].empty?
+      params[:payment][:received_at] =
+        Date.parse_from_form(params[:payment][:received_at])
+    end
+  end
+  
 end

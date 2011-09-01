@@ -5,7 +5,11 @@
     :url => form_field_option_path(@form, form_field, edit_option),
     :remote => true) do |f| %>
   <div class="field">
-    <%= f.label :name %><br/>
+    <% if form_field.monetary? -%>
+      <%= f.label :value %><br/>
+    <% else -%>
+      <%= f.label :name %><br/>
+    <% end -%>
     <%= f.text_field :name %>
   </div>
   <div class="field">

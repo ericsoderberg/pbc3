@@ -8,3 +8,8 @@ retreat_registration:
   user: generic
   name: "my registration"
   payment: retreat
+
+unpaid_retreat_registration:
+  form: retreat_registration
+  user: generic
+  name: "my unpaid registration"

@@ -9,4 +9,8 @@ class FilledForm < ActiveRecord::Base
   validates :user, :presence => true
   validates :name, :presence => true
   
+  def payable_amount
+    filled_fields.includes(:form_field).where('form_fields.monetary' => true).map{|ff| ff.payable_amount}.inject(:+)
+  end
+  
 end

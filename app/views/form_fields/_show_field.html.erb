@@ -6,6 +6,7 @@
 <div class="dynamic_form_field_value">
 <% case show_field.field_type -%>
   <% when FormField::FIELD -%>
+    <% if show_field.monetary? %>$<% end -%>
     <%= text_field_tag show_field.html_name, nil,
       :size => (show_field.size ? show_field.size : '') %>
   <% when FormField::AREA -%>
@@ -16,6 +17,7 @@
       <% show_field.form_field_options.each do |option| -%>
       <li class="dynamic_form_option">
         <%= radio_button_tag show_field.html_name, option.name %>
+        <% if show_field.monetary? %>$<% end -%>
         <%= option.name %>
       </li>
       <% end -%>
@@ -25,6 +27,7 @@
       <% show_field.form_field_options.each do |option| -%>
       <li class="dynamic_form_option">
         <%= check_box_tag option.html_name, option.name %>
+        <% if show_field.monetary? %>$<% end -%>
         <%= option.name %>
       </li>
       <% end -%>
