@@ -24,6 +24,14 @@
     <%= render :partial => 'payment_fields' %>
   <% end -%>
   
+  <% if current_user.administrator? -%>
+    <%= f.label :change_submitter %>
+    <span class="help">please use with caution.</span>
+    <%= collection_select(:filled_form, :user_id,
+      User.where("TRIM(both ' ' from name) != ''").order('LOWER(name) ASC'), :id, :name,
+      :include_blank => false) %>
+  <% end -%>
+  
   <div class="actions">
     <%= f.submit (@filled_form.id ? 'Update' : 'Submit') %>
     <% if @filled_form.id -%>

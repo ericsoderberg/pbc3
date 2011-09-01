@@ -5,6 +5,7 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms
   # GET /filled_forms.xml
   def index
+    return unless administrator!
     @filled_forms = @form.filled_forms.all
 
     respond_to do |format|
@@ -15,6 +16,7 @@ class FilledFormsController < ApplicationController
   
   def user_index
     @user = User.find(params[:id])
+    @user = current_user unless current_user.administrator?
     @filled_forms = @user.filled_forms.all
 
     respond_to do |format|
@@ -27,6 +29,7 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms/1.xml
   def show
     @filled_form = @form.filled_forms.find(params[:id])
+    return unless filled_form_authorized!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -49,13 +52,20 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms/1/edit
   def edit
     @filled_form = @form.filled_forms.find(params[:id])
+    return unless filled_form_authorized!
   end
 
   # POST /filled_forms
   # POST /filled_forms.xml
   def create
     @filled_form = @form.filled_forms.new
-    @filled_form.user = current_user
+    return unless filled_form_authorized!
+    if current_user.administrator? and params[:filled_form] and
+      params[:filled_form][:user_id]
+      @filled_form.user = User.find(params[:filled_form][:user_id])
+    else
+      @filled_form.user = current_user
+    end
     populate_filled_fields
 
     respond_to do |format|
@@ -75,6 +85,13 @@ class FilledFormsController < ApplicationController
   # PUT /filled_forms/1.xml
   def update
     @filled_form = @form.filled_forms.find(params[:id])
+    return unless filled_form_authorized!
+    if current_user.administrator? and params[:filled_form] and
+      params[:filled_form][:user_id]
+      @filled_form.user = User.find(params[:filled_form][:user_id])
+    else
+      @filled_form.user = current_user
+    end
     populate_filled_fields
 
     respond_to do |format|
@@ -94,6 +111,7 @@ class FilledFormsController < ApplicationController
   # DELETE /filled_forms/1.xml
   def destroy
     @filled_form = @form.filled_forms.find(params[:id])
+    return unless filled_form_authorized!
     @filled_form.destroy
 
     respond_to do |format|
@@ -104,8 +122,20 @@ class FilledFormsController < ApplicationController
   
   private
   
+  def filled_form_authorized!
+    if not current_user or
+      (not @filled_form.form.page.administrator?(current_user) and
+        @filled_form.user != current_user)
+      
+      redirect_to root_url
+      return false
+    end
+    return true
+  end
+  
   def get_form
     @form = Form.find(params[:form_id])
+    @page = @form.page
   end
   
   def populate_filled_fields

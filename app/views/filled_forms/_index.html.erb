@@ -2,7 +2,7 @@
 
 <% if filled_forms.count > 0 and ((not @filled_form) or (@filled_form.id)) -%>
 <div id="new_filled_form_button" class="admin">
-  <%= button_to 'Fill out another one', new_form_fill_path(@form),
+  <%= button_to 'Fill out a new one', new_form_fill_path(@form),
     :method => :get %>
 </div>
 <% end -%>
@@ -12,8 +12,19 @@
 <ul>
   <% filled_forms.each do |filled_form| -%>
   <li class="<%= filled_form == @filled_form ? 'active' : '' %>">
-    <%= link_to filled_form.name,
-      edit_form_fill_path(@form, filled_form) %></li>
+    <a href="<%= edit_form_fill_path(@form, filled_form)  %>">
+      <%= filled_form.name %>
+      <div class="form_date">
+        <%= filled_form.updated_at.relative_str %>
+      </div>
+      <% if @page.administrator?(current_user) and
+        filled_form.name != filled_form.user.name -%>
+      <div class="form_submitter">
+        <%= filled_form.user.name || filled_form.user.email %>
+      </div>
+      <% end -%>
+    </a>
+  </li>
   <% end -%>
 </ul>
 </div>

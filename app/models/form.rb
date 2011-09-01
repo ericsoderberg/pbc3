@@ -21,7 +21,7 @@ class Form < ActiveRecord::Base
   end
   
   def visible_filled_forms(user)
-    return filled_forms if user.administrator?
+    return filled_forms if page.administrator?(user)
     filled_forms.where('user_id = ?', user.id)
   end
   

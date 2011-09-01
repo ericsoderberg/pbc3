@@ -4,22 +4,23 @@ class Page < ActiveRecord::Base
   
   belongs_to :style
   has_many :notes, :order => 'created_at DESC'
-  has_many :photos
-  has_many :videos
-  has_many :audios
-  has_many :documents
-  has_many :events, :order => 'start_at ASC'
+  has_many :photos, :dependent => :destroy
+  has_many :videos, :dependent => :destroy
+  has_many :audios, :dependent => :destroy
+  has_many :documents, :dependent => :destroy
+  has_many :events, :order => 'start_at ASC', :dependent => :destroy
   has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
     :order => :parent_index
-  has_many :contacts, :include => :user, :order => 'users.first_name ASC'
+  has_many :contacts, :include => :user, :order => 'users.first_name ASC',
+    :dependent => :destroy
   has_many :contact_users, :through => :contacts, :source => :user,
     :order => 'users.first_name ASC'
-  has_many :authorizations
+  has_many :authorizations, :dependent => :destroy
   has_one :podcast
-  has_many :forms
-  has_many :conversations, :order => 'created_at DESC'
+  has_many :forms, :dependent => :destroy
+  has_many :conversations, :order => 'created_at DESC', :dependent => :destroy
   acts_as_audited :except => [:parent_index,
     :home_feature_index, :parent_feature_index]
   

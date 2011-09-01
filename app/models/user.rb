@@ -13,12 +13,12 @@ class User < ActiveRecord::Base
     :portrait_updated_at, :portrait,
     :bio, :email_confirmation
   
-  has_many :contacts
+  has_many :contacts, :dependent => :destroy
   has_many :contact_pages, :through => :contacts, :source => :page,
     :order => 'LOWER(pages.name) ASC'
-  has_many :authorizations
-  has_many :filled_forms
-  has_many :payments
+  has_many :authorizations, :dependent => :destroy
+  has_many :filled_forms, :dependent => :destroy
+  has_many :payments, :dependent => :destroy
   acts_as_audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {

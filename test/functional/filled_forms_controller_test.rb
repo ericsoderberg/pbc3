@@ -23,6 +23,7 @@ class FilledFormsControllerTest < ActionController::TestCase
     @form.form_fields.each{|f| fields[f.id] = {:value => 'test'}}
     assert_difference('FilledForm.count') do
       post :create, :form_id => @form.id, :filled_fields => fields
+      #assert false, assigns(:filled_form).errors.full_messages.join("\n")
     end
 
     assert_redirected_to edit_form_fill_path(assigns(:form), assigns(:filled_form))
@@ -43,8 +44,8 @@ class FilledFormsControllerTest < ActionController::TestCase
     @form.form_fields.each{|f| fields[f.id] = {:value => 'test'}}
     put :update, :form_id => @form.id, :id => @filled_form.to_param,
       :filled_fields => fields
-    assert_response :success
-    #assert_redirected_to edit_form_fill_path(assigns(:form), assigns(:filled_form))
+    #assert_response :success
+    assert_redirected_to edit_form_fill_path(assigns(:form), assigns(:filled_form))
   end
 
   test "should destroy filled_form" do

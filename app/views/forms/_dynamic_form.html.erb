@@ -9,6 +9,6 @@
       <%= link_to dynamic_form.name, new_form_fill_path(dynamic_form) %>
     <% end -%>
   <% else -%>
-    <%= link_to dynamic_form.name, form_path(dynamic_form) %>
+    <%= link_to dynamic_form.name, new_form_fill_path(dynamic_form) %>
   <% end -%>
 <% end %>
