@@ -17,7 +17,8 @@ class Page < ActiveRecord::Base
     :dependent => :destroy
   has_many :contact_users, :through => :contacts, :source => :user,
     :order => 'users.first_name ASC'
-  has_many :authorizations, :dependent => :destroy
+  has_many :authorizations, :dependent => :destroy, :include => :user,
+    :order => 'users.first_name ASC'
   has_one :podcast
   has_many :forms, :dependent => :destroy
   has_many :conversations, :order => 'created_at DESC', :dependent => :destroy
