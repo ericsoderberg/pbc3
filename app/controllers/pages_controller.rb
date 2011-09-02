@@ -63,7 +63,10 @@ class PagesController < ApplicationController
     end
     @note = Note.new(:page_id => @page.id)
     
-    @children = @page.nav_context.children.visible(current_user).
+    @header_children = @page.nav_context.children.visible(current_user).
+      where('pages.obscure != ? OR pages.id = ?', true, @page.id)
+    
+    @children = @page.children.visible(current_user).
       where('pages.obscure != ? OR pages.id = ?', true, @page.id)
     @feature_children = @page.feature_children(current_user)
     @aspects = @page.visible_aspects(:children => @children,
