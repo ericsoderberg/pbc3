@@ -53,6 +53,7 @@ class PaymentsController < ApplicationController
 
   def edit
     @payment = Payment.find(params[:id])
+    @filled_form = @payment.filled_forms.first
     @filled_forms = current_user.filled_forms.includes(:form).
       where('forms.payable' => true, :payment_id => [nil, @payment.id])
     return unless payment_authorized!
@@ -65,10 +66,13 @@ class PaymentsController < ApplicationController
     params[:filled_form_ids].each do |filled_form_id|
       @payment.filled_forms << FilledForm.find(filled_form_id)
     end
+    @filled_form = @payment.filled_forms.first
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to(@payment, :notice => 'Payment was successfully created.') }
+        format.html { redirect_to(
+          edit_form_fill_url(@filled_form.form, @filled_form),
+          :notice => 'Payment was successfully created.') }
         format.xml  { render :xml => @payment, :status => :created, :location => @payment }
       else
         format.html { render :action => "new" }
@@ -81,10 +85,20 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     return unless payment_authorized!
     parse_date
+    @filled_form = @payment.filled_forms.first
 
     respond_to do |format|
       if @payment.update_attributes(params[:payment])
-        format.html { redirect_to(@payment, :notice => 'Payment was successfully updated.') }
+        format.html {
+          if @payment.user != current_user
+            redirect_to(payments_url,
+              :notice => 'Payment was successfully updated.')
+          else
+            redirect_to(
+              edit_form_fill_url(@filled_form.form, @filled_form),
+              :notice => 'Payment was successfully updated.')
+          end
+        }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

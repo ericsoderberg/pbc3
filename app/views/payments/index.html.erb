@@ -1,25 +1,54 @@
-<h1>Listing payments</h1>
+<% title 'Payments' -%>
 
-<table>
-  <tr>
-    <th>Amount</th>
-    <th>Method</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<section>
+  
+  <%= render :partial => 'site/header' %>
+  
+  <table id="payments" class="index">
+    <tr>
+      <th>Sent On</th>
+      <th>Amount</th>
+      <% if current_user.administrator? -%>
+      <th>Name</th>
+      <% end -%>
+      <th>Forms</th>
+      <th>Received On</th>
+    </tr>
 
-<% @payments.each do |payment| %>
-  <tr>
-    <td><%= payment.amount %></td>
-    <td><%= payment.method %></td>
-    <td><%= link_to 'Show', payment %></td>
-    <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
-    <td><%= link_to 'Destroy', payment, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+  <% @payments.each do |payment| %>
+    <tr>
+      <td>
+        <%= link_to l(payment.sent_at.to_date, :format => :medium),
+          edit_payment_path(payment) %>
+      </td>
+      <td>$<%= payment.amount %></td>
+      <% if current_user.administrator? -%>
+      <td><%= payment.user.name %></td>
+      <% end -%>
+      <td>
+        <ul>
+        <% payment.filled_forms.each do |filled_form| -%>
+          <li>
+            <%= link_to filled_form.name,
+              edit_form_fill_path(filled_form.form, filled_form) %> -
+            <%= link_to filled_form.form.page.name,
+              friendly_page_path(filled_form.form.page) %>
+            <%= %>
+          </li>
+        <% end -%>
+        </ul>
+      </td>
+      <td>
+        <% if payment.received_at -%>
+          <%= l(payment.received_at.to_date, :format => :medium) %>
+        <% end -%>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  
+  <% if @payments.empty? -%>
+  <p class="empty_indicator">No payments</p>
+  <% end -%>
 
-<br />
-
-<%= link_to 'New Payment', new_payment_path %>
+</section>

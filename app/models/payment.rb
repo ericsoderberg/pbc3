@@ -5,6 +5,7 @@ class Payment < ActiveRecord::Base
   METHODS = ['check', 'online bank', 'paypal']
   
   validates :amount, :presence => true
+  validates :sent_at, :presence => true
   validates :method, :presence => true, :inclusion => {:in => METHODS}
   
   composed_of :amount,

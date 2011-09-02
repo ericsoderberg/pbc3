@@ -2162,6 +2162,15 @@ a.new_comment {
     .payment_methods input {
       margin-right: 10px;
       }
+      
+#payments td {
+  vertical-align: top;
+  }
+#payments ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  }
   
 .timestamp {
 	padding-top: 20px;

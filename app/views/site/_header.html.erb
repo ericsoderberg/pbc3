@@ -16,6 +16,8 @@
       <%= link_to 'Resources', resources_path %></li>
     <li class="<%= @holidays ? 'active' : '' %>">
       <%= link_to 'Holidays', holidays_path %></li>
+    <li class="<%= @payments ? 'active' : '' %>">
+      <%= link_to 'Payments', payments_path %></li>
     <li class="<%= @audit_logs ? 'active' : '' %>">
       <%= link_to 'Audit Log', audit_logs_path %></li>
   </ul>

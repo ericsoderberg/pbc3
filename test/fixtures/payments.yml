@@ -2,3 +2,4 @@ retreat:
   amount: 10000
   method: paypal
   user: generic
+  sent_at: <%= 1.day.ago.to_s(:db) %>
