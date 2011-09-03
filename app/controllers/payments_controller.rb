@@ -113,7 +113,7 @@ class PaymentsController < ApplicationController
   def notify
     @payment = Payment.find(params[:id])
     
-    uri = URI.parse('https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate')
+    uri = URI.parse("#{Configuration.paypal_url}?cmd=_notify-validate")
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 60

@@ -30,5 +30,6 @@ Pbc3::Application.configure do
   
   config.after_initialize do
     Configuration.mailman_dir = '/usr/local/bin'
+    Configuration.paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
   end
 end

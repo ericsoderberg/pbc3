@@ -1,5 +1,5 @@
 <form method="post" class="unstyled" 
-  action="https://www.sandbox.paypal.com/cgi-bin/webscr">
+  action="<%= Configuration.paypal_url %>">
   <input type="hidden" name="cmd" value="_xclick">
   <input type="hidden" name="business" value="<%= @site.paypal_business %>">
   <input type="hidden" name="item_name" value="<%= @payment.name %>">
