@@ -1,5 +1,5 @@
 $(function() {
-  $('.payment_forms input[type="checkbox"]').click(function () {
+  $('.filled_forms input[type="checkbox"]').click(function () {
     var amount = parseInt($('#payment_amount').val(), 10),
       change = parseInt($(this).attr('data-amount'), 10);
     if ($(this).attr('checked')) {

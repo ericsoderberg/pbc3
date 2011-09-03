@@ -26,7 +26,7 @@ class FilledFormsControllerTest < ActionController::TestCase
       #assert false, assigns(:filled_form).errors.full_messages.join("\n")
     end
 
-    assert_redirected_to edit_form_fill_path(assigns(:form), assigns(:filled_form))
+    assert_redirected_to form_fills_path(assigns(:form))
   end
 
   test "should show filled_form" do

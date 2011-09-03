@@ -2,7 +2,7 @@
 
 <% if filled_forms.count > 0 and ((not @filled_form) or (@filled_form.id)) -%>
 <div id="new_filled_form_button" class="admin">
-  <%= button_to 'Fill out a new one', new_form_fill_path(@form),
+  <%= button_to 'Fill Out Another', new_form_fill_path(@form),
     :method => :get %>
 </div>
 <% end -%>

@@ -8,7 +8,7 @@ en:
       db: "%Y-%m-%d"
       short: "%m/%d"
       medium: "%B %e %Y"
-      long: "%A %B %d, %Y"
+      long: "%A %B %e, %Y"
   time:
     formats:
       default: "%m/%d/%Y %l:%M %p"

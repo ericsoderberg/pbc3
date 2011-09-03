@@ -9,7 +9,11 @@ class FilledForm < ActiveRecord::Base
   validates :user, :presence => true
   validates :name, :presence => true
   
-  def self.find_possible_for_payment(payment)
+  def self.for_user(user)
+    where(:user_id => user.id)
+  end
+  
+  def self.possible_for_payment(payment)
     includes(:form).where(["forms.payable = 't' AND " +
         "filled_forms.user_id = ? AND " +
         "(filled_forms.payment_id IS NULL OR " +

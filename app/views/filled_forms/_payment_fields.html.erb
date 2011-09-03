@@ -1,8 +1,5 @@
 <div class="filled_form_payment">
-<% if not @filled_form.id -%>
-  <h3>Payment Instructions</h3>
-  <p>After submitting, you will be given further instructions on how to pay as well as an option to submit additional forms and pay them all together.</p>
-<% elsif @filled_form.payment -%>
+<% if @filled_form.payment -%>
   <h3>Payment</h3>
   <p>Payed via
     <%= link_to "#{@filled_form.payment.method} on " +
@@ -10,10 +7,10 @@
       payment_path(@filled_form.payment) %>.</p>
 <% else -%>
   <h3>Payment</h3>
-  <p>Whether you wish to pay online or send in a check, please fill out a payment record. You will be able to add other forms you have submitted to your payment there to.</p>
+  <p>You will be able to pay online or send in a check.</p>
   <%= form_tag new_payment_path(), :method => :get do %>
     <%= hidden_field_tag :filled_form_id, @filled_form.id %>
-    <%= submit_tag 'Pay' %>
+    <%= submit_tag 'Payment Options' %>
   <% end %>
 <% end -%>
 </div>

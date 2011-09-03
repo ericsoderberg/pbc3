@@ -6,9 +6,12 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms.xml
   def index
     if current_user.administrator?
-      @filled_forms = @form.filled_forms.all
+      @filled_forms = @form.filled_forms
+      @payable_forms = @filled_forms.for_user(current_user).
+        where(:payment_id => nil)
     else
-      @filled_forms = @form.filled_forms.where(:user_id => current_user.id)
+      @filled_forms = @form.filled_forms.for_user(current_user)
+      @payable_forms = @filled_forms.where(:payment_id => nil)
     end
 
     respond_to do |format|
@@ -73,7 +76,7 @@ class FilledFormsController < ApplicationController
     respond_to do |format|
       if @filled_form.save and
         FormMailer.form_email(@filled_form).deliver
-        format.html { redirect_to(edit_form_fill_path(@form, @filled_form),
+        format.html { redirect_to(form_fills_path(@form),
           :notice => "#{@form.name} was successfully submitted.") }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else

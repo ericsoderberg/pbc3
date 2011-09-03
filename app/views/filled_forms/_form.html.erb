@@ -31,6 +31,7 @@
   <div class="actions">
     <%= f.submit (@filled_form.id ? 'Update' : 'Submit') %>
     <% if @filled_form.id -%>
+    | <%= link_to 'Cancel', form_fills_path(@form) %>
     | <%= link_to 'Print',
       form_fill_path(@form, @filled_form), :id => 'print_form_link' %>
     | <%= link_to 'Delete', form_fill_path(@form, @filled_form),

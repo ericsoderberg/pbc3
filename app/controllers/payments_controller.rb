@@ -36,13 +36,19 @@ class PaymentsController < ApplicationController
     @payment.user = current_user
     @payment.method = Payment::METHODS.first
     @payment.sent_at = Date.today
-    if params[:filled_form_id]
-      @filled_form = FilledForm.find(params[:filled_form_id])
-      @payment.filled_forms << @filled_form
-      @payment.amount = @filled_form.payable_amount
+    if params[:form_id]
+      @form = Form.find(params[:form_id])
+      @filled_forms = @form.filled_forms.
+        for_user(current_user).where(:payment_id => nil)
+    else
+      @filled_forms = current_user.filled_forms.includes(:form).
+        where('forms.payable' => true, :payment_id => nil)
     end
-    @filled_forms = current_user.filled_forms.includes(:form).
-      where('forms.payable' => true, :payment_id => nil)
+    
+    @filled_forms.each do |filled_form|
+      @payment.filled_forms << filled_form
+      @payment.amount += filled_form.payable_amount
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -53,7 +59,7 @@ class PaymentsController < ApplicationController
   def edit
     @payment = Payment.find(params[:id])
     @filled_form = @payment.filled_forms.first
-    @filled_forms = FilledForm.find_possible_for_payment(@payment)
+    @filled_forms = FilledForm.possible_for_payment(@payment)
     return unless payment_authorized!
   end
 
@@ -72,8 +78,19 @@ class PaymentsController < ApplicationController
           :notice => 'Payment was successfully created.') }
         format.xml  { render :xml => @payment, :status => :created, :location => @payment }
       else
-        @filled_forms = current_user.filled_forms.includes(:form).
-          where('forms.payable' => true, :payment_id => nil)
+        if params[:form_id]
+          @form = Form.find(params[:form_id])
+          @filled_forms = @form.filled_forms.
+            for_user(current_user).where(:payment_id => nil)
+        else
+          @filled_forms = current_user.filled_forms.includes(:form).
+            where('forms.payable' => true, :payment_id => nil)
+        end
+
+        @filled_forms.each do |filled_form|
+          @payment.filled_forms << filled_form
+          @payment.amount += filled_form.payable_amount
+        end
         format.html { render :action => "new" }
         format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
       end
@@ -99,7 +116,7 @@ class PaymentsController < ApplicationController
             :notice => 'Payment was successfully updated.') }
         format.xml  { head :ok }
       else
-        @filled_forms = FilledForm.find_possible_for_payment(@payment)
+        @filled_forms = FilledForm.possible_for_payment(@payment)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
       end

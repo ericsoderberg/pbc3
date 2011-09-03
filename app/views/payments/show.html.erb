@@ -16,6 +16,12 @@
   </div>
 </header>
 
+<% if @payment.received_amount > 0 -%>
+<p>We have acknowledged receipt of your payment. Thank you.</p>
+<% else -%>
+<p>Thank you for sending your payment. We will update this page when we have confirmed receiving it.</p>
+<% end -%>
+
 <div class="regular_content">
   <section>
     

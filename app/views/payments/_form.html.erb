@@ -12,10 +12,11 @@
       </ul>
     </div>
   <% end %>
+  <% if @form -%>
+    <%= hidden_field_tag :form_id, @form.id %>
+  <% end -%>
   
-  <div class="field">
-    <%= render :partial => 'filled_forms' %>
-  </div>
+  <%= render :partial => 'filled_forms' %>
   
   <div class="regular_content">
     <section>
@@ -23,7 +24,8 @@
       <div class="field">
         <%= f.label :amount %><br />
         $<%= text_field_tag :amount, @payment.amount.to_s, :size => '5',
-          :id => 'payment_amount', :name => 'payment[amount]' %>
+          :id => 'payment_amount', :name => 'payment[amount]',
+          :disabled => true %>
       </div>
       <div class="field">
         <%= f.label :sent_on %><br />
@@ -72,7 +74,7 @@
   </div>
   
   <div class="actions">
-    <%= f.submit (@payment.id ? 'Update payment record' : 'Indicate payment') %>
+    <%= f.submit (@payment.id ? 'Update' : 'Submit') %>
     <% if @payment.id -%>
       | <%= link_to 'Cancel', payment_path(@payment) %>
     <% elsif @filled_form -%>
