@@ -1,4 +1,4 @@
-<p>We offer several methods of payment. You may send us a check, pay with an online transaction from your bank, or use PayPal. This form merely records which method you will be using. We will update this when we have received your payment.</p>
+<p>We offer several methods of payment. You may send us a check, pay with an online transaction from your bank, or use PayPal. Please indicate which method you will be using. You will be given more detailed payment instructions on the next page, including a link to PayPal if you choose that option. We will update this record when we have received your payment.</p>
 
 <%= form_for(@payment) do |f| %>
   <% if @payment.errors.any? %>
@@ -14,28 +14,12 @@
   <% end %>
   
   <div class="field">
-    <table class="payment_forms">
-    <% @filled_forms.each do |filled_form| -%>
-      <% amount = filled_form.payable_amount -%>
-      <tr>
-        <td><%= check_box_tag 'filled_form_ids[]', filled_form.id,
-          @payment.filled_forms.include?(filled_form),
-          'data-amount' => amount %></td>
-        <td>$<%= amount %></td>
-        <td><%= link_to filled_form.name,
-          edit_form_fill_path(filled_form.form, filled_form) %></td>
-        <td><%= l(filled_form.created_at.to_date, :format => :medium) %></td>
-        <td><%= filled_form.form.name %></td>
-        <td><%= link_to filled_form.form.page.name,
-          friendly_page_path(filled_form.form.page) %></td>
-      </tr>
-    <% end -%>
-    </table>
+    <%= render :partial => 'filled_forms' %>
   </div>
   
   <div class="regular_content">
     <section>
-      <h3>Sent</h3>
+      <h3><%= @payment.id ? 'Sent' : 'Sending' %></h3>
       <div class="field">
         <%= f.label :amount %><br />
         $<%= text_field_tag :amount, @payment.amount.to_s, :size => '5',
@@ -88,12 +72,12 @@
   </div>
   
   <div class="actions">
-    <%= f.submit %>
-    <% if @filled_form -%>
+    <%= f.submit (@payment.id ? 'Update payment record' : 'Indicate payment') %>
+    <% if @payment.id -%>
+      | <%= link_to 'Cancel', payment_path(@payment) %>
+    <% elsif @filled_form -%>
       | <%= link_to 'Cancel',
         edit_form_fill_path(@filled_form.form, @filled_form) %>
-    <% elsif @payment.user != current_user -%>
-      | <%= link_to 'Cancel', payments_path %>
     <% end -%>
     <% if @payment.id -%>
       | <%= link_to 'Delete payment record', @payment,

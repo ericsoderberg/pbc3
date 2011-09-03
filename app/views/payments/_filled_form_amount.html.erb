@@ -1,0 +1,14 @@
+$<%= filled_form.payable_amount %>
+<% payable_fields = filled_form.payable_fields -%>
+<% if payable_fields.length == 1 -%>
+  <%= payable_fields.first.form_field.name %>
+<% elsif payable_fields.length > 1 -%>
+  <table class="payment_fields">
+    <% payable_fields.each do |ff| -%>
+      <tr>
+        <td><% if ff.value[0] != '$' -%>$<% end -%><%= ff.value %></td>
+        <td><%= ff.form_field.name %></td>
+      </tr>
+    <% end -%>
+  </table>
+<% end -%>

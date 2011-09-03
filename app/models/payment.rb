@@ -2,7 +2,7 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   has_many :filled_forms, :dependent => :nullify
   
-  METHODS = ['check', 'online bank', 'paypal']
+  METHODS = ['check', 'online bank', 'PayPal']
   
   validates :amount, :presence => true
   validates :sent_at, :presence => true
@@ -23,5 +23,12 @@ class Payment < ActiveRecord::Base
       Money.new(value || 0, Money.default_currency) },
     :converter => Proc.new { |value|
       value.respond_to?(:to_money) ? value.to_money : Money.empty }
-      
+  
+  def name
+    unless filled_forms.empty?
+      form = filled_forms.first.form
+      "#{form.page.name} #{form.name}"
+    end
+  end
+  
 end

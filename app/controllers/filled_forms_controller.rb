@@ -5,8 +5,11 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms
   # GET /filled_forms.xml
   def index
-    return unless administrator!
-    @filled_forms = @form.filled_forms.all
+    if current_user.administrator?
+      @filled_forms = @form.filled_forms.all
+    else
+      @filled_forms = @form.filled_forms.where(:user_id => current_user.id)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -59,7 +62,6 @@ class FilledFormsController < ApplicationController
   # POST /filled_forms.xml
   def create
     @filled_form = @form.filled_forms.new
-    return unless filled_form_authorized!
     if current_user.administrator? and params[:filled_form] and
       params[:filled_form][:user_id]
       @filled_form.user = User.find(params[:filled_form][:user_id])

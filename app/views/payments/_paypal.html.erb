@@ -1,0 +1,19 @@
+<form method="post"
+  action="https://www.sandbox.paypal.com/cgi-bin/webscr">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="<%= @site.paypal_business %>">
+  <input type="hidden" name="item_name" value="<%= @payment.name %>">
+  <input type="hidden" name="amount"  value="<%= @payment.amount %>">
+  <input type="hidden" name="currency_code" value="USD">
+  <input type="hidden" name="shipping" value="0.00">
+  <input type="hidden" name="no_shipping" value="1">
+  <input type="hidden" name="no_note" value="1">
+  <input id="notify_url" name="notify_url" type="hidden"
+    value="<%= notify_payment_url(@payment) %>" />
+  <input id="cancel_return" name="cancel_return" type="hidden"
+    value="<%= payment_url(@payment) %>" />
+  <input id="return" name="return" type="hidden"
+    value="<%= payment_url(@payment) %>" />
+  <input type="hidden" name="Submit" value="Pay with Paypal">
+  <input type="image" name="submit" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" alt="PayPal - The safer, easier way to pay online">
+</form>

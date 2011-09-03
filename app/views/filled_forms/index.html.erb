@@ -1,13 +1,52 @@
-<h1>Submitted</h1>
+<header>
+  <h1>Submitted for <%= @form.name %> -
+    <%= link_to @page.name, friendly_page_path(@page) %></h1>
+  
+  <div class="page_admin">
+    <ul>
+      <li><%= link_to 'Submit another', new_form_fill_path(@form) %></li>
+    </ul>
+  </div>
+</header>
 
-<ul>
-<% @filled_forms.each do |filled_form| -%>
-<li>
-  <%= link_to filled_form.name,
-    edit_form_fill_path(@form, filled_form) %></li>
-<% end -%>
-</ul>
-
-<div class="admin">
-  <%= link_to 'Submit another', new_form_fill_path(@form) %>
+<div class="regular_content">
+  <section>
+    
+    <table class="filled_forms">
+    <% @filled_forms.each do |filled_form| -%>
+      <% amount = filled_form.payable_amount -%>
+      <tr>
+        <td><%= link_to filled_form.name,
+          edit_form_fill_path(filled_form.form, filled_form) %></td>
+        <td><%= l(filled_form.created_at.to_date, :format => :medium) %></td>
+        <% if filled_form.payable? -%>
+          <td>
+            <%= render :partial => 'payments/filled_form_amount',
+              :locals => {:filled_form => filled_form }%>
+          </td>
+          <td>
+            <% if filled_form.payment -%>
+              <%= link_to filled_form.payment_state,
+                payment_path(filled_form.payment) %>
+            <% else -%>
+              unpaid
+            <% end -%>
+          </td>
+          <td>
+            <% if filled_form.payment -%>
+              <%= filled_form.payment.method %>
+            <% end -%>
+          </td>
+          <td>
+            <% if filled_form.payment -%>
+              <%= payment_label_date(filled_form) %>
+            <% end -%>
+          </td>
+        <% end -%>
+      </tr>
+    <% end -%>
+    </table>
+    
+    
+  </section>
 </div>

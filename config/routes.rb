@@ -33,7 +33,12 @@ Pbc3::Application.routes.draw do
       end
       resources :fills, :controller => 'filled_forms'
     end
-    resources :payments
+    resources :payments do
+      member do
+        post 'notify'
+        get 'notify'
+      end
+    end
     resources :audit_logs do
       member do
         get 'details'

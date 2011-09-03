@@ -26,7 +26,7 @@ class PaymentsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:payment)
-    assert_redirected_to edit_form_fill_url(assigns(:filled_form).form, assigns(:filled_form))
+    assert_redirected_to payment_url(assigns(:payment))
   end
 
   test "should show payment" do
@@ -42,8 +42,8 @@ class PaymentsControllerTest < ActionController::TestCase
   test "should update payment" do
     put :update, :id => @payment.to_param, :payment => @payment.attributes,
       :filled_form_ids => [@unpaid_filled_form.id]
-      assert_not_nil assigns(:payment)
-      assert_redirected_to payments_url
+    assert_not_nil assigns(:payment)
+    assert_redirected_to payment_url(assigns(:payment))
   end
 
   test "should destroy payment" do

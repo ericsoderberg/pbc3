@@ -1,44 +1,96 @@
 <% title 'Payment' %>
 
-<h1>Payment</h1>
-
-<div class="page_admin">
+<div id="breadcrumbs">
   <ul>
-    <li><%= link_to 'Edit', edit_payment_path(@payment) %></li>
+    <li><%= link_to 'Payments', payments_path %></li>
   </ul>
 </div>
 
-<p>
-  <b>Amount:</b>
-  $<%= @payment.amount %>
-</p>
+<header>
+  <h1>Payment</h1>
 
-<p>
-  <b>Date:</b>
-  <%= @payment.sent_at ? l(@payment.sent_at.to_date) : '' %>
-</p>
+  <div class="page_admin">
+    <ul>
+      <li><%= link_to 'Edit', edit_payment_path(@payment) %></li>
+    </ul>
+  </div>
+</header>
 
-<p>
-  <b>Method:</b>
-  <%= @payment.attributes['method'] %>
-</p>
+<div class="regular_content">
+  <section>
+    
+    <ul class="fields">
+      <li>
+        <label>Amount</label>
+        $<%= @payment.amount %>
+      </li>
+      <li>
+        <label>Date</label>
+        <%= @payment.sent_at ? l(@payment.sent_at.to_date) : '' %>
+      </li>
+      <li>
+        <label>Method</label>
+        <%= @payment.attributes['method'] %>
+        <div class="payment_method_instructions">
+        <% case @payment.attributes['method'] -%>
+        <% when 'check' -%>
+          Send checks to:
+          <pre><%= @site.check_address %></pre>
+        <% when 'online bank' -%>
+          Have your bank send payment to:
+          <pre><%= @site.online_bank_recipient %></pre>
+        <% when 'PayPal' -%>
+          <%= render :partial => 'paypal' %>
+        <% end -%>
+        </div>
+      </li>
+      <li>
+        <label>Notes</label>
+        <%= @payment.notes %>
+      </li>
+    </ul>
 
-<p>
-  <b>Notes:</b>
-  <%= @payment.notes %>
-</p>
+    <h3>Forms</h3>
 
-<h3>Forms</h3>
+    <table class="filled_forms">
+      <% @payment.filled_forms.each do |filled_form| -%>
+        <tr>
+          <td>
+            <%= render :partial => 'filled_form_amount',
+              :locals => {:filled_form => filled_form }%>
+          </td>
+          <td><%= link_to filled_form.name,
+            edit_form_fill_path(filled_form.form, filled_form) %></td>
+          <td><%= filled_form.created_at.relative_str %></td>
+          <td><%= link_to filled_form.form.name,
+            form_fills_path(filled_form.form) %></td>
+          <td><%= link_to filled_form.form.page.name,
+            friendly_page_path(filled_form.form.page) %></td>
+        </tr>
+      <% end -%>
+    </table>
+    
+  </section>
+  
+  <aside>
+    <ul class="fields">
+      <li>
+        <label>Received Amount</label>
+        <% if @payment.received_amount > 0 -%>
+        $<%= @payment.received_amount %>
+        <% else -%>
+        <span class="help">pending</span>
+        <% end -%>
+      </li>
+      <li>
+        <label>Received On</label>
+        <%= @payment.received_at ? l(@payment.received_at.to_date) : '' %>
+      </li>
+      <li>
+        <label>Receiver Notes</label>
+        <%= @payment.received_notes %>
+      </li>
+    </ul>
+  </aside>
+</div>
 
-<table class="payment_forms">
-  <% @payment.filled_forms.each do |filled_form| -%>
-    <tr>
-      <td><%= link_to filled_form.name,
-        edit_form_fill_path(filled_form.form, filled_form) %></td>
-      <td><%= filled_form.created_at.relative_str %></td>
-      <td><%= filled_form.form.name %></td>
-      <td><%= link_to filled_form.form.page.name,
-        friendly_page_path(filled_form.form.page) %></td>
-    </tr>
-  <% end -%>
-</table>

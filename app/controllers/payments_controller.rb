@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:notify]
   
   def index
     @payments = Payment.all
@@ -40,7 +40,6 @@ class PaymentsController < ApplicationController
       @filled_form = FilledForm.find(params[:filled_form_id])
       @payment.filled_forms << @filled_form
       @payment.amount = @filled_form.payable_amount
-      logger.info("!!! amount: #{@payment.amount}")
     end
     @filled_forms = current_user.filled_forms.includes(:form).
       where('forms.payable' => true, :payment_id => nil)
@@ -55,26 +54,29 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     @filled_form = @payment.filled_forms.first
     @filled_forms = current_user.filled_forms.includes(:form).
-      where('forms.payable' => true, :payment_id => [nil, @payment.id])
+      where(["forms.payable = 't' AND " +
+        "(filled_forms.payment_id IS NULL OR " +
+          "filled_forms.payment_id = ?)", @payment.id])
     return unless payment_authorized!
   end
 
   def create
     parse_date
+    strip_admin_params unless current_user.administrator?
     @payment = Payment.new(params[:payment])
     @payment.user = current_user
     params[:filled_form_ids].each do |filled_form_id|
       @payment.filled_forms << FilledForm.find(filled_form_id)
     end
-    @filled_form = @payment.filled_forms.first
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to(
-          edit_form_fill_url(@filled_form.form, @filled_form),
+        format.html { redirect_to(@payment,
           :notice => 'Payment was successfully created.') }
         format.xml  { render :xml => @payment, :status => :created, :location => @payment }
       else
+        @filled_forms = current_user.filled_forms.includes(:form).
+          where('forms.payable' => true, :payment_id => nil)
         format.html { render :action => "new" }
         format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
       end
@@ -85,35 +87,49 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     return unless payment_authorized!
     parse_date
-    @filled_form = @payment.filled_forms.first
+    strip_admin_params unless current_user.administrator?
+    params[:filled_form_ids].each do |filled_form_id|
+      unless @payment.filled_forms.exists?(:id => filled_form_id)
+        @payment.filled_forms << FilledForm.find(filled_form_id)
+      end
+    end
 
     respond_to do |format|
       if @payment.update_attributes(params[:payment])
-        format.html {
-          if @payment.user != current_user
-            redirect_to(payments_url,
-              :notice => 'Payment was successfully updated.')
-          else
-            redirect_to(
-              edit_form_fill_url(@filled_form.form, @filled_form),
-              :notice => 'Payment was successfully updated.')
-          end
-        }
+        format.html { redirect_to(@payment,
+            :notice => 'Payment was successfully updated.') }
         format.xml  { head :ok }
       else
+        @filled_forms = current_user.filled_forms.includes(:form).
+          where(["forms.payable = 't' AND " +
+            "(filled_forms.payment_id IS NULL OR " +
+              "filled_forms.payment_id = ?)", @payment.id])
         format.html { render :action => "edit" }
         format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
       end
     end
   end
+  
+  def notify
+    logger.info("!!! Notify #{request.raw_post}")
+    #ipn
+    render :nothing => true
+  end
 
   def destroy
     @payment = Payment.find(params[:id])
     return unless payment_authorized!
+    @filled_form = @payment.filled_forms.first
     @payment.destroy
 
     respond_to do |format|
-      format.html { redirect_to(payments_url) }
+      format.html {
+        if @filled_form.user != current_user
+          redirect_to(payments_url)
+        else
+          redirect_to(edit_form_fill_url(@filled_form.form, @filled_form))
+        end
+      }
       format.xml  { head :ok }
     end
   end
@@ -143,6 +159,38 @@ class PaymentsController < ApplicationController
       not params[:payment][:received_at].empty?
       params[:payment][:received_at] =
         Date.parse_from_form(params[:payment][:received_at])
+    end
+  end
+  
+  def strip_admin_params
+    params[:payment].delete(:received_amount)
+    params[:payment].delete(:received_at)
+    params[:payment].delete(:received_notes)
+  end
+  
+  def ipn
+    notify = Paypal::Notification.new(request.raw_post)
+    if notify.acknowledge
+      begin
+        my_file = File.new("filename.txt","w")
+        if notify.complete?
+          my_file.write "Transaction complete.. add your business logic here"
+          p "Transaction complete.. add your business logic here"
+        else
+          my_file.write "Transaction not complete, ERROR"
+          p "Transaction not complete, ERROR"
+        end
+      rescue => e
+        my_file.write "Amit we have a bug"
+        p "Amit we have a bug"
+      ensure
+        my_file.write "Make sure we logged everything we must"
+        p "Make sure we logged everything we must"
+      end
+      my_file.close
+    else
+      my_file.write "Another reason to be suspicious"
+      p "Another reason to be suspicious"
     end
   end
   
