@@ -39,7 +39,7 @@
           <pre><%= @site.check_address %></pre>
         <% when 'online bank' -%>
           Have your bank send payment to:
-          <pre><%= @site.online_bank_recipient %></pre>
+          <pre><%= @site.online_bank_vendor %></pre>
         <% when 'PayPal' -%>
           <%= render :partial => 'paypal' %>
         <% end -%>
