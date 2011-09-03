@@ -1,0 +1,41 @@
+<table id="payments" class="index">
+  <tr>
+    <th>State</th>
+    <th>Method</th>
+    <th>Date</th>
+    <th>Amount</th>
+    <% if current_user.administrator? -%>
+    <th>Name</th>
+    <% end -%>
+    <th>Forms</th>
+  </tr>
+
+<% @payments.each do |payment| %>
+  <tr>
+    <td><%= link_to payment.state, payment_path(payment) %></td>
+    <td><%= payment.method %></td>
+    <td><%= payment_label_date(payment) %></td>
+    <td>$<%= payment.amount %></td>
+    <% if current_user.administrator? -%>
+    <td><%= payment.user.name %></td>
+    <% end -%>
+    <td>
+      <ul>
+      <% payment.filled_forms.each do |filled_form| -%>
+        <li>
+          <%= link_to filled_form.name,
+            edit_form_fill_path(filled_form.form, filled_form) %> -
+          <%= link_to filled_form.form.page.name,
+            friendly_page_path(filled_form.form.page) %>
+          <%= %>
+        </li>
+      <% end -%>
+      </ul>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<% if @payments.empty? -%>
+<p class="empty_indicator">No payments</p>
+<% end -%>

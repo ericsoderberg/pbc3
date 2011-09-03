@@ -31,4 +31,12 @@ class Payment < ActiveRecord::Base
     end
   end
   
+  def state
+    if received_amount > 0
+      'received'
+    else
+      'sent'
+    end
+  end
+  
 end

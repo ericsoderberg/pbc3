@@ -1,11 +1,4 @@
 
 <%= render :partial => 'accounts/header' %>
 
-<ul id="payments_list">
-<% @payments.each do |payment| -%>
-<li>
-  <%= link_to payment.created_at, payment_path(payment) %>
-  <%= payment.amount %>
-</li>
-<% end -%>
-</ul>
+<%= render :partial => 'payments' %>

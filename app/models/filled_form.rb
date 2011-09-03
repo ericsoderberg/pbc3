@@ -25,11 +25,7 @@ class FilledForm < ActiveRecord::Base
   
   def payment_state
     if payment
-      if payment.received_amount > 0
-        'received'
-      else
-        'sent'
-      end
+      payment.state
     else
       'unpaid'
     end
