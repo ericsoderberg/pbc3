@@ -18,3 +18,10 @@ size:
   field_type: field
   size: 20
   
+amount:
+  form: retreat_registration 
+  form_index: 1
+  name: Amount
+  field_type: field
+  size: 4
+  monetary: true

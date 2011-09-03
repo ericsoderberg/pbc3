@@ -7,3 +7,8 @@ generic_gender:
   filled_form: generic_release
   form_field: gender
   value: Male
+  
+generic_amount:
+  filled_form: unpaid_retreat_registration
+  form_field: amount
+  value: 20

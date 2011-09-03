@@ -49,6 +49,11 @@ class PaymentsController < ApplicationController
       @payment.filled_forms << filled_form
       @payment.amount += filled_form.payable_amount
     end
+    
+    if @filled_forms.empty?
+      redirect_to @form ? form_fills_path(@form) : root_path
+      return false
+    end
 
     respond_to do |format|
       format.html # new.html.erb

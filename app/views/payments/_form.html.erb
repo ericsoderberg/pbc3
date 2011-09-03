@@ -24,8 +24,9 @@
       <div class="field">
         <%= f.label :amount %><br />
         $<%= text_field_tag :amount, @payment.amount.to_s, :size => '5',
-          :id => 'payment_amount', :name => 'payment[amount]',
-          :disabled => true %>
+          :id => 'payment_amount', :disabled => true %>
+        <%= hidden_field_tag 'payment[amount]', @payment.amount.to_s,
+          :id => 'hidden_payment_amount' %>
       </div>
       <div class="field">
         <%= f.label :sent_on %><br />

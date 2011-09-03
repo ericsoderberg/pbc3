@@ -11,5 +11,5 @@ retreat_registration:
 
 unpaid_retreat_registration:
   form: retreat_registration
-  user: generic
+  user: admin
   name: "my unpaid registration"

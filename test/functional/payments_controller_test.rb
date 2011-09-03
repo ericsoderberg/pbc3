@@ -15,7 +15,7 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new, :filled_form_id => @unpaid_filled_form.id
+    get :new, :form_id => @unpaid_filled_form.form.id
     assert_response :success
   end
 

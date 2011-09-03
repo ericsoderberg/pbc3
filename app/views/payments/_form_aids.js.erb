@@ -4,8 +4,10 @@ $(function() {
       change = parseInt($(this).attr('data-amount'), 10);
     if ($(this).attr('checked')) {
       $('#payment_amount').val(amount + change);
+      $('#hidden_payment_amount').val(amount + change);
     } else {
       $('#payment_amount').val(amount - change);
+      $('#hidden_payment_amount').val(amount - change);
     }
   });
   $('#payment_sent_at').datepicker({
