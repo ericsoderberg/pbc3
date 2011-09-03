@@ -111,8 +111,28 @@ class PaymentsController < ApplicationController
   end
   
   def notify
-    logger.info("!!! Notify #{request.raw_post}")
-    #ipn
+    @payment = Payment.find(params[:id])
+    
+    uri = URI.parse('https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate')
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.open_timeout = 60
+    http.read_timeout = 60
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    http.use_ssl = true
+    response = http.post(uri.request_uri, request.raw_post,
+      'Content-Length' => "#{request.raw_post.size}",
+      'User-Agent' => "My custom user agent").body
+
+    logger.info("Faulty paypal result: #{response}") unless ["VERIFIED", "INVALID"].include?(response)
+    if "VERIFIED" == response
+      @payment.received_amount = params[:payment_gross]
+      @payment.received_at = Date.now
+      @payment.save
+    else
+      logger.info("Invalid IPN: #{response}")
+    end
+
     render :nothing => true
   end
 
@@ -166,32 +186,6 @@ class PaymentsController < ApplicationController
     params[:payment].delete(:received_amount)
     params[:payment].delete(:received_at)
     params[:payment].delete(:received_notes)
-  end
-  
-  def ipn
-    notify = Paypal::Notification.new(request.raw_post)
-    if notify.acknowledge
-      begin
-        my_file = File.new("filename.txt","w")
-        if notify.complete?
-          my_file.write "Transaction complete.. add your business logic here"
-          p "Transaction complete.. add your business logic here"
-        else
-          my_file.write "Transaction not complete, ERROR"
-          p "Transaction not complete, ERROR"
-        end
-      rescue => e
-        my_file.write "Amit we have a bug"
-        p "Amit we have a bug"
-      ensure
-        my_file.write "Make sure we logged everything we must"
-        p "Make sure we logged everything we must"
-      end
-      my_file.close
-    else
-      my_file.write "Another reason to be suspicious"
-      p "Another reason to be suspicious"
-    end
   end
   
 end

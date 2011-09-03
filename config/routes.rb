@@ -36,7 +36,6 @@ Pbc3::Application.routes.draw do
     resources :payments do
       member do
         post 'notify'
-        get 'notify'
       end
     end
     resources :audit_logs do

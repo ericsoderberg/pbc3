@@ -31,6 +31,7 @@
       <li>
         <label>Method</label>
         <%= @payment.attributes['method'] %>
+        <% if @payment.received_amount <= 0 -%>
         <div class="payment_method_instructions">
         <% case @payment.attributes['method'] -%>
         <% when 'check' -%>
@@ -43,6 +44,7 @@
           <%= render :partial => 'paypal' %>
         <% end -%>
         </div>
+        <% end -%>
       </li>
       <li>
         <label>Notes</label>
