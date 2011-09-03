@@ -129,6 +129,9 @@ class PaymentsController < ApplicationController
   end
   
   def notify
+    require "net/http"
+    require "uri"
+    
     @payment = Payment.find(params[:id])
     
     uri = URI.parse("#{Configuration.paypal_url}?cmd=_notify-validate")
