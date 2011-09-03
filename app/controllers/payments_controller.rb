@@ -53,10 +53,7 @@ class PaymentsController < ApplicationController
   def edit
     @payment = Payment.find(params[:id])
     @filled_form = @payment.filled_forms.first
-    @filled_forms = current_user.filled_forms.includes(:form).
-      where(["forms.payable = 't' AND " +
-        "(filled_forms.payment_id IS NULL OR " +
-          "filled_forms.payment_id = ?)", @payment.id])
+    @filled_forms = FilledForm.find_possible_for_payment(@payment)
     return unless payment_authorized!
   end
 
@@ -88,9 +85,11 @@ class PaymentsController < ApplicationController
     return unless payment_authorized!
     parse_date
     strip_admin_params unless current_user.administrator?
-    params[:filled_form_ids].each do |filled_form_id|
-      unless @payment.filled_forms.exists?(:id => filled_form_id)
-        @payment.filled_forms << FilledForm.find(filled_form_id)
+    if params[:filled_form_ids]
+      params[:filled_form_ids].each do |filled_form_id|
+        unless @payment.filled_forms.exists?(:id => filled_form_id)
+          @payment.filled_forms << FilledForm.find(filled_form_id)
+        end
       end
     end
 
@@ -100,10 +99,7 @@ class PaymentsController < ApplicationController
             :notice => 'Payment was successfully updated.') }
         format.xml  { head :ok }
       else
-        @filled_forms = current_user.filled_forms.includes(:form).
-          where(["forms.payable = 't' AND " +
-            "(filled_forms.payment_id IS NULL OR " +
-              "filled_forms.payment_id = ?)", @payment.id])
+        @filled_forms = FilledForm.find_possible_for_payment(@payment)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
       end
@@ -127,7 +123,7 @@ class PaymentsController < ApplicationController
     logger.info("Faulty paypal result: #{response}") unless ["VERIFIED", "INVALID"].include?(response)
     if "VERIFIED" == response
       @payment.received_amount = params[:payment_gross]
-      @payment.received_at = Date.now
+      @payment.received_at = Date.today
       @payment.save
     else
       logger.info("Invalid IPN: #{response}")
