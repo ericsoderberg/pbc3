@@ -8,6 +8,7 @@
   <input type="hidden" name="shipping" value="0.00">
   <input type="hidden" name="no_shipping" value="1">
   <input type="hidden" name="no_note" value="1">
+  <input type="hidden" name="invoice"  value="<%= @payment.id %>">
   <input id="notify_url" name="notify_url" type="hidden"
     value="<%= notify_payment_url(@payment) %>" />
   <input id="cancel_return" name="cancel_return" type="hidden"

@@ -140,11 +140,12 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     return unless payment_authorized!
     @filled_form = @payment.filled_forms.first
+    user = @filled_form ? @filled_form.user : nil
     @payment.destroy
 
     respond_to do |format|
       format.html {
-        if @filled_form.user != current_user
+        if user != current_user or not @filled_form
           redirect_to(payments_url)
         else
           redirect_to(edit_form_fill_url(@filled_form.form, @filled_form))
