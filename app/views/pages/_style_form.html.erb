@@ -25,10 +25,12 @@
         <% end -%>
       </div>
       
+      <% unless (@page.blog? or @page.forum?) -%>
       <div class="field">
         <%= f.label :animate_banners?, :class => 'inline' %>
         <%= f.check_box :animate_banner %>
       </div>
+      <% end -%>
       
       <div class="field">
         <%= f.label :layout, :class => 'inline' %>
@@ -36,6 +38,7 @@
           options_for_select(Page::LAYOUTS, @page.layout) %>
       </div>
       
+      <% unless (@page.blog? or @page.forum?) -%>
       <div class="field">
         <%= f.label :child_layout, :class => 'inline' %>
         <%= f.select :child_layout,
@@ -52,6 +55,7 @@
         </div>
         <%= f.text_field :aspect_order %>
       </div>
+      <% end -%>
       
     </div>
   </aside>

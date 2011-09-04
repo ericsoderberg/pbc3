@@ -197,9 +197,9 @@ class Page < ActiveRecord::Base
     case layout
     when 'blog', 'forum'
       if user.administrator?
-        %w(text email contacts access feature)
+        %w(text email contacts access style feature)
       else
-        %w(text email contacts)
+        %w(text email contacts style)
       end
     else
       if user.administrator?

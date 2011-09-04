@@ -22,18 +22,4 @@
       
 </div>
 
-<div id="blog_posts">
-  <% @page.children.reverse.each do |child| -%>
-    <div class="blog_post">
-      <div class="post_date">
-        <%= child.created_at.relative_str %>
-      </div>
-      <h2 class="post_title">
-        <%= link_to child.name, friendly_page_path(child) %>
-      </h2>
-      <div class="post_snippet">
-        <%= child.snippet_text %>
-      </div>
-    </div>
-  <% end -%>
-</div>
+<%= render :partial => 'blog_children' %>
