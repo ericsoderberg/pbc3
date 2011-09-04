@@ -1,7 +1,7 @@
 class FormFieldOptionsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!
   before_filter :get_form_and_field
+  before_filter :page_administrator!
 
   # GET /form_field_options/1
   # GET /form_field_options/1.xml
@@ -65,6 +65,7 @@ class FormFieldOptionsController < ApplicationController
   def get_form_and_field
     @form = Form.find(params[:form_id])
     @form_field = @form.form_fields.find(params[:field_id])
+    @page = @form.page
   end
   
 end

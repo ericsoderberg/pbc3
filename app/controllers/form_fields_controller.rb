@@ -1,6 +1,7 @@
 class FormFieldsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :get_form
+  before_filter :page_administrator!
 
   # GET /form_fields/1
   # GET /form_fields/1.xml
@@ -15,7 +16,6 @@ class FormFieldsController < ApplicationController
 
   # GET /form_fields/1/edit
   def edit
-    return unless page_administrator!
     @form_field = @form.form_fields.find(params[:id])
     respond_to do |format|
       format.html
@@ -26,7 +26,6 @@ class FormFieldsController < ApplicationController
   # POST /form_fields
   # POST /form_fields.xml
   def create
-    return unless page_administrator!
     @form_field = @form.form_fields.new
     @form_field.field_type = FormField::FIELD
     @form_field.form_index = @form.form_fields.length + 1
@@ -46,7 +45,6 @@ class FormFieldsController < ApplicationController
   # PUT /form_fields/1
   # PUT /form_fields/1.xml
   def update
-    return unless page_administrator!
     @form_field = @form.form_fields.find(params[:id])
 
     respond_to do |format|
@@ -63,7 +61,6 @@ class FormFieldsController < ApplicationController
   # DELETE /form_fields/1
   # DELETE /form_fields/1.xml
   def destroy
-    return unless page_administrator!
     @form_field = @form.form_fields.find(params[:id])
     @id = @form_field.id
     @form_field.destroy
