@@ -35,7 +35,7 @@
   <div class="actions">
     <%= f.submit %>
     <% if @form.id -%>
-    | <%= link_to 'Done', form_path(@form) %>
+    | <%= link_to 'Done', new_form_fill_path(@form) %>
     <% else -%>
     |
       <% if @page -%>

@@ -5,14 +5,9 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms
   # GET /filled_forms.xml
   def index
-    if current_user.administrator?
-      @filled_forms = @form.filled_forms
-      @payable_forms = @filled_forms.for_user(current_user).
-        where(:payment_id => nil)
-    else
-      @filled_forms = @form.filled_forms.for_user(current_user)
-      @payable_forms = @filled_forms.where(:payment_id => nil)
-    end
+    @filled_forms = @form.visible_filled_forms(current_user)
+    @payable_forms = @filled_forms.for_user(current_user).
+      where(:payment_id => nil)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,6 +43,7 @@ class FilledFormsController < ApplicationController
   def new
     @filled_form = @form.build_fill
     @filled_form.user = current_user
+    @filled_forms = @form.visible_filled_forms(current_user)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -58,6 +54,7 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms/1/edit
   def edit
     @filled_form = @form.filled_forms.find(params[:id])
+    @filled_forms = @form.visible_filled_forms(current_user)
     return unless filled_form_authorized!
   end
 
@@ -80,6 +77,7 @@ class FilledFormsController < ApplicationController
           :notice => "#{@form.name} was successfully submitted.") }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else
+        @filled_forms = @form.visible_filled_forms(current_user)
         format.html { render :action => "new" }
         format.xml  { render :xml => @filled_form.errors, :status => :unprocessable_entity }
       end
@@ -106,6 +104,7 @@ class FilledFormsController < ApplicationController
           :notice => "#{@form.name} was successfully updated.") }
         format.xml  { head :ok }
       else
+        @filled_forms = @form.visible_filled_forms(current_user)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @filled_form.errors, :status => :unprocessable_entity }
       end

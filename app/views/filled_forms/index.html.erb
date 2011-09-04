@@ -36,7 +36,7 @@
               :locals => {:filled_form => filled_form }%>
           </td>
         <% end -%>
-        <% if current_user.administrator? -%>
+        <% if @page.administrator?(current_user) -%>
         <td><%= filled_form.user.name %></td>
         <% end -%>
         <% if @form.payable? -%>        

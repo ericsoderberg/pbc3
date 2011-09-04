@@ -1978,6 +1978,7 @@ a.new_comment {
 	}
 	.dynamic_form_field_name {
 	  min-width: 150px;
+	  cursor: move;
 	}
 	div.form_field {
 		display: table;
@@ -1990,6 +1991,7 @@ a.new_comment {
 .dynamic_form_field_admin {
 	clear: right;
 	float: right;
+	margin-left: 10px;
 	}
 	.dynamic_form_field_admin a {
 		color: #bbb;

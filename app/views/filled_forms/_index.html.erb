@@ -1,6 +1,4 @@
-<% filled_forms = @form.visible_filled_forms(current_user) -%>
-
-<% if filled_forms.count > 0 and ((not @filled_form) or (@filled_form.id)) -%>
+<% if @filled_forms.count > 0 and ((not @filled_form) or (@filled_form.id)) -%>
 <div id="new_filled_form_button" class="admin">
   <%= button_to 'Fill Out Another', new_form_fill_path(@form),
     :method => :get %>
@@ -10,7 +8,7 @@
 <div id="submitted_form_list">
   <h2><%= link_to 'Submitted', form_fills_path(@form) %></h2>
 <ul>
-  <% filled_forms.each do |filled_form| -%>
+  <% @filled_forms.each do |filled_form| -%>
   <li class="<%= filled_form == @filled_form ? 'active' : '' %>">
     <a href="<%= edit_form_fill_path(@form, filled_form)  %>">
       <%= filled_form.name %>
