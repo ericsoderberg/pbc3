@@ -179,7 +179,7 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by_url(params[:id])
     return unless page_administrator!
-    if params[:parent_id]
+    if current_user.administrator? and params[:parent_id]
       params[:page][:parent_id] = params[:parent_id] # due to flexbox
     end
     if params[:email_list]

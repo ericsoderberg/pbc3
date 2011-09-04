@@ -24,7 +24,7 @@
     <%= f.label :payable? %>
     <%= f.check_box :payable %>
   </div>
-  <% if @form.id -%>
+  <% if @form.id and current_user.administrator? -%>
   <div class="field">
     <%= f.label :page %>
     <div id="choose_page_id"
@@ -56,8 +56,10 @@
   
 <% end %>
 
+<% if current_user.administrator? -%>
 <%= javascript_tag do -%>
   <% if @form.id -%>
     <%= render :partial => 'forms/form_aids.js' %>
   <% end -%>
+<% end -%>
 <% end -%>

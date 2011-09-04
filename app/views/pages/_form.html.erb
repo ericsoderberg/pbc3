@@ -16,7 +16,6 @@
     </div>
   </section>
 
-  <% if current_user.administrator? -%>
   <aside>
     <div class="form">
       
@@ -40,23 +39,24 @@
         <%= f.check_box :obscure %>
       </div>
       
-      <% if @page.id -%>
+      <% if current_user.administrator? -%>
+        <% if @page.id -%>
 
-      <div class="field">
-        <%= f.label :parent_page %><br />
-        <div id="parent_id"></div>
-      </div>
+        <div class="field">
+          <%= f.label :parent_page %><br />
+          <div id="parent_id"></div>
+        </div>
       
-      <div id="parent_context">
-        <%= render :partial => 'edit_for_parent' -%>
-      </div>
-      <% else -%>
-        <%= f.hidden_field :parent_id %>
+        <div id="parent_context">
+          <%= render :partial => 'edit_for_parent' -%>
+        </div>
+        <% else -%>
+          <%= f.hidden_field :parent_id %>
+        <% end -%>
       <% end -%>
       
     </div>
   </aside>
-  <% end -%>
 </div>
 
   <div class="actions">
@@ -74,6 +74,8 @@
   
   <% if @page.id -%>
     <%= render :partial => 'form_aids.js' -%>
+    <% if current_user.administrator? -%>
     <%= render :partial => 'parent_indexer.js' -%>
+    <% end -%>
   <% end -%>
 <% end -%>
