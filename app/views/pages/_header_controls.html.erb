@@ -25,8 +25,7 @@
 <% if (@events and not @events.empty?) or
     (@categorized_events and not @categorized_events[:all].empty?) -%>
   <div class="page_control">
-    <%= link_to image_tag('calendar-3.png'),
-      page_calendar_path(@page.nav_context) %>
+    <%= link_to image_tag('calendar-3.png'), page_calendar_path(@page) %>
   </div>
 <% end -%>
 <%= render :partial => 'social/tools' %>
