@@ -1670,8 +1670,10 @@ table.index td, table.index th {
       list-style-type: none;
       }
     #calendar td li {
-      text-indent: -1.5em;
-      margin-left: 1.5em;
+      text-indent: -10px;
+      margin-left: 10px;
+      line-height: 12px;
+      margin-bottom: 10px;
       }
     #calendar td .time {
       font-size: 90%;
