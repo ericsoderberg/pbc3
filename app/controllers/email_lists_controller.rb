@@ -1,6 +1,6 @@
 class EmailListsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :administrator!, :except => [:update]
+  before_filter :authenticate_user!, :except => [:add]
+  before_filter :administrator!, :except => [:add, :update]
   
   def index
     @email_lists = if params[:search] and not params[:search].empty?
@@ -113,11 +113,16 @@ class EmailListsController < ApplicationController
   end
   
   def add
+    if not params[:email_address_confirmation].empty?
+      redirect_to root_path
+      return
+    end
     @email_list = EmailList.find(params[:id])
     @page = Page.find_by_email_list(@email_list.name)
     @email_list.add_addresses([params[:email_address]])
     redirect_to friendly_page_path(@page),
-      :notice => "Subscribed to #{@email_list.name}"
+      :notice => "Subscribed #{params[:email_address]} to " +
+        "#{@email_list.name}#{@site.email_domain}"
   end
   
   def remove

@@ -5,7 +5,7 @@
   <h2>Email List</h2>
 
   <div>
-<%= form_tag add_email_list_path(email_list), :id => 'email_subscribe',
+<%= form_tag add_email_list_url(email_list, :protocol => 'https'), :id => 'email_subscribe',
   :class => 'inline' do %>
   <%= text_field_tag 'email_address_confirmation', '',
     :id => 'email_address_confirmation', :placeholder => 'email address' %>
