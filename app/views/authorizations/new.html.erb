@@ -10,6 +10,7 @@
 
     <section>
       
+      <% if current_user.administrator? -%>
       <%= form_for(@page, :remote => true) do |f| %>
         <div class="field">
           <%= f.label :private?, :class => 'inline' %>
@@ -25,6 +26,7 @@
         </div>
         <% end -%>
       <% end %>
+      <% end -%>
       
       <header>
         <h2>Add Account</h2>

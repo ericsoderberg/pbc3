@@ -190,6 +190,13 @@ class PagesController < ApplicationController
         params[:sub_order].split(',').map{|id| id.to_i} : []
       params[:page][:parent_index] = -1; # will be re-ordered late
     end
+    if not current_user.administrator?
+      # remove all fields that only administrators can change
+      [:private, :home_feature, :parent_id,
+        :allow_for_email_list, :parent_feature].each do |property|
+        params[:page].delete(property)
+      end
+    end
 
     respond_to do |format|
       if @page.update_attributes(params[:page]) and

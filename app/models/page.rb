@@ -199,7 +199,7 @@ class Page < ActiveRecord::Base
       if user.administrator?
         %w(text email contacts access style feature)
       else
-        %w(text email contacts style)
+        %w(text email contacts access style)
       end
     else
       if user.administrator?
@@ -207,7 +207,7 @@ class Page < ActiveRecord::Base
           contacts access style feature podcast social events)
       else
         %w(text photos videos audios documents forms email
-          contacts style social events)
+          contacts access style social events)
       end
     end
   end
