@@ -1478,6 +1478,9 @@ table.index td, table.index th {
     margin-right: 20px;
     vertical-align: middle;
     }
+    #calendar_header #focus_date a {
+      font-size: 28px;
+      }
   #calendar_header a {
     padding: 0 5px;
     }
@@ -1492,7 +1495,8 @@ table.index td, table.index th {
     font-size: 16px;
     line-height: 20px;
     height: 20px;
-    margin: 0px 20px;   
+    margin: 0px;
+    margin-left: 20px;  
     color: #999;
     border: 1px solid #ddd;
     border-radius: 4px;

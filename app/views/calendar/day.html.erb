@@ -10,13 +10,23 @@
       :locals => {:active_aspect => 'calendar'} %>
   <% end -%>
   
-  <header class="calendar_controls">
-    <%= link_to "<", previous_day_path(args) %>
-    <%= link_to ">", next_day_path(args) %>
+  <header id="calendar_header">
+    <h2 id="focus_date">
     <%=h @date.strftime("%A") %>
     <%= link_to @date.strftime("%B"),
       calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %>
     <%=h @date.strftime("%e %Y") %>
+    </h2>
+    
+    <div id="calendar_controls">
+    <div id="calendar_nav">
+      <%= link_to image_tag('left_small.png'), previous_day_path(args),
+        :class => 'icon' %>
+      <%= link_to "Today", today_path(args) %>
+      <%= link_to image_tag('right_small.png'), next_day_path(args),
+        :class => 'icon' %>
+    </div>
+    </div>
   </header>
   
 <table id="calendar_list">
