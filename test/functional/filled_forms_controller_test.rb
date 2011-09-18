@@ -22,7 +22,8 @@ class FilledFormsControllerTest < ActionController::TestCase
     fields = {}
     @form.form_fields.each{|f| fields[f.id] = {:value => 'test'}}
     assert_difference('FilledForm.count') do
-      post :create, :form_id => @form.id, :filled_fields => fields
+      post :create, :form_id => @form.id, :filled_fields => fields,
+        :email_address_confirmation => ''
       #assert false, assigns(:filled_form).errors.full_messages.join("\n")
     end
 

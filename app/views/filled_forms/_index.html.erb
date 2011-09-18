@@ -22,9 +22,9 @@
         <%= filled_form.updated_at.relative_str %>
       </div>
       <% if @page.administrator?(current_user) and
-        filled_form.name != filled_form.user.name -%>
+        (not filled_form.user or filled_form.name != filled_form.user.name) -%>
       <div class="form_submitter">
-        <%= filled_form.user.name || filled_form.user.email %>
+        <%= (filled_form.user ? (filled_form.user.name || filled_form.user.email) : 'anonymous') %>
       </div>
       <% end -%>
     </a>

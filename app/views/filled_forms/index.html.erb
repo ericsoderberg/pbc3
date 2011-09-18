@@ -37,7 +37,7 @@
           </td>
         <% end -%>
         <% if @page.administrator?(current_user) -%>
-        <td><%= filled_form.user.name %></td>
+        <td><%= (filled_form.user ? filled_form.user.name : 'anonymous') %></td>
         <% end -%>
         <% if @form.payable? -%>        
           <td>

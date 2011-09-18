@@ -1,4 +1,4 @@
-<%= @form.name %> submitted by <%= @submitter.name %>
+<%= @form.name %> submitted by <%= @submitter ? @submitter.name : 'an anonymous user' %>
 ===============================================
 
 To review to the form, follow this link: <%= @url %>.

@@ -4,7 +4,8 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <h1><%= @form.name %> submitted by <%= @submitter.name %></h1>
+    <h1><%= @form.name %> submitted by
+      <%= @submitter ? @submitter.name : 'an anonymous user' %></h1>
     <p>
       To review to the form, follow this link: <%= @url %>.
     </p>

@@ -11,6 +11,9 @@
       </ul>
     </div>
   <% end %>
+  
+  <%= text_field_tag 'email_address_confirmation', '',
+    :id => 'email_address_confirmation', :placeholder => 'email address' %>
 
   <ul id="filled_fields">
     <%= render :partial => 'filled_fields/fill_form_field',
@@ -19,13 +22,13 @@
   
   <% if not @form.form_fields.empty? -%>
   
-  <% if current_user.administrator? -%>
+  <% if current_user and current_user.administrator? -%>
     <hr/>
     <%= f.label :change_submitter %>
     <span class="help">please use with caution.</span>
     <%= collection_select(:filled_form, :user_id,
       User.where("TRIM(both ' ' from name) != ''").order('LOWER(name) ASC'), :id, :name,
-      :include_blank => false) %>
+      :include_blank => true) %>
   <% end -%>
   
   <div class="actions">

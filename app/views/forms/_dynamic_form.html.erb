@@ -5,15 +5,18 @@
     <% if filled_forms.length > 0 -%>
       <% if dynamic_form.payable? -%>
         <%= link_to dynamic_form.name,
-          form_fills_path(dynamic_form) %>
+          form_fills_url(dynamic_form, :protocol => 'https') %>
       <% else -%>
         <%= link_to dynamic_form.name,
-          edit_form_fill_path(dynamic_form, filled_forms.first) %>
+          edit_form_fill_url(dynamic_form,
+            filled_forms.first, :protocol => 'https') %>
       <% end -%>
     <% else -%>
-      <%= link_to dynamic_form.name, new_form_fill_path(dynamic_form) %>
+      <%= link_to dynamic_form.name,
+        new_form_fill_url(dynamic_form, :protocol => 'https') %>
     <% end -%>
   <% else -%>
-    <%= link_to dynamic_form.name, new_form_fill_path(dynamic_form) %>
+    <%= link_to dynamic_form.name,
+      new_form_fill_url(dynamic_form, :protocol => 'https') %>
   <% end -%>
 <% end %>

@@ -6,7 +6,7 @@ class FilledForm < ActiveRecord::Base
     :include => :form_field, :order => 'form_fields.form_index'
   
   validates :form, :presence => true
-  validates :user, :presence => true
+  #validates :user, :presence => true
   validates :name, :presence => true
   
   def self.for_user(user)

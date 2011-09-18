@@ -3,6 +3,10 @@ generic_release:
   user: generic
   name: "my first submit"
   
+anonymous_release:
+  form: release
+  name: "my first submit"
+  
 retreat_registration:
   form: retreat_registration
   user: generic

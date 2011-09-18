@@ -1,6 +1,6 @@
 class FilledFormsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :get_form, :except => ['user_index']
+  before_filter :authenticate_user!, :except => [:new, :create]
+  before_filter :get_form, :except => [:user_index]
   
   # GET /filled_forms
   # GET /filled_forms.xml
@@ -42,8 +42,10 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms/new.xml
   def new
     @filled_form = @form.build_fill
-    @filled_form.user = current_user
-    @filled_forms = @form.visible_filled_forms(current_user)
+    if current_user
+      @filled_form.user = current_user
+      @filled_forms = @form.visible_filled_forms(current_user)
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -61,8 +63,12 @@ class FilledFormsController < ApplicationController
   # POST /filled_forms
   # POST /filled_forms.xml
   def create
+    if not params[:email_address_confirmation].empty?
+      redirect_to root_path
+      return
+    end
     @filled_form = @form.filled_forms.new
-    if current_user.administrator? and params[:filled_form] and
+    if current_user and current_user.administrator? and params[:filled_form] and
       params[:filled_form][:user_id]
       @filled_form.user = User.find(params[:filled_form][:user_id])
     else
@@ -73,7 +79,8 @@ class FilledFormsController < ApplicationController
     respond_to do |format|
       if @filled_form.save and
         FormMailer.form_email(@filled_form).deliver
-        format.html { redirect_to(form_fills_path(@form),
+        format.html {
+          redirect_to((current_user ? form_fills_url(@form) : friendly_page_url(@page)),
           :notice => "#{@form.name} was successfully submitted.") }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else
@@ -91,7 +98,11 @@ class FilledFormsController < ApplicationController
     return unless filled_form_authorized!
     if current_user.administrator? and params[:filled_form] and
       params[:filled_form][:user_id]
-      @filled_form.user = User.find(params[:filled_form][:user_id])
+      if not params[:filled_form][:user_id].empty?
+        @filled_form.user = User.find(params[:filled_form][:user_id])
+      else
+        @filled_form.user = nil;
+      end
     else
       @filled_form.user = current_user
     end

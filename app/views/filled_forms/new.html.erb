@@ -4,13 +4,13 @@
 
 <div class="regular_content">
 <section>
-    
   <%= render 'form' %>
-
 </section>
 
+<% if current_user -%>
 <aside>
   <%= render :partial => "filled_forms/index" %>
 </aside>
+<% end -%>
 
 </div>
