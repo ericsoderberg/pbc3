@@ -62,6 +62,10 @@ class ContactsController < ApplicationController
   end
   
   def send_email
+    if not params[:email_address_confirmation].empty?
+      redirect_to root_path
+      return
+    end
     @contact = @page.contacts.find(params[:id])
     UserMailer.contact_email(@page, @contact, params[:message],
       params[:name], params[:email_address]).deliver

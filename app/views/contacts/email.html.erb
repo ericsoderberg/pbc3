@@ -4,6 +4,8 @@
 <%= form_tag send_email_page_contact_path(@page, @contact) do %>
 
   <div id="addressing">
+  <%= text_field_tag 'email_address_confirmation', '',
+    :id => 'email_address_confirmation', :placeholder => 'email address' %>
   <div id="contact_name" class="field">
     <%= label_tag :to %>
     <%= text_field_tag 'contact', @contact.user.name, :size => 30,
