@@ -18,6 +18,7 @@
   <ul id="filled_fields">
     <%= render :partial => 'filled_fields/fill_form_field',
       :collection => @form.form_fields %>
+    <li class="form_field"></li><!-- to clear -->
   </ul>
   
   <% if not @form.form_fields.empty? -%>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110902135458) do
+ActiveRecord::Schema.define(:version => 20110922131153) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(:version => 20110902135458) do
     t.datetime "updated_at"
     t.boolean  "required"
     t.boolean  "monetary"
+    t.boolean  "dense",      :default => false
   end
 
   create_table "forms", :force => true do |t|

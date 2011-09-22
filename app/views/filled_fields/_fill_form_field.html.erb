@@ -1,13 +1,16 @@
 <%= content_tag_for(:li, fill_form_field,
-  :class => "#{fill_form_field.field_type}") do %>
+  :class => "#{fill_form_field.field_type}" +
+    (fill_form_field.dense? ? ' dense' : '')) do %>
   <% filled_field = @filled_form.filled_fields.detect{|ff|
       fill_form_field == ff.form_field}
     value = filled_field ? filled_field.value : ''
     html_id = "filled_fields[#{fill_form_field.id}][value]" -%>
   
+  <% unless fill_form_field.dense? -%>
   <div class="form_field_name">
     <%= fill_form_field.name %>
   </div>
+  <% end -%>
   
   <div class="form_field_value">
   <% case fill_form_field.field_type -%>
@@ -49,6 +52,12 @@
         <% end -%>
       </ul>
     <% when FormField::INSTRUCTIONS -%>
+  <% end -%>
+  
+  <% if fill_form_field.dense? -%>
+  <div class="form_field_name">
+    <%= fill_form_field.name %>
+  </div>
   <% end -%>
   
   <div class="form_field_help">

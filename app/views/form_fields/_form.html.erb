@@ -22,14 +22,18 @@
   </div>
   <div class="form_field">
   <div class="field">
-    <%= f.label :type %><br />
+    <%= f.label :type %>
     <!-- rails select doesn't honor an :id parameter :( -->
     <%= f.select :field_type, options_for_select(FormField::TYPES,
       form_field.field_type), {}, :id => "field_type_#{form_field.id}" %>
   </div>
   <div class="field">
-    <%= f.label :monetary? %><br />
+    <%= f.label :monetary? %>
     <%= f.check_box :monetary %>
+  </div>
+  <div class="field">
+    <%= f.label :dense? %>
+    <%= f.check_box :dense %>
   </div>
   </div>
   
