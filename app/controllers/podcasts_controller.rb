@@ -33,7 +33,8 @@ class PodcastsController < ApplicationController
     else
       Podcast.new(:site_id => @site.id)
     end
-    @podcast.category = 'Christianity'
+    @podcast.category = 'Religion & Spirituality'
+    @podcast.sub_category = 'Christianity'
 
     respond_to do |format|
       format.html # new.html.erb

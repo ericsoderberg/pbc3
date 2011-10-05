@@ -35,13 +35,14 @@ xml.rss :version => "2.0",
           xml.title message.title
           xml.description message.description
           xml.pubDate message.date.to_s(:rfc822)
+          xml.link message_url(message)
           message_file = message.audio_message_files.first
           if message_file and message_file.file
             url = 'http://' + request.host_with_port + message_file.file.url
-            xml.link url
+            xml.enclosure :url => url, :length => message_file.file.size,
+              :type => message_file.file.content_type
             xml.guid url
           else
-            xml.link message_url(message)
             xml.guid message_url(message)
           end
         end
