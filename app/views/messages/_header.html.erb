@@ -12,6 +12,12 @@
     </div>
   <% end -%>
   
+  <% if @site.podcast -%>
+  <div class="page_control">
+    <%= link_to image_tag('rss.png'), messages_podcast_path -%>
+  </div>
+  <% end -%>
+  
   <ul class="nav">
     <li class="<%= (@authors || @author) ? 'active' : '' %>">
       <%= link_to 'Authors/Speakers', authors_path %></li>

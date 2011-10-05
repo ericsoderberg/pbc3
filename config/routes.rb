@@ -87,6 +87,10 @@ Pbc3::Application.routes.draw do
 
   resources :styles
   resources :resources
+  
+  match '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'
+  match '/library/sermons.rss' => redirect('/messages.rss')
+  match '/:page_id.rss', :to => "podcasts#show", :format => 'rss', :as => 'friendly_page_podcast'
 
   resources :pages do
     collection do
@@ -134,6 +138,7 @@ Pbc3::Application.routes.draw do
   end
   resources :series, :controller => :message_sets
   resources :books, :only => [:index, :show]
+  resource :podcast
   
   match '/:id', :to => "pages#show", :as => 'friendly_page'
   

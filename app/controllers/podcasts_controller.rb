@@ -17,8 +17,7 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.xml
   def show
-    @podcast = @page.podcast
-
+    @podcast = (@page ? @page.podcast : @site.podcast)
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @podcast }
@@ -29,7 +28,11 @@ class PodcastsController < ApplicationController
   # GET /podcasts/new
   # GET /podcasts/new.xml
   def new
-    @podcast = Podcast.new(:page_id => @page.id)
+    @podcast = if @page
+      Podcast.new(:page_id => @page.id)
+    else
+      Podcast.new(:site_id => @site.id)
+    end
     @podcast.category = 'Christianity'
 
     respond_to do |format|
@@ -40,19 +43,25 @@ class PodcastsController < ApplicationController
 
   # GET /podcasts/1/edit
   def edit
-    @podcast = @page.podcast
+    @podcast = (@page ? @page.podcast : @site.podcast)
   end
 
   # POST /podcasts
   # POST /podcasts.xml
   def create
     @podcast = Podcast.new(params[:podcast])
+    if @page
+      @podcast.page = @page
+    else
+      @podcast.site = @site
+    end
     @podcast.owner = User.find_by_email(params[:user_email])
 
     respond_to do |format|
       if @podcast.save
-        format.html { redirect_to(friendly_page_url(@page),
-          :notice => 'Podcast was successfully created.') }
+        format.html {
+          redirect_to((@page ? friendly_page_url(@page) : pages_url),
+            :notice => 'Podcast was successfully created.') }
         format.xml  { render :xml => @podcast, :status => :created, :location => @podcast }
       else
         format.html { render :action => "new" }
@@ -64,14 +73,15 @@ class PodcastsController < ApplicationController
   # PUT /podcasts/1
   # PUT /podcasts/1.xml
   def update
-    @podcast = @page.podcast
+    @podcast = (@page ? @page.podcast : @site.podcast)
     owner = User.find_by_email(params[:user_email])
     params[:podcast][:user_id] = owner.id if owner
 
     respond_to do |format|
       if @podcast.update_attributes(params[:podcast])
-        format.html { redirect_to(friendly_page_url(@page),
-          :notice => 'Podcast was successfully updated.') }
+        format.html {
+          redirect_to((@page ? friendly_page_url(@page) : pages_url),
+            :notice => 'Podcast was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -87,7 +97,7 @@ class PodcastsController < ApplicationController
     @podcast.destroy
 
     respond_to do |format|
-      format.html { redirect_to(friendly_page_url(@page)) }
+      format.html { redirect_to((@page ? friendly_page_url(@page) : pages_url)) }
       format.xml  { head :ok }
     end
   end

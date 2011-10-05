@@ -1,7 +1,11 @@
 <section>
   
-  <%= render :partial => 'pages/edit_header',
-    :locals => {:active_aspect => 'podcast'} %>
+  <% if @podcast.page -%>
+    <%= render :partial => 'pages/edit_header',
+      :locals => {:active_aspect => 'podcast'} %>
+  <% elsif @podcast.site -%>
+    <%= render :partial => 'site/header' %>
+  <% end -%>
   
   <%= render 'form' %>
 

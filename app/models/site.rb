@@ -3,6 +3,7 @@ class Site < ActiveRecord::Base
     :foreign_key => :communities_page_id
   belongs_to :about_page, :class_name => 'Page',
     :foreign_key => :about_page_id
+  has_one :podcast
   acts_as_audited
   
   validates :title, :presence => true
