@@ -2,7 +2,10 @@ $(function() {
   $('section form input, section form select, section form textarea').change(function() {
     $('#done_page_editing').fadeOut();
   });
-  $('section form input, section form textarea, .frameBody').keyup(function() {
+  $('section form input, section form textarea').keyup(function() {
+    $('#done_page_editing').fadeOut();
+  });
+  $($('iframe.textedit').get(0).contentWindow.document).keyup(function () {
     $('#done_page_editing').fadeOut();
   });
   $('section form input[type=submit]').click(function() {
