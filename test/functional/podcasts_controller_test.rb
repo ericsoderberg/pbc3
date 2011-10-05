@@ -22,8 +22,13 @@ class PodcastsControllerTest < ActionController::TestCase
     assert_redirected_to friendly_page_path(@sub_page)
   end
 
-  test "should show podcast" do
+  test "should show page podcast" do
     get :show, :page_id => @page.url, :format => 'rss'
+    assert_response :success
+  end
+  
+  test "should show site podcast" do
+    get :show, :format => 'rss'
     assert_response :success
   end
 

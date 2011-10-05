@@ -6,7 +6,7 @@ xml.rss :version => "2.0",
     xml.link (@page ? friendly_page_url(@page) : messages_url)
     xml.language 'en-us'
     xml.itunes :subtitle, @podcast.subtitle
-    xml.itunes :author, @podcast.owner.name
+    xml.itunes :author, (@page ? @page.name : @site.title)
     xml.itunes :summary, @podcast.summary
     xml.description @podcast.description
     xml.itunes :owner do

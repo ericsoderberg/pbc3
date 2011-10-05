@@ -6,3 +6,14 @@ public:
   summary: "public summary"
   description: "public description"
   category: "something"
+
+library:
+  site: site
+  owner: admin
+  title: site
+  subtitle: "sub site"
+  summary: "site summary"
+  description: "site description"
+  category: "something"
+  sub_category: "something else"
+  
