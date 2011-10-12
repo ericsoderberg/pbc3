@@ -11,7 +11,11 @@ module AuditLogsHelper
       link_to event.name, friendly_page_path(event.page)
     elsif audit_log.auditable.is_a?(Podcast)
       podcast = audit_log.auditable
-      link_to podcast.title, page_podcast_path(podcast.page, podcast)
+      if podcast.page
+        link_to podcast.title, page_podcast_path(podcast.page, podcast)
+      else
+        link_to podcast.title, podcast_path(podcast)
+      end
     elsif audit_log.auditable.is_a?(Note)
       note = audit_log.auditable
       link_to truncate(note.text, :length => 12),
