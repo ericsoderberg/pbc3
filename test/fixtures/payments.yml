@@ -3,3 +3,5 @@ retreat:
   method: PayPal
   user: generic
   sent_at: <%= 1.day.ago.to_s(:db) %>
+  verification_key: 1234567890
+  

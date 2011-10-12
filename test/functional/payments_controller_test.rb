@@ -26,7 +26,8 @@ class PaymentsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:payment)
-    assert_redirected_to payment_url(assigns(:payment))
+    assert_redirected_to payment_url(assigns(:payment),
+      :verification_key => assigns(:payment).verification_key)
   end
 
   test "should show payment" do

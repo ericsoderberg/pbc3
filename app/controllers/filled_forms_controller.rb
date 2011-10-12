@@ -80,8 +80,15 @@ class FilledFormsController < ApplicationController
       if @filled_form.save and
         FormMailer.form_email(@filled_form).deliver
         format.html {
-          redirect_to((current_user ? form_fills_url(@form) : friendly_page_url(@page)),
-          :notice => "#{@form.name} was successfully submitted.") }
+          url = if current_user
+              form_fills_url(@form)
+            elsif @form.payable?
+              new_payment_url(:filled_form_id => @filled_form.id)
+            else
+              friendly_page_url(@page)
+            end
+          redirect_to(url, :notice => "#{@form.name} was successfully submitted.")
+        }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else
         @filled_forms = @form.visible_filled_forms(current_user)

@@ -9,11 +9,13 @@
 <header>
   <h1>Payment</h1>
 
+  <% if current_user -%>
   <div class="page_admin">
     <ul>
       <li><%= link_to 'Edit', edit_payment_path(@payment) %></li>
     </ul>
   </div>
+  <% end -%>
 </header>
 
 <% if @payment.received_amount > 0 -%>
@@ -67,11 +69,23 @@
             <%= render :partial => 'filled_form_amount',
               :locals => {:filled_form => filled_form }%>
           </td>
-          <td><%= link_to filled_form.name,
-            edit_form_fill_path(filled_form.form, filled_form) %></td>
+          <td>
+            <% if current_user -%>
+              <%= link_to filled_form.name,
+                edit_form_fill_path(filled_form.form, filled_form) %>
+            <% else -%>
+              <%= filled_form.name %>
+            <% end -%>
+          </td>
           <td><%= filled_form.created_at.relative_str %></td>
-          <td><%= link_to filled_form.form.name,
-            form_fills_path(filled_form.form) %></td>
+          <td>
+            <% if current_user -%>
+              <%= link_to filled_form.form.name,
+                form_fills_path(filled_form.form) %>
+            <% else -%>
+              <%= filled_form.form.name %>
+            <% end -%>
+          </td>
           <td><%= link_to filled_form.form.page.name,
             friendly_page_path(filled_form.form.page) %></td>
         </tr>

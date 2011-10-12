@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:notify]
+  before_filter :authenticate_user!, :except => [:new, :create, :show, :notify]
   
   def index
     @payments = Payment.all
@@ -36,7 +36,10 @@ class PaymentsController < ApplicationController
     @payment.user = current_user
     @payment.method = Payment::METHODS.first
     @payment.sent_at = Date.today
-    if params[:form_id]
+    if params[:filled_form_id]
+      @filled_form_id = params[:filled_form_id]
+      @filled_forms = [FilledForm.find(params[:filled_form_id])]
+    elsif params[:form_id]
       @form = Form.find(params[:form_id])
       @filled_forms = @form.filled_forms.
         for_user(current_user).where(:payment_id => nil)
@@ -70,7 +73,7 @@ class PaymentsController < ApplicationController
 
   def create
     parse_date
-    strip_admin_params unless current_user.administrator?
+    strip_admin_params unless current_user and current_user.administrator?
     @payment = Payment.new(params[:payment])
     @payment.user = current_user
     params[:filled_form_ids].each do |filled_form_id|
@@ -79,11 +82,15 @@ class PaymentsController < ApplicationController
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to(@payment,
+        format.html {
+          redirect_to(payment_url(@payment,
+            :verification_key => @payment.verification_key),
           :notice => 'Payment was successfully created.') }
         format.xml  { render :xml => @payment, :status => :created, :location => @payment }
       else
-        if params[:form_id]
+        if params[:filled_form_id]
+          @filled_forms = [FilledForm.find(params[:filled_form_id])]
+        elsif params[:form_id]
           @form = Form.find(params[:form_id])
           @filled_forms = @form.filled_forms.
             for_user(current_user).where(:payment_id => nil)
@@ -179,14 +186,11 @@ class PaymentsController < ApplicationController
   private
   
   def payment_authorized!
-    if not current_user or
-      (not current_user.administrator? and
-        @payment.user != current_user)
-      
-      redirect_to root_url
-      return false
-    end
-    return true
+    return true if current_user and current_user.administrator?
+    return true if current_user and @payment.user == current_user
+    verification_key = params[:verification_key]
+    return true if verification_key and @payment.verification_key = verification_key
+    return false
   end
   
   def parse_date

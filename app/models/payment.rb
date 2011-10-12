@@ -7,6 +7,7 @@ class Payment < ActiveRecord::Base
   validates :amount, :presence => true
   validates :sent_at, :presence => true
   validates :method, :presence => true, :inclusion => {:in => METHODS}
+  validates :verification_key, :presence => true
   
   composed_of :amount,
     :class_name => 'Money',
@@ -23,6 +24,10 @@ class Payment < ActiveRecord::Base
       Money.new(value || 0, Money.default_currency) },
     :converter => Proc.new { |value|
       value.respond_to?(:to_money) ? value.to_money : Money.empty }
+      
+  before_validation(:on => :create) do
+    self.verification_key = SecureRandom.base64(48);
+  end
   
   def name
     unless filled_forms.empty?

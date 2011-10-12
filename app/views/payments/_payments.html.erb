@@ -17,7 +17,7 @@
     <td><%= payment_label_date(payment) %></td>
     <td>$<%= payment.amount %></td>
     <% if current_user.administrator? -%>
-    <td><%= payment.user.name %></td>
+    <td><%= payment.user ? payment.user.name : 'anonymous' %></td>
     <% end -%>
     <td>
       <ul>

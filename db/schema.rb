@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111005120013) do
+ActiveRecord::Schema.define(:version => 20111012145626) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -273,6 +273,7 @@ ActiveRecord::Schema.define(:version => 20111005120013) do
     t.text     "received_notes"
     t.text     "notes"
     t.datetime "sent_at"
+    t.string   "verification_key"
   end
 
   create_table "photos", :force => true do |t|

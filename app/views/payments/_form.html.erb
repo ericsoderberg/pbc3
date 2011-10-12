@@ -15,6 +15,9 @@
   <% if @form -%>
     <%= hidden_field_tag :form_id, @form.id %>
   <% end -%>
+  <% if @filled_form_id -%>
+    <%= hidden_field_tag :filled_form_id, @filled_form_id %>
+  <% end -%>
   
   <%= render :partial => 'filled_forms' %>
   
@@ -48,7 +51,7 @@
       </div>
     </section>
     
-    <% if current_user.administrator? -%>
+    <% if current_user and current_user.administrator? -%>
     <aside>
       <div class="form">
         <h3>Received</h3>
@@ -86,7 +89,7 @@
       | <%= link_to 'Delete payment record', @payment,
         :confirm => 'Are you sure?', :method => :delete %>
     <% end -%>
-    <% if current_user.administrator? -%>
+    <% if current_user and current_user.administrator? -%>
       | <%= link_to 'Payments', payments_path %>
     <% end -%>
   </div>
