@@ -36,9 +36,23 @@ class PaymentsController < ApplicationController
     @payment.user = current_user
     @payment.method = Payment::METHODS.first
     @payment.sent_at = Date.today
-    if params[:filled_form_id]
-      @filled_form_id = params[:filled_form_id]
-      @filled_forms = [FilledForm.find(params[:filled_form_id])]
+    if params[:filled_form_key]
+      @filled_form_key = params[:filled_form_key]
+      @filled_form = FilledForm.where(:verification_key => params[:filled_form_key]).first
+      unless @filled_form
+        redirect_to root_url
+        return
+      end
+      # if the form has already been payed, show the payment
+      if @filled_form.payment
+        redirect_to(payment_url(@filled_form.payment,
+          :verification_key => @filled_form.payment.verification_key))
+        return 
+      end
+      @filled_forms = [@filled_form]
+    elsif not current_user
+      redirect_to root_url
+      return
     elsif params[:form_id]
       @form = Form.find(params[:form_id])
       @filled_forms = @form.filled_forms.
@@ -68,6 +82,7 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     @filled_form = @payment.filled_forms.first
     @filled_forms = FilledForm.possible_for_payment(@payment)
+    params.delete(:verification_key)
     return unless payment_authorized!
   end
 
@@ -77,7 +92,15 @@ class PaymentsController < ApplicationController
     @payment = Payment.new(params[:payment])
     @payment.user = current_user
     params[:filled_form_ids].each do |filled_form_id|
-      @payment.filled_forms << FilledForm.find(filled_form_id)
+      filled_form = FilledForm.find(filled_form_id)
+      if (current_user and current_user.administrator?) or
+        (current_user and filled_form.user == current_user) or
+        (filled_form.verification_key == params[:filled_form_key])
+        @payment.filled_forms << filled_form
+      else
+        redirect_to root_url
+        return
+      end
     end
 
     respond_to do |format|
@@ -111,6 +134,7 @@ class PaymentsController < ApplicationController
 
   def update
     @payment = Payment.find(params[:id])
+    params.delete(:verification_key)
     return unless payment_authorized!
     parse_date
     strip_admin_params unless current_user.administrator?
@@ -166,6 +190,7 @@ class PaymentsController < ApplicationController
 
   def destroy
     @payment = Payment.find(params[:id])
+    params.delete(:verification_key)
     return unless payment_authorized!
     @filled_form = @payment.filled_forms.first
     user = @filled_form ? @filled_form.user : nil
@@ -186,10 +211,13 @@ class PaymentsController < ApplicationController
   private
   
   def payment_authorized!
-    return true if current_user and current_user.administrator?
-    return true if current_user and @payment.user == current_user
     verification_key = params[:verification_key]
-    return true if verification_key and @payment.verification_key = verification_key
+    if (current_user and current_user.administrator?) or
+      (current_user and @payment.user == current_user) or
+      (verification_key and @payment.verification_key == verification_key)
+      return true
+    end
+    redirect_to root_url
     return false
   end
   

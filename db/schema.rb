@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111012145626) do
+ActiveRecord::Schema.define(:version => 20111013103737) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(:version => 20111012145626) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "payment_id"
+    t.string   "verification_key"
   end
 
   create_table "form_field_options", :force => true do |t|

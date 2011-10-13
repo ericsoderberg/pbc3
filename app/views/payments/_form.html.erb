@@ -15,8 +15,8 @@
   <% if @form -%>
     <%= hidden_field_tag :form_id, @form.id %>
   <% end -%>
-  <% if @filled_form_id -%>
-    <%= hidden_field_tag :filled_form_id, @filled_form_id %>
+  <% if @filled_form_key -%>
+    <%= hidden_field_tag :filled_form_key, @filled_form_key %>
   <% end -%>
   
   <%= render :partial => 'filled_forms' %>

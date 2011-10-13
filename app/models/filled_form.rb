@@ -9,8 +9,12 @@ class FilledForm < ActiveRecord::Base
   #validates :user, :presence => true
   validates :name, :presence => true
   
+  before_validation(:on => :create) do
+    self.verification_key = SecureRandom.base64(48);
+  end
+  
   def self.for_user(user)
-    where(:user_id => user.id)
+    user ? where(:user_id => user.id) : where(:user_id => false)
   end
   
   def self.possible_for_payment(payment)

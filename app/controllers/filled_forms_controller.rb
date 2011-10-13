@@ -83,7 +83,7 @@ class FilledFormsController < ApplicationController
           url = if current_user
               form_fills_url(@form)
             elsif @form.payable?
-              new_payment_url(:filled_form_id => @filled_form.id)
+              new_payment_url(:filled_form_key => @filled_form.verification_key)
             else
               friendly_page_url(@page)
             end

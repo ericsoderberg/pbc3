@@ -2,18 +2,22 @@ generic_release:
   form: release
   user: generic
   name: "my first submit"
+  verification_key: generic_release
   
 anonymous_release:
   form: release
   name: "my first submit"
+  verification_key: anonymous_release
   
 retreat_registration:
   form: retreat_registration
   user: generic
   name: "my registration"
   payment: retreat
+  verification_key: retreat_registration
 
 unpaid_retreat_registration:
   form: retreat_registration
   user: admin
   name: "my unpaid registration"
+  verification_key: unpaid_retreat_registration
