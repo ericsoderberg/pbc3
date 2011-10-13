@@ -1,7 +1,7 @@
 <%= (@form.form_fields.select{|ff|
     ff.field_type != FormField::INSTRUCTIONS}.map{|ff| ff.name} +
   %w{user email} +
-  (@form.payable ? %w{state payment date} : [])).join(',') %>
+  (@form.payable ? %w{state payment date} : [])).join("\t") %>
 <%= @filled_forms.map do |filled_form|
   (filled_form.filled_fields.map{|ff| ff.value} +
   (filled_form.user ?
@@ -12,5 +12,5 @@
       [filled_form.payment.state, filled_form.payment.method, filled_form.payment.sent_at.strftime("%m/%d/%Y")]
       : ['unpaid', '', ''])
     : [])
-  ).join(',')
+  ).join("\t")
 end.join("\n") %>
