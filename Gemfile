@@ -19,6 +19,7 @@ gem "acts_as_audited", "2.0.0.rc7"
 gem "uuidtools"
 gem 'kaminari'
 gem 'money'
+gem 'simple_xlsx_writer'
 
 # Use unicorn as the web server
 # gem 'unicorn'

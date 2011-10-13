@@ -46,6 +46,7 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     escape (0.0.4)
+    fast_xs (0.8.0)
     highline (1.6.1)
     i18n (0.5.0)
     jquery-rails (0.2.7)
@@ -96,6 +97,10 @@ GEM
     rake (0.8.7)
     rsolr (0.12.1)
       builder (>= 2.1.2)
+    rubyzip (0.9.4)
+    simple_xlsx_writer (0.5.3)
+      fast_xs (>= 0.7.3)
+      rubyzip (>= 0.9.4)
     stringex (1.2.1)
     sunspot (1.2.1)
       escape (= 0.0.4)
@@ -127,6 +132,7 @@ DEPENDENCIES
   paperclip (~> 2.3)
   pg
   rails (= 3.0.5)
+  simple_xlsx_writer
   stringex
   sunspot_rails (~> 1.2.1)
   uuidtools

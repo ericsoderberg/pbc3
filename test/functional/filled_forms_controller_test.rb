@@ -12,6 +12,12 @@ class FilledFormsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:filled_forms)
   end
+  
+  test "should get index csv" do
+    get :index, :form_id => @form.id, :format => 'csv'
+    assert_response :success
+    assert_not_nil assigns(:filled_forms)
+  end
 
   test "should get new" do
     get :new, :form_id => @form.id

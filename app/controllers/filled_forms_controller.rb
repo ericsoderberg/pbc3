@@ -8,10 +8,23 @@ class FilledFormsController < ApplicationController
     @filled_forms = @form.visible_filled_forms(current_user)
     @payable_forms = @filled_forms.for_user(current_user).
       where(:payment_id => nil)
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @filled_forms }
+      format.csv # index.csv.erb
+      format.xlsx {
+=begin
+        serializer = SimpleXlsx::Serializer.new(@form.name + ".xlsx") do |doc|
+          doc.add_sheet(@form.name) do |sheet|
+            sheet.add_row(@form.form_fields.map{|ff| ff.name})
+            @filled_forms.each do |filled_form|
+              sheet.add_row(filled_form.filled_fields.map{|fff| fff.value})
+            end
+          end
+        end
+=end
+      }
     end
   end
   

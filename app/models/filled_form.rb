@@ -6,8 +6,8 @@ class FilledForm < ActiveRecord::Base
     :include => :form_field, :order => 'form_fields.form_index'
   
   validates :form, :presence => true
-  #validates :user, :presence => true
   validates :name, :presence => true
+  validates :verification_key, :presence => true
   
   before_validation(:on => :create) do
     self.verification_key = SecureRandom.base64(48);
