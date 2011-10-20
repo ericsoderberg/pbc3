@@ -53,7 +53,8 @@ class EventsController < ApplicationController
     parse_times
     @event = @page.events.find(params[:id])
     @page = @event.page
-    if current_user.administrator? and params[:choose_page_id]
+    if current_user.administrator? and params[:choose_page_id] and
+      not params[:choose_page_id].empty?
       params[:event][:page_id] = params[:choose_page_id] # due to flexbox
     end
     update_method = 'Update all' == params[:commit] ?
