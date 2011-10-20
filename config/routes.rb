@@ -77,10 +77,14 @@ Pbc3::Application.routes.draw do
     :as => 'page_calendar'
   get ":page_id/calendar/list", :controller => 'calendar', :action => 'list',
     :as => 'page_calendar_list'
+  get ":page_id/calendar/day", :controller => 'calendar', :action => 'day',
+    :as => 'page_calendar_day'
   get "resources/:resource_id/calendar", :controller => 'calendar',
     :action => 'month', :as => 'resource_calendar'
   get "resources/:resource_id/calendar/list", :controller => 'calendar',
     :action => 'list', :as => 'resource_calendar_list'
+  get "resources/:resource_id/calendar/day", :controller => 'calendar',
+    :action => 'day', :as => 'resource_calendar_day'
   get "search", :to => "search#search"
 
   root :to => "home#index"
