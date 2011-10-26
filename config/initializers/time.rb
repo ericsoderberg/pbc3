@@ -48,8 +48,8 @@ class DateTime
     return nil unless str
     # extract the date portion
     utc_date = strptime(str, FORM_YEAR_FORMAT)
-    # convert to a local one
-    local_date = Time.local(utc_date.year, utc_date.month, utc_date.day)
+    # convert to a local one, force the right zone by adding an hour
+    local_date = Time.local(utc_date.year, utc_date.month, utc_date.day, 1)
     format = FORM_YEAR_FORMAT + FORM_SEPARATOR + FORM_TIME_FORMAT + " %Z"
     # parse the whole thing using the local time zone for that day
     strptime(str + " " + local_date.zone, format)

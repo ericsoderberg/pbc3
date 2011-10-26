@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :authorizations, :dependent => :destroy
   has_many :filled_forms, :dependent => :destroy
   has_many :payments, :dependent => :destroy
+  has_many :conversations, :dependent => :destroy
   acts_as_audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {
