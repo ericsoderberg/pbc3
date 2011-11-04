@@ -21,7 +21,7 @@
   <% @events.each do |event| -%>
     <% new_day = (prior_date.day != event.start_at.day) -%>
     <% new_month = (prior_date.month != event.start_at.month) -%>
-    <% if new_day -%>
+    <% if new_day or new_month -%>
       <tr class="new_day2"><td colspan="7">
         <% if new_month -%>
           <div class="new_month">
@@ -30,14 +30,14 @@
         <% end -%>
       </td></tr>
     <% end -%>
-  <tr class="<%= new_day ? 'new_day' : '' %>">
+  <tr class="<%= (new_day || new_month) ? 'new_day' : '' %>">
     <td class="day">
-      <% if new_day -%>
+      <% if new_day or new_month -%>
         <%= event.start_at.day %>
       <% end -%>
     </td>
     <td class="week_day">
-      <% if new_day -%>
+      <% if new_day or new_month -%>
         <%= event.start_at.strftime("%A") %>
       <% end -%>
     </td>

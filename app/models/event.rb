@@ -138,6 +138,10 @@ class Event < ActiveRecord::Base
         peer.master = self
         if self != peer
           peer.name = self.name
+          peer.start_at = Time.parse(peer.start_at.strftime("%Y-%m-%d") +
+            self.start_at.strftime(" %H:%M")) # don't include timezone!
+          peer.stop_at = Time.parse(peer.stop_at.strftime("%Y-%m-%d") +
+            self.stop_at.strftime(" %H:%M")) # don't include timezone!
           peer.location = self.location
           peer.featured = self.featured
           peer.notes = self.notes
@@ -213,7 +217,7 @@ class Event < ActiveRecord::Base
   def copy(date)
     duration = self.stop_at - self.start_at
     new_start_at = Time.parse(date.strftime("%Y-%m-%d") +
-      self.start_at.strftime(" %H:%M %z"))
+      self.start_at.strftime(" %H:%M")) # don't include timezone!
     params = {:name => self.name, :location => self.location,
       :start_at => new_start_at,
       :stop_at => (new_start_at + duration),
