@@ -1,0 +1,23 @@
+<% title('Unauthorized') -%>
+
+<div class="regular_content">
+
+  <section>
+    <p>The <%= @page.name %> page is private.</p>
+    <% unless current_user -%>
+      <p>If you have already been granted access, please <%= link_to "sign in",
+        new_user_session_url(:protocol => 'https') %> and try again.</p>
+    <% end -%>
+    <p>To request access please contact <%= @page.contacts.map{|c| c.user.name}.join(', ') %>.</p>
+  </section>
+
+  <aside>
+    <ul class="regular_aside">
+      <li class="panel">
+        <%= render :partial => 'contacts/viewer',
+          :locals => {:contacts => @page.contacts} %>
+      </li>
+    </ul>
+  </aside>
+  
+</div>

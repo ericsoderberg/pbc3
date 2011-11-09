@@ -11,5 +11,10 @@ class HomeControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+  
+  test "should get private" do
+    get :private, :page_id => pages(:private).to_param
+    assert_response :success
+  end
 
 end

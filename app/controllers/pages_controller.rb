@@ -38,8 +38,12 @@ class PagesController < ApplicationController
 
   def show
     @page = Page.find_by_url_or_alias(params[:id])
-    unless @page and @page.authorized?(current_user)
+    unless @page
       redirect_to root_path
+      return
+    end
+    unless @page.authorized?(current_user)
+      redirect_to private_path(:page_id => @page.url)
       return
     end
     if @page.url != params[:id]

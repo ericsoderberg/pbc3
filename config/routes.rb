@@ -67,6 +67,7 @@ Pbc3::Application.routes.draw do
   end
 
   get "home/index"
+  get "private", :controller => 'home', :action => 'private'
   get "hyper", :controller => 'HyperHome', :action => 'index'
   get "hyper/index", :controller => 'HyperHome', :action => 'index'
   get "calendar", :controller => 'calendar', :action => 'month',

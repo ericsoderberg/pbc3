@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
-  before_filter :authenticate_user!, :except => :index
-  before_filter :administrator!, :except => :index
+  before_filter :authenticate_user!, :except => [:index, :private]
+  before_filter :administrator!, :except => [:index, :private]
   before_filter :get_page, :except => :index
   
   def index
