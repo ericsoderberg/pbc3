@@ -16,9 +16,13 @@
   <% case fill_form_field.field_type -%>
     <% when FormField::FIELD -%>
       <% if fill_form_field.monetary? %>$<% end -%>
-      <%= text_field_tag html_id, value, :size => fill_form_field.size %>
+      <%= text_field_tag html_id, value, :size => fill_form_field.size,
+        :class => "print-overridden" %>
+      <div class="print-override"><%= value %></div>
     <% when FormField::AREA -%>
-      <%= text_area_tag html_id, value, :size => fill_form_field.size %>
+      <%= text_area_tag html_id, value, :size => fill_form_field.size,
+        :class => "print-overridden" %>
+      <div class="print-override"><%= value %></div>
     <% when FormField::SINGLE_CHOICE -%>
       <ul class="options_list">
         <% fill_form_field.form_field_options.each do |option| -%>
