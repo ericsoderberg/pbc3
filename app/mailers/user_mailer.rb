@@ -9,6 +9,7 @@ class UserMailer < ActionMailer::Base
     @from_email = from_email
     mail(:to => @contact.user.email,
       :from => Site.first.email,
+      :reply_to => @from_email,
       :subject => "#{@page.name} contact from #{@from_name}")
   end
   
