@@ -15,9 +15,9 @@
   <% end -%>
   
   <%= render :partial => 'controls', :locals => {:view => 'list'} %>
-
+  
 <table id="calendar_list">
-  <% prior_date = @date -%>
+  <% prior_date = @date - 1.month -%>
   <% @events.each do |event| -%>
     <% new_day = (prior_date.day != event.start_at.day) -%>
     <% new_month = (prior_date.month != event.start_at.month) -%>

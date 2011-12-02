@@ -33,7 +33,8 @@
             <span class="month"><%= day.date.strftime("%B") %></span>
           <% end -%>
           <%= link_to day.date.day, calendar_day_path(:date => day.date,
-            :page_id => @page ? @page.url : nil) %>
+            :page_id => @page ? @page.url : nil,
+            :full => @full ? @full : nil) %>
         </div>
     		<div id="day-<%= day.date.strftime("%Y-%m-%d") %>">
         	<ul>

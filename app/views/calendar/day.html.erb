@@ -1,5 +1,6 @@
 <% args = {:page_id => @page ? @page.url : nil,
-    :resource_id => @resource ? @resource.id : nil} %>
+    :resource_id => @resource ? @resource.id : nil,
+    :full => @full ? @full : nil} %>
 <section>
   
   <% if @page -%>
@@ -19,6 +20,24 @@
     </h2>
     
     <div id="calendar_controls">
+      <% if (user_signed_in? and current_user.administrator?) or @full -%>
+      <div id="calendar_controls_extended">
+        <%= form_tag calendar_day_path(args.merge(
+          :date => @date.strftime("%Y-%m-%d"))), :method => :get do %>
+          <% if @page -%>
+            <%= hidden_field_tag :page_id, @page.url %>
+          <% elsif @resource -%>
+            <%= hidden_field_tag :resource_id, @resource.id %>
+          <% end -%>
+          <%= label_tag :date %>
+          <%= text_field_tag :date, @date.strftime("%Y-%m-%d"), :size => 11 %>
+          <%= label_tag :full? %>
+          <%= check_box_tag :full, 'true', @full %>
+          <%= submit_tag 'go' %>
+        <% end %>
+      </div>
+      <% end -%>
+      
     <div id="calendar_nav">
       <%= link_to image_tag('left_small.png'), previous_day_path(args),
         :class => 'icon' %>
