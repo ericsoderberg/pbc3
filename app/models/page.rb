@@ -96,7 +96,7 @@ class Page < ActiveRecord::Base
   def reserved_urls
     if %w(styles resources accounts users site forms payments
       audit_logs email_lists holidays home hyper calendar search
-      authors messages series books blogs forums).include?(url)
+      authors messages series books blogs forums podcast).include?(url)
       errors.add(:name, "that url prefix + name is reserved")
     end
   end

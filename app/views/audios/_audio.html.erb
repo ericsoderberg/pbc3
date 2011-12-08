@@ -1,6 +1,10 @@
 <%= content_tag_for(:li, audio) do %>
+  <div class="date"><%= raw (audio.date ? audio.date.relative_str(false) : '&nbsp;') %></div>
   <audio controls>
     <source src="<%= audio.audio.url %>"/>
   </audio>
   <div class="caption"><%= audio.caption %></div>
+  <div class="author"><%= audio.author %></div>
+  <div class="verses"><%= audio.verses %></div>
+  <div class="description"><%= audio.description %></div>
 <% end %>

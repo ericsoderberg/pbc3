@@ -70,7 +70,8 @@ class AudiosController < ApplicationController
   private
 
   def parse_date
-    if params[:audio][:date] and params[:audio][:date].is_a?(String)
+    if params[:audio][:date] and params[:audio][:date].is_a?(String) and
+      not params[:audio][:date].empty?
       params[:audio][:date] =
         Date.parse_from_form(params[:audio][:date])
     end

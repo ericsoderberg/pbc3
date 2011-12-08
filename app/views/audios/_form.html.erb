@@ -22,9 +22,21 @@
     <%= f.text_field :caption, :size => 40 %>
   </div>
   <div class="field">
-    <%= f.label :date %><span class="help">MM/DD/YYYY</span><br />
-    <%= f.text_field :date,
+    <%= f.label :date %><br />
+    <%= f.text_field :date, :placeholder => 'MM/DD/YYYY',
       :value => (@audio.date ? l(@audio.date.to_date()) : '') %>
+  </div>
+  <div class="field">
+    <%= f.label :verses %><br />
+    <%= f.text_field :verses, :size => 40  %>
+  </div>
+  <div class="field">
+    <%= f.label :author %><br />
+    <%= f.text_field :author, :size => 40  %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description, :size => '30x2' %>
   </div>
   <div class="actions">
     <%= f.submit 'Upload Audio' %>
