@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   has_many :filled_forms, :dependent => :destroy
   has_many :payments, :dependent => :destroy
   has_many :conversations, :dependent => :destroy
+  has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
+  has_many :videos, :through => :users_videos, :source => :video
   acts_as_audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {

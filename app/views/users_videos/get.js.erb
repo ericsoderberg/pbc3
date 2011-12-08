@@ -1,0 +1,5 @@
+$(function() {
+  $('#votes_<%= @video.id %>').
+    replaceWith('<%= escape_javascript(render :partial => "videos/votes",\
+      :locals => {:video => @video}) %>');
+});

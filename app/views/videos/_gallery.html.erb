@@ -7,3 +7,11 @@
   <% end -%>
 </ul>
 <% end -%>
+
+<%= javascript_tag do %>
+$(function() {
+  $('.votes form').live('click', function () {
+    $(this).closest('.votes').css('opacity', 0.3);
+  });
+});
+<% end -%>

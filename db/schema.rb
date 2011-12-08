@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111208135307) do
+ActiveRecord::Schema.define(:version => 20111208163739) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -410,6 +410,13 @@ ActiveRecord::Schema.define(:version => 20111208135307) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "users_videos", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "video_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "verse_ranges", :force => true do |t|
     t.integer  "begin_index"

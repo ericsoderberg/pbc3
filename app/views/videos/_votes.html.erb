@@ -1,0 +1,22 @@
+<div id="votes_<%= video.id %>" class="votes">
+  <% user_video = video.users_videos.where('users_videos.user_id = ?', current_user.id).first %>
+  <% if video.users.count > 0 -%>
+  <%= pluralize video.users.count, 'like' %>
+  <% end -%>
+  <% if user_video -%>
+    <%= form_tag(page_video_users_video_path(:page_id => @page.url,
+        :video_id => video.id, :id => user_video.id),
+      :method => :delete, :remote => true) do %>
+      <%= hidden_field_tag 'video_id', video.id %>
+      <%= submit_tag "unlike", :type => :image,
+        :src => "/images/thumbs-up-on.png" %>
+    <% end %>
+  <% else -%>
+    <%= form_tag(page_video_users_videos_path(:page_id => @page.url,
+      :video_id => video.id), :remote => true) do %>
+      <%= hidden_field_tag 'video_id', video.id %>
+      <%= submit_tag "like", :type => :image,
+        :src => "/images/thumbs-up-empty.png" %>
+    <% end %>
+  <% end -%>
+</div>

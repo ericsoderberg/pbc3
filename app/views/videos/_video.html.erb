@@ -18,5 +18,8 @@
     frameborder="0">
   </iframe>
 <% end -%>
+<% if current_user -%>
+  <%= render :partial => 'videos/votes', :locals => {:video => video} %>
+<% end -%>
 <div class="caption"><%= video.caption %></div>
 </div>

@@ -1298,6 +1298,20 @@ fieldset {
 		outline: none;
 	}
 
+.votes {
+  float: right;
+  margin: 5px 0px 10px 20px;
+  vertical-align: top;
+}
+.votes form {
+  display: inline-block;
+}
+.votes input[type="submit"], .votes input[type="image"] {
+  box-shadow: none;
+  border: none;
+  padding: 0px;
+}
+
 /*#audios {
   position: relative;
 	width: 400px;
@@ -2442,6 +2456,9 @@ div#messages {
 	  padding-right: 30px;
 	  }
 
+.video video {
+  display: block;
+}
 .gallery .audio .date, .gallery .video .date {
   border-top: 2px solid #eee;
   padding-top: 5px;

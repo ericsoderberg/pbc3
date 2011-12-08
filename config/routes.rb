@@ -119,7 +119,9 @@ Pbc3::Application.routes.draw do
     end
     resources :documents
     resources :photos
-    resources :videos
+    resources :videos do
+      resources :users_videos
+    end
     resources :audios
     resources :contacts do
       member do
