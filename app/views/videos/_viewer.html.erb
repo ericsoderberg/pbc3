@@ -1,10 +1,10 @@
 <% if videos and not videos.empty? -%>
 <% width ||= 400 -%>
 <% height ||= 300 -%>
-<div id="video_slideshow">
+<div class="media_slideshow">
   
   <% if videos.length > 1 -%>
-  <ul id="video_slides_nav">
+  <ul class="media_slides_nav">
   <% videos.each_with_index do |video, i| -%>
     <li>
   	  <%= link_to i+1, "#vslide_#{i + 1}"%>
@@ -13,7 +13,7 @@
   </ul>
   <% end -%>
   
-  <ul id="video_slides_slide">
+  <ul class="media_slides_slide">
   <% videos.each_with_index do |video, i| -%>
     <li id="vslide_<%= i + 1 %>" class="<%= 0 == i ? 'first' : '' %>">
   	  <%= render :partial => 'videos/video', :locals => {:video => video,

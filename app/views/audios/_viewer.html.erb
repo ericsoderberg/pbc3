@@ -1,9 +1,24 @@
 <% if audios and not audios.empty? -%>
-<div id="audios">
-  <audio controls>
-    <% audios.each do |audio| -%>
-      <source src="<%= audio.audio.url %>"/>
-    <% end -%>
-  </audio>
+<div class="media_slideshow audio_slideshow">
+  
+  <% if audios.length > 1 -%>
+  <ul class="media_slides_nav">
+  <% audios.each_with_index do |audio, i| -%>
+    <li>
+  	  <%= link_to i+1, "#aslide_#{i + 1}"%>
+  	</li>
+  <% end -%>
+  </ul>
+  <% end -%>
+  
+  <ul class="media_slides_slide">
+  <% audios.each_with_index do |audio, i| -%>
+    <li id="aslide_<%= i + 1 %>" class="<%= 0 == i ? 'first' : '' %>">
+  	  <%= render :partial => 'audios/audio', :locals => {:audio => audio} %>
+  	</li>
+  <% end -%>
+  </ul>
+  
 </div>
+
 <% end -%>

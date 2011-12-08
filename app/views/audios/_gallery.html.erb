@@ -1,5 +1,13 @@
 <% if audios and not audios.empty? -%>
 <ul class="gallery">
-  <%= render :partial => 'audios/audio', :collection => audios %>
+  <% audios.each do |audio| -%>
+  <li>
+    <%= render :partial => 'audios/audio', :locals => {:audio => audio} %>
+  </li>
+  <% end -%>
 </ul>
+<% end -%>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'audios/media_fallback.js' -%>
 <% end -%>

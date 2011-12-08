@@ -29,6 +29,11 @@
     <%= f.label :caption %><br />
     <%= f.text_field :caption, :size => 40 %>
   </div>
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.text_field :date, :placeholder => 'MM/DD/YYYY',
+      :value => (@video.date ? l(@video.date.to_date()) : '') %>
+  </div>
   <div class="actions">
     <%= f.submit (@video.id ? 'Update Video' : 'Add Video') %>
     <% if @video.id -%>

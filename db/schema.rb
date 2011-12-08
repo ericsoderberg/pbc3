@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111208120038) do
+ActiveRecord::Schema.define(:version => 20111208135307) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -26,6 +26,10 @@ ActiveRecord::Schema.define(:version => 20111208120038) do
     t.string   "author"
     t.integer  "event_id"
     t.text     "description"
+    t.string   "audio2_file_name"
+    t.string   "audio2_content_type"
+    t.integer  "audio2_file_size"
+    t.datetime "audio2_updated_at"
   end
 
   create_table "audits", :force => true do |t|
@@ -429,6 +433,7 @@ ActiveRecord::Schema.define(:version => 20111208120038) do
     t.string   "video2_content_type"
     t.integer  "video2_file_size"
     t.datetime "video2_updated_at"
+    t.datetime "date"
   end
 
 end

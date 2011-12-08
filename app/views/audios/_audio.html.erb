@@ -1,10 +1,19 @@
-<%= content_tag_for(:li, audio) do %>
-  <div class="date"><%= raw (audio.date ? audio.date.relative_str(false) : '&nbsp;') %></div>
-  <audio controls>
-    <source src="<%= audio.audio.url %>"/>
-  </audio>
-  <div class="caption"><%= audio.caption %></div>
-  <div class="author"><%= audio.author %></div>
-  <div class="verses"><%= audio.verses %></div>
-  <div class="description"><%= audio.description %></div>
-<% end %>
+<div class="audio">
+<div class="date"><%= raw (audio.date ? audio.date.relative_str(false) : '&nbsp;') %></div>
+<audio controls>
+  <% if audio.audio.exists? -%>
+  <source src="<%= audio.audio.url %>"/>
+  <% end -%>
+  <% if audio.audio2.exists? -%>
+  <source src="<%= audio.audio2.url %>"/>
+  <% end -%>
+</audio>
+<div class="fallback_mp3">
+<%= link_to image_tag('audio.png', :size => '16x16'),
+  audio.audio.url %>
+</div>
+<div class="caption"><%= audio.caption %></div>
+<div class="author"><%= audio.author %></div>
+<div class="verses"><%= audio.verses %></div>
+<div class="description"><%= audio.description %></div>
+</div>

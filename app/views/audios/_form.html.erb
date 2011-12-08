@@ -14,9 +14,13 @@
 
   <%= f.hidden_field :page_id %>
   <div class="field">
-    <%= f.label :file %><br />
+    <%= f.label :file_1 %><div class="help">mp3 format</div>
     <%= f.file_field :audio %>
   </div>
+  <!--div class="field">
+    <%= f.label :file_2 %><div class="help">ogg format</div>
+    <%= f.file_field :audio2 %>
+  </div-->
   <div class="field">
     <%= f.label :caption %><br />
     <%= f.text_field :caption, :size => 40 %>

@@ -5,8 +5,8 @@ class Page < ActiveRecord::Base
   belongs_to :style
   has_many :notes, :order => 'created_at DESC'
   has_many :photos, :dependent => :destroy
-  has_many :videos, :dependent => :destroy
-  has_many :audios, :dependent => :destroy
+  has_many :videos, :dependent => :destroy, :order => 'date DESC'
+  has_many :audios, :dependent => :destroy, :order => 'date DESC'
   has_many :documents, :dependent => :destroy
   has_many :events, :order => 'start_at ASC', :dependent => :destroy
   has_one :group
