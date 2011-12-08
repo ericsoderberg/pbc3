@@ -2442,9 +2442,10 @@ div#messages {
 	  padding-right: 30px;
 	  }
 
-.audio {
-  border-left: 2px solid #eee;
-  padding-left: 10px;
+.gallery .audio .date, .gallery .video .date {
+  border-top: 2px solid #eee;
+  padding-top: 5px;
+  min-width: 100px;
 }
 .audio .fallback_mp3 {
   float: left;
@@ -2455,14 +2456,14 @@ div#messages {
 .audio .date {
   color: #999;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 .audio .author {
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 30px;
 }
 .audio .verses {
-  float: right;
-  margin-left: 20px;
+  display: inline-block;
 }
 .audio .description {
   color: #999;

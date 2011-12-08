@@ -1,5 +1,7 @@
 <% width ||= 400 -%>
 <% height ||= 300 -%>
+<div class='video'>
+<div class="date"><%= raw (video.date ? video.date.relative_str(false) : '') %></div>
 <% if video.video.exists? or video.video2.exists? -%>
   <video controls>
     <% if video.video.exists? -%>
@@ -17,3 +19,4 @@
   </iframe>
 <% end -%>
 <div class="caption"><%= video.caption %></div>
+</div>

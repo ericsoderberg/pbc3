@@ -1,5 +1,5 @@
 <div class="audio">
-<div class="date"><%= raw (audio.date ? audio.date.relative_str(false) : '&nbsp;') %></div>
+<div class="date"><%= raw (audio.date ? audio.date.relative_str(false) : '') %></div>
 <audio controls>
   <% if audio.audio.exists? -%>
   <source src="<%= audio.audio.url %>"/>
