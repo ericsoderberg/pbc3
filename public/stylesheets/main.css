@@ -1181,6 +1181,9 @@ video, .youtube-player {
 .regular_aside audio {
   width: 400px;
 }
+.gallery .audio {
+  width: 280px;
+}
 .primary .video, .primary .audio, .primary audio {
   width: 480px;
 }
