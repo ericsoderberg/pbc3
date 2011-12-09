@@ -1,6 +1,6 @@
 <div class="audio">
-<div class="date"><%= raw (audio.date ? audio.date.relative_str(false) : '') %></div>
-<audio controls>
+<div class="date"><%= raw (audio.date ? audio.date.relative_str(true) : '') %></div>
+<audio controls preload="metadata">
   <% if audio.audio.exists? -%>
   <source src="<%= audio.audio.url %>"/>
   <% end -%>
