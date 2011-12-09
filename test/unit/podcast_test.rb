@@ -16,4 +16,9 @@ class PodcastTest < ActiveSupport::TestCase
     assert !podcast.save
   end
   
+  test "items" do
+    podcast = podcasts(:public)
+    assert podcast.items.length == 5
+  end
+  
 end

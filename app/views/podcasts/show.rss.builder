@@ -19,19 +19,37 @@ xml.rss :version => "2.0",
     end
     xml.itunes :explicit, :clean
 
-    if @page
-      for page in @podcast.pages
-        xml.item do
+    for item in @podcast.items
+      xml.item do
+        if item.is_a?(Page)
+          page = item
           xml.title page.name
           xml.description page.snippet_text
           xml.pubDate page.updated_at.to_s(:rfc822)
           xml.link friendly_page_url(page)
           xml.guid friendly_page_url(page)
-        end
-      end
-    else
-      for message in @podcast.messages
-        xml.item do
+        elsif item.is_a?(Audio) and item.audio
+          audio = item
+          xml.title audio.caption
+          xml.description audio.description
+          xml.pubDate audio.date.to_s(:rfc822)
+          xml.link friendly_page_url(audio.page)
+          url = 'http://' + request.host_with_port + audio.audio.url
+          xml.enclosure :url => url, :length => audio.audio.size,
+              :type => audio.audio.content_type
+          xml.guid url
+        elsif item.is_a?(Video) and item.video
+          video = item
+          xml.title video.caption
+          xml.description video.description
+          xml.pubDate video.date.to_s(:rfc822)
+          xml.link friendly_page_url(video.page)
+          url = 'http://' + request.host_with_port + video.video.url
+          xml.enclosure :url => url, :length => video.video.size,
+              :type => video.video.content_type
+          xml.guid url
+        elsif item.is_a?(Message)
+          message = item
           xml.title message.title
           xml.description message.description
           xml.pubDate message.date.to_s(:rfc822)

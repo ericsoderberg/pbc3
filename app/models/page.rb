@@ -138,6 +138,10 @@ class Page < ActiveRecord::Base
     url
   end
   
+  def date
+    updated_at
+  end
+  
   def nav_context
     (self.parent and 'header' == self.parent.child_layout and
       (self.children.empty? or 'header' != self.child_layout)) ? self.parent : self

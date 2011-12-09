@@ -34,6 +34,10 @@
     <%= f.text_field :date, :placeholder => 'MM/DD/YYYY',
       :value => (@video.date ? l(@video.date.to_date()) : '') %>
   </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description, :size => '30x2' %>
+  </div>
   <div class="actions">
     <%= f.submit (@video.id ? 'Update Video' : 'Add Video') %>
     <% if @video.id -%>

@@ -25,4 +25,19 @@ class Podcast < ActiveRecord::Base
       []
   end
   
+  def items
+    if page
+      result = []
+      result.concat(page.children.order("updated_at DESC").limit(20).all)
+      result.concat(page.audios.where("date is not null").order("date DESC").limit(20).all)
+      result.concat(page.videos.where("date is not null").order("date DESC").limit(20).all)
+      # order by date
+      result.sort{|i1, i2| i1.date <=> i2.date}
+    elsif site
+      Message.includes(:message_files).
+        where("message_files.file_content_type ILIKE 'audio%'").
+        order("date DESC").limit(20)
+    end
+  end
+  
 end

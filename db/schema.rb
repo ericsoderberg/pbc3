@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111208163739) do
+ActiveRecord::Schema.define(:version => 20111209141408) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -109,6 +109,20 @@ ActiveRecord::Schema.define(:version => 20111208163739) do
     t.string   "name"
     t.text     "summary"
     t.date     "published_at"
+  end
+
+  create_table "episodes", :id => false, :force => true do |t|
+    t.integer  "id",                          :null => false
+    t.integer  "podcast_id",                  :null => false
+    t.string   "title",        :limit => 128, :null => false
+    t.string   "speaker",      :limit => 128, :null => false
+    t.text     "description"
+    t.string   "path",         :limit => 256
+    t.date     "publish_date",                :null => false
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "updated_by"
   end
 
   create_table "events", :force => true do |t|
@@ -441,6 +455,7 @@ ActiveRecord::Schema.define(:version => 20111208163739) do
     t.integer  "video2_file_size"
     t.datetime "video2_updated_at"
     t.datetime "date"
+    t.text     "description"
   end
 
 end
