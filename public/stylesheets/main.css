@@ -2324,7 +2324,12 @@ table.grid {
 #message_details {
 	float: right;
 	clear: right;
+	margin-left: 40px;
+	margin-bottom: 40px;
 	}
+#message_description {
+  width: 700px;
+}
 header audio {
 	vertical-align: middle;
 	}

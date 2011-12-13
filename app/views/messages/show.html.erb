@@ -38,7 +38,9 @@
     
   </header>
 
-  <%= @message.description %>
+  <div id="message_description">
+    <%= @message.description %>
+  </div>
 
   <div id="message_emebedded">
     <%= raw @message.emebedded_content -%>
