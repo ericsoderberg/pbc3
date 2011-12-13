@@ -5,6 +5,10 @@ class Message < ActiveRecord::Base
   has_many :message_files, :order => 'file_content_type', :dependent => :destroy
   acts_as_url :title, :sync_url => true
   acts_as_audited
+  has_attached_file :image, :styles => {
+      :normal => '600x600',
+      :thumb => '50x50'
+    }
   
   validates :title, :presence => true
   
@@ -92,6 +96,10 @@ class Message < ActiveRecord::Base
   
   def audio_message_files
     message_files.select{|mf| mf.audio?}
+  end
+  
+  def image_message_files
+    message_files.select{|mf| mf.image?}
   end
   
   def self.merge_messages_and_sets(messages, message_sets)

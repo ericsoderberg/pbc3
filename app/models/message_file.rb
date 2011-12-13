@@ -10,4 +10,8 @@ class MessageFile < ActiveRecord::Base
     file.content_type =~ /^audio/
   end
   
+  def image?
+    file.content_type =~ /^image/
+  end
+  
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111209141408) do
+ActiveRecord::Schema.define(:version => 20111213160758) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -209,6 +209,16 @@ ActiveRecord::Schema.define(:version => 20111209141408) do
     t.text     "note"
   end
 
+  create_table "message_descriptions", :id => false, :force => true do |t|
+    t.integer "id"
+    t.text    "contents"
+  end
+
+  create_table "message_descriptions2", :id => false, :force => true do |t|
+    t.integer "id"
+    t.text    "contents"
+  end
+
   create_table "message_files", :force => true do |t|
     t.string   "file_file_name"
     t.string   "file_content_type"
@@ -220,6 +230,20 @@ ActiveRecord::Schema.define(:version => 20111209141408) do
     t.string   "caption"
   end
 
+  create_table "message_ids", :id => false, :force => true do |t|
+    t.integer "id"
+  end
+
+  create_table "message_set_descriptions2", :id => false, :force => true do |t|
+    t.integer "id"
+    t.text    "contents"
+  end
+
+  create_table "message_set_descriptions3", :id => false, :force => true do |t|
+    t.integer "id"
+    t.text    "contents"
+  end
+
   create_table "message_sets", :force => true do |t|
     t.string   "title"
     t.string   "url"
@@ -227,6 +251,10 @@ ActiveRecord::Schema.define(:version => 20111209141408) do
     t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "messages", :force => true do |t|
@@ -242,6 +270,10 @@ ActiveRecord::Schema.define(:version => 20111209141408) do
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "notes", :force => true do |t|

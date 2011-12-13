@@ -1,6 +1,7 @@
 <%= form_for(@message_set,
   :url => (@message_set.id ? series_path(@message_set) :
-    series_index_path)) do |f| %>
+    series_index_path),
+  :html => { :multipart => true }) do |f| %>
   <% if @message_set.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@message_set.errors.count, "error") %> prohibited this message_set from being saved:</h2>
@@ -20,6 +21,14 @@
   <div class="field">
     <%= f.label :description %><br />
     <%= f.text_area :description, :size => '60x4' %>
+  </div>
+  <div class="field">
+    <%= f.label :image %><br />
+    <% if @message_set.image.exists? -%>
+      <%= image_tag @message_set.image.url(:thumb) %>
+      <%= check_box_tag 'delete_image' %> delete image?
+    <% end -%>
+    <%= f.file_field :image %>
   </div>
   <div class="field">
     <%= f.label :author_id %><br />

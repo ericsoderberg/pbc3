@@ -61,6 +61,7 @@ class MessageSetsController < ApplicationController
   # PUT /message_sets/1.xml
   def update
     @message_set = MessageSet.find_by_url(params[:id])
+    @message_set.image = nil if params[:delete_image]
 
     respond_to do |format|
       if @message_set.update_attributes(params[:message_set])

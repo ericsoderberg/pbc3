@@ -2325,15 +2325,17 @@ table.grid {
 	float: right;
 	clear: right;
 	width: 240px;
-	margin-left: 40px;
-	margin-bottom: 40px;
+	margin: 0px 0px 40px 40px;
 	}
 .message_audio {
   margin: 20px 0px;
 }
+.message_image {
+  margin: 20px 0px;
+}
 #message_description {
   width: 700px;
-  margin-bottom: 20px;
+  margin: 20px 0px;
 }
 header audio {
 	vertical-align: middle;

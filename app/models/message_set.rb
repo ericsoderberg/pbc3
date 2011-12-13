@@ -2,6 +2,10 @@ class MessageSet < ActiveRecord::Base
   belongs_to :author
   has_many :messages, :order => 'date ASC', :dependent => :destroy
   acts_as_url :title, :sync_url => true
+  has_attached_file :image, :styles => {
+      :normal => '600x600',
+      :thumb => '50x50'
+    }
   
   validates :title, :presence => true
   

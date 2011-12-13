@@ -77,6 +77,7 @@ class PodcastsController < ApplicationController
     @podcast = (@page ? @page.podcast : @site.podcast)
     owner = User.find_by_email(params[:user_email])
     params[:podcast][:user_id] = owner.id if owner
+    @podcast.image = nil if params[:delete_image]
 
     respond_to do |format|
       if @podcast.update_attributes(params[:podcast])

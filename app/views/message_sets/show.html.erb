@@ -22,6 +22,10 @@
     </div>
     
   </header>
+  
+  <% if @message_set.image.exists? -%>
+    <%= image_tag @message_set.image.url(:normal), :class => 'message_image' %>
+  <% end -%>
 
   <div id="message_description">
     <%= @message_set.description %>

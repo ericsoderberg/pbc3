@@ -40,6 +40,14 @@
     <%= f.label :description %><br />
     <%= f.text_area :description, :size => '60x4' %>
   </div>
+  <div class="field">
+    <%= f.label :image %><br />
+    <% if @message.image.exists? -%>
+      <%= image_tag @message.image.url(:thumb) %>
+      <%= check_box_tag 'delete_image' %> delete image?
+    <% end -%>
+    <%= f.file_field :image %>
+  </div>
   <% unless @message.id -%>
   <div class="field">
     <%= f.label :file %><br />

@@ -86,6 +86,7 @@ class MessagesController < ApplicationController
   def update
     parse_date
     @message = Message.find_by_url(params[:id])
+    @message.image = nil if params[:delete_image]
 
     respond_to do |format|
       if @message.update_attributes(params[:message])

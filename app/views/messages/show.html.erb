@@ -38,6 +38,10 @@
   <div class="message_audio">
     <%= render :partial => 'audio' %>
   </div>
+  
+  <% if @message.image.exists? -%>
+    <%= image_tag @message.image.url(:normal), :class => 'message_image' %>
+  <% end -%>
 
   <div id="message_description">
     <%= @message.description %>
