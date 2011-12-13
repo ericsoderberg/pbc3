@@ -2333,6 +2333,7 @@ table.grid {
 }
 #message_description {
   width: 700px;
+  margin-bottom: 20px;
 }
 header audio {
 	vertical-align: middle;
@@ -2377,11 +2378,12 @@ header audio {
 			color: #000;
 			}
 
-#message_audio {
+.message_audio {
   vertical-align: baseline;
   }
 div#messages {
 	margin-bottom: 20px;
+	clear: right;
 	}
 .message {
   display: table;

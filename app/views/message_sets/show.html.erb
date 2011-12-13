@@ -23,7 +23,9 @@
     
   </header>
 
-  <%= @message_set.description %>
+  <div id="message_description">
+    <%= @message_set.description %>
+  </div>
   
   <div id="messages">
     <% @message_set.messages.each do |message| -%>
