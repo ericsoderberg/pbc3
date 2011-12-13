@@ -4,8 +4,6 @@
   <header>
     <h1><%= @message.title %></h1>
     
-    <%= render :partial => 'audio' %>
-    
     <% if current_user and current_user.administrator? -%>
     <div class="page_admin">
       <ul>
@@ -33,10 +31,13 @@
       </div>
       <% end -%>
       <%= render :partial => 'messages/files' %>
-      </ul>
     </div>
     
   </header>
+  
+  <div class="message_audio">
+    <%= render :partial => 'audio' %>
+  </div>
 
   <div id="message_description">
     <%= @message.description %>
@@ -47,3 +48,7 @@
   </div>
 
 </section>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'audios/media_fallback.js' -%>
+<% end -%>
