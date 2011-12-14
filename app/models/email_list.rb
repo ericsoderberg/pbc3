@@ -21,6 +21,14 @@ class EmailList
     %x(#{Configuration.mailman_dir}/list_members #{@name}).split
   end
   
+  def pending
+    %x(#{Configuration.mailman_dir}/withlist -q -l -r dump_pending #{@name}).
+      split('\n').map do |l|
+        a = l.strip.split(',', 2)
+        { address: a[0], expires: Time.parse(a[1]) }
+      end
+  end
+  
   def self.all
     self.load("#{Configuration.mailman_dir}/list_lists -b")
   end

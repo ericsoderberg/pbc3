@@ -2713,12 +2713,12 @@ div#messages {
   padding: 20px;
   }
   
-#email_addresses, #pages {
+.email_addresses, #pages {
   list-style: none;
   margin: 0;
   padding: 0;
   }
-.email_address_remover {
+.email_address_remover, .email_addresses .help {
   float: right;
   color: #999;
   }

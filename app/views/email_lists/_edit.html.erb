@@ -42,10 +42,24 @@
 <% end %>
 
 <aside>
+  <h3>Pending Addresses</h3>
+  <div class="help">Addresses that are awaiting confirmation (with expiration).</div><br/>
+  <ul class="email_addresses">
+    <% @email_list.pending.sort.each do |pending| -%>
+      <li>
+        <% user = User.find_by_email(pending[:address]) -%>
+        <% if user -%>
+          <%= link_to pending[:address], edit_account_path(user) %>
+        <% else -%>
+          <%= pending[:address] %>
+        <% end -%>
+        <span class="help"><%= pending[:expires].relative_str(false) %></span>
+      </li>
+    <% end -%>
+  </ul>
+  
   <h3>Confirmed Addresses</h3>
-  <div class="help">Addresses that have been invited but not confirmed yet
-    do not show up here.</div><br/>
-  <ul id="email_addresses">
+  <ul class="email_addresses">
     <% @email_list.addresses.sort.each do |address| -%>
       <li>
         <% user = User.find_by_email(address) -%>
