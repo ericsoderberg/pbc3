@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show]
-  before_filter :administrator!, :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show, :map_old_file]
+  before_filter :administrator!, :except => [:index, :show, :map_old_file]
   
   # GET /messages
   # GET /messages.xml
@@ -25,6 +25,17 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @message }
+    end
+  end
+
+  def map_old_file
+    @message_file = MessageFile.where(:file_file_name => params[:file_name]).first
+    if @message_file
+      redirect_to @message_file.message
+      return
+    else
+      redirect_to messages_path
+      return
     end
   end
 

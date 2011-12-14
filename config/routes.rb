@@ -142,12 +142,25 @@ Pbc3::Application.routes.draw do
   resources :authors
   resources :messages do
     resources :files, :controller => :message_files
+    collection do
+      get :map_old_file
+    end
   end
+  match 'messages/map_old_file/*file_name', :to => 'messages#map_old_file'
   resources :series, :controller => :message_sets
   resources :books, :only => [:index, :show]
   resource :podcast
   
   match '/:id', :to => "pages#show", :as => 'friendly_page'
+  
+  # redirects from old sites
+  match '/:page/events' => redirect("/%{page}/calendar")
+  match '/:page/day' => redirect("/%{page}/calendar")
+  match '/library/files/html/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  match '/dp/:author/:series/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  match '/dp/:author/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  match '/files/messages/:message_id/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  match '/message_sets/:id' => redirect("/messages")
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
