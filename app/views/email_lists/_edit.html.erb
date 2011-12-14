@@ -45,7 +45,7 @@
   <h3>Pending Addresses</h3>
   <div class="help">Addresses that are awaiting confirmation (with expiration).</div><br/>
   <ul class="email_addresses">
-    <% @email_list.pending.sort.each do |pending| -%>
+    <% @email_list.pending.each do |pending| -%>
       <li>
         <% user = User.find_by_email(pending[:address]) -%>
         <% if user -%>
@@ -60,7 +60,7 @@
   
   <h3>Confirmed Addresses</h3>
   <ul class="email_addresses">
-    <% @email_list.addresses.sort.each do |address| -%>
+    <% @email_list.addresses.each do |address| -%>
       <li>
         <% user = User.find_by_email(address) -%>
         <% if user -%>
