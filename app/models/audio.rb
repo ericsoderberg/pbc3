@@ -9,4 +9,15 @@ class Audio < ActiveRecord::Base
     page.authorized?(user)
   end
   
+  def self.fix_sizes
+    where('audio_file_size IS NULL').each do |audio|
+      if audio.audio and audio.audio.to_file
+        File.open(audio.audio.to_file, 'r') do |file|
+          audio.audio_file_size = file.size
+          audio.save
+        end
+      end
+    end
+  end
+  
 end

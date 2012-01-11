@@ -1,6 +1,7 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0",
-  'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd" do
+  'xmlns:itunes' => "http://www.itunes.com/dtds/podcast-1.0.dtd",
+  'xmlns:atom' => "http://www.w3.org/2005/Atom" do
   xml.channel do
     xml.title @podcast.title
     xml.link (@page ? friendly_page_url(@page) : messages_url)
@@ -18,6 +19,9 @@ xml.rss :version => "2.0",
       xml.itunes :category, :text => @podcast.sub_category
     end
     xml.itunes :explicit, :clean
+    xml.atom :link,
+      :href => (@page ? friendly_page_podcast_url(@page) : messages_podcast_url),
+      :rel => 'self', :type => 'application/rss+xml'
 
     for item in @podcast.items
       xml.item do
