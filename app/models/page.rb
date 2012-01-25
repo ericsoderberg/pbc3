@@ -7,7 +7,7 @@ class Page < ActiveRecord::Base
   has_many :photos, :dependent => :destroy
   has_many :videos, :dependent => :destroy, :order => 'date DESC'
   has_many :audios, :dependent => :destroy, :order => 'date DESC'
-  has_many :documents, :dependent => :destroy
+  has_many :documents, :dependent => :destroy, :order => 'published_at DESC'
   has_many :events, :order => 'start_at ASC', :dependent => :destroy
   has_one :group
   belongs_to :parent, :class_name => 'Page'
