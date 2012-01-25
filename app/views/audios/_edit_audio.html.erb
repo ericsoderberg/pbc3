@@ -1,5 +1,5 @@
 <%= content_tag_for(:li, edit_audio) do %>
-  <audio controls>
+  <audio controls preload="metadata">
     <source src="<%= edit_audio.audio.url %>"/>
   </audio>
   <div class="footer">
