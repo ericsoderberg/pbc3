@@ -2712,9 +2712,13 @@ div#messages {
   background-color: #eee;
   }
 #audit_details {
-  float: right;
+  position: fixed;
+  /*float: right;*/
+  right: 40px;
+  top: 240px;
   background-color: #eee;
-  width: 400px;
+  min-width: 400px;
+  max-width: 800px;
   padding: 20px;
   }
   
