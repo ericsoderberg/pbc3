@@ -2703,6 +2703,11 @@ div#messages {
       float: right;
     }
 
+#audit_logs td {
+  vertical-align: top;
+  padding: 5px;
+  border-bottom: 1px solid #eee;
+}
 #audit_logs tr:hover td {
   background-color: #eee;
   }

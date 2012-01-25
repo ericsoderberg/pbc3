@@ -2,6 +2,7 @@ class Audio < ActiveRecord::Base
   belongs_to :page
   has_attached_file :audio
   has_attached_file :audio2
+  acts_as_audited
   
   validates_presence_of :page
   

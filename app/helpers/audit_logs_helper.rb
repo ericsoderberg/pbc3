@@ -6,6 +6,15 @@ module AuditLogsHelper
     elsif audit_log.auditable.is_a?(User)
       user = audit_log.auditable
       link_to (user.name || user.email), edit_account_path(user)
+    elsif audit_log.auditable.is_a?(Document)
+      document = audit_log.auditable
+      link_to document.name, document.file.url
+    elsif audit_log.auditable.is_a?(Audio)
+      audio = audit_log.auditable
+      link_to (audio.caption || '?'), audio.audio.url
+    elsif audit_log.auditable.is_a?(Video)
+      video = audit_log.auditable
+      link_to (video.caption || '?'), video.video.url
     elsif audit_log.auditable.is_a?(Event)
       event = audit_log.auditable
       link_to event.name, friendly_page_path(event.page)

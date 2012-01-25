@@ -21,6 +21,10 @@
       <% end -%>
     </td>
     <td>
+      <% if audit_log.auditable and audit_log.auditable.respond_to?('page')
+          page = audit_log.auditable.page -%>
+        <%= link_to page.name, friendly_page_path(page) %>
+      <% end -%>
       <%= audit_log.auditable_type %>
     </td>
     <td>
@@ -28,12 +32,6 @@
         <%= link_to_audited_item(audit_log) %>
       <% else -%>
         <%= audit_log.auditable_id %>
-      <% end -%>
-    </td>
-    <td>
-      <% if audit_log.auditable and audit_log.auditable['page'] -%>
-        in <%= link_to audit_log.auditable.page.name,
-          friendly_page_path(audit_log.auditable.page) %>
       <% end -%>
     </td>
   </tr>
