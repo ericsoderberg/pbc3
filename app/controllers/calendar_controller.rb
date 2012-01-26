@@ -46,7 +46,8 @@ class CalendarController < ApplicationController
       elsif @page
         @page.related_events(@start_date, @stop_date.end_of_day)
       elsif @resource
-        @resource.events.between(@start_date, @stop_date.end_of_day)
+        @resource.events.between(@start_date, @stop_date.end_of_day).
+          order("start_at ASC").all
       else
         Event.where('featured = ?', true).between(@start_date, @stop_date.end_of_day).
           order("start_at ASC").all
