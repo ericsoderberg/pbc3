@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
     return true
   end
   
-  def page_administrator!
+  def page_administrator!(page=@page)
     unless (current_user and
         (current_user.administrator? or
-          (@page and @page.administrator?(current_user))))
+          (page and page.administrator?(current_user))))
       redirect_to root_url
       return false
     end

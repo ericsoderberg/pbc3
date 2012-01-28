@@ -52,6 +52,13 @@ class Page < ActiveRecord::Base
     self.style = (self.parent ? self.parent.style : Style.first)
     self.private = self.parent.private if self.parent
     self.parent_index = self.parent ? self.parent.children.length + 1 : 1
+    if self.parent
+      # transfer authorizations
+      self.parent.authorizations.each do |authorization|
+        self.authorizations.build(:user_id => authorization.user_id,
+          :administrator => authorization.administrator)
+      end
+    end
   end
   
   before_validation do

@@ -39,20 +39,19 @@
         <%= f.check_box :obscure %>
       </div>
       
-      <% if current_user.administrator? -%>
-        <% if @page.id -%>
-
-        <div class="field">
-          <%= f.label :parent_page %><br />
-          <div id="parent_id"></div>
-        </div>
-      
-        <div id="parent_context">
-          <%= render :partial => 'edit_for_parent' -%>
-        </div>
-        <% else -%>
-          <%= f.hidden_field :parent_id %>
+      <% if @page.id -%>
+        <% if current_user.administrator? -%>
+          <div class="field">
+            <%= f.label :parent_page %><br />
+            <div id="parent_id"></div>
+          </div>
+    
+          <div id="parent_context">
+            <%= render :partial => 'edit_for_parent' -%>
+          </div>
         <% end -%>
+      <% else -%>
+        <%= f.hidden_field :parent_id %>
       <% end -%>
       
     </div>

@@ -1,8 +1,9 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
   before_filter :administrator!,
-    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update]
+    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update, :new, :create]
   # edit and update are handled inline below
+  # new and create are handled inline and use the parent's' authorization
   
   def index
     @pages = Page.order("name ASC")
@@ -123,8 +124,9 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @page.parent = Page.find_by_id(params[:parent_id])
+    return unless page_administrator!(@page.parent)
     @page.text = ''
-    if params[:site_page]
+    if current_user.administrator? and params[:site_page]
       @site_reference = params[:site_page]
       @page.name = @site_reference.capitalize
     end
@@ -162,8 +164,9 @@ class PagesController < ApplicationController
 
   def create
     @page = Page.new(params[:page])
+    return unless page_administrator!(@page.parent)
     #@page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
-    if params[:site_reference]
+    if current_user.administrator? and params[:site_reference]
       @site.communities_page = @page if 'communities' == params[:site_reference]
       @site.about_page = @page if 'about' == params[:site_reference]
     end
