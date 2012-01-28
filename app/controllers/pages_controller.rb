@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
   before_filter :administrator!,
-    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update, :new, :create]
+    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update, :new, :create, :destroy]
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
   
@@ -225,6 +225,7 @@ class PagesController < ApplicationController
 
   def destroy
     @page = Page.find_by_url(params[:id])
+    return unless page_administrator! and page_administrator!(@page.parent)
     parent = @page.parent
     @page.destroy
     # what about index and feature_index being shifted?
