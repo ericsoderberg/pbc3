@@ -150,7 +150,7 @@ class Page < ActiveRecord::Base
   end
   
   def nav_context
-    (self.parent and 'header' == self.parent.child_layout and
+    (self.parent and 'blog' != self.parent.layout and 'header' == self.parent.child_layout and
       (self.children.empty? or 'header' != self.child_layout)) ? self.parent : self
     #(not self.landing? and self.parent and self.parent.regular? and
     #self.children.empty?) ? self.parent : self

@@ -18,10 +18,16 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1.xml
   def show
     @podcast = (@page ? @page.podcast : @site.podcast)
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @podcast }
-      format.rss { render :layout => false } #show.rss.builder
+    if @podcast
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @podcast }
+        format.rss { render :layout => false } #show.rss.builder
+      end
+    elsif 'blog' == @page.layout
+      respond_to do |format|
+        format.rss { render :blog, :layout => false }
+      end
     end
   end
 

@@ -126,6 +126,7 @@ class PagesController < ApplicationController
     @page.parent = Page.find_by_id(params[:parent_id])
     return unless page_administrator!(@page.parent)
     @page.text = ''
+    @page.url_prefix = @page.parent.url if @page.parent
     if current_user.administrator? and params[:site_page]
       @site_reference = params[:site_page]
       @page.name = @site_reference.capitalize

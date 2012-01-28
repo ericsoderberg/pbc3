@@ -14,9 +14,11 @@
   </div>
 <% end -%>
 
-<% if @page.podcast -%>
+<% feed_page = (@page.podcast or 'blog' == @page.layout) ? @page : 
+    ((@page.parent and 'blog' == @page.parent.layout) ? @page.parent : nil)
+  if feed_page -%>
   <div class="page_control">
-    <%= link_to image_tag('rss.png'), friendly_page_podcast_url(@page) -%>
+    <%= link_to image_tag('rss.png'), friendly_page_podcast_url(feed_page) -%>
   </div>
 <% end -%>
 <% if (@events and not @events.empty?) or
@@ -26,3 +28,12 @@
   </div>
 <% end -%>
 <%= render :partial => 'social/tools' %>
+
+<% if @page.parent and 'blog' == @page.parent.layout -%>
+  <div class="page_control">
+    <%= link_to @page.parent.name, friendly_page_path(@page.parent) %>
+  </div>
+  <div class="page_control post_date">
+    <%= @page.created_at.relative_str %>
+  </div>
+<% end -%>

@@ -5,7 +5,8 @@
   
   <%= render :partial => "pages/header_controls" %>
   
-  <% if 'header' == @page.nav_context.child_layout -%>
+  <% if 'header' == @page.nav_context.child_layout and
+      not 'blog' == @page.nav_context.layout -%>
     <ul class="nav">
       <%= render :partial => "pages/sub_page", :collection => @header_children %>
     </ul>

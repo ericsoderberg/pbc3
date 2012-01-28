@@ -14,7 +14,7 @@
   <%= f.hidden_field :page_id %>
   <div class="field">
     <%= f.label :user_email %><br \>
-    <%= text_field_tag :user_email, nil,
+    <%= text_field_tag :user_email, nil, :size => 36,
       :disabled => (@authorization.user) %>
   </div>
   <div class="field">
