@@ -14,12 +14,16 @@
   </div>
 <% end -%>
 
-<% feed_page = (@page.podcast or 'blog' == @page.layout) ? @page : 
-    ((@page.parent and 'blog' == @page.parent.layout) ? @page.parent : nil)
-  if feed_page -%>
+<% if @page.feed_page -%>
   <div class="page_control">
-    <%= link_to image_tag('rss.png'), friendly_page_podcast_url(feed_page) -%>
+    <%= link_to image_tag('rss.png'),
+      friendly_page_podcast_url(@page.feed_page),
+      :type => 'application/rss+xml' -%>
   </div>
+  <% content_for(:feed) do -%>
+    <%= auto_discovery_link_tag(:rss,
+      friendly_page_podcast_url(@page.feed_page)) %>
+  <% end -%>
 <% end -%>
 <% if (@events and not @events.empty?) or
     (@categorized_events and not @categorized_events[:all].empty?) -%>

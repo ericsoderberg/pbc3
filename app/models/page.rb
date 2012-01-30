@@ -361,6 +361,16 @@ class Page < ActiveRecord::Base
     'gallery' == layout
   end
   
+  def feed_page
+    if self.podcast or 'blog' == self.layout
+      self
+    elsif self.parent and 'blog' == self.parent.layout
+      self.parent
+    else
+      nil
+    end
+  end
+  
   private
   
   def extract_first_paragraph(str)
