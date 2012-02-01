@@ -94,7 +94,8 @@ class FormsController < ApplicationController
     @page = @form.page
     return unless page_administrator!
     ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
-    if current_user.administrator? and params[:choose_page_id]
+    if current_user.administrator? and params[:choose_page_id] and
+      Page.find_by_id(params[:choose_page_id])
       params[:form][:page_id] = params[:choose_page_id] # due to flexbox
     end
 
