@@ -31,8 +31,8 @@ module EventsHelper
       result << friendly_range(event, true)
     else
       next_next_event = next_event.next
-      if not next_next_event
-        # only one upcoming event, show both
+      if not next_next_event or (next_event.start_at > (event.start_at + 1.week))
+        # only one upcoming event, or next one more than a week away, show both
         result << friendly_range(event, true)
         result << friendly_range(next_event, true)
       else
