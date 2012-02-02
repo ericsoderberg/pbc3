@@ -2,7 +2,7 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   has_many :filled_forms, :dependent => :nullify
   
-  METHODS = ['check', 'online bank', 'PayPal']
+  METHODS = ['check', 'PayPal']
   
   validates :amount, :presence => true
   validates :sent_at, :presence => true

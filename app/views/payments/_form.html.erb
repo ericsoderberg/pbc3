@@ -1,4 +1,4 @@
-<p>We offer several methods of payment. You may send us a check, pay with an online transaction from your bank, or use PayPal. Please indicate which method you will be using. You will be given more detailed payment instructions on the next page, including a link to PayPal if you choose that option. We will update this record when we have received your payment.</p>
+<p>We offer multiple methods of payment. You may send us a check, via your checkbook or an online transaction from your bank, or use PayPal. Please indicate which method you will be using. You will be given more detailed payment instructions on the next page, including a link to PayPal if you choose that option. We will update this record when we have received your payment.</p>
 
 <%= form_for(@payment) do |f| %>
   <% if @payment.errors.any? %>
@@ -44,6 +44,7 @@
             <li><%= f.radio_button :method, method %><%= method %></li>
           <% end -%>
         </ul>
+        <div class="help">Note: Consider online banking to send a check</div>
       </div>
       <div class="field">
         <%= f.label :notes %><br />

@@ -15,6 +15,13 @@ retreat_registration:
   name: "my registration"
   payment: retreat
   verification_key: retreat_registration
+  
+retreat_registration_check:
+  form: retreat_registration
+  user: generic
+  name: "my registration"
+  payment: retreat_check
+  verification_key: retreat_registration_check
 
 unpaid_retreat_registration:
   form: retreat_registration

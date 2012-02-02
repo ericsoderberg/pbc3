@@ -43,11 +43,9 @@
         <div class="payment_method_instructions">
         <% case @payment.attributes['method'] -%>
         <% when 'check' -%>
-          Send checks to:
+          <div class="help">Using your checkbook or online bank,</div>
+          Send to:
           <pre><%= @site.check_address %></pre>
-        <% when 'online bank' -%>
-          Have your bank send payment to:
-          <pre><%= @site.online_bank_vendor %></pre>
         <% when 'PayPal' -%>
           <%= render :partial => 'paypal' %>
         <% end -%>
