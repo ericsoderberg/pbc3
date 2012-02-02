@@ -30,7 +30,8 @@ class FilledForm < ActiveRecord::Base
   end
   
   def payable_amount
-    filled_fields.includes(:form_field).where('form_fields.monetary' => true).map{|ff| ff.payable_amount}.inject(:+)
+    filled_fields.includes(:form_field).where('form_fields.monetary' => true).
+      map{|ff| ff.payable_amount}.inject(0.to_money, :+)
   end
   
   def payable_fields
