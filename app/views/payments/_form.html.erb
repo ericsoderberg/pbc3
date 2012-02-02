@@ -83,8 +83,12 @@
     <% if @payment.id -%>
       | <%= link_to 'Cancel', payment_path(@payment) %>
     <% elsif @filled_form -%>
-      | <%= link_to 'Cancel',
-        edit_form_fill_path(@filled_form.form, @filled_form) %>
+      <% if current_user -%>
+        | <%= link_to 'Cancel',
+          edit_form_fill_path(@filled_form.form, @filled_form) %>
+      <% else -%>
+        | <%= link_to 'Cancel', friendly_page_path(@filled_form.page) %>
+      <% end -%>
     <% end -%>
     <% if @payment.id -%>
       | <%= link_to 'Delete payment record', @payment,

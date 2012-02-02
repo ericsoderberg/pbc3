@@ -16,6 +16,10 @@ class Form < ActiveRecord::Base
     page.authorized?(user)
   end
   
+  def visible?(user)
+    authorized?(user) and (published? or page.administrator?(user))
+  end
+  
   def possible_pages
     Page.order('name')
   end

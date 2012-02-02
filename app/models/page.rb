@@ -20,7 +20,7 @@ class Page < ActiveRecord::Base
   has_many :authorizations, :dependent => :destroy, :include => :user,
     :order => 'users.first_name ASC'
   has_one :podcast
-  has_many :forms, :dependent => :destroy
+  has_many :forms, :dependent => :destroy, :order => 'LOWER(name) ASC'
   has_many :conversations, :order => 'created_at DESC', :dependent => :destroy
   acts_as_audited :except => [:parent_index,
     :home_feature_index, :parent_feature_index]

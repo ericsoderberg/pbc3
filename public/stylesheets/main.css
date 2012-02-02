@@ -1987,17 +1987,17 @@ a.new_comment {
 #dynamic_form_form {
   margin-top: 20px;
 	}
-	#dynamic_form_form .field {
+	/*#dynamic_form_form .field {
 		display: inline-block;
 		margin-right: 20px;
 		}
 	#dynamic_form_form .field label {
 		width: auto;
-		}
+		}*/
 #dynamic_form_form .actions {
 	/*display: inline-block;*/
 	float: right;
-	margin-top: -50px;
+	margin-top: -50px;*/
 	}
 #dynamic_form_fields {
 	list-style: none;

@@ -162,7 +162,7 @@ class FilledFormsController < ApplicationController
       (not @filled_form.form.page.administrator?(current_user) and
         @filled_form.user != current_user)
       
-      redirect_to root_url
+      redirect_to friendly_page_url(@page)
       return false
     end
     return true
@@ -171,6 +171,11 @@ class FilledFormsController < ApplicationController
   def get_form
     @form = Form.find(params[:form_id])
     @page = @form.page
+    if not @form.visible?(current_user)
+      redirect_to friendly_page_url(@page)
+      return false
+    end
+    return true
   end
   
   def populate_filled_fields

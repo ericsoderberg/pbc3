@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111213160758) do
+ActiveRecord::Schema.define(:version => 20120202135335) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(:version => 20111213160758) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "payable"
+    t.boolean  "published"
   end
 
   create_table "holidays", :force => true do |t|

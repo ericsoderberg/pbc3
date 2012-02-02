@@ -47,10 +47,11 @@ module PagesHelper
           :locals => {:documents => page.documents}
       end
     when 'f'
+      forms = page.forms.select{|f| f.visible?(current_user)}
       if @page.gallery?
-        render :partial => 'forms/library', :locals => {:forms => page.forms}
+        render :partial => 'forms/library', :locals => {:forms => forms}
       else
-        render :partial => 'forms/viewer', :locals => {:forms => page.forms}
+        render :partial => 'forms/viewer', :locals => {:forms => forms}
       end
     when 'p'
       if @page.gallery?
