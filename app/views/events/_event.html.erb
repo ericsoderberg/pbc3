@@ -20,13 +20,13 @@
       </div>
     <% end -%>
   <% end -%>
-  <div class="event_range">
-    <% if event.regular? -%>
-      <%= event.start_at.strftime("%As ") + friendly_range(event, false) %>
-    <% else -%>
-      <%= friendly_range(event, true) %>
-    <% end -%>
-  </div>
+  
+  <% contextual_times(event).each do |timestamp| -%>
+    <div class="event_range">
+      <%= timestamp %>
+    </div>
+  <% end -%>
+  
   <% if event.location and ! event.location.empty? -%>
     <div class="event_location">
       <%= h event.location %>

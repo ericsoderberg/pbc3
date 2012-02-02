@@ -22,4 +22,54 @@ module EventsHelper
     end
   end
   
+  def contextual_times(event)
+    # returns a list of event times to show for this event
+    result = []
+    next_event = event.next
+    if not next_event or (next_event.start_at > (event.start_at + 2.months))
+      # no close future times, just show this single date/time
+      result << friendly_range(event, true)
+    else
+      next_next_event = next_event.next
+      if not next_next_event
+        # only one upcoming event, show both
+        result << friendly_range(event, true)
+        result << friendly_range(next_event, true)
+      else
+        # >= 2 upcoming events
+        range = friendly_range(event, false)
+        next_range = friendly_range(next_event, false)
+        next_next_range = friendly_range(next_next_event, false)
+        if range == next_range and range == next_next_range
+          # they're all at the same time, show an aggregate
+          result << (event.start_at.strftime("%As ") +
+            friendly_range(event, false))
+        elsif range != next_range and range != next_next_range and
+          next_range != next_next_range
+          # all different, show next two
+          result << friendly_range(event, true)
+          result << friendly_range(next_event, true)
+        else
+          if next_range == next_next_range
+            # current is odd one
+            result << friendly_range(event, true)
+            result << (event.start_at.strftime("%As ") +
+              friendly_range(next_event, false))
+          elsif range == next_range
+            # last is odd one
+            result << (event.start_at.strftime("%As ") +
+              friendly_range(event, false))
+            result << friendly_range(next_next_event, true)
+          else
+            # middle is odd one
+            result << (event.start_at.strftime("%As ") +
+              friendly_range(next_event, false))
+            result << friendly_range(next_event, true)
+          end
+        end
+      end
+    end
+    result
+  end
+  
 end

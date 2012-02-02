@@ -82,6 +82,14 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def next
+    if master
+      master.replicas.where("start_at > '#{start_at.to_date}' AND id != #{id}").first
+    else
+      nil
+    end
+  end
+  
   # divide the events up into three categories: active, expired, ancient
   # prune out replicas
   def self.categorize(events)

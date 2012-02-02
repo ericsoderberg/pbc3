@@ -1809,6 +1809,9 @@ table.index td, table.index th {
     font-weight: bold;
     color: #999;
     }
+  #recurrence td.active .month {
+    color: #eee;
+    }
   #recurrence td.odd_month {
     background-color: #f6f6f6;
     }
