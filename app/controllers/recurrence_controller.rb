@@ -8,7 +8,7 @@ class RecurrenceController < ApplicationController
     @date = @event.start_at
     peers = @event.peers
     @calendar = Calendar.new(@event.start_at - 1.month,
-      (@event.start_at + 9.months).end_of_month);
+      (@event.start_at + 12.months).end_of_month);
     @calendar.populate(peers)
 
     respond_to do |format|
