@@ -32,6 +32,10 @@
       </li>
       <% end -%>
     </ul>
+  <% when FormField::COUNT -%>
+    <%= number_field_tag show_field.html_name, nil,
+      :size => (show_field.size ? show_field.size : '') %>
+    <% if show_field.monetary? %>$<% end -%><%= show_field.value %>
   <% when FormField::INSTRUCTIONS -%>
 <% end -%>
 </div>

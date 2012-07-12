@@ -14,6 +14,8 @@ class FilledField < ActiveRecord::Base
         value.to_money
       when FormField::MULTIPLE_CHOICE
         value.split(',').map{|v| v.to_money}.inject(:+)
+      when FormField::COUNT
+        (value.to_i * form_field.value.to_i).to_money
       else
         0.to_money
     end

@@ -8,8 +8,9 @@ class FormField < ActiveRecord::Base
   AREA = 'area'
   SINGLE_CHOICE = 'single choice'
   MULTIPLE_CHOICE = 'multiple choice'
+  COUNT = 'count'
   INSTRUCTIONS = 'instructions'
-  TYPES = [FIELD, AREA, SINGLE_CHOICE, MULTIPLE_CHOICE, INSTRUCTIONS]
+  TYPES = [FIELD, AREA, SINGLE_CHOICE, MULTIPLE_CHOICE, COUNT, INSTRUCTIONS]
   
   validates :form, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :form_id}
@@ -21,7 +22,11 @@ class FormField < ActiveRecord::Base
   end
   
   def sizeable?
-    [FIELD, AREA].include?(field_type)
+    [FIELD, AREA, COUNT].include?(field_type)
+  end
+  
+  def has_value?
+    [COUNT].include?(field_type)
   end
   
   def html_name

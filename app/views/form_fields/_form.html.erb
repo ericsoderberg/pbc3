@@ -49,6 +49,12 @@
     <%= f.text_field :size, :size => 5 %>
   </div>
   
+  <div id="field_value_<%= form_field.id %>" class="field value"
+    style="<%= form_field.has_value? ? '' : 'display:none' %>">
+    <%= f.label :value %><br />
+    <%= f.text_field :value, :size => 5 %>
+  </div>
+  
   <div class="field">
     <%= f.label :help %><br />
     <%= f.text_area :help, :size => '20x4' %>
@@ -77,6 +83,11 @@
         $('#field_size_' + id).show('slow');
       } else {
         $('#field_size_' + id).hide('slow');
+      }
+      if ('count' == type) {
+        $('#field_value_' + id).show('slow');
+      } else {
+        $('#field_value_' + id).hide('slow');
       }
     });
   });

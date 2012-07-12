@@ -55,6 +55,10 @@
           </li>
         <% end -%>
       </ul>
+    <% when FormField::COUNT -%>
+      <%= number_field_tag html_id, value, :size => fill_form_field.size,
+        :class => "print-overridden" %>
+      <% if fill_form_field.monetary? %>$<% end -%><%= fill_form_field.value %>
     <% when FormField::INSTRUCTIONS -%>
   <% end -%>
   

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120202135335) do
+ActiveRecord::Schema.define(:version => 20120711233936) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20120202135335) do
     t.boolean  "required"
     t.boolean  "monetary"
     t.boolean  "dense",      :default => false
+    t.string   "value"
   end
 
   create_table "forms", :force => true do |t|
