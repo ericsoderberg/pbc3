@@ -84,7 +84,8 @@ class PaymentsControllerTest < ActionController::TestCase
     put :update, :id => @payment.to_param, :payment => @payment.attributes,
       :filled_form_ids => [@unpaid_filled_form.id]
     assert_not_nil assigns(:payment)
-    assert_redirected_to payment_url(assigns(:payment))
+    assert_redirected_to payment_url(assigns(:payment),
+      {:verification_key => assigns(:payment).verification_key})
   end
 
   test "should destroy payment" do

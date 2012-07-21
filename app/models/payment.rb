@@ -5,7 +5,6 @@ class Payment < ActiveRecord::Base
   METHODS = ['check', 'PayPal']
   
   validates :amount, :presence => true
-  validates :sent_at, :presence => true
   validates :method, :presence => true, :inclusion => {:in => METHODS}
   validates :verification_key, :presence => true
   
@@ -39,9 +38,15 @@ class Payment < ActiveRecord::Base
   def state
     if received_amount > 0
       'received'
-    else
+    elsif sent_at
       'sent'
+    else
+      'pending'
     end
+  end
+  
+  def cancellable?
+    state == 'pending'
   end
   
 end

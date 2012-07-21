@@ -1,10 +1,19 @@
 <div class="filled_form_payment">
 <h3>Payment</h3>
 <% if @filled_form.payment -%>
-  <p>Payed via
-    <%= link_to "#{@filled_form.payment.method} on " +
-      "#{l(@filled_form.payment.sent_at.to_date, :format => :long)}",
-      payment_path(@filled_form.payment) %>.</p>
+  <% if @filled_form.payment.state != 'pending' -%>
+    <p>Payed via
+      <%= link_to "#{@filled_form.payment.method} on " +
+        "#{l(@filled_form.payment.sent_at.to_date, :format => :long)}",
+        payment_path(@filled_form.payment,
+          :verification_key => @filled_form.payment.verification_key) %>.</p>
+  <% else -%>
+    <%= form_tag edit_payment_path(@filled_form.payment),
+        :method => :get do %>
+      <%= hidden_field_tag :filled_form_key, @filled_form.verification_key %>
+      <%= submit_tag 'Payment Options' %>
+    <% end %>
+  <% end -%>
 <% else -%>
   <p>You will be able to pay online or send in a check.</p>
   <%= form_tag new_payment_path(), :method => :get do %>

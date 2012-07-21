@@ -1,5 +1,5 @@
 class FilledFormsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:new, :create]
+  before_filter :authenticate_user!, :except => [:new, :create, :edit, :update, :destroy]
   before_filter :get_form, :except => [:user_index]
   
   # GET /filled_forms
@@ -88,20 +88,19 @@ class FilledFormsController < ApplicationController
       @filled_form.user = current_user
     end
     populate_filled_fields
+    
+    if @form.payable?
+      @payment = Payment.new(:amount => @filled_form.payable_amount,
+        :method => Payment::METHODS.first, :user => @filled_form.user)
+      @payment.filled_forms << @filled_form
+    end
 
     respond_to do |format|
-      if @filled_form.save and
+      if @filled_form.save and (! @payment or
+        (@payment.amount = @filled_form.payable_amount; @payment.save))
         FormMailer.form_email(@filled_form).deliver
-        format.html {
-          url = if current_user
-              form_fills_url(@form)
-            elsif @form.payable?
-              new_payment_url(:filled_form_key => @filled_form.verification_key)
-            else
-              friendly_page_url(@page)
-            end
-          redirect_to(url, :notice => "#{@form.name} was successfully submitted.")
-        }
+        format.html { redirect_to(next_url,
+            :notice => "#{@form.name} was successfully submitted.") }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
@@ -127,11 +126,12 @@ class FilledFormsController < ApplicationController
       @filled_form.user = current_user
     end
     populate_filled_fields
+    @payment = @filled_form.payment
 
     respond_to do |format|
       if @filled_form.save and
         FormMailer.form_email(@filled_form).deliver
-        format.html { redirect_to(edit_form_fill_path(@form, @filled_form),
+        format.html { redirect_to(next_url,
           :notice => "#{@form.name} was successfully updated.") }
         format.xml  { head :ok }
       else
@@ -145,12 +145,28 @@ class FilledFormsController < ApplicationController
   # DELETE /filled_forms/1
   # DELETE /filled_forms/1.xml
   def destroy
-    @filled_form = @form.filled_forms.find(params[:id])
+    if params[:filled_form_key]
+      @filled_form = FilledForm.where(:verification_key =>
+        params[:filled_form_key]).first
+    else
+      @filled_form = @form.filled_forms.find(params[:id])
+    end
     return unless filled_form_authorized!
+    if (@filled_form.payment and
+      @filled_form.payment.filled_forms.length == 1 and
+      @filled_form.payment.cancellable?)
+      @filled_form.payment.destroy
+    end
     @filled_form.destroy
 
     respond_to do |format|
-      format.html { redirect_to(new_form_fill_url(@form)) }
+      format.html do
+        if params[:filled_form_key]
+          redirect_to friendly_page_url(@page)
+        else
+          redirect_to new_form_fill_url(@form)
+        end
+      end
       format.xml  { head :ok }
     end
   end
@@ -158,14 +174,14 @@ class FilledFormsController < ApplicationController
   private
   
   def filled_form_authorized!
-    if not current_user or
-      (not @filled_form.form.page.administrator?(current_user) and
-        @filled_form.user != current_user)
-      
-      redirect_to friendly_page_url(@page)
-      return false
+    filled_form_key = params[:filled_form_key]
+    if (current_user and current_user.administrator?) or
+      (current_user and @filled_form.user == current_user) or
+      (filled_form_key and @filled_form.verification_key == filled_form_key)
+      return true
     end
-    return true
+    redirect_to friendly_page_url(@page)
+    return false
   end
   
   def get_form
@@ -206,6 +222,23 @@ class FilledFormsController < ApplicationController
       @filled_form.name = current_user.name || current_user.email
     end
     @filled_form.updated_at = Time.now
+  end
+  
+  def next_url
+    if @form.payable?
+      if @payment.cancellable?
+        edit_payment_url(@payment,
+          {:filled_form_key => @filled_form.verification_key,
+           :verification_key => @payment.verification_key})
+      else
+        payment_url(@payment,
+          {:verification_key => @payment.verification_key})
+      end
+    elsif current_user
+      form_fills_url(@form)
+    else
+      friendly_page_url(@page)
+    end
   end
   
 end

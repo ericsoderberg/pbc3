@@ -1,8 +1,8 @@
 class PaymentsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:new, :create, :show, :notify]
+  before_filter :authenticate_user!, :except => [:new, :create, :edit, :update, :show, :notify]
   
   def index
-    @payments = Payment.all
+    @payments = Payment.order("sent_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -80,9 +80,19 @@ class PaymentsController < ApplicationController
 
   def edit
     @payment = Payment.find(params[:id])
+    if not current_user or not current_user.administrator?
+      if params[:verification_key] != @payment.verification_key
+        redirect_to root_url
+        return
+      end
+    end
+      
+    if params[:filled_form_key]
+      @filled_form_key = params[:filled_form_key]
+    end
+    
     @filled_form = @payment.filled_forms.first
     @filled_forms = FilledForm.possible_for_payment(@payment)
-    params.delete(:verification_key)
     return unless payment_authorized!
   end
 
@@ -102,17 +112,24 @@ class PaymentsController < ApplicationController
         return
       end
     end
+    
+    if @payment.filled_forms.empty?
+      redirect_to 
+    end
 
     respond_to do |format|
       if @payment.save
         format.html {
           redirect_to(payment_url(@payment,
             :verification_key => @payment.verification_key),
-          :notice => 'Payment was successfully created.') }
+          :notice => 'Payment indication was successfully submitted.') }
         format.xml  { render :xml => @payment, :status => :created, :location => @payment }
       else
-        if params[:filled_form_id]
+        if params[:filled_form_key]
           @filled_forms = [FilledForm.find(params[:filled_form_id])]
+        elsif not current_user
+          redirect_to root_url
+          return
         elsif params[:form_id]
           @form = Form.find(params[:form_id])
           @filled_forms = @form.filled_forms.
@@ -134,10 +151,11 @@ class PaymentsController < ApplicationController
 
   def update
     @payment = Payment.find(params[:id])
-    params.delete(:verification_key)
+    logger.info("!!! A");
     return unless payment_authorized!
+    logger.info("!!! B");
     parse_date
-    strip_admin_params unless current_user.administrator?
+    strip_admin_params unless current_user and current_user.administrator?
     if params[:filled_form_ids]
       params[:filled_form_ids].each do |filled_form_id|
         unless @payment.filled_forms.exists?(:id => filled_form_id)
@@ -145,10 +163,12 @@ class PaymentsController < ApplicationController
         end
       end
     end
+    logger.info("!!! C");
 
     respond_to do |format|
       if @payment.update_attributes(params[:payment])
-        format.html { redirect_to(@payment,
+        format.html { redirect_to(payment_url(@payment,
+              :verification_key => @payment.verification_key),
             :notice => 'Payment was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -178,6 +198,8 @@ class PaymentsController < ApplicationController
 
     logger.info("Faulty paypal result: #{response}") unless ["VERIFIED", "INVALID"].include?(response)
     if "VERIFIED" == response
+      @payment.method = 'PayPal'
+      @payment.sent_at = Date.today
       @payment.received_amount = params[:payment_gross]
       @payment.received_at = Date.today
       @payment.save

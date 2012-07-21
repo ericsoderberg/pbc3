@@ -1,19 +1,21 @@
 $(function() {
   $('.filled_forms input[type="checkbox"]').click(function () {
-    var amount = parseInt($('#payment_amount').val(), 10),
+    var amount = parseInt($('#payment_amount').text(), 10),
       change = parseInt($(this).attr('data-amount'), 10);
     if ($(this).attr('checked')) {
-      $('#payment_amount').val(amount + change);
+      $('#payment_amount').text(amount + change);
       $('#hidden_payment_amount').val(amount + change);
     } else {
-      $('#payment_amount').val(amount - change);
+      $('#payment_amount').text(amount - change);
       $('#hidden_payment_amount').val(amount - change);
     }
   });
-  $('#payment_sent_at').datepicker({
-    americanMode: true
+  $('input[name="payment[method]"]').change(function () {
+    var method = $(this).val().toLowerCase();
+    $('.check-ish, .paypal-ish').hide();
+    $('.' + method + '-ish').show();
   });
-  $('#payment_received_at').datepicker({
-    americanMode: true
-  });
+  var method = $('input[name="payment[method]"]:checked').val().toLowerCase();
+  $('.check-ish, .paypal-ish').hide();
+  $('.' + method + '-ish').show();
 });

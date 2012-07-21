@@ -19,11 +19,16 @@ class FilledForm < ActiveRecord::Base
   end
   
   def self.possible_for_payment(payment)
-    includes(:form).where(["forms.payable = 't' AND " +
-        "filled_forms.user_id = ? AND " +
-        "(filled_forms.payment_id IS NULL OR " +
-          "filled_forms.payment_id = ?)",
-        payment.user_id, payment.id])
+    # always take filled forms for this payment
+    # if we have a user, also take his unpaid filled forms
+    includes(:form).where("forms.payable = 't' AND " +
+        if payment.user_id
+          "filled_forms.user_id = #{payment.user_id} AND " +
+          "(filled_forms.payment_id IS NULL OR " +
+            "filled_forms.payment_id = #{payment.id})"
+        else
+          "filled_forms.payment_id = #{payment.id}"
+        end)
   end
   
   def payable?

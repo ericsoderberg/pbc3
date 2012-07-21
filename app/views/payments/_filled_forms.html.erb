@@ -10,7 +10,8 @@
         :locals => {:filled_form => filled_form }%>
     </td>
     <td><%= link_to filled_form.name,
-      edit_form_fill_path(filled_form.form, filled_form) %></td>
+      edit_form_fill_path(filled_form.form, filled_form,
+        {:filled_form_key => filled_form.verification_key}) %></td>
     <td><%= l(filled_form.created_at.to_date, :format => :medium) %></td>
     <td><%= filled_form.form.name %></td>
     <td><%= link_to filled_form.form.page.name,

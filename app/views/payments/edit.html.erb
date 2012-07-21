@@ -1,3 +1,11 @@
-<h1>Edit payment</h1>
+<% if current_user and current_user.administrator? -%>
+<div id="breadcrumbs">
+  <ul>
+    <li><%= link_to 'Payments', payments_path %></li>
+  </ul>
+</div>
+<% end -%>
+
+<h1>Payment</h1>
 
 <%= render 'form' %>

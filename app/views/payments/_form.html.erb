@@ -1,4 +1,4 @@
-<p>We offer multiple methods of payment. You may send us a check, via your checkbook or an online transaction from your bank, or use PayPal. Please indicate which method you will be using. You will be given more detailed payment instructions on the next page, including a link to PayPal if you choose that option. We will update this record when we have received your payment.</p>
+<p>We offer multiple methods of payment. You may send us a check, via your checkbook or an online transaction from your bank, or use PayPal.</p>
 
 <%= form_for(@payment) do |f| %>
   <% if @payment.errors.any? %>
@@ -18,37 +18,47 @@
   <% if @filled_form_key -%>
     <%= hidden_field_tag :filled_form_key, @filled_form_key %>
   <% end -%>
+  <%= hidden_field_tag :verification_key, @payment.verification_key %>
   
   <%= render :partial => 'filled_forms' %>
   
   <div class="regular_content">
     <section>
-      <h3><%= @payment.id ? 'Sent' : 'Sending' %></h3>
+      <h3><%= @payment.id ? @payment.state.capitalize : 'Paying' %></h3>
       <div class="field">
-        <%= f.label :amount %><br />
-        $<%= text_field_tag :amount, @payment.amount.to_s, :size => '5',
-          :id => 'payment_amount', :disabled => true %>
+        <%= f.label :amount %>
+        <div>$<span id="payment_amount"><%= @payment.amount.to_s %></span></div>
         <%= hidden_field_tag 'payment[amount]', @payment.amount.to_s,
           :id => 'hidden_payment_amount' %>
       </div>
+      <%= f.hidden_field :sent_at,
+        :value => (@payment.sent_at ?
+          l(@payment.sent_at.to_date()) : l(Date.today)) %>
       <div class="field">
-        <%= f.label :sent_on %><br />
-        <%= f.text_field :sent_at,
-          :value => (@payment.sent_at ?
-            l(@payment.sent_at.to_date()) : '') %>
-      </div>
-      <div class="field">
-        <%= f.label :method %><br />
+        <%= f.label :method %>
         <ul class="payment_methods">
           <% Payment::METHODS.each do |method| -%>
-            <li><%= f.radio_button :method, method %><%= method %></li>
+            <li>
+              <%= f.radio_button :method, method %>
+              <label class="value" for="payment_method_<%= method.downcase %>">
+                <%= method %>
+                <% if method == 'check' -%>
+                  <span class="help">(checkbook or online banking)</span>
+                <% end -%>
+                <% if method == 'PayPal' -%>
+                  <span class="help">(PayPal account or credit card)</span>
+                <% end -%>
+              </label>
+            </li>
           <% end -%>
         </ul>
-        <div class="help">Note: Consider online banking to send a check</div>
       </div>
-      <div class="field">
-        <%= f.label :notes %><br />
-        <%= f.text_area :notes, :size => '40x4' %>
+      <div class="payment_method_instructions">
+        <div class="paypal-ish help">Note: Using your bank's online banking to send a check costs us less than using PayPal.</div>
+        <div class="check-ish">
+          Send to:
+          <pre><%= @site.check_address %></pre>
+        </div>
       </div>
     </section>
     
@@ -78,27 +88,41 @@
     <% end -%>
   </div>
   
-  <div class="actions">
-    <%= f.submit (@payment.id ? 'Update' : 'Submit') %>
-    <% if @payment.id -%>
-      | <%= link_to 'Cancel', payment_path(@payment) %>
-    <% elsif @filled_form -%>
+  <div class="actions check-ish">
+    <%= f.submit (@payment.state != 'pending' ? 'Update' : 'Submit') %>
+    <% if @filled_form -%>
       <% if current_user -%>
         | <%= link_to 'Cancel',
           edit_form_fill_path(@filled_form.form, @filled_form) %>
       <% else -%>
-        | <%= link_to 'Cancel', friendly_page_path(@filled_form.page) %>
+        | <%= link_to 'Cancel',
+          form_fill_path(@filled_form.form, @filled_form,
+              {:filled_form_key => @filled_form_key}),
+          :confirm => 'Are you sure?', :method => :delete %>
       <% end -%>
     <% end -%>
-    <% if @payment.id -%>
+    <% if current_user and current_user.administrator? and @payment.id -%>
       | <%= link_to 'Delete payment record', @payment,
         :confirm => 'Are you sure?', :method => :delete %>
     <% end -%>
-    <% if current_user and current_user.administrator? -%>
-      | <%= link_to 'Payments', payments_path %>
-    <% end -%>
   </div>
 <% end %>
+
+<div class="actions paypal-ish">
+  <% if @payment.id -%>
+    <%= render :partial => 'paypal' %>
+  <% end -%>
+  <% if @filled_form -%>
+  | <%= link_to 'Cancel',
+    form_fill_path(@filled_form.form, @filled_form,
+        {:filled_form_key => @filled_form_key}),
+    :confirm => 'Cancel your request?', :method => :delete %>
+  <% end -%>
+  <% if current_user and current_user.administrator? and @payment.id -%>
+    | <%= link_to 'Delete payment record', @payment,
+      :confirm => 'Are you sure?', :method => :delete %>
+  <% end -%>
+</div>
 
 <%= javascript_tag do %>
   <%= render :partial => 'form_aids.js' -%>

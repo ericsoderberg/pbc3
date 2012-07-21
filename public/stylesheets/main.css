@@ -1384,6 +1384,12 @@ form label, .edit_options label {
 	margin-left: 10px;
 	color: #999999;
 	}
+form label.value {
+  color: inherit;
+  margin-left: 0px;
+  margin-right: 20px;
+  width: auto;
+}
 
 .submit input {
 	padding: 9px 15px;
@@ -2233,6 +2239,7 @@ a.new_comment {
     }
   
 .payment_methods {
+  /*display: inline-block;*/
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -2253,6 +2260,10 @@ a.new_comment {
   margin: 0px;
   padding: 0px;
   }
+
+.actions.paypal-ish form {
+  display: inline-block;
+}
   
 .fields {
   list-style: none;
@@ -2271,8 +2282,8 @@ a.new_comment {
     width: 120px;
     }
 .payment_method_instructions {
-  display: inline-block;
-  margin-left: 20px;
+  /*display: inline-block;*/
+  margin: 20px 28px;
 }
   
 .timestamp {

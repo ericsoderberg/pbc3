@@ -5,7 +5,7 @@
 <div class="regular_content">
 <section>
   
-  <% if @form.payable? -%>
+  <% if @form.payable? and not @filled_form.payment.cancellable? -%>
     <%= render :partial => 'payment_fields' %>
     <hr/>
   <% end -%>

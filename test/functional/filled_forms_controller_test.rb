@@ -52,7 +52,7 @@ class FilledFormsControllerTest < ActionController::TestCase
     put :update, :form_id => @form.id, :id => @filled_form.to_param,
       :filled_fields => fields
     #assert_response :success
-    assert_redirected_to edit_form_fill_path(assigns(:form), assigns(:filled_form))
+    assert_redirected_to form_fills_path(assigns(:form))
   end
 
   test "should destroy filled_form" do
