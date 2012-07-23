@@ -1826,8 +1826,15 @@ table.index td, table.index th {
     width: 20px;
     }
 
-div.actions {
+.actions {
   margin-top: 20px;
+  }
+ol.actions {
+  padding-left: 0px;
+  }
+  ol.actions li {
+    display: inline-block;
+    vertical-align: top;
   }
 
 .landing_content .sub_pages {
@@ -2217,6 +2224,10 @@ a.new_comment {
   padding-right: 30px;
   vertical-align: top;
   }
+  .filled_forms td.date {
+    color: #999;
+    font-weight: normal;
+  }
   .filled_forms > tr > td, .filled_forms > tbody > tr > td {
     padding-bottom: 10px;
     }
@@ -2260,10 +2271,27 @@ a.new_comment {
   margin: 0px;
   padding: 0px;
   }
-
-.actions.paypal-ish form {
-  display: inline-block;
-}
+  
+.edit_payment {
+  position: relative;
+  }
+  .edit_payment #busy_overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #ccc;
+    opacity: 0.8;
+    }
+    .edit_payment #busy_overlay .processing {
+      text-align: center;
+      width: 20%;
+      margin: 80px auto;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
   
 .fields {
   list-style: none;
@@ -2283,7 +2311,7 @@ a.new_comment {
     }
 .payment_method_instructions {
   /*display: inline-block;*/
-  margin: 20px 28px;
+  margin: 20px 0px;
 }
   
 .timestamp {

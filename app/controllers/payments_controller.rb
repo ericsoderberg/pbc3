@@ -151,9 +151,7 @@ class PaymentsController < ApplicationController
 
   def update
     @payment = Payment.find(params[:id])
-    logger.info("!!! A");
     return unless payment_authorized!
-    logger.info("!!! B");
     parse_date
     strip_admin_params unless current_user and current_user.administrator?
     if params[:filled_form_ids]
@@ -163,7 +161,6 @@ class PaymentsController < ApplicationController
         end
       end
     end
-    logger.info("!!! C");
 
     respond_to do |format|
       if @payment.update_attributes(params[:payment])
@@ -171,10 +168,12 @@ class PaymentsController < ApplicationController
               :verification_key => @payment.verification_key),
             :notice => 'Payment was successfully updated.') }
         format.xml  { head :ok }
+        format.js  { render :nothing => true}
       else
         @filled_forms = FilledForm.possible_for_payment(@payment)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
+        format.js  { render :nothing => true}
       end
     end
   end

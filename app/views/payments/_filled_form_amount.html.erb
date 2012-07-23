@@ -1,6 +1,8 @@
-$<%= filled_form.payable_amount %>
 <% payable_fields = filled_form.payable_fields -%>
 <% if payable_fields.length == 1 -%>
+  <% if 'count' == payable_fields.first.form_field.field_type -%>
+    <%= payable_fields.first.value %>
+  <% end -%>
   <%= payable_fields.first.form_field.name %>
 <% elsif payable_fields.length > 1 -%>
   <table class="payment_fields">

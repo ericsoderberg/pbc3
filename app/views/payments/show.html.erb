@@ -41,20 +41,12 @@
       <li>
         <label>Method</label>
         <%= @payment.attributes['method'] %>
-        <% case @payment.attributes['method'] -%>
-        <% when 'check' -%>
-          <span class="help">(checkbook or online banking)</span>
-        <% when 'PayPal' -%>
-          <span class="help">(PayPal account or credit card)</span>
-        <% end -%>
         <% if @payment.received_amount <= 0 -%>
         <div class="payment_method_instructions">
         <% case @payment.attributes['method'] -%>
         <% when 'check' -%>
           Send to:
           <pre><%= @site.check_address %></pre>
-        <% when 'PayPal' -%>
-          <%= render :partial => 'paypal' %>
         <% end -%>
         </div>
         <% end -%>

@@ -1,0 +1,100 @@
+<%= form_for(@payment) do |f| %>
+  <div id="busy_overlay" style="display:none">
+    <div class="processing">Processing ...</div>
+  </div>
+  <% if @payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+
+      <ul>
+      <% @payment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% if @form -%>
+    <%= hidden_field_tag :form_id, @form.id %>
+  <% end -%>
+  <% if @filled_form_key -%>
+    <%= hidden_field_tag :filled_form_key, @filled_form_key %>
+  <% end -%>
+  <%= hidden_field_tag :verification_key, @payment.verification_key %>
+  
+  <p>We offer multiple methods of payment. You may send us a check, via your checkbook or an online transaction from your bank, or use PayPal.</p>
+
+  <%= render :partial => 'filled_forms' %>
+  
+  <%= f.hidden_field :sent_at,
+    :value => (@payment.sent_at ?
+      l(@payment.sent_at.to_date()) : l(Date.today)) %>
+
+  <div class="help">Note: Using your bank's online banking to send a check reduces our costs.</div>
+
+  <ol class="actions">
+    <li>
+      <%= f.submit 'Pay by check' %>
+      <div class="payment_method_instructions">
+        Send check to:
+        <pre><%= @site.check_address %></pre>
+      </div>
+    </li>
+    <li class="unstyled">
+      <input id="choose_paypal" type="image" name="paypal" border="0"
+        src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"
+        alt="PayPal">
+    </li>
+    <% if @filled_form -%>
+      <li>
+      <% if current_user -%>
+        <%= link_to 'Cancel',
+          edit_form_fill_path(@filled_form.form, @filled_form) %>
+      <% else -%>
+        <%= link_to 'Cancel',
+          form_fill_path(@filled_form.form, @filled_form,
+              {:filled_form_key => @filled_form_key}),
+          :confirm => 'Are you sure?', :method => :delete %>
+      <% end -%>
+      </li>
+    <% end -%>
+    <% if current_user and current_user.administrator? and @payment.id -%>
+      <li>
+        | <%= link_to 'Delete payment record', @payment,
+          :confirm => 'Are you sure?', :method => :delete %>
+      </li>
+    <% end -%>
+  </ol>
+    
+<% end %>
+
+<%= form_for(@payment, :remote => true,
+  :html => {:id => 'denote_paypal', :style => 'display:none'}) do |f| %>
+  <%= f.hidden_field :method, :value => 'PayPal' %>
+  <%= f.hidden_field :sent_at, :value => l(Date.today) %>
+  <%= hidden_field_tag :verification_key, @payment.verification_key %>
+<% end %>
+
+<form id="paypal_form" method="post" style="display:none"
+  action="<%= Configuration.paypal_url %>">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="<%= @site.paypal_business %>">
+  <input type="hidden" name="item_name" value="<%= @payment.name %>">
+  <input type="hidden" name="amount"  value="<%= @payment.amount %>">
+  <input type="hidden" name="currency_code" value="USD">
+  <input type="hidden" name="shipping" value="0.00">
+  <input type="hidden" name="no_shipping" value="1">
+  <input type="hidden" name="no_note" value="1">
+  <input type="hidden" name="invoice"  value="<%= @payment.id %>">
+  <input id="notify_url" name="notify_url" type="hidden"
+    value="<%= notify_payment_url(@payment) %>" />
+  <input id="cancel_return" name="cancel_return" type="hidden"
+    value="<%= payment_url(@payment) %>" />
+  <input id="return" name="return" type="hidden"
+    value="<%= payment_url(@payment) %>" />
+  <input type="hidden" name="Submit" value="Pay with Paypal">
+  <input type="image" name="submit" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" alt="PayPal - The safer, easier way to pay online">
+</form>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'form_aids.js' -%>
+<% end %>

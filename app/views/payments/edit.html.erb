@@ -8,4 +8,9 @@
 
 <h1>Payment</h1>
 
-<%= render 'form' %>
+<% if @filled_form and @filled_form.form.payable? and
+  'pending' == @payment.state -%>
+  <%= render 'pay' %>
+<% else -%>
+  <%= render 'form' %>
+<% end -%>

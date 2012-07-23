@@ -10,12 +10,17 @@ $(function() {
       $('#hidden_payment_amount').val(amount - change);
     }
   });
-  $('input[name="payment[method]"]').change(function () {
-    var method = $(this).val().toLowerCase();
-    $('.check-ish, .paypal-ish').hide();
-    $('.' + method + '-ish').show();
+  $('#choose_paypal').click(function (ev) {
+    $('#busy_overlay').show();
+    $("#denote_paypal").
+      bind("ajax:success", function() {
+        // submit to paypal
+        $('#paypal_form').submit();
+      }).
+      submit();
+    ev.preventDefault();
   });
-  var method = $('input[name="payment[method]"]:checked').val().toLowerCase();
-  $('.check-ish, .paypal-ish').hide();
-  $('.' + method + '-ish').show();
+  $('#payment_submit').click(function () {
+    $('#busy_overlay').show();
+  });
 });

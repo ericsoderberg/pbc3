@@ -4,7 +4,8 @@
   <tr>
     <td><%= check_box_tag 'filled_form_ids[]', filled_form.id,
       @payment.filled_forms.include?(filled_form),
-      'data-amount' => amount %></td>
+      {'data-amount' => amount, :disabled => (@filled_forms.length == 1)} %></td>
+    <td>$<%= amount %></td>
     <td>
       <%= render :partial => 'filled_form_amount',
         :locals => {:filled_form => filled_form }%>
@@ -12,7 +13,7 @@
     <td><%= link_to filled_form.name,
       edit_form_fill_path(filled_form.form, filled_form,
         {:filled_form_key => filled_form.verification_key}) %></td>
-    <td><%= l(filled_form.created_at.to_date, :format => :medium) %></td>
+    <td class="date"><%= l(filled_form.created_at.to_date, :format => :medium) %></td>
     <td><%= filled_form.form.name %></td>
     <td><%= link_to filled_form.form.page.name,
       friendly_page_path(filled_form.form.page) %></td>

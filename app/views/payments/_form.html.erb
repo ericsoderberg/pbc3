@@ -1,5 +1,3 @@
-<p>We offer multiple methods of payment. You may send us a check, via your checkbook or an online transaction from your bank, or use PayPal.</p>
-
 <%= form_for(@payment) do |f| %>
   <% if @payment.errors.any? %>
     <div id="error_explanation">
@@ -31,9 +29,11 @@
         <%= hidden_field_tag 'payment[amount]', @payment.amount.to_s,
           :id => 'hidden_payment_amount' %>
       </div>
-      <%= f.hidden_field :sent_at,
-        :value => (@payment.sent_at ?
-          l(@payment.sent_at.to_date()) : l(Date.today)) %>
+      <div class="field">
+        <%= f.label :sent_at %>
+        <div><%= (@payment.sent_at ?
+            l(@payment.sent_at.to_date()) : l(Date.today)) %></div>
+      </div>
       <div class="field">
         <%= f.label :method %>
         <ul class="payment_methods">
@@ -42,23 +42,10 @@
               <%= f.radio_button :method, method %>
               <label class="value" for="payment_method_<%= method.downcase %>">
                 <%= method %>
-                <% if method == 'check' -%>
-                  <span class="help">(checkbook or online banking)</span>
-                <% end -%>
-                <% if method == 'PayPal' -%>
-                  <span class="help">(PayPal account or credit card)</span>
-                <% end -%>
               </label>
             </li>
           <% end -%>
         </ul>
-      </div>
-      <div class="payment_method_instructions">
-        <div class="paypal-ish help">Note: Using your bank's online banking to send a check costs us less than using PayPal.</div>
-        <div class="check-ish">
-          Send to:
-          <pre><%= @site.check_address %></pre>
-        </div>
       </div>
     </section>
     
@@ -88,8 +75,8 @@
     <% end -%>
   </div>
   
-  <div class="actions check-ish">
-    <%= f.submit (@payment.state != 'pending' ? 'Update' : 'Submit') %>
+  <div class="actions">
+    <%= f.submit 'Update' %>
     <% if @filled_form -%>
       <% if current_user -%>
         | <%= link_to 'Cancel',
@@ -107,22 +94,6 @@
     <% end -%>
   </div>
 <% end %>
-
-<div class="actions paypal-ish">
-  <% if @payment.id -%>
-    <%= render :partial => 'paypal' %>
-  <% end -%>
-  <% if @filled_form -%>
-  | <%= link_to 'Cancel',
-    form_fill_path(@filled_form.form, @filled_form,
-        {:filled_form_key => @filled_form_key}),
-    :confirm => 'Cancel your request?', :method => :delete %>
-  <% end -%>
-  <% if current_user and current_user.administrator? and @payment.id -%>
-    | <%= link_to 'Delete payment record', @payment,
-      :confirm => 'Are you sure?', :method => :delete %>
-  <% end -%>
-</div>
 
 <%= javascript_tag do %>
   <%= render :partial => 'form_aids.js' -%>
