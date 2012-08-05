@@ -2172,6 +2172,9 @@ a.new_comment {
 			font-weight: bold;
 			min-width: 150px;
 			}
+		h2.form_field_name {
+		  font-size: 18px;
+		}
 		.form_field_value {
 		  display: inline-block;
 		  }

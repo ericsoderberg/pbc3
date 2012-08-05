@@ -7,9 +7,16 @@
     html_id = "filled_fields[#{fill_form_field.id}][value]" -%>
   
   <% unless fill_form_field.dense? -%>
-  <div class="form_field_name">
-    <%= fill_form_field.name %>
-  </div>
+    <% if FormField::INSTRUCTIONS == fill_form_field.field_type and
+        fill_form_field.help.empty? -%>
+      <h2 class="form_field_name">
+        <%= fill_form_field.name %>
+      </h2>
+    <% else -%>
+      <div class="form_field_name">
+        <%= fill_form_field.name %>
+      </div>
+    <% end -%>
   <% end -%>
   
   <div class="form_field_value">
