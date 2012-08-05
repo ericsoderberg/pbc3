@@ -2028,6 +2028,9 @@ a.new_comment {
 	  min-width: 150px;
 	  cursor: move;
 	}
+	h2.dynamic_form_field_name {
+	  font-size: 18px;
+	}
 	div.form_field {
 		display: table;
 		}
