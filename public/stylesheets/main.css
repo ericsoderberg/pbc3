@@ -741,10 +741,14 @@ fieldset {
 .field aside {
   float: right;
 }
-.field label, .edit_options label {
+.field label {
   display: inline-block;
   width: 180px;
   }
+  .edit_options label {
+    display: inline-block;
+    width: auto;
+    }
   .field label.inline {
     width: auto;
     min-width: 100px;
@@ -2070,6 +2074,7 @@ a.new_comment {
 .form_field_option.editing {
 	background-color: #eeeeee;
 	padding: 20px;
+	clear: both;
 	}
 	.form_field_option.editing .field {
 		vertical-align: top;
