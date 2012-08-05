@@ -28,6 +28,9 @@ Pbc3::Application.routes.draw do
       end
       resources :fields, :controller => 'form_fields',
         :except => [:index, :new] do
+        member do
+          post 'copy'
+        end
         resources :options, :controller => 'form_field_options',
           :except => [:index, :new]
       end

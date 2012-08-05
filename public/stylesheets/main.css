@@ -2046,6 +2046,7 @@ a.new_comment {
 	}
 	.dynamic_form_field_admin a {
 		color: #bbb;
+		margin-left: 5px;
 		}
 		.dynamic_form_field_admin a:hover {
 			color: #333;

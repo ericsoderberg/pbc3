@@ -57,6 +57,23 @@ class FormFieldsController < ApplicationController
       end
     end
   end
+  
+  def copy
+    source_form_field = @form.form_fields.find(params[:id])
+    @form_field = @form.form_fields.new
+    @form_field.form = @form
+    @form_field.copy(source_form_field)
+
+    respond_to do |format|
+      if @form_field.update_attributes(params[:form_field])
+        format.html { redirect_to(@form_field, :notice => 'Form field was successfully updated.') }
+        format.js
+      else
+        format.html { render :action => "edit" }
+        format.js  { render :action => "edit" }
+      end
+    end
+  end
 
   # DELETE /form_fields/1
   # DELETE /form_fields/1.xml
