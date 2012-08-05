@@ -757,7 +757,7 @@ fieldset {
 #dynamic_form_fields li.form_field.editing div.form_field .field label {
   width: auto;
 }
-.help {
+.help, .option_help, .form_field_help {
   color: #999999;
   font-style: italic;
   }
@@ -2193,6 +2193,7 @@ a.new_comment {
 			}
 		.form_field.instructions .form_field_help {
 		  font-style: normal;
+		  color: inherit;
 		  }
 		.options_list {
 			display: inline-block;
