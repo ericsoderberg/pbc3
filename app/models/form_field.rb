@@ -13,7 +13,7 @@ class FormField < ActiveRecord::Base
   TYPES = [FIELD, AREA, SINGLE_CHOICE, MULTIPLE_CHOICE, COUNT, INSTRUCTIONS]
   
   validates :form, :presence => true
-  validates :name, :presence => true, :uniqueness => {:scope => :form_id}
+  validates :name, :presence => true #, :uniqueness => {:scope => :form_id}
   validates :field_type, :presence => true,
     :inclusion => { :in => FormField::TYPES }
   
