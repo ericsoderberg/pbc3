@@ -54,11 +54,14 @@ Events
 
 <% @newsletter.events.each do |event| -%>
   <% if event != @featured_event -%>
-    <% contextual_times(event).each do |timestamp| -%>
-<%= timestamp -%>
-    <% end -%>
+    <% timestamp = contextual_times(event).first -%>
+<%= timestamp %>
+  <% if event.name != event.page.name -%>
+  <%= event.top_context -%> - <%= event.name %>
+  <% else -%>
   <%= event.name %>
-  <% if event.location -%>
+  <% end -%>
+  <% if event.location and not event.location.empty? -%>
     <%= event.location %>
   <% end -%>
     <%= event.notes %>
