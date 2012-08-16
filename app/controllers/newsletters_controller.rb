@@ -81,7 +81,8 @@ class NewslettersController < ApplicationController
   def deliver
     @newsletter = Newsletter.find_by_published_at(params[:id])
     @email = params[:email]
-    NewsletterMailer.newsletter_email(@newsletter, @email).deliver
+    @route_prefix = request.protocol + request.host_with_port
+    NewsletterMailer.newsletter_email(@newsletter, @email, @route_prefix).deliver
     @newsletter.sent_to = @email
     @newsletter.sent_at = Time.now
     @newsletter.save

@@ -2,8 +2,9 @@ class NewsletterMailer < ActionMailer::Base
   
   helper EventsHelper
   
-  def newsletter_email(newsletter, email)
+  def newsletter_email(newsletter, email, route_prefix)
     @newsletter = newsletter
+    @route_prefix = route_prefix
     @title = @newsletter.name + ' - ' + @newsletter.published_at.relative_str(true)
     @previous_newsletter = @newsletter.previous
     @next_newsletter = @newsletter.next

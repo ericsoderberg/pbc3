@@ -24,7 +24,7 @@ Messages
     <%= @previous_message.author.name %>
     <% @previous_message.message_files.each do |message_file| -%>
       <% next unless message_file.file.content_type -%>
-    <%= message_file.caption %>: <%= @route_prefix %><%= message_file.file.url %>
+    <%= (message_file.caption and not message_file.caption.empty?) ? message_file.caption : message_file.file.content_type.split('/')[0] %>: <%= @route_prefix %><%= message_file.file.url %>
     <% end -%>
 <% end -%>
 

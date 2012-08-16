@@ -2,7 +2,7 @@
 padding: 0px;
 width: 600px;
 background: #f8f8f8;">
-  <header style="position: relative;
+  <div style="position: relative;
   padding: 15px 20px;
   height: 28px;
   line-height: 28px;
@@ -16,7 +16,7 @@ background: #f8f8f8;">
 	  font-weight: bold;
 	  color: #eee;
     font-size: 28px;
-    line-height: inherit;"><%= link_to @newsletter.name, newsletter_path(@newsletter), :style => "text-align: center;
+    line-height: inherit;"><%= link_to @newsletter.name, newsletter_url(@newsletter), :style => "text-align: center;
     font-size: inherit;
     text-decoration: none;
     font-weight: bold;
@@ -25,7 +25,7 @@ background: #f8f8f8;">
     top: 15px;
     right: 20px;">
       <%= link_to @newsletter.published_at.relative_str(true),
-        newsletter_path(@newsletter), :style => "text-align: center;
+        newsletter_url(@newsletter), :style => "text-align: center;
         font-size: 18px;
         text-decoration: none;
         font-weight: bold;
@@ -33,16 +33,16 @@ background: #f8f8f8;">
     </span>
     
     <%= yield(:admin) %>
-  </header>
+  </div>
   
   <% if @newsletter.note and not @newsletter.note.empty? -%>
-  <section id="note" class="focus"
+  <div id="note" class="focus"
     style="padding: 20px; background-color: #fff;">
     <%= raw @newsletter.note %>
-  </section>
+  </div>
   <% end -%>
 
-  <section id="messages" class="<%= @focus_messages ? 'focus' : '' %>"
+  <div id="messages" class="<%= @focus_messages ? 'focus' : '' %>"
     style="padding: 20px 20px 10px 20px; <%= @focus_messages ? 'background-color: #fff;' : '' %>">
     <h2 style="font-size: 18px;
     color: #777;
@@ -58,12 +58,12 @@ background: #f8f8f8;">
       <%= render :partial => 'newsletter_mailer/message',
         :locals => {:message => @previous_message} %>
     <% end -%>
-  </section>
+  </div>
 
   <% if @featured_page -%>
-  <section id="feature" class="focus <%= @featured_event ? 'featured_event' : 'featured_page' %>" style="padding: 30px 20px; background-color: #fff;">
+  <div id="feature" class="focus <%= @featured_event ? 'featured_event' : 'featured_page' %>" style="padding: 30px 20px; background-color: #fff;">
     <div id="banner" style="padding: 0px;">
-      <%= image_tag @featured_page.style.banner.url(:normal), :style => 'width: 560px; height: 140px;', :alt => @featured_page.name %>
+      <%= image_tag (@route_prefix + @featured_page.style.banner.url(:normal)), :style => 'width: 560px; height: 140px;', :alt => @featured_page.name %>
     </div>
 
     <% if @featured_event -%>
@@ -81,7 +81,7 @@ background: #f8f8f8;">
           <%= raw timestamp.sub(' - ', ' -<br/>') %>
         </span>
       <% end -%>
-      <%= link_to @featured_event.name, friendly_page_path(@featured_page),
+      <%= link_to @featured_event.name, friendly_page_url(@featured_page),
         :style => 'font-size: 18px; vertical-align: top;
         display: block;
         margin-left: 200px; text-decoration: none;
@@ -90,7 +90,7 @@ background: #f8f8f8;">
     </h3>
     <% else -%>
     <h3>
-      <%= link_to @featured_page.name, friendly_page_path(@featured_page),
+      <%= link_to @featured_page.name, friendly_page_url(@featured_page),
         :style => 'font-size: 18px; vertical-align: top;
         display: block;
         margin-left: 200px; text-decoration: none;
@@ -111,11 +111,11 @@ background: #f8f8f8;">
       </div>
     <% end -%>
 
-  </section>
+  </div>
   <% end -%>
 
   <% unless @newsletter.events.empty? -%>
-  <section id="events" style="margin: 0px;
+  <div id="events" style="margin: 0px;
   padding: 20px 20px 10px 20px;">
     <h2 style="font-size: 18px;
     color: #777;
@@ -133,10 +133,10 @@ background: #f8f8f8;">
       <% end -%>
     <% end -%>
     </ul>
-  </section>
+  </div>
   <% end -%>
 
-  <footer style="color: #ddd; font-size: 12px; padding: 10px 20px; <%= raw @header_css %>">
+  <div style="color: #ddd; font-size: 12px; padding: 10px 20px; <%= raw @header_css %>">
     <% if @site -%>
       <%= link_to @site.title, root_path, :style => 'text-decoration: none;
   	  color: #f8f8f8; display: inline-block;
@@ -153,5 +153,5 @@ background: #f8f8f8;">
         :id => 'unsubscribe', :style => 'text-decoration: none;
     	  color: #f8f8f8; float: right;' %>
     <% end -%>
-  </footer>
+  </div>
 </div>

@@ -20,7 +20,7 @@ margin-bottom: 20px; <%= (event.page.style ?
       <%= event.top_context %>
     </div>
   <% end -%>
-  <%= link_to event.name, friendly_page_path(event.page),
+  <%= link_to event.name, friendly_page_url(event.page),
     :style => 'text-decoration: none;
     color: #0b6199;
     font-size: 14px;
