@@ -4,16 +4,15 @@ margin-bottom: 20px; <%= (event.page.style ?
     "border-left: 10px solid ##{event.page.style.feature_color.to_s(16)}" :
     'border-left: 10px solid transparent') %>">
   
-  <% contextual_times(event).each do |timestamp| -%>
-    <div class="event_range" style="position: absolute;
-    left: 10px;
-    top: 0px;
-    color: #777;
-    width: 200px;
-    font-size: 14px;">
-      <%= raw timestamp.sub(' - ', ' -<br/>') %>
-    </div>
-  <% end -%>
+  <% timestamp = contextual_times(event).first -%>
+  <div class="event_range" style="position: absolute;
+  left: 10px;
+  top: 0px;
+  color: #777;
+  width: 200px;
+  font-size: 14px;">
+    <%= raw timestamp.sub(' - ', ' -<br/>') %>
+  </div>
   
   <%= link_to event.name, friendly_page_path(event.page),
     :style => 'margin-left: 210px; text-decoration: none;
