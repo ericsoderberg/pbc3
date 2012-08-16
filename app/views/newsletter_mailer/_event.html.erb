@@ -11,7 +11,7 @@ margin-bottom: 20px; <%= (event.page.style ?
     color: #777;
     width: 200px;
     font-size: 14px;">
-      <%= timestamp %>
+      <%= raw timestamp.sub(' - ', ' -<br/>') %>
     </div>
   <% end -%>
   
@@ -22,7 +22,7 @@ margin-bottom: 20px; <%= (event.page.style ?
     font-weight: bold;'%>
   
   <% if event.location and ! event.location.empty? -%>
-    <div class="event_location">
+    <div class="event_location" style="margin-left: 210px; color: #777;">
       <%= h event.location %>
     </div>
   <% end -%>

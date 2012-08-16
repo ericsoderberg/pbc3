@@ -43,7 +43,7 @@ background: #f8f8f8;">
   <% end -%>
 
   <section id="messages" class="<%= @focus_messages ? 'focus' : '' %>"
-    style="padding: 20px 20px 10px 20px;">
+    style="padding: 20px 20px 10px 20px; <%= @focus_messages ? 'background-color: #fff;' : '' %>">
     <h2 style="font-size: 18px;
     color: #777;
     margin: 0px;
@@ -78,7 +78,7 @@ background: #f8f8f8;">
         font-weight: normal;
         width: 200px;
         color: #777;">
-          <%= timestamp %>
+          <%= raw timestamp.sub(' - ', ' -<br/>') %>
         </span>
       <% end -%>
       <%= link_to @featured_event.name, friendly_page_path(@featured_page),

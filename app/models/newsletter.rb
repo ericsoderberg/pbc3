@@ -9,6 +9,10 @@ class Newsletter < ActiveRecord::Base
     published_at.strftime("%Y-%m-%d")
   end
   
+  def full_name
+    name + ' - ' + published_at.relative_str(true)
+  end
+  
   def events
     Event.masters.between(published_at, published_at + 1.month);
   end

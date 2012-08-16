@@ -13,7 +13,7 @@
     <% rows.each do |row| -%>
       <tr>
       <% row.each do |newsletter| -%>
-        <td><%= link_to l(newsletter.published_at, :format => :medium),
+        <td><%= link_to newsletter.full_name,
           newsletter_path(newsletter) %></td>
       <% end -%>
       </tr>

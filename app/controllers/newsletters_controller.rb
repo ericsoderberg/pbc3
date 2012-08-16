@@ -24,7 +24,7 @@ class NewslettersController < ApplicationController
     @next_message = @newsletter.next_message
     @previous_message = @newsletter.previous_message
     @focus_messages = ((not @newsletter.note or @newsletter.note.empty?) and not @featured_page)
-    @header_css = ((@featured_page && @featured_page.style) ? @featured_page.style.css : '')
+    @header_css = ((@featured_page && @featured_page.style) ? @featured_page.style.css : 'background-color: #666;')
     @mode = params[:mode] || 'html'
     @route_prefix = request.protocol + request.host_with_port
 
