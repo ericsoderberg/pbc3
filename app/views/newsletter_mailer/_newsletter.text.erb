@@ -1,8 +1,10 @@
 <%= @title %>
 <%= '=' * @title.length %>
- 
+
+<% if @newsletter.note and not @newsletter.note.empty? -%>
 <%= raw @newsletter.note %>
 
+<% end -%>
 Messages
 ========
 
@@ -15,8 +17,8 @@ Messages
       <% next unless message_file.file.content_type -%>
     <%= message_file.caption %>: <%= @route_prefix %><%= message_file.file.url %>
     <% end -%>
+    
 <% end -%>
-
 <% if @previous_message -%>
 <%= @previous_message.date.relative_str(false) -%>
   <%= @previous_message.title %>
