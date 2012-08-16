@@ -1,0 +1,54 @@
+<div class="message" style="margin-bottom: 20px;">
+  <div class="message_date" style="display: block;
+  float: left;
+  color: #777;
+  width: 200px;
+  margin-right: 0px;
+  min-height: 60px;
+  font-size: 14px;">
+    <%= message.date.event_date %>
+  </div>
+  <div class="message_title" style="width: 360px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;">
+    <%= link_to message.title, message_path(message),
+    :style => 'text-decoration: none;
+    color: #0b6199;
+    font-size: 14px;
+    font-weight: bold;' %></div>
+  <div class="message_verses" style="display: inline-block;
+    margin-right: -4px; color: #666;
+    margin-right: 20px;"><%= message.verses %></div>
+  <div class="message_author" style="display: inline-block;
+    margin-right: -4px;">
+    <% if message.author -%>
+      <%= link_to message.author.name, author_path(message.author), :style => 'margin-right: 20px; text-decoration: none;
+      color: #0b6199;' %>
+    <% end -%>
+  </div>
+  <% unless message.message_files.empty? -%>
+    <ul class="message_files" style="margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    display: inline-block;
+    margin-right: -4px;">
+      <% message.message_files.each do |message_file| -%>
+        <% next unless message_file.file.content_type -%>
+        <li style="display: inline-block;">
+          <% if message_file.audio? -%>
+            <%= link_to image_tag('audio.png', :size => '16x16'),
+              message_file.file.url, :style => 'position: relative;
+              top: 3px;' %>
+          <% else -%>
+            <%= link_to image_tag('document.png', :size => '16x16'),
+              message_file.file.url, :style => 'position: relative;
+              top: 3px;' %>
+          <% end -%>
+          <%= link_to message_file.caption, message_file.file.url,
+            :style => 'text-decoration: none;
+            color: #0b6199;'%>
+        </li>
+      <% end -%>
+    </ul>
+  <% end -%>
+</div>

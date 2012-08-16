@@ -18,6 +18,10 @@ class Time
       strftime("%Y %b ") + mday.ordinalize
     end
   end
+  
+  def event_date
+    strftime("%A") + " %d/%d" % [mon, day]
+  end
 
 end
 
@@ -32,6 +36,13 @@ class Date
     strptime(str, FORM_YEAR_FORMAT)
   end
   
+  def relative_str(show_year=false)
+    if not show_year and self.year == Date.today.year
+      strftime("%B ") + mday.ordinalize
+    else
+      strftime("%B ") + mday.ordinalize + strftime(" %Y")
+    end
+  end
 end
 
 

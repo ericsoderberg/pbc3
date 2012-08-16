@@ -1,10 +1,33 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :get_page
+  before_filter :get_page, :except => :search
   before_filter :page_administrator!
   
   def index
     redirect_to new_page_event_url(@page)
+  end
+  
+  def search
+    result_page_size = params[:s].to_i
+    result_page = params[:p].to_i
+    filtered_events = Event.where("events.name ILIKE ?", (params[:q] || '') + '%')
+    if params[:date]
+      date = Time.parse(params[:date])
+      filtered_events = filtered_events.
+        where('events.start_at >= ? AND events.stop_at <= ?',
+          date, date + 1.month)
+    end
+    ordered_events = filtered_events.order('events.name ASC')
+    @events = ordered_events.offset((result_page - 1) * result_page_size).
+      limit(result_page_size)
+    total = filtered_events.count
+    
+    respond_to do |format|
+      format.js { render :json => {:results =>
+        @events.map{|event| {:id => event.id, :name => event.name, :url => friendly_page_url(event.page)}},
+        :total => total}
+      }
+    end
   end
 
   def show

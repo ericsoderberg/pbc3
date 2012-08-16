@@ -1,7 +1,12 @@
 <% include_notes ||= false -%>
-<%= content_tag_for(:li, event) do %>
+<% no_name ||= false -%>
+<% stylize ||= false -%>
+<%= content_tag_for(:li, event,
+  :style => (stylize and event.page.style ?
+    "border-left: 10px solid ##{event.page.style.feature_color.to_s(16)}" :
+    'border-left: 10px solid transparent')) do %>
   
-  <% if user_signed_in? and current_user.administrator? -%>
+  <% if @page and user_signed_in? and current_user.administrator? -%>
     <% best_event = event.best_replica(@page.events) -%>
     <div class="page_admin">
       <ul>
@@ -37,7 +42,7 @@
       <%= h event.notes %>
     </div>
   <% end -%>
-  <% if user_signed_in? and current_user.administrator? and
+  <% if @page and user_signed_in? and current_user.administrator? and
     not event.invitations.empty? -%>
     <div class="event_invitations">
       <%= link_to "invitations (#{event.invitations.where('response = ?', 'yes').count}/#{event.invitations.count})",

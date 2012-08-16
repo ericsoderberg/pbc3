@@ -90,11 +90,17 @@ Pbc3::Application.routes.draw do
   get "resources/:resource_id/calendar/day", :controller => 'calendar',
     :action => 'day', :as => 'resource_calendar_day'
   get "search", :to => "search#search"
+  get "search_events", :controller => 'events', :action => 'search'
 
   root :to => "home#index"
 
   resources :styles
   resources :resources
+  resources :newsletters do
+    member do
+      post :deliver
+    end
+  end
   
   match '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'
   match '/library/sermons.rss' => redirect('/messages.rss')

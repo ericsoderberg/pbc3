@@ -6,6 +6,8 @@
   <ul class="nav">
     <li class="<%= @users ? 'active' : '' %>">
       <%= link_to 'Accounts', accounts_path %></li>
+    <li class="<%= @newsletters ? 'active' : '' %>">
+      <%= link_to 'Newsletters', newsletters_path %></li>
     <li class="<%= @pages ? 'active' : '' %>">
       <%= link_to 'Pages', pages_path %></li>
     <li class="<%= @email_lists ? 'active' : '' %>">

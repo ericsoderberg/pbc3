@@ -1,0 +1,56 @@
+<% title @title -%>
+
+<% if user_signed_in? and current_user.administrator? -%>
+  <% content_for :admin do -%>
+  <div class="page_admin">
+    <ul>
+      <li>
+        <% if @previous_newsletter -%>
+        <%= link_to '<', newsletter_path(@previous_newsletter) %>
+        <% else -%>
+        &lt;
+        <% end -%>
+        <%= link_to 'all', newsletters_path %>
+        <% if @next_newsletter -%>
+        <%= link_to '>', newsletter_path(@next_newsletter) %>
+        <% else -%>
+        &gt;
+        <% end -%>
+      </li>
+      <li><%= link_to 'html', newsletter_path(@newletter) %> |
+        <%= link_to 'text', newsletter_path(@newsletter, :mode => 'text') %>
+      </li>
+      <li><%= link_to 'Edit',
+        edit_newsletter_path(@newsletter) %></li>
+      <li>
+        <%= form_tag deliver_newsletter_path(@newsletter) do %>
+          <input placeholder="email address" size="30" name="email"
+            value="<%= @newsletter.email_list + @site.email_domain %>"/>
+          <input type="submit" value="Send"/>
+        <% end %>
+      </li>
+      <% if @newsletter.sent_at -%>
+        <li class="status">Sent to: <%= @newsletter.sent_to %><br/>
+          at: <%= @newsletter.sent_at.relative_str %>
+          <%= @newsletter.sent_at.simple_time %>
+        </li>
+      <% end -%>
+    </ul>
+  </div>
+  <% end -%>
+<% end -%>
+
+<% if 'html' == @mode -%>
+<%= render 'newsletter_mailer/newsletter' %>
+<% else -%>
+<div id="newsletter" style="position: relative;
+margin: 20px auto;
+padding: 10px 20px;
+width: 560px;
+background: #fff;">
+  <%= yield(:admin) %>
+  <pre>
+<%= render 'newsletter_mailer/newsletter.text' %>
+  </pre>
+</div>
+<% end -%>

@@ -1,0 +1,56 @@
+<%= form_for(@newsletter) do |f| %>
+  <% if @newsletter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@newsletter.errors.count, "error") %> prohibited this newsletter from being saved:</h2>
+
+      <ul>
+      <% @newsletter.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :published_at %><br />
+    <%= f.text_field :published_at,
+      :value => l(@newsletter.published_at) %>
+  </div>
+  <div class="field">
+    <%= f.label :email_list %><br />
+    <div id="choose_email_list"></div>
+  </div>
+  <div class="field">
+    <%= f.label :featured_page %><br />
+    <div id="choose_page_id"></div>
+  </div>
+  <div class="field">
+    <%= f.label :featured_event %><br />
+    <div id="choose_event_id"></div>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br />
+    <%= f.text_area :note, :size => '60x4' %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+    <% if @newsletter.id -%>
+    | <%= link_to 'Cancel', newsletter_path(@newsletter) %>
+    <% else -%>
+    | <%= link_to 'Cancel', newsletters_path %>
+    <% end -%>
+    <% if @newsletter.id -%>
+    | <%= link_to 'Delete newsletter', @newsletter, :confirm => 'Are you sure?',
+        :method => :delete %>
+    <% end -%>
+  </div>
+<% end %>
+
+<%= javascript_tag do -%>
+  <%= render :partial => 'newsletters/form_aids.js' %>
+<% end -%>

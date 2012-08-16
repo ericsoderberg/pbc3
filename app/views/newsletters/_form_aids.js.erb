@@ -1,0 +1,45 @@
+// newsletter date picker
+$(function() {
+  $('#newsletter_published_at').datepicker({
+    americanMode: true,
+    changeYear: true
+  });
+  
+  var url = '<%= search_pages_path(:format => :js) %>';
+  var displayValue = '<%= @newsletter.featured_page ? escape_javascript(@newsletter.featured_page.name) : '' %>';
+  var hiddenValue = '<%= @newsletter.featured_page ? @newsletter.featured_page.id : '' %>';
+  $('#choose_page_id').flexbox(url, {
+    initialDisplayValue: displayValue,
+    initialHiddenValue: hiddenValue,
+    width: 170,
+    maxCacheBytes: 0,
+    paging: {
+      pageSize: 5
+    }});
+  
+  url = '<%= search_events_path(:date => Date.today, :format => :js) %>';
+  displayValue = '<%= @newsletter.featured_event ? escape_javascript(@newsletter.featured_event.name) : '' %>';
+  hiddenValue = '<%= @newsletter.featured_event ? @newsletter.featured_event.id : '' %>';
+  $('#choose_event_id').flexbox(url, {
+    initialDisplayValue: displayValue,
+    initialHiddenValue: hiddenValue,
+    width: 170,
+    maxCacheBytes: 0,
+    paging: {
+      pageSize: 5
+    }});
+  
+  url = '<%= search_email_lists_path(:format => :js) %>';
+  initialValue = '<%= @newsletter.email_list || '' %>';
+  $('#choose_email_list').flexbox(url, {
+    hiddenValue: 'name',
+    initialDisplayValue: initialValue,
+    initialHiddenValue: initialValue,
+    width: 170,
+    queryDelay: 300,
+		maxCacheBytes: 0,
+    paging: {
+      pageSize: 5
+    }
+  });
+});

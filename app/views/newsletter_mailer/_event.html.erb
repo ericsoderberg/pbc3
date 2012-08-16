@@ -1,0 +1,34 @@
+<li style="position: relative;
+left: -20px;
+margin-bottom: 20px; <%= (event.page.style ?
+    "border-left: 10px solid ##{event.page.style.feature_color.to_s(16)}" :
+    'border-left: 10px solid transparent') %>">
+  
+  <% contextual_times(event).each do |timestamp| -%>
+    <div class="event_range" style="position: absolute;
+    left: 10px;
+    top: 0px;
+    color: #777;
+    width: 200px;
+    font-size: 14px;">
+      <%= timestamp %>
+    </div>
+  <% end -%>
+  
+  <%= link_to event.name, friendly_page_path(event.page),
+    :style => 'margin-left: 210px; text-decoration: none;
+    color: #0b6199;
+    font-size: 14px;
+    font-weight: bold;'%>
+  
+  <% if event.location and ! event.location.empty? -%>
+    <div class="event_location">
+      <%= h event.location %>
+    </div>
+  <% end -%>
+  <% if event.notes and ! event.notes.empty? -%>
+    <div class="event_notes" style="margin-left: 210px;">
+      <%= h event.notes %>
+    </div>
+  <% end -%>
+</li>

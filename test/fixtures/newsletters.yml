@@ -1,0 +1,15 @@
+old:
+  name: MyString
+  published_at: <%= 7.days.ago.to_s(:db) %>
+  featured_event: single
+  email_list: sli
+  note: MyText
+  sent_to: test@localhost.org
+  sent_at: <%= 7.days.ago.to_s(:db) %>
+
+new:
+  name: MyString
+  published_at: <%= 1.day.from_now.to_s(:db) %>
+  featured_event: single
+  email_list: sli
+  note: MyText

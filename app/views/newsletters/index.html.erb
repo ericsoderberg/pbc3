@@ -1,0 +1,23 @@
+<% title "Newsletters" -%>
+
+<section>
+  
+  <%= render :partial => 'site/header' %>
+  
+  <div class="add_content header_add_content">
+    <%= link_to 'Add Newsletter', new_newsletter_path %>
+  </div>
+  
+  <table id="newsletters" class="grid">
+    <% rows = array_to_rows(@newsletters) -%>
+    <% rows.each do |row| -%>
+      <tr>
+      <% row.each do |newsletter| -%>
+        <td><%= link_to l(newsletter.published_at, :format => :medium),
+          newsletter_path(newsletter) %></td>
+      <% end -%>
+      </tr>
+    <% end -%>
+  </table>
+
+</section>

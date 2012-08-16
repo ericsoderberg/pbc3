@@ -1,3 +1,4 @@
+<% event_date ||= false -%>
 <div class="message">
   <div class="message_date">
     <% if message.date.year != Date.today.year -%>
@@ -5,7 +6,11 @@
       <%= message.date.year -%>
     </div>
     <% end -%>
-    <%= message.date.relative_str(false) %>
+    <% if event_date -%>
+      <%= message.date.event_date %>
+    <% else -%>
+      <%= message.date.relative_str(false) %>
+    <% end -%>
   </div>
   <div class="message_title">
     <%= link_to message.title, message_path(message) %></div>

@@ -1,0 +1,77 @@
+<%= @title %>
+<%= '=' * @title.length %>
+ 
+<%= raw @newsletter.note %>
+
+Messages
+========
+
+<% if @next_message -%>
+<%= @next_message.date.relative_str(false) -%>
+  <%= @next_message.title %>
+    <%= @next_message.verses -%>
+    <%= @next_message.author.name %>
+    <% @next_message.message_files.each do |message_file| -%>
+      <% next unless message_file.file.content_type -%>
+    <%= message_file.caption %>: <%= @route_prefix %><%= message_file.file.url %>
+    <% end -%>
+<% end -%>
+
+<% if @previous_message -%>
+<%= @previous_message.date.relative_str(false) -%>
+  <%= @previous_message.title %>
+    <%= @previous_message.verses -%>
+    <%= @previous_message.author.name %>
+    <% @previous_message.message_files.each do |message_file| -%>
+      <% next unless message_file.file.content_type -%>
+    <%= message_file.caption %>: <%= @route_prefix %><%= message_file.file.url %>
+    <% end -%>
+<% end -%>
+
+<% if @featured_page -%>
+========
+
+  <% if @featured_event -%>
+    <% contextual_times(@featured_event).each do |timestamp| -%>
+<%= timestamp -%>
+    <% end -%>
+  <%= @featured_event.name %>
+  <% else -%>
+<%= @featured_page.name %>
+  <% end -%>
+  
+  <% if @featured_event -%>
+    <% if @featured_event.notes and ! @featured_event.notes.empty? -%>
+    <%= @featured_event.notes %>
+    <% end -%>
+  <% else -%>
+    <%= strip_tags @featured_page.text %>
+  <% end -%>
+<% end -%>
+
+Events
+======
+
+<% @newsletter.events.each do |event| -%>
+  <% if event != @featured_event -%>
+    <% contextual_times(event).each do |timestamp| -%>
+<%= timestamp -%>
+    <% end -%>
+  <%= event.name %>
+  <% if event.location -%>
+    <%= event.location %>
+  <% end -%>
+    <%= event.notes %>
+
+  <% end -%>
+<% end -%>
+
+<% if @site -%>
+<%= @site.title -%>
+  <%= raw @site.copyright %>
+<%= @site.address %>
+<% end -%>
+
+<% if @newsletter.email_list -%>
+To unsubscribe: <%= unsubscribe_email_list_url(@newsletter.email_list) %>
+<% end -%>

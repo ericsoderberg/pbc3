@@ -1,0 +1,336 @@
+/* Makeshift CSS Reset */
+{
+	margin: 0;
+	padding: 0;
+  }
+
+/* Tell the browser to render HTML 5 elements as block */
+header, footer, aside, nav, article, page {
+	display: block;
+  }
+  
+body {
+  margin: 0px;
+  padding: 0px 0px 40px 0px;
+  font: 14px/22px Arial, sans-serif;
+  background-color: #e4e3e1;
+}
+  
+.page_admin {
+  position: absolute;
+  width: 200px;
+  top: 0px;
+  left: 600px;
+  color: #666;
+  font-weight: bold;
+}
+.page_admin ul {
+  list-style-type: none;
+  margin: 0px;
+}
+.page_admin a {
+  color: #0b6199;
+  text-decoration: none;
+}
+.page_admin .status {
+  font-weight: normal;
+}
+/*
+div {
+  margin: 0;
+  padding: 0;
+  }
+
+body {
+  margin: 0px;
+  padding: 0px 0px 40px 0px;
+	font: 14px/22px Arial, sans-serif;
+	background-color: #e4e3e1;
+  }
+
+div#newsletter {
+  margin: 20px auto;
+  padding: 0px;
+	width: 600px;
+	background: #f8f8f8;
+  }
+  
+h1 {
+  font-size: 32px;
+  line-height: 44px;
+  padding: 0 0 8px 0;
+  }
+
+h2 {
+	font-size: 28px;
+	line-height: 28px;
+	margin: 15px 0;
+  }
+
+h3 {
+	font-size: 18px;
+	line-height: 22px;
+	margin: 15px 0;
+  }
+
+a {
+  text-decoration: none;
+  color: #0b6199;
+  font-size: 14px;
+  font-weight: bold;
+  }
+
+a:hover {
+  opacity: 0.5;
+  background-color: inherit;
+  }
+
+p {
+  margin: 0;
+	margin-bottom: 15px;
+  }
+
+img, a img {
+  border: none;
+}
+
+header, footer {
+  background-color: #666;
+  color: #ddd;
+  }
+  header a, footer a {
+    text-decoration: none;
+	  color: #f8f8f8;
+  }
+  header a:hover, footer a:hover {
+    text-decoration: none;
+    opacity: 1;
+	  color: #fff;
+  }
+footer {
+  font-size: 12px;
+  }
+  footer a {
+    font-weight: normal;
+    font-size: 12px;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+header {
+  position: relative;
+  padding: 15px 20px;
+  height: 28px;
+  line-height: 28px;
+  }
+  header h1 {
+    display: inline-block;
+    vertical-align: baseline;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 40px;
+    white-space: nowrap;
+	  font-weight: bold;
+	  color: #eee;
+    font-size: 28px;
+    line-height: inherit;
+    }
+  header h1 a {
+    text-align: center;
+    font-size: inherit;
+	  color: #eee;
+  }
+  header h1 a:hover {
+    opacity: 1;
+    color: #fff;
+  }
+  header .date {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
+  header .date a {
+    font-size: 18px;
+  }
+  header .page_admin {
+    position: absolute;
+    width: 200px;
+    top: 0px;
+    left: 600px;
+    color: #666;
+    font-weight: bold;
+  }
+  header .page_admin ul {
+    list-style-type: none;
+    margin: 0px;
+  }
+  header .page_admin a {
+    color: #0b6199;
+  }
+  
+.focus {
+  background-color: #fff;
+}
+
+#note {
+  padding: 20px;
+}
+
+#messages h2, #feature h2, #events h2 {
+  font-size: 18px;
+  color: #777;
+  margin: 0px;
+  margin-bottom: 10px;
+  }
+  #messages h2 a, #feature h2 a, #events h2 a {
+    font-size: 18px;
+    color: #777;
+  }
+  #messages h2 a:hover, #feature h2 a:hover, #events h2 a:hover {
+    color: #0b6199;
+  }
+
+#messages {
+  padding: 20px 20px 10px 20px;
+  }
+  #messages .message {
+    margin-bottom: 20px;
+  }
+  #messages .message > * {
+    display: inline-block;
+    margin-right: -4px;
+  }
+  #messages .empty_indicator {
+    display: none;
+  }
+  #messages .message_date {
+    display: block;
+    float: left;
+    color: #777;
+    width: 200px;
+    margin-right: 0px;
+    min-height: 60px;
+    font-size: 14px;
+  }
+  #messages .message_title {
+    width: 360px;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+  }
+  #messages .message_verses {
+    color: #666;
+    margin-right: 20px;
+  }
+  #messages .message_author a {
+    font-weight: normal;
+    margin-right: 20px;
+  }
+  #messages .message_files {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+  }
+  #messages .message_files li {
+    display: inline-block;
+  }
+  #messages .message_files img {
+    position: relative;
+    top: 3px;
+  }
+  #messages .message_files a {
+    font-weight: normal;
+  }
+
+#previous_message {
+  display: block;
+  margin-left: 200px;
+  margin-top: 20px;
+  font-weight: normal;
+}
+
+#feature {
+  padding: 30px 20px;
+  }
+  #feature h2 {
+    display: none;
+    padding-top: 0px;
+  }
+  #feature h3 {
+    position: relative;
+    margin: 0px;
+    padding: 20px 0px;
+  }
+  #feature.featured_event h3 .event_range {
+    position: absolute;
+    left: 0px;
+    top: 20px;
+    font-size: 14px;
+    font-weight: normal;
+    width: 200px;
+    color: #777;
+  }
+  #feature h3 a {
+    font-size: 18px;
+  }
+  #feature.featured_event h3 a {
+    vertical-align: top;
+    margin-left: 200px;
+  }
+  #feature #banner {
+    padding: 0px;
+  }
+  #feature #banner img {
+    width: 560px;
+  }
+  #feature .event_notes {
+    margin-left: 200px;
+  }
+
+#events {
+  margin: 0px;
+  padding: 20px 20px 10px 20px;
+  }
+  #events ul {
+    list-style-type: none;
+    padding: 0px 0px 20px 0px;
+    margin: 0px;
+  }
+  #events .event {
+    position: relative;
+    left: -20px;
+    margin: 20px 0px;
+    }
+    #events .event:first-child {
+      margin-top: 0px;
+    }
+    #events .event:last-child {
+      margin-bottom: 0px;
+    }
+    #events .event .event_range {
+      position: absolute;
+      left: 10px;
+      top: 0px;
+      color: #777;
+      width: 200px;
+      font-size: 14px;
+    }
+    #events .event > a {
+      margin-left: 210px;
+      }
+    #events .event .event_notes {
+      margin-left: 210px;
+    }
+
+footer {
+  padding: 10px 20px;
+  }
+  footer > * {
+    display: inline-block;
+    margin-right: 10px;
+    }
+  footer #unsubscribe {
+    float: right;
+    margin-right: 0px;
+    }
+*/

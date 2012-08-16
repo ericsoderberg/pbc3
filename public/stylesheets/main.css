@@ -3062,6 +3062,26 @@ div#messages {
   right: -50px;
 }
 
+#newsletter {
+  }
+  #newsletter aside {
+    width: 300px;
+    float: right;
+    border: 1px solid #f00;
+    }
+    #newsletter aside > * {
+      margin: 20px 0px;
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      }
+      #newsletter aside:first_child {
+        margin-top: 0px;
+        padding-top: 0px;
+        }
+    #newsletter aside .message > * {
+      display: inline-block;
+      }
+
 .print-override {
   display: none;
 }
