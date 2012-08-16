@@ -74,6 +74,15 @@ class Event < ActiveRecord::Base
     return (page and page.authorized?(user))
   end
   
+  def top_context
+    ancestors = page.ancestors
+    if ancestors.length > 1
+      page.ancestors.slice(1).name
+    else
+      page.name
+    end
+  end
+  
   def peers
     if master
       master.replicas
