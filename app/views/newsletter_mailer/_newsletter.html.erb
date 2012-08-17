@@ -1,35 +1,40 @@
 <div id="newsletter" style="margin: 20px auto;
 padding: 0px;
 width: 600px;
-background: #f8f8f8;">
+background-color: #f8f8f8;">
   <div style="position: relative;
-  padding: 15px 20px;
-  height: 28px;
-  line-height: 28px;
+  padding: 0px 20px;
+  height: 58px;
+  line-height: 58px;
+  white-space: nowrap;
   <%= raw @header_css %>">
-    <h1 style="display: inline-block;
-    vertical-align: baseline;
+    <span style="display: inline-block;
+    width: 360px;
     margin: 0px;
+    margin-right: -4px;
     padding: 0px;
-    padding-right: 40px;
     white-space: nowrap;
 	  font-weight: bold;
-	  color: #eee;
+	  color: #eeeeee;
     font-size: 28px;
-    line-height: inherit;"><%= link_to @newsletter.name, newsletter_url(@newsletter), :style => "text-align: center;
-    font-size: inherit;
+    line-height: inherit;">
+    <%= link_to @newsletter.name, newsletter_url(@newsletter), :style => "font-size: inherit;
     text-decoration: none;
     font-weight: bold;
-	  color: #eee;" %></h1>
-    <span class="date" style="position: absolute;
-    top: 15px;
-    right: 20px;">
+	  color: #eeeeee;" %>
+	  </span>
+    <span class="date" style="display: inline-block;
+    width: 200px;
+    margin-right: -4px;
+    font-size: 18px;
+    line-height: inherit;
+    text-align: right;">
       <%= link_to @newsletter.published_at.relative_str(true),
-        newsletter_url(@newsletter), :style => "text-align: center;
-        font-size: 18px;
+        newsletter_url(@newsletter), :style => "
+        font-size: inherit;
         text-decoration: none;
         font-weight: bold;
-    	  color: #eee;" %>
+    	  color: #eeeeee;" %>
     </span>
     
     <%= yield(:admin) %>
@@ -37,19 +42,21 @@ background: #f8f8f8;">
   
   <% if @newsletter.note and not @newsletter.note.empty? -%>
   <div id="note" class="focus"
-    style="padding: 20px; background-color: #fff;">
+    style="padding: 20px; background-color: #ffffff;">
     <%= raw @newsletter.note %>
   </div>
   <% end -%>
 
   <div id="messages" class="<%= @focus_messages ? 'focus' : '' %>"
-    style="padding: 20px 20px 10px 20px; <%= @focus_messages ? 'background-color: #fff;' : '' %>">
+    style="padding: 20px 20px 10px 20px; <%= @focus_messages ? 'background-color: #ffffff;' : '' %>">
     <h2 style="font-size: 18px;
-    color: #777;
+    color: #777777;
     margin: 0px;
-    margin-bottom: 10px;"><%= link_to 'Messages', messages_path, :style => 'font-size: 18px;
-    color: #777;
-    text-decoration: none' %></h2>
+    margin-bottom: 10px;">
+    <%= link_to 'Messages', messages_path, :style => 'font-size: 18px;
+    color: #777777;
+    text-decoration: none' %>
+    </h2>
     <% if @next_message -%>
       <%= render :partial => 'newsletter_mailer/message',
         :locals => {:message => @next_message} %>
@@ -61,7 +68,7 @@ background: #f8f8f8;">
   </div>
 
   <% if @featured_page -%>
-  <div id="feature" class="focus <%= @featured_event ? 'featured_event' : 'featured_page' %>" style="padding: 30px 20px; background-color: #fff;">
+  <div id="feature" class="focus <%= @featured_event ? 'featured_event' : 'featured_page' %>" style="padding: 30px 20px; background-color: #ffffff;">
     <div id="banner" style="padding: 0px;">
       <%= image_tag (@route_prefix + @featured_page.style.banner.url(:normal)), :style => 'width: 560px; height: 140px;', :alt => @featured_page.name %>
     </div>
@@ -77,7 +84,7 @@ background: #f8f8f8;">
         font-size: 14px;
         font-weight: normal;
         width: 200px;
-        color: #777;">
+        color: #777777;">
           <%= raw timestamp.sub(' - ', ' -<br/>') %>
         </span>
       <% end -%>
@@ -116,28 +123,31 @@ background: #f8f8f8;">
 
   <% unless @newsletter.events.empty? -%>
   <div id="events" style="margin: 0px;
-  padding: 20px 0px 10px 0px;">
+  padding: 20px 0px;">
     <h2 style="font-size: 18px;
-    color: #777;
+    color: #777777;
     margin: 0px;
     margin-bottom: 10px;
-    padding: 0px 20px"><%= link_to 'Events', main_calendar_path, :style => 'font-size: 18px;
-    color: #777;
-    text-decoration: none;' %></h2>
-    <ul style="list-style-type: none;
+    padding: 0px 20px">
+    <%= link_to 'Events', main_calendar_path, :style => 'font-size: 18px;
+    color: #777777;
+    text-decoration: none;' %>
+    </h2>
+    <table cellspacing="0" cellpadding="0" style="border: none;
+    border-collapse: collapse;
     padding: 0px;
-    margin: 0px;">
+    margin: 0px;"><tbody>
     <% @newsletter.events.each do |event| -%>
       <% if event != @featured_event -%>
       <%= render :partial => 'newsletter_mailer/event',
         :locals => {:event => event} %>
       <% end -%>
     <% end -%>
-    </ul>
+    </tbody></table>
   </div>
   <% end -%>
 
-  <div style="color: #ddd; font-size: 12px; padding: 10px 20px; <%= raw @header_css %>">
+  <div style="color: #dddddd; font-size: 12px; padding: 10px 20px; <%= raw @header_css %>">
     <% if @site -%>
       <div id="copyright" style="display: block; float: right;">
         <%= raw @site.copyright %>

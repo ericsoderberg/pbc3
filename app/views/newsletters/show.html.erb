@@ -30,7 +30,8 @@
         <% end %>
       </li>
       <% if @newsletter.sent_at -%>
-        <li class="status">Sent: <%= @newsletter.sent_to %><br/>
+        <li class="status">Sent:<br/>
+          <%= @newsletter.sent_to %><br/>
           <%= @newsletter.sent_at.relative_str %>
           <%= @newsletter.sent_at.simple_time %>
         </li>
