@@ -1,40 +1,41 @@
-<li style="position: relative;
-left: -20px;
-margin-bottom: 20px; <%= (event.page.style ?
+<li style="position: relative; clear: left;
+margin-bottom: 20px; padding-left: 10px; <%= (event.page.style ?
     "border-left: 10px solid ##{event.page.style.feature_color.to_s(16)}" :
     'border-left: 10px solid transparent') %>">
   
   <% timestamp = contextual_times(event).first -%>
-  <div class="event_range" style="position: absolute;
-  left: 10px;
-  top: 0px;
+  <div class="event_range" style="display: block;
+  float: left;
+  padding: 22px 0px;
   color: #777;
   width: 200px;
   font-size: 14px;">
     <%= raw timestamp.sub(' - ', ' -<br/>') %>
   </div>
   
-  <div style="display: block; width: 360px; margin-left: 210px; font-size: 14px; font-weight: bold">
-  <% if event.name != event.page.name -%>
-    <div class="event_page" style="color: #777;">
-      <%= event.top_context %>
+  <div style="display: inline-block; width: 360px;  font-size: 14px;"/>
+    <div style="display: block; font-weight: bold">
+    <% if event.name != event.page.name -%>
+      <div class="event_page" style="color: #777;">
+        <%= event.top_context %>
+      </div>
+    <% end -%>
+    <%= link_to event.name, friendly_page_url(event.page),
+      :style => 'text-decoration: none;
+      color: #0b6199;
+      font-size: 14px;
+      font-weight: bold;'%>
     </div>
-  <% end -%>
-  <%= link_to event.name, friendly_page_url(event.page),
-    :style => 'text-decoration: none;
-    color: #0b6199;
-    font-size: 14px;
-    font-weight: bold;'%>
-  </div>
   
-  <% if event.location and ! event.location.empty? -%>
-    <div class="event_location" style="margin-left: 210px; color: #777;">
-      <%= h event.location %>
-    </div>
-  <% end -%>
-  <% if event.notes and ! event.notes.empty? -%>
-    <div class="event_notes" style="margin-left: 210px;">
-      <%= h event.notes %>
-    </div>
-  <% end -%>
+    <% if event.location and ! event.location.empty? -%>
+      <div class="event_location" style="color: #777;">
+        <%= h event.location %>
+      </div>
+    <% end -%>
+    <% if event.notes and ! event.notes.empty? -%>
+      <div class="event_notes" style="">
+        <%= h event.notes %>
+      </div>
+    <% end -%>
+  </div>
 </li>

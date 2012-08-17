@@ -35,6 +35,34 @@ body {
 .page_admin .status {
   font-weight: normal;
 }
+
+input[type="submit"] {
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  box-shadow: inset 0 0 1px 1px #f6f6f6;
+  color: #666;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 10px 9px 10px;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+}
+
+input[type="submit"]:hover {
+  background: #d2d2d2;
+  border-color: #999;
+  -moz-box-shadow: inset 0 0 1px 1px #eaeaea;
+  -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+  box-shadow: inset 0 0 1px 1px #eaeaea;
+  color: #222;
+  cursor: pointer;
+}
+
 /*
 div {
   margin: 0;

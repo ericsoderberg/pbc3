@@ -10,7 +10,7 @@
         <% else -%>
         &lt;
         <% end -%>
-        <%= link_to 'all', newsletters_path %>
+        <%= link_to 'newsletters', newsletters_path %>
         <% if @next_newsletter -%>
         <%= link_to '>', newsletter_path(@next_newsletter) %>
         <% else -%>
@@ -30,8 +30,8 @@
         <% end %>
       </li>
       <% if @newsletter.sent_at -%>
-        <li class="status">Sent to: <%= @newsletter.sent_to %><br/>
-          at: <%= @newsletter.sent_at.relative_str %>
+        <li class="status">Sent: <%= @newsletter.sent_to %><br/>
+          <%= @newsletter.sent_at.relative_str %>
           <%= @newsletter.sent_at.simple_time %>
         </li>
       <% end -%>
