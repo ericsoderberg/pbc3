@@ -7,7 +7,7 @@
   </td>
   <td class="event_range" style="width: 210px; vertical-align: top;">
     <% timestamp = contextual_times(event).first -%>
-    <div style="padding: 32px 10px;
+    <div style="padding: <%= event.name != event.page.name ? '32px' : '10px' %> 10px;
     color: #777777;
     font-size: 14px;">
     <%= raw timestamp.sub(' - ', ' -<br/>') %>
