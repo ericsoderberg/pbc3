@@ -14,7 +14,7 @@ class Newsletter < ActiveRecord::Base
   end
   
   def events
-    Event.masters.between(published_at, published_at + 1.month).select{|e| e.authorized?(nil) and not e.page.obscure? and e.singular?}
+    Event.masters.between(published_at, published_at + 1.month).order('start_at ASC').select{|e| e.authorized?(nil) and not e.page.obscure? and e.singular?}
   end
   
   def next_message
