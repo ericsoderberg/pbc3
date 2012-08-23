@@ -43,6 +43,9 @@ class Event < ActiveRecord::Base
   
   scope :masters,
     where("events.master_id = events.id OR events.master_id IS NULL")
+    
+  scope :featured,
+    where("events.featured = 't'")
   
   def authorized?(user)
     page.authorized?(user)
