@@ -1245,6 +1245,7 @@ video, .youtube-player {
 	.media_slides_slide li.first, .media_slides_slide li.first video,
 	.media_slides_slide li.first iframe {
 		opacity: 1;
+		z-index: 1;
 	}
 	.media_slides_slide li:target {
 		z-index: 5;
