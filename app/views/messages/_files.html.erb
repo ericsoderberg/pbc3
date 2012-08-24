@@ -1,6 +1,6 @@
 <% message ||= @message -%>
 <% if message.message_files.empty? -%>
-<span class="empty_indicator">(pending)</span>
+<span class="empty_indicator">(files pending)</span>
 <% else -%>
 <ul class="message_files">
   <% message.message_files.each do |message_file| -%>

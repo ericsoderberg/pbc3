@@ -6,6 +6,8 @@ class Event < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy, :include => :resource
   has_many :resources, :through => :reservations
   has_many :invitations, :dependent => :destroy, :order => :email
+  has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
+  has_many :messages, :through => :events_messages, :source => :message
   acts_as_audited
   
   validates_presence_of :page, :name, :stop_at
@@ -97,6 +99,14 @@ class Event < ActiveRecord::Base
   def next
     if master
       master.replicas.where("start_at > '#{start_at.to_date}' AND id != #{id}").first
+    else
+      nil
+    end
+  end
+  
+  def prev
+    if master
+      master.replicas.where("start_at < '#{start_at.to_date}' AND id != #{id}").last
     else
       nil
     end

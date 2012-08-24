@@ -6,11 +6,13 @@
     "##{event.page.style.feature_color.to_s(16)}" : 'transparent') %>">
   </td>
   <td class="event_range" style="width: 210px; vertical-align: top;">
-    <% timestamp = contextual_times(event).first -%>
     <div style="padding: <%= event.name != event.page.name ? '32px' : '10px' %> 10px;
     color: #777777;
     font-size: 14px;">
-    <%= raw timestamp.sub(' - ', ' -<br/>') %>
+    <%= timestamp = friendly_range(event)
+      raw(timestamp.scan(/\//).size > 1 ?
+        timestamp.sub(' - ', '<div style="color: #aaaaaa;">to</div>') :
+          timestamp.sub(/([\d]) /, "\\1<br\>")) %>
     </div>
   </td>
   <td style="width: 380px; font-size: 14px; vertical-align: top;">

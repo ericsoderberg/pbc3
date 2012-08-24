@@ -53,6 +53,20 @@
     <%= f.label :file %><br />
     <%= file_field_tag 'message_file[file]' %>
   </div>
+  <% else -%>
+  <div class="field">
+    <%= f.label :events %><br />
+    <ul class="message_events">
+      <% @possible_events.each do |event| -%>
+      <li>
+        <%= check_box_tag 'events[]', event.id,
+          @message.events.exists?(event.id) %>
+        <span class="event_name"><%= event.name %></span>
+        <span class="event_range"><%= friendly_range(event) %></span>
+      </li>
+      <% end -%>
+    </ul>
+  </div>
   <% end -%>
   <div class="actions">
     <%= f.submit (@message.id ? 'Update Message' : 'Add Message') %>

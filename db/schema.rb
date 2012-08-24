@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120806134431) do
+ActiveRecord::Schema.define(:version => 20120823231244) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -125,6 +125,13 @@ ActiveRecord::Schema.define(:version => 20120806134431) do
     t.integer  "updated_by"
   end
 
+  create_table "event_messages", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "events", :force => true do |t|
     t.string   "name"
     t.datetime "start_at"
@@ -211,6 +218,12 @@ ActiveRecord::Schema.define(:version => 20120806134431) do
     t.text     "note"
   end
 
+  create_table "libraries", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "message_descriptions", :id => false, :force => true do |t|
     t.integer "id"
     t.text    "contents"
@@ -257,6 +270,7 @@ ActiveRecord::Schema.define(:version => 20120806134431) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "library_id"
   end
 
   create_table "messages", :force => true do |t|
@@ -276,6 +290,7 @@ ActiveRecord::Schema.define(:version => 20120806134431) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "library_id"
   end
 
   create_table "newsletters", :force => true do |t|

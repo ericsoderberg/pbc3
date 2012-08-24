@@ -101,6 +101,7 @@ Pbc3::Application.routes.draw do
       post :deliver
     end
   end
+  resources :libraries
   
   match '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'
   match '/library/sermons.rss' => redirect('/messages.rss')

@@ -48,15 +48,17 @@ background-color: #f8f8f8;">
   <% end -%>
 
   <div id="messages" class="<%= @focus_messages ? 'focus' : '' %>"
-    style="padding: 20px 20px 10px 20px; <%= @focus_messages ? 'background-color: #ffffff;' : '' %>">
+    style="padding: 20px 20px 10px 20px; <%= @focus_messages ? 'background-color: #ffffff;' : 'border-top: 1px solid #cccccc;' %>">
     <h2 style="font-size: 18px;
     color: #777777;
     margin: 0px;
-    margin-bottom: 10px;">
-    <%= link_to 'Messages', messages_path, :style => 'font-size: 18px;
-    color: #777777;
-    text-decoration: none' %>
+    margin-bottom: 20px;">
+    Services
     </h2>
+    <table cellspacing="0" cellpadding="0" style="border: none;
+    border-collapse: collapse;
+    padding: 0px;
+    margin: 0px;"><tbody>
     <% if @next_message -%>
       <%= render :partial => 'newsletter_mailer/message',
         :locals => {:message => @next_message} %>
@@ -65,10 +67,14 @@ background-color: #f8f8f8;">
       <%= render :partial => 'newsletter_mailer/message',
         :locals => {:message => @previous_message} %>
     <% end -%>
+    </table>
   </div>
 
   <% if @featured_page -%>
-  <div id="feature" class="focus <%= @featured_event ? 'featured_event' : 'featured_page' %>" style="padding: 30px 20px; background-color: #ffffff;">
+  <div id="feature" class="focus <%= @featured_event ? 'featured_event' : 'featured_page' %>" style="
+    padding: 30px 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #cccccc;">
     <div id="banner" style="padding: 0px;">
       <%= image_tag (@route_prefix + @featured_page.style.banner.url(:normal)), :style => 'width: 560px; height: 140px;', :alt => @featured_page.name %>
     </div>
@@ -85,7 +91,9 @@ background-color: #f8f8f8;">
         font-weight: normal;
         width: 200px;
         color: #777777;">
-          <%= raw timestamp.sub(' - ', ' -<br/>') %>
+          <%= raw(timestamp.scan(/\//).size > 1 ?
+              timestamp.sub(' - ', '<div style="color: #aaaaaa;">to</div>') :
+                timestamp.sub(/([\d]) /, "\\1<br\>")) %>
         </span>
       <% end -%>
       <%= link_to @featured_event.name, friendly_page_url(@featured_page),
@@ -123,7 +131,8 @@ background-color: #f8f8f8;">
 
   <% unless @newsletter.events.empty? -%>
   <div id="events" style="margin: 0px;
-  padding: 20px 0px;">
+  padding: 20px 0px;
+  border-top: 1px solid #cccccc;">
     <h2 style="font-size: 18px;
     color: #777777;
     margin: 0px;

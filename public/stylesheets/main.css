@@ -2382,6 +2382,23 @@ table.grid {
 	width: 240px;
 	margin: 0px 0px 40px 40px;
 	}
+	#message_details .message_events {
+	  list-style-type: none;
+	  padding-left: 0px;
+	  }
+	  #message_details .message_events li {
+	    margin-bottom: 10px;
+      }
+	  #message_details .message_events .event_name {
+	    margin-right: 10px;
+	    }
+	  #message_details .message_events .event_range {
+	    white-space: nowrap;
+	    color: #999;
+	    }
+	#message_details .message_series {
+	  color: #999;
+	}
 .message_audio {
   margin: 20px 0px;
 }
@@ -2420,6 +2437,14 @@ header audio {
   }
   .edit_content #files li {
     margin-bottom: 10px;
+    }
+.edit_content .message_events {
+  list-style-type: none;
+  padding-left: 0px;
+  }
+  .edit_content .message_events .event_range {
+    color: #666;
+    margin-left: 10px;
     }
 
 .series_title {

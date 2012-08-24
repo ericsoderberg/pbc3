@@ -1,8 +1,11 @@
 class Message < ActiveRecord::Base
   belongs_to :message_set
   belongs_to :author
+  belongs_to :library
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
   has_many :message_files, :order => 'file_content_type', :dependent => :destroy
+  has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
+  has_many :events, :through => :events_messages, :source => :event
   acts_as_url :title, :sync_url => true
   acts_as_audited
   has_attached_file :image, :styles => {
@@ -37,6 +40,15 @@ class Message < ActiveRecord::Base
   
   def intersects?(verse_span)
     verse_ranges.detect{|r| r.intersects?(verse_span)}
+  end
+  
+  def index_in_set
+    if message_set
+      message_set.messages.each_with_index do |message, index|
+        return index + 1 if (message == self)
+      end
+    end
+    return 0
   end
   
   def self.find_by_verses(verses)
@@ -114,6 +126,10 @@ class Message < ActiveRecord::Base
       end
     end
     result
+  end
+  
+  def possible_events
+    Event.between(date.beginning_of_day, date.end_of_day).order('start_at ASC')
   end
   
 end

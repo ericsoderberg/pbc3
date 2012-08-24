@@ -5,12 +5,13 @@
 <%= raw @newsletter.note %>
 
 <% end -%>
-Messages
+Services
 ========
 
 <% if @next_message -%>
 <%= @next_message.date.relative_str(false) -%>
-  <%= @next_message.title %>
+ <%= raw @next_message.events.map{ |e| e.start_at.simple_time(true)}.to_sentence() %>
+    <%= @next_message.title %>
     <%= @next_message.verses -%>
     <%= @next_message.author.name %>
     <% @next_message.message_files.each do |message_file| -%>
@@ -18,10 +19,16 @@ Messages
     <%= message_file.caption %>: <%= @route_prefix %><%= message_file.file.url %>
     <% end -%>
     
+    <% if @next_message.events.first and @next_message.events.first.notes and
+      ! @next_message.events.first.notes.empty? -%>
+    <%= @next_message.events.first.notes %>
+      
+    <% end -%>
 <% end -%>
 <% if @previous_message -%>
 <%= @previous_message.date.relative_str(false) -%>
-  <%= @previous_message.title %>
+ <%= raw @previous_message.events.map{ |e| e.start_at.simple_time(true)}.to_sentence() %>
+    <%= @previous_message.title %>
     <%= @previous_message.verses -%>
     <%= @previous_message.author.name %>
     <% @previous_message.message_files.each do |message_file| -%>

@@ -24,13 +24,23 @@
       <div class="message_verses">
         <%= @message.verses %>
       </div>
+      <%= render :partial => 'messages/files' %>
+      <ol class="message_events">
+        <% @message.events.each do |event| -%>
+        <li>
+          <%= link_to event.name, friendly_page_path(event.page),
+            :class => 'event_name' %>
+          <span class="event_range"><%= friendly_range(event) %></span>
+        </li>
+        <% end -%>
+      </ol>
       <% if @message.message_set -%>
       <div class="message_series">
+        Series:
         <%= link_to @message.message_set.title,
           series_path(@message.message_set) %>
       </div>
       <% end -%>
-      <%= render :partial => 'messages/files' %>
     </div>
     
   </header>

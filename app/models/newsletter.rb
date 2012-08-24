@@ -14,7 +14,11 @@ class Newsletter < ActiveRecord::Base
   end
   
   def events
-    Event.featured.between(published_at, published_at + 1.month).order('start_at ASC').select{|e| e.authorized?(nil) and not e.page.obscure?}
+    Event.featured.between(published_at, published_at + 1.month).
+      order('start_at ASC').select{|e|
+        e.authorized?(nil) and not e.page.obscure? and
+        (! e.prev || e.prev.start_at < (e.start_at - 3.weeks)) and
+        (! e.next || e.next.start_at > (e.start_at + 3.weeks))}
   end
   
   def next_message

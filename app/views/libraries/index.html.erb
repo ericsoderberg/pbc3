@@ -1,0 +1,22 @@
+<% title "Libraries" -%>
+
+<section>
+  
+  <%= render :partial => 'site/header' %>
+  
+  <div class="add_content header_add_content">
+    <%= link_to 'Add Library', new_library_path %>
+  </div>
+  
+  <table id="libraries" class="grid">
+  <% rows = array_to_rows(@libraries) -%>
+  <% rows.each do |row| -%>
+    <tr>
+    <% row.each do |library| -%>
+      <td><%= link_to library.name, library_path(library) %></td>
+    <% end -%>
+    </tr>
+  <% end -%>
+  </table>
+
+</section>

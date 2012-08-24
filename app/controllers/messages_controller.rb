@@ -66,6 +66,7 @@ class MessagesController < ApplicationController
     else
       @message_file = @message.message_files.new
     end
+    @possible_events = @message.possible_events
     @authors = Author.order('name ASC')
   end
 
@@ -98,6 +99,7 @@ class MessagesController < ApplicationController
     parse_date
     @message = Message.find_by_url(params[:id])
     @message.image = nil if params[:delete_image]
+    @message.events = Event.find(params[:events]) if params[:events]
 
     respond_to do |format|
       if @message.update_attributes(params[:message])
