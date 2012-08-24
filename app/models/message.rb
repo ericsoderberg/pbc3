@@ -5,7 +5,8 @@ class Message < ActiveRecord::Base
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
   has_many :message_files, :order => 'file_content_type', :dependent => :destroy
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
-  has_many :events, :through => :events_messages, :source => :event
+  has_many :events, :through => :events_messages, :source => :event,
+    :order => 'start_at ASC'
   acts_as_url :title, :sync_url => true
   acts_as_audited
   has_attached_file :image, :styles => {
