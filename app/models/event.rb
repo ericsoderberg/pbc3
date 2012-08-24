@@ -98,7 +98,7 @@ class Event < ActiveRecord::Base
   
   def next
     if master
-      master.replicas.where("start_at > '#{start_at.to_date}' AND id != #{id}").first
+      master.replicas.where("start_at > '#{start_at}' AND id != #{id}").first
     else
       nil
     end
@@ -106,7 +106,7 @@ class Event < ActiveRecord::Base
   
   def prev
     if master
-      master.replicas.where("start_at < '#{start_at.to_date}' AND id != #{id}").last
+      master.replicas.where("start_at < '#{start_at}' AND id != #{id}").last
     else
       nil
     end
