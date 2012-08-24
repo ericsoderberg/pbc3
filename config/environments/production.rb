@@ -36,6 +36,7 @@ Pbc3::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.asset_host = 'www.pbc.org'
 
   # Enable threaded mode
   # config.threadsafe!
