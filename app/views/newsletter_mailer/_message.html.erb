@@ -31,7 +31,7 @@
       <%= link_to message.title, message_url(message),
       :style => 'text-decoration: none;
       color: #0b6199;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: bold;' %></div>
     <div class="message_verses" style="display: inline-block;
       margin-right: -4px; color: #666666;
@@ -92,7 +92,8 @@
       padding: 0px;
       display: block;
       margin-right: -4px;">
-        <%= h message.events.first.notes %>
+        <%= raw message.events.first.notes.gsub('<a href',
+          '<a style="text-decoration: none; color: #0b6199;" href') %>
       </div>
     <% end -%>
   </td>

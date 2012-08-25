@@ -39,7 +39,7 @@
   <% end -%>
   <% if event.notes and ! event.notes.empty? -%>
     <div class="event_notes">
-      <%= h event.notes %>
+      <%= raw event.notes %>
     </div>
   <% end -%>
   <% if @page and user_signed_in? and current_user.administrator? and

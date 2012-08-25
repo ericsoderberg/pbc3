@@ -53,7 +53,13 @@ background-color: #f8f8f8;">
     color: #777777;
     margin: 0px;
     margin-bottom: 20px;">
-    Services
+    <% url = root_url
+      if @next_message and ! @next_message.events.empty?
+        url = friendly_page_url(@next_message.events.first.page)
+      end %>
+    <%= link_to 'Services', url, :style => 'font-size: 18px;
+    color: #777777;
+    text-decoration: none;' %>
     </h2>
     <table cellspacing="0" cellpadding="0" style="border: none;
     border-collapse: collapse;
@@ -138,7 +144,7 @@ background-color: #f8f8f8;">
     margin: 0px;
     margin-bottom: 10px;
     padding: 0px 20px">
-    <%= link_to 'Events', main_calendar_path, :style => 'font-size: 18px;
+    <%= link_to 'Events', main_calendar_url, :style => 'font-size: 18px;
     color: #777777;
     text-decoration: none;' %>
     </h2>
@@ -161,14 +167,14 @@ background-color: #f8f8f8;">
       <div id="copyright" style="display: block; float: right;">
         <%= raw @site.copyright %>
       </div>
-      <%= link_to @site.title, root_path, :style => 'text-decoration: none;
+      <%= link_to @site.title, root_url, :style => 'text-decoration: none;
   	  color: #f8f8f8; display: block;
       margin-right: 10px;' %>
       <%= @site.address %>
     <% end -%>
     <% if @newsletter.email_list -%>
       <%= link_to 'unsubscribe',
-        unsubscribe_email_list_path(@newsletter.email_list),
+        unsubscribe_email_list_url(@newsletter.email_list),
         :id => 'unsubscribe', :style => 'text-decoration: none;
     	  color: #f8f8f8; float: right;' %>
     <% end -%>
