@@ -24,7 +24,8 @@
   <% end %>
   
   <%= text_field_tag 'email_address_confirmation', '',
-    :id => 'email_address_confirmation', :placeholder => 'email address' %>
+    :id => 'email_address_confirmation', :placeholder => 'email address',
+    :autocomplete => (request.env['HTTP_USER_AGENT'].downcase.index('chrome/') ? 'off' : 'on') %>
 
   <ul id="filled_fields">
     <%= render :partial => 'filled_fields/fill_form_field',
