@@ -8,23 +8,16 @@ class FilledFormsController < ApplicationController
     @filled_forms = @form.visible_filled_forms(current_user)
     @payable_forms = @filled_forms.for_user(current_user).
       where(:payment_id => nil)
+    @value_form_fields = @form.form_fields.valued
+    @columns = @value_form_fields.map{|ff| ff.name} +
+      %w{user email} +
+      (@form.payable ? %w{state payment date} : [])
     
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @filled_forms }
       format.csv # index.csv.erb
-      format.xlsx {
-=begin
-        serializer = SimpleXlsx::Serializer.new(@form.name + ".xlsx") do |doc|
-          doc.add_sheet(@form.name) do |sheet|
-            sheet.add_row(@form.form_fields.map{|ff| ff.name})
-            @filled_forms.each do |filled_form|
-              sheet.add_row(filled_form.filled_fields.map{|fff| fff.value})
-            end
-          end
-        end
-=end
-      }
+      format.xls # index.xls.erb
     end
   end
   
@@ -196,27 +189,34 @@ class FilledFormsController < ApplicationController
   
   def populate_filled_fields
     @filled_form.name = nil
-    params[:filled_fields].each_key do |field_id|
-      # get form field
-      form_field = @form.form_fields.find(field_id)
-      # get submitted value
-      value = params[:filled_fields][field_id][:value]
+    @form.form_fields.each do |form_field|
+      field_id = form_field.id
       # see if we already have a prior value
       filled_field = @filled_form.filled_fields.detect{|f|
-        f.form_field_id == form_field.id}
-      # create a new one if needed
-      unless filled_field
-        filled_field = @filled_form.filled_fields.build
-        filled_field.filled_form = @filled_form
-        filled_field.form_field = form_field
-      end
-      # join check box responses
-      filled_field.value = (value.is_a?(Array) ? value.join(',') : value)
-      # guess at name
-      if not @filled_form.name and form_field.name =~ /name/i
-        @filled_form.name = value
+        f.form_field_id == field_id}
+      # see if the user provided a new value
+      if params[:filled_fields].has_key?(field_id.to_s)
+        # field was filled out
+        # get submitted value
+        value = params[:filled_fields][field_id.to_s][:value]
+        # create a new one if needed
+        unless filled_field
+          filled_field = @filled_form.filled_fields.build
+          filled_field.filled_form = @filled_form
+          filled_field.form_field = form_field
+        end
+        # join check box responses
+        filled_field.value = (value.is_a?(Array) ? value.join(',') : value)
+        # guess at name
+        if not @filled_form.name and form_field.name =~ /name/i
+          @filled_form.name = value
+        end
+      else
+        # field was not filled out
+        @filled_form.filled_fields.delete(filled_field) if filled_field
       end
     end
+
     # use user name or email if we don't have a name yet
     if current_user == @filled_form.user and not @filled_form.name
       @filled_form.name = current_user.name || current_user.email

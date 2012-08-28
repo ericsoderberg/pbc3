@@ -7,8 +7,10 @@
   <% if user_signed_in? and current_user.administrator? -%>
     <div class="page_admin">
       <ul>
-        <li><%= link_to 'export',
+        <li><%= link_to 'csv',
           form_fills_path(@form, :format => 'csv') %><li>
+        <li><%= link_to 'xls',
+          form_fills_path(@form, :format => 'xls') %><li>
       </ul>
     </div>
   <% end -%>
