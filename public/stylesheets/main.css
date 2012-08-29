@@ -2090,6 +2090,9 @@ a.new_comment {
 	color: #666;
 	margin-right: 20px;
 	}
+h2.dynamic_form_field_name {
+  font-weight: normal;
+}
 .dynamic_form_field_value, .dynamic_form_field_option_value {
 	display: inline-block;
 	}
@@ -2185,6 +2188,7 @@ a.new_comment {
 		h2.form_field_name {
 		  font-size: 18px;
 		  font-weight: normal;
+		  color: #666;
 		}
 		.form_field_value {
 		  display: inline-block;
