@@ -2924,14 +2924,17 @@ div#messages {
 
   .card-container:hover .card-card {
 	  -webkit-transform: rotateY(180deg);
-	  -moz-transform: rotateY(180deg);
+	  /*-moz-transform: rotateY(180deg);
+	  transform: rotateY(180deg);*/
   }
 
 .card-face {
   position: absolute;
   -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
+  /*-moz-backface-visibility: hidden;
+  backface-visibility: hidden;*/
   overflow: hidden;
+  z-index: 5;
 }
 .card-face .card-image {
   width: 201px;
@@ -2978,10 +2981,12 @@ div#messages {
 .card-container:nth-child(2n+1) {
 	-webkit-transform: rotate(2deg);
 	-moz-transform: rotate(2deg);
+	transform: rotate(2deg);
 }
 .card-container:nth-child(2n) {
 	-webkit-transform: rotate(-2deg);
 	-moz-transform: rotate(-2deg);
+	transform: rotate(-2deg);
 }
   .card-front {
 	  width: 201px; height: 308px; padding: 0px;
@@ -2991,7 +2996,8 @@ div#messages {
 	.card-back {
 		width: 161px; height: 268px; padding: 20px;
 		-webkit-transform: rotateY(180deg);
-		-moz-transform: rotateY(180deg);
+		/*-moz-transform: rotateY(180deg);
+		transform: rotateY(180deg);*/
 		background-color: #eee;
 	}
 
