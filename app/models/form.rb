@@ -12,6 +12,11 @@ class Form < ActiveRecord::Base
     text :name, :default_boost => 2
   end
   
+  after_initialize do
+    self.pay_by_check = true if self.pay_by_check.nil?
+    self.pay_by_paypal = true if self.pay_by_paypal.nil?
+  end
+  
   def authorized?(user)
     page.authorized?(user)
   end

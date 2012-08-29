@@ -2184,6 +2184,7 @@ a.new_comment {
 			}
 		h2.form_field_name {
 		  font-size: 18px;
+		  font-weight: normal;
 		}
 		.form_field_value {
 		  display: inline-block;

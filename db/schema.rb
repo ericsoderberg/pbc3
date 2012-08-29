@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120823231244) do
+ActiveRecord::Schema.define(:version => 20120829111238) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -198,6 +198,8 @@ ActiveRecord::Schema.define(:version => 20120823231244) do
     t.datetime "updated_at"
     t.boolean  "payable"
     t.boolean  "published"
+    t.boolean  "pay_by_check"
+    t.boolean  "pay_by_paypal"
   end
 
   create_table "holidays", :force => true do |t|

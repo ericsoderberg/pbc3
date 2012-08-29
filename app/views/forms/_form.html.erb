@@ -54,6 +54,14 @@
     <%= f.label :payable? %>
     <%= f.check_box :payable %>
   </div>
+  <div class="field payment_method">
+    <%= f.label :pay_by_check? %>
+    <%= f.check_box :pay_by_check %>
+  </div>
+  <div class="field payment_method">
+    <%= f.label :pay_by_paypal? %>
+    <%= f.check_box :pay_by_paypal %>
+  </div>
   
   <%= hidden_field_tag 'field_order',
     @form.form_fields.map{|ff| ff.id}.join(', '),
@@ -63,8 +71,6 @@
 
 <% if current_user.administrator? -%>
 <%= javascript_tag do -%>
-  <% if @form.id -%>
-    <%= render :partial => 'forms/form_aids.js' %>
-  <% end -%>
+  <%= render :partial => 'forms/form_aids.js' %>
 <% end -%>
 <% end -%>

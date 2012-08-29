@@ -1,4 +1,5 @@
 $(function() {
+  <% if @page -%>
   $('#choose_page_id').flexbox(
     '<%= search_pages_path(:format => :js) %>', {
     initialDisplayValue: '<%= escape_javascript(@page.name) %>',
@@ -9,4 +10,16 @@ $(function() {
       pageSize: 5
     }
   });
+  <% end -%>
+  
+  function alignPaymentMethodControls() {
+    if ($('#form_payable')[0].checked) {
+      $('.payment_method').show();
+    } else {
+      $('.payment_method').hide();
+    }
+  }
+  
+  $('#form_payable').change(alignPaymentMethodControls);
+  alignPaymentMethodControls();
 });

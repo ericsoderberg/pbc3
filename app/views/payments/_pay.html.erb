@@ -21,7 +21,10 @@
   <% end -%>
   <%= hidden_field_tag :verification_key, @payment.verification_key %>
   
+  <% if ! @filled_form or (@filled_form.form.pay_by_check? and
+    @filled_form.form.pay_by_paypal?) -%>
   <p>We offer multiple methods of payment. You may send us a check, via your checkbook or an online transaction from your bank, or use PayPal.</p>
+  <% end -%>
 
   <%= render :partial => 'filled_forms' %>
   
@@ -29,9 +32,12 @@
     :value => (@payment.sent_at ?
       l(@payment.sent_at.to_date()) : l(Date.today)) %>
 
+  <% if ! @filled_form or @filled_form.form.pay_by_check? -%>
   <div class="help">Note: Using your bank's online banking to send a check reduces our costs.</div>
+  <% end -%>
 
   <ol class="actions">
+    <% if ! @filled_form or @filled_form.form.pay_by_check? -%>
     <li>
       <%= f.submit 'Pay by check' %>
       <div class="payment_method_instructions">
@@ -39,11 +45,14 @@
         <pre><%= @site.check_address %></pre>
       </div>
     </li>
+    <% end -%>
+    <% if ! @filled_form or @filled_form.form.pay_by_paypal? -%>
     <li class="unstyled">
       <input id="choose_paypal" type="image" name="paypal" border="0"
         src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"
         alt="PayPal">
     </li>
+    <% end -%>
     <% if @filled_form -%>
       <li>
       <% if current_user -%>
