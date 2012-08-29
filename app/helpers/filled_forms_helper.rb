@@ -22,4 +22,10 @@ module FilledFormsHelper
       ).to_csv
     end.join("\r\n"))
   end
+  
+  def autocomplete_honeypot
+    logger.info(request.env['HTTP_USER_AGENT'])
+    request.env['HTTP_USER_AGENT'].downcase.index('chrome/') or
+    request.env['HTTP_USER_AGENT'].downcase.index('safari/')
+  end
 end
