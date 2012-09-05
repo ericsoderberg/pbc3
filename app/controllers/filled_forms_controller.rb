@@ -218,8 +218,12 @@ class FilledFormsController < ApplicationController
     end
 
     # use user name or email if we don't have a name yet
-    if current_user == @filled_form.user and not @filled_form.name
-      @filled_form.name = current_user.name || current_user.email
+    unless @filled_form.name
+      if current_user and current_user == @filled_form.user
+        @filled_form.name = current_user.name || current_user.email
+      else
+        @filled_form.name = 'anonymous'
+      end
     end
     @filled_form.updated_at = Time.now
   end
