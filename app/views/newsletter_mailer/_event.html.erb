@@ -13,6 +13,13 @@
       raw(timestamp.scan(/\//).size > 1 ?
         timestamp.sub(' - ', '<div style="color: #aaaaaa;">to</div>') :
           timestamp.sub(/([\d]) /, "\\1<br\>")) %>
+    <% if event.next and event.next.start_at < event.start_at + 2.days -%>
+      <br/>
+      <%= timestamp = friendly_range(event.next)
+        raw(timestamp.scan(/\//).size > 1 ?
+          timestamp.sub(' - ', '<div style="color: #aaaaaa;">to</div>') :
+            timestamp.sub(/([\d]) /, "\\1<br\>")) %>
+    <% end -%>
     </div>
   </td>
   <td style="width: 380px; font-size: 14px; vertical-align: top;">
