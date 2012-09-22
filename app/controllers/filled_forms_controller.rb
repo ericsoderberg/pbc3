@@ -168,7 +168,8 @@ class FilledFormsController < ApplicationController
   
   def filled_form_authorized!
     filled_form_key = params[:filled_form_key]
-    if (current_user and current_user.administrator?) or
+    if (current_user and
+        (current_user.administrator? or @page.administrator?(current_user))) or
       (current_user and @filled_form.user == current_user) or
       (filled_form_key and @filled_form.verification_key == filled_form_key)
       return true
