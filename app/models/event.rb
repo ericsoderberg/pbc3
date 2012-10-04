@@ -126,7 +126,7 @@ class Event < ActiveRecord::Base
         elsif e.stop_at >= ancient_threshold
           result[:expired] << e
         else
-          result[:ancient] << e
+          result[:ancient].unshift(e)
         end
         result[:all] << e
       end

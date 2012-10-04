@@ -2,8 +2,12 @@ module EventsHelper
   
   def friendly_range(event, with_date=true)
     if with_date or event.start_at.to_date != event.stop_at.to_date
-      event.start_at.strftime("%A") + " %d/%d" %
-        [event.start_at.mon, event.start_at.day] + ' '
+      event.start_at.strftime("%A ") + 
+      if (Time.now - event.start_at) > (365 * 24 * 3600)
+        "%d/%d/%d " % [event.start_at.mon, event.start_at.day, event.start_at.year]
+      else
+        "%d/%d " % [event.start_at.mon, event.start_at.day]
+      end
     else
       ''
     end +

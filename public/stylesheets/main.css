@@ -714,6 +714,7 @@ footer {
   .edit_content aside {
     display: table-cell;
     width: 300px;
+    padding-right: 30px;
     }
   .edit_content section {
     display: table-cell;
