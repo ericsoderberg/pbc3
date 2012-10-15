@@ -76,7 +76,7 @@ class Message < ActiveRecord::Base
   end
   
   def self.between(start_date, end_date)
-    where('messages.date' => start_date..end_date)
+    where('messages.date' => start_date..end_date).order('messages.date ASC')
   end
   
   def self.between_with_full_sets(start_date, end_date)

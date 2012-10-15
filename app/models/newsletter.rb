@@ -27,7 +27,7 @@ class Newsletter < ActiveRecord::Base
   end
   
   def previous_message
-    Message.between(published_at - 2.week, published_at).last;
+    Message.between(published_at - 2.weeks, published_at).last;
   end
   
   def previous
