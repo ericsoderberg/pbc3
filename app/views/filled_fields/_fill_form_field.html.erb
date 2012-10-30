@@ -48,10 +48,11 @@
       </ul>
     <% when FormField::MULTIPLE_CHOICE -%>
       <ul class="options_list">
+        <% values = value.split(/(?<!\\),/).map{|e| e.gsub(/\\,/, ',')} -%>
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
             <%= check_box_tag html_id+'[]', option.name,
-              value.split(',').include?(option.name) %>
+              values.include?(option.name) %>
             <div class="option_name">
               <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>

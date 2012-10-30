@@ -207,7 +207,12 @@ class FilledFormsController < ApplicationController
           filled_field.form_field = form_field
         end
         # join check box responses
-        filled_field.value = (value.is_a?(Array) ? value.join(',') : value)
+        filled_field.value = if value.is_a?(Array)
+          # escape commas
+          value.map{|v| v.gsub(/,/, '\\,')}.join(',')
+        else
+          value
+        end
         # guess at name
         if not @filled_form.name and form_field.name =~ /name/i
           @filled_form.name = value
