@@ -13,7 +13,9 @@
         <%= link_to image_tag('document.png', :size => '16x16'),
           message_file.file.url %>
       <% end -%>
+      <% if message_file.caption and not message_file.caption.empty? -%>
       <%= link_to message_file.caption, message_file.file.url %>
+      <% end -%>
     </li>
   <% end -%>
 </ul>
