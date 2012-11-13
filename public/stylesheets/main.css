@@ -2663,11 +2663,11 @@ div#messages {
       
 #messages_loading {
   display: inline-block;
-  padding: 0px 10px;
+  padding: 0px 20px 0px 10px;
   color: #999;
   background-color: #eee;
   border: 3px solid #eee;
-  border-radius: 20px;
+  border-radius: 5px;
   overflow: hidden;
   white-space: nowrap;
   -webkit-animation-name:stretch;
