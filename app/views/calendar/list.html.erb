@@ -46,10 +46,9 @@
     <% if @full -%>
     <td class="time">- <%= event.stop_at.simple_time %></td>
     <% end -%>
-    <td class="name"><%= link_to event.name,
-      friendly_page_path(event.page) %></td>
+    <td class="name"><%= event_link(event) %></td>
     <td>
-      <% if event.name != event.page.name and
+      <% if event.page and event.name != event.page.name and
         (not @page or event.page != @page) -%>
         <%= h(event.page.name) %>
       <% end -%>

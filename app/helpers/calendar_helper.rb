@@ -95,4 +95,15 @@ module CalendarHelper
     end
   end
   
+  def event_link(event)
+    if event.page
+      link_to event.name, friendly_page_path(event.page)
+    else
+      event.name +
+      if current_user and current_user.administrator?
+        " (#{event.id})"
+      end
+    end
+  end
+  
 end
