@@ -13,4 +13,8 @@ class Document < ActiveRecord::Base
     page.authorized?(user)
   end
   
+  def searchable?(user)
+    page.searchable?(user)
+  end
+  
 end

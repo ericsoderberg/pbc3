@@ -13,6 +13,10 @@ class Author < ActiveRecord::Base
     true
   end
   
+  def searchable?(user)
+    true
+  end
+  
   def to_param
     url
   end

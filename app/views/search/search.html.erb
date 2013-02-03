@@ -8,11 +8,11 @@
     <%= render :partial => 'messages/messages',
       :locals => {:messages => @messages} %>
   </div>
-<% else -%>
+<% elsif @search -%>
 
 <table id="search_results">
   <% @search.each_hit_with_result do |hit, object| -%>
-    <% if object.authorized?(current_user) -%>
+    <% if object.searchable?(current_user) -%>
     <tr class="search_result">
       <%= render_search_result(object) %>
     </tr>
@@ -23,5 +23,8 @@
 <div id="pagination">
   <%= will_paginate(@search.results) %>
 </div>
+<% else -%>
+
+<p>Please enter a search term.</p>
 
 <% end -%>

@@ -165,6 +165,19 @@ class Page < ActiveRecord::Base
     return false
   end
   
+  def searchable?(user)
+    # administrators can see everything
+    return true if user and user.administrator?
+    # ok if user is logged in and specifcally authorized
+    authorizations.each{|a| return true if user == a.user}
+    # ok if authorizing by email list and user is in list
+    return true if user and email_list and allow_for_email_list? and
+      user.email_lists.map{|el| el.name}.include?(email_list)
+    # at this point, either there isn't a user or the user isn't on the right list
+    return false if self.private? or self.obscure?
+    return true
+  end
+  
   def administrator?(user)
     return false unless user
     return true if user.administrator?

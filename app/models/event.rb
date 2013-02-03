@@ -79,6 +79,10 @@ class Event < ActiveRecord::Base
     return (page and page.authorized?(user))
   end
   
+  def searchable?(user)
+    return (page and page.searchable?(user))
+  end
+  
   def top_context
     ancestors = page.ancestors
     if ancestors.length > 1

@@ -6,7 +6,7 @@ class SearchController < ApplicationController
     ranges = VerseParser.new(@search_text, true).ranges
     if not ranges.empty? # verse
       @messages = Message.find_by_verses(@search_text)
-    else
+    elsif @search_text and ! @search_text.empty?
       classes = [Page, Message, MessageSet, Event, Document, Author]
       classes << Form if user_signed_in?
       classes << User if user_signed_in?

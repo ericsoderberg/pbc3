@@ -32,6 +32,10 @@ class Style < ActiveRecord::Base
     user and user.administrator?
   end
   
+  def searchable?(user)
+    user and user.administrator?
+  end
+  
   before_save :update_css
   
   def update_css

@@ -52,6 +52,10 @@ class User < ActiveRecord::Base
     user and (user.administrator? or user == self)
   end
   
+  def searchable?(user)
+    user and (user.administrator? or user == self)
+  end
+  
   def email_lists
     EmailList.find_by_address(email)
   end

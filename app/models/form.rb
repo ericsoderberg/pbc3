@@ -21,6 +21,10 @@ class Form < ActiveRecord::Base
     page.authorized?(user)
   end
   
+  def searchable?(user)
+    page.searchable?(user)
+  end
+  
   def visible?(user)
     authorized?(user) and (published? or page.administrator?(user))
   end
