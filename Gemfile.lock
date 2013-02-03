@@ -98,6 +98,8 @@ GEM
     rsolr (0.12.1)
       builder (>= 2.1.2)
     rubyzip (0.9.4)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     simple_xlsx_writer (0.5.3)
       fast_xs (>= 0.7.3)
       rubyzip (>= 0.9.4)
@@ -132,6 +134,7 @@ DEPENDENCIES
   paperclip (~> 2.3)
   pg
   rails (= 3.0.5)
+  rvm-capistrano
   simple_xlsx_writer
   stringex
   sunspot_rails (~> 1.2.1)
