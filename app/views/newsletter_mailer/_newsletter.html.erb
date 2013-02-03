@@ -81,9 +81,11 @@ background-color: #f8f8f8;">
     padding: 30px 20px;
     background-color: #ffffff;
     border-top: 1px solid #cccccc;">
+    <% if @featured_page.style -%>
     <div id="banner" style="padding: 0px;">
       <%= image_tag (@route_prefix + @featured_page.style.banner.url(:normal)), :style => 'width: 560px; height: 140px;', :alt => @featured_page.name %>
     </div>
+    <% end -%>
 
     <% if @featured_event -%>
     <table style="
