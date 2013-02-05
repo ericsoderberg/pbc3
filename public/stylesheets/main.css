@@ -669,6 +669,7 @@ footer {
 .regular_content {
 	display: table;
 	margin-top: 25px;
+	clear: right;
   }
 	.regular_content section {
 		display: table-cell;
