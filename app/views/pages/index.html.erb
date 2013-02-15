@@ -9,5 +9,18 @@
   </div>
   
   <%= render :partial => 'map', :locals => {:pages => @pages.where('parent_id IS NULL')} %>
+  
+  <div class="key">
+    Key:
+    <ul class="page_map">
+      <li class="regular">regular</li>
+      <li class="landing">landing</li>
+      <li class="gallery">gallery</li>
+      <li class="forum">forum</li>
+      <li class="blog">blog</li>
+      <li class="regular private">regular private</li>
+      <li class="regular obscure">regular obscure</li>
+    </ul>
+  </div>
 
 </section>

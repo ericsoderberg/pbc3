@@ -2643,23 +2643,31 @@ div#messages {
     padding: 5px 10px;
     margin-left: 10px;
     margin-bottom: 10px;
-    border: 2px solid #ccc;
+    border: 2px solid #fff;
     vertical-align: top;
     }
+    /* http://www.colourlovers.com/palette/1757420/alive_kicking! */
+    /* http://www.colourlovers.com/palette/92095/Giant_Goldfish */
+    /* http://www.colourlovers.com/palette/37996/sight_for_sore_eyes */
     .page_map li.gallery {
-      background-color: #ccc;
-      border: none;
+      background-color: #f2c783; /*#69d2e7; #fdeab0;*/
       }
     .page_map li.landing {
-      background-color: #eee;
+      background-color: #ffffc6; /*#e0e4cc; #fdeab0;*/
       }
     .page_map li.regular {
-      background-color: #ddd;
-      border: none;
+      background-color: #e1eed2; /*#a7dbd8; #c1faea;*/
       }
     .page_map li.blog, .page_map li.forum {
-      background-color: #eee;
-      border-style: dotted;
+      background-color: #d3e6b8; /*#640634; */
+      }
+    .page_map li.private {
+      border-left-width: 10px;
+      border-color: #d48a33; /*#fa6900; #e54702;*/
+      }
+    .page_map li.obscure {
+      border-right-width: 10px;
+      border-color: #ff8a00; /*#f38630; #e54702;*/
       }
       
 #messages_loading {
