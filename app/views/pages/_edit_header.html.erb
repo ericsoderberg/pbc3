@@ -10,4 +10,9 @@
       <%= link_to aspect.capitalize, edit_page_aspect_url(@page, aspect) %></li>
     <% end -%>
   </ul>
+  <% if @page.obscure? -%>
+  <div class="notice">
+    This is an obscure page. While it is not generally accessible to anyone who does not know its location, please do not publish personal information.
+  </div>
+  <% end -%>
 </header>

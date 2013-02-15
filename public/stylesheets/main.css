@@ -164,6 +164,12 @@ header {
   	    color: #666;
   	    background: inherit;
   	  }
+  header.editing .notice {
+    padding: 10px 20px;
+    background-color: #ffc;
+    color: #666;
+    font-style: italic;
+    }
 
 #site_header {
   margin: 0 0 12px 0;
