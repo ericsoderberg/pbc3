@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class FilledFormsControllerTest < ActionController::TestCase
+  
   setup do
     @filled_form = filled_forms(:generic_release)
     @form = @filled_form.form

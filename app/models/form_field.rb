@@ -4,6 +4,8 @@ class FormField < ActiveRecord::Base
     :autosave => true, :dependent => :destroy
   has_many :filled_fields, :dependent => :destroy
   
+  attr_protected :id
+  
   FIELD = 'field'
   AREA = 'area'
   SINGLE_CHOICE = 'single choice'

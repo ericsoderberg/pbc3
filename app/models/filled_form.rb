@@ -5,6 +5,8 @@ class FilledForm < ActiveRecord::Base
   belongs_to :payment
   has_many :filled_fields, :autosave => true, :dependent => :destroy,
     :include => :form_field, :order => 'form_fields.form_index'
+    
+  attr_protected :id
   
   validates :form, :presence => true
   validates :name, :presence => true

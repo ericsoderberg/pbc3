@@ -2,6 +2,8 @@ class Invitation < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
   
+  attr_protected :id
+  
   RESPONSES = ['yes', 'no', 'maybe', 'unknown']
   
   validates :email, :presence => true,

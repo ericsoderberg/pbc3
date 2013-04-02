@@ -8,11 +8,14 @@ class Message < ActiveRecord::Base
   has_many :events, :through => :events_messages, :source => :event,
     :order => 'start_at ASC'
   acts_as_url :title, :sync_url => true
-  acts_as_audited
+  audited
+    
   has_attached_file :image, :styles => {
       :normal => '600x600',
       :thumb => '50x50'
     }
+  
+  attr_protected :id
   
   validates :title, :presence => true
   

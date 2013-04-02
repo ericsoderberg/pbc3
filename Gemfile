@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -13,9 +13,9 @@ gem 'paperclip', '~> 2.3'
 #gem 'remotipart'
 gem 'stringex'
 #gem 'table_builder'
-gem 'sunspot_rails', '~> 1.2.1'
+gem 'sunspot_rails' #, '~> 1.2.1'
 gem "will_paginate", "~> 3.0.pre2"
-gem "acts_as_audited", "2.0.0.rc7"
+gem "audited-activerecord", "~> 3.0"
 gem "uuidtools"
 gem 'kaminari'
 gem 'money'

@@ -5,8 +5,7 @@ class PaymentsControllerTest < ActionController::TestCase
   setup do
     @payment = payments(:retreat)
     @unpaid_filled_form = filled_forms(:unpaid_retreat_registration)
-    # needed to work around devise problem
-    @request.env['warden'] = TestWarden.new(@controller)
+    warden
   end
 
   test "should get index" do

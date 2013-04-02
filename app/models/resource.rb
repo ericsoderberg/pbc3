@@ -1,8 +1,10 @@
 class Resource < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   has_many :events, :through => :reservations
-  acts_as_audited
+  audited
 
+  attr_protected :id
+  
   TYPES = %w(room equipment)
   
   validates_presence_of :name

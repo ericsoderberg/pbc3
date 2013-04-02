@@ -42,6 +42,6 @@
 <% end %>
 
 <%= javascript_tag do %>
-  <%= render :partial => 'weeks.js' -%>
-  <%= render :partial => 'pages/form_aids.js' %>
+  <%= render :partial => 'weeks', :formats => [:js] -%>
+  <%= render :partial => 'pages/form_aids', :formats => [:js] %>
 <% end -%>

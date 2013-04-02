@@ -8,7 +8,9 @@ class Event < ActiveRecord::Base
   has_many :invitations, :dependent => :destroy, :order => :email
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :messages, :through => :events_messages, :source => :message
-  acts_as_audited
+  audited
+  
+  attr_protected :id
   
   validates_presence_of :page, :name, :stop_at
   validates :start_at, :presence => true,

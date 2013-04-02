@@ -28,12 +28,18 @@ end
 class Date
   
   # align with datepicker format used
-  FORM_YEAR_FORMAT =  '%m/%d/%Y'
+  HUMAN_FORMAT =  '%m/%d/%Y'
+  MACHINE_FORMAT = '%Y-%m-%d'
   
   # parses the date in the event form into a Date object
   def self.parse_from_form(str)
     return nil unless str
-    strptime(str, FORM_YEAR_FORMAT)
+    # allow any reasonable format
+    if str =~ /\//
+      strptime(str, HUMAN_FORMAT)
+    else
+      strptime(str, MACHINE_FORMAT)
+    end
   end
   
   def relative_str(show_year=false)
@@ -49,21 +55,22 @@ end
 class DateTime
   
   # align with datetimepicker format used
-  FORM_YEAR_FORMAT =  '%m/%d/%Y'
-  FORM_TIME_FORMAT = '%I:%M %p'
+  HUMAN_YEAR_FORMAT =  '%m/%d/%Y'
+  HUMAN_TIME_FORMAT = '%I:%M %p'
   FORM_SEPARATOR = ' @ '
   
   # parses the date+time in the event form into a DateTime object
   # takes care of timezone and daylight savings time issues
   def self.parse_from_form(str)
     return nil unless str
-    # extract the date portion
-    utc_date = strptime(str, FORM_YEAR_FORMAT)
-    # convert to a local one, force the right zone by adding an hour
-    local_date = Time.local(utc_date.year, utc_date.month, utc_date.day, 1)
-    format = FORM_YEAR_FORMAT + FORM_SEPARATOR + FORM_TIME_FORMAT + " %Z"
-    # parse the whole thing using the local time zone for that day
-    strptime(str + " " + local_date.zone, format)
+    if str =~ /\//
+      format = HUMAN_YEAR_FORMAT + FORM_SEPARATOR + HUMAN_TIME_FORMAT
+      wrong_zone = strptime(str, format)
+      right_zone = Time.zone.parse(wrong_zone.strftime('%Y-%m-%d %H:%M:%S'))
+    else
+      right_zone = DateTime.parse(str);
+    end
+    right_zone
   end
   
 end

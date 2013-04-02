@@ -71,12 +71,12 @@
 <% end %>
 
 <%= javascript_tag do %>
-  <%= render :partial => 'text_editor.js' -%>
+  <%= render :partial => 'text_editor', :formats => [:js] -%>
   
   <% if @page.id -%>
-    <%= render :partial => 'form_aids.js' -%>
+    <%= render :partial => 'form_aids', :formats => [:js] -%>
     <% if current_user.administrator? -%>
-    <%= render :partial => 'parent_indexer.js' -%>
+    <%= render :partial => 'parent_indexer', :formats => [:js] -%>
     <% end -%>
   <% end -%>
 <% end -%>

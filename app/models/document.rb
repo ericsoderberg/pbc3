@@ -1,7 +1,9 @@
 class Document < ActiveRecord::Base
   belongs_to :page
   has_attached_file :file
-  acts_as_audited
+  audited
+  
+  attr_protected :id
   
   validates_presence_of :name, :page
   

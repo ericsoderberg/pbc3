@@ -20,7 +20,9 @@ class Style < ActiveRecord::Base
       :thumb => '50x'
     }
   has_many :pages, :dependent => :nullify
-  acts_as_audited
+  audited
+  
+  attr_protected :id
   
   validates_presence_of :name, :hero_text_color, :feature_color
     

@@ -4,7 +4,9 @@ class Video < ActiveRecord::Base
   has_attached_file :video2
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :users, :through => :users_videos, :source => :user
-  acts_as_audited
+  audited
+  
+  attr_protected :id
   
   validates_presence_of :page
   

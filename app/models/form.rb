@@ -3,7 +3,9 @@ class Form < ActiveRecord::Base
   has_many :form_fields, :order => 'form_index ASC',
     :autosave => true, :dependent => :destroy
   has_many :filled_forms, :order => 'name ASC', :dependent => :destroy
-  acts_as_audited
+  audited
+  
+  attr_protected :id
   
   validates :name, :presence => true
   validates :page, :presence => true
@@ -34,9 +36,9 @@ class Form < ActiveRecord::Base
   end
   
   def visible_filled_forms(user)
-    return filled_forms if page.administrator?(user)
+    return filled_forms.where('id IS NOT null') if page.administrator?(user)
     return [] unless user
-    filled_forms.where('user_id = ?', user.id)
+    filled_forms.where('id IS NOT null AND user_id = ?', user.id)
   end
   
   def order_fields(ids)

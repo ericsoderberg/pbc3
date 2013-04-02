@@ -3,6 +3,8 @@ class Conversation < ActiveRecord::Base
   belongs_to :user
   has_many :comments, :order => 'created_at ASC'
   
+  attr_protected :id
+  
   validate :text, :presence => true
   validate :user, :presence => true
   

@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   has_many :conversations, :dependent => :destroy
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :videos, :through => :users_videos, :source => :video
-  acts_as_audited :except => [:password, :password_confirmation]
+  audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',
@@ -31,6 +31,8 @@ class User < ActiveRecord::Base
       :normal => '400x',
       :thumb => '50x'
     }
+  
+  attr_protected :id
   
   before_validation do
     if self.name

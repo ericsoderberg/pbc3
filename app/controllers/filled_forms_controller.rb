@@ -113,7 +113,7 @@ class FilledFormsController < ApplicationController
       if not params[:filled_form][:user_id].empty?
         @filled_form.user = User.find(params[:filled_form][:user_id])
       else
-        @filled_form.user = nil;
+        @filled_form.user = nil
       end
     else
       @filled_form.user = current_user
@@ -122,7 +122,7 @@ class FilledFormsController < ApplicationController
     @payment = @filled_form.payment
 
     respond_to do |format|
-      if @filled_form.save and
+      if @filled_form.save
         FormMailer.form_email(@filled_form).deliver
         format.html { redirect_to(next_url,
           :notice => "#{@form.name} was successfully updated.") }

@@ -71,6 +71,6 @@
 
 <% if current_user.administrator? -%>
 <%= javascript_tag do -%>
-  <%= render :partial => 'forms/form_aids.js' %>
+  <%= render :partial => 'forms/form_aids', :formats => [:js] %>
 <% end -%>
 <% end -%>

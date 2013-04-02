@@ -2,6 +2,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :event
   belongs_to :resource
   
+  attr_protected :id
+  
   validates :event, :presence => true
   validates :resource_id, :presence => true,
     :uniqueness => {:scope => :event_id}

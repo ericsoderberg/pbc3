@@ -1,6 +1,7 @@
 class AuditLog < ActiveRecord::Base
-  set_table_name 'audits'
+  self.table_name = 'audits'
   belongs_to :user
   belongs_to :auditable, :polymorphic => true
   
+  attr_protected :id
 end

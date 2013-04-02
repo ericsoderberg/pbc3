@@ -4,6 +4,8 @@ class Photo < ActiveRecord::Base
       :normal => '480x',
       :thumb => '50x'
     }
+  
+  attr_protected :id
     
   validates_presence_of :page
   

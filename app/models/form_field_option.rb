@@ -1,6 +1,8 @@
 class FormFieldOption < ActiveRecord::Base
   belongs_to :form_field
   
+  attr_protected :id
+  
   FIXED = 'fixed'
   FIELD = 'field' # TBD
   AREA = 'area'   # TBD

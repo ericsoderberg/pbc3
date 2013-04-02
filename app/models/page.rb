@@ -22,8 +22,10 @@ class Page < ActiveRecord::Base
   has_one :podcast
   has_many :forms, :dependent => :destroy, :order => 'LOWER(name) ASC'
   has_many :conversations, :order => 'created_at DESC', :dependent => :destroy
-  acts_as_audited :except => [:parent_index,
+  audited :except => [:parent_index,
     :home_feature_index, :parent_feature_index]
+    
+  attr_protected :id
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
   CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']

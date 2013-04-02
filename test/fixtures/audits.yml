@@ -1,6 +1,7 @@
 one:
-  user: admin
-  auditable: public (Page)
+  username: admin
+  auditable_type: Page
+  auditable_id: public
 
 two:
-  user: admin
+  username: admin
