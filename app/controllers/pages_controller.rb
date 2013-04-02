@@ -205,7 +205,7 @@ class PagesController < ApplicationController
     if not current_user.administrator?
       # remove all fields that only administrators can change
       [:private, :home_feature, :parent_id,
-        :allow_for_email_list, :parent_feature].each do |property|
+        :allow_for_email_list, :any_user, :parent_feature].each do |property|
         params[:page].delete(property)
       end
     end

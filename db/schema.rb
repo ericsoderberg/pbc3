@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130215040844) do
+ActiveRecord::Schema.define(:version => 20130402143947) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -347,6 +347,7 @@ ActiveRecord::Schema.define(:version => 20130215040844) do
     t.text     "banner_text"
     t.boolean  "parent_feature",       :default => false
     t.integer  "parent_feature_index"
+    t.boolean  "any_user"
   end
 
   create_table "payments", :force => true do |t|
