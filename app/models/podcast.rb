@@ -34,7 +34,7 @@ class Podcast < ActiveRecord::Base
       result.concat(page.audios.where("date is not null").order("date DESC").limit(20).all)
       result.concat(page.videos.where("date is not null").order("date DESC").limit(20).all)
       # order by date
-      result.sort{|i1, i2| i1.date <=> i2.date}
+      result.sort{|i1, i2| i2.date <=> i1.date}
     elsif site
       Message.includes(:message_files).
         where("message_files.file_content_type ILIKE 'audio%'").
