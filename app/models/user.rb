@@ -35,10 +35,7 @@ class User < ActiveRecord::Base
   attr_protected :id
   
   before_validation do
-    if self.name
-      self.name = self.name.strip
-      self.first_name, self.last_name = self.name.split(' ', 2)
-    end
+    split_name
   end
   
   searchable do
@@ -60,6 +57,43 @@ class User < ActiveRecord::Base
   
   def email_lists
     EmailList.find_by_address(email)
+  end
+  
+  def split_name
+    if self.name
+      self.name = self.name.strip
+      # Some examples to deal with:
+      # John and Jane Doe
+      # John A Doe MD
+      # John Smith-Doe
+      # Rev. John A. Doe
+      # john a. doe jr.
+      # j. a. doe
+      # John van der Doe
+      # John
+      first_parts = []
+      last_parts = []
+      parts = self.name.split(' ')
+      in_first = true
+      while part = parts.shift
+        if last_parts.empty?
+          if ! first_parts.empty? and
+            part.length > 1 and
+            part !~ /\./ and
+            part.downcase != 'and' and
+            first_parts[-1].downcase != 'and' and
+            first_parts[-1] !~ /..\.$/
+            last_parts << part
+          else
+            first_parts << part
+          end
+        else
+          last_parts << part
+        end
+      end
+      self.first_name = first_parts.join(' ')
+      self.last_name = last_parts.join(' ')
+    end
   end
   
 end
