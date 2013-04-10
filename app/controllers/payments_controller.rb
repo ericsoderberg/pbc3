@@ -1,5 +1,6 @@
 class PaymentsController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create, :edit, :update, :show, :notify]
+  skip_before_filter :verify_authenticity_token, :only => [:notify]
   
   def index
     @payments = Payment.order("sent_at DESC")
