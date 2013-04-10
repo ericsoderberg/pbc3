@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
         end
       end
       self.first_name = first_parts.join(' ')
-      self.last_name = last_parts.join(' ')
+      self.last_name = last_parts.empty? ? nil : last_parts.join(' ')
     end
   end
   

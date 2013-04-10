@@ -20,7 +20,7 @@ class UserTest < ActiveSupport::TestCase
       ['john a. doe jr.', 'john a.', 'doe jr.'],
       ['j. a. doe', 'j. a.', 'doe'],
       ['John van der Doe', 'John', 'van der Doe'],
-      ['John', 'John', ''],
+      ['John', 'John', nil],
       ['J.A. Doe', 'J.A.', 'Doe']
     ]
     names.each_with_index do |name, index|

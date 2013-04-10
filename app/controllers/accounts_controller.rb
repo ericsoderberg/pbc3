@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   
   def index
     if current_user.administrator
-      @users = User.order('last_name IS NULL, last_name DESC')
+      @users = User.order('last_name ASC, last_name IS NULL')
     else
       @users = [current_user]
     end
