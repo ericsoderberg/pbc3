@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
       # Rev. John A. Doe
       # john a. doe jr.
       # j. a. doe
+      # J.A. Doe
       # John van der Doe
       # John
       first_parts = []
@@ -82,7 +83,7 @@ class User < ActiveRecord::Base
             part !~ /\./ and
             part.downcase != 'and' and
             first_parts[-1].downcase != 'and' and
-            first_parts[-1] !~ /..\.$/
+            first_parts[-1] !~ /^[^\.]+.\.$/
             last_parts << part
           else
             first_parts << part
