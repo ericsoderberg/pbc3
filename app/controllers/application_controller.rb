@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_site
   before_filter :get_nav_pages
+  before_filter :save_path
   
   def administrator!
     unless current_user and current_user.administrator?
@@ -33,6 +34,20 @@ class ApplicationController < ActionController::Base
   def get_nav_pages
     @communities = (@site ? @site.communities_page.children : [])
     @abouts = (@site ? @site.about_page.children : [])
+  end
+  
+  def save_path
+    if request.referrer !~ /sign_in/ and request.referrer !~ /sign_out/
+      session[:post_login_path] = request.referrer
+    end
+  end
+  
+  def after_sign_in_path_for(resource_or_scope)
+    session[:post_login_path] ? session[:post_login_path] : root_url
+  end
+  
+  def after_sign_out_path_for(resource_or_scope)
+    session[:post_login_path] ? session[:post_login_path] : root_url
   end
   
 end
