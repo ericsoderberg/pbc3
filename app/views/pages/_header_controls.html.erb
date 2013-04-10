@@ -17,12 +17,12 @@
 <% if @page.feed_page -%>
   <div class="page_control">
     <%= link_to image_tag('rss.png'),
-      friendly_page_podcast_url(@page.feed_page),
+      friendly_page_podcast_url(@page.feed_page, :protocol => 'http'),
       :type => 'application/rss+xml' -%>
   </div>
   <% content_for(:feed) do -%>
     <%= auto_discovery_link_tag(:rss,
-      friendly_page_podcast_url(@page.feed_page)) %>
+      friendly_page_podcast_url(@page.feed_page, :protocol => 'http')) %>
   <% end -%>
 <% end -%>
 <% if (@events and not @events.empty?) or
