@@ -14,7 +14,7 @@ xml.rss :version => "2.0",
       xml.itunes :name, @podcast.owner.name
       xml.itunes :email, @podcast.owner.email
     end
-    xml.itunes :image, :href => URI.escape('http://' + request.host_with_port + @podcast.image.url(:default, false));
+    xml.itunes :image, :href => URI.escape('http://' + request.host_with_port + @podcast.image.url(:normal, false));
     xml.itunes :category, :text => @podcast.category do
       xml.itunes :category, :text => @podcast.sub_category
     end
