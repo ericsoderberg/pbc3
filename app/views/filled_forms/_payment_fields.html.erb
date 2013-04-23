@@ -2,7 +2,7 @@
 <h3>Payment</h3>
 <% if @filled_form.payment -%>
   <% if @filled_form.payment.state != 'pending' -%>
-    <p>Payed via
+    <p>Paid via
       <%= link_to "#{@filled_form.payment.method} on " +
         "#{l(@filled_form.payment.sent_at.to_date, :format => :long)}",
         payment_path(@filled_form.payment,
