@@ -198,10 +198,6 @@ class PagesController < ApplicationController
         params[:sub_order].split(',').map{|id| id.to_i} : []
       params[:page][:parent_index] = -1; # will be re-ordered late
     end
-    # featured pages must have a style
-    if not params[:style_id] or params[:style_id].empty?
-      params[:page][:home_feature] = false
-    end
     if not current_user.administrator?
       # remove all fields that only administrators can change
       [:private, :home_feature, :parent_id,
