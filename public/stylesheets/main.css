@@ -2579,6 +2579,13 @@ div#messages {
   display: none;
 }
 
+.fallback_video {
+  /*float: left;*/
+  margin-top: 4px;
+  margin-right: 10px;
+  display: none;
+}
+
 .blog_post {
 	margin-bottom: 30px;
 	}

@@ -118,6 +118,10 @@ class Message < ActiveRecord::Base
     message_files.select{|mf| mf.audio?}
   end
   
+  def video_message_files
+    message_files.select{|mf| mf.video?}
+  end
+  
   def image_message_files
     message_files.select{|mf| mf.image?}
   end

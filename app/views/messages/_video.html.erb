@@ -1,0 +1,16 @@
+<% message ||= @message -%>
+<% unless message.video_message_files.empty? -%>
+<video class="message_video" controls>
+  <% message.video_message_files.each do |message_file| -%>
+    <source src="<%= message_file.file.url %>"
+      type="<%= message_file.file.content_type %>" />
+  <% end -%>
+  No video with this browser
+</video>
+<div class="fallback_video message_video">
+  <% message.video_message_files.each do |message_file| -%>
+    <%= link_to image_tag('video.png', :size => '16x16') + ' Watch',
+      message_file.file.url %>
+  <% end -%>
+</div>
+<% end -%>

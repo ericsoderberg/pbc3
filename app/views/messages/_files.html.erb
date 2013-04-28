@@ -9,6 +9,9 @@
       <% if message_file.audio? -%>
         <%= link_to image_tag('audio.png', :size => '16x16'),
           message_file.file.url %>
+      <% elsif message_file.video? -%>
+        <%= link_to image_tag('video.png', :size => '16x16'),
+          message_file.file.url %>
       <% else -%>
         <%= link_to image_tag('document.png', :size => '16x16'),
           message_file.file.url %>
