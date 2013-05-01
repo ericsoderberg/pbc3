@@ -89,10 +89,10 @@ class Message < ActiveRecord::Base
   def self.between_with_full_sets(start_date, end_date)
     # find message_sets between dates
     message_sets = MessageSet.between(start_date, end_date)
-    # remove any sets that end after the end date
-    message_sets = message_sets.all.delete_if{|set|
-      set.messages(true) # reload
-      not set.ends_within?(start_date, end_date)}
+    ## remove any sets that end after the end date
+    #message_sets = message_sets.all.delete_if{|set|
+    #  set.messages(true) # reload
+    #  not set.ends_within?(start_date, end_date)}
     message_set_ids = message_sets.map{|set| set.id}
     
     if message_set_ids.empty?
