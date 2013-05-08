@@ -37,7 +37,8 @@ class ApplicationController < ActionController::Base
   end
   
   def save_path
-    if request.referrer !~ /sign_in/ and request.referrer !~ /sign_out/
+    if request.referrer !~ /sign_in/ and request.referrer !~ /sign_out/ and
+      request.referrer !~ /password/
       session[:post_login_path] = request.referrer
     end
   end
