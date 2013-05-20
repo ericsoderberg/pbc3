@@ -16,7 +16,8 @@ module FilledFormsHelper
       (@form.payable? ?
         (filled_form.payment ?
           [filled_form.payment.state, filled_form.payment.method,
-            filled_form.payment.sent_at.strftime("%m/%d/%Y")]
+            (filled_form.payment.sent_at ?
+              filled_form.payment.sent_at.strftime("%m/%d/%Y") : '')]
           : ['unpaid', '', ''])
         : [])
       ).to_csv

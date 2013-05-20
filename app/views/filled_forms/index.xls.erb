@@ -27,8 +27,9 @@
             filled_form.payment.state : 'unpaid' %></Data></Cell>
           <Cell><Data ss:Type="String"><%= filled_form.payment ?
               filled_form.payment.method : '' %></Data></Cell>
-          <Cell><Data ss:Type="String"><%= filled_form.payment ?
-                filled_form.payment.sent_at.strftime("%m/%d/%Y") : '' %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= (filled_form.payment and
+              filled_form.payment.sent_at) ?
+              filled_form.payment.sent_at.strftime("%m/%d/%Y") : '' %></Data></Cell>
         <% end -%>
       </Row>
     <% end %>
