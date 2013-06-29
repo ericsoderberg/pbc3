@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410092830) do
+ActiveRecord::Schema.define(:version => 20130629155011) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -523,6 +523,7 @@ ActiveRecord::Schema.define(:version => 20130410092830) do
     t.datetime "video2_updated_at"
     t.datetime "date"
     t.text     "description"
+    t.string   "vimeo_id"
   end
 
 end
