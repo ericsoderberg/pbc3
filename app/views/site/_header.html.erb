@@ -12,19 +12,21 @@
       <%= link_to 'Pages', pages_path %></li>
     <li class="<%= @email_lists ? 'active' : '' %>">
       <%= link_to 'Email Lists', email_lists_path %></li>
-    <li class="<%= @styles ? 'active' : '' %>">
-      <%= link_to 'Styles', styles_path %></li>
-    <li class="<%= @resources ? 'active' : '' %>">
-      <%= link_to 'Resources', resources_path %></li>
+    <li class="<%= @forms ? 'active' : '' %>">
+      <%= link_to 'Forms', forms_path %></li>
+    <li class="<%= @payments ? 'active' : '' %>">
+      <%= link_to 'Payments', payments_path %></li>
     <li class="<%= @libraries ? 'active' : '' %>">
       <%= link_to 'Libraries', libraries_path %></li>
-    <li class="<%= @holidays ? 'active' : '' %>">
-      <%= link_to 'Holidays', holidays_path %></li>
     <li class="<%= @podcast ? 'active' : '' %>">
       <%= link_to 'Podcast',
         (@site.podcast ? edit_podcast_path(@site.podcast) : new_podcast_path()) %></li>
-    <li class="<%= @payments ? 'active' : '' %>">
-      <%= link_to 'Payments', payments_path %></li>
+    <li class="<%= @resources ? 'active' : '' %>">
+      <%= link_to 'Resources', resources_path %></li>
+    <li class="<%= @holidays ? 'active' : '' %>">
+      <%= link_to 'Holidays', holidays_path %></li>
+    <li class="<%= @styles ? 'active' : '' %>">
+      <%= link_to 'Styles', styles_path %></li>
     <li class="<%= @audit_logs ? 'active' : '' %>">
       <%= link_to 'Audit Log', audit_logs_path %></li>
   </ul>

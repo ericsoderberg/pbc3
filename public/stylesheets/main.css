@@ -2662,25 +2662,26 @@ div#messages {
     /* http://www.colourlovers.com/palette/1757420/alive_kicking! */
     /* http://www.colourlovers.com/palette/92095/Giant_Goldfish */
     /* http://www.colourlovers.com/palette/37996/sight_for_sore_eyes */
+    /* http://www.colourlovers.com/palette/2923530/w_h_i_r_l */
     .page_map li.gallery {
-      background-color: #f2c783; /*#69d2e7; #fdeab0;*/
+      background-color: #E1C474; /*#f2c783; #69d2e7; #fdeab0;*/
       }
     .page_map li.landing {
-      background-color: #ffffc6; /*#e0e4cc; #fdeab0;*/
+      background-color: #F0ECC9; /*#ffffc6; #e0e4cc; #fdeab0;*/
       }
     .page_map li.regular {
-      background-color: #e1eed2; /*#a7dbd8; #c1faea;*/
+      background-color: #E9E0A9; /* #e1eed2; #a7dbd8; #c1faea;*/
       }
     .page_map li.blog, .page_map li.forum {
-      background-color: #d3e6b8; /*#640634; */
+      background-color: #EDDB8F; /*#d3e6b8; #640634; */
       }
     .page_map li.private {
       border-left-width: 10px;
-      border-color: #d48a33; /*#fa6900; #e54702;*/
+      border-color: #8BBF9B; /*#d48a33; #fa6900; #e54702;*/
       }
     .page_map li.obscure {
       border-right-width: 10px;
-      border-color: #ff8a00; /*#f38630; #e54702;*/
+      border-color: #8BBF9B; /*#ff8a00; #f38630; #e54702;*/
       }
       
 #messages_loading {
