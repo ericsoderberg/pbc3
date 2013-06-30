@@ -8,15 +8,19 @@ class PaymentsController < ApplicationController
     end
       
     if ('pending' == @state)
-      @payments = Payment.where('sent_at IS NULL')
+      @payments = Payment.where('sent_at IS NULL').
+      order("created_at DESC")
     elsif ('sent' == @state)
-      @payments = Payment.where('sent_at IS NOT NULL AND (received_amount IS NULL AND received_at IS NULL)')
+      @payments = Payment.where('sent_at IS NOT NULL AND ' +
+        '(received_amount IS NULL AND received_at IS NULL)').
+        order("created_at DESC")
     elsif ('received' == @state)
-      @payments = Payment.where('sent_at IS NOT NULL AND (received_amount > 0 OR received_at IS NOT NULL)')
+      @payments = Payment.where('sent_at IS NOT NULL AND ' +
+        '(received_amount > 0 OR received_at IS NOT NULL)').
+        order("created_at DESC")
     else
-      @payments = Payment.where(true)
+      @payments = Payment.order("created_at DESC")
     end
-    @payments.order("created_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb
