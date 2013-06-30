@@ -51,6 +51,7 @@ class MessagesController < ApplicationController
     end
     @message.date = Date.today
     @authors = Author.order('name ASC')
+    @message_sets = MessageSet.order('title ASC')
 
     respond_to do |format|
       format.html # new.html.erb
@@ -68,6 +69,7 @@ class MessagesController < ApplicationController
     end
     @possible_events = @message.possible_events
     @authors = Author.order('name ASC')
+    @message_sets = MessageSet.order('title ASC')
   end
 
   # POST /messages

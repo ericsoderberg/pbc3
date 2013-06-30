@@ -68,6 +68,12 @@
     </ul>
   </div>
   <% end -%>
+  <div class="field">
+    <%= f.label :series %><br />
+    <%= collection_select(:message, :message_set_id,
+      @message_sets, :id, :title,
+      :include_blank => true) %>
+  </div>
   <div class="actions">
     <%= f.submit (@message.id ? 'Update Message' : 'Add Message') %>
     <% if @message.id -%>

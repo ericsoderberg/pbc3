@@ -2419,11 +2419,12 @@ table.grid {
 	#message_details .message_series {
 	  color: #999;
 	}
-	#message_details .message_files {
+	/*#message_details .message_files {
 	  float: right;
 	  clear: right;
-	  margin-right: 0px;
-	}
+	  display: block;
+	  margin: 10px 0px 0px 20px;
+	}*/
 div.message_audio {
   margin: 0px 0px 20px 0px;
 }
