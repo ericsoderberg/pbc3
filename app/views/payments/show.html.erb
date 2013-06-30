@@ -20,7 +20,7 @@
   <% end -%>
 </header>
 
-<% if @payment.received_amount > 0 -%>
+<% if @payment.received? -%>
 <p>We have acknowledged receipt of your payment. Thank you.</p>
 <% else -%>
 <p>Thank you for sending your payment. We will update this page when we have confirmed receiving it.</p>
@@ -95,10 +95,10 @@
     <ul class="fields">
       <li>
         <label>Received Amount</label>
-        <% if @payment.received_amount > 0 -%>
-        $<%= @payment.received_amount %>
+        <% if @payment.received? -%>
+          $<%= @payment.received_amount %>
         <% else -%>
-        <span class="help">pending</span>
+          <span class="help">pending</span>
         <% end -%>
       </li>
       <li>

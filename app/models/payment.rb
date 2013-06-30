@@ -38,7 +38,7 @@ class Payment < ActiveRecord::Base
   end
   
   def state
-    if received_amount > 0
+    if received_amount > 0 || received_at
       'received'
     elsif sent_at
       'sent'
@@ -49,6 +49,10 @@ class Payment < ActiveRecord::Base
   
   def cancellable?
     state == 'pending'
+  end
+  
+  def received?
+    state == 'received'
   end
   
 end
