@@ -122,6 +122,10 @@ class Message < ActiveRecord::Base
     message_files.select{|mf| mf.video?}
   end
   
+  def cloud_video_message_files
+    message_files.select{|mf| mf.cloud_video?}
+  end
+  
   def image_message_files
     message_files.select{|mf| mf.image?}
   end

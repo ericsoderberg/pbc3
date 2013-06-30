@@ -6,9 +6,17 @@
       <%= link_to 'Edit', edit_message_path(@message, :message_file_id => message_file.id) %>
       </div>
       <div>
-      <%= link_to message_file.file.original_filename,
-        message_file.file.url %>
-      <%= message_file.file.content_type %>
+        <% if message_file.file and message_file.file.exists? -%>
+          <%= link_to message_file.file.original_filename,
+            message_file.file.url %>
+          <%= message_file.file.content_type %>
+        <% elsif message_file.youtube_id and not message_file.youtube_id.empty? -%>
+          YouTube <%= message_file.youtube_id %>
+        <% elsif message_file.vimeo_id and not message_file.vimeo_id.empty? -%>
+          Vimeo <%= message_file.vimeo_id %>
+        <% else -%>
+          ???
+        <% end -%>
       </div>
       <%= message_file.caption %>
     </li>

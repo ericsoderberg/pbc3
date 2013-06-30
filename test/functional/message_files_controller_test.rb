@@ -19,8 +19,10 @@ class MessageFilesControllerTest < ActionController::TestCase
   end
 
   test "should create message_file" do
+    attributes = @message_file.attributes.clone
+    attributes.delete('id')
     assert_difference('MessageFile.count') do
-      post :create, :message_id => @message.url, :message_file => @message_file.attributes
+      post :create, :message_id => @message.url, :message_file => attributes
     end
 
     assert_redirected_to edit_message_path(assigns(:message))
@@ -37,7 +39,9 @@ class MessageFilesControllerTest < ActionController::TestCase
   end
 
   test "should update message_file" do
-    put :update, :message_id => @message.url, :id => @message_file.to_param, :message_file => @message_file.attributes
+    attributes = @message_file.attributes.clone
+    attributes.delete('id')
+    put :update, :message_id => @message.url, :id => @message_file.to_param, :message_file => attributes
     assert_redirected_to edit_message_path(assigns(:message))
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130629155011) do
+ActiveRecord::Schema.define(:version => 20130630001655) do
 
   create_table "audios", :force => true do |t|
     t.string   "caption"
@@ -246,6 +246,8 @@ ActiveRecord::Schema.define(:version => 20130629155011) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "caption"
+    t.string   "vimeo_id"
+    t.string   "youtube_id"
   end
 
   create_table "message_ids", :id => false, :force => true do |t|
