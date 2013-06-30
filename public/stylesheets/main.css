@@ -1621,7 +1621,7 @@ table.index td, table.index th {
 			  }
 		#calendar_header input, .email_lists_controls input,
 		.email_lists_controls #search, #email_subscribe input,
-		#more_messages .messages_date input {
+		.inline_controls input {
 		  margin: 0px 10px 0px 0px;
 		  padding: 2px;
 			color: #666;
@@ -2291,7 +2291,10 @@ h2.dynamic_form_field_name {
     .payment_methods input {
       margin-right: 10px;
       }
-      
+
+#payments_controls {
+  float: right;
+} 
 #payments td {
   vertical-align: top;
   }

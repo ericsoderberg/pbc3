@@ -1,0 +1,9 @@
+<header id="payments_header">
+  <div id="payments_controls" class="inline_controls">
+    <%= form_tag payments_path(), :method => :get do %>
+      <select name="state">
+        <%= options_for_select(['all', 'pending', 'sent', 'received'], :selected=>@state) %>
+      <%= submit_tag 'go' %>
+    <% end %>
+  </div>
+</header>

@@ -3,7 +3,20 @@ class PaymentsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:notify]
   
   def index
-    @payments = Payment.order("sent_at DESC")
+    if params[:state]
+      @state = params[:state]
+    end
+      
+    if ('pending' == @state)
+      @payments = Payment.where('sent_at IS NULL')
+    elsif ('sent' == @state)
+      @payments = Payment.where('sent_at IS NOT NULL AND (received_amount IS NULL AND received_at IS NULL)')
+    elsif ('received' == @state)
+      @payments = Payment.where('sent_at IS NOT NULL AND (received_amount > 0 OR received_at IS NOT NULL)')
+    else
+      @payments = Payment.where(true)
+    end
+    @payments.order("created_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb
