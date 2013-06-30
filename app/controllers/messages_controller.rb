@@ -5,9 +5,18 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @date = params[:date] ? params[:date].to_date : (Time.now + 3.months)
+    if params[:date]
+      date = params[:date]
+      date += '-01-01' if date.length == 4
+      @date = date.to_date
+    else
+      @date = (Time.now + 3.months)
+    end
     @back_date = @date - 1.year
     @messages = Message.between_with_full_sets(@back_date, @date)
+    @oldest_date = Message.find(:first, :order => 'date ASC').date || Time.now
+    @years = (@oldest_date.year..Time.now.year).to_a.reverse
+    @year = @date.year
 
     respond_to do |format|
       format.html # index.html.erb

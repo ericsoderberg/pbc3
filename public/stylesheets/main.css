@@ -1620,7 +1620,8 @@ table.index td, table.index th {
 			  display: inline-block;
 			  }
 		#calendar_header input, .email_lists_controls input,
-		.email_lists_controls #search, #email_subscribe input {
+		.email_lists_controls #search, #email_subscribe input,
+		#more_messages .messages_date input {
 		  margin: 0px 10px 0px 0px;
 		  padding: 2px;
 			color: #666;
@@ -2560,7 +2561,10 @@ div#messages {
 	#more_control {
 	  padding-right: 30px;
 	  }
-
+  #more_messages .messages_date {
+    float: right;
+    }
+    #more_messages .messages_date {
 .audio, .audio audio {
   min-width: 280px;
 }
