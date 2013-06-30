@@ -3,12 +3,6 @@
 <section>
   
   <%= render :partial => 'messages/header' %>
-
-  <% if current_user and current_user.administrator? -%>
-  <div class="add_content header_add_content">
-    <%= link_to 'Add Author', new_author_path %>
-  </div>
-  <% end -%>
   
   <ul class="timeline_axis">
     <% @decades.each do |decade| -%>

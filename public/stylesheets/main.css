@@ -2564,7 +2564,6 @@ div#messages {
   #more_messages .messages_date {
     float: right;
     }
-    #more_messages .messages_date {
 .audio, .audio audio {
   min-width: 280px;
 }
@@ -2737,7 +2736,7 @@ div#messages {
   list-style: none;
   }
   
-.timeline_axis {
+ul.timeline_axis {
   list-style: none;
   display: table;
   width: 100%;
