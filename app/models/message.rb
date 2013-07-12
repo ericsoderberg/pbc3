@@ -130,6 +130,22 @@ class Message < ActiveRecord::Base
     message_files.select{|mf| mf.image?}
   end
   
+  def ordered_files
+    message_files.sort do |a, b|
+      if a.audio? and ! b.audio?
+        -1
+      elsif b.audio? and ! a.audio?
+        1
+      elsif (a.video? or a.cloud_video?) and not (b.video? or b.cloud_video?)
+        -1
+      elsif (b.video? or b.cloud_video?) and not (a.video? or a.cloud_video?)
+        1
+      else
+        a.caption <=> b.caption
+      end
+    end
+  end
+  
   def self.merge_messages_and_sets(messages, message_sets)
     result = []
     while (not messages.empty? or not message_sets.empty?) do
