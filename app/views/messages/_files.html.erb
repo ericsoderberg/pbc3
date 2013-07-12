@@ -15,7 +15,7 @@
         <%= link_to image_tag('video.png', :size => '16x16'),
           message_file.file.url %>
       <% elsif message_file.cloud_video? -%>
-        <%= link_to image_tag('video.png', :size => '16x16'),
+        <%= link_to image_tag('video.png', :size => '16x16', :class => 'video'),
           message_path(message) %>
       <% else -%>
         <%= link_to image_tag('document.png', :size => '16x16'),

@@ -2472,6 +2472,10 @@ header audio {
 		.message_files img {
 		  vertical-align: middle;
 		  }
+		  .message_files img.video {
+		    position: relative;
+		    top: -2px;
+		  }
 .edit_content #files {
   margin: 0px;
   margin-bottom: 20px;
