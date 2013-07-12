@@ -24,7 +24,8 @@
       <div class="message_verses">
         <%= @message.verses %>
       </div>
-      <%= render :partial => 'messages/files' %>
+      <%= render :partial => 'messages/files',
+        :locals => {:skipEmbedded => true} %>
       <ol class="message_events">
         <% @message.events.each do |event| -%>
         <li>

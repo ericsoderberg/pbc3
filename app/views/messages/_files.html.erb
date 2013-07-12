@@ -1,10 +1,12 @@
 <% message ||= @message -%>
+<% skipEmbedded ||= false -%>
 <% if message.message_files.empty? -%>
 <span class="empty_indicator">(files pending)</span>
 <% else -%>
 <ul class="message_files">
   <% message.message_files.each do |message_file| -%>
-    <% next unless message_file.file.content_type -%>
+    <% next unless message_file.file.content_type or
+      (message_file.cloud_video? and not skipEmbedded) -%>
     <li>
       <% if message_file.audio? -%>
         <%= link_to image_tag('audio.png', :size => '16x16'),
@@ -12,12 +14,19 @@
       <% elsif message_file.video? -%>
         <%= link_to image_tag('video.png', :size => '16x16'),
           message_file.file.url %>
+      <% elsif message_file.cloud_video? -%>
+        <%= link_to image_tag('video.png', :size => '16x16'),
+          message_path(message) %>
       <% else -%>
         <%= link_to image_tag('document.png', :size => '16x16'),
           message_file.file.url %>
       <% end -%>
       <% if message_file.caption and not message_file.caption.empty? -%>
-      <%= link_to message_file.caption, message_file.file.url %>
+        <% if message_file.cloud_video? -%>
+          <%= link_to message_file.caption, message_path(message) %>
+        <% else -%>
+          <%= link_to message_file.caption, message_file.file.url %>
+        <% end -%>
       <% end -%>
     </li>
   <% end -%>

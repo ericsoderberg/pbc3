@@ -2437,6 +2437,12 @@ div.message_audio {
 .message_video .vimeo-player {
   margin: 0px 0px 20px 0px;
 }
+.video-container {
+  background-image: url('/images/video_preload.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  border-top: 1px solid #eee;
+}
 .message_image {
   margin: 20px 0px;
 }
