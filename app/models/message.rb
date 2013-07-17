@@ -140,8 +140,10 @@ class Message < ActiveRecord::Base
         -1
       elsif (b.video? or b.cloud_video?) and not (a.video? or a.cloud_video?)
         1
-      else
+      elsif (a.caption and b.caption)
         a.caption <=> b.caption
+      else
+        0
       end
     end
   end
