@@ -6,7 +6,7 @@
     "##{event.page.style.feature_color.to_s(16)}" : 'transparent') %>">
   </td>
   <td class="event_range" style="width: 210px; vertical-align: top;">
-    <div style="padding: <%= event.name != event.page.name ? '32px' : '10px' %> 10px;
+    <div style="padding: 10px;
     color: #777777;
     font-size: 14px;">
     <%= timestamp = friendly_range(event)
@@ -25,11 +25,6 @@
   <td style="width: 380px; font-size: 14px; vertical-align: top;">
     <div style="padding: 10px 20px 10px 0px;">
       <div style="font-weight: bold">
-        <% if event.name != event.page.name -%>
-          <div class="event_page" style="color: #777777;">
-            <%= event.top_context %>
-          </div>
-        <% end -%>
         <%= link_to event.name, friendly_page_url(event.page),
           :style => 'text-decoration: none;
           color: #0b6199;

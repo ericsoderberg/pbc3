@@ -19,9 +19,9 @@ class Newsletter < ActiveRecord::Base
     Event.featured.between(published_at, published_at + window.weeks).
       order('start_at ASC').select{|e|
         e.authorized?(nil) and not e.page.obscure? and
-        (! e.prev || e.prev.start_at < (e.start_at - 3.weeks)) and
-        (! e.next || e.next.start_at > (e.start_at + 3.weeks) or
-         e.next.start_at < (e.start_at + 2.days))}
+        (! e.prev || e.prev.start_at < published_at) and
+        e.messages.empty?
+      }
   end
   
   def next_message

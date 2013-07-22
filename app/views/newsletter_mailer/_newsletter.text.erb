@@ -65,11 +65,7 @@ Events
   <% if event != @featured_event -%>
     <% timestamp = contextual_times(event).first -%>
 <%= timestamp %>
-  <% if event.name != event.page.name -%>
-  <%= event.top_context -%> - <%= event.name %>
-  <% else -%>
   <%= event.name %>
-  <% end -%>
   <% if event.location and not event.location.empty? -%>
     <%= event.location %>
   <% end -%>
