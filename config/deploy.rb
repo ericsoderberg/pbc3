@@ -1,17 +1,17 @@
 # RVM bootstrap
 ###$:.unshift(File.expand_path("~/.rvm/lib"))
-require 'rvm/capistrano'
-set :rvm_ruby_string, '1.9.2-p180'
-set :rvm_type, :system
+###require 'rvm/capistrano'
+###set :rvm_ruby_string, '1.9.2-p180'
+###set :rvm_type, :system
 
 # bundler bootstrap
 require 'bundler/capistrano'
 
-set :application, "pbc3"
+set :application, "pbc3.1"
 
-role :web, "linode1.pbc.org"                          # Your HTTP server, Apache/etc
-role :app, "linode1.pbc.org"                          # This may be the same as your `Web` server
-role :db,  "linode1.pbc.org", :primary => true # This is where Rails migrations will run
+role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
+role :app, "test.pbc.org"                          # This may be the same as your `Web` server
+role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
 #role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
 #role :app, "test.pbc.org"                          # This may be the same as your `Web` server
 #role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
@@ -22,15 +22,19 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :deploy_to, "/srv/rails/#{application}"
 set :user, "webapp"
-#set :user, "webapp3"
 set :group, "webapp"
 set :use_sudo, false
+set :bundle_flags, "--deployment --quiet --binstubs"
+
+set :default_environment, {
+  'PATH' => "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
+}
 
 # repository
 set :scm, :git
 set :repository,  "git@github.com:ericsoderberg/pbc3.git"
+set :branch, "pbc3.1"
 set :deploy_via, :remote_cache
-set :branch, "master"
 set :git_shallow_clone, 1
 set :git_enable_submodules, 1
 
@@ -60,6 +64,8 @@ task :before_update_code do
   #stop solr:
   #run "cd #{current_path} && rake sunspot:solr:stop RAILS_ENV=production"
 end
+
+after 'deploy:update_code', 'deploy:migrate'
 
 #after "deploy:update_crontab", "deploy:solr:symlink"
 

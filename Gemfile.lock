@@ -128,8 +128,6 @@ GEM
     rsolr (1.0.9)
       builder (>= 2.1.2)
     rubyzip (0.9.9)
-    rvm-capistrano (1.4.1)
-      capistrano (>= 2.0.0)
     sass (3.2.9)
     sass-rails (4.0.0)
       railties (>= 4.0.0.beta, < 5.0)
@@ -188,7 +186,6 @@ DEPENDENCIES
   paperclip (~> 3.0)
   pg
   rails!
-  rvm-capistrano
   sass-rails (~> 4.0.0)
   simple_xlsx_writer
   stringex
