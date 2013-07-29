@@ -42,7 +42,7 @@ class FormFieldOptionsController < ApplicationController
     @form_field_option = @form_field.form_field_options.find(params[:id])
 
     respond_to do |format|
-      if @form_field_option.update_attributes(params[:form_field_option])
+      if @form_field_option.update_attributes(form_field_option_params)
         format.js
       end
     end
@@ -66,6 +66,11 @@ class FormFieldOptionsController < ApplicationController
     @form = Form.find(params[:form_id])
     @form_field = @form.form_fields.find(params[:field_id])
     @page = @form.page
+  end
+  
+  def form_field_option_params
+    params.require(:form_field_option).permit(:form_field_id, :form_field_index, :name,
+      :option_type, :help, :size)
   end
   
 end

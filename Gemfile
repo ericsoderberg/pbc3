@@ -1,24 +1,31 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
+#gem 'rails', '4.0.0'
 
 # Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem 'devise'
+gem 'sass-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.0.0'
+gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'turbolinks'
+
+gem 'devise', '~> 3.0.0.rc'
 gem 'bluecloth'
-gem 'paperclip', '~> 2.3'
+gem 'paperclip', '~> 3.0'
 #gem 'remotipart'
 gem 'stringex'
 #gem 'table_builder'
 gem 'sunspot_rails' #, '~> 1.2.1'
 gem "will_paginate", "~> 3.0.pre2"
-gem "audited-activerecord", "~> 3.0"
+###gem "audited-activerecord" #, "~> 3.0"
 gem "uuidtools"
 gem 'kaminari'
 gem 'money'
+gem 'money-rails'
 gem 'simple_xlsx_writer'
 
 # Use unicorn as the web server

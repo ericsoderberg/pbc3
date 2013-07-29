@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
   
   def get_page
-    @page = Page.find_by_url(params[:page_id])
+    @page = Page.find_by(url: params[:page_id])
   end
   
   def get_site
@@ -50,5 +50,10 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource_or_scope)
     session[:post_login_path] ? session[:post_login_path] : root_url
   end
+  
+  def mobile_device?
+    request.user_agent =~ /Mobile|webOS/
+  end
+  helper_method :mobile_device?
   
 end

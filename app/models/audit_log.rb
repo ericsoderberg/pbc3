@@ -3,5 +3,5 @@ class AuditLog < ActiveRecord::Base
   belongs_to :user
   belongs_to :auditable, :polymorphic => true
   
-  attr_protected :id
+  ###attr_protected :id
 end

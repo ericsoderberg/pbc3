@@ -1,9 +1,11 @@
 class Document < ActiveRecord::Base
   belongs_to :page
-  has_attached_file :file
-  audited
+  has_attached_file :file,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
+  ###audited
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates_presence_of :name, :page
   

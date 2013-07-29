@@ -64,7 +64,7 @@ class PagesController < ApplicationController
       end
     end
     if params[:invitation_key]
-      @invitation = Invitation.find_by_key(params[:invitation_key])
+      @invitation = Invitation.find_by(key: params[:invitation_key])
     end
     @note = Note.new(:page_id => @page.id)
     
@@ -84,7 +84,7 @@ class PagesController < ApplicationController
   end
   
   def feed
-    @page = Page.find_by_url(params[:id], :include => :children)
+    @page = Page.find_by(url: params[:id]).includes(:children)
     unless @page and @page.authorized?(current_user)
       redirect_to root_path
       return
@@ -98,7 +98,7 @@ class PagesController < ApplicationController
   end
   
   def search_possible_parents
-    @page = Page.find_by_url(params[:id]);
+    @page = Page.find_by(url: params[:id]);
     all_pages = @page.possible_parents
     # prune for search
     search_text = params[:q]
@@ -123,7 +123,7 @@ class PagesController < ApplicationController
 
   def new
     @page = Page.new
-    @page.parent = Page.find_by_id(params[:parent_id])
+    @page.parent = Page.find_by(id: params[:parent_id])
     return unless page_administrator!(@page.parent)
     @page.text = ''
     @page.url_prefix = @page.parent.url if @page.parent
@@ -139,32 +139,32 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @siblings = @page.parent ? @page.parent.children : []
   end
   
   def edit_style
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
   end
   
   def edit_email
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
   end
   
   def edit_for_parent
-    @page = Page.find_by_url(params[:id])
-    @parent = Page.find_by_id(params[:parent_id])
+    @page = Page.find_by(url: params[:id])
+    @parent = Page.find_by(id: params[:parent_id])
     @siblings = @parent.children.all
     @siblings << @page unless @siblings.include?(@page)
     render :partial => 'edit_for_parent'
   end
 
   def create
-    @page = Page.new(params[:page])
+    @page = Page.new(page_params)
     return unless page_administrator!(@page.parent)
     #@page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     if current_user.administrator? and params[:site_reference]
@@ -185,7 +185,7 @@ class PagesController < ApplicationController
   end
 
   def update
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     if current_user.administrator? and params[:parent_id]
       params[:page][:parent_id] = params[:parent_id] # due to flexbox
@@ -207,7 +207,7 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      if @page.update_attributes(params[:page]) and
+      if @page.update_attributes(page_params) and
         (not params[:parent_id] or
           not @page.parent or
           @page.parent.order_children(orderer_sub_ids))
@@ -225,7 +225,7 @@ class PagesController < ApplicationController
   end
 
   def destroy
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator! and page_administrator!(@page.parent)
     parent = @page.parent
     @page.destroy
@@ -235,6 +235,16 @@ class PagesController < ApplicationController
       format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  
+  def page_params
+    params.require(:page).permit(:name, :text, :hero_text, :home_feature,
+      :parent_id, :feature_phrase, :home_feature_index, :private, :style_id,
+      :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
+      :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,
+      :twitter_name, :feature_upcoming, :banner_text)
   end
   
 end

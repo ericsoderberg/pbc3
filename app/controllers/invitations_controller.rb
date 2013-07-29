@@ -60,7 +60,7 @@ class InvitationsController < ApplicationController
     end
 
     respond_to do |format|
-      if @invitation.update_attributes(params[:invitation])
+      if @invitation.update_attributes(invitation_params)
         format.html { redirect_to(
           friendly_page_url(@page, :invitation_key => @invitation.key),
           :notice => 'Invitation was successfully updated.') }
@@ -90,6 +90,11 @@ class InvitationsController < ApplicationController
   
   def get_event
     @event = @page.events.find(params[:event_id])
+  end
+  
+  def invitation_params
+    params.require(:invitation).permit(:email, :key, :event_id, :response,
+      :user_id, :note)
   end
   
 end

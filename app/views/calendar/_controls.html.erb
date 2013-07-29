@@ -28,17 +28,17 @@
   
   <div id="calendar_nav">
     <%= link_to image_tag('left_small.png'), previous_month_path(args),
-      :class => 'icon' %>
-    <%= link_to "Today", today_path(args) %>
+      :class => 'icon previous' %>
+    <%= link_to "Today", today_path(args), :class => 'today' %>
     <%= link_to image_tag('right_small.png'), next_month_path(args),
-      :class => 'icon' %>
+      :class => 'icon next' %>
   </div>
   
   <div id="calendar_views">
     <ul>
       <li class="<%= 'grid' == view ? 'active' : '' %>">
         <%= link_to 'Grid',
-          calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
+          calendar_month_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
       <li class="<%= 'list' == view ? 'active' : '' %>">
         <%= link_to 'List',
           calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>

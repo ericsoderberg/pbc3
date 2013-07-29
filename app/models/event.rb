@@ -1,16 +1,16 @@
 class Event < ActiveRecord::Base
   belongs_to :page
   belongs_to :master, :class_name => 'Event'
-  has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
-    :order => :start_at
-  has_many :reservations, :dependent => :destroy, :include => :resource
+  has_many :replicas, -> { order(:start_at) }, :class_name => 'Event',
+    :foreign_key => :master_id
+  has_many :reservations, :dependent => :destroy
   has_many :resources, :through => :reservations
-  has_many :invitations, :dependent => :destroy, :order => :email
+  has_many :invitations, -> { order(:email) }, :dependent => :destroy
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :messages, :through => :events_messages, :source => :message
-  audited
+  ###audited
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates_presence_of :page, :name, :stop_at
   validates :start_at, :presence => true,

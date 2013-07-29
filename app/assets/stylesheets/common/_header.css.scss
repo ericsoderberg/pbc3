@@ -1,0 +1,254 @@
+header {
+  margin: 35px 0px 10px 0px;
+  
+  h1, h2, h3 {
+    display: inline-block;
+    vertical-align: baseline;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 40px;
+    white-space: nowrap;
+	  font-weight: bold;
+	  color: #888;
+  }
+  
+  h1 {
+    font-size: 28px;
+    line-height: 28px;
+    
+    a {
+      text-align: center;
+      font-size: 28px;
+  	  text-decoration: none;
+  	  color: #999;
+  	  
+  	  *:hover {
+        text-decoration: none;
+        color: #000;
+      }
+    }
+    
+    &.active a {
+      color: #000;
+      background: inherit;
+    }
+  }
+  
+  h2 {
+    font-size: 14px;
+  }
+  
+  h3 {
+    font-size: 13px;
+  }
+  
+  ul.nav {
+    display: inline-block;
+    /*vertical-align: baseline;*/
+    margin: 0px;
+	  padding: 0px;
+    list-style: none;
+    
+    li {
+      display: inline-block;
+      margin-right: 5px;
+	    /*float: left;*/
+	    /*margin: 2px;*/
+	    
+	    a {
+  		  display: block;
+  		  padding: 5px 15px;
+  		  font-size: 16px;
+  		  font-weight: bold;
+  		  /*line-height: 28px;*/
+  		  text-align: center;
+  	    vertical-align: baseline;
+  		  color: #999;
+  		  
+  		  &:hover {
+  			  color: #fff;
+  			  background-color: #999;
+  			  text-decoration: none;
+  		  }
+		  }
+		  
+		  &.active a {
+  	    color: #000;
+  	  }
+  	  header.editing ul.nav li.active a {
+  	    color: #fff;
+  	    background-color: #999;
+  	  }
+  	  header ul.nav li.active a:hover, .edit_list li.active a:hover {
+  	    color: #666;
+  	    background: inherit;
+  	  }
+    }
+  }
+  
+  .page_control {
+    float: right;
+    display: block;
+  	margin: 0;
+  	height: 32px;
+  	line-height: 32px;
+    vertical-align: middle;
+  }
+  
+  &.editing {
+    ul.nav {
+      display: block;
+      margin-top: 20px;
+      padding: 5px;
+      background: #eee;
+    
+      li.active a {
+  	    color: #fff;
+  	    background-color: #999;
+	    
+  	    &:hover {
+    	    color: #666;
+    	    background: inherit;
+    	  }
+  	  }
+	  }
+	  
+	  .notice {
+      padding: 10px 20px;
+      background-color: #ffc;
+      color: #666;
+      font-style: italic;
+    }
+  }
+}
+
+#site_header {
+  margin: 0 0 12px 0;
+
+  h1 {
+    font-size: 15px;
+    margin: 0px;
+    padding-right: 9px;
+    line-height: 16px;
+    
+    a {
+      text-decoration: none;
+      font-size: 18px;
+		  color: #007ad0;
+		  
+		  &:hover {
+        background-color: inherit;
+        text-shadow: 0px 0px 2px #bbb;
+      }
+      
+      span {
+        font-weight: normal;
+      }
+    }
+  }
+  
+   h2 {
+    margin: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+    color: #666;
+    border-left: 2px solid #999;
+  }
+}
+
+div#auth {
+  float: right;
+  
+  ul {
+    display: table;
+	  margin: 0 auto;
+	  padding: 0;
+	  list-style: none;
+	  
+	  li {
+  	  display: table-cell;;
+  	  border-left: 1px solid #ccc;
+  	  
+  	  &:first-of-type {
+        border: none;
+      }
+      
+      a {
+        display: block;
+    		padding-right: 5px;
+    		padding-left: 5px;
+    		font-size: 12px;
+    		font-weight: normal;
+    		text-align: center;
+    		text-decoration: none;
+    		white-space: nowrap;
+    		color: #666;
+    		
+    		&:hover {
+      		color: #111;
+      		background-color: #ccc;
+    		}
+      }
+    }
+  }
+  
+  img {
+    height: 22px;
+    vertical-align: middle;
+  }
+}
+
+div#notice {
+  position: absolute;
+  top: 10px;
+  width: 980px;
+  color: #696;
+  text-align: right;
+}
+
+#search {
+	padding: 2px 7px;
+	font-size: 12px;
+	border: none;
+	border-radius: 9px;
+}
+
+#breadcrumbs {
+	text-align: right;
+	margin: 0;
+	padding: 0;
+	height: 0;
+	font-size: 11px;
+	color: #999;
+	
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		
+		li {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+			
+			&:before {
+			  content: "\00B7";
+			}
+			
+			&:first-child:before {
+			  content: '';
+			}
+			
+			a {
+				font-size: 11px;
+				font-weight: normal;
+				color: #999;
+				padding: 0px 0px 0px 2px;
+			}
+		}
+	}
+}

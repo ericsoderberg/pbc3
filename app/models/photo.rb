@@ -3,9 +3,11 @@ class Photo < ActiveRecord::Base
   has_attached_file :photo, :styles => {
       :normal => '480x',
       :thumb => '50x'
-    }
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   
-  attr_protected :id
+  ###attr_protected :id
     
   validates_presence_of :page
   

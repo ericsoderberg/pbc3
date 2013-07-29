@@ -2,7 +2,7 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   has_many :filled_forms, :dependent => :nullify
   
-  attr_protected :id
+  ###attr_protected :id
   
   METHODS = ['check', 'PayPal']
   
@@ -10,6 +10,11 @@ class Payment < ActiveRecord::Base
   validates :method, :presence => true, :inclusion => {:in => METHODS}
   validates :verification_key, :presence => true
   
+  monetize :amount_cents
+  monetize :received_amount_cents, :allow_nil => true
+  
+=begin
+  ###
   composed_of :amount,
     :class_name => 'Money',
     :mapping => %w(amount cents),
@@ -25,6 +30,7 @@ class Payment < ActiveRecord::Base
       Money.new(value || 0, Money.default_currency) },
     :converter => Proc.new { |value|
       value.respond_to?(:to_money) ? value.to_money : Money.empty }
+=end
       
   before_validation(:on => :create) do
     self.verification_key = SecureRandom.base64(48);
@@ -38,7 +44,7 @@ class Payment < ActiveRecord::Base
   end
   
   def state
-    if received_amount > 0 || received_at
+    if received_amount && received_at
       'received'
     elsif sent_at
       'sent'

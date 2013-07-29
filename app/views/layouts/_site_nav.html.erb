@@ -1,0 +1,27 @@
+<nav id="site_nav">
+  <ul>
+    <li class="menu_parent <%= (@page and @site and
+      @page.root == @site.about_page) ? 'active' : '' %>">
+      <%= link_to "About", about_path %>
+      <%= render :partial => 'layouts/site_nav_menu',
+        :locals => {:pages => @abouts} %>
+    </li>
+    <li class="menu_parent <%= (@page and @site and
+      @page.root == @site.communities_page) ? 'active' : '' %>">
+      <%= link_to "Communities", communities_path %>
+      <%= render :partial => 'layouts/site_nav_menu',
+        :locals => {:pages => @communities} %>
+    </li>
+    <li class="<%= (not @page and @calendar) ? 'active' : '' %>">
+      <%= link_to "Calendar", main_calendar_path %></li>
+    <li class="<%= (@messages or @message or @message_set or
+      @authors or @author or @books or @book) ?
+      'active' : '' %>">
+      <%= link_to 'Message Library', messages_path %></li>
+  </ul>
+  <form action="<%= search_path %>">
+    <input name="q" id="search" type="search" required
+      placeholder="Search"
+      value="<%= @search_text || '' %>"/>
+  </form>
+</nav>

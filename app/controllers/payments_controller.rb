@@ -80,6 +80,7 @@ class PaymentsController < ApplicationController
         where('forms.payable' => true, :payment_id => nil)
     end
     
+    @payment.amount = 0.to_money
     @filled_forms.each do |filled_form|
       @payment.filled_forms << filled_form
       @payment.amount += filled_form.payable_amount
@@ -117,7 +118,7 @@ class PaymentsController < ApplicationController
   def create
     parse_date
     strip_admin_params unless current_user and current_user.administrator?
-    @payment = Payment.new(params[:payment])
+    @payment = Payment.new(payment_params)
     @payment.user = current_user
     params[:filled_form_ids].each do |filled_form_id|
       filled_form = FilledForm.find(filled_form_id)
@@ -144,7 +145,7 @@ class PaymentsController < ApplicationController
         format.xml  { render :xml => @payment, :status => :created, :location => @payment }
       else
         if params[:filled_form_key]
-          @filled_forms = [FilledForm.find(params[:filled_form_id])]
+          @filled_forms = [FilledForm.find_by(verification_key: params[:filled_form_key])]
         elsif not current_user
           redirect_to root_url
           return
@@ -181,7 +182,7 @@ class PaymentsController < ApplicationController
     end
 
     respond_to do |format|
-      if @payment.update_attributes(params[:payment])
+      if @payment.update_attributes(payment_params)
         format.html { redirect_to(payment_url(@payment,
               :verification_key => @payment.verification_key),
             :notice => 'Payment was successfully updated.') }
@@ -279,6 +280,12 @@ class PaymentsController < ApplicationController
     params[:payment].delete(:received_amount)
     params[:payment].delete(:received_at)
     params[:payment].delete(:received_notes)
+  end
+  
+  def payment_params
+    params.require(:payment).permit(:amount_cents, :method,
+      :received_amount_cents, :received_at, :received_by, :received_notes,
+      :notes, :sent_at, :verification_key)
   end
   
 end

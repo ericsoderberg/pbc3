@@ -25,7 +25,7 @@ class ContactsController < ApplicationController
   end
 
   def create
-    @contact = Contact.new(params[:contact])
+    @contact = Contact.new(contact_params)
     @page = @contact.page
     @contact.user = User.find_by_email(params[:user_email])
 
@@ -46,7 +46,7 @@ class ContactsController < ApplicationController
     @contact.portrait = nil if params[:delete_portrait]
 
     respond_to do |format|
-      if @contact.update_attributes(params[:contact])
+      if @contact.update_attributes(contact_params)
         format.html { redirect_to(new_page_contact_url(@page),
           :notice => 'Contact was successfully updated.') }
         format.xml  { head :ok }
@@ -81,4 +81,11 @@ class ContactsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def contact_params
+    params.require(:contact).permit(:page_id, :user_id, :role, :bio, :portrait)
+  end
+  
 end

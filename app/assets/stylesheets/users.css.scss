@@ -1,0 +1,41 @@
+#users {
+  td {
+    vertical-align: top;
+  }
+  
+  .first_name {
+    text-align: right;
+    padding-right: 2px;
+  }
+  
+  .administrator {
+    color: #999;
+  }
+  
+  .account_pages {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    
+    li {
+      display: inline-block;
+      
+      &:after {
+        content: ", ";
+      }
+      
+      &:last-of-type:after {
+        content: "";
+      }
+    }
+  }
+}
+
+#sign_in, #sign_up {
+  margin: 0px auto;
+  width: 300px;
+  
+  form {
+    text-align: left;
+  }
+}

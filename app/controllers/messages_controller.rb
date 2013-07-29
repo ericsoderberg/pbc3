@@ -14,7 +14,7 @@ class MessagesController < ApplicationController
     end
     @back_date = @date - 1.year
     @messages = Message.between_with_full_sets(@back_date, @date)
-    @oldest_date = Message.find(:first, :order => 'date ASC').date || Time.now
+    @oldest_date = Message.order('date ASC').first.date || Time.now
     @years = (@oldest_date.year..Time.now.year).to_a.reverse
     @year = @date.year
 
@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.xml
   def show
-    @message = Message.find_by_url(params[:id])
+    @message = Message.find_by(url: params[:id])
     @message = Message.find(params[:id]) unless @message
 
     respond_to do |format|
@@ -52,7 +52,7 @@ class MessagesController < ApplicationController
   # GET /messages/new.xml
   def new
     if params[:series_id]
-      @message_set = MessageSet.find_by_url(params[:series_id])
+      @message_set = MessageSet.find_by(url: params[:series_id])
       @message = @message_set.messages.new
       @message.author = @message_set.author
     else
@@ -70,7 +70,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/1/edit
   def edit
-    @message = Message.find_by_url(params[:id])
+    @message = Message.find_by(url: params[:id])
     @message_file = if params[:message_file_id]
       @message.message_files.find(params[:message_file_id])
     else
@@ -85,7 +85,7 @@ class MessagesController < ApplicationController
   # POST /messages.xml
   def create
     parse_date
-    @message = Message.new(params[:message])
+    @message = Message.new(message_params)
     if params[:message_file]
       @message_file = @message.message_files.build(params[:message_file])
       @message_file.message = @message
@@ -108,12 +108,12 @@ class MessagesController < ApplicationController
   # PUT /messages/1.xml
   def update
     parse_date
-    @message = Message.find_by_url(params[:id])
+    @message = Message.find_by(url: params[:id])
     @message.image = nil if params[:delete_image]
     @message.events = Event.find(params[:events]) if params[:events]
 
     respond_to do |format|
-      if @message.update_attributes(params[:message])
+      if @message.update_attributes(message_params)
         format.html { redirect_to(@message, :notice => 'Message was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -126,7 +126,7 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.xml
   def destroy
-    @message = Message.find_by_url(params[:id])
+    @message = Message.find_by(url: params[:id])
     @message.destroy
 
     respond_to do |format|
@@ -142,6 +142,12 @@ class MessagesController < ApplicationController
       params[:message][:date] =
         Date.parse_from_form(params[:message][:date])
     end
+  end
+  
+  def message_params
+    params.require(:message).permit(:title, :url, :verses, :date, :author_id,
+      :dpid, :description, :message_set_id, :message_set_index, :event_id,
+      :library_id, :image)
   end
   
 end

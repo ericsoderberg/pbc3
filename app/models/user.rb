@@ -5,34 +5,39 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me,
-    :first_name, :last_name, :name, :administrator,
-    :avatar_file_name, :avatar_content_type, :avatar_file_size,
-    :avatar_updated_at, :avatar,
-    :portrait_file_name, :portrait_content_type, :portrait_file_size,
-    :portrait_updated_at, :portrait,
-    :bio, :email_confirmation
+  ###attr_accessible :email, :password, :password_confirmation, :remember_me,
+  ###  :first_name, :last_name, :name, :administrator,
+  ###  :avatar_file_name, :avatar_content_type, :avatar_file_size,
+  ###  :avatar_updated_at, :avatar,
+  ###  :portrait_file_name, :portrait_content_type, :portrait_file_size,
+  ###  :portrait_updated_at, :portrait,
+  ###  :bio, :email_confirmation
   
   has_many :contacts, :dependent => :destroy
-  has_many :contact_pages, :through => :contacts, :source => :page,
-    :order => 'LOWER(pages.name) ASC'
+  has_many :contact_pages, -> { order('LOWER(pages.name) ASC') },
+    :through => :contacts, :source => :page
+    
   has_many :authorizations, :dependent => :destroy
   has_many :filled_forms, :dependent => :destroy
   has_many :payments, :dependent => :destroy
   has_many :conversations, :dependent => :destroy
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :videos, :through => :users_videos, :source => :video
-  audited :except => [:password, :password_confirmation]
+  ###audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',
-    }
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   has_attached_file :portrait, :styles => {
       :normal => '400x',
       :thumb => '50x'
-    }
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   
-  attr_protected :id
+  ###attr_protected :id
   
   before_validation do
     split_name

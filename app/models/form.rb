@@ -1,11 +1,11 @@
 class Form < ActiveRecord::Base
   belongs_to :page
-  has_many :form_fields, :order => 'form_index ASC',
+  has_many :form_fields, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
-  has_many :filled_forms, :order => 'name ASC', :dependent => :destroy
-  audited
+  has_many :filled_forms, -> { order('name ASC') }, :dependent => :destroy
+  ###audited
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates :name, :presence => true
   validates :page, :presence => true

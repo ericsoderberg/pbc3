@@ -1,6 +1,12 @@
 <% title('Peninsula Bible Church') -%>
 <% content_for(:content_class) {'home'}%>
 
+<% if mobile_device? -%>
+
+<%= render :partial => "mobile" %>
+
+<% else -%>
+
 <div id="hero">
   <div id="hero_list">
     <%= render :partial => "page_hero", :collection => @feature_pages %>
@@ -11,7 +17,4 @@
   <%= render :partial => "feature_page", :collection => @feature_strip_pages %>
 </ul>
 
-
-<%= javascript_tag do %>
-  <%= render :partial => 'hero', :formats => [:js] %>
 <% end -%>

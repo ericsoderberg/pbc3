@@ -1,0 +1,127 @@
+.landing_content {
+  display: table;
+  border-spacing: 20px;
+  border-style: hidden;
+  margin: 0px -20px 0px -20px;
+  padding: 0px;
+  width: 1020px;
+  list-style: none;
+  
+  &.primary {
+    margin-top: -20px;
+    
+    > li {
+      position: relative;
+      width: 480px;
+    }
+    
+    #text {
+      padding: 0px;
+      margin-bottom: 10px;
+    }
+  }
+  
+  &.secondary {
+    > li {
+      width: 313px;
+    }
+  }
+  
+  > li {
+    display: table-cell;
+    vertical-align: top;
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+.landing_content.secondary .gallery > li {
+  margin: 0px 0px 15px 0px;
+  
+  &.event {
+    width: 313px;
+  }
+}
+
+.landing_content.primary .gallery > li.event {
+  width: 480px;
+}
+
+.landing_content .sub_pages {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	
+	li.landing_sub {
+		display: inline-block;
+		width: 194px;
+		height: 200px;
+		overflow: hidden;
+		vertical-align: top;
+		background-color: #efefef;
+		border: 1px solid #fff;
+		border-radius: 5px;
+		margin: 0px 0px 10px 0px;
+	}
+}
+
+li.landing_sub .sub_sub_pages {
+	padding: 10px;
+}
+.landing_sub_title {
+  color: #fff;
+  background-color: #333;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666), to(#333));
+  background: -moz-linear-gradient(100% 100% 90deg, #666, #333);
+  
+  a {
+  	display: block;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+	  padding: 10px;
+    -webkit-transition-property:color, background;
+    -webkit-transition-duration: 0.2s, 0.4s;
+    -webkit-transition-timing-function: linear, ease-in;
+    -moz-transition-property:color, background;
+    -moz-transition-duration: 0.2s, 0.4s;
+   	-moz-transition-timing-function: linear, ease-in;
+   	transition-property:color, background;
+    transition-duration: 0.2s, 0.4s;
+    transition-timing-function: linear, ease-in;
+    
+    &:hover {
+	    color: #333;
+			background-color: #ccc;
+			text-decoration: none;
+	  }
+  }
+}
+
+.landing_content #child_pages {
+  padding: 30px 50px 40px 30px;
+  background-color: #e4e4e4;
+  }
+  .landing_content #child_pages h2 {
+    color: #666;
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: normal;
+    margin: 0px 0px 15px 0px;
+    padding: 0px 0px 10px 0px;
+    border-bottom: 1px solid #bbb;
+    }
+  #child_pages #pages_list {
+    margin: 0px;
+    padding: 0px;
+    border-spacing: 0px;
+    }
+    #child_pages #pages_list td {
+      width: 220px;
+      padding: 0px;
+      }
+    #child_pages #pages_list a {
+      font-size: 16px;
+      line-height: 28px;
+      }
+      

@@ -5,10 +5,12 @@ class Podcast < ActiveRecord::Base
   has_attached_file :image, :styles => {
       :normal => '600x600',
       :thumb => '50x50'
-    }
-  audited
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
+  ###audited
   
-  attr_protected :id
+  ###attr_protected :id
     
   validates_presence_of :user_id, :title, :subtitle,
     :summary, :description, :category
@@ -38,7 +40,7 @@ class Podcast < ActiveRecord::Base
     elsif site
       Message.includes(:message_files).
         where("message_files.file_content_type ILIKE 'audio%'").
-        order("date DESC").limit(20)
+        order("date DESC").limit(20).references(:message_files)
     end
   end
   

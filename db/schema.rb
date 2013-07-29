@@ -9,11 +9,11 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130717144644) do
+ActiveRecord::Schema.define(version: 20130728062226) do
 
-  create_table "audios", :force => true do |t|
+  create_table "audios", force: true do |t|
     t.string   "caption"
     t.string   "audio_file_name"
     t.string   "audio_content_type"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "audio2_updated_at"
   end
 
-  create_table "audits", :force => true do |t|
+  create_table "audits", force: true do |t|
     t.integer  "auditable_id"
     t.string   "auditable_type"
     t.integer  "associated_id"
@@ -43,18 +43,18 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.string   "username"
     t.string   "action"
     t.text     "audited_changes"
-    t.integer  "version",         :default => 0
+    t.integer  "version",         default: 0
     t.string   "comment"
     t.string   "remote_address"
     t.datetime "created_at"
   end
 
-  add_index "audits", ["associated_id", "associated_type"], :name => "associated_index"
-  add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
-  add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
-  add_index "audits", ["user_id", "user_type"], :name => "user_index"
+  add_index "audits", ["associated_id", "associated_type"], name: "associated_index", using: :btree
+  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
+  add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
+  add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
 
-  create_table "authorizations", :force => true do |t|
+  create_table "authorizations", force: true do |t|
     t.integer  "page_id"
     t.integer  "user_id"
     t.boolean  "administrator"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "authors", :force => true do |t|
+  create_table "authors", force: true do |t|
     t.string   "name"
     t.string   "url"
     t.text     "description"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "comments", :force => true do |t|
+  create_table "comments", force: true do |t|
     t.text     "text"
     t.integer  "user_id"
     t.integer  "conversation_id"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "contacts", :force => true do |t|
+  create_table "contacts", force: true do |t|
     t.integer  "page_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "portrait_updated_at"
   end
 
-  create_table "conversations", :force => true do |t|
+  create_table "conversations", force: true do |t|
     t.text     "text"
     t.integer  "user_id"
     t.integer  "page_id"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "documents", :force => true do |t|
+  create_table "documents", force: true do |t|
     t.string   "file_file_name"
     t.string   "file_content_type"
     t.integer  "file_file_size"
@@ -112,28 +112,28 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.date     "published_at"
   end
 
-  create_table "episodes", :id => false, :force => true do |t|
-    t.integer  "id",                          :null => false
-    t.integer  "podcast_id",                  :null => false
-    t.string   "title",        :limit => 128, :null => false
-    t.string   "speaker",      :limit => 128, :null => false
+  create_table "episodes", id: false, force: true do |t|
+    t.integer  "id",                       null: false
+    t.integer  "podcast_id",               null: false
+    t.string   "title",        limit: 128, null: false
+    t.string   "speaker",      limit: 128, null: false
     t.text     "description"
-    t.string   "path",         :limit => 256
-    t.date     "publish_date",                :null => false
+    t.string   "path",         limit: 256
+    t.date     "publish_date",             null: false
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "updated_by"
   end
 
-  create_table "event_messages", :force => true do |t|
+  create_table "event_messages", force: true do |t|
     t.integer  "event_id"
     t.integer  "message_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "events", :force => true do |t|
+  create_table "events", force: true do |t|
     t.string   "name"
     t.datetime "start_at"
     t.datetime "stop_at"
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.text     "notes"
   end
 
-  create_table "filled_fields", :force => true do |t|
+  create_table "filled_fields", force: true do |t|
     t.integer  "filled_form_id"
     t.integer  "form_field_id"
     t.text     "value"
@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "filled_forms", :force => true do |t|
+  create_table "filled_forms", force: true do |t|
     t.integer  "form_id"
     t.integer  "user_id"
     t.string   "name"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.string   "verification_key"
   end
 
-  create_table "form_field_options", :force => true do |t|
+  create_table "form_field_options", force: true do |t|
     t.integer  "form_field_id"
     t.integer  "form_field_index"
     t.string   "name"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "form_fields", :force => true do |t|
+  create_table "form_fields", force: true do |t|
     t.integer  "form_id"
     t.integer  "form_index"
     t.string   "name"
@@ -188,11 +188,11 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
     t.boolean  "required"
     t.boolean  "monetary"
-    t.boolean  "dense",      :default => false
+    t.boolean  "dense",      default: false
     t.string   "value"
   end
 
-  create_table "forms", :force => true do |t|
+  create_table "forms", force: true do |t|
     t.string   "name"
     t.integer  "page_id"
     t.datetime "created_at"
@@ -203,14 +203,14 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.boolean  "pay_by_paypal"
   end
 
-  create_table "holidays", :force => true do |t|
+  create_table "holidays", force: true do |t|
     t.string   "name"
     t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "invitations", :force => true do |t|
+  create_table "invitations", force: true do |t|
     t.string   "email"
     t.string   "key"
     t.integer  "event_id"
@@ -221,23 +221,23 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.text     "note"
   end
 
-  create_table "libraries", :force => true do |t|
+  create_table "libraries", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "message_descriptions", :id => false, :force => true do |t|
+  create_table "message_descriptions", id: false, force: true do |t|
     t.integer "id"
     t.text    "contents"
   end
 
-  create_table "message_descriptions2", :id => false, :force => true do |t|
+  create_table "message_descriptions2", id: false, force: true do |t|
     t.integer "id"
     t.text    "contents"
   end
 
-  create_table "message_files", :force => true do |t|
+  create_table "message_files", force: true do |t|
     t.string   "file_file_name"
     t.string   "file_content_type"
     t.integer  "file_file_size"
@@ -250,21 +250,21 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.string   "youtube_id"
   end
 
-  create_table "message_ids", :id => false, :force => true do |t|
+  create_table "message_ids", id: false, force: true do |t|
     t.integer "id"
   end
 
-  create_table "message_set_descriptions2", :id => false, :force => true do |t|
-    t.integer "id"
-    t.text    "contents"
-  end
-
-  create_table "message_set_descriptions3", :id => false, :force => true do |t|
+  create_table "message_set_descriptions2", id: false, force: true do |t|
     t.integer "id"
     t.text    "contents"
   end
 
-  create_table "message_sets", :force => true do |t|
+  create_table "message_set_descriptions3", id: false, force: true do |t|
+    t.integer "id"
+    t.text    "contents"
+  end
+
+  create_table "message_sets", force: true do |t|
     t.string   "title"
     t.string   "url"
     t.text     "description"
@@ -278,7 +278,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.integer  "library_id"
   end
 
-  create_table "messages", :force => true do |t|
+  create_table "messages", force: true do |t|
     t.string   "title"
     t.string   "url"
     t.string   "verses"
@@ -298,7 +298,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.integer  "library_id"
   end
 
-  create_table "newsletters", :force => true do |t|
+  create_table "newsletters", force: true do |t|
     t.string   "name"
     t.string   "email_list"
     t.date     "published_at"
@@ -309,57 +309,57 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "window",            :default => 4, :null => false
+    t.integer  "window",            default: 4, null: false
   end
 
-  create_table "notes", :force => true do |t|
+  create_table "notes", force: true do |t|
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "page_id"
   end
 
-  create_table "pages", :force => true do |t|
+  create_table "pages", force: true do |t|
     t.string   "name"
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "url"
     t.text     "hero_text"
-    t.boolean  "home_feature",         :default => false
+    t.boolean  "home_feature",         default: false
     t.integer  "parent_id"
     t.text     "snippet_text"
     t.text     "feature_phrase"
     t.integer  "home_feature_index"
-    t.boolean  "private",              :default => false
+    t.boolean  "private",              default: false
     t.integer  "style_id"
     t.integer  "parent_index"
     t.boolean  "highlightable"
-    t.string   "layout",               :default => "regular", :null => false
+    t.string   "layout",               default: "regular", null: false
     t.string   "email_list"
     t.string   "url_prefix"
-    t.boolean  "animate_banner",       :default => false
+    t.boolean  "animate_banner",       default: false
     t.text     "url_aliases"
-    t.boolean  "obscure",              :default => false
+    t.boolean  "obscure",              default: false
     t.string   "child_layout"
     t.string   "aspect_order"
     t.string   "facebook_url"
     t.string   "twitter_name"
-    t.boolean  "feature_upcoming",     :default => false
-    t.boolean  "allow_for_email_list", :default => false
+    t.boolean  "feature_upcoming",     default: false
+    t.boolean  "allow_for_email_list", default: false
     t.text     "banner_text"
-    t.boolean  "parent_feature",       :default => false
+    t.boolean  "parent_feature",       default: false
     t.integer  "parent_feature_index"
     t.boolean  "any_user"
   end
 
-  create_table "payments", :force => true do |t|
-    t.integer  "amount"
+  create_table "payments", force: true do |t|
+    t.integer  "amount_cents",          default: 0
     t.string   "method"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "received_amount"
+    t.integer  "received_amount_cents"
     t.datetime "received_at"
     t.integer  "received_by"
     t.text     "received_notes"
@@ -368,7 +368,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.string   "verification_key"
   end
 
-  create_table "photos", :force => true do |t|
+  create_table "photos", force: true do |t|
     t.string   "caption"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
@@ -379,7 +379,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.integer  "page_id"
   end
 
-  create_table "podcasts", :force => true do |t|
+  create_table "podcasts", force: true do |t|
     t.string   "title"
     t.string   "subtitle"
     t.text     "summary"
@@ -397,7 +397,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.string   "sub_category"
   end
 
-  create_table "reservations", :force => true do |t|
+  create_table "reservations", force: true do |t|
     t.integer  "event_id"
     t.integer  "resource_id"
     t.datetime "created_at"
@@ -406,14 +406,14 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.integer  "post_time"
   end
 
-  create_table "resources", :force => true do |t|
+  create_table "resources", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "resource_type", :default => "room"
+    t.string   "resource_type", default: "room"
   end
 
-  create_table "sites", :force => true do |t|
+  create_table "sites", force: true do |t|
     t.integer  "communities_page_id"
     t.integer  "about_page_id"
     t.datetime "created_at"
@@ -427,9 +427,10 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.text     "check_address"
     t.text     "online_bank_vendor"
     t.string   "paypal_business"
+    t.text     "phone"
   end
 
-  create_table "styles", :force => true do |t|
+  create_table "styles", force: true do |t|
     t.string   "name"
     t.string   "hero_file_name"
     t.string   "hero_content_type"
@@ -452,23 +453,23 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.string   "bio_back_content_type"
     t.integer  "bio_back_file_size"
     t.datetime "bio_back_updated_at"
-    t.integer  "bio_back_color",             :default => 0
-    t.integer  "banner_text_color",          :default => 0
+    t.integer  "bio_back_color",             default: 0
+    t.integer  "banner_text_color",          default: 0
     t.string   "child_feature_file_name"
     t.string   "child_feature_content_type"
     t.integer  "child_feature_file_size"
     t.datetime "child_feature_updated_at"
-    t.integer  "child_feature_text_color",   :default => 0
+    t.integer  "child_feature_text_color",   default: 0
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                         :default => "", :null => false
+  create_table "users", force: true do |t|
+    t.string   "email",                              default: "", null: false
+    t.string   "encrypted_password",     limit: 128, default: "", null: false
+    t.string   "password_salt",                      default: "", null: false
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -492,17 +493,17 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "reset_password_sent_at"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "users_videos", :force => true do |t|
+  create_table "users_videos", force: true do |t|
     t.integer  "user_id"
     t.integer  "video_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "verse_ranges", :force => true do |t|
+  create_table "verse_ranges", force: true do |t|
     t.integer  "begin_index"
     t.integer  "end_index"
     t.integer  "message_id"
@@ -510,7 +511,7 @@ ActiveRecord::Schema.define(:version => 20130717144644) do
     t.datetime "updated_at"
   end
 
-  create_table "videos", :force => true do |t|
+  create_table "videos", force: true do |t|
     t.string   "caption"
     t.string   "video_file_name"
     t.string   "video_content_type"

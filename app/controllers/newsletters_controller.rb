@@ -50,7 +50,7 @@ class NewslettersController < ApplicationController
 
   def create
     cleanup_params
-    @newsletter = Newsletter.new(params[:newsletter])
+    @newsletter = Newsletter.new(newsletter_params)
 
     respond_to do |format|
       if @newsletter.save
@@ -68,7 +68,7 @@ class NewslettersController < ApplicationController
     @newsletter = Newsletter.find_by_published_at(params[:id])
 
     respond_to do |format|
-      if @newsletter.update_attributes(params[:newsletter])
+      if @newsletter.update_attributes(newsletter_params)
         format.html { redirect_to(newsletter_url(@newsletter),
           :notice => 'Newsletter was successfully updated.') }
       else
@@ -120,4 +120,10 @@ class NewslettersController < ApplicationController
       params[:newsletter][:email_list] = params[:choose_email_list] # due to flexbox
     end
   end
+  
+  def newsletter_params
+    params.require(:newsletter).permit(:name, :email_list, :published_at,
+      :featured_page_id, :featured_event_id, :note, :window)
+  end
+  
 end

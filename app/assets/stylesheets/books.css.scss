@@ -1,0 +1,73 @@
+#books a {
+	font-size: 14px;
+}
+
+#book_sections {
+  display: table;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  
+  li {
+    display: table-cell;
+    vertical-align: top;
+    margin: 0px;
+    padding-right: 5px;
+    height: 100%;
+  }
+  
+  h3 {
+    font-size: 14px;
+    color: #999;
+    width: 80px;
+    height: 30px;
+    margin-top: 0px;
+    padding-top: 0px;
+  }
+}
+  
+#testament_divider {
+  width: 7px;
+  border-left: 2px solid #eee;
+  vertical-align: bottom;
+}
+
+#testament_labels {
+  position: relative;
+  display: inline-block;
+  height: 620px;
+  vertical-align: bottom;
+}
+
+#old_testament, #new_testament {
+  position: absolute;
+  bottom: 0px;
+  font-style: italic;
+  color: #666;
+  white-space: nowrap;
+}
+
+#old_testament {
+  left: -120px;
+}
+
+#new_testament {
+  left: 20px;
+}
+
+#book_section {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  
+  li {
+    display: block;
+    margin-bottom: 5px;
+    padding: 0px 10px;
+    border-radius: 3px;
+  }
+  
+  a {
+    font-size: 14px;
+  }
+}

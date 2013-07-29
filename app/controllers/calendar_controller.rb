@@ -1,6 +1,14 @@
 class CalendarController < ApplicationController
   before_filter :get_context
   
+  def index
+    if mobile_device?
+      redirect_to view_context.calendar_list_path(params)
+    else
+      redirect_to view_context.calendar_month_path(params)
+    end
+  end
+  
   def month
     # start with first week having the first day of the referenced month
     # deal with beginning_of_week being Monday instead of Sunday
@@ -32,7 +40,7 @@ class CalendarController < ApplicationController
   def get_context
     @date = params[:date] ? Time.parse(params[:date]) : Date.today
     @months = [(params[:months] ? params[:months].to_i : 1), 1].max
-    @page = params[:page_id] ? Page.find_by_url(params[:page_id]) : nil
+    @page = params[:page_id] ? Page.find_by(url: params[:page_id]) : nil
     @full = params[:full] || false
     @singular = params[:singular] || false
     @resource = params[:resource_id] ?

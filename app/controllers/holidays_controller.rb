@@ -35,7 +35,7 @@ class HolidaysController < ApplicationController
 
   def create
     parse_date
-    @holiday = Holiday.new(params[:holiday])
+    @holiday = Holiday.new(holiday_params)
 
     respond_to do |format|
       if @holiday.save
@@ -54,7 +54,7 @@ class HolidaysController < ApplicationController
     @holiday = Holiday.find(params[:id])
 
     respond_to do |format|
-      if @holiday.update_attributes(params[:holiday])
+      if @holiday.update_attributes(holiday_params)
         format.html { redirect_to(holidays_url,
           :notice => 'Holiday was successfully updated.') }
         format.xml  { head :ok }
@@ -82,6 +82,10 @@ class HolidaysController < ApplicationController
       params[:holiday][:date] =
         Date.parse_from_form(params[:holiday][:date])
     end
+  end
+  
+  def holiday_params
+    params.require(:holiday).permit(:name, :date)
   end
   
 end

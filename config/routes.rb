@@ -65,26 +65,32 @@ Pbc3::Application.routes.draw do
   # Repeat for any custom Devise routes
   %w(users accounts forms site payments audit_logs email_lists
     holidays).each do |area|
-    match "/#{area}(/*path)", :to => redirect { |_, request|
+    ###match
+    get "/#{area}(/*path)", :to => redirect { |_, request|
       "https://" + request.host_with_port + request.fullpath }
   end
 
   get "home/index"
   get "private", :controller => 'home', :action => 'private'
-  get "hyper", :controller => 'HyperHome', :action => 'index'
-  get "hyper/index", :controller => 'HyperHome', :action => 'index'
-  get "calendar", :controller => 'calendar', :action => 'month',
+  get "hyper", :controller => 'hyper_home', :action => 'index'
+  get "hyper/index", :controller => 'hyper_home', :action => 'index'
+  get "calendar", :controller => 'calendar', :action => 'index',
     :as => 'main_calendar'
+  get "calendar/month", :as => 'main_calendar_month'
   get "calendar/list", :as => 'main_calendar_list'
   get "calendar/day", :as => 'main_calendar_day'
-  get ":page_id/calendar", :controller => 'calendar', :action => 'month',
+  get ":page_id/calendar", :controller => 'calendar', :action => 'index',
     :as => 'page_calendar'
+  get ":page_id/calendar/month", :controller => 'calendar', :action => 'month',
+    :as => 'page_calendar_month'
   get ":page_id/calendar/list", :controller => 'calendar', :action => 'list',
     :as => 'page_calendar_list'
   get ":page_id/calendar/day", :controller => 'calendar', :action => 'day',
     :as => 'page_calendar_day'
   get "resources/:resource_id/calendar", :controller => 'calendar',
-    :action => 'month', :as => 'resource_calendar'
+    :action => 'index', :as => 'resource_calendar'
+  get "resources/:resource_id/calendar/month", :controller => 'calendar',
+    :action => 'month', :as => 'resource_calendar_month'
   get "resources/:resource_id/calendar/list", :controller => 'calendar',
     :action => 'list', :as => 'resource_calendar_list'
   get "resources/:resource_id/calendar/day", :controller => 'calendar',
@@ -103,9 +109,12 @@ Pbc3::Application.routes.draw do
   end
   resources :libraries
   
-  match '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'
-  match '/library/sermons.rss' => redirect('/messages.rss')
-  match '/:page_id.rss', :to => "podcasts#show", :format => 'rss', :as => 'friendly_page_podcast'
+  ###match
+  get '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'
+  ###match
+  get '/library/sermons.rss' => redirect('/messages.rss')
+  ###match
+  get '/:page_id.rss', :to => "podcasts#show", :format => 'rss', :as => 'friendly_page_podcast'
 
   resources :pages do
     collection do
@@ -156,21 +165,30 @@ Pbc3::Application.routes.draw do
       get :map_old_file
     end
   end
-  match 'messages/map_old_file/*file_name', :to => 'messages#map_old_file'
+  ###match
+  get 'messages/map_old_file/*file_name', :to => 'messages#map_old_file'
   resources :series, :controller => :message_sets
   resources :books, :only => [:index, :show]
   resource :podcast
   
-  match '/:id', :to => "pages#show", :as => 'friendly_page'
+  ###match
+  get '/:id', :to => "pages#show", :as => 'friendly_page'
   
   # redirects from old sites
-  match '/:page/events' => redirect("/%{page}/calendar")
-  match '/:page/day' => redirect("/%{page}/calendar")
-  match '/library/files/html/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
-  match '/dp/:author/:series/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
-  match '/dp/:author/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
-  match '/files/messages/:message_id/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
-  match '/message_sets/:id' => redirect("/messages")
+  ###match
+  get '/:page/events' => redirect("/%{page}/calendar")
+  ###match
+  get '/:page/day' => redirect("/%{page}/calendar")
+  ###match
+  get '/library/files/html/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  ###match
+  get '/dp/:author/:series/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  ###match
+  get '/dp/:author/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  ###match
+  get '/files/messages/:message_id/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
+  ###match
+  get '/message_sets/:id' => redirect("/messages")
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -27,7 +27,7 @@ class DocumentsController < ApplicationController
 
   def create
     parse_date
-    @document = Document.new(params[:document])
+    @document = Document.new(document_params)
     @page = @document.page
 
     respond_to do |format|
@@ -47,7 +47,7 @@ class DocumentsController < ApplicationController
     @document = @page.documents.find(params[:id])
 
     respond_to do |format|
-      if @document.update_attributes(params[:document])
+      if @document.update_attributes(document_params)
         format.html { redirect_to(new_page_document_url(@page),
           :notice => 'Document was successfully updated.') }
         format.xml  { head :ok }
@@ -79,6 +79,11 @@ class DocumentsController < ApplicationController
     else
       params[:document][:published_at] = nil
     end
+  end
+  
+  def document_params
+    params.require(:document).permit(:page_id, :name, :summary,
+      :published_at, :file)
   end
   
 end

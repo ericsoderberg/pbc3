@@ -41,6 +41,10 @@
         <%= event.start_at.strftime("%A") %>
       <% end -%>
     </td>
+    <% if mobile_device? -%>
+  </tr>
+  <tr>
+    <% end -%>
     <td class="time <%= @full ? 'first' : '' %>">
       <%= event.start_at.simple_time %></td>
     <% if @full -%>

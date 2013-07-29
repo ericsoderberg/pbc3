@@ -4,9 +4,9 @@ class Site < ActiveRecord::Base
   belongs_to :about_page, :class_name => 'Page',
     :foreign_key => :about_page_id
   has_one :podcast
-  audited
+  ###audited
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates :title, :presence => true
   validates :email, :presence => true

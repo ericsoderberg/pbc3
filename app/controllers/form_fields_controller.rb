@@ -48,7 +48,7 @@ class FormFieldsController < ApplicationController
     @form_field = @form.form_fields.find(params[:id])
 
     respond_to do |format|
-      if @form_field.update_attributes(params[:form_field])
+      if @form_field.update_attributes(form_field_params)
         format.html { redirect_to(@form_field, :notice => 'Form field was successfully updated.') }
         format.js
       else
@@ -65,7 +65,7 @@ class FormFieldsController < ApplicationController
     @form_field.copy(source_form_field)
 
     respond_to do |format|
-      if @form_field.update_attributes(params[:form_field])
+      if @form_field.update_attributes(form_field_params)
         format.html { redirect_to(@form_field, :notice => 'Form field was successfully updated.') }
         format.js
       else
@@ -93,6 +93,11 @@ class FormFieldsController < ApplicationController
   def get_form
     @form = Form.find(params[:form_id])
     @page = @form.page
+  end
+  
+  def form_field_params
+    params.require(:form_field).permit(:form_id, :form_index, :name,
+      :field_type, :help, :size, :required, :monetary, :dense, :value)
   end
   
 end

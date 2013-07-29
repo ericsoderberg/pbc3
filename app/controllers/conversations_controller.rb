@@ -35,7 +35,7 @@ class ConversationsController < ApplicationController
   end
 
   def create
-    @conversation = @page.conversations.new(params[:conversation])
+    @conversation = @page.conversations.new(conversation_params)
     @conversation.user = current_user
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class ConversationsController < ApplicationController
     @conversation = @page.conversations.find(params[:id])
 
     respond_to do |format|
-      if @conversation.update_attributes(params[:conversation])
+      if @conversation.update_attributes(conversation_params)
         format.html { redirect_to(friendly_page_path(@page),
           :notice => 'Conversation was successfully updated.') }
         format.xml  { head :ok }
@@ -74,4 +74,11 @@ class ConversationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def conversation_params
+    params.require(:conversation).permit(:text, :user_id, :page_id)
+  end
+  
 end

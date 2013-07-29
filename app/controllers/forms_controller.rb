@@ -67,7 +67,7 @@ class FormsController < ApplicationController
   # POST /forms
   # POST /forms.xml
   def create
-    @form = Form.new(params[:form])
+    @form = Form.new(form_params)
     if params.has_key?(:copy_form_id)
       @copy_form = Form.find(params[:copy_form_id])
       @form.copy(@copy_form)
@@ -100,7 +100,7 @@ class FormsController < ApplicationController
     end
 
     respond_to do |format|
-      if @form.update_attributes(params[:form]) and
+      if @form.update_attributes(form_params) and
         @form.order_fields(ordered_field_ids)
         format.html { redirect_to(new_form_fill_path(@form),
           :notice => 'Form was successfully updated.') }
@@ -125,4 +125,12 @@ class FormsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def form_params
+    params.require(:form).permit(:name, :page_id, :payable, :published,
+      :pay_by_check, :pay_by_paypal)
+  end
+  
 end

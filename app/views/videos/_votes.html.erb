@@ -9,14 +9,14 @@
       :method => :delete, :remote => true) do %>
       <%= hidden_field_tag 'video_id', video.id %>
       <%= submit_tag "unlike", :type => :image,
-        :src => "/images/thumbs-up-on.png" %>
+        :src => image_path("thumbs-up-on.png") %>
     <% end %>
   <% else -%>
     <%= form_tag(page_video_users_videos_path(:page_id => @page.url,
       :video_id => video.id), :remote => true) do %>
       <%= hidden_field_tag 'video_id', video.id %>
       <%= submit_tag "like", :type => :image,
-        :src => "/images/thumbs-up-empty.png" %>
+        :src => image_path("thumbs-up-empty.png") %>
     <% end %>
   <% end -%>
 </div>

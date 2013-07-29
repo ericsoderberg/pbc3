@@ -1,0 +1,31 @@
+<div class="home_message">
+  <div class="message_title">
+    <%= link_to message.title, message_url(message) %>
+  </div>
+  <div class="message_verses"><%= message.verses %></div>
+  <div class="message_author">
+    <% if message.author -%>
+      <%= link_to message.author.name, author_url(message.author) %>
+    <% end -%>
+  </div>
+  <% unless message.message_files.empty? -%>
+    <ul class="message_files">
+      <% message.message_files.each do |message_file| -%>
+        <% next unless message_file.file.content_type -%>
+        <li>
+          <% if message_file.audio? -%>
+            <%= link_to image_tag('audio.png', :size => '16x16'),
+              (@route_prefix + message_file.file.url) %>
+          <% elsif message_file.video? -%>
+            <%= link_to image_tag('video.png', :size => '16x16'),
+              (@route_prefix + message_file.file.url) %>
+          <% else -%>
+            <%= link_to image_tag('document.png', :size => '16x16'),
+              (@route_prefix + message_file.file.url) %>
+          <% end -%>
+          <%= link_to message_file.caption, @route_prefix + message_file.file.url %>
+        </li>
+      <% end -%>
+    </ul>
+  <% end -%>
+</div>

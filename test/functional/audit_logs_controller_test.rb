@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class AuditLogsControllerTest < ActionController::TestCase
+=begin
+  ###
   setup do
     @audit_log = audits(:one)
     sign_in users(:admin)
@@ -47,4 +49,5 @@ class AuditLogsControllerTest < ActionController::TestCase
 
     assert_redirected_to audit_logs_path
   end
+=end
 end

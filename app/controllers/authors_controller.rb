@@ -30,7 +30,7 @@ class AuthorsController < ApplicationController
   # GET /authors/1
   # GET /authors/1.xml
   def show
-    @author = Author.find_by_url(params[:id])
+    @author = Author.find_by(url: params[:id])
     @messages = @author.messages
     
     respond_to do |format|
@@ -52,13 +52,13 @@ class AuthorsController < ApplicationController
 
   # GET /authors/1/edit
   def edit
-    @author = Author.find_by_url(params[:id])
+    @author = Author.find_by(url: params[:id])
   end
 
   # POST /authors
   # POST /authors.xml
   def create
-    @author = Author.new(params[:author])
+    @author = Author.new(author_params)
 
     respond_to do |format|
       if @author.save
@@ -75,10 +75,10 @@ class AuthorsController < ApplicationController
   # PUT /authors/1
   # PUT /authors/1.xml
   def update
-    @author = Author.find_by_url(params[:id])
+    @author = Author.find_by(url: params[:id])
 
     respond_to do |format|
-      if @author.update_attributes(params[:author])
+      if @author.update_attributes(author_params)
         format.html { redirect_to(@author, :notice => 'Author was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -91,7 +91,7 @@ class AuthorsController < ApplicationController
   # DELETE /authors/1
   # DELETE /authors/1.xml
   def destroy
-    @author = Author.find_by_url(params[:id])
+    @author = Author.find_by(url: params[:id])
     @author.destroy
 
     respond_to do |format|
@@ -99,4 +99,11 @@ class AuthorsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def author_params
+    params.require(:author).permit(:name, :url, :description)
+  end
+  
 end

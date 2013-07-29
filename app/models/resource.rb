@@ -1,9 +1,9 @@
 class Resource < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   has_many :events, :through => :reservations
-  audited
+  ###audited
 
-  attr_protected :id
+  ###attr_protected :id
   
   TYPES = %w(room equipment)
   
@@ -14,8 +14,9 @@ class Resource < ActiveRecord::Base
   scope :equipment, where(:resource_type => 'equipment')
   
   def other_events_during(event)
-    reservations.between(event.start_at, event.stop_at).
-      where('events.id != ?', event.id).map{|reservation| reservation.event}
+    reservations.includes(:event).between(event.start_at, event.stop_at).
+      where('event_id != ?', event.id).references(:event).
+      map{|reservation| reservation.event}
   end
   
 end

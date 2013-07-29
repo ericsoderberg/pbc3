@@ -57,7 +57,7 @@ class EventsController < ApplicationController
 
   def create
     parse_times
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
     @page = @event.page
 
     respond_to do |format|
@@ -84,7 +84,7 @@ class EventsController < ApplicationController
       'update_with_replicas' : 'update_attributes'
 
     respond_to do |format|
-      if @event.send(update_method, params[:event])
+      if @event.send(update_method, event_params)
         format.html { redirect_to(new_page_event_url(@event.page),
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
@@ -116,6 +116,11 @@ class EventsController < ApplicationController
       params[:event][:stop_at] =
         DateTime.parse_from_form(params[:event][:stop_at])
     end
+  end
+  
+  def event_params
+    params.require(:event).permit(:name, :start_at, :stop_at, :all_day,
+      :location, :page_id, :master_id, :featured, :invitation_message, :notes)
   end
   
 end

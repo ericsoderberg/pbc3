@@ -26,7 +26,7 @@ class AudiosController < ApplicationController
 
   def create
     parse_date
-    @audio = Audio.new(params[:audio])
+    @audio = Audio.new(audio_params)
     @page = @audio.page
 
     respond_to do |format|
@@ -46,7 +46,7 @@ class AudiosController < ApplicationController
     @audio = @page.audios.find(params[:id])
 
     respond_to do |format|
-      if @audio.update_attributes(params[:audio])
+      if @audio.update_attributes(audio_params)
         format.html { redirect_to(new_page_audio_url(@page),
           :notice => 'Audio was successfully updated.') }
         format.xml  { head :ok }
@@ -76,4 +76,10 @@ class AudiosController < ApplicationController
         Date.parse_from_form(params[:audio][:date])
     end
   end
+  
+  def audio_params
+    params.require(:audio).permit(:caption, :page_id, :date, :verses,
+      :author, :event_id, :description, :audio, :audio2)
+  end
+  
 end

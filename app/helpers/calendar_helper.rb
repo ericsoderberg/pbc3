@@ -24,6 +24,16 @@ module CalendarHelper
     end
   end
   
+  def calendar_month_path(args)
+    if args[:page_id]
+      page_calendar_month_path(args)
+    elsif args[:resource_id]
+      resource_calendar_month_path(args)
+    else
+      main_calendar_month_path(args)
+    end
+  end
+  
   def calendar_list_path(args)
     if args[:page_id]
       page_calendar_list_path(args)

@@ -3,10 +3,11 @@ class FilledForm < ActiveRecord::Base
   has_one :page, :through => :form, :source => :page
   belongs_to :user
   belongs_to :payment
-  has_many :filled_fields, :autosave => true, :dependent => :destroy,
-    :include => :form_field, :order => 'form_fields.form_index'
+  has_many :filled_fields, -> {
+    includes(:form_field).order('form_fields.form_index') },
+    :autosave => true, :dependent => :destroy
     
-  attr_protected :id
+  ###attr_protected :id
   
   validates :form, :presence => true
   validates :name, :presence => true
@@ -30,7 +31,7 @@ class FilledForm < ActiveRecord::Base
             "filled_forms.payment_id = #{payment.id})"
         else
           "filled_forms.payment_id = #{payment.id}"
-        end)
+        end).references(:form)
   end
   
   def payable?

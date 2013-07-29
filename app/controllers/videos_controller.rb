@@ -25,7 +25,7 @@ class VideosController < ApplicationController
   end
 
   def create
-    @video = Video.new(params[:video])
+    @video = Video.new(video_params)
     @page = @video.page
 
     respond_to do |format|
@@ -44,7 +44,7 @@ class VideosController < ApplicationController
     @video = @page.videos.find(params[:id])
 
     respond_to do |format|
-      if @video.update_attributes(params[:video])
+      if @video.update_attributes(video_params)
         format.html { redirect_to(new_page_video_url(@page),
           :notice => 'Video was successfully updated.') }
         format.xml  { head :ok }
@@ -65,4 +65,12 @@ class VideosController < ApplicationController
       format.js
     end
   end
+  
+  private
+  
+  def video_params
+    params.require(:video).permit(:caption, :page_id, :youtube_id,
+      :description, :vimeo_id, :video, :video2)
+  end
+  
 end

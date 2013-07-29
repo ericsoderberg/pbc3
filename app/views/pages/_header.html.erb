@@ -1,4 +1,4 @@
-<header>
+<header id="page_header">
   <h1 class="<%= @page.nav_context == @page ? 'active' : '' %>">
     <%= link_to @page.nav_context.name,
       friendly_page_path(@page.nav_context) %></h1>

@@ -3,29 +3,27 @@ class Page < ActiveRecord::Base
   acts_as_url :prefixed_name, :sync_url => true
   
   belongs_to :style
-  has_many :notes, :order => 'created_at DESC'
+  has_many :notes, -> { order('created_at DESC') }
   has_many :photos, :dependent => :destroy
-  has_many :videos, :dependent => :destroy, :order => 'date DESC'
-  has_many :audios, :dependent => :destroy, :order => 'date DESC'
-  has_many :documents, :dependent => :destroy, :order => 'published_at DESC'
-  has_many :events, :order => 'start_at ASC', :dependent => :destroy
+  has_many :videos, -> { order('date DESC') }, :dependent => :destroy
+  has_many :audios, -> { order('date DESC') }, :dependent => :destroy
+  has_many :documents, -> { order('published_at DESC') }, :dependent => :destroy
+  has_many :events, -> { order('start_at ASC') }, :dependent => :destroy
   has_one :group
   belongs_to :parent, :class_name => 'Page'
-  has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
-    :order => :parent_index
-  has_many :contacts, :include => :user, :order => 'users.first_name ASC',
+  has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
+    :foreign_key => :parent_id
+  has_many :contacts, -> { includes(:user).order('users.first_name ASC') },
     :dependent => :destroy
-  has_many :contact_users, :through => :contacts, :source => :user,
-    :order => 'users.first_name ASC'
-  has_many :authorizations, :dependent => :destroy, :include => :user,
-    :order => 'users.first_name ASC'
+  has_many :contact_users, -> { order('users.first_name ASC') }, :through => :contacts, :source => :user
+  has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
   has_one :podcast
-  has_many :forms, :dependent => :destroy, :order => 'LOWER(name) ASC'
-  has_many :conversations, :order => 'created_at DESC', :dependent => :destroy
-  audited :except => [:parent_index,
-    :home_feature_index, :parent_feature_index]
+  has_many :forms, -> { order('LOWER(name) ASC') }, :dependent => :destroy
+  has_many :conversations, -> { order('created_at DESC') }, :dependent => :destroy
+  ###audited :except => [:parent_index,
+  ###  :home_feature_index, :parent_feature_index]
     
-  attr_protected :id
+  ###attr_protected :id
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
   CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
@@ -90,7 +88,7 @@ class Page < ActiveRecord::Base
   end
   
   def self.find_by_url_or_alias(url)
-    result = Page.find_by_url(url)
+    result = Page.find_by(url: url)
     if not result
       Page.where('url_aliases ILIKE ?', '%' + url + '%').each do |page|
         if page.url_aliases.split.include?(url)
@@ -130,7 +128,7 @@ class Page < ActiveRecord::Base
       'authorizations.user_id = ? OR ' +
       '(pages.allow_for_email_list = ? AND pages.email_list IN (?))',
       (user ? user.administrator? : false), false, true, (user ? true : false),
-      (user ? user.id : -1), true, email_list_names)
+      (user ? user.id : -1), true, email_list_names).references(:authorizations)
   end
   
   searchable do

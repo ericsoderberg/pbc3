@@ -2,7 +2,7 @@ class FilledField < ActiveRecord::Base
   belongs_to :filled_form
   belongs_to :form_field
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates :filled_form, :presence => true
   validates :form_field_id, :presence => true,

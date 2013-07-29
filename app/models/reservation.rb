@@ -2,7 +2,7 @@ class Reservation < ActiveRecord::Base
   belongs_to :event
   belongs_to :resource
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates :event, :presence => true
   validates :resource_id, :presence => true,
@@ -35,7 +35,8 @@ class Reservation < ActiveRecord::Base
   
   def self.between(start, stop)
     # TODO: need to account for pre_time and post_time !!!
-    includes(:event).where("events.stop_at > ? AND events.start_at < ?", start, stop)
+    includes(:event).where("events.stop_at > ? AND events.start_at < ?", start, stop).
+      references(:event)
   end
   
   def copy(for_event)

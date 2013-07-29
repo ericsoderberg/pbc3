@@ -5,7 +5,7 @@ class MessageFile < ActiveRecord::Base
     :path => ":rails_root/public/system/message_files/:id/:filename",
     :url => "/system/message_files/:id/:filename"
   
-  attr_protected :id
+  ###attr_protected :id
   
   validates_presence_of :message
   validate :one_type
