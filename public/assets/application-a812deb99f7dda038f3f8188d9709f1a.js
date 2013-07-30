@@ -10657,7 +10657,7 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
       return manageControls(currentPosition);
     });
     manageControls(currentPosition);
-    $(".control").bind("click", function() {
+    $(".control").on("click", function() {
       if (automate) {
         automate = false;
         clearInterval(timer);

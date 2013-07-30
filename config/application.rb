@@ -4,7 +4,8 @@ require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+#Bundler.require(:default, Rails.env)
+Bundler.require *Rails.groups(:assets => %w(development test))
 
 module Pbc3
   class Application < Rails::Application
@@ -41,5 +42,9 @@ module Pbc3
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    
+    #config.assets.paths << "#{Rails.root}/app/assets/stylesheets/mobile/mobile.css.scss"
+    #config.assets.paths << "#{Rails.root}/app/assets/javascripts/mobile/mobile.js.coffee"
+    config.assets.precompile += ["mobile/mobile.css", "mobile/mobile.js"]
   end
 end
