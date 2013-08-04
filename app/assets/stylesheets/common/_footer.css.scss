@@ -4,11 +4,8 @@ footer {
   font-size: 14px;
   color: #ccc;
   
-  #site_address, #site_phone {
+  #site_address, #site_phone, #copyright {
     display: inline-block;
-  }
-  
-  #copyright {
-    float: right;
+    margin-right: 15px;
   }
 }

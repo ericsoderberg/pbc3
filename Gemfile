@@ -54,3 +54,9 @@ gem 'capistrano'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+group :development do
+  gem 'guard'
+  gem 'guard-livereload'
+end
+

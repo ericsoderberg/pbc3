@@ -14,15 +14,12 @@ class HomeController < ApplicationController
     end
     user = user_signed_in? ? current_user : nil
     
-    if mobile_device?
-      @today = Date.today.beginning_of_day
-      @next_message = Message.between(@today, @today + 1.week).first;
-      @previous_message = Message.between(@today - 2.weeks, @today - 1.day).last;
-      @route_prefix = request.protocol + request.host_with_port
-    else
-      @feature_pages = Page.home_feature_pages(user)
-      @feature_strip_pages = @feature_pages[0,5]
-    end
+    @today = Date.today.beginning_of_day
+    @next_message = Message.between(@today, @today + 1.week).first;
+    @previous_message = Message.between(@today - 2.weeks, @today - 1.day).last;
+    @route_prefix = request.protocol + request.host_with_port
+    @feature_pages = Page.home_feature_pages(user)
+    @feature_strip_pages = @feature_pages[0,5]
   end
   
   def edit

@@ -5,18 +5,13 @@
   <title><%= yield(:title) || (@site ? @site.title : 'Site') %></title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <% if mobile_device? -%>
-    <%= stylesheet_link_tag    "mobile/mobile", media: "only screen",
-      "data-turbolinks-track" => true %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!--meta name="apple-mobile-web-app-capable" content="yes"-->
+    <!--meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"-->
     <link href="<%= image_path('pbc3-icon.png') %>" rel="apple-touch-icon">
     <link href="<%= image_path('pbc3-icon.png') %>" rel="apple-touch-icon-precomposed">
   <% end -%>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <% if mobile_device? -%>
-    <%= javascript_include_tag "mobile/mobile", "data-turbolinks-track" => true %>
-  <% end -%>
   <%= yield(:scripts) %>
   <%= yield(:feed) %>
   <%= csrf_meta_tag %>
@@ -28,14 +23,10 @@
     <h1><%= link_to raw(site_title), root_path %></h1>
     <h2><%= @site ? @site.subtitle : '' %></h2>
     <div id="notice"><%= notice %><%= alert %></div>
-    <% if not mobile_device? -%>
-      <%= render :partial => 'layouts/auth' %>
-    <% end -%>
+    <%= render :partial => 'layouts/auth' %>
   </header>
   
-  <% unless mobile_device? -%>
-    <%= render :partial => 'layouts/site_nav' %>
-  <% end -%>
+  <%= render :partial => 'layouts/site_nav' %>
 
 <%= yield %>
 
@@ -43,7 +34,7 @@
     <% if @site -%>
       <div id="site_address">
         <%= link_to @site.address,
-          'http://maps.google.com/maps?daddr=' + @site.address %>
+          'http://maps.apple.com/?q=' + @site.address %>
       </div>
       <div id="site_phone">
         <%= @site.phone %>
@@ -51,9 +42,6 @@
       <div id="copyright">
         <%= raw @site.copyright %>
       </div>
-    <% end -%>
-    <% if mobile_device? -%>
-      <%= render :partial => 'layouts/auth' %>
     <% end -%>
   </footer>
   

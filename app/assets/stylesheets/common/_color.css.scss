@@ -1,1 +1,15 @@
 $link-color: #0b6199;
+
+@mixin box-shadow($distanceX, $distanceY, $blur, $spread, $color) {
+  -webkit-box-shadow: $distanceX $distanceY $blur $spread $color;
+  -moz-box-shadow: $distanceX $distanceY $blur $spread $color;
+  -ms-box-shadow: $distanceX $distanceY $blur $spread $color;
+  box-shadow: $distanceX $distanceY $blur $spread $color;
+}
+
+@mixin remove-box-shadow() {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  box-shadow: none;
+}

@@ -1,15 +1,31 @@
 body {
   margin: 0px;
-  padding: 0px 0px 40px 0px;
 	font: 14px/22px Arial, sans-serif;
-	background-color: #e4e3e1;
+
+  @include respond-to(normal-up) {
+    padding: 0px 0px 40px 0px;
+  	background-color: #e4e3e1;
+  }
+
+  @include respond-to(small-down) {
+    padding: 0px 0px 0px 0px;
+  	background-color: #fff;
+  }
 }
 
 div#content {
-  margin: 0px auto;
-  padding: 35px 35px 20px 35px;
-	width: 980px;
-	background: #fff;
+  
+  @include respond-to(normal-up) {
+    margin: 0px auto;
+    padding: 35px 35px 20px 35px;
+  	width: 980px;
+  	background: #fff;
+	}
+	
+	@include respond-to(small-down) {
+	  position: relative;
+	  padding: 20px 20px 40px 20px;
+  }
 }
 
 h1 {

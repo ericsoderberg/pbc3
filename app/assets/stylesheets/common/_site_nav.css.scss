@@ -1,14 +1,16 @@
 #site_nav {
-	height: 40px;
-  background-color: #ccc;
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#bbb));
-  background: -moz-linear-gradient(270deg, #eee, #bbb);
-  border-radius: 4px;
+  position: relative;
+	min-height: 40px;
+  background-color: #eee;
+  border: 1px solid #d8d8d8;
+  padding-right: 150px;
+  white-space: nowrap;
   
   ul {
   	margin: 0 auto;
   	padding: 0;
   	list-style: none;
+  	white-space: normal;
   	
   	li {
   	  
@@ -21,20 +23,22 @@
     		line-height: 40px;
     		text-align: center;
     		text-decoration: none;
-    		color: #444;
-    	  -webkit-transition-property: color, background;
+    		color: #555;
+    		white-space: nowrap;
+    	  -webkit-transition-property: color, background-color;
         -webkit-transition-duration: 0.2s, 0.4s;
         -webkit-transition-timing-function: linear, ease-in;
-        -moz-transition-property: color, background;
+        -moz-transition-property: color, background-color;
         -moz-transition-duration: 0.2s, 0.4s;
         -moz-transition-timing-function: linear, ease-in;
-        transition-property: color, background;
+        transition-property: color, background-color;
         transition-duration: 0.2s, 0.4s;
         transition-timing-function: linear, ease-in;
         
         &:hover {
-      		color: #eee;
-      		background-color: #999;
+          opacity: 1.0;
+      		color: #000;
+      		background-color: #fff;
       	}
       }
       
@@ -56,15 +60,29 @@
   	}
   }
   
-  > ul > li {
-  	float: left;
-  	border-left: 1px solid #999;
+  > ul {
+    
+    > li {
+  	  display: inline-block;
+  	  border-left: 1px solid #d8d8d8;
+  	  
+  	  @include respond-to(tiny) {
+  	    display: block;
+  	    a {
+  	      text-align: left;
+	      }
+	    }
+	  }
   }
   
   form {
-    float: right;
+    width: 150px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     margin-top: 8px;
     margin-right: 10px;
+    text-align: right;
   }
   
   .menu_parent {
@@ -77,10 +95,9 @@
       position: absolute;
       top: 40px;
       z-index: 200;
-      background-color: #797977;
-      -webkit-box-shadow: 3px 3px 8px #666;
-      -moz-box-shadow: 3px 3px 8px #666;
-      box-shadow: 3px 3px 8px #666;
+      background-color: #eee;
+      padding: 10px;
+      @include box-shadow(3px, 3px, 8px, 0px, #666);
       white-space: nowrap;
       -webkit-transition: all 0.5s ease 0.2s;
       -moz-transition: all 0.5s ease 0.2s;
@@ -91,6 +108,8 @@
         list-style: none;
         margin: 0px;
         padding: 0px;
+        overflow: hidden;
+        background-color: #fff;
         
         li, li a {
           height: 0px;
@@ -107,19 +126,36 @@
           padding: 0px 0px;
           
           a {
-            color: #fff;
+            color: #555;
             background-color: inherit;
             font-weight: normal;
             text-align: left;
             padding: 0px;
-            border-top: 1px solid #888;
+            border-top: 1px solid #ddd;
             border-top-left-radius: 0px;
         	  border-bottom-left-radius: 0px;
           }
           
-          &:hover, &:hover a {
-            color: #000;
-            background-color: #999;
+          &:hover {
+            color: $link-color;
+            
+            a {
+              position: relative;
+              color: $link-color;
+            
+              &::after {
+                position: absolute;
+                content: image-url("right_small.png");
+                margin-left: 5px;
+                vertical-align: baseline;
+              }
+            }
+          }
+          
+          &:first-of-type {
+            a {
+              border: none;
+            }
           }
         }
       }
@@ -132,7 +168,8 @@
       
       ul li, ul li a {
         height: 36px;
-        width: auto;
+        width: 150px;
+        padding-right: 15px;
         line-height: 36px;
         -webkit-transition: color 0;
         -moz-transition: color 0;
@@ -140,6 +177,7 @@
       }
       
       ul li {
+        width: 165px;
         padding: 0px 10px;
       }
     }

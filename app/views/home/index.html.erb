@@ -1,11 +1,41 @@
 <% title('Peninsula Bible Church') -%>
 <% content_for(:content_class) {'home'}%>
 
-<% if mobile_device? -%>
+<% if @next_message or @previous_message -%>
+<div id="home_services">
+  <h2>
+    <% url = root_url
+      if @next_message and ! @next_message.events.empty?
+        url = friendly_page_url(@next_message.events.first.page)
+      end %>
+    <%= link_to 'Services', url %>
+  </h2>
+  <ol id="home_messages">
+    <% if @next_message -%>
+    <li class="next_message">
 
-<%= render :partial => "mobile" %>
+      <span class="when">
+      <%= @next_message.date.event_date %>
+      <%= raw @next_message.events.map{ |e|
+          e.start_at.simple_time(true)
+      }.to_sentence() %>
+      </span>
 
-<% else -%>
+      <%= render :partial => 'message',
+        :locals => {:message => @next_message} %>
+    </li>
+    <% end -%>
+
+    <% if @previous_message -%>
+    <li class="previous_message">
+      <span class="when">Last week</span>
+      <%= render :partial => 'message',
+        :locals => {:message => @previous_message} %>
+    </li>
+    <% end -%>
+  </ol>
+</div>
+<% end -%>
 
 <div id="hero">
   <div id="hero_list">
@@ -16,5 +46,3 @@
 <ul id="feature_nav">
   <%= render :partial => "feature_page", :collection => @feature_strip_pages %>
 </ul>
-
-<% end -%>

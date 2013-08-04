@@ -147,7 +147,7 @@ header {
     }
   }
   
-   h2 {
+  h2 {
     margin: 0px;
     padding-left: 10px;
     padding-right: 10px;
@@ -158,10 +158,23 @@ header {
     color: #666;
     border-left: 2px solid #999;
   }
+  
+  @include respond-to(tiny) {
+    h2 {
+      display: none;
+    }
+  }
 }
 
 div#auth {
   float: right;
+  
+  @include respond-to(tiny) {
+    float: none;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+  }
   
   ul {
     display: table;

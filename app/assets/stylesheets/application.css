@@ -10,5 +10,5 @@
  *
  *= require_self
  *= require index
- *= require_directory .
+ * require_directory ./layouts
  */
