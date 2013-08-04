@@ -56,4 +56,9 @@ class ApplicationController < ActionController::Base
   end
   helper_method :mobile_device?
   
+  def phone_device?
+    request.user_agent.downcase =~ /iphone|ipod/
+  end
+  helper_method :phone_device?
+  
 end

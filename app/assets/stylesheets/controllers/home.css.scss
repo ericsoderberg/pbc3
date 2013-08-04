@@ -98,7 +98,7 @@
     margin-right: 10px;
     width: 200px;
     
-    @include respond-to(normal-up) {
+    @include respond-to(small-up) {
       text-align: right;
     }
   }
@@ -291,30 +291,51 @@
   list-style-type: none;
   margin: 0px;
   padding: 0px;
-  -webkit-box-shadow: 3px 3px 10px #ccc;
-  -moz-box-shadow: 3px 3px 10px #ccc;
-  box-shadow: 3px 3px 10px #ccc;
-  -webkit-animation-name: reset, fade-in;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-timing-function: ease-in;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-delay: 0, 0.3s;
-  -moz-animation-name: reset, fade-in;
-  -moz-animation-duration: 1s;
-  -moz-animation-timing-function: ease-in;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-delay: 0, 0.3s;
   
-  li {
-    display: inline-block;
+   @include respond-to(tiny) {
+     //border: 1px solid #ccc;
+   }
+  
+  @include respond-to(small-up) {
+    width: 100%;
+    -webkit-animation-name: reset, fade-in;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-delay: 0, 0.3s;
+    -moz-animation-name: reset, fade-in;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: ease-in;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-delay: 0, 0.3s;
+  }
+  
+  @include respond-to(normal-up) {
+    @include box-shadow(3px, 3px, 10px, 0px, #ccc);
+  }
+  
+  li.feature_page {
     vertical-align: top;
     position: relative;
     margin: 0px;
     padding: 0px;
-    width: 194px;
-    height: 200px;
     background-color: #fff;
-    border: 1px solid #ccc;
+    
+    @include respond-to(small-up) {
+      display: inline-block;
+      width: 194px;
+      height: 200px;
+      border: 1px solid #ccc;
+    }
+    
+    @include respond-to(small) {
+      width: 20%;
+      box-sizing: border-box;
+    }
+    
+    @include respond-to(tiny) {
+      margin-bottom: 10px;
+    }
   }
   
   .feature_nav_image {
@@ -322,6 +343,14 @@
     width: 194px;
     height: 60px;
     overflow: hidden;
+    
+    @include respond-to(small) {
+      width: 100%;
+    }
+    
+    @include respond-to(tiny) {
+      display: none;
+    }
     
     img {
       position: absolute;

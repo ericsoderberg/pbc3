@@ -7,6 +7,10 @@ layoutTimer = null
 showControls = false
 initialized = false
 
+isPhone = ->
+  return ((navigator.platform.indexOf("iPhone") != -1) ||
+          (navigator.platform.indexOf("iPod") != -1))
+
 # manageControls: Hides and shows controls depending on currentPosition
 manageControls = (position) ->
   
@@ -98,11 +102,12 @@ initialize = ->
   
     layout()
 
-    timer = setInterval(->
-      currentPosition = currentPosition + 1
-      currentPosition = 0  if currentPosition is numberOfSlides
-      slide currentPosition
-    , 10000)
+    unless isPhone()
+      timer = setInterval(->
+        currentPosition = currentPosition + 1
+        currentPosition = 0  if currentPosition is numberOfSlides
+        slide currentPosition
+      , 10000)
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)
