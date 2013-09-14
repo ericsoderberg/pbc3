@@ -1,0 +1,19 @@
+<% if @next_message or @previous_message -%>
+  <ol>
+    <% if @next_message -%>
+    <li class="next_message">
+      <h3>This week</h3>
+      <%= render :partial => 'message',
+        :locals => {:message => @next_message} %>
+    </li>
+    <% end -%>
+
+    <% if @previous_message -%>
+    <li class="previous_message">
+      <h3>Last week</h3>
+      <%= render :partial => 'message',
+        :locals => {:message => @previous_message} %>
+    </li>
+    <% end -%>
+  </ol>
+<% end -%>

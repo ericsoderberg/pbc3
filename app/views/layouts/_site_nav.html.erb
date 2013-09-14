@@ -1,21 +1,25 @@
 <nav id="site_nav">
   <ul>
-    <li class="menu_parent <%= (@page and @site and
-      @page.root == @site.about_page) ? 'active' : '' %>">
+    <li id="site_about"
+      class="menu_parent <%= (@page and @site and
+        @page.root == @site.about_page) ? 'active' : '' %>">
       <%= link_to "About", about_path %>
       <%= render :partial => 'layouts/site_nav_menu',
         :locals => {:pages => @abouts} %>
     </li>
-    <li class="menu_parent <%= (@page and @site and
-      @page.root == @site.communities_page) ? 'active' : '' %>">
+    <li id="site_communities"
+      class="menu_parent <%= (@page and @site and
+        @page.root == @site.communities_page) ? 'active' : '' %>">
       <%= link_to "Communities", communities_path %>
       <%= render :partial => 'layouts/site_nav_menu',
         :locals => {:pages => @communities} %>
     </li>
-    <li class="<%= (not @page and @calendar) ? 'active' : '' %>">
+    <li id="site_calendar"
+      class="<%= (not @page and @calendar) ? 'active' : '' %>">
       <%= link_to "Calendar", main_calendar_path %></li>
-    <li class="<%= (@messages or @message or @message_set or
-      @authors or @author or @books or @book) ?
+    <li id="site_library"
+      class="<%= (@messages or @message or @message_set or
+        @authors or @author or @books or @book) ?
       'active' : '' %>">
       <%= link_to 'Message Library', messages_path %></li>
   </ul>

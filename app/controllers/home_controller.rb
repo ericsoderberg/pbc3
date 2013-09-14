@@ -14,12 +14,16 @@ class HomeController < ApplicationController
     end
     user = user_signed_in? ? current_user : nil
     
-    @today = Date.today.beginning_of_day
-    @next_message = Message.between(@today, @today + 1.week).first;
-    @previous_message = Message.between(@today - 2.weeks, @today - 1.day).last;
+    @next_message = Home.next_message
+    @previous_message = Home.previous_message
+    @events = Home.events
     @route_prefix = request.protocol + request.host_with_port
     @feature_pages = Page.home_feature_pages(user)
     @feature_strip_pages = @feature_pages[0,5]
+    
+    if 'modo' == session[:design]
+      render 'home/modo/index'
+    end
   end
   
   def edit

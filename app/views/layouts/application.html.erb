@@ -16,7 +16,7 @@
   <%= yield(:feed) %>
   <%= csrf_meta_tag %>
 </head>
-<body>
+<body class="<%= session[:design] ? "design_#{session[:design]}" : '' %>">
   <div id="content" class="<%= yield(:content_class) %>">
     
   <header id="site_header">

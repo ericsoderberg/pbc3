@@ -3,12 +3,12 @@
     <%= link_to message.title, message_url(message) %>
   </div>
   <div class="message_verses"><%= message.verses %></div>
-  <!--div class="message_author">
+  <div class="message_author">
     <% if message.author -%>
       <%= link_to message.author.name, author_url(message.author) %>
     <% end -%>
-  </div-->
-  <% unless true or message.message_files.empty? -%>
+  </div>
+  <% unless message.message_files.empty? -%>
     <ul class="message_files">
       <% message.message_files.each do |message_file| -%>
         <% next unless message_file.file.content_type -%>

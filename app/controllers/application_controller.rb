@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :get_site
   before_filter :get_nav_pages
   before_filter :save_path
+  before_filter :get_design
   
   def administrator!
     unless current_user and current_user.administrator?
@@ -34,6 +35,13 @@ class ApplicationController < ActionController::Base
   def get_nav_pages
     @communities = (@site ? @site.communities_page.children : [])
     @abouts = (@site ? @site.about_page.children : [])
+  end
+  
+  def get_design
+    if params['_design']
+      cookies.permanent['design'] = params['_design']
+    end
+    session[:design] = cookies['design'] || 'default'
   end
   
   def save_path

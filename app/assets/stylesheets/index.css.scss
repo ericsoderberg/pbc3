@@ -2,6 +2,8 @@
 @import 'common/media';
 @import 'common/color';
 @import 'common/icon';
+@import 'common/layout';
+@import 'common/animation';
 @import 'common/main';
 @import 'common/header';
 @import 'common/footer';
@@ -20,3 +22,5 @@
 @import 'controllers/messages';
 @import 'controllers/pages';
 @import 'controllers/users';
+
+@import 'designs/modo';
