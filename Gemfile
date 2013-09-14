@@ -22,8 +22,8 @@ gem 'paperclip', '~> 3.0'
 #gem 'remotipart'
 gem 'stringex'
 #gem 'table_builder'
-#gem 'sunspot_rails' #, '~> 1.2.1'
-#gem 'sunspot_solr'
+gem 'sunspot_rails' #, '~> 1.2.1'
+gem 'sunspot_solr'
 gem "will_paginate", "~> 3.0.pre2"
 ###gem "audited-activerecord" #, "~> 3.0"
 gem "uuidtools"
