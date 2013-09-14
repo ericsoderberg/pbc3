@@ -1,4 +1,5 @@
 # RVM bootstrap
+### switched to rbenv
 ###$:.unshift(File.expand_path("~/.rvm/lib"))
 ###require 'rvm/capistrano'
 ###set :rvm_ruby_string, '1.9.2-p180'
@@ -52,6 +53,10 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "touch #{current_path}/tmp/restart.txt"
   end
+  
+  task :setup_solr_data_dir do
+    run "mkdir -p #{shared_path}/solr/data"
+  end
 
   #desc "Symlink shared resources on each release - not used"
   #task :symlink_shared, :roles => :app do
@@ -60,25 +65,34 @@ namespace :deploy do
 end
 
 # http://www.hackido.com/2010/03/capistrano-sunspot-in-rails.html
-task :before_update_code do
-  #stop solr:
-  #run "cd #{current_path} && rake sunspot:solr:stop RAILS_ENV=production"
-end
+##task :before_update_code do
+##  stop solr:
+##  run "cd #{current_path} && rake sunspot:solr:stop RAILS_ENV=production"
+##end
 
 after 'deploy:update_code', 'deploy:migrate'
 
 #after "deploy:update_crontab", "deploy:solr:symlink"
 
-#namespace :solr do
-#  desc <<-DESC
-#    Symlink in-progress deployment to a shared Solr index.
-#    DESC
-#  task :symlink, :except => { :no_release => true } do
-#    run "ln -nfs #{shared_path}/solr/data #{current_path}/solr/data"
-#    run "ls -al #{current_path}/solr/pids/"
-#    run "cd #{current_path} && rake sunspot:solr:start RAILS_ENV=production"
-#  end
-#end
+namespace :solr do
+  desc "start solr"
+  task :start, :roles => :app, :except => { :no_release => true } do 
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr start --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+  end
+  desc "stop solr"
+  task :stop, :roles => :app, :except => { :no_release => true } do 
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr stop --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+  end
+  desc "reindex the whole database"
+  task :reindex, :roles => :app do
+    stop
+    run "rm -rf #{shared_path}/solr/data"
+    start
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
+  end
+end
+
+after 'deploy:setup', 'deploy:setup_solr_data_dir'
 
 #after 'deploy:update_code', 'deploy:symlink_shared'
 
