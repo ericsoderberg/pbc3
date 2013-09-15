@@ -10,9 +10,9 @@ require 'bundler/capistrano'
 
 set :application, "pbc3.1"
 
-role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
-role :app, "test.pbc.org"                          # This may be the same as your `Web` server
-role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
+role :web, "www.pbc.org"                          # Your HTTP server, Apache/etc
+role :app, "www.pbc.org"                          # This may be the same as your `Web` server
+role :db,  "www.pbc.org", :primary => true # This is where Rails migrations will run
 #role :web, "test.pbc.org"                          # Your HTTP server, Apache/etc
 #role :app, "test.pbc.org"                          # This may be the same as your `Web` server
 #role :db,  "test.pbc.org", :primary => true # This is where Rails migrations will run
