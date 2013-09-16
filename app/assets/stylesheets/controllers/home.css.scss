@@ -33,16 +33,20 @@
 }
 
 #home_services {
-  margin: 10px 0px;
+  margin: 15px 0px;
   background-color: #fff;
-  padding: 10px 0px;
   color: #666;
   overflow: hidden;
   
   @include respond-to(normal-up) {
     white-space: nowrap;
+    padding: 10px 0px;
     padding-left: 154px;
     border: 1px solid #eee;
+  }
+  
+  @include respond-to(small-up) {
+    margin: 20px 0px;
   }
   
   > * {
@@ -54,8 +58,7 @@
     top: 1px;
     vertical-align: top;
     line-height: 22px;
-    margin: 0px;
-    margin-right: 22px;
+    margin: 0px 22px 10px 0px;
     font-size: inherit;
     color: #999;
     font-weight: normal;
@@ -77,16 +80,28 @@
       @include respond-to(tiny) {
         padding-bottom: 10px;
         
-        &.message_verses, &.message_author {
+        &.message_verses, &.message_author, &.message_files {
           display: none;
         }
       }
     }
   }
   
+  tr.next_message {
+    td {
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+  }
+  
+  tr.previous_message {
+    td {
+      padding-top: 5px;
+    }
+  }
+  
   .when {
     margin-right: 10px;
-    //width: 200px;
     
     @include respond-to(small-up) {
       text-align: right;
@@ -121,7 +136,7 @@
   @include respond-to(normal-up) {
     padding: 0px;
     width: 980px;
-    margin: 12px 0px;
+    margin: 15px 0px;
     height: 445px;
     -webkit-animation-name: reset, fade-in;
     -webkit-animation-duration: 1s;
@@ -156,10 +171,10 @@
 	}
   
   #hero_list {
-   	margin:0 auto;
+   	margin: 0 auto;
   	padding: 0;
-  	overflow:auto; // allow scrollbar
-  	position:relative;
+  	overflow: auto; // allow scrollbar
+  	position: relative;
   	
   	@include respond-to(small-down) {
   	  width: 100%;
@@ -167,16 +182,16 @@
     }
     
     @include respond-to(normal-up) {
-      height:445px;
+      height: 445px;
     }
 	
   	.slide {
   		float: left;
-  		margin:0 auto;
+  		margin: 0 auto;
   		
   		@include respond-to(normal-up) {
-  		  width:960px;
-    	  height:445px;
+  		  width: 960px;
+    	  height: 445px;
   	  }
   	}
   	
@@ -287,10 +302,6 @@
   list-style-type: none;
   margin: 0px;
   padding: 0px;
-  
-   @include respond-to(tiny) {
-     //border: 1px solid #ccc;
-   }
   
   @include respond-to(small-up) {
     width: 100%;

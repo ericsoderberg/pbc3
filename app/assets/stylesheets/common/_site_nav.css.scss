@@ -31,7 +31,7 @@
     		padding-right: 15px;
     		padding-left: 15px;
     		font-size: 14px;
-    		font-weight: bold; ///normal;
+    		font-weight: bold;
     		line-height: 30px;
     		text-align: center;
     		text-decoration: none;
@@ -85,7 +85,6 @@
     
     @include respond-to(tiny) {
       display: inline-block;
-      //margin-top: 10px;
     }
     
     > li {

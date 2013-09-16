@@ -128,10 +128,11 @@ header {
 
 #site_header {
   position: relative;
-  margin: 0 0 20px 0;
+  margin: 0 0 25px 0;
   
   @include respond-to(small-down) {
     position: static;
+    margin-bottom: 10px;
   }
 
   h1 {
@@ -166,14 +167,13 @@ header {
     left: 0px;
     top: 25px;
     margin: 0px;
-    padding-left: 52px; //10px;
+    padding-left: 52px;
     padding-right: 10px;
     line-height: 16px;
     font-size: 12px;
     font-weight: normal;
     font-style: italic;
     color: #666;
-    //border-left: 2px solid #999;
     
     @include respond-to(small-down) {
       position: static;
@@ -192,7 +192,6 @@ div#auth {
   line-height: 16px;
   
   @include respond-to(small-down) {
-    //margin-top: 10px;
     height: auto;
   }
   
