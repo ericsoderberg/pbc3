@@ -131,12 +131,30 @@
       transition: all 0.5s ease 0.2s;
       
       ul {
-        display: table-cell;
+        display: inline-block;
         list-style: none;
         margin: 0px;
+        margin-right: -4px;
         padding: 0px;
         overflow: hidden;
         background-color: #fff;
+        
+        &:first-child {
+          li:first-child {
+            a {
+              border: none;
+            }
+          }
+        }
+        
+        &:last-child {
+          margin-right: 0px;
+        }
+        
+        @include respond-to(tiny) {
+          display: block;
+          margin-right: 0px;
+        }
         
         li, li a {
           height: 0px;
@@ -179,9 +197,11 @@
             }
           }
           
-          &:first-of-type {
-            a {
-              border: none;
+          @include respond-to(small-up) {
+            &:first-child {
+              a {
+                border: none;
+              }
             }
           }
         }
