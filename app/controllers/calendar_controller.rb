@@ -19,6 +19,7 @@ class CalendarController < ApplicationController
     get_events
     @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC')
     @calendar.populate(@events, @holidays)
+    @isCurrent = (@date.beginning_of_month.to_date == Date.today.beginning_of_month)
   end
 
   def list
@@ -26,6 +27,7 @@ class CalendarController < ApplicationController
     @stop_date = @start_date + @months.month - 1.day
     get_events
     @calendar = true
+    @isCurrent = (@date.beginning_of_month.to_date == Date.today.beginning_of_month)
   end
 
   def day
@@ -33,6 +35,7 @@ class CalendarController < ApplicationController
     @stop_date = @date.end_of_day
     get_events
     @calendar = true
+    @isCurrent = (@date.to_date == Date.today)
   end
   
   private

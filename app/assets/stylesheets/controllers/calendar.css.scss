@@ -64,7 +64,7 @@
   vertical-align: middle;
   font-size: 16px;
   height: 28px;
-  margin: 0px 20px;
+  margin: 0px 0px 0px 20px;
   color: #999;
   cursor: pointer;
   
@@ -72,20 +72,29 @@
     margin-left: 0px;
   }
   
-  a.today {
+  /*a.today {
     display: inline-block;
     vertical-align: top;
     height: 28px;
     font-weight: normal;
     padding: 0px 5px;
     margin-right: -4px;
-  }
+  }*/
   
   a.icon {
     display: inline-block;
     width: 24px;
     height: 28px;
     padding: 0px;
+  }
+  
+  a.today {
+    //border-right: 1px solid #eee;
+    background: 0px 3px $circle-url no-repeat;
+    
+    &.current {
+      background-image: $circle-dot-url;
+    }
   }
   
   a.previous {

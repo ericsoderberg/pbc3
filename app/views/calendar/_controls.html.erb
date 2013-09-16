@@ -28,10 +28,12 @@
   
   <div id="calendar_nav">
     <%= link_to '', previous_month_path(args),
-      :class => 'icon previous' %>
-    <%= link_to "Today", today_path(args), :class => 'today' %>
+      class: 'icon previous', title: 'previous month' %>
+    <%= link_to '', today_path(args),
+      class: "icon today #{@isCurrent ? 'current' : ''}",
+      title: 'current month' %>
     <%= link_to '', next_month_path(args),
-      :class => 'icon next' %>
+      class: 'icon next', title: 'next month' %>
   </div>
   
   <div id="calendar_views">

@@ -214,16 +214,27 @@ div#auth {
 	  
 	  li {
   	  display: inline-block;
+  	  margin-right: -4px;
   	  border-left: 1px solid #ccc;
   	  
-  	  &:first-of-type {
+  	  &:first-child {
         border: none;
+        a {
+          padding-left: 0px;
+        }
+      }
+      
+      &:last-child {
+        margin-right: 0px;
+        a {
+          padding-right: 0px;
+        }
       }
       
       a {
         display: block;
-    		padding-right: 5px;
-    		padding-left: 5px;
+    		padding-right: 7px;
+    		padding-left: 7px;
     		font-size: 12px;
     		font-weight: normal;
     		text-align: center;
@@ -232,8 +243,7 @@ div#auth {
     		color: #666;
     		
     		&:hover {
-      		color: #111;
-      		background-color: #ccc;
+      		color: #000;
     		}
       }
     }

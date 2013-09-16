@@ -100,6 +100,8 @@ module CalendarHelper
     today_args = args.merge(:date => Date.today.strftime("%Y-%m-%d"))
     if 'list' == params[:action]
       calendar_list_path(args)
+    elsif 'day' == params[:action]
+      calendar_day_path(args)
     else
       calendar_path(args)
     end
