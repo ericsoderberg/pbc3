@@ -31,7 +31,7 @@ header {
   	  text-decoration: none;
   	  color: #999;
   	  
-  	  *:hover {
+  	  html.no-touch *:hover {
         text-decoration: none;
         color: #000;
       }
@@ -74,7 +74,7 @@ header {
   	    vertical-align: baseline;
   		  color: #999;
   		  
-  		  &:hover {
+  		  html.no-touch &:hover {
   			  color: #fff;
   			  background-color: #999;
   			  text-decoration: none;
@@ -88,9 +88,11 @@ header {
   	    color: #fff;
   	    background-color: #999;
   	  }
-  	  header ul.nav li.active a:hover, .edit_list li.active a:hover {
-  	    color: #666;
-  	    background: inherit;
+  	  html.no-touch & {
+  	    header ul.nav li.active a:hover, .edit_list li.active a:hover {
+  	      color: #666;
+  	      background: inherit;
+	      }
   	  }
     }
   }
@@ -115,7 +117,7 @@ header {
   	    color: #fff;
   	    background-color: #999;
 	    
-  	    &:hover {
+  	    html.no-touch &:hover {
     	    color: #666;
     	    background: inherit;
     	  }
@@ -160,7 +162,7 @@ header {
       font-size: 18px;
 		  color: #007ad0;
 		  
-		  &:hover {
+		  html.no-touch &:hover {
         background-color: inherit;
         text-shadow: 0px 0px 2px #bbb;
       }
@@ -251,7 +253,7 @@ div#auth {
     		white-space: nowrap;
     		color: #666;
     		
-    		&:hover {
+    		html.no-touch &:hover {
       		color: #000;
     		}
       }

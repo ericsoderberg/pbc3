@@ -2,18 +2,58 @@
 	font-size: 14px;
 }
 
-#book_sections {
-  display: table;
+#testaments {
+  position: relative;  
+}
+
+div.testament {
+  display: inline-block;
+  vertical-align: top;
+  padding-bottom: 30px;
+  
+  > h3 {
+    position: absolute;
+    bottom: 0px;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
+    margin-bottom: 0px;
+  }
+  
+  &:last-child {
+    padding-left: 10px;
+    border-left: 1px solid #ddd;
+  }
+}
+
+div.testament > ul {
+  display: block;
   list-style: none;
   margin: 0px;
   padding: 0px;
   
-  li {
-    display: table-cell;
+  > li {
+    display: inline-block;
     vertical-align: top;
     margin: 0px;
     padding-right: 5px;
     height: 100%;
+    
+    @include respond-to(small-up) {
+      h3 {
+        margin-top: 0px;
+      }
+    }
+    
+    @include respond-to(tiny) {
+      display: block;
+    
+      &:first-child {
+        h3 {
+          margin-top: 0px;
+        }
+      }
+    }
   }
   
   h3 {
@@ -21,41 +61,12 @@
     color: #999;
     width: 80px;
     height: 30px;
-    margin-top: 0px;
+    //margin-top: 0px;
     padding-top: 0px;
   }
 }
-  
-#testament_divider {
-  width: 7px;
-  border-left: 2px solid #eee;
-  vertical-align: bottom;
-}
 
-#testament_labels {
-  position: relative;
-  display: inline-block;
-  height: 620px;
-  vertical-align: bottom;
-}
-
-#old_testament, #new_testament {
-  position: absolute;
-  bottom: 0px;
-  font-style: italic;
-  color: #666;
-  white-space: nowrap;
-}
-
-#old_testament {
-  left: -120px;
-}
-
-#new_testament {
-  left: 20px;
-}
-
-#book_section {
+ul.book_section {
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -68,6 +79,6 @@
   }
   
   a {
-    font-size: 14px;
+    font-size: 13px;
   }
 }

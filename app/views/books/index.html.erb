@@ -4,28 +4,27 @@
   
   <%= render :partial => 'messages/header' %>
   
-  <ul id="book_sections">
-  <% @sections.each do |section| -%>
-    <% if 'Gospels' == section[:name] -%>
-      <li id="testament_divider">
-        <div id="testament_labels">
-          <div id="old_testament">Old Testament</div>
-          <div id="new_testament">New Testament</div>
-        </div>
+  <div id="testaments">
+  <% @testaments.each do |testament| -%>
+  <div class="testament">
+    <h3><%= testament[:name] %></h3>
+    <ul>
+    <% testament[:sections].each do |section| -%>
+      <li>
+        <h3><%= section[:name] %></h3>
+        <ul class="book_section">
+          <% section[:books].each do |book| -%>
+            <% opacity = [1.0, [(book[:count].to_f / @max_count), 0.25].max].min -%>
+            <li style="background-color: rgba(196, 196, 196, <%= opacity %>)">
+              <%= link_to book[:book], book_path(:id => book[:book]) %></li>
+          <% end -%>
+        </ul>
       </li>
     <% end -%>
-    <li>
-      <h3><%= section[:name] %></h3>
-      <ul id="book_section">
-        <% section[:books].each do |book| -%>
-          <% opacity = [1.0, [(book[:count].to_f / @max_count), 0.25].max].min -%>
-          <li style="background-color: rgba(196, 196, 196, <%= opacity %>)">
-            <%= link_to book[:book], book_path(:id => book[:book]) %></li>
-        <% end -%>
-      </ul>
-    </li>
+    </ul>
+  </div>
   <% end -%>
-  </ul>
+  </div>
   
   <%= render :partial => 'authors/messages_key',
     :locals => {:min => 'less messages', :max => 'more messages'} %>
