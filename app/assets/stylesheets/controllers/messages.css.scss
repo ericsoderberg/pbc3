@@ -14,10 +14,6 @@
 }
 
 #message_details {
-	/*float: right;
-	clear: right;
-	width: 240px;
-	margin: 0px 0px 40px 40px;*/
 	margin: 10px 0px 20px 0px;
 	
 	> * {
@@ -62,10 +58,13 @@ div.message_audio {
 }
 
 .video-container {
-  background-image: image-url('video_preload.png');
-  background-repeat: no-repeat;
-  background-position: center;
+  position: relative;
   border-top: 1px solid #eee;
+  
+  svg {
+    position: absolute;
+    z-index: -1;
+  }
 }
 
 .message_image {
@@ -171,6 +170,12 @@ div#messages {
 	.message_files {
 	  padding-right: 0px;
 	}
+	
+	@include respond-to(tiny) {
+	  .message_verses, .message_author, .message_files {
+	    display: none;
+	  }
+  }
 }
 
 .messages_year {
