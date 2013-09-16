@@ -1,7 +1,7 @@
 <% title('Peninsula Bible Church') -%>
 <% content_for(:content_class) {'home'}%>
 
-<% if false and (@next_message or @previous_message) -%>
+<% if @next_message or @previous_message -%>
 <div id="home_services">
   <h2>
     <% url = root_url
@@ -10,30 +10,30 @@
       end %>
     <%= link_to 'Services', url %>
   </h2>
-  <ol id="home_messages">
+  <table id="home_messages">
     <% if @next_message -%>
-    <li class="next_message">
+    <tr class="next_message">
 
-      <span class="when">
+      <td class="when">
       <%= @next_message.date.event_date %>
       <%= raw @next_message.events.map{ |e|
           e.start_at.simple_time(true)
       }.to_sentence() %>
-      </span>
+      </td>
 
       <%= render :partial => 'message',
         :locals => {:message => @next_message} %>
-    </li>
+    </tr>
     <% end -%>
 
     <% if @previous_message -%>
-    <li class="previous_message">
-      <span class="when">Last week</span>
+    <tr class="previous_message">
+      <td class="when">Last week</td>
       <%= render :partial => 'message',
         :locals => {:message => @previous_message} %>
-    </li>
+    </tr>
     <% end -%>
-  </ol>
+  </table>
 </div>
 <% end -%>
 

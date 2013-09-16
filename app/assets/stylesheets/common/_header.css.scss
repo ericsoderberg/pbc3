@@ -1,6 +1,10 @@
 header {
   margin: 35px 0px 10px 0px;
   
+  @include respond-to(tiny) {
+    margin-top: 10px;
+  }
+  
   h1, h2, h3 {
     display: inline-block;
     vertical-align: baseline;
@@ -123,13 +127,23 @@ header {
 }
 
 #site_header {
-  margin: 0 0 12px 0;
+  position: relative;
+  margin: 0 0 20px 0;
+  
+  @include respond-to(small-down) {
+    position: static;
+  }
 
   h1 {
     font-size: 15px;
     margin: 0px;
     padding-right: 9px;
     line-height: 16px;
+    
+    @include respond-to(small-down) {
+      display: block;
+      margin-top: 10px;
+    }
     
     a {
       text-decoration: none;
@@ -148,19 +162,25 @@ header {
   }
   
   h2 {
+    position: absolute;
+    left: 0px;
+    top: 25px;
     margin: 0px;
-    padding-left: 10px;
+    padding-left: 52px; //10px;
     padding-right: 10px;
     line-height: 16px;
     font-size: 12px;
     font-weight: normal;
     font-style: italic;
     color: #666;
-    border-left: 2px solid #999;
-  }
-  
-  @include respond-to(tiny) {
-    h2 {
+    //border-left: 2px solid #999;
+    
+    @include respond-to(small-down) {
+      position: static;
+      margin-top: 0px;
+    }
+    
+    @include respond-to(tiny) {
       display: none;
     }
   }
@@ -168,6 +188,13 @@ header {
 
 div#auth {
   float: right;
+  height: 30px;
+  line-height: 16px;
+  
+  @include respond-to(small-down) {
+    //margin-top: 10px;
+    height: auto;
+  }
   
   @include respond-to(tiny) {
     float: none;
@@ -177,13 +204,17 @@ div#auth {
   }
   
   ul {
-    display: table;
-	  margin: 0 auto;
+    display: block;
+	  margin: 7px auto;
 	  padding: 0;
 	  list-style: none;
 	  
+	  @include respond-to(small-down) {
+	    margin: 0px auto;
+    }
+	  
 	  li {
-  	  display: table-cell;;
+  	  display: inline-block;
   	  border-left: 1px solid #ccc;
   	  
   	  &:first-of-type {
@@ -224,10 +255,12 @@ div#notice {
 }
 
 #search {
-	padding: 2px 7px;
+	padding: 8px 7px;
 	font-size: 12px;
 	border: none;
-	border-radius: 9px;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
 }
 
 #breadcrumbs {

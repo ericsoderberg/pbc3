@@ -3,14 +3,16 @@
     <li id="site_about"
       class="menu_parent <%= (@page and @site and
         @page.root == @site.about_page) ? 'active' : '' %>">
-      <%= link_to "About", about_path %>
+      <a>About</a>
+      <% link_to "About", about_path %>
       <%= render :partial => 'layouts/site_nav_menu',
         :locals => {:pages => @abouts} %>
     </li>
     <li id="site_communities"
       class="menu_parent <%= (@page and @site and
         @page.root == @site.communities_page) ? 'active' : '' %>">
-      <%= link_to "Communities", communities_path %>
+      <a>Communities</a>
+      <% link_to "Communities", communities_path %>
       <%= render :partial => 'layouts/site_nav_menu',
         :locals => {:pages => @communities} %>
     </li>
@@ -21,7 +23,7 @@
       class="<%= (@messages or @message or @message_set or
         @authors or @author or @books or @book) ?
       'active' : '' %>">
-      <%= link_to 'Message Library', messages_path %></li>
+      <%= link_to 'Messages', messages_path %></li>
   </ul>
   <form action="<%= search_path %>">
     <input name="q" id="search" type="search" required

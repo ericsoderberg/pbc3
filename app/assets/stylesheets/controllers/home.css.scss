@@ -32,35 +32,17 @@
   100% {opacity: 1;}
 }
 
-.home #site_nav {
-  -webkit-animation-name: reset, fade-in;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-timing-function: ease-in;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-delay: 0, 0.9s;
-  -moz-animation-name: reset, fade-in;
-  -moz-animation-duration: 1s;
-  -moz-animation-timing-function: ease-in;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-delay: 0, 0.9s;
-  -ms-animation-name: reset, fade-in;
-  -ms-animation-duration: 1s;
-  -ms-animation-timing-function: ease-in;
-  -ms-animation-iteration-count: 1;
-  -ms-animation-delay: 0, 0.9s;
-}
-
 #home_services {
   margin: 10px 0px;
-  border: 1px solid #eee;
   background-color: #fff;
-  padding: 10px 15px;
+  padding: 10px 0px;
   color: #666;
   overflow: hidden;
   
   @include respond-to(normal-up) {
     white-space: nowrap;
-    @include box-shadow(3px, 3px, 10px, 0px, #eee);
+    padding-left: 154px;
+    border: 1px solid #eee;
   }
   
   > * {
@@ -68,35 +50,43 @@
   }
   
   h2 {
+    position: relative;
+    top: 1px;
     vertical-align: top;
     line-height: 22px;
+    margin: 0px;
+    margin-right: 22px;
+    font-size: inherit;
+    color: #999;
+    font-weight: normal;
+    
+    a {
+      font-size: 16px;
+    }
   }
   
   #home_messages {
     display: inline-block;
     margin: 0px;
     padding: 0px;
-    list-style-type: none;
   
-    > li {
-    
-      > * {
-        display: inline-block;
+    td {
+      vertical-align: top;
+      padding-right: 20px;
+      
+      @include respond-to(tiny) {
+        padding-bottom: 10px;
+        
+        &.message_verses, &.message_author {
+          display: none;
+        }
       }
     }
   }
   
-  h2 {
-    margin: 0px;
-    margin-right: 10px;
-    font-size: inherit;
-    color: #999;
-    font-weight: normal;
-  }
-  
   .when {
     margin-right: 10px;
-    width: 200px;
+    //width: 200px;
     
     @include respond-to(small-up) {
       text-align: right;
@@ -133,7 +123,6 @@
     width: 980px;
     margin: 12px 0px;
     height: 445px;
-    @include box-shadow(3px, 3px, 10px, 0px, #ccc);
     -webkit-animation-name: reset, fade-in;
     -webkit-animation-duration: 1s;
     -webkit-animation-timing-function: ease-in;
@@ -231,6 +220,13 @@
       
       @include respond-to(tiny) {
         padding: 10px 20px;
+        
+        > * {
+          display: none;
+        }
+        h2 {
+          display: block;
+        }
       }
       
       @include respond-to(normal-up) {
@@ -308,10 +304,6 @@
     -moz-animation-timing-function: ease-in;
     -moz-animation-iteration-count: 1;
     -moz-animation-delay: 0, 0.3s;
-  }
-  
-  @include respond-to(normal-up) {
-    @include box-shadow(3px, 3px, 10px, 0px, #ccc);
   }
   
   li.feature_page {

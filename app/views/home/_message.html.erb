@@ -1,13 +1,13 @@
-<div class="home_message">
-  <div class="message_title">
+  <td class="message_title">
     <%= link_to message.title, message_url(message) %>
-  </div>
-  <div class="message_verses"><%= message.verses %></div>
-  <div class="message_author">
+  </td>
+  <td class="message_verses"><%= message.verses %></td>
+  <td class="message_author">
     <% if message.author -%>
       <%= link_to message.author.name, author_url(message.author) %>
     <% end -%>
-  </div>
+  </td>
+  <td>
   <% unless message.message_files.empty? -%>
     <ul class="message_files">
       <% message.message_files.each do |message_file| -%>
@@ -28,4 +28,4 @@
       <% end -%>
     </ul>
   <% end -%>
-</div>
+  </td>

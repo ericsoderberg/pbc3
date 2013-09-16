@@ -3,7 +3,12 @@
   color: #666;
   width: 100%;
   font-size: 18px;
+  line-height: 28px;
   font-weight: bold;
+  
+  @include respond-to(tiny) {
+    display: block;
+  }
   
   #focus_date {
     display: table-cell;
@@ -11,6 +16,10 @@
     color: #666;
     margin-right: 20px;
     vertical-align: middle;
+    
+    @include respond-to(tiny) {
+      display: block;
+    }
     
     a {
       font-size: 28px;
@@ -24,6 +33,12 @@
   #calendar_controls {
     display: table-cell;
     text-align: right;
+    
+    @include respond-to(tiny) {
+      display: block;
+      text-align: left;
+      margin-top: 10px;
+    }
   }
   
   input {
@@ -48,43 +63,57 @@
   white-space: nowrap;
   vertical-align: middle;
   font-size: 16px;
-  line-height: 20px;
-  height: 20px;
-  margin: 0px;
-  margin-left: 20px;  
+  height: 28px;
+  margin: 0px 20px;
   color: #999;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#f6f6f6));
-  background: -moz-linear-gradient(100% 100% 90deg, #ffffff, #f6f6f6);
+  //border: 1px solid #ddd;
+  cursor: pointer;
   
-  a {
+  @include respond-to(tiny) {
+    margin-left: 0px;
+  }
+  
+  a.today {
+    display: inline-block;
+    vertical-align: top;
+    height: 28px;
     font-weight: normal;
-    vertical-align: baseline;
-    padding: 0px 10px;
+    padding: 0px 5px;
+    margin-right: -4px;
+  }
+  
+  a.icon {
+    display: inline-block;
+    width: 24px;
+    height: 28px;
+    padding: 0px;
+  }
+  
+  a.previous {
+    //border-right: 1px solid #eee;
+    background: 2px 4px $left-url no-repeat;
+  }
     
-    &:first-of-type {
-      border-right: 1px solid #eee;
-    }
-    
-    &:last-of-type {
-      border-left: 1px solid #eee;
-    }
+  a.next {
+    //border-left: 1px solid #eee;
+    margin-right: 0px;
+    background: 2px 4px $right-url no-repeat;
   }
 }
    
 #calendar_views {
   display: inline-block;
   vertical-align: middle;
+  margin-left: 10px;
   
   ul {
-    display: table;
+    display: block;
     margin: 0;
     padding: 0;
     list-style: none;
     
     li {
-      display: table-cell;
+      display: inline-block;
       white-space: nowrap;
       
       &.active a {
@@ -100,14 +129,15 @@
   
   a {
     display: block;
-	  padding: 0px 15px;
+	  padding: 0px 10px;
     font-size: 12px;
     color: #999;
-    line-height: 20px;
+    //line-height: 20px;
 	  text-align: center;
 	  text-decoration: none;
 	  border-radius: 3px;
-	  -webkit-transition-property:color, background-color;
+	  @include transition(all, 0.2s);
+	  /*-webkit-transition-property:color, background-color;
     -webkit-transition-duration: 0.2s, 0.4s;
     -webkit-transition-timing-function: linear, ease-in;
     -moz-transition-property:color, background-color;
@@ -116,28 +146,35 @@
     transition:color 0.3s ease-in;
     transition-property:color, background-color;
     transition-duration: 0.2s, 0.4s;
-    transition-timing-function: linear, ease-in;
+    transition-timing-function: linear, ease-in;*/
     
     &:hover {
-		  color: #fff;
-		  background-color: #999;
+		  color: #000;
+		  opacity: 1;
+		  //background-color: #999;
 	  }
   }
 }
     
 #calendar_controls_extended {
   display: inline-block;
-  line-height: 16px;
+  //line-height: 16px;
   padding: 0px;
-  margin-right: 0px 20px;
+  margin: 0px 20px;
+  margin-right: -4px;
   vertical-align: middle;
   font-size: 12px;
   font-weight: normal;
   white-space: nowrap;
   
-  form {
-	  display: none;
-	}
+  @include respond-to(tiny) {
+    margin: 10px 0px;
+  }
+  
+  form label {
+    margin-left: 0px;
+    margin-right: 2px;
+  }
 	
 	&:hover form {
 	  display: inline-block;
@@ -230,6 +267,15 @@
     color: #666;
     white-space: nowrap;
     
+    @include respond-to(tiny) {
+      padding: 3px 10px 3px 0px;
+      white-space: normal;
+      
+      &.page, &.reservations {
+        display: none;
+      }
+    }
+    
     &.time.first {
       padding-right: 3px;
       text-align: right;
@@ -267,5 +313,6 @@
   
   .time {
     white-space: nowrap;
+    max-width: 100px;
   }
 }
