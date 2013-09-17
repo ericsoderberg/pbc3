@@ -15,6 +15,7 @@ body {
 }
 
 div#content {
+  position: relative;
   
   @include respond-to(normal-up) {
     margin: 0px auto;

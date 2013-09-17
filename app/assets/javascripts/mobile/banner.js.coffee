@@ -1,47 +1,48 @@
 # http://sixrevisions.com/tutorials/javascript_tutorial/create-a-slick-and-accessible-slideshow-using-jquery/
-ready = ->
+slides = undefined
+numberOfSlides = 0
+slideWidth = 0
+currentPosition = 0
+layoutTimer = null
+showControls = false
+initialized = false
+
+isPhone = ->
+  return ((navigator.platform.indexOf("iPhone") != -1) ||
+          (navigator.platform.indexOf("iPod") != -1))
+          
+# manageControls: Hides and shows controls depending on currentPosition
+manageControls = (position) ->
   
-  slide = (position) ->
-    
-    # Hide / show controls
-    manageControls position
-    
-    # Move slide_inner using margin-left
-    $("#slide_inner").animate
-      marginLeft: slideWidth * (-position)
-    , 1500
+  # Hide left arrow if position is first slide
+  if position is 0 or showControls is false
+    $("#banner_left_control").fadeOut()
+  else
+    $("#banner_left_control").fadeIn "slow"
   
-  # manageControls: Hides and shows controls depending on currentPosition
-  manageControls = (position) ->
-    
-    # Hide left arrow if position is first slide
-    if position is 0 or showControls is false
-      $("#banner_left_control").fadeOut()
-    else
-      $("#banner_left_control").fadeIn "slow"
-    
-    # Hide right arrow if position is last slide
-    if position is numberOfSlides - 1 or showControls is false
-      $("#banner_right_control").fadeOut()
-    else
-      $("#banner_right_control").fadeIn "slow"
+  # Hide right arrow if position is last slide
+  if position is numberOfSlides - 1 or showControls is false
+    $("#banner_right_control").fadeOut()
+  else
+    $("#banner_right_control").fadeIn "slow"
+
+slide = (position) ->
+  # Hide / show controls
+  manageControls position
   
-  # only if we have something to animate
-  if $("#animated_banners").length > 0
-    currentPosition = 0
+  # Move slide_inner using margin-left
+  $("#slide_inner").finish().animate
+    marginLeft: slideWidth * (-position)
+  , 1500
+
+layout = ->
+  if $('#animated_banners').length > 0
     slideWidth = $("#animated_banners").width()
     slideHeight = slideWidth / 2.2
-    slides = $(".slide")
-    numberOfSlides = slides.length
-    automate = true
-    showControls = false
   
     # Remove scrollbar in JS
     $("#animated_banners_list").css "overflow", "hidden"
-    # Wrap all .slides with #slide_inner div
-    # Float left to display horizontally, readjust .slides width
-    slides.wrapAll("<div id=\"slide_inner\"/>").css
-      float: "left"
+    slides.css
       width: slideWidth
       height: slideHeight
 
@@ -52,9 +53,32 @@ ready = ->
     $("#slide_inner").css
       width: slideWidth * numberOfSlides
       height: slideHeight
+      
+    slide currentPosition
+      
+onResize = ->
+  if initialized
+    # save some CPU by delaying reaction a bit if the use is draggin
+    clearTimeout layoutTimer
+    layoutTimer = setTimeout(layout, 50)
+  
+initialize = ->
+  
+  if ! initialized
+    initialized = true
+    slides = $(".slide")
+    numberOfSlides = slides.length
+    automate = true
+  
+    # Remove scrollbar in JS
+    $("#animated_banners_list").css "overflow", "hidden"
+    # Wrap all .slides with #slide_inner div
+    # Float left to display horizontally
+    slides.wrapAll("<div id=\"slide_inner\"/>").css
+      float: "left"
   
     # Insert left and right arrow controls in the DOM
-    $("#animated_banners").prepend("<span class=\"control\" id=\"hero_left_control\">Move left</span>").append("<span class=\"control\" id=\"hero_right_control\">Move right</span>")
+    $("#animated_banners").prepend("<span class=\"control\" id=\"banner_left_control\">Move left</span>").append("<span class=\"control\" id=\"banner_right_control\">Move right</span>")
     
     # Create listeners for hovering to show controls
     $("#animated_banners").hover (->
@@ -75,12 +99,16 @@ ready = ->
       # Determine new position
       currentPosition = (if ($(this).attr("id") is "banner_right_control") then currentPosition + 1 else currentPosition - 1)
       slide currentPosition
+  
+    layout()
 
-    timer = setInterval(->
-      currentPosition = currentPosition + 1
-      currentPosition = 0  if currentPosition is numberOfSlides
-      slide currentPosition
-    , 10000)
+    unless true or isPhone()
+      timer = setInterval(->
+        currentPosition = currentPosition + 1
+        currentPosition = 0  if currentPosition is numberOfSlides
+        slide currentPosition
+      , 10000)
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
+$(window).on('resize', onResize)

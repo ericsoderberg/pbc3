@@ -1,15 +1,36 @@
 .regular_content {
-	display: table;
-	//margin-top: 25px;
+	display: block;
 	margin-top: 30px;
 	clear: right;
 	
+	@include respond-to(small-up) {
+	  white-space: nowrap;
+	}
+	
 	section {
-		display: table-cell;
-		width: 100%;
-		padding: 0px 30px 20px 0px;
-		vertical-align: top;
 		color: #666;
+		
+		@include respond-to(small-up) {
+		  display: inline-block;
+  		padding: 0px 30px 20px 0px;
+  		vertical-align: top;
+  		white-space: normal;
+  		width: 550px;
+		}
+		
+		@include respond-to(tiny) {
+		  padding: 0px 0px 20px 0px;
+		  border-bottom: 1px solid #ddd;
+		}
+  }
+  
+  aside {
+    @include respond-to(small-up) {
+      display: inline-block;
+      vertical-align: top;
+      white-space: normal;
+  		width: 400px;
+		}
   }
   
   aside .event_form {
@@ -23,11 +44,19 @@
 }
 
 .regular_aside {
-	display: table-cell;
-	width: 400px;
+	display: inline-block;
 	margin: 0px;
   padding: 0px;
   list-style: none;
+  
+  @include respond-to(small-up) {
+    width: 400px;
+  }
+  
+  @include respond-to(tiny) {
+    display: block;
+	  padding-top: 15px
+	}
 	
 	.form {
 	  width: 300px;
@@ -39,7 +68,14 @@
   
   > li {
     display: block;
-    width: 400px;
     margin-bottom: 20px;
+    
+    @include respond-to(small-up) {
+      width: 400px;
+    }
+    
+    @include respond-to(tiny) {
+      width: 100%;
+    }
   }
 }

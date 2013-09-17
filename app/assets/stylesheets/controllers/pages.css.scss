@@ -2,16 +2,16 @@
   float: right;
   display: block;
 	margin: 0;
-	height: 32px;
-	line-height: 32px;
-  vertical-align: middle;
+	height: 38px;
+	line-height: 38px;
+  vertical-align: top;
 }
 
 .page_control {
   margin-left: 15px;
   
   img {
-    vertical-align: middle;
+    vertical-align: top;
   }
 }
 
@@ -100,21 +100,27 @@ fieldset {
 }
 
 #events, #documents, #dynamic_forms, #contacts, #subscribe {
-  display: table;
+  display: block;
   border-spacing: 0px;
   width: 100%;
   margin: 0px 0px 20px 0px;
   padding: 0px;
   
   h2 {
-    display: table-cell;
+    display: inline-block;
+    vertical-align: top;
     font-size: 16px;
-		line-height: 16px;
+		line-height: 22px;
     color: #999;
     width: 90px;
     margin: 0px;
+    margin-right: -4px;
     padding: 0px;
 		padding-right: 20px;
+		
+		@include respond-to(tiny) {
+		  margin-bottom: 10px;
+		}
 		
 		img {
 			vertical-align: text-bottom;
@@ -125,10 +131,16 @@ fieldset {
 
 .events_list, #documents_list, .edit_list, #dynamic_forms_list, #contacts_list,
 #email_subscribe, #forms_list, #payments_list {
-  display: table-cell;
+  display: inline-block;
+  vertical-align: top;
+  width: 290px;
   margin: 0px;
   padding: 0px;
   list-style: none;
+  
+  @include respond-to(tiny) {
+    display: block;
+  }
   
   li {
     padding: 10px 0px;
@@ -141,6 +153,7 @@ fieldset {
  		}
  		
  		&:first-of-type {
+ 		  padding-top: 0px;
  		  border: none;
  		}
   }
@@ -182,6 +195,10 @@ fieldset {
   margin: 0px;
   padding: 0px 20px;
   color: #666;
+  
+  @include respond-to(tiny) {
+    padding: 0px;
+  }
   
   p, h1, h2 {
     margin: 0px 0px 15px 0px;

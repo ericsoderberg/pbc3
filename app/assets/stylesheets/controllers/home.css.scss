@@ -208,18 +208,16 @@
   		
   		@include respond-to(small-down) {
   		  width: 100%;
+  		  
+  		  img {
+  		    width: 100%;
+          height: 100%;
+  		  }
 		  }
 		  
 		  @include respond-to(normal-up) {
 		    width: 980px;
 	    }
-		  
-		  img {
-		    @include respond-to(small-down) {
-		      width: 100%;
-          height: 100%;
-        }
-		  }
   	}
   	
   	.hero_text {
@@ -288,11 +286,13 @@
   	left: 20px;
   	background:transparent image-url("control_left.png") no-repeat scroll center;
   }
+  
   #hero_right_control {
   	top: 0px;
   	right: 20px;
   	background: transparent image-url("control_right.png") no-repeat scroll center;
   }
+  
   #hero_left_control, #hero_right_control {
   	z-index: 4;
   }
