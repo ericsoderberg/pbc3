@@ -153,6 +153,10 @@ header {
   position: relative;
   margin: 0 0 25px 0;
   
+  @include respond-to(normal-up) {
+    white-space: nowrap;
+  }
+  
   @include respond-to(small-down) {
     position: static;
     margin-bottom: 10px;
@@ -255,6 +259,16 @@ div#auth {
         margin-right: 0px;
         a {
           padding-right: 0px;
+        }
+      }
+      
+      &.current {
+        @include respond-to(normal-up) {
+          a {
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
       

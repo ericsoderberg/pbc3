@@ -6,7 +6,7 @@
           <%= link_to image_tag('admin.png'), pages_path %>
         </li>
       <% end -%>
-      <li>
+      <li class="current">
       <%= link_to (current_user.avatar.exists? ?
           (image_tag current_user.avatar.url(:normal)) : current_user.email),
         edit_account_url(current_user, :protocol => 'https') %>
