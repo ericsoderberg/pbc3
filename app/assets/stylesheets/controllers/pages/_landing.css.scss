@@ -148,4 +148,29 @@ li.landing_sub .sub_sub_pages {
       font-size: 16px;
       line-height: 28px;
       }
+
+.panel.feature_child {
+  width: 313px;
+  height: 177px;
+  }
+  .feature_child_background {
+    position:absolute;
+	  z-index: 1;
+	  width: 317px;
+	  overflow: hidden;
+    }
+  .feature_child_text {
+    display: inline-block;
+		position: relative;
+    vertical-align: top;
+		margin-left: 150px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 18px;
+		z-index: 3;
+    }
+    .feature_child_text h2 {
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
       
