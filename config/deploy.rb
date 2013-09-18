@@ -55,7 +55,10 @@ namespace :deploy do
   end
   
   task :setup_solr_data_dir do
-    run "mkdir -p #{shared_path}/solr/data"
+    run "mkdir -p #{shared_path}/solr/#{rails_env}"
+    run "mkdir -p #{shared_path}/solr/pids"
+    run "ln -nfs #{shared_path}/solr/#{rails_env} #{release_path}/solr/#{rails_env}"
+    run "ln -nfs #{shared_path}/solr/pids #{release_path}/solr/pids"
   end
 
   #desc "Symlink shared resources on each release - not used"
@@ -77,16 +80,16 @@ after 'deploy:update_code', 'deploy:migrate'
 namespace :solr do
   desc "start solr"
   task :start, :roles => :app, :except => { :no_release => true } do 
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr start --port=8080 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:start" #sunspot-solr start --port=8983 --data-directory=#{shared_path}/solr/#{rails_env}/data --pid-dir=#{shared_path}/pids/#{rails_env}"
   end
   desc "stop solr"
   task :stop, :roles => :app, :except => { :no_release => true } do 
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr stop --port=8080 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:stop" #sunspot-solr stop --port=8983 --data-directory=#{shared_path}/solr/#{rails_env}/data --pid-dir=#{shared_path}/pids/#{rails_env}"
   end
   desc "reindex the whole database"
   task :reindex, :roles => :app do
     stop
-    run "rm -rf #{shared_path}/solr/data"
+    run "rm -rf #{shared_path}/solr/production/data"
     start
     run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
   end
