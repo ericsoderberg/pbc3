@@ -3,14 +3,14 @@
 	margin-top: 30px;
 	clear: right;
 	
-	@include respond-to(small-up) {
+	@include respond-to(normal-up) {
 	  white-space: nowrap;
 	}
 	
 	section {
 		color: #666;
 		
-		@include respond-to(small-up) {
+		@include respond-to(normal-up) {
 		  display: inline-block;
 		  margin-right: -4px;
   		padding: 0px 30px 20px 0px;
@@ -26,11 +26,15 @@
   }
   
   aside {
-    @include respond-to(small-up) {
+    @include respond-to(normal-up) {
       display: inline-block;
       vertical-align: top;
       white-space: normal;
   		width: 400px;
+		}
+		
+		@include respond-to(small-down) {
+		  margin-top: 20px;
 		}
 		
 		.page_admin {
@@ -45,6 +49,17 @@
     }
     aside {
       display: none;
+    }
+  }
+  
+  @include respond-to(small-up) {
+    &.mini-aside {
+      section {
+        width: 750px;
+      }
+      aside {
+        width: 200px;
+      }
     }
   }
   

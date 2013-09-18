@@ -8,4 +8,11 @@ footer {
     display: inline-block;
     margin-right: 15px;
   }
+  
+  @include respond-to(normal-up) {
+    #copyright {
+      float: right;
+      margin-right: 0px;
+    }
+  }
 }
