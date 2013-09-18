@@ -9,9 +9,9 @@ input[type="submit"] {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  /*-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
   -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
-  box-shadow: inset 0 0 1px 1px #f6f6f6;
+  box-shadow: inset 0 0 1px 1px #f6f6f6;*/
   color: #666;
   font-size: 12px;
   font-weight: bold;
@@ -21,9 +21,9 @@ input[type="submit"] {
   
   &:hover {
     background: #d9d9d9;
-    -moz-box-shadow: inset 0 0 1px 1px #eaeaea;
+    /*-moz-box-shadow: inset 0 0 1px 1px #eaeaea;
     -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
-    box-shadow: inset 0 0 1px 1px #eaeaea;
+    box-shadow: inset 0 0 1px 1px #eaeaea;*/
     color: #222;
     cursor: pointer;
   }
@@ -87,9 +87,9 @@ form {
 }
 
 input, textarea, .textedit {
-	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	/*box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;*/
 }
 	
 .unstyled input, .unstyled textarea, .unstyled .textedit {
@@ -122,4 +122,12 @@ ol.actions {
 	box-shadow: none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
+}
+
+// hide so users don't see but robots do, controllers fail if filled out
+#email_address_confirmation {
+  opacity: 0.1;
+  position: absolute;
+  top: -50px;
+  right: -50px;
 }
