@@ -60,11 +60,6 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/solr/#{rails_env} #{release_path}/solr/#{rails_env}"
     run "ln -nfs #{shared_path}/solr/pids #{release_path}/solr/pids"
   end
-
-  #desc "Symlink shared resources on each release - not used"
-  #task :symlink_shared, :roles => :app do
-  #  #run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-  #end
 end
 
 # http://www.hackido.com/2010/03/capistrano-sunspot-in-rails.html
@@ -95,9 +90,7 @@ namespace :solr do
   end
 end
 
-after 'deploy:setup', 'deploy:setup_solr_data_dir'
-
-#after 'deploy:update_code', 'deploy:symlink_shared'
+after 'deploy:update_code', 'deploy:setup_solr_data_dir'
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
