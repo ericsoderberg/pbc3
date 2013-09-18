@@ -10,8 +10,9 @@
   <td>
   <% unless message.message_files.empty? -%>
     <ul class="message_files">
-      <% message.message_files.each do |message_file| -%>
-        <% next unless message_file.file.content_type -%>
+      <% message.ordered_files.each do |message_file| -%>
+        <% next unless message_file.file.content_type or
+          message_file.cloud_video? -%>
         <li>
           <% if message_file.audio? -%>
             <%= link_to image_tag('audio.png', :size => '16x16'),
@@ -19,6 +20,9 @@
           <% elsif message_file.video? -%>
             <%= link_to image_tag('video.png', :size => '16x16'),
               (@route_prefix + message_file.file.url) %>
+          <% elsif message_file.cloud_video? -%>
+            <%= link_to image_tag('video.png', :size => '16x16', :class => 'video'),
+              message_url(message) %>
           <% else -%>
             <%= link_to image_tag('document.png', :size => '16x16'),
               (@route_prefix + message_file.file.url) %>
