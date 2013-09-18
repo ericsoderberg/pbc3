@@ -111,6 +111,32 @@ ol.actions {
 	-webkit-box-shadow: none;
 }
 
+.rte-toolbar {
+  overflow: hidden;
+  background-color: #eee;
+  border: 1px #ccc solid;
+  width: 500px;
+  padding: 5px 10px;
+  
+  a, a img {
+	  border: 0;
+	  //vertical-align: middle;
+  }
+
+  p {
+    float: left;
+    margin: 0;
+    margin-right: 10px;
+    padding: 0px;
+    font-size: 12px;
+    
+    &.mode {
+      float: right;
+      font-size: 14px;
+    }
+  }
+}
+
 // hide so users don't see but robots do, controllers fail if filled out
 #email_address_confirmation {
   opacity: 0.1;

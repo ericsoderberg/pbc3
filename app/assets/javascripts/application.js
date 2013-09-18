@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require rte-light/jquery.rte
 // require turbolinks NOTE:later
 //= require_directory .

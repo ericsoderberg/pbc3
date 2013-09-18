@@ -10,5 +10,6 @@
  *
  *= require_self
  *= require index
+ *= require rte-light/rte
  * require_directory ./layouts
  */
