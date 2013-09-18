@@ -9,9 +9,6 @@ input[type="submit"] {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  /*-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
-  -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
-  box-shadow: inset 0 0 1px 1px #f6f6f6;*/
   color: #666;
   font-size: 12px;
   font-weight: bold;
@@ -21,9 +18,6 @@ input[type="submit"] {
   
   &:hover {
     background: #d9d9d9;
-    /*-moz-box-shadow: inset 0 0 1px 1px #eaeaea;
-    -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
-    box-shadow: inset 0 0 1px 1px #eaeaea;*/
     color: #222;
     cursor: pointer;
   }
@@ -39,7 +33,6 @@ input, textarea {
 	
 	&:hover, &:focus {
 	  border-color: #999;
-	  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 	}
 }
 
@@ -84,12 +77,6 @@ form {
 	border: 0;
 	font-size: 14px;
 	color: #FFFFFF;
-}
-
-input, textarea, .textedit {
-	/*box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;*/
 }
 	
 .unstyled input, .unstyled textarea, .unstyled .textedit {
