@@ -137,6 +137,10 @@ ol.actions {
   }
 }
 
+iframe.textedit {
+  border: 1px solid #ddd;
+}
+
 // hide so users don't see but robots do, controllers fail if filled out
 #email_address_confirmation {
   opacity: 0.1;
