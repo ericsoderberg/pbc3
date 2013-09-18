@@ -43,6 +43,19 @@ GIT
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
 
+GIT
+  remote: git://github.com/sunspot/sunspot.git
+  revision: ecfd02899e92f2d7036dda08425d9670c325b03d
+  specs:
+    sunspot (2.1.0)
+      pr_geohash (~> 1.0)
+      rsolr (~> 1.0.7)
+    sunspot_rails (2.1.0)
+      nokogiri
+      rails (>= 3)
+      sunspot (= 2.1.0)
+    sunspot_solr (2.1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -82,6 +95,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     fast_xs (0.8.0)
+    fattr (2.2.1)
     ffi (1.9.0)
     formatador (0.2.4)
     guard (1.8.2)
@@ -136,6 +150,8 @@ GEM
       net-ssh (>= 2.6.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    options (2.3.0)
+      fattr
     orm_adapter (0.4.0)
     paperclip (3.5.0)
       activemodel (>= 3.0.0)
@@ -145,6 +161,9 @@ GEM
     pg (0.16.0)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
+    progress_bar (1.0.0)
+      highline (~> 1.6.1)
+      options (~> 2.3.0)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -180,13 +199,6 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     stringex (2.0.6)
-    sunspot (2.0.0)
-      pr_geohash (~> 1.0)
-      rsolr (~> 1.0.7)
-    sunspot_rails (2.0.0)
-      nokogiri
-      sunspot (= 2.0.0)
-    sunspot_solr (2.0.0)
     thor (0.18.1)
     thread_safe (0.1.2)
       atomic
@@ -222,12 +234,13 @@ DEPENDENCIES
   money-rails
   paperclip (~> 3.0)
   pg
+  progress_bar
   rails!
   sass-rails (~> 4.0.0)
   simple_xlsx_writer
   stringex
-  sunspot_rails
-  sunspot_solr
+  sunspot_rails!
+  sunspot_solr!
   turbolinks
   uglifier (>= 1.3.0)
   uuidtools
