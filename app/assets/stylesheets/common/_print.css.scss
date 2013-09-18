@@ -1,3 +1,7 @@
+.print-override {
+  display: none;
+}
+
 @media print {
 	#site_header, footer, #site_nav, #submitted_form_list,
 	.page_admin, .admin, .actions {

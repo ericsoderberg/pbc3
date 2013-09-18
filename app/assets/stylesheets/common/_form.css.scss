@@ -144,3 +144,33 @@ ol.actions {
   top: -50px;
   right: -50px;
 }
+
+.ui-datepicker {
+  background-color: #fff;
+  border: 10px solid #eee;
+  @include box-shadow(3px, 3px, 8px, 0px, #666);
+  
+  td {
+    &.ui-datepicker-current-day {
+      background-color: #eee;
+    }
+    
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+  
+  a.ui-datepicker-prev {
+    text-align: center;
+    &:after {
+      content: '<';
+    }
+  }
+  
+  a.ui-datepicker-next {
+    text-align: center;
+    &:after {
+      content: '>';
+    }
+  }
+}

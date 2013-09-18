@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui-1.10.3.custom
 //= require rte-light/jquery.rte
+//= require jquery.flexbox
 // require turbolinks NOTE:later
 //= require_directory .
