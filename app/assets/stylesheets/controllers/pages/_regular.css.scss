@@ -12,6 +12,7 @@
 		
 		@include respond-to(small-up) {
 		  display: inline-block;
+		  margin-right: -4px;
   		padding: 0px 30px 20px 0px;
   		vertical-align: top;
   		white-space: normal;
@@ -31,6 +32,20 @@
       white-space: normal;
   		width: 400px;
 		}
+		
+		.page_admin {
+		  height: auto;
+		  line-height: 22px;
+		}
+  }
+  
+  &.full {
+    section {
+      width: 100%;
+    }
+    aside {
+      display: none;
+    }
   }
   
   aside .event_form {
