@@ -202,6 +202,7 @@ class Event < ActiveRecord::Base
 
     tmp_peers = peers
     new_peers = []
+    copied_peers = []
     new_master = self
 
     Event.transaction do
@@ -212,7 +213,9 @@ class Event < ActiveRecord::Base
         if not current_dates.include?(date)
           #logger.info "!!! add at #{date}"
           peer = copy(date)
+          peer.reservations.clear # handle later
           new_peers << peer
+          copied_peers << peer
         end
       end
       
@@ -242,6 +245,14 @@ class Event < ActiveRecord::Base
       new_peers.each do |peer|
         peer.master = new_master
         peer.save!
+      end
+      
+      # we copy the reservations after creating the new events so they have ids
+      copied_peers.each do |peer|
+        self.reservations.each do |reservation|
+          new_reservation = reservation.copy(peer)
+          new_reservation.save!
+        end
       end
     end
     
