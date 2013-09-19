@@ -1,7 +1,7 @@
 initialize = ->
   $('.textedit').rte({
     content_css_url: "/assets/rte-light/rte.css",
-    media_url: "/assets/rte-light/",
+    media_url: "/images/rte-light/",
     height: 400,
     width: 500
   });
