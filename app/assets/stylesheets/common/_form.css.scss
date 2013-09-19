@@ -3,7 +3,7 @@ input[type="file"] {
 }
 
 /* http://ubuwaits.github.com/css3-buttons/ */
-input[type="submit"] {
+input[type="submit"], button {
   background: #e9e9e9;
   border: 1px solid #ccc;
   -webkit-border-radius: 3px;
@@ -176,5 +176,17 @@ iframe.textedit {
     &:after {
       content: '>';
     }
+  }
+}
+
+.ui-slider {
+  background-color: #eee;
+  
+  .ui-slider-handle {
+    background: #e9e9e9;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
   }
 }
