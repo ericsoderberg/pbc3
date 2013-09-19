@@ -1,6 +1,6 @@
 class Resource < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
-  has_many :events, :through => :reservations
+  has_many :events, -> { order('start_at DESC') }, :through => :reservations
   ###audited
 
   ###attr_protected :id
