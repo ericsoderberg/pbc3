@@ -1,8 +1,7 @@
 $(function() {
   var initialDisplayValue = '<%= @page.parent ? escape_javascript(@page.parent.name) : ''%>';
   var initialHiddenValue = '<%= @page.parent ? @page.parent.id : ''%>';
-  url = '<%= @page.id ? search_possible_parents_page_path(@page, :format => :js) :
-    search_pages_path(:format => :js) %>';
+  url = '<%= @page.id ? search_possible_parents_page_path(@page, :format => :js) : search_pages_path(:format => :js) %>';
   $('#parent_id').flexbox(url, {
     initialDisplayValue: initialDisplayValue,
     initialHiddenValue: initialHiddenValue,

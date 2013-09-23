@@ -12,6 +12,7 @@
  *= require jquery-ui-1.10.3.custom
  *= require jquery-ui-timepicker-addon
  *= require rte-light/rte
+ *= require jquery.flexbox
  *= require index
  * require_directory ./layouts
  */

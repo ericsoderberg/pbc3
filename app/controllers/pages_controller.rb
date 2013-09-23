@@ -166,7 +166,6 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(page_params)
     return unless page_administrator!(@page.parent)
-    #@page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     if current_user.administrator? and params[:site_reference]
       @site.communities_page = @page if 'communities' == params[:site_reference]
       @site.about_page = @page if 'about' == params[:site_reference]
