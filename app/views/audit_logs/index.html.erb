@@ -21,6 +21,15 @@
     <td>
       <%= link_to_audited_item(item) %>
     </td>
+    <td>
+      <% if item.is_a?(Event) -%>
+        <% contextual_times(item).each do |timestamp| -%>
+          <div class="event_range">
+            <%= timestamp %>
+          </div>
+        <% end -%>
+      <% end -%>
+    </td>
   </tr>
 <% end %>
   </tbody>
