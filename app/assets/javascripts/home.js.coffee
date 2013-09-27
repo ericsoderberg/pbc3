@@ -6,6 +6,7 @@ currentPosition = 0
 layoutTimer = null
 showControls = false
 initialized = false
+timer = undefined
 
 isPhone = ->
   return ((navigator.platform.indexOf("iPhone") != -1) ||
@@ -61,10 +62,21 @@ onResize = ->
     # save some CPU by delaying reaction a bit if the use is draggin
     clearTimeout layoutTimer
     layoutTimer = setTimeout(layout, 50)
+    
+pause = ->
+  clearTimeout timer
+  
+resume = ->
+  unless isPhone()
+    timer = setInterval(->
+      currentPosition = currentPosition + 1
+      currentPosition = 0  if currentPosition is numberOfSlides
+      slide currentPosition
+    , 10000)
   
 initialize = ->
   
-  if ! initialized
+  if ! initialized and $('#hero').length > 0
     initialized = true
     slides = $(".slide")
     numberOfSlides = slides.length
@@ -78,7 +90,11 @@ initialize = ->
       float: "left"
   
     # Insert left and right arrow controls in the DOM
-    $("#hero").prepend("<span class=\"control\" id=\"hero_left_control\">Move left</span>").append("<span class=\"control\" id=\"hero_right_control\">Move right</span>")
+    arrow = $('<span></span>').addClass('control').
+      attr('id', 'hero_left_control').text('Move left')
+    $("#hero").prepend(arrow)
+    arrow = arrow.clone().attr('id', 'hero_right_control').text('Move right')
+    $("#hero").append(arrow)
     
     # Create listeners for hovering to show controls
     $("#hero").hover (->
@@ -97,18 +113,17 @@ initialize = ->
         automate = false
         clearInterval timer
       # Determine new position
-      currentPosition = (if ($(this).attr("id") is "hero_right_control") then currentPosition + 1 else currentPosition - 1)
+      if ($(this).attr("id") is "hero_right_control")
+        currentPosition += 1
+      else
+        currentPosition -= 1
       slide currentPosition
   
     layout()
 
-    unless isPhone()
-      timer = setInterval(->
-        currentPosition = currentPosition + 1
-        currentPosition = 0  if currentPosition is numberOfSlides
-        slide currentPosition
-      , 10000)
+    resume()
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)
+$(document).on('page:unload', pause)
 $(window).on('resize', onResize)
