@@ -1,4 +1,7 @@
 class AuditLogsController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :administrator!
+  
   # GET /audit_logs
   # GET /audit_logs.xml
   def index
