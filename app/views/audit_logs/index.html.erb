@@ -32,7 +32,7 @@
     </td>
     <td>
       <% if item.class.method_defined?(:page) -%>
-        <%= link_to item.name, friendly_page_path(item.page) %>
+        <%= link_to item.page.name, friendly_page_path(item.page) %>
       <% end -%>
     </td>
   </tr>
