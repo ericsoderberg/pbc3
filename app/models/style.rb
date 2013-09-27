@@ -30,9 +30,7 @@ class Style < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
   has_many :pages, :dependent => :nullify
-  ###audited
-  
-  ###attr_protected :id
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates_presence_of :name, :hero_text_color, :feature_color
     

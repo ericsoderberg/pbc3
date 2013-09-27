@@ -122,8 +122,9 @@ class NewslettersController < ApplicationController
   end
   
   def newsletter_params
-    params.require(:newsletter).permit(:name, :email_list, :published_at,
-      :featured_page_id, :featured_event_id, :note, :window)
+    params.require(:newsletter).merge(:updated_by => current_user.id).permit(:name,
+      :email_list, :published_at, :featured_page_id, :featured_event_id, :note,
+      :window)
   end
   
 end

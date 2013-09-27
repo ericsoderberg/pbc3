@@ -1,6 +1,7 @@
 class Newsletter < ActiveRecord::Base
   belongs_to :featured_page, :class_name => 'Page'
   belongs_to :featured_event, :class_name => 'Event'
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   ###attr_protected :id
   

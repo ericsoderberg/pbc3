@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130728062226) do
+ActiveRecord::Schema.define(version: 20130927134807) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -31,28 +31,8 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.string   "audio2_content_type"
     t.integer  "audio2_file_size"
     t.datetime "audio2_updated_at"
+    t.integer  "updated_by"
   end
-
-  create_table "audits", force: true do |t|
-    t.integer  "auditable_id"
-    t.string   "auditable_type"
-    t.integer  "associated_id"
-    t.string   "associated_type"
-    t.integer  "user_id"
-    t.string   "user_type"
-    t.string   "username"
-    t.string   "action"
-    t.text     "audited_changes"
-    t.integer  "version",         default: 0
-    t.string   "comment"
-    t.string   "remote_address"
-    t.datetime "created_at"
-  end
-
-  add_index "audits", ["associated_id", "associated_type"], name: "associated_index", using: :btree
-  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
-  add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
-  add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
 
   create_table "authorizations", force: true do |t|
     t.integer  "page_id"
@@ -110,6 +90,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.string   "name"
     t.text     "summary"
     t.date     "published_at"
+    t.integer  "updated_by"
   end
 
   create_table "episodes", id: false, force: true do |t|
@@ -146,6 +127,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.boolean  "featured"
     t.text     "invitation_message"
     t.text     "notes"
+    t.integer  "updated_by"
   end
 
   create_table "filled_fields", force: true do |t|
@@ -201,6 +183,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.boolean  "published"
     t.boolean  "pay_by_check"
     t.boolean  "pay_by_paypal"
+    t.integer  "updated_by"
   end
 
   create_table "holidays", force: true do |t|
@@ -296,6 +279,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "library_id"
+    t.integer  "updated_by"
   end
 
   create_table "newsletters", force: true do |t|
@@ -310,6 +294,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "window",            default: 4, null: false
+    t.integer  "updated_by"
   end
 
   create_table "notes", force: true do |t|
@@ -351,6 +336,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.boolean  "parent_feature",       default: false
     t.integer  "parent_feature_index"
     t.boolean  "any_user"
+    t.integer  "updated_by"
   end
 
   create_table "payments", force: true do |t|
@@ -460,6 +446,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.integer  "child_feature_file_size"
     t.datetime "child_feature_updated_at"
     t.integer  "child_feature_text_color",   default: 0
+    t.integer  "updated_by"
   end
 
   create_table "users", force: true do |t|
@@ -528,6 +515,7 @@ ActiveRecord::Schema.define(version: 20130728062226) do
     t.datetime "date"
     t.text     "description"
     t.string   "vimeo_id"
+    t.integer  "updated_by"
   end
 
 end

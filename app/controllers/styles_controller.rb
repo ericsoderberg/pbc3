@@ -127,8 +127,8 @@ class StylesController < ApplicationController
   end
     
   def style_params
-    params.require(:style).permit(:name, :hero_text_color,
-      :feature_color, :banner_text_color, :banner, :feature_strip,
-      :hero, :bio_back, :child_feature)
+    params.require(:style).merge(:updated_by => current_user).permit(:name,
+      :hero_text_color, :feature_color, :banner_text_color, :banner,
+      :feature_strip, :hero, :bio_back, :child_feature, :updated_by)
   end
 end

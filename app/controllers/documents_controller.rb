@@ -82,8 +82,8 @@ class DocumentsController < ApplicationController
   end
   
   def document_params
-    params.require(:document).permit(:page_id, :name, :summary,
-      :published_at, :file)
+    params.require(:document).merge(:updated_by => current_user).permit(:page_id,
+      :name, :summary, :published_at, :file, :updated_by)
   end
   
 end

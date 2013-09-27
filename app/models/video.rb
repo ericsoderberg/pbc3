@@ -8,9 +8,7 @@ class Video < ActiveRecord::Base
     :url => "/system/:attachment/:id/:style/:filename"
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :users, :through => :users_videos, :source => :user
-  ###audited
-  
-  ###attr_protected :id
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates_presence_of :page
   

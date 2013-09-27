@@ -145,9 +145,9 @@ class MessagesController < ApplicationController
   end
   
   def message_params
-    params.require(:message).permit(:title, :url, :verses, :date, :author_id,
-      :dpid, :description, :message_set_id, :message_set_index, :event_id,
-      :library_id, :image)
+    params.require(:message).merge(:updated_by => current_user).permit(:title,
+      :url, :verses, :date, :author_id, :dpid, :description, :message_set_id,
+      :message_set_index, :event_id, :library_id, :image, :updated_by)
   end
   
 end

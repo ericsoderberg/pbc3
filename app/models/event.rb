@@ -8,9 +8,7 @@ class Event < ActiveRecord::Base
   has_many :invitations, -> { order(:email) }, :dependent => :destroy
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :messages, :through => :events_messages, :source => :message
-  ###audited
-  
-  ###attr_protected :id
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates_presence_of :page, :name, :stop_at
   validates :start_at, :presence => true,

@@ -7,8 +7,8 @@ class Message < ActiveRecord::Base
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :events, -> { order('start_at ASC') }, :through => :events_messages,
     :source => :event
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   acts_as_url :title, :sync_url => true
-  ###audited
     
   has_attached_file :image, :styles => {
       :normal => '600x600',
@@ -16,8 +16,6 @@ class Message < ActiveRecord::Base
     },
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
-  
-  ###attr_protected :id
   
   validates :title, :presence => true
   

@@ -8,9 +8,6 @@ class Podcast < ActiveRecord::Base
     },
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
-  ###audited
-  
-  ###attr_protected :id
     
   validates_presence_of :user_id, :title, :subtitle,
     :summary, :description, :category

@@ -6,9 +6,7 @@ class Audio < ActiveRecord::Base
   has_attached_file :audio2,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
-  ###audited
-  
-  ###attr_protected :id
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates_presence_of :page
   

@@ -23,7 +23,6 @@ class User < ActiveRecord::Base
   has_many :conversations, :dependent => :destroy
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :videos, :through => :users_videos, :source => :video
-  ###audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',
@@ -36,8 +35,6 @@ class User < ActiveRecord::Base
     },
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
-  
-  ###attr_protected :id
   
   before_validation do
     split_name

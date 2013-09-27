@@ -78,8 +78,9 @@ class AudiosController < ApplicationController
   end
   
   def audio_params
-    params.require(:audio).permit(:caption, :page_id, :date, :verses,
-      :author, :event_id, :description, :audio, :audio2)
+    params.require(:audio).merge(:updated_by => current_user).permit(:caption,
+      :page_id, :date, :verses, :author, :event_id, :description, :audio, :audio2,
+      :updated_by)
   end
   
 end

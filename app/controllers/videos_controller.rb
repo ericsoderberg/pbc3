@@ -69,8 +69,8 @@ class VideosController < ApplicationController
   private
   
   def video_params
-    params.require(:video).permit(:caption, :page_id, :youtube_id,
-      :description, :vimeo_id, :video, :video2)
+    params.require(:video).merge(:updated_by => current_user).permit(:caption,
+      :page_id, :youtube_id, :description, :vimeo_id, :video, :video2, :updated_by)
   end
   
 end

@@ -239,11 +239,11 @@ class PagesController < ApplicationController
   private
   
   def page_params
-    params.require(:page).permit(:name, :text, :hero_text, :home_feature,
+    params.require(:page).merge(:updated_by => current_user).permit(:name, :text, :hero_text, :home_feature,
       :parent_id, :feature_phrase, :home_feature_index, :private, :style_id,
       :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
       :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,
-      :twitter_name, :feature_upcoming, :banner_text)
+      :twitter_name, :feature_upcoming, :banner_text, :updated_by)
   end
   
 end

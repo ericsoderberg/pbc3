@@ -3,9 +3,7 @@ class Form < ActiveRecord::Base
   has_many :form_fields, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
   has_many :filled_forms, -> { order('name ASC') }, :dependent => :destroy
-  ###audited
-  
-  ###attr_protected :id
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates :name, :presence => true
   validates :page, :presence => true

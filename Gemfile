@@ -28,7 +28,6 @@ git 'git://github.com/sunspot/sunspot.git' do
 end
 gem 'progress_bar'
 gem "will_paginate", "~> 3.0.pre2"
-###gem "audited-activerecord" #, "~> 3.0"
 gem "uuidtools"
 gem 'kaminari'
 gem 'money'

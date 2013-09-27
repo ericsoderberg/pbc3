@@ -129,8 +129,8 @@ class FormsController < ApplicationController
   private
   
   def form_params
-    params.require(:form).permit(:name, :page_id, :payable, :published,
-      :pay_by_check, :pay_by_paypal)
+    params.require(:form).merge(:updated_by => current_user).permit(:name,
+      :page_id, :payable, :published, :pay_by_check, :pay_by_paypal, :updated_by)
   end
   
 end
