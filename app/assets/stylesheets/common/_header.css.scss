@@ -220,7 +220,7 @@ header {
 div#auth {
   float: right;
   height: 30px;
-  line-height: 16px;
+  line-height: 22px;
   
   @include respond-to(small-down) {
     height: auto;
@@ -247,6 +247,8 @@ div#auth {
   	  display: inline-block;
   	  margin-right: -4px;
   	  border-left: 1px solid #ccc;
+  	  vertical-align: top;
+  	  height: 22px;
   	  
   	  &:first-child {
         border: none;
@@ -298,10 +300,25 @@ div#auth {
 
 div#notice {
   position: absolute;
-  top: -25px;
-  width: 980px;
+  top: -65px;
+  width: 100%;
+  text-align: center;
   color: #696;
-  text-align: right;
+  opacity: 0;
+  background-color: #ffc;
+  border: 1px solid #eee;
+  border-top: none;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  @include transition_property(all);
+  @include transition-duration(5s);
+  
+  &.active {
+    top: -35px;
+    opacity: 1;
+    @include transition-duration(1s);
+    @include transition-delay(1s);
+  }
 }
 
 #search {

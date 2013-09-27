@@ -11,3 +11,27 @@
 	-ms-transition: $property $duration, $property2 $duration2;
 	transition: $property $duration, $property2 $duration2;
 }
+
+@mixin transition-property($properties...) {
+  -webkit-transition-property: $properties;
+	-moz-transition-property: $properties;
+	transition-property: $properties;
+}
+
+@mixin transition-duration($durations...) {
+  -webkit-transition-duration: $durations;
+	-moz-transition-duration: $durations;
+	transition-duration: $durations;
+}
+
+@mixin transition-timing-function($functions...) {
+  -webkit-transition-timing-function: $functions;
+	-moz-transition-timing-function: $functions;
+	transition-timing-function: $functions;
+}
+
+@mixin transition-delay($delays...) {
+  -webkit-transition-delay: $delays;
+	-moz-transition-delay: $delays;
+	transition-delay: $delays;
+}
