@@ -4,14 +4,14 @@
     <div id="animated_banners">
       <div id="animated_banners_list">
         <% ([@page] + @page.children).each do |animated_page| -%>
+          <% if animated_page.style -%>
           <div class="slide">
-            <% if animated_page.style -%>
             <div class="slide_background">
               <%= link_to image_tag(animated_page.style.banner.url(:normal)),
                 friendly_page_path(animated_page) %>
             </div>
-            <% end -%>
           </div>
+          <% end -%>
         <% end -%>
       </div>
     </div>
