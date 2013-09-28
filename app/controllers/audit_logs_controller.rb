@@ -5,7 +5,7 @@ class AuditLogsController < ApplicationController
   # GET /audit_logs
   # GET /audit_logs.xml
   def index
-    date = Date.today - 1.month
+    date = Date.today - 2.weeks
     @records = []
     [Page, Event, Message, Newsletter, Style, Audio, Video, Document, Form].each do |model|
       @records += model.where("updated_at > ?", date).order("updated_at DESC")
