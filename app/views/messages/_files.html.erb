@@ -1,12 +1,18 @@
 <% message ||= @message -%>
 <% skipEmbedded ||= false -%>
+<% skipCaptioned ||= false -%>
 <% if message.message_files.empty? -%>
+  <% unless skipCaptioned -%>
 <span class="empty_indicator">(files pending)</span>
+  <% end -%>
 <% else -%>
 <ul class="message_files">
   <% message.ordered_files.each do |message_file| -%>
     <% next unless message_file.file.content_type or
       (message_file.cloud_video? and not skipEmbedded) -%>
+    <% next if message_file.caption and
+        not message_file.caption.empty? and
+        skipCaptioned -%>
     <li>
       <% if message_file.audio? -%>
         <%= link_to image_tag('audio.png', :size => '16x16'),

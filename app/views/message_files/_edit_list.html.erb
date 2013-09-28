@@ -1,6 +1,7 @@
 <h3>Files</h3>
 <ul id="files">
   <% @message.message_files.each do |message_file| -%>
+    <% next unless message_file.id -%>
     <li>
       <div class="page_admin">
       <%= link_to 'Edit', edit_message_path(@message, :message_file_id => message_file.id) %>

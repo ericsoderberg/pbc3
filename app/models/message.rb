@@ -82,8 +82,9 @@ class Message < ActiveRecord::Base
       references(:verse_ranges).count
   end
   
-  def self.between(start_date, end_date)
-    where('messages.date' => start_date..end_date).order('messages.date ASC')
+  def self.between(start_date, end_date, reverse=false)
+    where('messages.date' => start_date..end_date).
+      order('messages.date ' + (reverse ? 'DESC' : 'ASC'))
   end
   
   def self.between_with_full_sets(start_date, end_date)

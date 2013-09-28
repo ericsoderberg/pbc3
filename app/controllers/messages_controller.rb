@@ -12,8 +12,12 @@ class MessagesController < ApplicationController
     else
       @date = (Time.now + 3.months)
     end
-    @back_date = @date - 1.year
-    @messages = Message.between_with_full_sets(@back_date, @date)
+    if @date.month >= 3
+      @back_date = @date.beginning_of_year
+    else
+      @back_date = (@date - 1.year).beginning_of_year
+    end
+    @messages = Message.between(@back_date, @date, true)
     @oldest_date = Message.order('date ASC').first.date || Time.now
     @years = (@oldest_date.year..Time.now.year).to_a.reverse
     @year = @date.year

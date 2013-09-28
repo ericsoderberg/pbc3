@@ -74,6 +74,10 @@ div.message_audio {
 #message_description {
   width: 700px;
   margin: 20px 0px;
+  
+  form.edit_message & {
+    width: 580px;
+  }
 }
 
 header audio {

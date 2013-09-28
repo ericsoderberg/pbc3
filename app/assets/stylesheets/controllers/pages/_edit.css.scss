@@ -16,6 +16,21 @@
     display: table-cell;
     width: 300px;
     padding-right: 30px;
+    
+    ul#files {
+      list-style-type: none;
+      margin: 10px 0px;
+      padding: 0px;
+      
+      > li {
+        margin-bottom: 10px;
+        
+        div.page_admin {
+          height: auto;
+          line-height: normal;
+        }
+      }
+    }
   }
   
   section {
