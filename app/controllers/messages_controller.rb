@@ -5,7 +5,11 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    if params[:date]
+    if params[:year]
+      date = params[:year]
+      date += '-01-01' if date.length == 4
+      @date = date.to_date.end_of_year
+    elsif params[:date]
       date = params[:date]
       date += '-01-01' if date.length == 4
       @date = date.to_date

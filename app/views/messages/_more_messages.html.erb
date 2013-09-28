@@ -1,6 +1,6 @@
 <div id="more_messages">
   <%= form_tag messages_path(), :method => :get, :class => 'messages_date inline_controls' do %>
-    <select name="date">
+    <select name="year">
       <%= options_for_select(@years, :selected=>@year) %>
     </select>
     <%= submit_tag 'go' %>
