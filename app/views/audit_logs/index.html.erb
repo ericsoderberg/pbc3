@@ -28,6 +28,8 @@
             <%= timestamp %>
           </div>
         <% end -%>
+      <% elsif item.is_a?(Newsletter) -%>
+        <%= item.published_at.relative_str(true) %>
       <% end -%>
     </td>
     <td>

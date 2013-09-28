@@ -3,8 +3,6 @@ class Newsletter < ActiveRecord::Base
   belongs_to :featured_event, :class_name => 'Event'
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
-  ###attr_protected :id
-  
   validates :name, :presence => true
   validates :published_at, :presence => true, :uniqueness => {:scope => :name}
   

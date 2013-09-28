@@ -18,6 +18,8 @@ module AuditLogsHelper
       link_to item.name, edit_style_path(item)
     elsif item.is_a?(Form)
       link_to item.name, edit_form_path(item)
+    elsif item.is_a?(Newsletter)
+      link_to item.name, newsletter_path(item)
     elsif item.is_a?(Podcast)
       if item.page
         link_to item.title, page_podcast_path(item.page, podcast)
