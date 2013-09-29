@@ -46,9 +46,15 @@ class ApplicationController < ActionController::Base
   end
   
   def save_path
-    if request.referrer !~ /sign_in/ and request.referrer !~ /sign_out/ and
-      request.referrer !~ /password/
-      session[:post_login_path] = request.referrer
+    
+    if request.referer
+      referer_path = URI(request.referer).path
+      if not referer_path.starts_with?('/users/sign_in') and
+        not referer_path.starts_with?('/users/sign_out') and
+        not referer_path.starts_with?('/password') and
+        not referer_path.starts_with?('/private')
+        session[:post_login_path] = request.referer
+      end
     end
   end
   
