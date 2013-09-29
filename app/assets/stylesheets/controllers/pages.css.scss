@@ -231,9 +231,28 @@ fieldset {
     font-size: inherit;
   }
 }
-   
-.event_notes {
-  margin: 10px 0px;
+
+#events {
+  li.event {
+    
+    &:hover {
+      .event_notes {
+        max-height: 100px;
+        margin: 10px 0px;
+        @include transition-duration(0.5s);
+        @include transition-delay(0s);
+      }
+    }
+    
+    .event_notes {
+      max-height: 0px;
+      overflow: hidden;
+      margin: 0px;
+      @include transition-property(margin-top, margin-bottom, max-height);
+      @include transition-duration(1s);
+      @include transition-delay(2s);
+    }
+  }
 }
 
 #notes {
