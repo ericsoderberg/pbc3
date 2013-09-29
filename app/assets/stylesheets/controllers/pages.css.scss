@@ -237,7 +237,7 @@ fieldset {
     
     &:hover {
       .event_notes {
-        max-height: 100px;
+        max-height: 200px;
         margin: 10px 0px;
         @include transition-duration(0.5s);
         @include transition-delay(0s);
