@@ -204,7 +204,6 @@ class PagesController < ApplicationController
         params[:page].delete(property)
       end
     end
-    logger.info page_params
 
     respond_to do |format|
       if @page.update_attributes(page_params) and

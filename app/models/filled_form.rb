@@ -6,8 +6,6 @@ class FilledForm < ActiveRecord::Base
   has_many :filled_fields, -> {
     includes(:form_field).order('form_fields.form_index') },
     :autosave => true, :dependent => :destroy
-    
-  ###attr_protected :id
   
   validates :form, :presence => true
   validates :name, :presence => true

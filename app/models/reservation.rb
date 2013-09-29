@@ -2,35 +2,51 @@ class Reservation < ActiveRecord::Base
   belongs_to :event
   belongs_to :resource
   
-  ###attr_protected :id
-  
   validates :event, :presence => true
   validates :resource_id, :presence => true,
     :uniqueness => {:scope => :event_id}
+  validate :no_overlap
     
   PRE_POST_OPTIONS = [['none', 0], ['1 hour', 60], ['2 hours', 120],
     ['4 hours', 240], ['6 hours', 360], ['8 hours', 480]]
+    
+  def no_overlap
+    overlapping = Reservation.joins(:event, :resource).
+      where('resource_id = ? AND event_id != ? AND ' +
+        'events.start_at < ? AND events.stop_at > ?',
+        self.resource_id, self.event_id,
+        self.event.stop_at, self.event.start_at).first
+    if overlapping
+      self.errors.add(:resource_id, "overlapping usage of " +
+        "#{overlapping.resource.name} by #{overlapping.event.name} on " +
+        "#{overlapping.event.start_at.simple_date}")
+    end
+  end
   
-  def self.reserve(event, resources, update_replicas=false, options={})
-    # remove existing resources that aren't specified
-    event.reservations.each do |reservation|
-      next if resources.include?(reservation.resource)
-      event.reservations.delete(reservation)
-    end
-    # add new ones that we don't have yet
-    resources.each do |resource|
-      reservation = event.reservations.where('resource_id = ?', resource.id).first
-      unless reservation
-        reservation = 
-          event.reservations.create(:event_id => event.id, :resource_id => resource.id)
+  def self.reserve(referenceEvent, resources, update_replicas=false, options={})
+    Reservation.transaction do
+      events = (update_replicas ? referenceEvent.peers : [referenceEvent])
+      events.each do |event|
+        # remove existing resources that aren't specified
+        event.reservations.each do |reservation|
+          next if resources.include?(reservation.resource)
+          reservation.destroy!
+        end
+        # add new ones that we don't have yet
+        resources.each do |resource|
+          reservation = event.reservations.where('resource_id = ?', resource.id).first
+          unless reservation
+            reservation = Reservation.new(:event_id => event.id,
+              :resource_id => resource.id)
+          end
+          if options and options[resource.id.to_s]
+            reservation.pre_time = options[resource.id.to_s]['pre_time'].to_i
+            reservation.post_time = options[resource.id.to_s]['post_time'].to_i
+          end
+          reservation.save!
+        end
       end
-      if options and options[resource.id.to_s]
-        reservation.pre_time = options[resource.id.to_s]['pre_time'].to_i
-        reservation.post_time = options[resource.id.to_s]['post_time'].to_i
-        reservation.save
-      end
     end
-    update_replicas ? event.update_with_replicas : true
   end
   
   def self.between(start, stop)

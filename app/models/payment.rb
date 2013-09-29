@@ -2,8 +2,6 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   has_many :filled_forms, :dependent => :nullify
   
-  ###attr_protected :id
-  
   METHODS = ['check', 'PayPal']
   
   validates :amount, :presence => true

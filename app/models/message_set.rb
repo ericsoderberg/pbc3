@@ -11,8 +11,6 @@ class MessageSet < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
   
-  ###attr_protected :id
-  
   validates :title, :presence => true
   
   searchable do

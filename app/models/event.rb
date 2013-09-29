@@ -195,7 +195,6 @@ class Event < ActiveRecord::Base
   end
   
   def replicate(dates)
-    #logger.info "!!! replicate to #{dates.map{|e| e.to_s}.join(', ')}"
     current_dates = peers.map{|e| e.start_at.to_date}
 
     tmp_peers = peers
@@ -209,7 +208,6 @@ class Event < ActiveRecord::Base
       # do this first in case we destroy this event
       dates.each do |date|
         if not current_dates.include?(date)
-          #logger.info "!!! add at #{date}"
           peer = copy(date)
           peer.reservations.clear # handle later
           new_peers << peer
@@ -220,7 +218,6 @@ class Event < ActiveRecord::Base
       # remove existing dates that aren't specified
       tmp_peers.each do |peer|
         if not dates.include?(peer.start_at.to_date)
-          #logger.info "!!! remove at #{peer.start_at}"
           new_master = nil if self == peer
           peer.destroy
         else
