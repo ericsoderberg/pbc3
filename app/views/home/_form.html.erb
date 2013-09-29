@@ -36,7 +36,7 @@
         </div>
         <div id="parent_feature_indexer"
           <%= raw @page.parent_feature? ? '' : 'style="display:none"' %>>
-          <%= render :partial => 'parent_feature_indexer' -%>
+          <%= render :partial => 'parent_feature_index' -%>
         </div>
         <% end -%>
         
@@ -50,7 +50,7 @@
         </div>
         <div id="home_feature_indexer"
           <%= raw @page.home_feature? ? '' : 'style="display:none"' %>>
-          <%= render :partial => 'home_feature_indexer' -%>
+          <%= render :partial => 'home_feature_index' -%>
         </div>
       </div>
     </aside>

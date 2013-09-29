@@ -44,7 +44,7 @@ class HomeController < ApplicationController
     params[:page][:parent_feature_index] = orderer_parent_feature_ids.length + 100
     
     respond_to do |format|
-      if @page.update_attributes(params[:page]) and
+      if @page.update_attributes(page_params) and
         (not @page.home_feature? or
           Page.order_home_features(orderer_home_feature_ids)) and
         (not @page.parent_feature? or
@@ -62,6 +62,15 @@ class HomeController < ApplicationController
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  private
+  
+  def page_params
+    params.require(:page).permit(:hero_text, :home_feature,
+      :feature_phrase, :home_feature_index, :feature_upcoming, :parent_feature,
+      :parent_feature_index,
+      :updated_by).merge(:updated_by => current_user)
   end
 
 end
