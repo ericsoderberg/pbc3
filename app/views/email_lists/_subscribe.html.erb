@@ -4,8 +4,9 @@
   
   <h2>Email List</h2>
 
-  <div>
-<%= form_tag add_email_list_url(email_list, :protocol => 'https'), :id => 'email_subscribe',
+  <div id="email_subscribe">
+    <p class="prompt">Subscribe to the <%= @page.name %> email list:</p>
+<%= form_tag add_email_list_url(email_list, :protocol => 'https'),
   :class => 'inline' do %>
   <%= text_field_tag 'email_address_confirmation', '',
     :id => 'email_address_confirmation', :placeholder => 'email address' %>
