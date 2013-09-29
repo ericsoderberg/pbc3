@@ -141,13 +141,14 @@ h2.dynamic_form_field_name {
 		
 		li {
 			padding: 4px 10px;
-			border-radius: 3px;
 			
 			a {
   		  display: block;
   		}
   		
   		.form_submitter, .form_date, .form_amount {
+  		  display: block;
+  		  padding-left: 10px;
 			  color: #666;
 			  font-weight: normal;
 			  white-space: nowrap;
