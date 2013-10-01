@@ -1,6 +1,6 @@
 <div class="edit_content">
   <section>
-    <%= form_for(@page, :remote => true) do |f| %>
+    <%= form_for(@page) do |f| %>
       <div class="field">
         <%= f.label :obscure?, :class => 'inline' %>
         <%= f.check_box :obscure, :class => 'submittable' %>
