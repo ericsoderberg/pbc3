@@ -5,12 +5,15 @@
   margin-right: -31px;
   margin-bottom: 30px;
   
-  li {
+  > li {
     position: relative;
     display: inline-block;
     vertical-align: top;
     margin-right: 31px;
+    margin-bottom: 35px;
     width: 301px;
+    border-top: 10px solid #ccc;
+    border-bottom: 2px solid #ccc;
     //border: 1px solid #f00;
     
     h3, h3 a {
@@ -21,6 +24,10 @@
       position: relative;
       top: -10px;
       color: #999;
+    }
+    
+    .events {
+      margin-bottom: 20px;
     }
   }
 }

@@ -2,10 +2,10 @@
   
   <%= render :partial => 'header' %>
   
-  <ul id="page_gallery">
+  <ul id="page_gallery" class="js-masonry">
     <% @pages.each do |pageContext| -%>
       <% page = pageContext[:page] -%>
-      <li>
+      <li style="border-color: #<%= page.style.feature_color.to_s(16) %>">
         <h3>
           <%= link_to page.name, friendly_page_path(page) %>
         </h3>
