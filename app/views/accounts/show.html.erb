@@ -7,7 +7,7 @@
   <ul id="page_gallery" class="js-masonry">
     <% @pages.each do |pageContext| -%>
       <% page = pageContext[:page] -%>
-      <li style="border-color: #<%= page.style.feature_color.to_s(16) %>">
+      <li style="border-color: #<%= pageContext[:color] %>">
         <h3>
           <%= link_to page.name, friendly_page_path(page) %>
         </h3>

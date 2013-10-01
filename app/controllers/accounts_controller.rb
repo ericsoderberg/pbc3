@@ -19,6 +19,7 @@ class AccountsController < ApplicationController
     @pages = @user.pages.map{|p| {page: p}}
     @pages.each do |pageContext|
       page = pageContext[:page]
+      pageContext[:color] = (page.style ? page.style.feature_color.to_s(16) : '#ccc')
       if page != @site.communities_page and page != @site.about_page
         events = page.related_events
         pageContext[:events] = Event.categorize(events)
