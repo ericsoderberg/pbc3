@@ -39,6 +39,11 @@
         <%= f.check_box :obscure %>
       </div>
       
+      <div class="field">
+        <%= f.label :secondary_text %><br />
+        <%= f.text_area :secondary_text, :size => '50x20', :class => 'textedit' %>
+      </div>
+      
       <% if @page.id -%>
         <% if current_user.administrator? -%>
           <div class="field">

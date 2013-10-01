@@ -45,7 +45,7 @@ class Page < ActiveRecord::Base
   before_create do
     self.layout = 'regular'
     self.child_layout = 'header'
-    self.aspect_order = 't,c,e,d,f,p,v,a'
+    self.aspect_order = 't,c,e,d,f,p,v,a,s'
     self.style = (self.parent ? self.parent.style : Style.first)
     self.private = self.parent.private if self.parent
     self.parent_index = self.parent ? self.parent.children.length + 1 : 1
@@ -250,6 +250,8 @@ class Page < ActiveRecord::Base
       case aspect
       when 't'
         return (text and not text.empty?)
+      when 's'
+        return (secondary_text and not secondary_text.empty?)
       when 'e'
         return (args[:categorized_events] and
           not args[:categorized_events].empty? and

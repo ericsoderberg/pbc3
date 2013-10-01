@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130927134807) do
+ActiveRecord::Schema.define(version: 20130929163743) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -337,6 +337,7 @@ ActiveRecord::Schema.define(version: 20130927134807) do
     t.integer  "parent_feature_index"
     t.boolean  "any_user"
     t.integer  "updated_by"
+    t.text     "secondary_text"
   end
 
   create_table "payments", force: true do |t|

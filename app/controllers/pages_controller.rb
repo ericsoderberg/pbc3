@@ -240,7 +240,7 @@ class PagesController < ApplicationController
   private
   
   def page_params
-    params.require(:page).permit(:name, :text,
+    params.require(:page).permit(:name, :text, :secondary_text,
       :parent_id, :private, :style_id,
       :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
       :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,

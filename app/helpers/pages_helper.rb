@@ -17,6 +17,10 @@ module PagesHelper
       content_tag(:div, :id => 'text') do
         raw page.text
       end
+    when 's'
+      content_tag(:div, :id => 'secondary_text') do
+        raw page.secondary_text
+      end
     when 'e'
       if @page.gallery?
         render :partial => 'events/gallery',
