@@ -1,3 +1,5 @@
+<% title ((@user.name and not @user.name.empty?) ? @user.name : @user.email) -%>
+
 <section>
   
   <%= render :partial => 'header' %>

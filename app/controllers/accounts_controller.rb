@@ -18,6 +18,7 @@ class AccountsController < ApplicationController
       if page != @site.communities_page and page != @site.about_page
         events = page.related_events
         pageContext[:events] = Event.categorize(events)
+=begin
         if current_user
           pageContext[:events][:all].each do |event|
             if page == event.page 
@@ -26,6 +27,7 @@ class AccountsController < ApplicationController
             end
           end
         end
+=end
       end
     end
   end
