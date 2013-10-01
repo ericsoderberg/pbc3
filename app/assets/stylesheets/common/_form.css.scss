@@ -119,8 +119,9 @@ ol.actions {
   overflow: hidden;
   background-color: #eee;
   border: 1px #ccc solid;
-  width: 300px;
-  padding: 5px 10px;
+  min-width: 300px;
+  padding: 5px 0px 0px 5px; //5px 10px;
+  @include box-sizing(border-box);
   
   a, a img {
 	  border: 0;
@@ -137,6 +138,7 @@ ol.actions {
     &.mode {
       float: right;
       font-size: 14px;
+      margin-right: 5px;
     }
   }
 }

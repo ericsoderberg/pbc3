@@ -7,7 +7,7 @@
 	  white-space: nowrap;
 	}
 	
-	section {
+	> section {
 		color: #666;
 		
 		@include respond-to(normal-up) {
@@ -25,7 +25,7 @@
 		}
   }
   
-  aside {
+  > aside {
     @include respond-to(normal-up) {
       display: inline-block;
       vertical-align: top;
@@ -44,26 +44,26 @@
   }
   
   &.full {
-    section {
+    > section {
       width: 100%;
     }
-    aside {
+    > aside {
       display: none;
     }
   }
   
   @include respond-to(small-up) {
     &.mini-aside {
-      section {
+      > section {
         width: 750px;
       }
-      aside {
+      > aside {
         width: 200px;
       }
     }
   }
   
-  aside .event_form {
+  > aside .event_form {
     width: 600px;
     
     h3 {

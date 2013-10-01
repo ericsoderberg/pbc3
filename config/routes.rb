@@ -124,8 +124,11 @@ Pbc3::Application.routes.draw do
       get :edit_for_parent
       get :edit_for_feature
       get :search_possible_parents
+      get :edit_location
       get :edit_style
       get :edit_email
+      get :edit_email_members
+      get :edit_access
     end
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence

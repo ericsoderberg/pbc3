@@ -62,7 +62,13 @@ header {
     
     li {
       display: inline-block;
-      margin-right: 5px;
+      margin-right: -4px;
+      //margin-right: 5px;
+      min-width: 120px;
+      font-weight: bold;
+      font-size: 16px;
+      @include box-sizing(border-box);
+      //border: 1px solid #f00;
 	    /*float: left;*/
 	    /*margin: 2px;*/
 	    
@@ -72,22 +78,19 @@ header {
   		  font-size: 16px;
   		  font-weight: bold;
   		  /*line-height: 28px;*/
-  		  text-align: center;
+  		  text-align: left;
   	    vertical-align: baseline;
   		  color: #999;
   		  
   		  html.no-touch &:hover {
   			  color: #000;
+  			  background-color: #f8f8f8;
   			  opacity: 1;
   			  text-decoration: none;
   		  }
 		  }
 		  
 		  &.active {
-		    padding: 5px 15px;
-  		  font-size: 16px;
-  		  font-weight: bold;
-  		  
 		    a {
   	      color: #000;
 	      }
@@ -126,7 +129,7 @@ header {
     ul.nav {
       display: block;
       margin-top: 20px;
-      padding: 5px;
+      //padding: 5px;
       background: #eee;
     
       li.active a {

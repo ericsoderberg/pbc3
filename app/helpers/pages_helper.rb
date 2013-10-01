@@ -95,6 +95,8 @@ module PagesHelper
       edit_page_path(page)
     when 'events'
       page_events_path(page)
+    when 'location'
+      edit_location_page_path(page)
     when 'documents'
       page_documents_path(page)
     when 'forms'
@@ -106,9 +108,9 @@ module PagesHelper
     when 'audios'
       page_audios_path(page)
     when 'email'
-      edit_email_page_path(page)
+      edit_email_members_page_path(page)
     when 'access'
-      page_authorizations_path(page)
+      edit_access_page_path(page)
     when 'contacts'
       page_contacts_path(page)
     when 'style'

@@ -4,39 +4,17 @@
     :locals => {:active_aspect => 'access'} %>
   
   <div class="edit_content">
+    <section>
+      <header>
+        <h2>Add User</h2>
+      </header>
+      <%= render 'form' %>
+    </section>
+    
     <aside>
       <%= render :partial => 'edit_list' %>
     </aside>
 
-    <section>
-      
-      <% if current_user.administrator? -%>
-      <%= form_for(@page, :remote => true) do |f| %>
-        <div class="field">
-          <%= f.label :private?, :class => 'inline' %>
-          <%= f.check_box :private, :class => 'submittable' %>
-        </div>
-        <div class="field">
-          <%= f.label :any_user?, :class => 'inline' %>
-          <%= f.check_box :any_user, :class => 'submittable' %>
-        </div>
-        <% if @page.email_list and not @page.email_list.empty? -%>
-        <div class="field">
-          <%= f.label :allow_for_email_list?, :class => 'inline' %>
-          <%= f.check_box :allow_for_email_list, :class => 'submittable' %>
-          <div class="help">
-            <%= @page.email_list %><%= @site.email_domain %>
-          </div>
-        </div>
-        <% end -%>
-      <% end %>
-      <% end -%>
-      
-      <header>
-        <h2>Add Account</h2>
-      </header>
-      <%= render 'form' %>
-    </section>
   </div>
 
 </section>

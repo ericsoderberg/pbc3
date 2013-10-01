@@ -1,6 +1,6 @@
 .add_content {
-  margin: 20px 0px;
-  padding: 0px 20px;
+  //margin: 20px 0px;
+  padding: 20px;
   
   &.header_add_content {
 		float: right;
@@ -9,13 +9,45 @@
 }
 
 .edit_content {
-  display: table;
-	width: 980px;
+  display: block;
+  margin-top: 20px;
+  
+	@include respond-to(normal-up) {
+	  white-space: nowrap;
+	}
 	
-	aside {
-    display: table-cell;
-    width: 300px;
-    padding-right: 30px;
+  > section {
+    
+    @include respond-to(normal-up) {
+		  display: inline-block;
+		  margin-right: -4px;
+  		padding: 0px 30px 20px 0px;
+  		vertical-align: top;
+  		white-space: normal;
+  		width: 650px;
+		}
+		
+		header {
+      margin-top: 0px;
+      
+      h2 {
+        font-size: 24px;
+      }
+    }
+  }
+	
+	> aside {
+  
+	  @include respond-to(normal-up) {
+      display: inline-block;
+      vertical-align: top;
+      white-space: normal;
+  		width: 300px;
+		}
+		
+		h4 {
+		  margin-top: 0px;
+		}
     
     ul#files {
       list-style-type: none;
@@ -33,15 +65,6 @@
     }
   }
   
-  section {
-    display: table-cell;
-		width: 640px;
-		
-		header {
-      margin-top: 0px;
-    }
-  }
-  
   h4 {
 		margin-bottom: 0px;
 		color: #888;
@@ -54,6 +77,7 @@
 }
 
 .edit_list {
+  margin-bottom: 20px;
   
   li {
     padding: 0px;
@@ -83,17 +107,39 @@
   }
 }
 
-#indexer {
+#indexer, #home_indexer, #parent_indexer {
+  position: relative;
 	list-style-type: none;
   padding: 0px;
   width: 200px;
+  min-height: 70px;
+  
+  &:before {
+    content: '\21f3';
+    position: absolute;
+    font-size: 64px;
+    top: 20px;
+    right: 20px;
+    color: #eee;
+    z-index: 0;
+  }
   
   li {
-    border: 1px solid #eee;
-    margin: 5px 0px;
+    position: relative;
+    border-bottom: 1px solid #eee;
+    margin: 0px;
     padding: 5px 10px;
     color: #666;
     cursor: move;
+    z-index: 1;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &:hover {
+      background-color: #f8f8f8;
+    }
     
     &.active {
       font-weight: bold;

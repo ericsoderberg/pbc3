@@ -411,22 +411,3 @@
     }
   }
 }
-
-#home_indexer, #parent_indexer {
-  list-style-type: none;
-  padding: 0px;
-  width: 200px;
-  
-  li {
-    border: 1px solid #eee;
-    margin: 5px 0px;
-    padding: 5px 10px;
-    color: #666;
-    cursor: move;
-    
-    &.active {
-      font-weight: bold;
-  		color: #333;
-    }
-  }
-}

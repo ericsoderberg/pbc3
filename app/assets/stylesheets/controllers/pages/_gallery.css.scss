@@ -40,16 +40,43 @@
 .edit_gallery {
   list-style-type: none;
   margin: 0px 0px 20px 0px;
-  background-color: #666;
-  padding: 20px;
+  padding: 0px;
   
   li {
     display: inline-block;
     position: relative;
     vertical-align: top;
-    margin: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
     padding: 10px;
     background-color: #eee;
+    
+    &.video {
+      margin-right: 0px;
+      padding: 0px;
+      
+      video, .youtube-player {
+        width: 300px;
+        height: 225px;
+      }
+      
+      .footer {
+        padding: 10px;
+      }
+    }
+    
+    &.audio {
+      margin-right: 0px;
+      padding: 0px;
+      
+      audio {
+        width: 300px;
+      }
+      
+      .footer {
+        padding: 10px;
+      }
+    }
     
     &.active {
       background-color: #999;

@@ -1,64 +1,25 @@
 <%= form_for(@page, :html => { :multipart => true }) do |f| %>
   <%= render :partial => 'form_errors' %>
   
-<div class="regular_content">
+<div class="edit_content">
+  
   <section class="text_editing">
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
-    <div class="field">
-      <%= f.label :title %><br />
-      <%= f.text_field :name, :size => 80 %>
-    </div>
+    
     <div class="field">
       <%= f.label :text %><br />
-      <%= f.text_area :text, :size => '80x20', :class => 'textedit' %>
+      <%= f.text_area :text, :size => '100x20', :class => 'textedit' %>
     </div>
   </section>
-
+  
   <aside>
     <div class="form">
-      
-      <div class="field">
-        <%= f.label :title_prefix %><br />
-        <div class="help">
-          Use the parent page title here for generic page titles like 'Resources'
-        </div>
-        <%= f.text_field :url_prefix %>
-      </div>
-      
-      <div class="field">
-        <%= f.label :url_aliases %><br />
-        <%= f.text_area :url_aliases, :size => '30x2' %>
-      </div>
-      
-      <br />
-      
-      <div class="field">
-        <%= f.label :obscure?, :class => 'inline' %>
-        <%= f.check_box :obscure %>
-      </div>
-      
       <div class="field">
         <%= f.label :secondary_text %><br />
-        <%= f.text_area :secondary_text, :size => '50x20', :class => 'textedit' %>
+        <%= f.text_area :secondary_text, :size => '40x20', :class => 'textedit' %>
       </div>
-      
-      <% if @page.id -%>
-        <% if current_user.administrator? -%>
-          <div class="field">
-            <%= f.label :parent_page %><br />
-            <div id="parent_id"></div>
-          </div>
-    
-          <div id="parent_context">
-            <%= render :partial => 'edit_for_parent' -%>
-          </div>
-        <% end -%>
-      <% else -%>
-        <%= f.hidden_field :parent_id %>
-      <% end -%>
-      
     </div>
   </aside>
 </div>
@@ -66,22 +27,5 @@
   <div class="actions">
     <%= f.submit %>
     <%= render 'cancel_controls' %>
-    <% if @page.id and (current_user.administrator? or
-        (@page.parent and @page.parent.administrator?(current_user))) -%>
-     | <%= link_to 'Delete page', @page,
-      :confirm => "Are you sure? This will also delete all events (#{@page.events.count}), forms (#{@page.forms.count}), documents (#{@page.documents.count}), photos (#{@page.photos.count}), videos (#{@page.videos.count}), and audios (#{@page.audios.count}), let alone all sub-pages (#{@page.children.count}) and their contents associated with this page.",
-      :method => :delete %>
-    <% end -%>
   </div>
 <% end %>
-
-<%= javascript_tag do %>
-  <!--%= render :partial => 'text_editor', :formats => [:js] -%-->
-  
-  <% if @page.id -%>
-    <!--%= render :partial => 'form_aids', :formats => [:js] -%-->
-    <% if current_user.administrator? -%>
-    <%= render :partial => 'parent_indexer', :formats => [:js] -%>
-    <% end -%>
-  <% end -%>
-<% end -%>

@@ -7,6 +7,7 @@ initialize = ->
       height: input.height(),
       width: input.width()
     });
+    input.prev('.rte-toolbar').css('width', input.width())
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)

@@ -1,64 +1,62 @@
 <%= form_for(@page, :html => { :multipart => true }) do |f| %>
   <%= render :partial => 'form_errors' %>
   
-<div class="regular_content">
+<div class="edit_content">
+  
   <section class="text_editing">
     <% if @site_reference -%>
       <%= hidden_field_tag 'site_reference', @site_reference %>
     <% end -%>
+    
+    <div class="field">
+      <%= f.label :style, :class => 'inline' %>
+      <%= collection_select(:page, :style_id,
+        Style.order('LOWER(name) ASC'), :id, :name,
+        :include_blank => true) %>
+      <% if current_user.administrator? -%>
+        <%= link_to 'styles', styles_path %>
+      <% end -%>
+    </div>
+    
+    <% unless (@page.blog? or @page.forum?) -%>
+    <div class="field">
+      <%= f.label :animate_banners?, :class => 'inline' %>
+      <%= f.check_box :animate_banner %>
+    </div>
+    <% end -%>
+    
+    <div class="field">
+      <%= f.label :layout, :class => 'inline' %>
+      <%= f.select :layout,
+        options_for_select(Page::LAYOUTS, @page.layout) %>
+    </div>
+    
+    <% unless (@page.blog? or @page.forum?) -%>
+    <div class="field">
+      <%= f.label :child_layout, :class => 'inline' %>
+      <%= f.select :child_layout,
+        options_for_select(Page::CHILD_LAYOUTS, @page.child_layout) %>
+    </div>
+    
+    <div class="field">
+      <%= f.label :content_order %><br />
+      <div class="help">
+        Comma separated list of (t)ext, (e)vents, (c)ontacts,
+        e(m)ail list, (d)ocuments, (f)orms, child pa(g)es,
+        (p)hotos, (v)ideos, (a)udio, (h)ighlights, (F)acebook,
+        (T)witter, (s)econdary text
+      </div>
+      <%= f.text_field :aspect_order %>
+    </div>
+    <% end -%>
+    
     <div class="field">
       <%= f.label :banner_text %><br />
       <%= f.text_area :banner_text, :size => '60x10', :class => 'textedit' %>
     </div>
+    
   </section>
-
-  <aside>
-    <div class="form">
-      
-      <div class="field">
-        <%= f.label :style, :class => 'inline' %>
-        <%= collection_select(:page, :style_id,
-          Style.order('LOWER(name) ASC'), :id, :name,
-          :include_blank => true) %>
-        <% if current_user.administrator? -%>
-          <%= link_to 'styles', styles_path %>
-        <% end -%>
-      </div>
-      
-      <% unless (@page.blog? or @page.forum?) -%>
-      <div class="field">
-        <%= f.label :animate_banners?, :class => 'inline' %>
-        <%= f.check_box :animate_banner %>
-      </div>
-      <% end -%>
-      
-      <div class="field">
-        <%= f.label :layout, :class => 'inline' %>
-        <%= f.select :layout,
-          options_for_select(Page::LAYOUTS, @page.layout) %>
-      </div>
-      
-      <% unless (@page.blog? or @page.forum?) -%>
-      <div class="field">
-        <%= f.label :child_layout, :class => 'inline' %>
-        <%= f.select :child_layout,
-          options_for_select(Page::CHILD_LAYOUTS, @page.child_layout) %>
-      </div>
-      
-      <div class="field">
-        <%= f.label :content_order %><br />
-        <div class="help">
-          Comma separated list of (t)ext, (e)vents, (c)ontacts,
-          e(m)ail list, (d)ocuments, (f)orms, child pa(g)es,
-          (p)hotos, (v)ideos, (a)udio, (h)ighlights, (F)acebook,
-          (T)witter, (s)econdary text
-        </div>
-        <%= f.text_field :aspect_order %>
-      </div>
-      <% end -%>
-      
-    </div>
-  </aside>
+  
 </div>
 
   <div class="actions">

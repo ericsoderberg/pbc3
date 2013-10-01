@@ -3,16 +3,16 @@
   <%= render :partial => 'pages/edit_header',
     :locals => {:active_aspect => 'videos'} %>
   
-  <div class="regular_content">
+  <div class="edit_content">
     <section>
-      <%= render 'edit_gallery' %>
+      <header>
+        <h2>Edit Video</h2>
+      </header>
+      <%= render 'form' %>
     </section>
 
     <aside>
-      <header>
-        <h3>Edit Video</h3>
-      </header>
-      <%= render 'form' %>
+      <%= render 'edit_gallery' %>
     </aside>
   </div>
 

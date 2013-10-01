@@ -1,3 +1,10 @@
+<% if @event.name -%>
+<div class="add_content">
+  <%= link_to 'Add event',
+    new_page_event_path(@page) %>
+</div>
+<% end -%>
+
 <% categorized_events = @page.categorized_events -%>
 <% [:active, :expired, :ancient].each do |category| -%>
   <% unless categorized_events[category].empty? -%>
@@ -7,11 +14,4 @@
         :collection => categorized_events[category] %>
     </ul>
   <% end -%>
-<% end -%>
-
-<% if @event.name -%>
-<div class="add_content">
-  <%= link_to 'Add event',
-    new_page_event_path(@page) %>
-</div>
 <% end -%>

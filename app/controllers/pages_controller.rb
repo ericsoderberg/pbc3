@@ -142,6 +142,11 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
+  end
+  
+  def edit_location
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
     @siblings = @page.parent ? @page.parent.children : []
   end
   
@@ -154,6 +159,20 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
+  end
+  
+  def edit_email_members
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+    @email_list = EmailList.find(@page.email_list)
+    if not @email_list
+      redirect_to edit_email_page_path(@page)
+    end
+  end
+  
+  def edit_access
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
   end
   
   def edit_for_parent

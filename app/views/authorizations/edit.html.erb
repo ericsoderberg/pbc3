@@ -4,16 +4,16 @@
     :locals => {:active_aspect => 'access'} %>
   
   <div class="edit_content">
-    <aside>
-      <%= render :partial => 'edit_list' %>
-    </aside>
-
     <section>
       <header>
         <h2>Edit <%= @authorization.user.name %></h2>
       </header>
       <%= render 'form' %>
     </section>
+    
+    <aside>
+      <%= render :partial => 'edit_list' %>
+    </aside>
   </div>
 
 </section>

@@ -1,0 +1,13 @@
+ul.email_addresses {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  
+  li a {
+    padding-right: 20px;
+  }
+  
+  .email_address_remover {
+    display: inline-block;
+  }
+}
