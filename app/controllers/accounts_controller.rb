@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!, :except => [:edit, :update]
+  before_filter :administrator!, :except => [:edit, :update, :show]
   
   def index
     if current_user.administrator
@@ -12,6 +12,10 @@ class AccountsController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    unless @user == current_user || current_user.administrator
+      redirect_to root_url
+      return
+    end
     @pages = @user.pages.map{|p| {page: p}}
     @pages.each do |pageContext|
       page = pageContext[:page]

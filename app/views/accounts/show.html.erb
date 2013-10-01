@@ -22,5 +22,11 @@
       </li>
     <% end -%>
   </ul>
+  
+  <% if @pages.empty? -%>
+  <div class="empty_indicator">
+    You don't appear to be associated with any communities. If you subscribe to an email list on this site, you sill see the page associated with it here.
+  </div>
+  <% end -%>
 
 </section>
