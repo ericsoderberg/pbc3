@@ -22,7 +22,13 @@
   
   <div class="regular_content">
     <section>
-      <h3><%= @payment.id ? @payment.state.capitalize : 'Paying' %></h3>
+      <h3>
+        <% if current_user and current_user.administrator? -%>
+        Sent
+        <% else -%>
+        <%= @payment.id ? @payment.state.capitalize : 'Paying' %>
+        <% end -%>
+      </h3>
       <div class="field">
         <%= f.label :amount %>
         <div>$<span id="payment_amount"><%= @payment.amount.to_s %></span></div>
@@ -93,8 +99,4 @@
         :confirm => 'Are you sure?', :method => :delete %>
     <% end -%>
   </div>
-<% end %>
-
-<%= javascript_tag do %>
-  <%= render :partial => 'form_aids', :formats => [:js] -%>
 <% end %>

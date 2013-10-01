@@ -283,8 +283,8 @@ class PaymentsController < ApplicationController
   end
   
   def payment_params
-    params.require(:payment).permit(:amount_cents, :method,
-      :received_amount_cents, :received_at, :received_by, :received_notes,
+    params.require(:payment).permit(:amount, :method,
+      :received_amount, :received_at, :received_by, :received_notes,
       :notes, :sent_at, :verification_key)
   end
   
