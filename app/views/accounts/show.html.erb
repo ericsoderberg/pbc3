@@ -11,7 +11,7 @@
         <h3>
           <%= link_to page.name, friendly_page_path(page) %>
         </h3>
-        <% if page.email_list -%>
+        <% if page.email_list and not page.email_list.empty? -%>
         <div class="email_list"><%= page.email_list %><%= @site.email_domain %></div>
         <% end -%>
         <% if pageContext[:events] and not pageContext[:events].empty? -%>
