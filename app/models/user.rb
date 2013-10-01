@@ -99,4 +99,19 @@ class User < ActiveRecord::Base
     end
   end
   
+  def pages
+    Page.all.delete_if{|p| not p.for_user?(self)}
+  end
+  
+  def events(start_at=nil, stop_at=nil)
+    start_at ||= Date.today.beginning_of_day
+    stop_at ||= start_at + 2.weeks
+    Event.between(start_at, stop_at).
+      order('start_at ASC').select{|e|
+        (e.for_user?(self) or e.featured) and
+        (! e.prev || e.prev.start_at < start_at) and
+        e.messages.empty?
+      }
+  end
+  
 end

@@ -48,7 +48,7 @@
   </section>
 
   <aside>
-    <% if current_user.administrator? -%>
+    <% if @page and current_user.administrator? -%>
     <div class="add_content">
       <%= link_to 'Edit list',
         edit_email_page_path(@page) %>

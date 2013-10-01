@@ -1,0 +1,17 @@
+<% if categorized_events and not categorized_events[:all].empty? -%>
+
+<div class="events">
+
+  <% [:active, :expired, :ancient].each do |category| -%>
+    <% unless categorized_events[category].empty? -%>
+    <ul class="events_list">
+      <%= render :partial => 'events/event',
+        :collection => categorized_events[category],
+        :locals => {:no_name => (no_name || false)} %>
+    </ul>
+    <% end -%>
+  <% end -%>
+  
+</div>
+
+<% end -%>

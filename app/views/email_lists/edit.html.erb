@@ -1,16 +1,10 @@
 <% title(@email_list.name) -%>
 
-<div class="edit_content">
-  <h1><%= @email_list.name %><%= @site.email_domain %></h1>
-
-  <aside>
-    <h3>Pages</h3>
-    <ul id="pages">
-      <% @pages.each do |page| -%>
-        <li><%= link_to page.prefixed_name, friendly_page_path(page) %></li>
-      <% end -%>
-    </ul>
-  </aside>
-</div>
-
 <%= render :partial => 'edit' %>
+
+<h3>Pages</h3>
+<ul id="pages">
+  <% @pages.each do |page| -%>
+    <li><%= link_to page.prefixed_name, friendly_page_path(page) %></li>
+  <% end -%>
+</ul>

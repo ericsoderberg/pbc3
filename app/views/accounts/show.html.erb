@@ -1,0 +1,24 @@
+<section>
+  
+  <%= render :partial => 'header' %>
+  
+  <ul id="page_gallery">
+    <% @pages.each do |pageContext| -%>
+      <% page = pageContext[:page] -%>
+      <li>
+        <h3>
+          <%= link_to page.name, friendly_page_path(page) %>
+        </h3>
+        <% if page.email_list -%>
+        <div class="email_list"><%= page.email_list %><%= @site.email_domain %></div>
+        <% end -%>
+        <% if pageContext[:events] and not pageContext[:events].empty? -%>
+        <%= render :partial => 'events/list',
+          :locals => {:categorized_events => pageContext[:events],
+            :no_name => false} %>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+
+</section>

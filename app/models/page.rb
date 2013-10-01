@@ -192,6 +192,14 @@ class Page < ActiveRecord::Base
     return false
   end
   
+  def for_user?(user)
+    return false unless user
+    authorizations.each{|a| return true if user == a.user}
+    return false unless email_list
+    return true if user.email_lists.map{|el| el.name}.include?(email_list)
+    return false
+  end
+  
   def root
     parent ? parent.root : self
   end

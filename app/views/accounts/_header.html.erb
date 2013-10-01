@@ -1,13 +1,12 @@
 <header>
   <h1>
-    <% if current_user.administrator or @user == current_user -%>
-      <%= link_to @user.email, edit_account_path(@user) %>
-    <% else -%>
-      <%= link_to 'Account', edit_account_path(@user) %>
-    <% end -%>
+    <%= link_to ((@user.name and not @user.name.empty?) ? @user.name : @user.email),
+      account_path(@user) %>
   </h1>
   
   <ul class="nav">
+    <li class="<%= (@user and not @pages) ? 'active' : '' %>">
+      <%= link_to 'Account', edit_account_path(@user) %></li>
     <li class="<%= @filled_forms ? 'active' : '' %>">
       <%= link_to 'Forms', fills_account_path(@user) %></li>
     <li class="<%= @payments ? 'active' : '' %>">

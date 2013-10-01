@@ -10,6 +10,26 @@ class AccountsController < ApplicationController
     end
   end
   
+  def show
+    @user = User.find(params[:id])
+    @pages = @user.pages.map{|p| {page: p}}
+    @pages.each do |pageContext|
+      page = pageContext[:page]
+      if page != @site.communities_page and page != @site.about_page
+        events = page.related_events
+        pageContext[:events] = Event.categorize(events)
+        if current_user
+          pageContext[:events][:all].each do |event|
+            if page == event.page 
+              pageContext[:invitation] =
+                event.invitations.where(:email => current_user.email).first
+            end
+          end
+        end
+      end
+    end
+  end
+  
   def new
     @user = User.new
   end

@@ -1,0 +1,26 @@
+#page_gallery {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  margin-right: -31px;
+  margin-bottom: 30px;
+  
+  li {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 31px;
+    width: 301px;
+    //border: 1px solid #f00;
+    
+    h3, h3 a {
+      font-size: 18px;
+    }
+    
+    .email_list {
+      position: relative;
+      top: -10px;
+      color: #999;
+    }
+  }
+}
