@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
   end
   
   def email_lists
-    EmailList.find_by_address(email)
+    @email_lists ||= EmailList.find_by_address(email)
   end
   
   def split_name
@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
   end
   
   def pages
-    Page.all.delete_if{|p| not p.for_user?(self)}
+    Page.all.includes(:authorizations).delete_if{|p| not p.for_user?(self)}
   end
   
   def events(start_at=nil, stop_at=nil)
