@@ -54,7 +54,9 @@ class PagesController < ApplicationController
     end
     
     if (@page != @site.communities_page and @page != @site.about_page)
-      @categorized_events = Event.categorize(@page.related_events)
+      events = @page.related_events
+      events.delete_if{|e| not e.authorized?(current_user)}
+      @categorized_events = Event.categorize(events)
       if current_user
         @categorized_events[:all].each do |event|
           if @page == event.page 

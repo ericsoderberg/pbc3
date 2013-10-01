@@ -49,10 +49,6 @@ class Event < ActiveRecord::Base
   scope :featured,
     where("events.featured = 't'")
   
-  def authorized?(user)
-    page.authorized?(user)
-  end
-    
   def related_to?(event)
     event.master and self.master == event.master
   end
