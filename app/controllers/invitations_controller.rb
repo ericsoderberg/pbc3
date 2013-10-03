@@ -8,7 +8,22 @@ class InvitationsController < ApplicationController
   # GET /invitations.xml
   def index
     @invitations = @event.invitations.all
+    if @invitations.empty?
+      redirect_to new_page_event_invitation_path(@page, @event)
+    end
+    @summary = Invitation.summarize(@invitations)
 
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @invitations }
+    end
+  end
+  
+  def new
+    if @event.invitations.empty? and @page.email_list
+      @emails = @page.email_list + @site.email_domain
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @invitations }
@@ -61,6 +76,7 @@ class InvitationsController < ApplicationController
 
     respond_to do |format|
       if @invitation.update_attributes(invitation_params)
+        @summary = Invitation.summarize(@event.invitations)
         format.html { redirect_to(
           friendly_page_url(@page, :invitation_key => @invitation.key),
           :notice => 'Invitation was successfully updated.') }
@@ -78,6 +94,7 @@ class InvitationsController < ApplicationController
   def destroy
     @invitation = @event.invitations.find(params[:id])
     @invitation.destroy
+    @summary = Invitation.summarize(@event.invitations)
 
     respond_to do |format|
       format.html { redirect_to(page_event_invitations_path(@page, @event)) }

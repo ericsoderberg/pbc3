@@ -15,4 +15,18 @@ class Invitation < ActiveRecord::Base
     true
   end
   
+  # summarize the invitations by response
+  def self.summarize(invitations)
+    result = {}
+    RESPONSES.each{|r| result[r] = 0}
+    invitations.each do |i|
+      result[i.response] += 1
+    end
+    result
+  end
+  
+  def self.possible_responses
+    RESPONSES
+  end
+  
 end

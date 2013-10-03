@@ -1,1 +1,7 @@
-$('#<%= dom_id(@invitation) %>').effect("highlight", { times:1 }, 800);
+$('#<%= dom_id(@invitation) %>').addClass('updated');
+setTimeout(function () {
+  $('#<%= dom_id(@invitation) %>').removeClass('updated');
+}, 500);
+<% Invitation.possible_responses.each do |response| -%>
+$('#<%= response %> .value').text(<%= @summary[response] %>);
+<% end -%>

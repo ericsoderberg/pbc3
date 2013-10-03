@@ -6,29 +6,22 @@
     :locals => {:active_aspect => 'events'} %>
   
   <div class="edit_content">
-    <aside>
-      <%= render :partial => 'events/edit_list' %>
-    </aside>
-
     <section>
       <%= render :partial => 'events/edit_header',
         :locals => {:active_aspect => 'invitations'} %>
       
-      <div id="inviter">
-      <%= form_tag bulk_create_page_event_invitations_path(@page, @event) do %>
-        <div class="field">
-          <%= label_tag :email_addresses %><br />
-          <%= text_area_tag :emails %>
-        </div>
-        <div class="field">
-          <%= label_tag :message %><br />
-          <%= text_area_tag :message, @event.invitation_message,
-            :size => '60x4' %>
-        </div>
-        <div class="actions">
-          <%= submit_tag 'Invite' %>
-        </div>
-      <% end %>
+      <ul id="invitations_summary">
+        <% Invitation.possible_responses.each do |response| -%>
+        <li id="<%= response %>">
+          <span class="name"><%= response %></span>
+          <span class="value"><%= @summary[response] %></span>
+        </li>
+        <% end -%>
+      </ul>
+      
+      <div class="add_content">
+        <%= link_to 'Invite more',
+          new_page_event_invitation_path(@page, @event) %>
       </div>
       
       <ul id="invitations">
@@ -41,21 +34,25 @@
               :url => page_event_invitation_path(@page, @event, invitation),
               :remote => true do |f| %>
               <%= f.hidden_field :key %>
-              <%= f.radio_button :response, 'yes' %>yes
-              <%= f.radio_button :response, 'no' %>no
-              <%= f.radio_button :response, 'maybe' %>maybe
-              <%= f.radio_button :response, 'unknown' %>unknown
+              <%= f.radio_button :response, 'yes' %><label>yes</label>
+              <%= f.radio_button :response, 'no' %><label>no</label>
+              <%= f.radio_button :response, 'maybe' %><label>maybe</label>
+              <%= f.radio_button :response, 'unknown' %><label>unknown</label>
               <div class="response_note">
                 <%= invitation.note %>
               </div>
             <% end %>
             <%= link_to 'Delete', [@page, @event, invitation],
               :confirm => 'Are you sure?', :method => :delete,
-              :remote => true %>
+              :remote => true, :class => 'delete' %>
           </li>
         <% end -%>
       </ul>
     </section>
+    
+    <aside>
+      <%= render :partial => 'events/edit_list' %>
+    </aside>
   </div>
 
 </section>

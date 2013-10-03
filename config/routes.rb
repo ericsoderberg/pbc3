@@ -133,7 +133,7 @@ Pbc3::Application.routes.draw do
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence
       resource :reservations, :only => [:show, :update]
-      resources :invitations, :only => [:index, :update, :destroy] do
+      resources :invitations, :only => [:index, :new, :update, :destroy] do
         collection do
           post :bulk_create
         end

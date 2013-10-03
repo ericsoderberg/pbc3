@@ -1,0 +1,35 @@
+<% title "PBC - #{@event.name} Invitations" -%>
+
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'events'} %>
+  
+  <div class="edit_content">
+    <section>
+      <%= render :partial => 'events/edit_header',
+        :locals => {:active_aspect => 'invitations'} %>
+      
+      <%= form_tag bulk_create_page_event_invitations_path(@page, @event) do %>
+        <div class="field">
+          <%= label_tag :email_addresses %><br />
+          <%= text_area_tag :emails, @emails, :size => '40x4' %>
+        </div>
+        <div class="field">
+          <%= label_tag :message %><br />
+          <%= text_area_tag :message, @event.invitation_message,
+            :size => '60x4' %>
+        </div>
+        <div class="actions">
+          <%= submit_tag 'Invite' %>
+        </div>
+      <% end %>
+    </section>
+    
+    <aside>
+      <%= render :partial => 'events/edit_list' %>
+    </aside>
+  </div>
+
+</section>
+
