@@ -108,9 +108,9 @@ class User < ActiveRecord::Base
     stop_at ||= start_at + 2.weeks
     Event.between(start_at, stop_at).
       order('start_at ASC').select{|e|
-        (e.for_user?(self) or e.featured) and
-        (! e.prev || e.prev.start_at < start_at) and
-        e.messages.empty?
+        (e.for_user?(self) or e.featured) #and
+        #(! e.prev || e.prev.start_at < start_at) and
+        #e.messages.empty?
       }
   end
   
