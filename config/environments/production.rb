@@ -71,6 +71,8 @@ Pbc3::Application.configure do
   
   config.time_zone = "Pacific Time (US & Canada)"
   
+  config.assets.precompile += %w( newsletter/newsletter.css )
+  
   config.after_initialize do
     Configuration.mailman_dir = '/usr/lib/mailman/bin'
     Configuration.paypal_url = 'https://www.paypal.com/cgi-bin/webscr'
