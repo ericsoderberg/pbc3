@@ -16,7 +16,6 @@
 //= require jquery-ui-1.10.3.custom
 //= require jquery-ui-timepicker-addon
 //= require rte-light/jquery.rte
-//= require jquery.flexbox
 //= require select2
 //= require masonry.pkgd
 // require turbolinks NOTE:later

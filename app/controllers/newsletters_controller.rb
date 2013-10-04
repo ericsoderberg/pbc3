@@ -37,6 +37,8 @@ class NewslettersController < ApplicationController
     @newsletter = Newsletter.new
     @newsletter.published_at = Date.today
     @events = Event.between(Date.yesterday, Date.today + 1.month)
+    @pages = Page.all.order('name ASC')
+    @email_lists = EmailList.all()
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,6 +48,8 @@ class NewslettersController < ApplicationController
   def edit
     @newsletter = Newsletter.find_by_published_at(params[:id])
     @events = Event.between(Date.yesterday, Date.today + 1.month)
+    @pages = Page.all.order('name ASC')
+    @email_lists = EmailList.all()
   end
 
   def create
@@ -106,18 +110,6 @@ class NewslettersController < ApplicationController
       params[:newsletter][:published_at].is_a?(String)
       params[:newsletter][:published_at] =
         Date.parse_from_form(params[:newsletter][:published_at])
-    end
-    if params[:choose_event_id] and
-      not params[:choose_event_id].empty?
-      params[:newsletter][:featured_event_id] = params[:choose_event_id] # due to flexbox
-    end
-    if params[:choose_page_id] and
-      not params[:choose_page_id].empty?
-      params[:newsletter][:featured_page_id] = params[:choose_page_id] # due to flexbox
-    end
-    if params[:choose_email_list] and
-      not params[:choose_email_list].empty?
-      params[:newsletter][:email_list] = params[:choose_email_list] # due to flexbox
     end
   end
   

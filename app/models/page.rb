@@ -309,6 +309,10 @@ class Page < ActiveRecord::Base
     result
   end
   
+  def self.editable(user)
+    Page.all.order('name ASC').select{|p| p.administrator?(user) }
+  end
+  
   def self.order_home_features(ids)
     result = true
     Page.transaction do

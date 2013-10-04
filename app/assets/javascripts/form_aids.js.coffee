@@ -24,6 +24,7 @@ initialize = ->
   }
   $('select.page').select2({width: 'element'});
   $('select.event').select2({width: 'element'});
+  $('select.email_list').select2({width: 'element'});
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)

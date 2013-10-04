@@ -37,21 +37,20 @@
   </div>
   <div class="field">
     <%= f.label :notes %><br/>
-    <%= f.text_area :notes, :size => '30x2' %>
+    <%= f.text_area :notes, :size => '30x4' %>
   </div>
   <% if current_user.administrator? -%>
   <div class="field">
     <%= f.label :feature_on_main_calendar?, :class => 'inline' %>
     <%= f.check_box :featured %>
   </div>
-    <% if @event.id -%>
-    <div class="field">
-      <%= f.label :page %><br />
-      <div id="choose_page_id"></div>
-      <!--%= collection_select(:event, :page_id,
-        @event.possible_pages, :id, :name) %-->
-    </div>
-    <% end -%>
+  <% if @event.id -%>
+  <div class="field">
+    <%= f.label :page %><br/>
+    <%= f.collection_select :page_id, @pages, :id, :name,
+      {}, {:class => 'page'} %>
+  </div>
+  <% end -%>
   <% end -%>
   <div class="actions">
     <% if @event.peers.count > 1 -%>
@@ -66,7 +65,3 @@
     <% end -%>
   </div>
 <% end %>
-
-<%= javascript_tag do -%>
-  <%= render :partial => 'events/form_aids', :formats => [:js] %>
-<% end -%>

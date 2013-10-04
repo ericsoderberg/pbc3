@@ -150,6 +150,7 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @siblings = @page.parent ? @page.parent.children : []
+    @pages = Page.editable(current_user)
   end
   
   def edit_style
@@ -161,6 +162,7 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
+    @email_lists = EmailList.all()
   end
   
   def edit_email_members
@@ -178,11 +180,12 @@ class PagesController < ApplicationController
   end
   
   def edit_for_parent
-    @page = Page.find_by(url: params[:id])
-    @parent = Page.find_by(id: params[:parent_id])
-    @siblings = @parent.children.all
-    @siblings << @page unless @siblings.include?(@page)
-    render :partial => 'edit_for_parent'
+    page = Page.find_by(url: params[:id])
+    parent = Page.find_by(id: params[:parent_id])
+    siblings = parent.children.all
+    siblings << page unless siblings.include?(page)
+    siblings = siblings.to_a.map{|s| {id: s.id, name: s.name, url: s.url}}
+    render :json => siblings
   end
 
   def create
@@ -208,12 +211,6 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
-    if current_user.administrator? and params[:parent_id]
-      params[:page][:parent_id] = params[:parent_id] # due to flexbox
-    end
-    if params[:email_list]
-      params[:page][:email_list] = params[:email_list] # due to flexbox
-    end
     if params[:sub_order]
       orderer_sub_ids = params[:sub_order] ?
         params[:sub_order].split(',').map{|id| id.to_i} : []

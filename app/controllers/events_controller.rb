@@ -49,6 +49,7 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     @event = @page.events.find(params[:id])
+    @pages = Page.editable(current_user)
   end
   
   def edit_page
@@ -76,10 +77,6 @@ class EventsController < ApplicationController
     parse_times
     @event = @page.events.find(params[:id])
     @page = @event.page
-    if current_user.administrator? and params[:choose_page_id] and
-      not params[:choose_page_id].empty?
-      params[:event][:page_id] = params[:choose_page_id] # due to flexbox
-    end
     update_method = 'Update all' == params[:commit] ?
       'update_with_replicas' : 'update_attributes'
 

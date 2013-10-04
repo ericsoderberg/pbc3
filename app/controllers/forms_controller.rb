@@ -64,7 +64,7 @@ class FormsController < ApplicationController
     return unless page_administrator!
     @events = @page.events.between(Date.today, Date.today + 2.months).
       where('events.master_id IS NULL')
-    @pages = Page.all.order('name ASC')
+    @pages = Page.editable(current_user)
   end
 
   # POST /forms

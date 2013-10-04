@@ -12,7 +12,8 @@
 
         <%= f.hidden_field :name %>
         <%= f.label :email_list %>
-        <div id="email_list"></div>
+        <%= f.collection_select :email_list, @email_lists, :name, :name,
+          {:include_blank => 'none'}, {:class => 'email_list'} %>
 
         <div class="actions">
           <%= f.submit %>
@@ -43,7 +44,3 @@
   <% end -%>
   
 </section>
-
-<%= javascript_tag do %>
-  <%= render :partial => 'email_list_chooser', :formats => [:js]-%>
-<% end -%>

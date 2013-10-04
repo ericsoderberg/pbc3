@@ -35,11 +35,22 @@
         <% if current_user.administrator? -%>
           <div class="field">
             <%= f.label :parent_page %><br />
-            <div id="parent_id"></div>
+            <%= f.collection_select :parent_id, @pages, :id, :name,
+              {}, {:class => 'page'} %>
           </div>
 
-          <div id="parent_context">
-            <%= render :partial => 'edit_for_parent' -%>
+          <div class="field">
+            <%= f.label :order_in_parent %>
+            <%= hidden_field_tag 'sub_order',
+              @siblings.map{|c| c.id}.join(', '),
+              :id => 'sub_order' %>
+            <ul id="indexer" data-page-url="<%= @page.url %>">
+              <% @siblings.each do |sibling| -%>
+                <li id="<%= sibling.id %>"
+                  class="<%= sibling == @page ? 'active' : ''%>">
+                  <%= sibling.name %></li>
+              <% end -%>
+            </ul>
           </div>
         <% end -%>
       <% else -%>
@@ -60,13 +71,5 @@
       <% end -%>
     </div>
   <% end %>
-
-  <%= javascript_tag do %>
-    <% if @page.id -%>
-      <% if current_user.administrator? -%>
-      <%= render :partial => 'parent_indexer', :formats => [:js] -%>
-      <% end -%>
-    <% end -%>
-  <% end -%>
   
 </section>
