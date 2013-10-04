@@ -22,6 +22,8 @@ initialize = ->
           get().join(", ")
       $('#parent_feature_order').val(orderVal)
   }
+  $('select.page').select2({width: 'element'});
+  $('select.event').select2({width: 'element'});
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)

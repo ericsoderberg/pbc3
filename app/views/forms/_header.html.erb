@@ -18,4 +18,15 @@
   </div>
   <% end -%>
   
+  <% if @form.event -%>
+  <div class="form_event">
+    For <%= @form.event.name %> on
+    <% contextual_times(@form.event).each do |timestamp| -%>
+      <div class="event_range">
+        <%= timestamp %>
+      </div>
+    <% end -%>
+  </div>
+  <% end -%>
+  
 </header>

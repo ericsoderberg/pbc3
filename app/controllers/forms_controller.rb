@@ -62,6 +62,9 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
+    @events = @page.events.between(Date.today, Date.today + 2.months).
+      where('events.master_id IS NULL')
+    @pages = Page.all.order('name ASC')
   end
 
   # POST /forms
@@ -94,10 +97,6 @@ class FormsController < ApplicationController
     @page = @form.page
     return unless page_administrator!
     ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
-    if current_user.administrator? and params[:choose_page_id] and
-      Page.find_by_id(params[:choose_page_id])
-      params[:form][:page_id] = params[:choose_page_id] # due to flexbox
-    end
 
     respond_to do |format|
       if @form.update_attributes(form_params) and
@@ -129,8 +128,8 @@ class FormsController < ApplicationController
   private
   
   def form_params
-    params.require(:form).permit(:name, :page_id, :payable, :published,
-      :pay_by_check, :pay_by_paypal,
+    params.require(:form).permit(:name, :page_id, :event_id,
+      :payable, :published, :pay_by_check, :pay_by_paypal,
       :updated_by).merge(:updated_by => current_user)
   end
   

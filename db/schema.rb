@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130929163743) do
+ActiveRecord::Schema.define(version: 20131004110205) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 20130929163743) do
     t.boolean  "pay_by_check"
     t.boolean  "pay_by_paypal"
     t.integer  "updated_by"
+    t.integer  "event_id"
   end
 
   create_table "holidays", force: true do |t|

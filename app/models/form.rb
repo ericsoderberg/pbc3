@@ -1,5 +1,6 @@
 class Form < ActiveRecord::Base
   belongs_to :page
+  belongs_to :event
   has_many :form_fields, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
   has_many :filled_forms, -> { order('name ASC') }, :dependent => :destroy
