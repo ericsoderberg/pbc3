@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title><%= yield(:title) || (@site ? @site.title : 'Site') %></title>
   <%= stylesheet_link_tag 'newsletter/newsletter' %>
-  <%= javascript_include_tag :all %>
   <%= csrf_meta_tag %>
 </head>
 <body>
