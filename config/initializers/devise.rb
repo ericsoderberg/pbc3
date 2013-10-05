@@ -152,7 +152,7 @@ DeviseController.class_eval do
         :avatar_updated_at, :avatar,
         :portrait_file_name, :portrait_content_type, :portrait_file_size,
         :portrait_updated_at, :portrait,
-        :bio, :email_confirmation)
+        :bio, :email_confirmation, :reset_password_token)
     end
   end
 end

@@ -66,3 +66,40 @@
     }
   }
 }
+
+div.invitation_response {
+  @include transition_property(background-color);
+  @include transition_duration(0.7s);
+  
+  &.updated {
+    background-color: #eee;
+    @include transition_duration(0.3s);
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+  
+  form {
+    div.response_option {
+      display: inline-block;
+      margin-right: 10px;
+      label {
+        margin-left: 5px;
+      }
+    }
+    
+    textarea {
+      margin: 5px 0px;
+    }
+    
+    input[type="submit"] {
+      
+    }
+    
+    span.help {
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+}

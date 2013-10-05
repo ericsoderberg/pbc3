@@ -42,6 +42,11 @@
       <%= raw event.notes %>
     </div>
   <% end -%>
+  <% invitation = event.invitation_for_user(@user || current_user) -%>
+  <% if invitation -%>
+    <%= render :partial => 'invitations/response',
+      :locals => {:invitation => invitation } %>
+  <% end -%>
   <% if @page and user_signed_in? and current_user.administrator? and
     not event.invitations.empty? -%>
     <div class="event_invitations">
@@ -49,4 +54,6 @@
         page_event_invitations_path(@page, event) %>
     </div>
   <% end -%>
+  <%= render :partial => 'forms/list',
+    :locals => {:forms => event.forms } %>
 <% end %>

@@ -16,9 +16,10 @@
         <% end -%>
         <% if pageContext[:events] and not pageContext[:events].empty? -%>
         <%= render :partial => 'events/list',
-          :locals => {:categorized_events => pageContext[:events],
+          :locals => {:events => pageContext[:events],
             :no_name => false} %>
         <% end -%>
+        <div class="wiper" style="background-color: #<%= pageContext[:color] %>"></div>
       </li>
     <% end -%>
   </ul>

@@ -73,10 +73,14 @@ class InvitationsController < ApplicationController
       redirect_to friendly_page_url(@page)
       return
     end
+    @initial_response = ('unknown' == @invitation.response)
 
     respond_to do |format|
       if @invitation.update_attributes(invitation_params)
         @summary = Invitation.summarize(@event.invitations)
+        @heading = @initial_response ? 'Awaiting response' : 'Response'
+        @help_message = @initial_response ? 'Thanks for responding' :
+          'Thanks for the update'
         format.html { redirect_to(
           friendly_page_url(@page, :invitation_key => @invitation.key),
           :notice => 'Invitation was successfully updated.') }

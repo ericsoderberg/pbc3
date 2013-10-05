@@ -365,6 +365,11 @@ class Page < ActiveRecord::Base
     result
   end
   
+  def categorized_related_events(start_date=Date.today.beginning_of_day,
+      stop_date=Date.today.beginning_of_day + 6.months)
+      Event.categorize(related_events(start_date, stop_date))
+  end
+  
   def categorized_events
     Event.categorize(events)
   end
@@ -397,6 +402,10 @@ class Page < ActiveRecord::Base
     else
       nil
     end
+  end
+  
+  def color
+    self.style ? self.style.feature_color.to_s(16) : '#ccc'
   end
   
   private

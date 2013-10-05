@@ -21,8 +21,7 @@ class AccountsController < ApplicationController
       page = pageContext[:page]
       pageContext[:color] = (page.style ? page.style.feature_color.to_s(16) : '#ccc')
       if page != @site.communities_page and page != @site.about_page
-        events = page.related_events
-        pageContext[:events] = Event.categorize(events)
+        pageContext[:events] = page.categorized_related_events()[:all]
 =begin
         if current_user
           pageContext[:events][:all].each do |event|

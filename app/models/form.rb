@@ -40,6 +40,11 @@ class Form < ActiveRecord::Base
     filled_forms.where('id IS NOT null AND user_id = ?', user.id)
   end
   
+  def filled_forms_for_user(user)
+    return [] unless user
+    filled_forms.where('user_id = ?', user.id)
+  end
+  
   def order_fields(ids)
     result = true
     FormField.transaction do

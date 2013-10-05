@@ -177,6 +177,15 @@ fieldset {
   .event_range {
     color: #666;
   }
+  
+  .forms_list {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    li {
+      border-top: none;
+    }
+  }
 }
 
 #contacts_list {

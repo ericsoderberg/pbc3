@@ -5,6 +5,21 @@
   margin-right: -31px;
   margin-bottom: 30px;
   
+  &.loading {
+    > li {
+      > * {
+        opacity: 0.2;
+        @include transition_duration(0s);
+      }
+      > div.wiper {
+        content: '';
+        opacity: 0.9;
+        height: 100%;
+        @include transition_duration(0s);
+      }
+    }
+  }
+  
   > li {
     position: relative;
     display: inline-block;
@@ -16,18 +31,47 @@
     border-bottom: 2px solid #ccc;
     //border: 1px solid #f00;
     
-    h3, h3 a {
+    > * {
+      opacity: 1.0;
+      @include transition_property(opacity);
+      @include transition_duration(1s);
+    }
+    
+    > div.wiper {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      height: 0%;
+      left: 0px;
+      right: 0px;
+      background-color: #eee;
+      opacity: 0.5;
+      @include transition_property(opacity, height);
+      @include transition_duration(1s);
+    }
+    
+    > h3, > h3 a {
       font-size: 18px;
     }
     
-    .email_list {
+    div.email_list {
       position: relative;
       top: -10px;
       color: #999;
     }
     
-    .events {
+    ul.events {
       margin-bottom: 20px;
+    }
+    
+    ul.forms_list {
+      list-style-type: none;
+      margin: 10px 0px;
+      padding: 0px;
+      
+      li {
+        border-top: none;
+      }
     }
   }
 }

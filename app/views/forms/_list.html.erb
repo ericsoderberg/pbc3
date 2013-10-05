@@ -1,0 +1,23 @@
+<% if forms and not forms.empty? %>
+<ul class="forms_list">
+  <% forms.each do |form| -%>
+    <% filled_forms = form.filled_forms_for_user(@user || current_user) -%>
+    <% filled_forms.each do |filled_form| -%>
+      <li>
+        <%= link_to form.name, edit_form_fill_path(form, filled_form) %>
+        <% if form.payable? -%>
+        <div class="form_amount">
+          $<%= filled_form.payable_amount.to_s %>
+          <span class="help">(<%= filled_form.payment_state %>)</span>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+    <% if filled_forms.empty? -%>
+      <li>
+        <%= link_to form.name, new_form_fill_path(form) %>
+      </li>
+    <% end -%>
+  <% end -%>
+</ul>
+<% end -%>

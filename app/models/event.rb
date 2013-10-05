@@ -6,6 +6,7 @@ class Event < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   has_many :resources, :through => :reservations
   has_many :invitations, -> { order(:email) }, :dependent => :destroy
+  has_many :forms, -> { order('LOWER(name) ASC') }, :dependent => :destroy
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :messages, :through => :events_messages, :source => :message
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
@@ -90,6 +91,16 @@ class Event < ActiveRecord::Base
     else
       page.name
     end
+  end
+  
+  def invitation_for_user(user)
+    return nil unless user
+    invitations.where('user_id = ?', user).first
+  end
+  
+  def filled_forms_for_user(user)
+    return [] unless user
+    forms.filled_forms.where('filled_forms.user_id = ?', user)
   end
   
   def peers
