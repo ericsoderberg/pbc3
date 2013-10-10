@@ -37,7 +37,9 @@ class Page < ActiveRecord::Base
   validates :private, :inclusion => {:in => [true, false]}
   validates :url, :uniqueness => true
   validates :parent_index, :uniqueness => {:scope => :parent_id,
-    :unless => Proc.new{|p| not p.parent_id}}
+    :unless => Proc.new{|p| not p.parent_id}},
+    :numericality => {:greater_than_or_equal_to => 0,
+      :unless => Proc.new{|p| not p.parent_id}}
   validates :home_feature_index,
     :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
   validate :reserved_urls
@@ -82,6 +84,10 @@ class Page < ActiveRecord::Base
   
   def prefixed_name
     "#{url_prefix} #{name}".strip
+  end
+  
+  def name_with_parent
+    parent ? "#{name} -#{parent.name}-" : name
   end
   
   def self.find_by_url_or_alias(url)

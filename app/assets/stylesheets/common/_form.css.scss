@@ -156,6 +156,20 @@ div.select2-drop {
     
     li.select2-highlighted {
       background-color: #999;
+      
+      div.select2-result-label {
+        .context {
+          color: #ccc;
+        }
+      }
+    }
+    
+    div.select2-result-label {
+      .context {
+        margin-left: 10px;
+        color: #999;
+        font-style: italic;
+      }
     }
   }
 }

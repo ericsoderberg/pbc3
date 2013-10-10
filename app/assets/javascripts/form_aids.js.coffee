@@ -1,3 +1,6 @@
+formatPageName = (state) ->
+  return state.text.replace(/\-(\w.*?\w)\-/, '<span class="context">$1</span>')
+  
 initialize = ->
   $('section form input, section form select, section form textarea').change ->
     $('#done_page_editing').fadeOut()
@@ -22,7 +25,7 @@ initialize = ->
           get().join(", ")
       $('#parent_feature_order').val(orderVal)
   }
-  $('select.page').select2({width: 'element'});
+  $('select.page').select2({width: 'element', formatResult: formatPageName});
   $('select.event').select2({width: 'element'});
   $('select.email_list').select2({width: 'element'});
 

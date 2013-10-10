@@ -1,8 +1,10 @@
 CONTAINER = 'div.regular_content'
 ASIDE = '.regular_aside'
 
+showHideIndexer = ->
+  $('#indexer').parent().toggle($('#indexer').children().length > 1)
+
 updateIndexer = (siblings) ->
-  $('#indexer').parent().toggle(siblings.length > 1)
   if siblings.length > 1
     text = $.map(siblings, (s) ->
       return s.id).join(', ')
@@ -13,7 +15,7 @@ updateIndexer = (siblings) ->
       if sibling.url == $('#indexer').attr('data-page-url')
         li.addClass('active')
       $('#indexer').append(li))
-  
+  showHideIndexer()
 
 resetIndexer = ->
   $.ajax({
@@ -41,6 +43,7 @@ initialize = ->
   })
   
   $('#page_parent_id').on 'change', resetIndexer
+  showHideIndexer()
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)

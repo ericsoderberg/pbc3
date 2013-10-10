@@ -150,7 +150,9 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @siblings = @page.parent ? @page.parent.children : []
-    @pages = Page.editable(current_user)
+    impossible_parent_ids = (@page.descendants() + [@page]).map{|p| p.id}
+    @pages = Page.editable(current_user).
+      delete_if{|p| impossible_parent_ids.include?(p.id)}
   end
   
   def edit_style
@@ -214,7 +216,7 @@ class PagesController < ApplicationController
     if params[:sub_order]
       orderer_sub_ids = params[:sub_order] ?
         params[:sub_order].split(',').map{|id| id.to_i} : []
-      params[:page][:parent_index] = -1; # will be re-ordered late
+      params[:page][:parent_index] = @page.id; # will be re-ordered late
     end
     if not current_user.administrator?
       # remove all fields that only administrators can change
@@ -226,7 +228,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.update_attributes(page_params) and
-        (not params[:parent_id] or
+        (not params[:page][:parent_id] or
           not @page.parent or
           @page.parent.order_children(orderer_sub_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
