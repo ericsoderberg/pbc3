@@ -49,8 +49,8 @@ class ApplicationController < ActionController::Base
     
     if request.referer
       referer_path = URI(request.referer).path
-      if not referer_path.starts_with?('/users/sign_in') and
-        not referer_path.starts_with?('/users/sign_out') and
+      if not referer_path.starts_with?('/users/sign_') and
+        not referer_path.starts_with?('/users/password') and
         not referer_path.starts_with?('/password') and
         not referer_path.starts_with?('/private')
         session[:post_login_path] = request.referer
