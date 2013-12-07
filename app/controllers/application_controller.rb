@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
     @communities = (@site and @site.communities_page ?
       [@site.communities_page] + @site.communities_page.children : [])
     @abouts = (@site and @site.about_page ? [@site.about_page] + @site.about_page.children : [])
+    @has_messages = Message.exists?
   end
   
   def get_design
