@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
     else
       @date = (Time.now + 3.months)
     end
-    if @date.month >= 3
+    if @date.month > 3
       @back_date = @date.beginning_of_year
     else
       @back_date = (@date - 1.year).beginning_of_year
