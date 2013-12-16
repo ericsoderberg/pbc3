@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
   before_filter :administrator!,
-    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update, :new, :create, :destroy]
+    :except => [:show, :feed, :edit, :edit_style, :edit_email, :edit_email_members,
+      :edit_access, :update, :new, :create, :destroy]
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
   
