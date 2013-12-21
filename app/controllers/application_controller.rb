@@ -33,9 +33,10 @@ class ApplicationController < ActionController::Base
   end
   
   def get_nav_pages
-    @communities = (@site ?
+    @communities = (@site and @site.communities_page ?
       [@site.communities_page] + @site.communities_page.children : [])
-    @abouts = (@site ? [@site.about_page] + @site.about_page.children : [])
+    @abouts = (@site and @site.about_page ? [@site.about_page] + @site.about_page.children : [])
+    @has_messages = Message.exists?
   end
   
   def get_design

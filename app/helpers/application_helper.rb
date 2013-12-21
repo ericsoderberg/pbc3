@@ -1,9 +1,25 @@
 module ApplicationHelper
   
   def title(page_title)
+    if not page_title
+      if @site and @site.title
+        page_title = @site.title
+      else
+        page_title = ''
+      end
+    end
     content_for(:title) {page_title}
   end
   
+  def title_add_prefix(page_title)
+    if page_title
+      if @site
+        page_title = @site.initials + ' - ' + page_title
+      end
+    end
+    title(page_title)
+  end
+      
   def site_title
     if @site and @site.title
       # upcase and put a span around the first word

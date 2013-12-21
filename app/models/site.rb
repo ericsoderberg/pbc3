@@ -11,4 +11,14 @@ class Site < ActiveRecord::Base
   def email_domain
     "@#{email.split('@')[1]}"
   end
+
+  def initials
+    initials = ''
+    if title
+      title.split.each do |word|
+        initials << word[0]
+      end
+    end
+    initials
+  end
 end

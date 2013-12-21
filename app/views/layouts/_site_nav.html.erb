@@ -8,22 +8,26 @@
       <%= render :partial => 'layouts/site_nav_menu',
         :locals => {:pages => @abouts} %>
     </li>
-    <li id="site_communities"
-      class="menu_parent <%= (@page and @site and
-        @page.root == @site.communities_page) ? 'active' : '' %>">
-      <a>Communities</a>
-      <% link_to "Communities", communities_path %>
-      <%= render :partial => 'layouts/site_nav_menu',
-        :locals => {:pages => @communities} %>
-    </li>
+    <% if @communities and @communities.length > 0 -%>
+      <li id="site_communities"
+	class="menu_parent <%= (@page and @site and
+	  @page.root == @site.communities_page) ? 'active' : '' %>">
+	<a>Communities</a>
+	<% link_to "Communities", communities_path %>
+	<%= render :partial => 'layouts/site_nav_menu',
+	  :locals => {:pages => @communities} %>
+      </li>
+    <% end -%>
     <li id="site_calendar"
       class="<%= (not @page and @calendar) ? 'active' : '' %>">
       <%= link_to "Calendar", main_calendar_path %></li>
-    <li id="site_library"
-      class="<%= (@messages or @message or @message_set or
-        @authors or @author or @books or @book) ?
-      'active' : '' %>">
-      <%= link_to 'Messages', messages_path %></li>
+    <% if @has_messages -%>
+      <li id="site_library"
+	class="<%= (@messages or @message or @message_set or
+	  @authors or @author or @books or @book) ?
+	'active' : '' %>">
+	<%= link_to 'Messages', messages_path %></li>
+    <% end -%>
   </ul>
   <form action="<%= search_path %>">
     <input name="q" id="search" type="search" required
