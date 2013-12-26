@@ -6,18 +6,17 @@
     <%= render :partial => 'pages/edit_header',
       :locals => {:active_aspect => 'forms'} %>
   <% else -%>
-    <header>
-      <h1>Forms</h1>
-    </header>
+    <%= render :partial => 'site/header' %>
   <% end -%>
 
 <% unless @forms.empty? -%>
-<table class="index">
+<table id="forms" class="index">
   <tr>
     <th>Name</th>
     <% unless @page -%>
       <th>Page</th>
     <% end -%>
+    <th>Event</th>
   </tr>
 
 <% @forms.each do |form| %>
@@ -26,6 +25,16 @@
     <% unless @page -%>
     <td><%= link_to form.page.name, friendly_page_path(form.page) %></td>
     <% end -%>
+    <td>
+      <% if form.event -%>
+      <%= form.event.name %>
+      <% contextual_times(form.event).each do |timestamp| -%>
+        <div class="event_range">
+          <%= timestamp %>
+        </div>
+      <% end -%>
+      <% end -%>
+    </td>
   </tr>
 <% end %>
 </table>

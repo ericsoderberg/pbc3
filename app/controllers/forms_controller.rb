@@ -66,6 +66,12 @@ class FormsController < ApplicationController
       where('events.master_id IS NULL')
     @pages = Page.editable(current_user)
   end
+  
+  def edit_fields
+    @form = Form.find(params[:id])
+    @page = @form.page
+    return unless page_administrator!
+  end
 
   # POST /forms
   # POST /forms.xml
@@ -96,13 +102,16 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
-    ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
+    if params[:field_order]
+      ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
+    end
 
     respond_to do |format|
-      if @form.update_attributes(form_params) and
-        @form.order_fields(ordered_field_ids)
+      if (not params[:form] or @form.update_attributes(form_params)) and
+        (not ordered_field_ids or @form.order_fields(ordered_field_ids))
         format.html { redirect_to(new_form_fill_path(@form),
           :notice => 'Form was successfully updated.') }
+        format.js { head :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

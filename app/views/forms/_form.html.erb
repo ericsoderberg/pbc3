@@ -1,22 +1,4 @@
 <%= form_for(@form) do |f| %>
-
-  <div class="actions">
-    <%= f.submit %>
-    <% if @form.id -%>
-    | <%= link_to 'Done editing', new_form_fill_path(@form) %>
-    <% else -%>
-    |
-      <% if @page -%>
-        <%= link_to 'Done editing', forms_path(:page_id => @page.id) %>
-      <% else -%>
-        <%= link_to 'Done editing', forms_path() %>
-      <% end -%>
-    <% end -%>
-    <% if @form.id -%>
-    | <%= link_to 'Delete form', @form, :confirm => 'Are you sure?',
-        :method => :delete %>
-    <% end -%>
-  </div>
   
   <% if @form.errors.any? %>
     <div id="error_explanation">
@@ -70,9 +52,23 @@
   </div>
   <% end -%>
   
-  <%= hidden_field_tag 'field_order',
-    @form.form_fields.map{|ff| ff.id}.join(', '),
-    :id => 'field_order'%>
+  <div class="actions">
+    <%= f.submit %>
+    <% if @form.id -%>
+    | <%= link_to 'Cancel', new_form_fill_path(@form) %>
+    <% else -%>
+    |
+      <% if @page -%>
+        <%= link_to 'Cancel', forms_path(:page_id => @page.id) %>
+      <% else -%>
+        <%= link_to 'Cancel', forms_path() %>
+      <% end -%>
+    <% end -%>
+    <% if @form.id -%>
+    | <%= link_to 'Delete Form', @form, :confirm => 'Are you sure?',
+        :method => :delete %>
+    <% end -%>
+  </div>
   
 <% end %>
 

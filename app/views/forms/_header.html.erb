@@ -1,9 +1,15 @@
 <header>
   
   <h1>
-    <%= link_to @form.page.name, friendly_page_path(@form.page) %>
-    &nbsp;&nbsp;
-    <%= @form.name %>
+    <span class="page_name"><%= link_to @form.page.name, friendly_page_path(@form.page) %></span>
+    <% if @form.event -%>
+    <span class="event_name"><%= @form.event.name %></span>
+    <% end -%>
+    <% if current_user and @form.page.administrator?(current_user) -%>
+    <%= link_to @form.name, form_fills_path(@form) %>
+    <% else -%>
+    <span class="form_name"><%= @form.name %></span>
+    <% end -%>
   </h1>
   
   <% if current_user and @form.page.administrator?(current_user) -%>
@@ -11,9 +17,10 @@
     <ul>
       <li><%= link_to 'Edit form', edit_form_path(@form) %><li>
       <li><%= link_to 'Copy form', copy_form_path(@form) %><li>
-      <% if current_user.administrator? -%>
-      <li><%= link_to 'forms', forms_path() %><li>
-      <% end -%>
+      <li><%= link_to 'CSV',
+        form_fills_path(@form, :format => 'csv') %><li>
+      <li><%= link_to 'Excel',
+        form_fills_path(@form, :format => 'xls') %><li>
     </ul>
   </div>
   <% end -%>

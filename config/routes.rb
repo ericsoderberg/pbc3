@@ -25,6 +25,7 @@ Pbc3::Application.routes.draw do
     resources :forms do
       member do
         get 'copy'
+        get 'edit_fields'
       end
       resources :fields, :controller => 'form_fields',
         :except => [:index, :new] do

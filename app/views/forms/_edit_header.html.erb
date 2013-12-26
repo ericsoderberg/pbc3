@@ -1,0 +1,7 @@
+<header>
+  <h1>Edit Form</h1>
+  <ul class="nav site-nav">
+    <li class="<%= @events ? 'active' : '' %>"><%= link_to 'Context', edit_form_path(@form) %></li>
+    <li class="<%= @events ? '' : 'active' %>"><%= link_to 'Content', edit_fields_form_path(@form) %></li>
+  </ul>
+</header>
