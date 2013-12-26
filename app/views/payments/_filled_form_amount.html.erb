@@ -1,15 +1,18 @@
 <table class="payment_fields">
   <% filled_form.payable_fields.each do |filled_field| -%>
     <% form_field = filled_field.form_field -%>
+    <% amount = filled_field.payable_amount -%>
+    <% if amount > 0 -%>
     <tr>
       <td>
         <% if 'count' == form_field.field_type -%>
           <%= filled_field.value %> @ $<%= form_field.value %>
         <% else -%>
-          $<%= filled_field.payable_amount %>
+          $<%= amount %>
         <% end -%>
       </td>
       <td><%= form_field.name %></td>
     </tr>
+    <% end -%>
   <% end -%>
 </table>
