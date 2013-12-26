@@ -302,6 +302,9 @@ h2.form_field_name {
   
   td:first-child {
     white-space: nowrap;
+    min-width: 55px;
+    box-sizing: content-box;
+    text-align: right;
   }
 }
       
