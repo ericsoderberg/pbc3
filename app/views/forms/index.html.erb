@@ -21,7 +21,7 @@
 
 <% @forms.each do |form| %>
   <tr>
-    <td><%= link_to form.name, edit_form_path(form) %></td>
+    <td><%= link_to form.name, form_fills_path(form) %></td>
     <% unless @page -%>
     <td><%= link_to form.page.name, friendly_page_path(form.page) %></td>
     <% end -%>
