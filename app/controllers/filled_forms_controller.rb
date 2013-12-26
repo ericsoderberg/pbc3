@@ -52,6 +52,7 @@ class FilledFormsController < ApplicationController
       @filled_form.user = current_user
       @filled_forms = @form.visible_filled_forms(current_user)
     end
+    session[:edit_form_cancel_path] = new_form_fill_path(@form)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -64,6 +65,7 @@ class FilledFormsController < ApplicationController
     @filled_form = @form.filled_forms.find(params[:id])
     @filled_forms = @form.visible_filled_forms(current_user)
     return unless filled_form_authorized!
+    session[:edit_form_cancel_path] = edit_form_fill_path(@form, @filled_form)
   end
 
   # POST /filled_forms
@@ -185,6 +187,7 @@ class FilledFormsController < ApplicationController
       redirect_to friendly_page_url(@page)
       return false
     end
+    session[:edit_form_cancel_path] = form_fills_path(@form)
     return true
   end
   

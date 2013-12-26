@@ -16,9 +16,10 @@
       :collection => @form.form_fields %>
   </ul>
   
-  <div class="add_content">
+  <div class="actions">
     <%= button_to 'Add field',
       form_fields_path(@form), :remote => true %>
+    | <%= link_to 'Cancel', @cancel_path %>
   </div>
   
 </section>

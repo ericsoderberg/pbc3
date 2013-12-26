@@ -7,9 +7,11 @@ class FormsController < ApplicationController
     @forms = if params[:page_id]
         @page = Page.find(params[:page_id])
         return unless page_administrator!
+        session[:edit_form_cancel_path] = forms_path(:page_id => @page.id)
         @page.forms
       else
         return unless administrator!
+        session[:edit_form_cancel_path] = forms_path()
         @forms = Form.order('name ASC')
       end
 
@@ -65,12 +67,14 @@ class FormsController < ApplicationController
     @events = @page.events.between(Date.today, Date.today + 3.months).
       where('events.master_id IS NULL')
     @pages = Page.editable(current_user)
+    @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
   end
   
   def edit_fields
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
+    @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
   end
 
   # POST /forms

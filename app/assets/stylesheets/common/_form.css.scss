@@ -93,6 +93,10 @@ form {
 
 .actions {
   margin-top: 20px;
+  
+  form {
+    display: inline-block;
+  }
 }
 
 ol.actions {

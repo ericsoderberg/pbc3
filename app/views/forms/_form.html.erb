@@ -55,11 +55,11 @@
   <div class="actions">
     <%= f.submit %>
     <% if @form.id -%>
-    | <%= link_to 'Cancel', new_form_fill_path(@form) %>
+    | <%= link_to 'Cancel', @cancel_path %>
     <% else -%>
     |
       <% if @page -%>
-        <%= link_to 'Cancel', forms_path(:page_id => @page.id) %>
+        <%= link_to 'Cancel', @cancel_path %>
       <% else -%>
         <%= link_to 'Cancel', forms_path() %>
       <% end -%>
