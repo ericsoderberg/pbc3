@@ -299,6 +299,10 @@ h2.form_field_name {
   padding: 0px;
   border-spacing: 0px;
   color: #999;
+  
+  td:first-child {
+    white-space: nowrap;
+  }
 }
       
 .form_buttons {

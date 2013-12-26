@@ -227,6 +227,8 @@ class FilledFormsController < ApplicationController
           value.each do |one_value|
             populate_option(form_field, filled_field, one_value)
           end
+        when FormField::COUNT
+          filled_field.value = value
         end
         # guess at name
         if not @filled_form.name and form_field.name =~ /name/i
