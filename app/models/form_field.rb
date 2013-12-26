@@ -18,7 +18,7 @@ class FormField < ActiveRecord::Base
     :inclusion => { :in => FormField::TYPES }
   
   scope :valued,
-    where("form_fields.field_type != '#{INSTRUCTIONS}'")
+    -> { where("form_fields.field_type != '#{INSTRUCTIONS}'") }
   
   def has_options?
     [SINGLE_CHOICE, MULTIPLE_CHOICE].include?(field_type)

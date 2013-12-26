@@ -3,6 +3,12 @@ generic_release:
   user: generic
   name: "my first submit"
   verification_key: generic_release
+
+old_release:
+  form: release
+  user: generic
+  name: "older submit"
+  verification_key: old_release
   
 anonymous_release:
   form: release

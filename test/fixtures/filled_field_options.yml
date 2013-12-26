@@ -1,0 +1,14 @@
+generic_gender_male:
+  filled_field: generic_gender
+  form_field_option: male
+  value: Male
+  
+generic_colors_red:
+  filled_field: generic_colors
+  form_field_option: red
+  value: Red
+
+generic_colors_blue:
+  filled_field: generic_colors
+  form_field_option: blue
+  value: Blue

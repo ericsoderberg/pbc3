@@ -45,10 +45,10 @@ class Event < ActiveRecord::Base
   end
   
   scope :masters,
-    where("events.master_id = events.id OR events.master_id IS NULL")
+    -> { where("events.master_id = events.id OR events.master_id IS NULL") }
     
   scope :featured,
-    where("events.featured = 't'")
+    -> { where("events.featured = 't'") }
   
   def related_to?(event)
     event.master and self.master == event.master

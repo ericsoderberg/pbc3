@@ -62,7 +62,7 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
-    @events = @page.events.between(Date.today, Date.today + 2.months).
+    @events = @page.events.between(Date.today, Date.today + 3.months).
       where('events.master_id IS NULL')
     @pages = Page.editable(current_user)
   end

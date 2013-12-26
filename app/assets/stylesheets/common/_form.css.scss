@@ -116,6 +116,8 @@ ol.actions {
 }
 
 div.select2-container {
+  min-width: 140px;
+  
   a.select2-choice {
     background: none;
     border-color: #ccc;

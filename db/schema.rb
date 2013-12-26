@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131004110205) do
+ActiveRecord::Schema.define(version: 20131226115325) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -128,6 +128,14 @@ ActiveRecord::Schema.define(version: 20131004110205) do
     t.text     "invitation_message"
     t.text     "notes"
     t.integer  "updated_by"
+  end
+
+  create_table "filled_field_options", force: true do |t|
+    t.integer  "filled_field_id"
+    t.integer  "form_field_option_id"
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "filled_fields", force: true do |t|

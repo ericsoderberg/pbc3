@@ -7,3 +7,13 @@ female:
   form_field: gender
   name: Female
   option_type: fixed
+
+red:
+  form_field: colors
+  name: Red
+  option_type: fixed
+
+blue:
+  form_field: colors
+  name: Blue
+  option_type: fixed

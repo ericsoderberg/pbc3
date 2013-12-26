@@ -7,8 +7,8 @@ class Resource < ActiveRecord::Base
   validates_presence_of :name
   validates :resource_type, :presence => true, :inclusion => {:in => TYPES}
   
-  scope :rooms, where(:resource_type => 'room')
-  scope :equipment, where(:resource_type => 'equipment')
+  scope :rooms, -> { where(:resource_type => 'room') }
+  scope :equipment, -> { where(:resource_type => 'equipment') }
   
   def other_events_during(event)
     reservations.includes(:event).between(event.start_at, event.stop_at).

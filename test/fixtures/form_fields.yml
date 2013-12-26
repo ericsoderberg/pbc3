@@ -10,10 +10,16 @@ gender:
   form_index: 2
   name: Gender
   field_type: "single choice"
+  
+colors:
+  form: release 
+  form_index: 3
+  name: Colors
+  field_type: "multiple choice"
 
 size:
   form: release
-  form_index: 3
+  form_index: 4
   name: Size
   field_type: field
   size: 20

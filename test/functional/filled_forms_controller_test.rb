@@ -52,6 +52,13 @@ class FilledFormsControllerTest < ActionController::TestCase
     get :edit, :form_id => @form.id, :id => @filled_form.to_param
     assert_response :success
   end
+  
+  test "should get old edit" do
+    filled_form = filled_forms(:old_release)
+    form = filled_form.form
+    get :edit, :form_id => form.id, :id => filled_form.to_param
+    assert_response :success
+  end
 
   test "should update filled_form" do
     fields = {}

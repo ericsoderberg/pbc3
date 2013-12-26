@@ -6,7 +6,7 @@ class FilledFieldTest < ActiveSupport::TestCase
     field = FilledField.new(:value => 'large')
     field.filled_form = filled_forms(:generic_release)
     field.form_field = form_fields(:size)
-    assert field.save
+    assert field.save, field.errors.full_messages.join("\n")
   end
   
   test "no form" do

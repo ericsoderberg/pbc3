@@ -188,6 +188,13 @@ class FilledFormsController < ApplicationController
     return true
   end
   
+  def populate_option(form_field, filled_field, value)
+    filled_option = filled_field.filled_field_options.build
+    option = form_field.form_field_options.find(value)
+    filled_option.form_field_option = option
+    filled_option.value = option.name
+  end
+  
   def populate_filled_fields
     @filled_form.name = nil
     @form.form_fields.each do |form_field|
@@ -206,12 +213,20 @@ class FilledFormsController < ApplicationController
           filled_field.filled_form = @filled_form
           filled_field.form_field = form_field
         end
-        # join check box responses
-        filled_field.value = if value.is_a?(Array)
-          # escape commas
-          value.map{|v| v.gsub(/,/, '\\,')}.join(',')
-        else
-          value
+        # populate value
+        case form_field.field_type
+        when FormField::FIELD
+          filled_field.value = value
+        when FormField::AREA
+          filled_field.value = value
+        when FormField::SINGLE_CHOICE
+          filled_field.filled_field_options.clear
+          populate_option(form_field, filled_field, value)
+        when FormField::MULTIPLE_CHOICE
+          filled_field.filled_field_options.clear
+          value.each do |one_value|
+            populate_option(form_field, filled_field, one_value)
+          end
         end
         # guess at name
         if not @filled_form.name and form_field.name =~ /name/i
