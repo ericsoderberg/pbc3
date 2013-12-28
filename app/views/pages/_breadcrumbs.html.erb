@@ -1,5 +1,5 @@
 <% ancestors = page.ancestors -%>
-<% ancestors.shift -%>
+<% ancestors.shift if not ancestors.empty? and ancestors.first.id == @site.communities_page_id -%>
 <% if not ancestors.empty? -%>
   <div id="breadcrumbs">
     <ul>

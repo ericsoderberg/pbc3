@@ -1,0 +1,12 @@
+<div id="home_about" class="home_section">
+  <h2>
+    <%= link_to "About", about_path %>
+  </h2>
+  <ul>
+    <% @abouts.each do |page| -%>
+    <li>
+      <%= link_to page.name, friendly_page_path(page) %>
+    </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,5 +1,14 @@
+<% sub_page = (@books or @authors or @book or @author) -%>
+<% if @books or @authors or @book or @author -%>
+  <div id="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Message Library', messages_path %></li>
+    </ul>
+  </div>
+<% end -%>
+
 <header id="page_header">
-  <h1 class="<%= (@books or @authors or @book or @author)  ? '' : 'active' %>">
+  <h1 class="<%= sub_page  ? '' : 'active' %>">
     <%= link_to 'Message Library', messages_path %>
   </h1>
   
@@ -19,7 +28,7 @@
   </div>
   <% end -%>
   
-  <ul class="nav">
+  <ul class="nav <%= sub_page ? 'active' : '' %>">
     <li class="<%= (@authors || @author) ? 'active' : '' %>">
       <%= link_to 'Authors/Speakers', authors_path %></li>
     <li class="<%= (@books || @book) ? 'active' : '' %>">

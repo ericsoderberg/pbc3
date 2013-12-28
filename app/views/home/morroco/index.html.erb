@@ -1,0 +1,25 @@
+<% title(@site.title) -%>
+<% content_for(:content_class) {'home'}%>
+
+<div id="hero">
+  <div id="hero_list">
+    <%= render :partial => "page_hero", :collection => @feature_pages %>
+  </div>
+</div>
+
+<div id="home_primary">
+  <%= render :partial => 'home/services' %>
+
+  <div id="home_calendar" class="home_section">
+    <h2><%= link_to "Calendar", main_calendar_path %></h2>
+  </div>
+
+  <div id="home_messages" class="home_section">
+    <h2><%= link_to 'Messages', messages_path %></h2>
+  </div>
+
+</div>
+
+<%= render :partial => 'home/morroco/communities' %>
+
+<%= render :partial => 'home/morroco/abouts' %>  

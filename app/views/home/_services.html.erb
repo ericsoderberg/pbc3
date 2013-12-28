@@ -1,0 +1,35 @@
+<% if @next_message or @previous_message -%>
+<div id="home_services" class="home_section">
+  <h2>
+    <% url = root_url
+      if @next_message and ! @next_message.events.empty?
+        url = friendly_page_url(@next_message.events.first.page)
+      end %>
+    <%= link_to 'Services', url %>
+  </h2>
+  <table id="home_messages">
+    <% if @next_message -%>
+    <tr class="next_message">
+
+      <td class="when">
+      <%= @next_message.date.event_date %>
+      <%= raw @next_message.events.map{ |e|
+          e.start_at.simple_time(true)
+      }.to_sentence() %>
+      </td>
+
+      <%= render :partial => 'message',
+        :locals => {:message => @next_message} %>
+    </tr>
+    <% end -%>
+
+    <% if @previous_message -%>
+    <tr class="previous_message">
+      <td class="when">Last week</td>
+      <%= render :partial => 'message',
+        :locals => {:message => @previous_message} %>
+    </tr>
+    <% end -%>
+  </table>
+</div>
+<% end -%>

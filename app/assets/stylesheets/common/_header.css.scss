@@ -64,7 +64,7 @@ header {
       display: inline-block;
       margin-right: -4px;
       //margin-right: 5px;
-      min-width: 120px;
+      //min-width: 120px;
       font-weight: bold;
       font-size: 16px;
       @include box-sizing(border-box);
@@ -180,6 +180,10 @@ header {
       padding-right: 0px;
     }
     
+    img {
+      display: none;
+    }
+    
     a {
       text-decoration: none;
       font-size: 18px;
@@ -190,7 +194,7 @@ header {
         text-shadow: 0px 0px 2px #bbb;
       }
       
-      span {
+      span:first-of-type {
         font-weight: normal;
       }
     }
@@ -218,10 +222,30 @@ header {
       display: none;
     }
   }
+  
+  #site_controls {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    
+    #site_nav {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 30px;
+      
+      ul {
+        display: none;
+      }
+    }
+  
+    #auth {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
 }
 
 div#auth {
-  float: right;
   height: 30px;
   line-height: 22px;
   
@@ -238,7 +262,7 @@ div#auth {
   
   ul {
     display: block;
-	  margin: 7px auto;
+	  margin: 4px auto;
 	  padding: 0;
 	  list-style: none;
 	  
@@ -249,6 +273,7 @@ div#auth {
 	  li {
   	  display: inline-block;
   	  margin-right: -4px;
+      padding: 0px 7px;
   	  border-left: 1px solid #ccc;
   	  vertical-align: top;
   	  height: 22px;
@@ -279,8 +304,6 @@ div#auth {
       
       a {
         display: block;
-    		padding-right: 7px;
-    		padding-left: 7px;
     		font-size: 12px;
     		font-weight: normal;
     		text-align: center;

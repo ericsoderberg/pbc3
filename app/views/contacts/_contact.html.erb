@@ -1,5 +1,7 @@
 <%= content_tag_for(:li, contact) do %>
-  <%= link_to image_tag('mail.png'), email_page_contact_path(@page, contact) %>
+  <%= link_to email_page_contact_path(@page, contact), class: 'email' do %>
+    <%= image_tag('mail.png') %>
+  <% end -%>
   <div class="contact_name">
     <%= contact.user.name %>
     <% if contact.role and not contact.role.empty? -%>

@@ -21,10 +21,17 @@
   <div id="content" class="<%= yield(:content_class) %>">
     
   <header id="site_header">
-    <%= render :partial => 'layouts/auth' %>
-    <h1><%= link_to raw(site_title), root_path %></h1>
+    <h1>
+      <%= link_to root_path do %>
+      <%= image_tag 'pbc3-icon.png' %>
+      <%= raw site_title %>
+      <% end %>
+    </h1>
     <h2><%= @site ? @site.subtitle : '' %></h2>
-    <%= render :partial => 'layouts/site_nav' %>
+    <div id="site_controls">
+      <%= render :partial => 'layouts/site_nav' %>
+      <%= render :partial => 'layouts/auth' %>
+    </div>
     
     <div id="notice"><%= notice %></div>
   </header>

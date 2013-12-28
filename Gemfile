@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-#gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
 
 # Bundle edge Rails instead:
-gem 'rails', :git => 'git://github.com/rails/rails.git'
+#gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :assets do
   gem 'sass-rails', '~> 4.0.0'

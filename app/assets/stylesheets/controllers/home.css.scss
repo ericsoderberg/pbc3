@@ -79,6 +79,10 @@
       vertical-align: top;
       padding-right: 20px;
       
+      &:last-child {
+        padding-right: 0px;
+      }
+      
       @include respond-to(tiny) {
         padding-bottom: 10px;
         

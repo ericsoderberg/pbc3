@@ -21,8 +21,11 @@ class HomeController < ApplicationController
     @feature_pages = Page.home_feature_pages(user)
     @feature_strip_pages = @feature_pages[0,5]
     
-    if 'modo' == session[:design]
+    case session[:design]
+    when 'modo'
       render 'home/modo/index'
+    when 'morroco'
+      render 'home/morroco/index'
     end
   end
   
