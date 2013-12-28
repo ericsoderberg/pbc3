@@ -33,7 +33,7 @@
     <td><%= podcast.page_id %></td>
     <td><%= link_to 'Show', podcast %></td>
     <td><%= link_to 'Edit', edit_podcast_path(podcast) %></td>
-    <td><%= link_to 'Destroy', podcast, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', podcast, data: {confirm: 'Are you sure?'}, method: :delete %></td>
   </tr>
 <% end %>
 </table>

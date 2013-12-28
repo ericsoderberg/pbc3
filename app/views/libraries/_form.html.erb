@@ -23,8 +23,8 @@
     | <%= link_to 'Cancel', libraries_path %>
     <% end -%>
     <% if @library.id -%>
-    | <%= link_to 'Delete library', @library, :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Delete library', @library, data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>

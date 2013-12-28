@@ -72,8 +72,8 @@
     <% if @podcast.title -%>
      | <%= link_to 'Delete podcast',
       (@page ? page_podcast_path(@page) : podcast_path),
-      :confirm => 'Are you sure?',
-      :method => :delete %>
+      data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

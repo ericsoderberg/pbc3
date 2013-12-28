@@ -52,8 +52,8 @@
     | <%= link_to 'Cancel', newsletters_path %>
     <% end -%>
     <% if @newsletter.id -%>
-    | <%= link_to 'Delete newsletter', @newsletter, :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Delete newsletter', @newsletter, data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>

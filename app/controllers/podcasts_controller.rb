@@ -6,7 +6,7 @@ class PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.xml
   def index
-    @podcasts = Podcast.all
+    @podcasts = Podcast.to_a
 
     respond_to do |format|
       format.html # index.html.erb

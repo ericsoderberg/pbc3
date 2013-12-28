@@ -43,8 +43,8 @@
               </div>
             <% end %>
             <%= link_to 'Delete', [@page, @event, invitation],
-              :confirm => 'Are you sure?', :method => :delete,
-              :remote => true, :class => 'delete' %>
+              data: {confirm: 'Are you sure?'}, method: :delete,
+              remote: true, class: 'delete' %>
           </li>
         <% end -%>
       </ul>

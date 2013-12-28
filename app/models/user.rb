@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
   end
   
   def pages
-    Page.all.includes(:authorizations).delete_if{|p| not p.for_user?(self)}
+    Page.includes(:authorizations).to_a.delete_if{|p| not p.for_user?(self)}
   end
   
   def events(start_at=nil, stop_at=nil)

@@ -7,7 +7,7 @@ class EmailListsController < ApplicationController
         @search = params[:search]
         EmailList.find_by_address(@search)
       else
-        EmailList.all
+        EmailList.to_a
       end
 
     respond_to do |format|

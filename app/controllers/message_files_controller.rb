@@ -6,7 +6,7 @@ class MessageFilesController < ApplicationController
   # GET /message_files
   # GET /message_files.xml
   def index
-    @message_files = @message.message_files.all
+    @message_files = @message.message_files.to_a
 
     respond_to do |format|
       format.html # index.html.erb

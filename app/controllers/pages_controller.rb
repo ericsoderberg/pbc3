@@ -165,7 +165,7 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
-    @email_lists = EmailList.all()
+    @email_lists = EmailList.to_a
   end
   
   def edit_email_members
@@ -185,7 +185,7 @@ class PagesController < ApplicationController
   def edit_for_parent
     page = Page.find_by(url: params[:id])
     parent = Page.find_by(id: params[:parent_id])
-    siblings = parent.children.all
+    siblings = parent.children.to_a
     siblings << page unless siblings.include?(page)
     siblings = siblings.to_a.map{|s| {id: s.id, name: s.name, url: s.url}}
     render :json => siblings

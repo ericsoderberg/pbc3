@@ -334,7 +334,12 @@
       display: inline-block;
       width: 194px;
       height: 200px;
-      border: 1px solid #ddd; ///#ccc;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      
+      &:first-child {
+        border-left: 1px solid #ddd;
+      }
     }
     
     @include respond-to(small) {
@@ -388,6 +393,10 @@
       transition-property:color, background;
       transition-duration: 0.2s, 0.4s;
       transition-timing-function: linear, ease-in;
+      
+      @include respond-to(small-down) {
+        width: auto;
+      }
       
       &:hover {
         color: #333;

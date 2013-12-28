@@ -21,9 +21,9 @@
   <div class="dynamic_form_field_admin">
     <%= link_to 'edit',
       edit_form_field_option_path(@form, @form_field, show_option),
-      :remote => true %>
+      remote: true %>
     <%= link_to 'delete',
       form_field_option_path(@form, @form_field, show_option),
-      :confirm => 'Are you sure?', :method => :delete, :remote => true %>
+      data: {confirm: 'Are you sure?'}, method: :delete, remote: true %>
   </div>
 <% end %>

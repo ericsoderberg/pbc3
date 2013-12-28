@@ -19,7 +19,7 @@
     <td><%= authorization.administrator %></td>
     <td><%= link_to 'Show', authorization %></td>
     <td><%= link_to 'Edit', edit_authorization_path(authorization) %></td>
-    <td><%= link_to 'Destroy', authorization, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', authorization, data: {confirm: 'Are you sure?'}, method: :delete %></td>
   </tr>
 <% end %>
 </table>

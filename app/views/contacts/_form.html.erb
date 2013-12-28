@@ -42,8 +42,8 @@
   <div class="actions">
     <%= f.submit "#{@contact.user ? 'Update' : 'Add'} contact" %>
     <% if @contact.user -%>
-    | <%= link_to 'Remove contact', [@page, @contact], :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Remove contact', [@page, @contact], data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>

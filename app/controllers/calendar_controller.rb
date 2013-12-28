@@ -53,17 +53,17 @@ class CalendarController < ApplicationController
   def get_events
     @events = if @full
         Event.between(@start_date, @stop_date.end_of_day).
-          order("start_at ASC").all
+          order("start_at ASC").to_a
       elsif @page
         @page.related_events(@start_date, @stop_date.end_of_day)
       elsif @resource
         @resource.events.between(@start_date, @stop_date.end_of_day).
-          order("start_at ASC").all
+          order("start_at ASC").to_a
       elsif current_user
         current_user.events(@start_date, @stop_date.end_of_day)
       else
         Event.where('featured = ?', true).between(@start_date, @stop_date.end_of_day).
-          order("start_at ASC").all
+          order("start_at ASC").to_a
       end
     @events = @events.delete_if do |e|
       not e.authorized?(current_user) or (@singular and e.master)

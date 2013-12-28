@@ -7,7 +7,7 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.xml
   def index
-    @invitations = @event.invitations.all
+    @invitations = @event.invitations.to_a
     if @invitations.empty?
       redirect_to new_page_event_invitation_path(@page, @event)
     end

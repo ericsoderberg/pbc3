@@ -28,8 +28,8 @@
     | <%= link_to 'Cancel', resources_path %>
     <% end -%>
     <% if @resource.id -%>
-    | <%= link_to 'Delete resource', @resource, :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Delete resource', @resource, data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>

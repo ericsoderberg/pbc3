@@ -37,8 +37,8 @@ class NewslettersController < ApplicationController
     @newsletter = Newsletter.new
     @newsletter.published_at = Date.today
     @events = Event.between(Date.yesterday, Date.today + 1.month)
-    @pages = Page.all.order('name ASC')
-    @email_lists = EmailList.all()
+    @pages = Page.order('name ASC').to_a
+    @email_lists = EmailList.to_a
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,8 +48,8 @@ class NewslettersController < ApplicationController
   def edit
     @newsletter = Newsletter.find_by_published_at(params[:id])
     @events = Event.between(Date.yesterday, Date.today + 1.month)
-    @pages = Page.all.order('name ASC')
-    @email_lists = EmailList.all()
+    @pages = Page.order('name ASC').to_a
+    @email_lists = EmailList.to_a
   end
 
   def create

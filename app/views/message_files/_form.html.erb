@@ -39,7 +39,7 @@
     <%= f.submit (@message_file.id ? 'Update file' : 'Add file') %>
     <% if @message_file.id -%>
     | <%= link_to 'Delete file', message_file_path(@message, @message_file),
-      :confirm => 'Are you sure?', :method => :delete %>
+      data: {confirm: 'Are you sure?'}, method: :delete %>
     | <%= link_to 'Add file', edit_message_path(@message) %>
     <% end -%>
   </div>

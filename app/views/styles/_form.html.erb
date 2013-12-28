@@ -111,8 +111,8 @@
     <%= f.submit (@style.id ? 'Update Style' : 'Add Style') %>
     | <%= link_to 'Cancel', styles_path %>
     <% if @style.id -%>
-    | <%= link_to 'Delete style', @style, :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete style', @style, data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
   

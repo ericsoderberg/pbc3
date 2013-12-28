@@ -83,8 +83,8 @@
       series_path(@message_set) : messages_path) %>
     <% end -%>
     <% if @message.id -%>
-    | <%= link_to 'Delete message', @message, :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete message', @message, data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

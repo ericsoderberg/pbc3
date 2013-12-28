@@ -5,7 +5,7 @@
   white-space: nowrap;
   
   @include respond-to(small-down) {
-    margin-top: 10px;
+    //margin-top: 10px;
   }
   
   @include respond-to(tiny) {

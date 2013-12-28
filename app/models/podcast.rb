@@ -29,9 +29,9 @@ class Podcast < ActiveRecord::Base
   def items
     if page
       result = []
-      result.concat(page.children.order("updated_at DESC").limit(20).all)
-      result.concat(page.audios.where("date is not null").order("date DESC").limit(20).all)
-      result.concat(page.videos.where("date is not null").order("date DESC").limit(20).all)
+      result.concat(page.children.order("updated_at DESC").limit(20).to_a)
+      result.concat(page.audios.where("date is not null").order("date DESC").limit(20).to_a)
+      result.concat(page.videos.where("date is not null").order("date DESC").limit(20).to_a)
       # order by date
       result.sort{|i1, i2| i2.date <=> i1.date}
     elsif site

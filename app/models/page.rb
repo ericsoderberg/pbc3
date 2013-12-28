@@ -226,7 +226,7 @@ class Page < ActiveRecord::Base
   end
   
   def possible_parents
-    Page.order('name').all.delete_if do |page|
+    Page.order('name').to_a.delete_if do |page|
       # don't allow circular references
       page == self or self.includes?(page)
     end
@@ -316,7 +316,7 @@ class Page < ActiveRecord::Base
   end
   
   def self.editable(user)
-    Page.all.order('name ASC').select{|p| p.administrator?(user) }
+    Page.order('name ASC').to_a.select{|p| p.administrator?(user) }
   end
   
   def self.order_home_features(ids)
@@ -348,7 +348,7 @@ class Page < ActiveRecord::Base
   end
   
   def self.normalize_indexes(pages=nil)
-    pages = Page.all unless pages
+    pages = Page.to_a unless pages
     Page.transaction do
       pages.each do |page|
         page.children.each_with_index do |child, i|
@@ -367,7 +367,7 @@ class Page < ActiveRecord::Base
     result =
       Event.between(start_date, stop_date).
       where(:page_id => page_ids).
-      order("start_at ASC").all
+      order("start_at ASC").to_a
     result
   end
   

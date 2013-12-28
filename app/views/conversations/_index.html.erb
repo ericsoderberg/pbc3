@@ -13,7 +13,7 @@
             <%= link_to 'Edit',
               edit_page_conversation_path(@page, conversation) %>
             <%= link_to 'Delete', [@page, conversation],
-            :confirm => 'Are you sure?', :method => :delete %>
+            data: {confirm: 'Are you sure?'}, method: :delete %>
           </div>
         <% end -%>
       </div>

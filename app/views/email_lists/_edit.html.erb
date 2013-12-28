@@ -39,8 +39,8 @@
         <%= submit_tag 'Update Email List' %>
         <% if not @page -%>
         | <%= link_to 'Cancel', email_lists_path %>
-        | <%= link_to 'Delete email list', @email_list, :confirm => 'Are you sure?',
-          :method => :delete %>
+        | <%= link_to 'Delete email list', @email_list, data: {confirm: 'Are you sure?'},
+          method: :delete %>
         <% end -%>
       </div>
   

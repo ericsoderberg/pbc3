@@ -2,7 +2,7 @@ class FilledFieldsController < ApplicationController
   # GET /filled_fields
   # GET /filled_fields.xml
   def index
-    @filled_fields = FilledField.all
+    @filled_fields = FilledField.to_a
 
     respond_to do |format|
       format.html # index.html.erb

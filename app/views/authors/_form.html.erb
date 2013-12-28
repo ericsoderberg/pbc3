@@ -23,8 +23,8 @@
     <%= f.submit (@author.id ? 'Update Author' : 'Add Author') %>
     | <%= link_to 'Cancel', authors_path %>
     <% if @author.id -%>
-    | <%= link_to 'Delete author', @author, :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete author', @author, data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

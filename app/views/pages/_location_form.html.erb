@@ -61,8 +61,8 @@
     <% if @page.id and (current_user.administrator? or
         (@page.parent and @page.parent.administrator?(current_user))) -%>
      | <%= link_to 'Delete page', @page,
-      :confirm => "Are you sure? This will also delete all events (#{@page.events.count}), forms (#{@page.forms.count}), documents (#{@page.documents.count}), photos (#{@page.photos.count}), videos (#{@page.videos.count}), and audios (#{@page.audios.count}), let alone all sub-pages (#{@page.children.count}) and their contents associated with this page.",
-      :method => :delete %>
+      data: {confirm: "Are you sure? This will also delete all events (#{@page.events.count}), forms (#{@page.forms.count}), documents (#{@page.documents.count}), photos (#{@page.photos.count}), videos (#{@page.videos.count}), and audios (#{@page.audios.count}), let alone all sub-pages (#{@page.children.count}) and their contents associated with this page."},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

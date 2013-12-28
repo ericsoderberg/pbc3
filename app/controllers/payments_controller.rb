@@ -31,7 +31,7 @@ class PaymentsController < ApplicationController
   def user_index
     @user = User.find(params[:id])
     @user = current_user unless current_user.administrator?
-    @payments = @user.payments.all
+    @payments = @user.payments.to_a
 
     respond_to do |format|
       format.html # user_index.html.erb

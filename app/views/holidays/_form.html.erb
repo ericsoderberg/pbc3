@@ -18,14 +18,14 @@
   <div class="field">
     <%= f.label :date %><br />
     <%= f.text_field :date,
-      :value => (@holiday.date ? l(@holiday.date, :format => :default) : '') %>
+      value: (@holiday.date ? l(@holiday.date, format: :default) : '') %>
   </div>
   <div class="actions">
     <%= f.submit %>
     | <%= link_to 'Cancel', holidays_path %>
     <% if @holiday.id -%>
-    | <%= link_to 'Delete holiday', @holiday, :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Delete holiday', @holiday, data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>

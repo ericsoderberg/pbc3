@@ -24,7 +24,7 @@ class FilledFormsController < ApplicationController
   def user_index
     @user = User.find(params[:id])
     @user = current_user unless current_user.administrator?
-    @filled_forms = @user.filled_forms.all
+    @filled_forms = @user.filled_forms.to_a
 
     respond_to do |format|
       format.html # user_index.html.erb
