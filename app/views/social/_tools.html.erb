@@ -1,7 +1,8 @@
 <% if @page.twitter_name and not @page.twitter_name.empty? -%>
 <div class="page_control">
-  <%= link_to image_tag('twitter-2.png'),
-    "http://twitter.com/#!/#{@page.twitter_name}" %>
+  <%= link_to "http://twitter.com/#!/#{@page.twitter_name}", class: 'icon twitter' do %>
+    <%= image_tag('twitter-2.png') %>
+  <% end -%>
 </div>
 <% if false -%>
 <div class="page_control">
@@ -11,6 +12,8 @@
 <% end -%>
 <% if @page.facebook_url and not @page.facebook_url.empty? -%>
 <div class="page_control">
-  <%= link_to image_tag('facebook.png'), @page.facebook_url %>
+  <%= link_to @page.facebook_url, class: 'icon facebook' do %>
+    <%= image_tag('facebook.png') %>
+  <% end -%>
 </div>
 <% end -%>

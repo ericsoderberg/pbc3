@@ -43,6 +43,11 @@ body.design_morroco {
       @include icon-image(-26px, 0px);
       height: 17px;
     }
+    
+    &.facebook {
+      @include icon-image(-78px, -52px);
+      width: 14px;
+    }
   }
   
   #content.home {
@@ -221,6 +226,11 @@ body.design_morroco {
     .page_admin a {
       font-weight: normal;
     }
+    
+    .page_control a {
+      position: relative;
+      top: 4px;
+    }
   }
   
   #messages {
@@ -228,6 +238,16 @@ body.design_morroco {
       a {
         font-weight: bold;
       }
+    }
+  }
+  
+  #calendar_nav {
+    .icon.previous {
+      @include icon-image(0px, -52px);
+    }
+    
+    .icon.next {
+      @include icon-image(-52px, -52px);
     }
   }
 }
