@@ -352,13 +352,13 @@ div#notice {
   @include transition-duration(5s);
   
   &.active {
-    top: -28px;
+    top: -35px;
     opacity: 1;
     @include transition-duration(1s);
     @include transition-delay(1s);
     
     @include respond-to(small-down) {
-      top: -11px;
+      top: -20px;
     }
   }
 }
