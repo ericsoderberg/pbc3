@@ -30,7 +30,7 @@ class EmailList
       end
   end
   
-  def self.to_a
+  def self.all
     self.load("#{Configuration.mailman_dir}/list_lists -b")
   end
   

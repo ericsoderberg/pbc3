@@ -69,26 +69,26 @@
       color: #d8d8d8;
     }
   }
-  
-  #home_messages {
-    display: inline-block;
-    margin: 0px;
-    padding: 0px;
-  
-    td {
-      vertical-align: top;
-      padding-right: 20px;
+}
+
+#home_messages {
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+
+  td {
+    vertical-align: top;
+    padding-right: 20px;
+    
+    &:last-child {
+      padding-right: 0px;
+    }
+    
+    @include respond-to(tiny) {
+      padding-bottom: 10px;
       
-      &:last-child {
-        padding-right: 0px;
-      }
-      
-      @include respond-to(tiny) {
-        padding-bottom: 10px;
-        
-        &.message_verses, &.message_author, &.message_files {
-          display: none;
-        }
+      &.message_verses, &.message_author, &.message_files {
+        display: none;
       }
     }
   }
@@ -99,29 +99,26 @@
       border-bottom: 1px solid #eee;
     }
   }
-  
+
   tr.previous_message {
     td {
       padding-top: 5px;
     }
   }
-  
+
   .when {
     margin-right: 10px;
-    
+    color: #999;
+  
     @include respond-to(small-up) {
       text-align: right;
     }
   }
-  
-  .previous_message .when {
-    color: #999;
-  }
-  
+
   .home_message {
     margin-right: 10px;
     white-space: nowrap;
-    
+  
     > * {
       display: inline-block;
       margin-right: 10px;

@@ -8,15 +8,11 @@
 </div>
 
 <div id="home_primary">
-  <%= render :partial => 'home/services' %>
+  <%= render :partial => 'home/morroco/services' %>
 
-  <div id="home_calendar" class="home_section">
-    <h2><%= link_to "Calendar", main_calendar_path %></h2>
-  </div>
+  <%= render :partial => 'home/morroco/calendar' %>
 
-  <div id="home_messages" class="home_section">
-    <h2><%= link_to 'Messages', messages_path %></h2>
-  </div>
+  <%= render :partial => 'home/morroco/messages' %>
 
 </div>
 
