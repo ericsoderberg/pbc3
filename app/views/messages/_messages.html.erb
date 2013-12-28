@@ -14,8 +14,7 @@
   <% logger.info prior_message.date.year if prior_message -%>
   <% logger.info next_year_countdown -%>
   <% if (not prior_message or (prior_message and
-    message.date.year != prior_message.date.year)) and
-    0 == next_year_countdown -%>
+    message.date.year != prior_message.date.year)) -%>
     <div class="messages_year">
       <%= message.date.year %>
     </div>
