@@ -24,8 +24,8 @@ class HomeController < ApplicationController
     case session[:design]
     when 'modo'
       render 'home/modo/index'
-    when 'morroco'
-      render 'home/morroco/index'
+    when 'morocco'
+      render 'home/morocco/index'
     end
   end
   
