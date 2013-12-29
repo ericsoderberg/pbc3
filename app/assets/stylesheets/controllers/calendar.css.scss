@@ -89,12 +89,7 @@
   }
   
   a.today {
-    //border-right: 1px solid #eee;
-    background: 0px 3px $circle-url no-repeat;
-    
-    &.current {
-      background-image: $circle-dot-url;
-    }
+    vertical-align: top;
   }
   
   a.previous {
@@ -129,7 +124,7 @@
   	    
   	    &:hover {
     	    color: #666;
-    	    background: inherit;
+    	    //background: inherit;
     	  }
   	  }
     }

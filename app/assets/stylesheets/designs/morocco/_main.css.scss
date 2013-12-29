@@ -31,33 +31,88 @@ body.design_morocco {
       color: $link-hover-color;
     }
     
-    &.feed {
-      @include icon-image(-78px, 0px);
-    }
+    &.icon {
+      color: transparent;
+      
+      &:hover {
+        color: transparent;
+      }
+      
+      &.settings {
+        @include icon-image(0px, 0px);
+      }
+      
+      &.email {
+        @include icon-image(-26px, 0px);
+        height: 17px;
+      }
+      
+      &.calendar {
+        @include icon-image(-52px, 0px);
+      }
     
-    &.calendar {
-      @include icon-image(-52px, 0px);
-    }
+      &.feed {
+        @include icon-image(-78px, 0px);
+      }
+      
+      &.video {
+        @include icon-image(-104px, 0px);
+        height: 17px;
+        position: relative;
+        top: 2px;
+      }
+      
+      &.audio {
+        @include icon-image(-130px, 0px);
+        height: 17px;
+        position: relative;
+        top: 2px;
+      }
+      
+      &.document {
+        @include icon-image(-156px, 0px);
+        height: 17px;
+        position: relative;
+        top: 2px;
+      }
+      
+      &.previous {
+        @include icon-image(0px, -52px);
+      }
     
-    &.email {
-      @include icon-image(-26px, 0px);
-      height: 17px;
-    }
+      &.next {
+        @include icon-image(-52px, -52px);
+      }
+      
+      &.list {
+        @include icon-image(-104px, -52px);
+      }
     
-    &.facebook {
-      @include icon-image(-78px, -52px);
-      width: 14px;
+      &.grid {
+        @include icon-image(-130px, -52px);
+      }
+    
+      &.facebook {
+        @include icon-image(-78px, -52px);
+        width: 14px;
+      }
     }
   }
   
   #content.home {
-    #site_header h1 a {
-      span {
-        display: inline-block;
+    #site_header {
+      h1 a {
+        span {
+          display: inline-block;
         
-        @include respond-to(tiny) {
-          display: none;
+          @include respond-to(tiny) {
+            display: none;
+          }
         }
+      }
+      
+      h2 {
+        display: block;
       }
     }
   }
@@ -109,6 +164,7 @@ body.design_morocco {
     
     h2 {
       display: none;
+      padding-left: 100px;
     }
     
     #site_controls {
@@ -248,6 +304,30 @@ body.design_morocco {
     
     .icon.next {
       @include icon-image(-52px, -52px);
+    }
+  }
+  
+  #calendar_views {
+    ul li {
+      a, a:hover {
+        opacity: 0.5;
+        padding: 0px;
+        margin-left: 5px;
+        color: transparent;
+        @include transition-none();
+        
+        &:hover {
+          opacity: 1;
+          color: transparent;
+        }
+      }
+      
+      &.active {
+        a, a:hover {
+          opacity: 1;
+          color: transparent;
+        }
+      }
     }
   }
 }

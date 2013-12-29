@@ -15,17 +15,21 @@
         skipCaptioned -%>
     <li>
       <% if message_file.audio? -%>
-        <%= link_to image_tag('audio.png', :size => '16x16'),
-          message_file.file.url %>
+        <%= link_to message_file.file.url, class: 'icon audio' do %>
+          <%= image_tag('audio.png', :size => '16x16') %>
+        <% end -%>
       <% elsif message_file.video? -%>
-        <%= link_to image_tag('video.png', :size => '16x16'),
-          message_file.file.url %>
+        <%= link_to message_file.file.url, class: 'icon video' do %>
+          <%= image_tag('video.png', :size => '16x16') %>
+        <% end -%>
       <% elsif message_file.cloud_video? -%>
-        <%= link_to image_tag('video.png', :size => '16x16', :class => 'video'),
-          message_path(message) %>
+        <%= link_to message_path(message), class: 'icon video' do %>
+          <%= image_tag('video.png', :size => '16x16') %>
+        <% end -%>
       <% else -%>
-        <%= link_to image_tag('document.png', :size => '16x16'),
-          message_file.file.url %>
+        <%= link_to message_file.file.url, class: 'icon document' do %>
+          <%= image_tag('document.png', :size => '16x16') %>
+        <% end -%>
       <% end -%>
       <% if message_file.caption and not message_file.caption.empty? -%>
         <% if message_file.cloud_video? -%>

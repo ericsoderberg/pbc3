@@ -35,3 +35,9 @@
 	-moz-transition-delay: $delays;
 	transition-delay: $delays;
 }
+
+@mixin transition-none() {
+  -webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
