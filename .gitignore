@@ -1,6 +1,12 @@
 .bundle
 db/*.sqlite3
 log/*.log
+log/*.lck
 tmp/
 public/system
 solr/data
+solr/development
+solr/test
+solr/production
+solr/pids
+solr/default
