@@ -34,7 +34,7 @@ set :default_environment, {
 # repository
 set :scm, :git
 set :repository,  "git@github.com:ericsoderberg/pbc3.git"
-set :branch, "pbc3.1"
+set :branch, "master"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
 set :git_enable_submodules, 1
