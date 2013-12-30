@@ -1,10 +1,8 @@
 class FormField < ActiveRecord::Base
   belongs_to :form
-  has_many :form_field_options, :order => 'form_field_index ASC',
+  has_many :form_field_options, -> { order('form_field_index ASC') },
     :autosave => true, :dependent => :destroy
   has_many :filled_fields, :dependent => :destroy
-  
-  attr_protected :id
   
   FIELD = 'field'
   AREA = 'area'
@@ -20,7 +18,7 @@ class FormField < ActiveRecord::Base
     :inclusion => { :in => FormField::TYPES }
   
   scope :valued,
-    where("form_fields.field_type != '#{INSTRUCTIONS}'")
+    -> { where("form_fields.field_type != '#{INSTRUCTIONS}'") }
   
   def has_options?
     [SINGLE_CHOICE, MULTIPLE_CHOICE].include?(field_type)

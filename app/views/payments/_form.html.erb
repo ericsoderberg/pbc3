@@ -22,7 +22,13 @@
   
   <div class="regular_content">
     <section>
-      <h3><%= @payment.id ? @payment.state.capitalize : 'Paying' %></h3>
+      <h3>
+        <% if current_user and current_user.administrator? -%>
+        Sent
+        <% else -%>
+        <%= @payment.id ? @payment.state.capitalize : 'Paying' %>
+        <% end -%>
+      </h3>
       <div class="field">
         <%= f.label :amount %>
         <div>$<span id="payment_amount"><%= @payment.amount.to_s %></span></div>
@@ -85,16 +91,12 @@
         | <%= link_to 'Cancel',
           form_fill_path(@filled_form.form, @filled_form,
               {:filled_form_key => @filled_form_key}),
-          :confirm => 'Are you sure?', :method => :delete %>
+          data: {confirm: 'Are you sure?'}, :method => :delete %>
       <% end -%>
     <% end -%>
     <% if current_user and current_user.administrator? and @payment.id -%>
       | <%= link_to 'Delete payment record', @payment,
-        :confirm => 'Are you sure?', :method => :delete %>
+        data: {confirm: 'Are you sure?'}, method: :delete %>
     <% end -%>
   </div>
-<% end %>
-
-<%= javascript_tag do %>
-  <%= render :partial => 'form_aids', :formats => [:js] -%>
 <% end %>

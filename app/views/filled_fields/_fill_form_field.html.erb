@@ -34,8 +34,8 @@
       <ul class="options_list">
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
-            <%= radio_button_tag html_id, option.name,
-              (value == option.name) %>
+            <%= radio_button_tag html_id, option.id,
+              option.selected(filled_field) %>
             <div class="option_name">
               <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>
@@ -48,11 +48,10 @@
       </ul>
     <% when FormField::MULTIPLE_CHOICE -%>
       <ul class="options_list">
-        <% values = value.split(/(?<!\\),/).map{|e| e.gsub(/\\,/, ',')} -%>
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
-            <%= check_box_tag html_id+'[]', option.name,
-              values.include?(option.name) %>
+            <%= check_box_tag html_id+'[]', option.id,
+              option.selected(filled_field) %>
             <div class="option_name">
               <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>

@@ -21,15 +21,4 @@ $(function() {
           } )  );
     }
   }
-  
-  // show notes on hover
-  $('.events_list .event_notes').css('display', 'none');
-  $('.events_list li').hover(
-    function(){
-      $(this).find('.event_notes').slideDown('slow');
-    },
-    function(){
-      $(this).find('.event_notes').slideUp();      
-    }
-    );
 });

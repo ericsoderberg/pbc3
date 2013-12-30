@@ -24,7 +24,7 @@ class FilledFormsController < ApplicationController
   def user_index
     @user = User.find(params[:id])
     @user = current_user unless current_user.administrator?
-    @filled_forms = @user.filled_forms.all
+    @filled_forms = @user.filled_forms.to_a
 
     respond_to do |format|
       format.html # user_index.html.erb
@@ -52,6 +52,7 @@ class FilledFormsController < ApplicationController
       @filled_form.user = current_user
       @filled_forms = @form.visible_filled_forms(current_user)
     end
+    session[:edit_form_cancel_path] = new_form_fill_path(@form)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -64,6 +65,7 @@ class FilledFormsController < ApplicationController
     @filled_form = @form.filled_forms.find(params[:id])
     @filled_forms = @form.visible_filled_forms(current_user)
     return unless filled_form_authorized!
+    session[:edit_form_cancel_path] = edit_form_fill_path(@form, @filled_form)
   end
 
   # POST /filled_forms
@@ -185,7 +187,15 @@ class FilledFormsController < ApplicationController
       redirect_to friendly_page_url(@page)
       return false
     end
+    session[:edit_form_cancel_path] = form_fills_path(@form)
     return true
+  end
+  
+  def populate_option(form_field, filled_field, value)
+    filled_option = filled_field.filled_field_options.build
+    option = form_field.form_field_options.find(value)
+    filled_option.form_field_option = option
+    filled_option.value = option.name
   end
   
   def populate_filled_fields
@@ -206,12 +216,22 @@ class FilledFormsController < ApplicationController
           filled_field.filled_form = @filled_form
           filled_field.form_field = form_field
         end
-        # join check box responses
-        filled_field.value = if value.is_a?(Array)
-          # escape commas
-          value.map{|v| v.gsub(/,/, '\\,')}.join(',')
-        else
-          value
+        # populate value
+        case form_field.field_type
+        when FormField::FIELD
+          filled_field.value = value
+        when FormField::AREA
+          filled_field.value = value
+        when FormField::SINGLE_CHOICE
+          filled_field.filled_field_options.clear
+          populate_option(form_field, filled_field, value)
+        when FormField::MULTIPLE_CHOICE
+          filled_field.filled_field_options.clear
+          value.each do |one_value|
+            populate_option(form_field, filled_field, one_value)
+          end
+        when FormField::COUNT
+          filled_field.value = value
         end
         # guess at name
         if not @filled_form.name and form_field.name =~ /name/i

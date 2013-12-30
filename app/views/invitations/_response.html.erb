@@ -1,26 +1,34 @@
-<div id="invitation_response">
-  <h3><%= 'unknown' == @invitation.response ? 'Awaiting response' :
+<% invitation ||= @invitation -%>
+<% responded = ('unknown' != invitation.response) -%>
+<div class="invitation_response" id="<%= dom_id(invitation) %>">
+  <h3><%= 'unknown' == invitation.response ? 'Awaiting response' :
     'Response' %>
-    from <%= @invitation.email.split('@')[0] %>@...</h3>
-  <%= form_for @invitation,
-    :url => page_event_invitation_path(@page,
-      @invitation.event, @invitation) do |f| %>
+    <% unless @user || current_user -%>
+      from <%= invitation.email.split('@')[0] %>@...
+    <% end -%>
+  </h3>
+  <%= form_for invitation,
+    :url => page_event_invitation_path(invitation.event.page,
+      invitation.event, invitation),
+    :remote => true do |f| %>
     <%= f.hidden_field :key %>
     <div class="response_option">
-      <%= f.radio_button :response, 'yes' %>yes
+      <%= f.radio_button :response, 'yes' %><label>yes</label>
     </div>
     <div class="response_option">
-      <%= f.radio_button :response, 'no' %>no
+      <%= f.radio_button :response, 'no' %><label>no</label>
     </div>
     <div class="response_option">
-      <%= f.radio_button :response, 'maybe' %>maybe
+      <%= f.radio_button :response, 'maybe' %><label>maybe</label>
     </div>
     <div class="response_note">
-      <%= f.text_area :note, :size => '20x2' %>
+      <%= f.text_area :note, :size => '30x2' %>
     </div>
-    <%= f.submit 'Respond' %>
+    <%= f.submit (responded ? 'Update' : 'Respond') %>
+    <span class="help">
+      <% if responded and (not @user || current_user == @user) -%>
+      Thanks for your response.
+      <% end -%>
+    </span>
   <% end %>
-  <% if 'unknown' != @invitation.response -%>
-  <span class="help">Thanks for your response.</span>
-  <% end -%>
 </div>

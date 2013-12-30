@@ -24,8 +24,8 @@
   <div class="actions">
     <%= f.submit 'Allow Access' %>
     <% if @authorization.user -%>
-    | <%= link_to 'Remove access', [@page, @authorization], :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Remove access', [@page, @authorization], data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>

@@ -3,16 +3,16 @@
   <%= render :partial => 'pages/edit_header',
     :locals => {:active_aspect => 'audios'} %>
   
-  <div class="regular_content">
+  <div class="edit_content">
     <section>
-      <%= render 'edit_gallery' %>
+      <header>
+        <h2>Add Audio</h2>
+      </header>
+      <%= render 'form' %>
     </section>
 
     <aside>
-      <header>
-        <h3>Add Audio</h3>
-      </header>
-      <%= render 'form' %>
+      <%= render 'edit_gallery' %>
     </aside>
   </div>
 

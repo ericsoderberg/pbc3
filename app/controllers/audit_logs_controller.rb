@@ -1,8 +1,16 @@
 class AuditLogsController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :administrator!
+  
   # GET /audit_logs
   # GET /audit_logs.xml
   def index
-    @audit_logs = AuditLog.order('created_at DESC').page(params[:page])
+    date = Date.today - 2.weeks
+    @records = []
+    [Page, Event, Message, Newsletter, Style, Audio, Video, Document, Form].each do |model|
+      @records += model.where("updated_at > ?", date).order("updated_at DESC")
+    end
+    @records.sort!{|a, b| b.updated_at <=> a.updated_at}
 
     respond_to do |format|
       format.html # index.html.erb

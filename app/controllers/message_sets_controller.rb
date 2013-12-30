@@ -16,7 +16,7 @@ class MessageSetsController < ApplicationController
   # GET /message_sets/1
   # GET /message_sets/1.xml
   def show
-    @message_set = MessageSet.find_by_url(params[:id])
+    @message_set = MessageSet.find_by(url: params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,13 +37,13 @@ class MessageSetsController < ApplicationController
 
   # GET /message_sets/1/edit
   def edit
-    @message_set = MessageSet.find_by_url(params[:id])
+    @message_set = MessageSet.find_by(url: params[:id])
   end
 
   # POST /message_sets
   # POST /message_sets.xml
   def create
-    @message_set = MessageSet.new(params[:message_set])
+    @message_set = MessageSet.new(message_set_params)
 
     respond_to do |format|
       if @message_set.save
@@ -60,11 +60,11 @@ class MessageSetsController < ApplicationController
   # PUT /message_sets/1
   # PUT /message_sets/1.xml
   def update
-    @message_set = MessageSet.find_by_url(params[:id])
+    @message_set = MessageSet.find_by(url: params[:id])
     @message_set.image = nil if params[:delete_image]
 
     respond_to do |format|
-      if @message_set.update_attributes(params[:message_set])
+      if @message_set.update_attributes(message_set_params)
         format.html { redirect_to(series_path(@message_set),
           :notice => 'Message set was successfully updated.') }
         format.xml  { head :ok }
@@ -78,7 +78,7 @@ class MessageSetsController < ApplicationController
   # DELETE /message_sets/1
   # DELETE /message_sets/1.xml
   def destroy
-    @message_set = MessageSet.find_by_url(params[:id])
+    @message_set = MessageSet.find_by(url: params[:id])
     @message_set.destroy
 
     respond_to do |format|
@@ -86,4 +86,12 @@ class MessageSetsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def message_set_params
+    params.require(:message_set).permit(:title, :url, :description, :author_id,
+      :library_id, :image)
+  end
+  
 end

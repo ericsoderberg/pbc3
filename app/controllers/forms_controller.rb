@@ -7,9 +7,11 @@ class FormsController < ApplicationController
     @forms = if params[:page_id]
         @page = Page.find(params[:page_id])
         return unless page_administrator!
+        session[:edit_form_cancel_path] = forms_path(:page_id => @page.id)
         @page.forms
       else
         return unless administrator!
+        session[:edit_form_cancel_path] = forms_path()
         @forms = Form.order('name ASC')
       end
 
@@ -62,12 +64,23 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
+    @events = @page.events.between(Date.today, Date.today + 3.months).
+      where('events.master_id IS NULL')
+    @pages = Page.editable(current_user)
+    @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
+  end
+  
+  def edit_fields
+    @form = Form.find(params[:id])
+    @page = @form.page
+    return unless page_administrator!
+    @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
   end
 
   # POST /forms
   # POST /forms.xml
   def create
-    @form = Form.new(params[:form])
+    @form = Form.new(form_params)
     if params.has_key?(:copy_form_id)
       @copy_form = Form.find(params[:copy_form_id])
       @form.copy(@copy_form)
@@ -93,17 +106,16 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
-    ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
-    if current_user.administrator? and params[:choose_page_id] and
-      Page.find_by_id(params[:choose_page_id])
-      params[:form][:page_id] = params[:choose_page_id] # due to flexbox
+    if params[:field_order]
+      ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
     end
 
     respond_to do |format|
-      if @form.update_attributes(params[:form]) and
-        @form.order_fields(ordered_field_ids)
+      if (not params[:form] or @form.update_attributes(form_params)) and
+        (not ordered_field_ids or @form.order_fields(ordered_field_ids))
         format.html { redirect_to(new_form_fill_path(@form),
           :notice => 'Form was successfully updated.') }
+        format.js { head :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -125,4 +137,13 @@ class FormsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def form_params
+    params.require(:form).permit(:name, :page_id, :event_id,
+      :payable, :published, :pay_by_check, :pay_by_paypal,
+      :updated_by).merge(:updated_by => current_user)
+  end
+  
 end

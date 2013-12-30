@@ -45,8 +45,8 @@
   <div class="actions">
     <%= f.submit 'Upload Audio' %>
     <% if @audio.id -%>
-    | <%= link_to 'Delete audio', [@page, @audio], :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete audio', [@page, @audio], data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

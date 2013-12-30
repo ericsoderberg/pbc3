@@ -27,21 +27,27 @@
   <% end -%>
   
   <div id="calendar_nav">
-    <%= link_to image_tag('left_small.png'), previous_month_path(args),
-      :class => 'icon' %>
-    <%= link_to "Today", today_path(args) %>
-    <%= link_to image_tag('right_small.png'), next_month_path(args),
-      :class => 'icon' %>
+    <%= link_to '', previous_month_path(args),
+      class: 'icon previous', title: 'previous month' %>
+    <%= link_to 'Today', today_path(args),
+      class: "today #{@isCurrent ? 'current' : ''}",
+      title: 'current month' %>
+    <%= link_to '', next_month_path(args),
+      class: 'icon next', title: 'next month' %>
   </div>
   
   <div id="calendar_views">
     <ul>
       <li class="<%= 'grid' == view ? 'active' : '' %>">
         <%= link_to 'Grid',
-          calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
+          calendar_month_path(args.merge(:date => @date.strftime("%Y-%m-%d"))),
+          class: 'icon grid', title: 'view in a grid' %>
+      </li>
       <li class="<%= 'list' == view ? 'active' : '' %>">
         <%= link_to 'List',
-          calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %></li>
+          calendar_list_path(args.merge(:date => @date.strftime("%Y-%m-%d"))),
+          class: 'icon list', title: 'view in a list' %>
+      </li>
     </ul>
   </div>
   </div>

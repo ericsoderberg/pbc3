@@ -34,8 +34,8 @@
   <div class="actions">
     <%= f.submit 'Upload Document' %>
     <% if @document.name -%>
-    | <%= link_to 'Delete document', [@page, @document], :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete document', [@page, @document], data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

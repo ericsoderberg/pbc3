@@ -61,25 +61,25 @@
       <% else -%>
         <%= link_to 'Cancel',
           form_fill_path(@filled_form.form, @filled_form,
-              {:filled_form_key => @filled_form_key}),
-          :confirm => 'Are you sure?', :method => :delete %>
+              {filled_form_key: @filled_form_key}),
+          data: {confirm: 'Are you sure?'}, method: :delete %>
       <% end -%>
       </li>
     <% end -%>
     <% if current_user and current_user.administrator? and @payment.id -%>
       <li>
         | <%= link_to 'Delete payment record', @payment,
-          :confirm => 'Are you sure?', :method => :delete %>
+          data: {confirm: 'Are you sure?'}, method: :delete %>
       </li>
     <% end -%>
   </ol>
     
 <% end %>
 
-<%= form_for(@payment, :remote => true,
-  :html => {:id => 'denote_paypal', :style => 'display:none'}) do |f| %>
-  <%= f.hidden_field :method, :value => 'PayPal' %>
-  <%= f.hidden_field :sent_at, :value => l(Date.today) %>
+<%= form_for(@payment, remote: true,
+  html: {id: 'denote_paypal', style: 'display:none'}) do |f| %>
+  <%= f.hidden_field :method, value: 'PayPal' %>
+  <%= f.hidden_field :sent_at, value: l(Date.today) %>
   <%= hidden_field_tag :verification_key, @payment.verification_key %>
 <% end %>
 
@@ -104,6 +104,3 @@
   <input type="image" name="submit" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" alt="PayPal - The safer, easier way to pay online">
 </form>
 
-<%= javascript_tag do %>
-  <%= render :partial => 'form_aids', :formats => [:js] -%>
-<% end %>

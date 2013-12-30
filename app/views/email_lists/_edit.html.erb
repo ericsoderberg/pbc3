@@ -1,78 +1,92 @@
 <div class="edit_content">
-<%= form_tag email_list_path(@email_list), :method => :put do %>
 
-<% if @email_list.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@email_list.errors.count, "error") %> prohibited this email list from being saved:</h2>
+  <section>
+    <header>
+      <h2><%= @email_list.name %><%= @site.email_domain %></h2>
+    </header>
+    
+    <%= form_tag email_list_path(@email_list), :method => :put do %>
+      <% if @email_list.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@email_list.errors.count, "error") %> prohibited this email list from being saved:</h2>
 
-    <ul>
-    <% @email_list.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
+        <ul>
+        <% @email_list.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+      <% end %>
+      <% if @page -%>
+        <%= hidden_field_tag 'page_id', @page.id %>
+      <% end -%>
+
+      <div class="field">
+        <%= label_tag :invite_addresses %>
+        <div class="help">Enter one address per line.<br/>
+          An invitation will be sent to each address,
+          which must be confirmed by the recipient.</div>
+        <br />
+        <%= text_area_tag 'add_addresses', '', :size => '40x5' %>
+      </div>
+      <div class="field">
+        <%= label_tag :remove_addresses %>
+        <span class="help">Enter one address per line</span>
+        <br />
+        <%= text_area_tag 'remove_addresses', '', :size => '40x5' %>
+      </div>
+      <div class="actions">
+        <%= submit_tag 'Update Email List' %>
+        <% if not @page -%>
+        | <%= link_to 'Cancel', email_lists_path %>
+        | <%= link_to 'Delete email list', @email_list, data: {confirm: 'Are you sure?'},
+          method: :delete %>
+        <% end -%>
+      </div>
+  
     <% end %>
+  </section>
+
+  <aside>
+    <% if @page and current_user.administrator? -%>
+    <div class="add_content">
+      <%= link_to 'Edit list',
+        edit_email_page_path(@page) %>
+    </div>
+    <% end -%>
+    
+    <h3>Pending Addresses</h3>
+    <div class="help">Addresses that are awaiting confirmation (with expiration).</div><br/>
+    <ul class="email_addresses">
+      <% @email_list.pending.each do |pending| -%>
+        <li>
+          <% user = User.find_by_email(pending[:address]) -%>
+          <% if user -%>
+            <%= link_to pending[:address], edit_account_path(user) %>
+          <% else -%>
+            <%= pending[:address] %>
+          <% end -%>
+          <span class="help"><%= pending[:expires].relative_str(false) %></span>
+        </li>
+      <% end -%>
     </ul>
-  </div>
-<% end %>
-  <% if @page -%>
-    <%= hidden_field_tag 'page_id', @page.id %>
-  <% end -%>
-
-  <div class="field">
-    <%= label_tag :invite_addresses %>
-    <div class="help">Enter one address per line.<br/>
-      An invitation will be sent to each address,
-      which must be confirmed by the recipient.</div>
-    <br />
-    <%= text_area_tag 'add_addresses', '', :size => '40x5' %>
-  </div>
-  <div class="field">
-    <%= label_tag :remove_addresses %>
-    <span class="help">Enter one address per line</span>
-    <br />
-    <%= text_area_tag 'remove_addresses', '', :size => '40x5' %>
-  </div>
-  <div class="actions">
-    <%= submit_tag 'Update Email List' %>
-    <% if not @page -%>
-    | <%= link_to 'Cancel', email_lists_path %>
-    | <%= link_to 'Delete email list', @email_list, :confirm => 'Are you sure?',
-      :method => :delete %>
-    <% end -%>
-  </div>
   
-<% end %>
-
-<aside>
-  <h3>Pending Addresses</h3>
-  <div class="help">Addresses that are awaiting confirmation (with expiration).</div><br/>
-  <ul class="email_addresses">
-    <% @email_list.pending.each do |pending| -%>
-      <li>
-        <% user = User.find_by_email(pending[:address]) -%>
-        <% if user -%>
-          <%= link_to pending[:address], edit_account_path(user) %>
-        <% else -%>
-          <%= pending[:address] %>
-        <% end -%>
-        <span class="help"><%= pending[:expires].relative_str(false) %></span>
-      </li>
-    <% end -%>
-  </ul>
-  
-  <h3>Confirmed Addresses</h3>
-  <ul class="email_addresses">
-    <% @email_list.addresses.each do |address| -%>
-      <li>
-        <% user = User.find_by_email(address) -%>
-        <% if user -%>
-          <%= link_to address, edit_account_path(user) %>
-        <% else -%>
-          <%= address %>
-        <% end -%>
-        <div id="<%= address %>" class="email_address_remover">remove</div>
-      </li>
-    <% end -%>
-  </ul>
-</aside>
+    <h3>Confirmed Addresses</h3>
+    <ul class="email_addresses">
+      <% @email_list.addresses.each do |address| -%>
+        <li>
+          <% user = User.find_by_email(address) -%>
+          <% if user -%>
+            <%= link_to address, edit_account_path(user) %>
+          <% else -%>
+            <%= address %>
+          <% end -%>
+          <div id="<%= address %>" class="email_address_remover">remove</div>
+        </li>
+      <% end -%>
+    </ul>
+  </aside>
+</div>
 
 <%= javascript_tag do -%>
   $(function() {
@@ -82,4 +96,3 @@
   		});
   });
 <% end -%>
-</div>

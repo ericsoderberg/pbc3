@@ -1,0 +1,85 @@
+<% title('Peninsula Bible Church') -%>
+<% content_for(:content_class) {'home'}%>
+
+<!--%= image_tag 'modo-pbc3-icon.png', {id: 'home-logo'} %>
+
+<h2>Peninsula Bible Church</h2>
+<blockquote><%= @site ? @site.subtitle : '' %></blockquote-->
+
+<ol id="home-gallery" class="gallery">
+  <li id="home-home">
+    <div id="home-logo"></div>
+    <h2>Peninsula Bible Church</h2>
+    <blockquote><%= @site ? @site.subtitle : '' %></blockquote>
+    <div class="contents">
+      <div class="details">
+        Welcome
+      </div>
+    </div>
+  </li>
+  <li id="home-about">
+    <h2><%= link_to 'About', about_path %></h2>
+    <div class="contents">
+      <div class="details">
+        <%= render :partial => 'home/modo/about' %>
+      </div>
+    </div>
+  </li>
+  <li id="home-community">
+    <h2><%= link_to 'Community', communities_path %></h2>
+    <div class="contents">
+      <div class="details">
+        <%= render :partial => 'home/modo/communities' %>
+      </div>
+    </div>
+  </li>
+  <li id="home-events">
+    <h2><%= link_to 'Calendar', main_calendar_path %></h2>
+    <div class="contents">
+      <div class="details">
+        <%= render :partial => 'home/modo/events' %>
+      </div>
+    </div>
+  </li>
+  <li id="home-library">
+    <h2><%= link_to 'Messages', messages_path %></h2>
+    <div class="contents">
+      <div class="details">
+        <%= render :partial => 'home/modo/messages' %>
+      </div>
+    </div>
+  </li>
+  <li id="home-search">
+    <h2><%= link_to 'Search', messages_path %></h2>
+    <div class="contents">
+      <div class="details">
+        <form id="search" action="<%= search_path %>">
+          <input name="q" id="search" type="search" required
+            placeholder="Search"
+            value="<%= @search_text || '' %>"/>
+        </form>
+      </div>
+    </div>
+  </li>
+  <li id="home-give">
+    <h2><%= link_to 'Give', '/giving' %></h2>
+    <div class="contents">
+      <div class="details">
+        <%= render :partial => 'home/modo/messages' %>
+      </div>
+    </div>
+  </li>
+  <li id="home-user">
+    <h2>
+      <% if current_user -%>
+        <%= link_to 'Me',
+          edit_account_url(current_user, :protocol => 'https') %>
+      <% else -%>
+        <%= link_to 'Subscribe', messages_path %>
+      <% end -%>
+    </h2>
+    <div class="contents-inline">
+      <%= render :partial => 'layouts/auth' %>
+    </div>
+  </li>
+</ol>

@@ -1,0 +1,412 @@
+header {
+  margin: 35px 0px 10px 0px;
+  line-height: 28px;
+  
+  @include respond-to(tiny) {
+    margin-top: 10px;
+  }
+  
+  h1, h2, h3 {
+    display: inline-block;
+    vertical-align: baseline;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 40px;
+    white-space: nowrap;
+	  font-weight: bold;
+	  color: #888;
+	  
+	  @include respond-to(tiny) {
+	    white-space: normal;
+	    padding-right: 10px;
+	  }
+  }
+  
+  h1 {
+    font-size: 28px;
+    line-height: 28px;
+    
+    a {
+      text-align: center;
+      font-size: 28px;
+  	  text-decoration: none;
+  	  color: #999;
+  	  
+  	  html.no-touch &:hover {
+        text-decoration: none;
+        color: #000;
+        opacity: 1;
+      }
+    }
+    
+    &.active a {
+      color: #000;
+      background: inherit;
+    }
+  }
+  
+  h2 {
+    font-size: 14px;
+  }
+  
+  h3 {
+    font-size: 13px;
+  }
+  
+  ul.nav {
+    display: inline-block;
+    /*vertical-align: baseline;*/
+    margin: 0px;
+	  padding: 0px;
+    list-style: none;
+    
+    li {
+      display: inline-block;
+      margin-right: -4px;
+      //margin-right: 5px;
+      //min-width: 120px;
+      font-weight: bold;
+      font-size: 16px;
+      @include box-sizing(border-box);
+      //border: 1px solid #f00;
+	    /*float: left;*/
+	    /*margin: 2px;*/
+	    
+	    a {
+  		  display: block;
+  		  padding: 5px 15px;
+  		  font-size: 16px;
+  		  font-weight: bold;
+  		  /*line-height: 28px;*/
+  		  text-align: left;
+  	    vertical-align: baseline;
+  		  color: #999;
+  		  
+  		  html.no-touch &:hover {
+  			  color: #000;
+  			  background-color: #f8f8f8;
+  			  opacity: 1;
+  			  text-decoration: none;
+  		  }
+		  }
+		  
+		  &.active {
+		    a {
+  	      color: #000;
+	      }
+  	  }
+  	  
+  	  header.editing ul.nav li.active a {
+  	    color: #fff;
+  	    background-color: #999;
+  	  }
+  	  
+  	  html.no-touch & {
+  	    header ul.nav li.active a:hover, .edit_list li.active a:hover {
+  	      color: #666;
+  	      background: inherit;
+	      }
+  	  }
+    }
+  }
+  
+  .page_control {
+    float: right;
+    display: block;
+  	margin: 0;
+  	margin-left: 10px;
+  	height: 38px;
+  	line-height: 38px;
+    vertical-align: middle;
+    
+    img {
+      position: relative;
+      top: 5px;
+    }
+  }
+  
+  &.editing {
+    ul.nav {
+      display: block;
+      margin-top: 20px;
+      //padding: 5px;
+      background: #eee;
+    
+      li.active a {
+  	    color: #fff;
+  	    background-color: #999;
+	    
+  	    html.no-touch &:hover {
+    	    color: #666;
+    	    background: inherit;
+    	  }
+  	  }
+	  }
+	  
+	  .notice {
+      padding: 10px 20px;
+      background-color: #ffc;
+      color: #666;
+      font-style: italic;
+    }
+  }
+}
+
+#site_header {
+  position: relative;
+  margin: 0 0 25px 0;
+  width: 980px;
+  
+  @include respond-to(small-down) {
+    width: 100%;
+    margin: 10px 0px;
+  }
+  
+  @include respond-to(tiny) {
+    position: static;
+  }
+
+  h1 {
+    display: inline-block;
+    position: relative;
+    top: 6px;
+    vertical-align: top;
+    //min-width: 300px;
+    width: 30%;
+    font-size: 15px;
+    margin: 0px;
+    margin-right: -4px;
+    padding-right: 0px;
+    line-height: 16px;
+    
+    @include respond-to(tiny) {
+      position: static;
+      padding-right: 0px;
+      width: auto;
+    }
+    
+    img {
+      display: none;
+    }
+    
+    a {
+      text-decoration: none;
+      font-size: 18px;
+		  color: #007ad0;
+		  
+		  html.no-touch &:hover {
+        background-color: inherit;
+        text-shadow: 0px 0px 2px #bbb;
+      }
+      
+      span:first-of-type {
+        font-weight: normal;
+      }
+    }
+  }
+  
+  h2 {
+    position: absolute;
+    left: 0px;
+    top: 25px;
+    margin: 0px;
+    padding-left: 52px;
+    padding-right: 10px;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+    color: #666;
+    
+    @include respond-to(small-down) {
+      top: 25px;
+      //margin-top: 0px;
+    }
+    
+    @include respond-to(tiny) {
+      display: none;
+    }
+  }
+  
+  #site_controls {
+    display: inline-block;
+    vertical-align: top;
+    width: 70%;
+    min-width: 400px;
+    text-align: right;
+    white-space: normal;
+        
+    @include respond-to(tiny) {
+      position: static;
+      display: block;
+      width: 100%;
+      min-width: 0px;
+      margin: 0px;
+      text-align: left;
+    }
+    
+    #site_nav {
+      @include respond-to(small-down) {
+        white-space: normal;
+        > * {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  
+    #auth {
+      display: inline-block;
+      margin-left: 0px;
+    }
+  }
+}
+
+div#auth {
+  height: 30px;
+  line-height: 22px; 
+  
+  @include respond-to(tiny) {
+    float: none;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+  }
+  
+  ul {
+    display: block;
+	  margin: 4px auto;
+	  padding: 0;
+	  list-style: none;
+	  
+	  @include respond-to(small-down) {
+	    margin: 0px auto;
+    }
+	  
+	  li {
+  	  display: inline-block;
+  	  margin-right: -4px;
+      padding: 0px 7px;
+  	  border-left: 1px solid #ccc;
+  	  vertical-align: top;
+  	  height: 22px;
+  	  
+  	  &:first-child {
+        border: none;
+        a {
+          padding-left: 0px;
+        }
+      }
+      
+      &:last-child {
+        margin-right: 0px;
+        a {
+          padding-right: 0px;
+        }
+      }
+      
+      &.current {
+        @include respond-to(normal-up) {
+          a {
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+      
+      a {
+        display: block;
+    		font-size: 12px;
+    		font-weight: normal;
+    		text-align: center;
+    		text-decoration: none;
+    		white-space: nowrap;
+    		color: #666;
+    		
+    		html.no-touch &:hover {
+      		color: #000;
+    		}
+      }
+    }
+  }
+  
+  img {
+    height: 22px;
+    vertical-align: middle;
+  }
+}
+
+div#notice {
+  position: absolute;
+  top: -65px;
+  width: 100%;
+  text-align: center;
+  color: #696;
+  opacity: 0;
+  background-color: #ffc;
+  border: 1px solid #eee;
+  border-top: none;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  @include transition_property(all);
+  @include transition-duration(5s);
+  
+  &.active {
+    top: -35px;
+    opacity: 1;
+    @include transition-duration(1s);
+    @include transition-delay(1s);
+    
+    @include respond-to(small-down) {
+      top: -20px;
+    }
+  }
+}
+
+#search {
+	padding: 8px 7px;
+	font-size: 12px;
+	border: none;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+#breadcrumbs {
+  position: absolute;
+	text-align: right;
+	right: 35px;
+	top: 80px;
+	margin: 0;
+	padding: 0;
+	height: 0;
+	font-size: 11px;
+	color: #999;
+	
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		
+		li {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+			
+			&:before {
+			  content: "\00B7";
+			}
+			
+			&:first-child:before {
+			  content: '';
+			}
+			
+			a {
+				font-size: 11px;
+				font-weight: normal;
+				color: #999;
+				padding: 0px 0px 0px 2px;
+			}
+		}
+	}
+}

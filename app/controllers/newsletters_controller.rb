@@ -37,6 +37,8 @@ class NewslettersController < ApplicationController
     @newsletter = Newsletter.new
     @newsletter.published_at = Date.today
     @events = Event.between(Date.yesterday, Date.today + 1.month)
+    @pages = Page.order('name ASC').to_a
+    @email_lists = EmailList.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,11 +48,13 @@ class NewslettersController < ApplicationController
   def edit
     @newsletter = Newsletter.find_by_published_at(params[:id])
     @events = Event.between(Date.yesterday, Date.today + 1.month)
+    @pages = Page.order('name ASC').to_a
+    @email_lists = EmailList.all
   end
 
   def create
     cleanup_params
-    @newsletter = Newsletter.new(params[:newsletter])
+    @newsletter = Newsletter.new(newsletter_params)
 
     respond_to do |format|
       if @newsletter.save
@@ -68,7 +72,7 @@ class NewslettersController < ApplicationController
     @newsletter = Newsletter.find_by_published_at(params[:id])
 
     respond_to do |format|
-      if @newsletter.update_attributes(params[:newsletter])
+      if @newsletter.update_attributes(newsletter_params)
         format.html { redirect_to(newsletter_url(@newsletter),
           :notice => 'Newsletter was successfully updated.') }
       else
@@ -107,17 +111,12 @@ class NewslettersController < ApplicationController
       params[:newsletter][:published_at] =
         Date.parse_from_form(params[:newsletter][:published_at])
     end
-    if params[:choose_event_id] and
-      not params[:choose_event_id].empty?
-      params[:newsletter][:featured_event_id] = params[:choose_event_id] # due to flexbox
-    end
-    if params[:choose_page_id] and
-      not params[:choose_page_id].empty?
-      params[:newsletter][:featured_page_id] = params[:choose_page_id] # due to flexbox
-    end
-    if params[:choose_email_list] and
-      not params[:choose_email_list].empty?
-      params[:newsletter][:email_list] = params[:choose_email_list] # due to flexbox
-    end
   end
+  
+  def newsletter_params
+    params.require(:newsletter).permit(:name,
+      :email_list, :published_at, :featured_page_id, :featured_event_id, :note,
+      :window, :updated_by).merge(:updated_by => current_user)
+  end
+  
 end

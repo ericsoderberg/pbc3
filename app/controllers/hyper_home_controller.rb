@@ -1,6 +1,6 @@
 class HyperHomeController < ApplicationController
   def index
-    @photos = Photo.limit(6).all
+    @photos = Photo.limit(6).to_a
     respond_to do |format|
       format.html
       format.pjs

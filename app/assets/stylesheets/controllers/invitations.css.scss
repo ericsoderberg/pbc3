@@ -1,0 +1,105 @@
+#invitations_summary {
+  position: relative;
+  list-style-type: none;
+  margin: 0px;
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 0px;
+  font-size: 24px;
+  float: right;
+  
+  li {
+    display: inline-block;
+    margin-left: 10px;
+    
+    span.name {
+      color: #999;
+      margin-right: 5px;
+    }
+  }
+}
+
+#invitations {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  
+  > li {
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+    @include transition_property(background-color);
+    @include transition_duration(0.3s);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &:hover {
+      background-color: #f8f8f8;
+    }
+    
+    &.updated, &.updated:hover {
+      background-color: #ffc;
+    }
+    
+    div.email, form {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    
+    div.email {
+      width: 250px;
+      word-wrap: break-word;
+    }
+    
+    form {
+      white-space: nowrap;
+      
+      label {
+        margin-left: 5px;
+        margin-right: 10px;
+      }
+    }
+    
+    .delete {
+      float: right;
+    }
+  }
+}
+
+div.invitation_response {
+  @include transition_property(background-color);
+  @include transition_duration(0.7s);
+  
+  &.updated {
+    background-color: #eee;
+    @include transition_duration(0.3s);
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+  
+  form {
+    div.response_option {
+      display: inline-block;
+      margin-right: 10px;
+      label {
+        margin-left: 5px;
+      }
+    }
+    
+    textarea {
+      margin: 5px 0px;
+    }
+    
+    input[type="submit"] {
+      
+    }
+    
+    span.help {
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+}

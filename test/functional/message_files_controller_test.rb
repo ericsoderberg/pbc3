@@ -19,8 +19,8 @@ class MessageFilesControllerTest < ActionController::TestCase
   end
 
   test "should create message_file" do
-    attributes = @message_file.attributes.clone
-    attributes.delete('id')
+    attributes = {:caption => 'test create', :youtube_id => '8',
+      :message_id => @message.id}
     assert_difference('MessageFile.count') do
       post :create, :message_id => @message.url, :message_file => attributes
     end

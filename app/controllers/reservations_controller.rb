@@ -18,15 +18,24 @@ class ReservationsController < ApplicationController
     @resources = Resource.find(params[:resources] || [])
 
     respond_to do |format|
-      if Reservation.reserve(@event, @resources,
-        'Update for all' == params[:commit],
-        params[:options])
-        format.html { redirect_to(edit_page_event_url(@page, @event),
-          :notice => 'Reservations were successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @reservation.errors, :status => :unprocessable_entity }
+      begin
+        if Reservation.reserve(@event, @resources,
+          'Update for all' == params[:commit],
+          params[:options])
+          format.html { redirect_to(edit_page_event_url(@page, @event),
+            :notice => 'Reservations were successfully updated.') }
+          format.xml  { head :ok }
+        else
+          @resources = Resource.order('name ASC')
+          @long = params[:long] || false
+          format.html { render :action => "show" }
+          format.xml  { render :xml => @reservation.errors, :status => :unprocessable_entity }
+        end
+      rescue ActiveRecord::RecordInvalid => e
+        @errors = e.message
+        @resources = Resource.order('name ASC')
+        @long = params[:long] || false
+        format.html { render :action => "show" }
       end
     end
   end

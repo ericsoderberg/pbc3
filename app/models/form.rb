@@ -1,11 +1,10 @@
 class Form < ActiveRecord::Base
   belongs_to :page
-  has_many :form_fields, :order => 'form_index ASC',
+  belongs_to :event
+  has_many :form_fields, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
-  has_many :filled_forms, :order => 'name ASC', :dependent => :destroy
-  audited
-  
-  attr_protected :id
+  has_many :filled_forms, -> { order('name ASC') }, :dependent => :destroy
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates :name, :presence => true
   validates :page, :presence => true
@@ -39,6 +38,11 @@ class Form < ActiveRecord::Base
     return filled_forms.where('id IS NOT null') if page.administrator?(user)
     return [] unless user
     filled_forms.where('id IS NOT null AND user_id = ?', user.id)
+  end
+  
+  def filled_forms_for_user(user)
+    return [] unless user
+    filled_forms.where('user_id = ?', user.id)
   end
   
   def order_fields(ids)

@@ -1,7 +1,7 @@
 <%= content_tag_for(:li, note) do %>
   <%= note.text %>
   <div class="note_delete">
-    <%= link_to 'X', [@page, note], :confirm => 'Are you sure?',
-      :method => :delete, :remote => true %>
+    <%= link_to 'X', [@page, note], data: {confirm: 'Are you sure?'},
+      method: :delete, remote: true %>
   </div>
 <% end %>

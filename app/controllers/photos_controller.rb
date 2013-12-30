@@ -25,7 +25,7 @@ class PhotosController < ApplicationController
   end
 
   def create
-    @photo = Photo.new(params[:photo])
+    @photo = Photo.new(photo_params)
     @page = @photo.page
 
     respond_to do |format|
@@ -44,7 +44,7 @@ class PhotosController < ApplicationController
     @photo = @page.photos.find(params[:id])
 
     respond_to do |format|
-      if @photo.update_attributes(params[:photo])
+      if @photo.update_attributes(photo_params)
         format.html { redirect_to(new_page_photo_url(@page),
           :notice => 'Photo was successfully updated.') }
         format.xml  { head :ok }
@@ -65,4 +65,11 @@ class PhotosController < ApplicationController
       format.js
     end
   end
+  
+  private
+  
+  def photo_params
+    params.require(:photo).permit(:caption, :page_id, :photo)
+  end
+  
 end

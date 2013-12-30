@@ -17,10 +17,10 @@
   <%= render :partial => 'controls', :locals => {:view => 'list'} %>
   
 <table id="calendar_list">
-  <% prior_date = @date - 1.month -%>
+  <% prior_date = nil -%>
   <% @events.each do |event| -%>
-    <% new_day = (prior_date.day != event.start_at.day) -%>
-    <% new_month = (prior_date.month != event.start_at.month) -%>
+    <% new_day = (! prior_date or prior_date.day != event.start_at.day) -%>
+    <% new_month = (prior_date and prior_date.month != event.start_at.month) -%>
     <% if new_day or new_month -%>
       <tr class="new_day2"><td colspan="7">
         <% if new_month -%>
@@ -41,19 +41,23 @@
         <%= event.start_at.strftime("%A") %>
       <% end -%>
     </td>
+    <% if mobile_device? -%>
+  </tr>
+  <tr>
+    <% end -%>
     <td class="time <%= @full ? 'first' : '' %>">
       <%= event.start_at.simple_time %></td>
     <% if @full -%>
     <td class="time">- <%= event.stop_at.simple_time %></td>
     <% end -%>
     <td class="name"><%= event_link(event) %></td>
-    <td>
+    <td class="page">
       <% if event.page and event.name != event.page.name and
         (not @page or event.page != @page) -%>
         <%= h(event.page.name) %>
       <% end -%>
     </td>
-    <td>
+    <td class="reservations">
       <% if @full -%>
       <%= event.reservations.map{|r| r.resource.name}.join(', ') %>
       <% end -%>

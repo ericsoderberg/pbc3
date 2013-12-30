@@ -1,7 +1,0 @@
-one:
-  username: admin
-  auditable_type: Page
-  auditable_id: public
-
-two:
-  username: admin

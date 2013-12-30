@@ -10,12 +10,12 @@
       <% end -%>
     </video>
   <% elsif edit_video.youtube_id and not edit_video.youtube_id.empty? -%>
-    <iframe class="youtube-player" type="text/html" width="400" height="300"
+    <iframe class="youtube-player" type="text/html" width="300" height="225"
       src="http://www.youtube.com/embed/<%= edit_video.youtube_id %>"
       frameborder="0">
     </iframe>
   <% elsif edit_video.vimeo_id and not edit_video.vimeo_id.empty? -%>
-    <iframe class="vimeo-player" type="text/html" width="400" height="300"
+    <iframe class="vimeo-player" type="text/html" width="300" height="225"
       src="http://player.vimeo.com/video/<%= edit_video.vimeo_id %>?title=0&byline=0&portrait=0"
       frameborder="0">
     </iframe>

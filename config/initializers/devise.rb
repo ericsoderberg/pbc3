@@ -143,3 +143,18 @@ Devise.setup do |config|
   # end
 end
 
+DeviseController.class_eval do
+  def resource_params
+    unless params[resource_name].blank?
+      params.require(resource_name).permit(:email, :password, :password_confirmation, :remember_me,
+        :first_name, :last_name, :name, :administrator,
+        :avatar_file_name, :avatar_content_type, :avatar_file_size,
+        :avatar_updated_at, :avatar,
+        :portrait_file_name, :portrait_content_type, :portrait_file_size,
+        :portrait_updated_at, :portrait,
+        :bio, :email_confirmation, :reset_password_token)
+    end
+  end
+end
+
+

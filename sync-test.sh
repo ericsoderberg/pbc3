@@ -1,0 +1,3 @@
+#rsync -aPc --no-p --no-g --chmod=o=r,ug=rw,D+X --no-o  --perms --delete --exclude="public/system" --exclude="log" --exclude="tmp" --exclude=".svn" --exclude="*.cgi" --exclude=".sass-cache" --exclude=".git" --exclude=".gitignore" * webapp@test.pbc.org:current/ 
+
+#rsync -aPc --no-p --no-g --chmod=o=r,ug=rw,D+X --no-o  --perms --delete --exclude="video*" --exclude="audio*" shared/system/* webapp@test.pbc.org:shared/system/

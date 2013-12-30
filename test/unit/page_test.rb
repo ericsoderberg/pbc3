@@ -3,7 +3,7 @@ require 'test_helper'
 class PageTest < ActiveSupport::TestCase
   
   test "normal create" do
-    page = Page.new(:name => 'Testing', :type => 'main')
+    page = Page.new(:name => 'Testing', :layout => 'main')
     assert page.save, page.errors.full_messages.join("\n")
   end
   

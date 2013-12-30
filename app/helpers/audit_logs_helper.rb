@@ -1,44 +1,34 @@
 module AuditLogsHelper
-  def link_to_audited_item(audit_log)
-    if audit_log.auditable.is_a?(Page)
-      page = audit_log.auditable
-      link_to page.name, friendly_page_path(page)
-    elsif audit_log.auditable.is_a?(User)
-      user = audit_log.auditable
-      link_to (user.name || user.email), edit_account_path(user)
-    elsif audit_log.auditable.is_a?(Document)
-      document = audit_log.auditable
-      link_to document.name, document.file.url
-    elsif audit_log.auditable.is_a?(Audio)
-      audio = audit_log.auditable
-      link_to (audio.caption || '?'), audio.audio.url
-    elsif audit_log.auditable.is_a?(Video)
-      video = audit_log.auditable
-      link_to (video.caption || '?'), video.video.url
-    elsif audit_log.auditable.is_a?(Event)
-      event = audit_log.auditable
-      link_to event.name, friendly_page_path(event.page)
-    elsif audit_log.auditable.is_a?(Podcast)
-      podcast = audit_log.auditable
-      if podcast.page
-        link_to podcast.title, page_podcast_path(podcast.page, podcast)
+  def link_to_audited_item(item)
+    if item.is_a?(Page)
+      link_to item.name, friendly_page_path(item)
+    elsif item.is_a?(User)
+      link_to (item.name || item.email), edit_account_path(item)
+    elsif item.is_a?(Document)
+      link_to item.name, item.file.url
+    elsif item.is_a?(Audio)
+      link_to (item.caption || '?'), item.audio.url
+    elsif item.is_a?(Video)
+      link_to (item.caption || '?'), item.video.url
+    elsif item.is_a?(Event)
+      link_to item.name, friendly_page_path(item.page)
+    elsif item.is_a?(Message)
+      link_to item.title, message_path(item)
+    elsif item.is_a?(Style)
+      link_to item.name, edit_style_path(item)
+    elsif item.is_a?(Form)
+      link_to item.name, edit_form_path(item)
+    elsif item.is_a?(Newsletter)
+      link_to item.name, newsletter_path(item)
+    elsif item.is_a?(Podcast)
+      if item.page
+        link_to item.title, page_podcast_path(item.page, podcast)
       else
-        link_to podcast.title, podcast_path(podcast)
+        link_to item.title, podcast_path(item)
       end
-    elsif audit_log.auditable.is_a?(Note)
-      note = audit_log.auditable
-      link_to truncate(note.text, :length => 12),
-        friendly_page_path(note.page)
-    else
-      obj = audit_log.auditable
-      link_label = obj.id
-      %w(name title).each do |k|
-        if obj[k]
-          link_label = obj[k]
-          break
-        end
-      end
-      link_to link_label, audit_log.auditable
+    elsif item.is_a?(Note)
+      link_to truncate(item.text, :length => 12),
+        friendly_page_path(item.page)
     end
   end
 end

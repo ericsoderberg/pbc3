@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :feed]
   before_filter :administrator!,
-    :except => [:show, :feed, :edit, :edit_style, :edit_email, :update, :new, :create, :destroy]
+    :except => [:show, :feed, :edit, :edit_style, :edit_email, :edit_email_members,
+      :edit_access, :update, :new, :create, :destroy]
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
   
@@ -44,6 +45,7 @@ class PagesController < ApplicationController
       return
     end
     unless @page.authorized?(current_user)
+      session[:post_login_path] = request.original_url
       redirect_to private_path(:page_id => @page.url)
       return
     end
@@ -53,7 +55,9 @@ class PagesController < ApplicationController
     end
     
     if (@page != @site.communities_page and @page != @site.about_page)
-      @categorized_events = Event.categorize(@page.related_events)
+      events = @page.related_events
+      events.delete_if{|e| not e.authorized?(current_user)}
+      @categorized_events = Event.categorize(events)
       if current_user
         @categorized_events[:all].each do |event|
           if @page == event.page 
@@ -64,7 +68,7 @@ class PagesController < ApplicationController
       end
     end
     if params[:invitation_key]
-      @invitation = Invitation.find_by_key(params[:invitation_key])
+      @invitation = Invitation.find_by(key: params[:invitation_key])
     end
     @note = Note.new(:page_id => @page.id)
     
@@ -84,7 +88,7 @@ class PagesController < ApplicationController
   end
   
   def feed
-    @page = Page.find_by_url(params[:id], :include => :children)
+    @page = Page.find_by(url: params[:id]).includes(:children)
     unless @page and @page.authorized?(current_user)
       redirect_to root_path
       return
@@ -98,7 +102,7 @@ class PagesController < ApplicationController
   end
   
   def search_possible_parents
-    @page = Page.find_by_url(params[:id]);
+    @page = Page.find_by(url: params[:id]);
     all_pages = @page.possible_parents
     # prune for search
     search_text = params[:q]
@@ -123,7 +127,7 @@ class PagesController < ApplicationController
 
   def new
     @page = Page.new
-    @page.parent = Page.find_by_id(params[:parent_id])
+    @page.parent = Page.find_by(id: params[:parent_id])
     return unless page_administrator!(@page.parent)
     @page.text = ''
     @page.url_prefix = @page.parent.url if @page.parent
@@ -139,34 +143,57 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+  end
+  
+  def edit_location
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @siblings = @page.parent ? @page.parent.children : []
+    impossible_parent_ids = (@page.descendants() + [@page]).map{|p| p.id}
+    @pages = Page.editable(current_user).
+      delete_if{|p| impossible_parent_ids.include?(p.id)}
   end
   
   def edit_style
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
   end
   
   def edit_email
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
+    @email_lists = EmailList.all
+  end
+  
+  def edit_email_members
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+    @email_list = EmailList.find(@page.email_list)
+    if not @email_list
+      redirect_to edit_email_page_path(@page)
+    end
+  end
+  
+  def edit_access
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
   end
   
   def edit_for_parent
-    @page = Page.find_by_url(params[:id])
-    @parent = Page.find_by_id(params[:parent_id])
-    @siblings = @parent.children.all
-    @siblings << @page unless @siblings.include?(@page)
-    render :partial => 'edit_for_parent'
+    page = Page.find_by(url: params[:id])
+    parent = Page.find_by(id: params[:parent_id])
+    siblings = parent.children.to_a
+    siblings << page unless siblings.include?(page)
+    siblings = siblings.to_a.map{|s| {id: s.id, name: s.name, url: s.url}}
+    render :json => siblings
   end
 
   def create
-    @page = Page.new(params[:page])
+    @page = Page.new(page_params)
     return unless page_administrator!(@page.parent)
-    #@page.parent_index = @page.parent ? @page.parent.children.length + 1 : 1
     if current_user.administrator? and params[:site_reference]
       @site.communities_page = @page if 'communities' == params[:site_reference]
       @site.about_page = @page if 'about' == params[:site_reference]
@@ -185,18 +212,12 @@ class PagesController < ApplicationController
   end
 
   def update
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator!
-    if current_user.administrator? and params[:parent_id]
-      params[:page][:parent_id] = params[:parent_id] # due to flexbox
-    end
-    if params[:email_list]
-      params[:page][:email_list] = params[:email_list] # due to flexbox
-    end
     if params[:sub_order]
       orderer_sub_ids = params[:sub_order] ?
         params[:sub_order].split(',').map{|id| id.to_i} : []
-      params[:page][:parent_index] = -1; # will be re-ordered late
+      params[:page][:parent_index] = @page.id; # will be re-ordered late
     end
     if not current_user.administrator?
       # remove all fields that only administrators can change
@@ -207,8 +228,8 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      if @page.update_attributes(params[:page]) and
-        (not params[:parent_id] or
+      if @page.update_attributes(page_params) and
+        (not params[:page][:parent_id] or
           not @page.parent or
           @page.parent.order_children(orderer_sub_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
@@ -225,7 +246,7 @@ class PagesController < ApplicationController
   end
 
   def destroy
-    @page = Page.find_by_url(params[:id])
+    @page = Page.find_by(url: params[:id])
     return unless page_administrator! and page_administrator!(@page.parent)
     parent = @page.parent
     @page.destroy
@@ -235,6 +256,17 @@ class PagesController < ApplicationController
       format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  
+  def page_params
+    params.require(:page).permit(:name, :text, :secondary_text,
+      :parent_id, :private, :style_id,
+      :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
+      :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,
+      :twitter_name, :banner_text,
+      :updated_by).merge(:updated_by => current_user)
   end
   
 end

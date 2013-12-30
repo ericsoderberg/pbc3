@@ -174,7 +174,7 @@ background-color: #f8f8f8;">
       margin-right: 10px;' %>
       <%= @site.address %>
     <% end -%>
-    <% if @newsletter.email_list -%>
+    <% if @newsletter.email_list and not @newsletter.email_list.empty? -%>
       <%= link_to 'unsubscribe',
         unsubscribe_email_list_url(@newsletter.email_list),
         :id => 'unsubscribe', :style => 'text-decoration: none;

@@ -22,8 +22,8 @@
   <div class="actions">
     <%= f.submit 'Upload Photo' %>
     <% if @photo.id -%>
-    | <%= link_to 'Delete photo', [@page, @photo], :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete photo', [@page, @photo], data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

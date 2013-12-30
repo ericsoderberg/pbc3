@@ -6,7 +6,7 @@ class MessageFilesController < ApplicationController
   # GET /message_files
   # GET /message_files.xml
   def index
-    @message_files = @message.message_files.all
+    @message_files = @message.message_files.to_a
 
     respond_to do |format|
       format.html # index.html.erb
@@ -44,7 +44,7 @@ class MessageFilesController < ApplicationController
   # POST /message_files
   # POST /message_files.xml
   def create
-    @message_file = @message.message_files.new(params[:message_file])
+    @message_file = @message.message_files.new(message_file_params)
 
     respond_to do |format|
       if @message_file.save
@@ -64,7 +64,7 @@ class MessageFilesController < ApplicationController
     @message_file = @message.message_files.find(params[:id])
 
     respond_to do |format|
-      if @message_file.update_attributes(params[:message_file])
+      if @message_file.update_attributes(message_file_params)
         format.html { redirect_to(edit_message_url(@message),
           :notice => 'Message file was successfully updated.') }
         format.xml  { head :ok }
@@ -90,7 +90,12 @@ class MessageFilesController < ApplicationController
   private
   
   def get_message
-    @message = Message.find_by_url(params[:message_id])
+    @message = Message.find_by(url: params[:message_id])
+  end
+  
+  def message_file_params
+    params.require(:message_file).permit(:message_id, :caption, :vimeo_id,
+      :youtube_id, :file)
   end
   
 end

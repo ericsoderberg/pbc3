@@ -1,9 +1,7 @@
 class Author < ActiveRecord::Base
   has_many :message_sets
-  has_many :messages, :order => 'date desc'
+  has_many :messages, -> {order('date desc')}
   acts_as_url :name, :sync_url => true
-  
-  attr_protected :id
   
   validates :name, :presence => true
   

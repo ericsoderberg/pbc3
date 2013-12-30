@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :private]
-  before_filter :administrator!, :except => [:index, :private]
-  before_filter :get_page, :except => :index
+  before_filter :authenticate_user!, :except => [:index, :me, :private]
+  before_filter :administrator!, :except => [:index, :me, :private]
+  before_filter :get_page, :except => [:index, :me]
   
   def index
     unless @site
@@ -13,8 +13,20 @@ class HomeController < ApplicationController
       return
     end
     user = user_signed_in? ? current_user : nil
+    
+    @next_message = Home.next_message
+    @previous_message = Home.previous_message
+    @events = Home.events
+    @route_prefix = request.protocol + request.host_with_port
     @feature_pages = Page.home_feature_pages(user)
     @feature_strip_pages = @feature_pages[0,5]
+    
+    case session[:design]
+    when 'modo'
+      render 'home/modo/index'
+    when 'morocco'
+      render 'home/morocco/index'
+    end
   end
   
   def edit
@@ -35,7 +47,7 @@ class HomeController < ApplicationController
     params[:page][:parent_feature_index] = orderer_parent_feature_ids.length + 100
     
     respond_to do |format|
-      if @page.update_attributes(params[:page]) and
+      if @page.update_attributes(page_params) and
         (not @page.home_feature? or
           Page.order_home_features(orderer_home_feature_ids)) and
         (not @page.parent_feature? or
@@ -53,6 +65,15 @@ class HomeController < ApplicationController
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  private
+  
+  def page_params
+    params.require(:page).permit(:hero_text, :home_feature,
+      :feature_phrase, :home_feature_index, :feature_upcoming, :parent_feature,
+      :parent_feature_index,
+      :updated_by).merge(:updated_by => current_user)
   end
 
 end

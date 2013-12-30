@@ -6,7 +6,7 @@ class PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.xml
   def index
-    @podcasts = Podcast.all
+    @podcasts = Podcast.to_a
 
     respond_to do |format|
       format.html # index.html.erb
@@ -56,7 +56,7 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.xml
   def create
-    @podcast = Podcast.new(params[:podcast])
+    @podcast = Podcast.new(podcast_params)
     if @page
       @podcast.page = @page
     else
@@ -86,7 +86,7 @@ class PodcastsController < ApplicationController
     @podcast.image = nil if params[:delete_image]
 
     respond_to do |format|
-      if @podcast.update_attributes(params[:podcast])
+      if @podcast.update_attributes(podcast_params)
         format.html {
           redirect_to((@page ? friendly_page_url(@page) : pages_url),
             :notice => 'Podcast was successfully updated.') }
@@ -109,4 +109,12 @@ class PodcastsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def podcast_params
+    params.require(:podcast).permit(:title, :subtitle, :summary, :description,
+      :category, :page_id, :sub_category, :image)
+  end
+  
 end

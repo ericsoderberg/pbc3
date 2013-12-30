@@ -22,7 +22,7 @@ class SiteController < ApplicationController
   # POST /sites
   # POST /sites.xml
   def create
-    @site = Site.new(params[:site])
+    @site = Site.new(site_params)
 
     respond_to do |format|
       if @site.save
@@ -41,7 +41,7 @@ class SiteController < ApplicationController
     @site = Site.first
 
     respond_to do |format|
-      if @site.update_attributes(params[:site])
+      if @site.update_attributes(site_params)
         format.html { redirect_to(root_url, :notice => 'Site was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -59,4 +59,11 @@ class SiteController < ApplicationController
       return false
     end
   end
+  
+  def site_params
+    params.require(:site).permit(:communities_page_id, :about_page_id,
+      :title, :subtitle, :address, :phone, :copyright, :email, :mailman_owner,
+      :check_address, :online_bank_vendor, :paypal_business)
+  end
+  
 end

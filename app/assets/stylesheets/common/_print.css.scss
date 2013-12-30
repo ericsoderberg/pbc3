@@ -1,0 +1,25 @@
+.print-override {
+  display: none;
+}
+
+@media print {
+	#site_header, footer, #site_nav, #submitted_form_list,
+	.page_admin, .admin, .actions {
+		display: none;
+	}
+	
+	input, textarea {
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+		overflow: visible;
+	}
+	
+	.print-overridden {
+	  display: none;
+	}
+	
+	.print-override {
+	  display: inline-block;
+	}
+}

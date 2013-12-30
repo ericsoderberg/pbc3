@@ -6,10 +6,6 @@
     :locals => {:active_aspect => 'events'} %>
   
   <div class="edit_content">
-    <aside>
-      <%= render :partial => 'events/edit_list' %>
-    </aside>
-
     <section>
       <%= render :partial => 'events/edit_header',
         :locals => {:active_aspect => 'reservations'} %>
@@ -26,6 +22,10 @@
       
       <%= link_to 'Resources', resources_path %>
     </section>
+    
+    <aside>
+      <%= render :partial => 'events/edit_list' %>
+    </aside>
   </div>
 
 </section>

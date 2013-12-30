@@ -3,29 +3,24 @@ class Page < ActiveRecord::Base
   acts_as_url :prefixed_name, :sync_url => true
   
   belongs_to :style
-  has_many :notes, :order => 'created_at DESC'
+  has_many :notes, -> { order('created_at DESC') }
   has_many :photos, :dependent => :destroy
-  has_many :videos, :dependent => :destroy, :order => 'date DESC'
-  has_many :audios, :dependent => :destroy, :order => 'date DESC'
-  has_many :documents, :dependent => :destroy, :order => 'published_at DESC'
-  has_many :events, :order => 'start_at ASC', :dependent => :destroy
+  has_many :videos, -> { order('date DESC', 'caption ASC') }, :dependent => :destroy
+  has_many :audios, -> { order('date DESC', 'caption ASC') }, :dependent => :destroy
+  has_many :documents, -> { order('published_at DESC') }, :dependent => :destroy
+  has_many :events, -> { order('start_at ASC') }, :dependent => :destroy
   has_one :group
   belongs_to :parent, :class_name => 'Page'
-  has_many :children, :class_name => 'Page', :foreign_key => :parent_id,
-    :order => :parent_index
-  has_many :contacts, :include => :user, :order => 'users.first_name ASC',
+  has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
+    :foreign_key => :parent_id
+  has_many :contacts, -> { includes(:user).order('users.first_name ASC') },
     :dependent => :destroy
-  has_many :contact_users, :through => :contacts, :source => :user,
-    :order => 'users.first_name ASC'
-  has_many :authorizations, :dependent => :destroy, :include => :user,
-    :order => 'users.first_name ASC'
+  has_many :contact_users, -> { order('users.first_name ASC') }, :through => :contacts, :source => :user
+  has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
   has_one :podcast
-  has_many :forms, :dependent => :destroy, :order => 'LOWER(name) ASC'
-  has_many :conversations, :order => 'created_at DESC', :dependent => :destroy
-  audited :except => [:parent_index,
-    :home_feature_index, :parent_feature_index]
-    
-  attr_protected :id
+  has_many :forms, -> { order('LOWER(name) ASC') }, :dependent => :destroy
+  has_many :conversations, -> { order('created_at DESC') }, :dependent => :destroy
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
   CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
@@ -42,7 +37,9 @@ class Page < ActiveRecord::Base
   validates :private, :inclusion => {:in => [true, false]}
   validates :url, :uniqueness => true
   validates :parent_index, :uniqueness => {:scope => :parent_id,
-    :unless => Proc.new{|p| not p.parent_id}}
+    :unless => Proc.new{|p| not p.parent_id}},
+    :numericality => {:greater_than_or_equal_to => 0,
+      :unless => Proc.new{|p| not p.parent_id}}
   validates :home_feature_index,
     :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
   validate :reserved_urls
@@ -50,7 +47,7 @@ class Page < ActiveRecord::Base
   before_create do
     self.layout = 'regular'
     self.child_layout = 'header'
-    self.aspect_order = 't,c,e,d,f,p,v,a'
+    self.aspect_order = 't,c,e,d,f,p,v,a,s'
     self.style = (self.parent ? self.parent.style : Style.first)
     self.private = self.parent.private if self.parent
     self.parent_index = self.parent ? self.parent.children.length + 1 : 1
@@ -89,8 +86,12 @@ class Page < ActiveRecord::Base
     "#{url_prefix} #{name}".strip
   end
   
+  def name_with_parent
+    parent ? "#{name} -#{parent.name}-" : name
+  end
+  
   def self.find_by_url_or_alias(url)
-    result = Page.find_by_url(url)
+    result = Page.find_by(url: url)
     if not result
       Page.where('url_aliases ILIKE ?', '%' + url + '%').each do |page|
         if page.url_aliases.split.include?(url)
@@ -130,7 +131,7 @@ class Page < ActiveRecord::Base
       'authorizations.user_id = ? OR ' +
       '(pages.allow_for_email_list = ? AND pages.email_list IN (?))',
       (user ? user.administrator? : false), false, true, (user ? true : false),
-      (user ? user.id : -1), true, email_list_names)
+      (user ? user.id : -1), true, email_list_names).references(:authorizations)
   end
   
   searchable do
@@ -188,12 +189,21 @@ class Page < ActiveRecord::Base
     return false unless user
     return true if user.administrator?
     authorizations.each{|a| return true if user == a.user and a.administrator?}
+    return parent.administrator?(user) if parent
     return false
   end
   
   def access_administrator?(user)
     return false unless user
     authorizations.each{|a| return true if user == a.user and a.administrator?}
+    return false
+  end
+  
+  def for_user?(user)
+    return false unless user
+    authorizations.each{|a| return true if user == a.user}
+    return false unless email_list
+    return true if user.email_lists.map{|el| el.name}.include?(email_list)
     return false
   end
   
@@ -217,7 +227,7 @@ class Page < ActiveRecord::Base
   end
   
   def possible_parents
-    Page.order('name').all.delete_if do |page|
+    Page.order('name').to_a.delete_if do |page|
       # don't allow circular references
       page == self or self.includes?(page)
     end
@@ -227,13 +237,13 @@ class Page < ActiveRecord::Base
     case layout
     when 'blog', 'forum'
       if user.administrator?
-        %w(text email contacts access style feature)
+        %w(location text email contacts access style feature)
       else
         %w(text email contacts access style)
       end
     else
       if user.administrator?
-        %w(text photos videos audios documents forms email
+        %w(location text photos videos audios documents forms email
           contacts access style feature podcast social events)
       else
         %w(text photos videos audios documents forms email
@@ -255,6 +265,8 @@ class Page < ActiveRecord::Base
       case aspect
       when 't'
         return (text and not text.empty?)
+      when 's'
+        return (secondary_text and not secondary_text.empty?)
       when 'e'
         return (args[:categorized_events] and
           not args[:categorized_events].empty? and
@@ -304,6 +316,10 @@ class Page < ActiveRecord::Base
     result
   end
   
+  def self.editable(user)
+    Page.order('name ASC').to_a.select{|p| p.administrator?(user) }
+  end
+  
   def self.order_home_features(ids)
     result = true
     Page.transaction do
@@ -333,7 +349,7 @@ class Page < ActiveRecord::Base
   end
   
   def self.normalize_indexes(pages=nil)
-    pages = Page.all unless pages
+    pages = Page.to_a unless pages
     Page.transaction do
       pages.each do |page|
         page.children.each_with_index do |child, i|
@@ -352,8 +368,13 @@ class Page < ActiveRecord::Base
     result =
       Event.between(start_date, stop_date).
       where(:page_id => page_ids).
-      order("start_at ASC").all
+      order("start_at ASC").to_a
     result
+  end
+  
+  def categorized_related_events(start_date=Date.today.beginning_of_day,
+      stop_date=Date.today.beginning_of_day + 6.months)
+      Event.categorize(related_events(start_date, stop_date))
   end
   
   def categorized_events
@@ -388,6 +409,10 @@ class Page < ActiveRecord::Base
     else
       nil
     end
+  end
+  
+  def color
+    self.style ? self.style.feature_color.to_s(16) : '#ccc'
   end
   
   private

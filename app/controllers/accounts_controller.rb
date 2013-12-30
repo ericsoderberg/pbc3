@@ -1,12 +1,38 @@
 class AccountsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :administrator!, :except => [:edit, :update]
+  before_filter :administrator!, :except => [:edit, :update, :show]
   
   def index
     if current_user.administrator
       @users = User.order('last_name ASC, last_name IS NULL')
     else
       @users = [current_user]
+    end
+  end
+  
+  def show
+    @user = User.find(params[:id])
+    unless @user == current_user || current_user.administrator
+      redirect_to root_url
+      return
+    end
+    @pages = @user.pages.map{|p| {page: p}}
+    @pages.each do |pageContext|
+      page = pageContext[:page]
+      pageContext[:color] = (page.style ? page.style.feature_color.to_s(16) : '#ccc')
+      if page != @site.communities_page and page != @site.about_page
+        pageContext[:events] = page.categorized_related_events()[:all]
+=begin
+        if current_user
+          pageContext[:events][:all].each do |event|
+            if page == event.page 
+              pageContext[:invitation] =
+                event.invitations.where(:email => current_user.email).first
+            end
+          end
+        end
+=end
+      end
     end
   end
   
@@ -26,7 +52,7 @@ class AccountsController < ApplicationController
     #params[:user][:first_name], params[:user][:last_name] =
     #  params[:user][:name].split(' ', 2)
     #params[:user].delete(:name)
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     @user.password = SecureRandom.base64(12);
     @user.password_confirmation = @user.password
 
@@ -56,7 +82,7 @@ class AccountsController < ApplicationController
     @user.portrait = nil if params[:delete_portrait]
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         format.html {
           if current_user.administrator
             redirect_to(accounts_url, :notice => 'Account was successfully updated.')
@@ -80,6 +106,13 @@ class AccountsController < ApplicationController
       format.html { redirect_to(accounts_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  
+  def user_params
+    params.require(:user).permit(:name, :email, :administrator, :bio,
+      :avatar, :portrait)
   end
 
 end

@@ -47,7 +47,7 @@ class StylesController < ApplicationController
   # POST /styles.xml
   def create
     fix_colors
-    @style = Style.new(params[:style])
+    @style = Style.new(style_params)
 
     respond_to do |format|
       if @style.save
@@ -73,7 +73,7 @@ class StylesController < ApplicationController
     @style.child_feature = nil if params[:delete_child_feature]
 
     respond_to do |format|
-      if @style.update_attributes(params[:style])
+      if @style.update_attributes(style_params)
         format.html { redirect_to(styles_url,
           :notice => 'Style was successfully updated.') }
         format.xml  { head :ok }
@@ -124,5 +124,11 @@ class StylesController < ApplicationController
       params[:style][:child_feature_text_color] =
         params[:style][:child_feature_text_color].hex
     end
+  end
+    
+  def style_params
+    params.require(:style).permit(:name, :hero_text_color, :feature_color,
+      :banner_text_color, :banner, :feature_strip, :hero, :bio_back,
+      :child_feature, :updated_by).merge(:updated_by => current_user)
   end
 end

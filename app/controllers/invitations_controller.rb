@@ -7,8 +7,23 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.xml
   def index
-    @invitations = @event.invitations.all
+    @invitations = @event.invitations.to_a
+    if @invitations.empty?
+      redirect_to new_page_event_invitation_path(@page, @event)
+    end
+    @summary = Invitation.summarize(@invitations)
 
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @invitations }
+    end
+  end
+  
+  def new
+    if @event.invitations.empty? and @page.email_list
+      @emails = @page.email_list + @site.email_domain
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @invitations }
@@ -58,9 +73,14 @@ class InvitationsController < ApplicationController
       redirect_to friendly_page_url(@page)
       return
     end
+    @initial_response = ('unknown' == @invitation.response)
 
     respond_to do |format|
-      if @invitation.update_attributes(params[:invitation])
+      if @invitation.update_attributes(invitation_params)
+        @summary = Invitation.summarize(@event.invitations)
+        @heading = @initial_response ? 'Awaiting response' : 'Response'
+        @help_message = @initial_response ? 'Thanks for responding' :
+          'Thanks for the update'
         format.html { redirect_to(
           friendly_page_url(@page, :invitation_key => @invitation.key),
           :notice => 'Invitation was successfully updated.') }
@@ -78,6 +98,7 @@ class InvitationsController < ApplicationController
   def destroy
     @invitation = @event.invitations.find(params[:id])
     @invitation.destroy
+    @summary = Invitation.summarize(@event.invitations)
 
     respond_to do |format|
       format.html { redirect_to(page_event_invitations_path(@page, @event)) }
@@ -90,6 +111,11 @@ class InvitationsController < ApplicationController
   
   def get_event
     @event = @page.events.find(params[:event_id])
+  end
+  
+  def invitation_params
+    params.require(:invitation).permit(:email, :key, :event_id, :response,
+      :user_id, :note)
   end
   
 end

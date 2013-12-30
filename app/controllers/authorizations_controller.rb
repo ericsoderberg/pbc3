@@ -25,7 +25,7 @@ class AuthorizationsController < ApplicationController
   end
 
   def create
-    @authorization = Authorization.new(params[:authorization])
+    @authorization = Authorization.new(authorization_params)
     @page = @authorization.page
     @authorization.user = User.find_by_email(params[:user_email])
 
@@ -45,7 +45,7 @@ class AuthorizationsController < ApplicationController
     @authorization = @page.authorizations.find(params[:id])
 
     respond_to do |format|
-      if @authorization.update_attributes(params[:authorization])
+      if @authorization.update_attributes(authorization_params)
         format.html { redirect_to(new_page_authorization_url(@page),
           :notice => 'Authorization was successfully updated.') }
         format.xml  { head :ok }
@@ -65,4 +65,11 @@ class AuthorizationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def authorization_params
+    params.require(:authorization).permit(:page_id, :user_id, :administrator)
+  end
+  
 end

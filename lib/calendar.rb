@@ -15,6 +15,7 @@ class Calendar
   attr_reader :weeks, :start, :stop
   
   def populate(events, holidays=[])
+    events = events.to_a
     weeks.each do |week|
       week.days.each do |day|
         carry_over_events = []

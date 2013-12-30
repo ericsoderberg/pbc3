@@ -45,8 +45,8 @@
   <div class="actions">
     <%= f.submit (@video.id ? 'Update Video' : 'Add Video') %>
     <% if @video.id -%>
-    | <%= link_to 'Delete video', [@page, @video], :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete video', [@page, @video], data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>

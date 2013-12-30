@@ -1,7 +1,6 @@
 class FormFieldOption < ActiveRecord::Base
   belongs_to :form_field
-  
-  attr_protected :id
+  has_many :filled_field_options, :dependent => :destroy
   
   FIXED = 'fixed'
   FIELD = 'field' # TBD
@@ -28,4 +27,34 @@ class FormFieldOption < ActiveRecord::Base
     self.option_type = source_option.option_type
     self.help = source_option.help
   end
+  
+  def selected(filled_field)
+    result = false
+    
+    if filled_field
+      
+      # newer forms formalize the option selected
+      filled_options = filled_field.filled_field_options
+      filled_options.each do |filled_option|
+        if filled_option.form_field_option == self
+          result = true
+          break
+        end
+      end
+      
+      if filled_options.empty?
+        # older forms only have the value
+        unless result
+          result = (filled_field.value == self.name)
+        end
+        unless result
+          values = filled_field.value.split(/(?<!\\),/).map{|e| e.gsub(/\\,/, ',')}
+          result = values.include?(self.name)
+        end
+      end
+    end
+    
+    result
+  end
+  
 end

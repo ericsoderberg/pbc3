@@ -1,0 +1,14 @@
+<div id="home_calendar" class="home_section">
+  <h2><%= link_to "Events", main_calendar_path %></h2>
+  <ol id="home_events">
+    <% @events.each do |event| -%>
+    <li>
+      <div class="event_name">
+        <%= link_to event.name, friendly_page_path(event.page) %>
+      </div>
+      <%= event.start_at.event_date %>
+      <%= raw event.start_at.simple_time(true) %>
+    </li>
+    <% end -%>
+  </ol>
+</div>

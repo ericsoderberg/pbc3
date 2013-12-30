@@ -19,8 +19,9 @@
   <% if filled_form.form.payable -%>
   <div class="form_payment unstyled">
     <% if filled_form.payment -%>
-     Paid by <%= filled_form.payment.method%>
+     Paid by <%= filled_form.payment['method'] %>
      on <%= filled_form.payment.created_at %>
+    <% end -%>
   </div>
   <% end -%>
 </li>

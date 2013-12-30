@@ -1,33 +1,15 @@
 <% title "#{@form.name}" -%>
 
-<header>
-  <h1>Edit Form</h1>
-  <div id="dynamic_form_form">
-    <%= render 'form' %>
-  </div>
-</header>
+<%= render :partial => 'edit_header' %>
 
 <div class="regular_content">
   
 <section>
   
-  <hr />
-  <h3>Fields</h3>
-  
-  <ul id="dynamic_form_fields">
-    <%= render :partial => 'form_fields/show_field',
-      :collection => @form.form_fields %>
-  </ul>
-  
-  <div class="add_content">
-    <%= button_to 'Add field',
-      form_fields_path(@form), :remote => true %>
+  <div id="dynamic_form_form">
+    <%= render 'form' %>
   </div>
   
 </section>
 
 </div>
-
-<%= javascript_tag do %>
-  <%= render :partial => 'indexer', :formats => [:js] -%>
-<% end -%>

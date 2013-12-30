@@ -1,16 +1,15 @@
 class Event < ActiveRecord::Base
   belongs_to :page
   belongs_to :master, :class_name => 'Event'
-  has_many :replicas, :class_name => 'Event', :foreign_key => :master_id,
-    :order => :start_at
-  has_many :reservations, :dependent => :destroy, :include => :resource
+  has_many :replicas, -> { order(:start_at) }, :class_name => 'Event',
+    :foreign_key => :master_id
+  has_many :reservations, :dependent => :destroy
   has_many :resources, :through => :reservations
-  has_many :invitations, :dependent => :destroy, :order => :email
+  has_many :invitations, -> { order(:email) }, :dependent => :destroy
+  has_many :forms, -> { order('LOWER(name) ASC') }, :dependent => :destroy
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :messages, :through => :events_messages, :source => :message
-  audited
-  
-  attr_protected :id
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates_presence_of :page, :name, :stop_at
   validates :start_at, :presence => true,
@@ -46,15 +45,11 @@ class Event < ActiveRecord::Base
   end
   
   scope :masters,
-    where("events.master_id = events.id OR events.master_id IS NULL")
+    -> { where("events.master_id = events.id OR events.master_id IS NULL") }
     
   scope :featured,
-    where("events.featured = 't'")
+    -> { where("events.featured = 't'") }
   
-  def authorized?(user)
-    page.authorized?(user)
-  end
-    
   def related_to?(event)
     event.master and self.master == event.master
   end
@@ -85,6 +80,10 @@ class Event < ActiveRecord::Base
     return (page and page.searchable?(user))
   end
   
+  def for_user?(user)
+    return (page and page.for_user?(user))
+  end
+  
   def top_context
     ancestors = page.ancestors
     if ancestors.length > 1
@@ -92,6 +91,16 @@ class Event < ActiveRecord::Base
     else
       page.name
     end
+  end
+  
+  def invitation_for_user(user)
+    return nil unless user
+    invitations.where('user_id = ?', user).first
+  end
+  
+  def filled_forms_for_user(user)
+    return [] unless user
+    forms.filled_forms.where('filled_forms.user_id = ?', user)
   end
   
   def peers
@@ -197,11 +206,11 @@ class Event < ActiveRecord::Base
   end
   
   def replicate(dates)
-    #logger.info "!!! replicate to #{dates.map{|e| e.to_s}.join(', ')}"
     current_dates = peers.map{|e| e.start_at.to_date}
 
     tmp_peers = peers
     new_peers = []
+    copied_peers = []
     new_master = self
 
     Event.transaction do
@@ -210,16 +219,16 @@ class Event < ActiveRecord::Base
       # do this first in case we destroy this event
       dates.each do |date|
         if not current_dates.include?(date)
-          #logger.info "!!! add at #{date}"
           peer = copy(date)
+          peer.reservations.clear # handle later
           new_peers << peer
+          copied_peers << peer
         end
       end
       
       # remove existing dates that aren't specified
       tmp_peers.each do |peer|
         if not dates.include?(peer.start_at.to_date)
-          #logger.info "!!! remove at #{peer.start_at}"
           new_master = nil if self == peer
           peer.destroy
         else
@@ -242,6 +251,14 @@ class Event < ActiveRecord::Base
       new_peers.each do |peer|
         peer.master = new_master
         peer.save!
+      end
+      
+      # we copy the reservations after creating the new events so they have ids
+      copied_peers.each do |peer|
+        self.reservations.each do |reservation|
+          new_reservation = reservation.copy(peer)
+          new_reservation.save!
+        end
       end
     end
     

@@ -22,6 +22,6 @@
   </div>
   <div class="message_files">
     <%= render :partial => 'messages/files',
-      :locals => {:message => message} %>
+      :locals => {:message => message, :skipCaptioned => true} %>
   </div>
 </div>

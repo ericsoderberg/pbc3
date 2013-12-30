@@ -3,10 +3,9 @@ class FilledForm < ActiveRecord::Base
   has_one :page, :through => :form, :source => :page
   belongs_to :user
   belongs_to :payment
-  has_many :filled_fields, :autosave => true, :dependent => :destroy,
-    :include => :form_field, :order => 'form_fields.form_index'
-    
-  attr_protected :id
+  has_many :filled_fields, -> {
+    includes(:form_field).order('form_fields.form_index') },
+    :autosave => true, :dependent => :destroy
   
   validates :form, :presence => true
   validates :name, :presence => true
@@ -30,7 +29,7 @@ class FilledForm < ActiveRecord::Base
             "filled_forms.payment_id = #{payment.id})"
         else
           "filled_forms.payment_id = #{payment.id}"
-        end)
+        end).references(:form)
   end
   
   def payable?
@@ -38,14 +37,11 @@ class FilledForm < ActiveRecord::Base
   end
   
   def payable_amount
-    filled_fields.includes(:form_field).where('form_fields.monetary' => true).
-      map{|ff| ff.payable_amount}.inject(0.to_money, :+)
+    payable_fields.map{|ff| ff.payable_amount}.inject(0.to_money, :+)
   end
   
   def payable_fields
-    filled_fields.where("form_fields.monetary = 't' AND " +
-      "filled_fields.value IS NOT NULL AND " +
-      "filled_fields.value != ''")
+    filled_fields.where("form_fields.monetary = 't'")
   end
   
   def payment_state

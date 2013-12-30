@@ -49,6 +49,7 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     @event = @page.events.find(params[:id])
+    @pages = Page.editable(current_user)
   end
   
   def edit_page
@@ -57,7 +58,7 @@ class EventsController < ApplicationController
 
   def create
     parse_times
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
     @page = @event.page
 
     respond_to do |format|
@@ -76,15 +77,11 @@ class EventsController < ApplicationController
     parse_times
     @event = @page.events.find(params[:id])
     @page = @event.page
-    if current_user.administrator? and params[:choose_page_id] and
-      not params[:choose_page_id].empty?
-      params[:event][:page_id] = params[:choose_page_id] # due to flexbox
-    end
     update_method = 'Update all' == params[:commit] ?
       'update_with_replicas' : 'update_attributes'
 
     respond_to do |format|
-      if @event.send(update_method, params[:event])
+      if @event.send(update_method, event_params)
         format.html { redirect_to(new_page_event_url(@event.page),
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
@@ -116,6 +113,12 @@ class EventsController < ApplicationController
       params[:event][:stop_at] =
         DateTime.parse_from_form(params[:event][:stop_at])
     end
+  end
+  
+  def event_params
+    params.require(:event).permit(:name, :start_at, :stop_at, :all_day,
+      :location, :page_id, :master_id, :featured, :invitation_message, :notes,
+      :updated_by).merge(:updated_by => current_user)
   end
   
 end

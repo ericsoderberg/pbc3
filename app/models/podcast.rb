@@ -5,10 +5,9 @@ class Podcast < ActiveRecord::Base
   has_attached_file :image, :styles => {
       :normal => '600x600',
       :thumb => '50x50'
-    }
-  audited
-  
-  attr_protected :id
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
     
   validates_presence_of :user_id, :title, :subtitle,
     :summary, :description, :category
@@ -30,15 +29,15 @@ class Podcast < ActiveRecord::Base
   def items
     if page
       result = []
-      result.concat(page.children.order("updated_at DESC").limit(20).all)
-      result.concat(page.audios.where("date is not null").order("date DESC").limit(20).all)
-      result.concat(page.videos.where("date is not null").order("date DESC").limit(20).all)
+      result.concat(page.children.order("updated_at DESC").limit(20).to_a)
+      result.concat(page.audios.where("date is not null").order("date DESC").limit(20).to_a)
+      result.concat(page.videos.where("date is not null").order("date DESC").limit(20).to_a)
       # order by date
       result.sort{|i1, i2| i2.date <=> i1.date}
     elsif site
       Message.includes(:message_files).
         where("message_files.file_content_type ILIKE 'audio%'").
-        order("date DESC").limit(20)
+        order("date DESC").limit(20).references(:message_files)
     end
   end
   

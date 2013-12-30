@@ -8,7 +8,7 @@ module ApplicationHelper
     if @site and @site.title
       # upcase and put a span around the first word
       first, rest = @site.title.upcase.split(' ', 2)
-      "<span>#{h first}</span> #{h rest}"
+      "<span>#{h first}</span> <span>#{h rest}</span>"
     else
       'Home'
     end

@@ -1,0 +1,15 @@
+  <td class="message_title">
+    <%= link_to message.title, message_url(message) %>
+  </td>
+  <td class="message_verses"><%= message.verses %></td>
+  <td class="message_author">
+    <% if message.author -%>
+      <%= link_to message.author.name, author_url(message.author) %>
+    <% end -%>
+  </td>
+  <td>
+  <% unless message.message_files.empty? -%>
+    <%= render :partial => 'messages/files',
+      :locals => {:message => message, :skipCaptioned => true} %>
+  <% end -%>
+  </td>

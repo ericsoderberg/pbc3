@@ -1,12 +1,12 @@
 retreat:
-  amount: 10000
+  amount_cents: 10000
   method: PayPal
   user: generic
   sent_at: <%= 1.day.ago.to_s(:db) %>
   verification_key: 1234567890
   
 retreat_check:
-  amount: 1000
+  amount_cents: 1000
   method: check
   user: generic
   sent_at: <%= 1.day.ago.to_s(:db) %>

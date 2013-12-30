@@ -7,7 +7,8 @@ $(function() {
     ampm: true,
     hourGrid: 4,
     minuteGrid: 15,
-    americanMode: true,
+    //americanMode: true,
+    timeFormat: 'hh:mm tt',
     separator: '<%= DateTime::FORM_SEPARATOR %>',
     changeYear: true
   });
@@ -18,29 +19,21 @@ $(function() {
     ampm: true,
     hourGrid: 4,
     minuteGrid: 15,
-    americanMode: true,
+    //americanMode: true,
+    timeFormat: 'hh:mm tt',
     separator: '<%= DateTime::FORM_SEPARATOR %>',
     changeYear: true
   });
   
   $('#event_start_at').change(function() {
-    var startAtStr = $('#event_start_at').val().toUpperCase().replace('@', '');
+    var startAtStr = $('#event_start_at').val().toUpperCase().
+      replace('<%= DateTime::FORM_SEPARATOR %>', ' ');
     var startAt = Date.parse(startAtStr, 'MM/dd/yyyy hh:mm tt');
     var stopAt = startAt.add(2).hours();
-    var stopAtStr = stopAt.toString('MM/dd/yyyy @ hh:mm tt').toLowerCase();
+    var stopAtStr = stopAt.
+      toString('MM/dd/yyyy<%= DateTime::FORM_SEPARATOR %>hh:mm tt').
+      toLowerCase();
     $('#event_stop_at').val(stopAtStr);
   });
-
-  <% if current_user.administrator? %>
-  $('#choose_page_id').flexbox(
-    '<%= search_pages_path(:format => :js) %>', {
-    initialDisplayValue: '<%= escape_javascript(@page.name) %>',
-    initialHiddenValue: '<%= @page.id %>',
-    width: 170,
-    maxCacheBytes: 0,
-    paging: {
-      pageSize: 5
-    }
-  });
-  <% end -%>
+  
 });

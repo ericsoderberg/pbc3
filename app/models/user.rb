@@ -5,34 +5,36 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me,
-    :first_name, :last_name, :name, :administrator,
-    :avatar_file_name, :avatar_content_type, :avatar_file_size,
-    :avatar_updated_at, :avatar,
-    :portrait_file_name, :portrait_content_type, :portrait_file_size,
-    :portrait_updated_at, :portrait,
-    :bio, :email_confirmation
+  ###attr_accessible :email, :password, :password_confirmation, :remember_me,
+  ###  :first_name, :last_name, :name, :administrator,
+  ###  :avatar_file_name, :avatar_content_type, :avatar_file_size,
+  ###  :avatar_updated_at, :avatar,
+  ###  :portrait_file_name, :portrait_content_type, :portrait_file_size,
+  ###  :portrait_updated_at, :portrait,
+  ###  :bio, :email_confirmation
   
   has_many :contacts, :dependent => :destroy
-  has_many :contact_pages, :through => :contacts, :source => :page,
-    :order => 'LOWER(pages.name) ASC'
+  has_many :contact_pages, -> { order('LOWER(pages.name) ASC') },
+    :through => :contacts, :source => :page
+    
   has_many :authorizations, :dependent => :destroy
   has_many :filled_forms, :dependent => :destroy
   has_many :payments, :dependent => :destroy
   has_many :conversations, :dependent => :destroy
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :videos, :through => :users_videos, :source => :video
-  audited :except => [:password, :password_confirmation]
   
   has_attached_file :avatar, :styles => {
       :normal => '50x',
-    }
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   has_attached_file :portrait, :styles => {
       :normal => '400x',
       :thumb => '50x'
-    }
-  
-  attr_protected :id
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   
   before_validation do
     split_name
@@ -56,7 +58,7 @@ class User < ActiveRecord::Base
   end
   
   def email_lists
-    EmailList.find_by_address(email)
+    @email_lists ||= EmailList.find_by_address(email)
   end
   
   def split_name
@@ -95,6 +97,21 @@ class User < ActiveRecord::Base
       self.first_name = first_parts.join(' ')
       self.last_name = last_parts.empty? ? nil : last_parts.join(' ')
     end
+  end
+  
+  def pages
+    Page.includes(:authorizations).to_a.delete_if{|p| not p.for_user?(self)}
+  end
+  
+  def events(start_at=nil, stop_at=nil)
+    start_at ||= Date.today.beginning_of_day
+    stop_at ||= start_at + 2.weeks
+    Event.between(start_at, stop_at).
+      order('start_at ASC').select{|e|
+        (e.for_user?(self) or e.featured) #and
+        #(! e.prev || e.prev.start_at < start_at) and
+        #e.messages.empty?
+      }
   end
   
 end

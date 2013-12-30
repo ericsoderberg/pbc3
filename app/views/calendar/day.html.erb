@@ -39,11 +39,13 @@
       <% end -%>
       
     <div id="calendar_nav">
-      <%= link_to image_tag('left_small.png'), previous_day_path(args),
-        :class => 'icon' %>
-      <%= link_to "Today", today_path(args) %>
-      <%= link_to image_tag('right_small.png'), next_day_path(args),
-        :class => 'icon' %>
+      <%= link_to '', previous_day_path(args),
+        class: 'icon previous', title: 'previous day' %>
+      <%= link_to '', today_path(args),
+        class: "icon today #{@isCurrent ? 'current' : ''}",
+        title: 'today' %>
+      <%= link_to '', next_day_path(args),
+        class: 'icon next', title: 'next day' %>
     </div>
     </div>
   </header>

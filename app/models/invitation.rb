@@ -2,8 +2,6 @@ class Invitation < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
   
-  attr_protected :id
-  
   RESPONSES = ['yes', 'no', 'maybe', 'unknown']
   
   validates :email, :presence => true,
@@ -15,6 +13,20 @@ class Invitation < ActiveRecord::Base
     self.key = UUIDTools::UUID.random_create.to_s
     self.user = User.find_by_email(self.email)
     true
+  end
+  
+  # summarize the invitations by response
+  def self.summarize(invitations)
+    result = {}
+    RESPONSES.each{|r| result[r] = 0}
+    invitations.each do |i|
+      result[i.response] += 1
+    end
+    result
+  end
+  
+  def self.possible_responses
+    RESPONSES
   end
   
 end

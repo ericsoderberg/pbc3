@@ -41,7 +41,7 @@
       <li>
         <label>Method</label>
         <%= @payment.attributes['method'] %>
-        <% if @payment.received_amount <= 0 -%>
+        <% unless @payment.received_amount -%>
         <div class="payment_method_instructions">
         <% case @payment.attributes['method'] -%>
         <% when 'check' -%>

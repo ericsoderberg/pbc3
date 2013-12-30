@@ -11,7 +11,7 @@
 <% elsif @search -%>
 
 <table id="search_results">
-  <% @search.each_hit_with_result do |hit, object| -%>
+  <% @search.results.each do |object| -%>
     <% if object.searchable?(current_user) -%>
     <tr class="search_result">
       <%= render_search_result(object) %>

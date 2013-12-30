@@ -10,13 +10,14 @@
     <div id="mt_past">Past</div>
   </div>
   <% end -%>
-  <% if messages.length > 30 and
-    (not prior_message or (prior_message and
-    message.date.year != prior_message.date.year)) and
-    0 == next_year_countdown -%>
-  <div class="messages_year">
-    <%= message.date.year %>
-  </div>
+  <% logger.info message.date.year -%>
+  <% logger.info prior_message.date.year if prior_message -%>
+  <% logger.info next_year_countdown -%>
+  <% if (not prior_message or (prior_message and
+    message.date.year != prior_message.date.year)) -%>
+    <div class="messages_year">
+      <%= message.date.year %>
+    </div>
     <% next_year_countdown = 8 -%>
   <% end -%>
   <% if not prior_message or message.message_set != prior_message.message_set -%>

@@ -24,6 +24,16 @@ module CalendarHelper
     end
   end
   
+  def calendar_month_path(args)
+    if args[:page_id]
+      page_calendar_month_path(args)
+    elsif args[:resource_id]
+      resource_calendar_month_path(args)
+    else
+      main_calendar_month_path(args)
+    end
+  end
+  
   def calendar_list_path(args)
     if args[:page_id]
       page_calendar_list_path(args)
@@ -90,6 +100,8 @@ module CalendarHelper
     today_args = args.merge(:date => Date.today.strftime("%Y-%m-%d"))
     if 'list' == params[:action]
       calendar_list_path(args)
+    elsif 'day' == params[:action]
+      calendar_day_path(args)
     else
       calendar_path(args)
     end

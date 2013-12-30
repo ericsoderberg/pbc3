@@ -14,8 +14,8 @@
           edit_page_conversation_comment_path(@page, comment.conversation, comment) %>
         <% end -%>
         <%= link_to 'Delete', [@page, comment.conversation, comment],
-          :confirm => 'Are you sure?', :method => :delete, :remote => true,
-          :class => 'delete' %>
+          data: {confirm: 'Are you sure?'}, method: :delete, remote: true,
+          class: 'delete' %>
       </div>
     <% end -%>
   </div>

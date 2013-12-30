@@ -1,0 +1,169 @@
+#banner {
+  position: relative;
+  height: 245px;
+  background-color: #dfe1db;
+  margin-bottom: 25px;
+  
+  @include respond-to(normal-up) {
+    height: 245px;
+    padding: 0px;
+  }
+  
+  @include respond-to(small-down) {
+    width: 100%;
+    height: auto;
+    margin: 12px 0px;
+    margin-bottom: 15px;
+    
+    img {
+	    width: 100%;
+	  }
+  }
+  
+  @include respond-to(tiny) {
+    height: 88px;
+  }
+}
+
+#banner_text {
+  display: inline-block;
+	position: relative;
+  vertical-align: top;
+	z-index: 3;
+	
+	@include respond-to(small-down) {
+	  margin-left: 50%;
+    padding: 20px;
+  }
+  
+  @include respond-to(tiny) {
+    padding: 10px 20px;
+    
+    > * {
+      display: none;
+    }
+    h2 {
+      display: block;
+      margin: 0px;
+    }
+  }
+  
+  @include respond-to(normal-up) {
+    margin-left: 530px;
+    padding: 20px 60px 20px 40px;
+    font-size: 14px;
+    line-height: 22px;
+  }
+	
+	h2 {
+    padding: 0px;
+    
+    a {
+      font-size: 25px;
+    }
+  }
+  
+  a {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 21px;
+  }
+}
+
+#animated_banners {
+  position: relative;
+  
+  @include respond-to(small-down) {
+    width: 100%;
+    height: auto;
+    margin: 12px 0px;
+    margin-bottom: 15px;
+  }
+  
+  @include respond-to(normal-up) {
+    width: 980px;
+    height: 245px;
+    padding: 0px;
+  }
+  
+  &:hover, a:hover {
+    opacity: 1.0;
+  }
+  
+  .control {
+  	display: block;
+  	width: 77px;
+  	text-indent: -10000px;
+  	position: absolute;
+  	cursor: pointer;
+  	
+  	@include respond-to(small-down) {
+  	  height: 100%;
+	  }
+	  
+	  @include respond-to(normal-up) {
+	    height: 245px;
+    }
+	}
+}
+
+#banner_left_control, #banner_right_control {
+	z-index: 4;
+}
+
+#banner_left_control {
+	top: 0px;
+	left: 20px;
+	background:transparent image-url("control_left.png") no-repeat scroll center;
+}
+
+#banner_right_control {
+	top: 0px;
+	right: 20px;
+	background: transparent image-url("control_right.png") no-repeat scroll center;
+}
+
+#animated_banners_list {
+	margin:0 auto;
+	padding: 0;
+	overflow:auto; /* allow scrollbar */
+	position:relative;
+	
+	@include respond-to(small-down) {
+	  width: 100%;
+    height: auto;
+  }
+  
+  @include respond-to(normal-up) {
+    height: 245px;
+  }
+}
+
+#animated_banners .slide {
+	float: left;
+	margin:0 auto;
+	
+	@include respond-to(normal-up) {
+	  width: 960px;
+	  height: 245px;
+  }
+}
+
+#animated_banners .slide_background,
+#banner .banner_background {
+	position:absolute;
+	z-index: 1;
+	overflow: hidden;
+	
+	@include respond-to(small-down) {
+	  width: 100%;
+	  
+	  img {
+	    width: 100%;
+	  }
+  }
+  
+  @include respond-to(normal-up) {
+    width: 980px;
+  }
+}

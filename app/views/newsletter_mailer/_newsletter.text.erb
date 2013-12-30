@@ -80,6 +80,6 @@ Events
 <%= @site.address %>
 <% end -%>
 
-<% if @newsletter.email_list -%>
+<% if @newsletter.email_list and not @newsletter.email_list.empty? -%>
 To unsubscribe: <%= unsubscribe_email_list_url(@newsletter.email_list) %>
 <% end -%>

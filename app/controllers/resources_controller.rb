@@ -43,7 +43,7 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.xml
   def create
-    @resource = Resource.new(params[:resource])
+    @resource = Resource.new(resource_params)
 
     respond_to do |format|
       if @resource.save
@@ -63,7 +63,7 @@ class ResourcesController < ApplicationController
     @resource = Resource.find(params[:id])
 
     respond_to do |format|
-      if @resource.update_attributes(params[:resource])
+      if @resource.update_attributes(resource_params)
         format.html { redirect_to(resources_url,
           :notice => 'Resource was successfully updated.') }
         format.xml  { head :ok }
@@ -85,4 +85,11 @@ class ResourcesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def resource_params
+    params.require(:resource).permit(:name, :resource_type)
+  end
+  
 end

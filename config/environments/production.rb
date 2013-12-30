@@ -1,9 +1,14 @@
 Pbc3::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
+  
+  # Eager load code on boot. This eager loads most of Rails and
+  # your application in memory, allowing both thread web servers
+  # and those relying on copy on write to perform better.
+  # Rake tasks automatically ignore this option for performance.
+  config.eager_load = true
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
@@ -30,6 +35,19 @@ Pbc3::Application.configure do
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
   config.serve_static_assets = false
+  
+  # Compress JavaScripts and CSS.
+  config.assets.js_compressor = :uglifier
+  # config.assets.css_compressor = :sass
+  
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
+  # Generate digests for assets URLs.
+  config.assets.digest = true
+
+  # Version of your assets, change this if you want to expire all your assets.
+  config.assets.version = '1.0'
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -52,6 +70,8 @@ Pbc3::Application.configure do
   config.action_mailer.asset_host = "http://www.pbc.org"
   
   config.time_zone = "Pacific Time (US & Canada)"
+  
+  config.assets.precompile += %w( newsletter/newsletter.css )
   
   config.after_initialize do
     Configuration.mailman_dir = '/usr/lib/mailman/bin'

@@ -4,7 +4,7 @@ class EmailList
   include ActiveModel::Validations
   attr_accessor :name, :new_record
   
-  validates :name, :format => /^[^@\s]+$/
+  validates :name, :format => /\A[^@\s]+\Z/
   
   def initialize(attributes = nil)
     @new_record = true

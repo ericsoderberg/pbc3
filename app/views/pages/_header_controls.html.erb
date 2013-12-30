@@ -16,9 +16,10 @@
 
 <% if @page.feed_page -%>
   <div class="page_control">
-    <%= link_to image_tag('rss.png'),
-      friendly_page_podcast_url(@page.feed_page, :protocol => 'http'),
-      :type => 'application/rss+xml' -%>
+    <%= link_to friendly_page_podcast_url(@page.feed_page, :protocol => 'http'),
+      {class: 'icon feed', type: 'application/rss+xml'} do %>
+      <%= image_tag('rss.png') %>
+    <% end -%>
   </div>
   <% content_for(:feed) do -%>
     <%= auto_discovery_link_tag(:rss,
@@ -28,7 +29,9 @@
 <% if (@events and not @events.empty?) or
     (@categorized_events and not @categorized_events[:all].empty?) -%>
   <div class="page_control">
-    <%= link_to image_tag('calendar-3.png'), page_calendar_path(@page) %>
+    <%= link_to page_calendar_path(@page), class: 'icon calendar' do %>
+      <%= image_tag('calendar-3.png') %>
+    <% end -%>
   </div>
 <% end -%>
 <%= render :partial => 'social/tools' %>

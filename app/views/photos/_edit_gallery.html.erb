@@ -1,9 +1,9 @@
+<% if @photo.photo.exists? -%>
+<div class="add_content">
+  <%= link_to 'Add another photo', new_page_photo_path(@page) %>
+</div>
+<% end -%>
+
 <ul class="edit_gallery">
   <%= render :partial => 'edit_photo', :collection => @page.photos %>
 </ul>
-
-<% if @photo.photo.exists? -%>
-<div class="add_content">
-  <%= link_to 'Add photo', new_page_photo_path(@page) %>
-</div>
-<% end -%>

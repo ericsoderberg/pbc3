@@ -83,12 +83,8 @@
       series_path(@message_set) : messages_path) %>
     <% end -%>
     <% if @message.id -%>
-    | <%= link_to 'Delete message', @message, :confirm => 'Are you sure?',
-      :method => :delete %>
+    | <%= link_to 'Delete message', @message, data: {confirm: 'Are you sure?'},
+      method: :delete %>
     <% end -%>
   </div>
 <% end %>
-
-<%= javascript_tag do -%>
-  <%= render :partial => 'messages/form_aids', :formats => [:js] %>
-<% end -%>

@@ -1,32 +1,45 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '4.0.2'
 
 # Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+#gem 'rails', :git => 'git://github.com/rails/rails.git'
+
+group :assets do
+  gem 'sass-rails', '~> 4.0.0'
+  gem 'coffee-rails', '~> 4.0.0'
+  gem 'uglifier', '>= 1.3.0'
+end
 
 gem 'pg'
-gem 'devise'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'turbolinks'
+
+gem 'devise', '~> 3.0.0.rc'
 gem 'bluecloth'
-gem 'paperclip', '~> 2.3'
+gem 'paperclip', '~> 3.0'
 #gem 'remotipart'
 gem 'stringex'
 #gem 'table_builder'
-gem 'sunspot_rails' #, '~> 1.2.1'
+git 'git://github.com/sunspot/sunspot.git' do
+  gem 'sunspot_rails'
+  gem 'sunspot_solr'
+end
+gem 'progress_bar'
 gem "will_paginate", "~> 3.0.pre2"
-gem "audited-activerecord", "~> 3.0"
 gem "uuidtools"
 gem 'kaminari'
 gem 'money'
+gem 'money-rails'
 gem 'simple_xlsx_writer'
 
 # Use unicorn as the web server
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
-gem 'rvm-capistrano'
+gem 'capistrano', '~> 2'
+###gem 'rvm-capistrano'
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
@@ -44,3 +57,9 @@ gem 'rvm-capistrano'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+group :development do
+  gem 'guard'
+  gem 'guard-livereload'
+end
+

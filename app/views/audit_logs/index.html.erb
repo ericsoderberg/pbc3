@@ -3,35 +3,38 @@
 <section>
   
   <%= render :partial => 'site/header' %>
-  
-<%= paginate @audit_logs %>
-
-<pre id="audit_details">
-</pre>
 
 <table id="audit_logs" class="index">
   <tbody>
-<% @audit_logs.each do |audit_log| %>
-  <tr id="<%= audit_log.id %>" class="audit_log_item">
-    <td><%= audit_log.created_at.relative_str %></td>
-    <td><%= audit_log.created_at.simple_time %></td>
+<% @records.each do |item| %>
+  <tr class="audit_log_item">
+    <td><%= item.updated_at.relative_str %></td>
+    <td><%= item.updated_at.simple_time %></td>
     <td>
-      <% if audit_log.user -%>
-        <%= audit_log.user.name %>
+      <% if item.updated_by -%>
+        <%= item.updated_by.name %>
       <% end -%>
     </td>
     <td>
-      <% if audit_log.auditable and audit_log.auditable.respond_to?('page')
-          page = audit_log.auditable.page -%>
-        <%= link_to page.name, friendly_page_path(page) %>
-      <% end -%>
-      <%= audit_log.auditable_type %>
+      <%= item.class.model_name.human %>
     </td>
     <td>
-      <% if audit_log.auditable -%>
-        <%= link_to_audited_item(audit_log) %>
-      <% else -%>
-        <%= audit_log.auditable_id %>
+      <%= link_to_audited_item(item) %>
+    </td>
+    <td>
+      <% if item.is_a?(Event) -%>
+        <% contextual_times(item).each do |timestamp| -%>
+          <div class="event_range">
+            <%= timestamp %>
+          </div>
+        <% end -%>
+      <% elsif item.is_a?(Newsletter) -%>
+        <%= item.published_at.relative_str(true) %>
+      <% end -%>
+    </td>
+    <td>
+      <% if item.class.method_defined?(:page) -%>
+        <%= link_to item.page.name, friendly_page_path(item.page) %>
       <% end -%>
     </td>
   </tr>
@@ -40,21 +43,3 @@
 </table>
 
 </section>
-
-<%= javascript_tag do -%>
-  $(function() {
-  	$('.audit_log_item').hover(
-  		function(){
-  			$.ajax({
-          url: "/audit_logs/" + $(this).attr('id') + "/details",
-          cache: false,
-          success: function(html){
-            $('#audit_details').html(html);
-          },
-          error: function(html){
-            $('#audit_details').html(html);
-          }
-        });
-  		});
-  });
-<% end -%>

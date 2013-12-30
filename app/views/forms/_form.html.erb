@@ -1,22 +1,4 @@
 <%= form_for(@form) do |f| %>
-
-  <div class="actions">
-    <%= f.submit %>
-    <% if @form.id -%>
-    | <%= link_to 'Done editing', new_form_fill_path(@form) %>
-    <% else -%>
-    |
-      <% if @page -%>
-        <%= link_to 'Done editing', forms_path(:page_id => @page.id) %>
-      <% else -%>
-        <%= link_to 'Done editing', forms_path() %>
-      <% end -%>
-    <% end -%>
-    <% if @form.id -%>
-    | <%= link_to 'Delete form', @form, :confirm => 'Are you sure?',
-        :method => :delete %>
-    <% end -%>
-  </div>
   
   <% if @form.errors.any? %>
     <div id="error_explanation">
@@ -43,13 +25,6 @@
     <%= f.label :published? %>
     <%= f.check_box :published %>
   </div>
-  <% if @form.id and current_user.administrator? -%>
-  <div class="field">
-    <%= f.label :page %>
-    <div id="choose_page_id"
-      style="display: inline-block; vertical-align: bottom"></div>
-  </div>
-  <% end -%>
   <div class="field">
     <%= f.label :payable? %>
     <%= f.check_box :payable %>
@@ -62,15 +37,38 @@
     <%= f.label :pay_by_paypal? %>
     <%= f.check_box :pay_by_paypal %>
   </div>
+  <% if @form.id -%>
+  <div class="field">
+    <%= f.label :event %>
+    <%= f.collection_select :event_id, @events, :id, :name,
+      {:include_blank => 'none'}, {:class => 'event'} %>
+  </div>
+  <% end -%>
+  <% if @form.id and current_user.administrator? -%>
+  <div class="field">
+    <%= f.label :page %>
+    <%= f.collection_select :page_id, @pages, :id, :name,
+      {}, {:class => 'page'} %>
+  </div>
+  <% end -%>
   
-  <%= hidden_field_tag 'field_order',
-    @form.form_fields.map{|ff| ff.id}.join(', '),
-    :id => 'field_order'%>
+  <div class="actions">
+    <%= f.submit %>
+    <% if @form.id -%>
+    | <%= link_to 'Cancel', @cancel_path %>
+    <% else -%>
+    |
+      <% if @page -%>
+        <%= link_to 'Cancel', @cancel_path %>
+      <% else -%>
+        <%= link_to 'Cancel', forms_path() %>
+      <% end -%>
+    <% end -%>
+    <% if @form.id -%>
+    | <%= link_to 'Delete Form', @form, data: {confirm: 'Are you sure?'},
+        method: :delete %>
+    <% end -%>
+  </div>
   
 <% end %>
 
-<% if current_user.administrator? -%>
-<%= javascript_tag do -%>
-  <%= render :partial => 'forms/form_aids', :formats => [:js] %>
-<% end -%>
-<% end -%>

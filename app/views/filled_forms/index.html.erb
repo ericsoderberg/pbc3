@@ -1,20 +1,6 @@
 <%= title "#{@form.name} - #{@page.name}" -%>
 
-<header>
-  <h1>Submitted for <%= @form.name %> -
-    <%= link_to @page.name, friendly_page_path(@page) %></h1>
-  
-  <% if user_signed_in? and current_user.administrator? -%>
-    <div class="page_admin">
-      <ul>
-        <li><%= link_to 'csv',
-          form_fills_path(@form, :format => 'csv') %><li>
-        <li><%= link_to 'xls',
-          form_fills_path(@form, :format => 'xls') %><li>
-      </ul>
-    </div>
-  <% end -%>
-</header>
+<%= render :partial => "forms/header" %>
 
 <div class="regular_content">
   <section>

@@ -1,10 +1,12 @@
 class Audio < ActiveRecord::Base
   belongs_to :page
-  has_attached_file :audio
-  has_attached_file :audio2
-  audited
-  
-  attr_protected :id
+  has_attached_file :audio,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
+  has_attached_file :audio2,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates_presence_of :page
   

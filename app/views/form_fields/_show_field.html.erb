@@ -53,11 +53,11 @@
 
 <div class="dynamic_form_field_admin">
   <%= link_to 'edit', edit_form_field_path(@form, show_field),
-    :remote => true %>
+    remote: true %>
   <%= link_to 'copy', copy_form_field_path(@form, show_field),
-    :remote => true, :method => :post %>
+    remote: true, method: :post %>
   <%= link_to 'delete', form_field_path(@form, show_field),
-    :confirm => 'Are you sure?', :method => :delete, :remote => true %>
+    data: {confirm: 'Are you sure?'}, method: :delete, remote: true %>
 </div>
 
 <% end %>

@@ -22,15 +22,18 @@
   </div>
   <div class="field">
     <%= f.label :email_list %><br />
-    <div id="choose_email_list"></div>
+    <%= f.collection_select :email_list, @email_lists, :name, :name,
+      {:include_blank => 'none'}, {:class => 'email_list'} %>
   </div>
   <div class="field">
     <%= f.label :featured_page %><br />
-    <div id="choose_page_id"></div>
+    <%= f.collection_select :featured_page_id, @pages, :id, :name,
+      {:include_blank => 'none'}, {:class => 'page'} %>
   </div>
   <div class="field">
     <%= f.label :featured_event %><br />
-    <div id="choose_event_id"></div>
+    <%= f.collection_select :featured_event_id, @events, :id, :name,
+      {:include_blank => 'none'}, {:class => 'event'} %>
   </div>
   <div class="field">
     <%= f.label :window %><br />
@@ -49,12 +52,9 @@
     | <%= link_to 'Cancel', newsletters_path %>
     <% end -%>
     <% if @newsletter.id -%>
-    | <%= link_to 'Delete newsletter', @newsletter, :confirm => 'Are you sure?',
-        :method => :delete %>
+    | <%= link_to 'Delete newsletter', @newsletter, data: {confirm: 'Are you sure?'},
+        method: :delete %>
     <% end -%>
   </div>
 <% end %>
 
-<%= javascript_tag do -%>
-  <%= render :partial => 'newsletters/form_aids', :formats => [:js] %>
-<% end -%>

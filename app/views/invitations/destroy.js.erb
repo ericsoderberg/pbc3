@@ -1,3 +1,6 @@
 $('#<%= dom_id(@invitation) %>').css('background', '#111111');
 $('#<%= dom_id(@invitation) %>').css('color', '#cccccc');
-$('#<%= dom_id(@invitation) %>').hide("fade", {}, 800);
+$('#<%= dom_id(@invitation) %>').hide(); //"fade", {}, 800);
+<% Invitation.possible_responses.each do |response| -%>
+$('#<%= response %> .value').text(<%= @summary[response] %>);
+<% end -%>

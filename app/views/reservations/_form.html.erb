@@ -47,6 +47,8 @@
 <% end -%>
 </table>
 
+<div class="form_errors"><%= @errors %></div>
+
 <div class="actions">
   <% if @event.peers.count > 1 -%>
     <%= submit_tag("Update for all") %>
@@ -57,8 +59,4 @@
 </div>
 
 <% end %>
-
-<%= javascript_tag do %>
-  <%= render :partial => 'pages/form_aids', :formats => [:js] %>
-<% end -%>
 

@@ -1,16 +1,18 @@
-<% payable_fields = filled_form.payable_fields -%>
-<% if payable_fields.length == 1 -%>
-  <% if 'count' == payable_fields.first.form_field.field_type -%>
-    <%= payable_fields.first.value %>
-  <% end -%>
-  <%= payable_fields.first.form_field.name %>
-<% elsif payable_fields.length > 1 -%>
-  <table class="payment_fields">
-    <% payable_fields.each do |ff| -%>
-      <tr>
-        <td><% if ff.value[0] != '$' -%>$<% end -%><%= ff.value %></td>
-        <td><%= ff.form_field.name %></td>
-      </tr>
+<table class="payment_fields">
+  <% filled_form.payable_fields.each do |filled_field| -%>
+    <% form_field = filled_field.form_field -%>
+    <% amount = filled_field.payable_amount -%>
+    <% if amount > 0 -%>
+    <tr>
+      <td>
+        <% if 'count' == form_field.field_type -%>
+          <%= filled_field.value %> @ $<%= form_field.value %>
+        <% else -%>
+          $<%= amount %>
+        <% end -%>
+      </td>
+      <td><%= form_field.name %></td>
+    </tr>
     <% end -%>
-  </table>
-<% end -%>
+  <% end -%>
+</table>

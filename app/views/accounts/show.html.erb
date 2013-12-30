@@ -1,0 +1,33 @@
+<% title ((@user.name and not @user.name.empty?) ? @user.name : @user.email) -%>
+
+<section>
+  
+  <%= render :partial => 'header' %>
+  
+  <ul id="page_gallery" class="js-masonry">
+    <% @pages.each do |pageContext| -%>
+      <% page = pageContext[:page] -%>
+      <li style="border-color: #<%= pageContext[:color] %>">
+        <h3>
+          <%= link_to page.name, friendly_page_path(page) %>
+        </h3>
+        <% if page.email_list and not page.email_list.empty? -%>
+        <div class="email_list"><%= page.email_list %><%= @site.email_domain %></div>
+        <% end -%>
+        <% if pageContext[:events] and not pageContext[:events].empty? -%>
+        <%= render :partial => 'events/list',
+          :locals => {:events => pageContext[:events],
+            :no_name => false} %>
+        <% end -%>
+        <div class="wiper" style="background-color: #<%= pageContext[:color] %>"></div>
+      </li>
+    <% end -%>
+  </ul>
+  
+  <% if @pages.empty? -%>
+  <div class="empty_indicator">
+    You don't appear to be associated with any communities. If you subscribe to an email list on this site, you sill see the page associated with it here.
+  </div>
+  <% end -%>
+
+</section>

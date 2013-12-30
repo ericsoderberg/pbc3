@@ -3,19 +3,19 @@ class Message < ActiveRecord::Base
   belongs_to :author
   belongs_to :library
   has_many :verse_ranges, :autosave => true, :dependent => :destroy
-  has_many :message_files, :order => 'file_content_type', :dependent => :destroy
+  has_many :message_files, -> { order('file_content_type') }, :dependent => :destroy
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
-  has_many :events, :through => :events_messages, :source => :event,
-    :order => 'start_at ASC'
+  has_many :events, -> { order('start_at ASC') }, :through => :events_messages,
+    :source => :event
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   acts_as_url :title, :sync_url => true
-  audited
     
   has_attached_file :image, :styles => {
       :normal => '600x600',
       :thumb => '50x50'
-    }
-  
-  attr_protected :id
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   
   validates :title, :presence => true
   
@@ -79,11 +79,12 @@ class Message < ActiveRecord::Base
     Message.includes(:verse_ranges).
       where('verse_ranges.end_index >= ? AND verse_ranges.begin_index <= ?',
         ranges.first[:begin][:index], ranges.first[:end][:index]).
-      count
+      references(:verse_ranges).count
   end
   
-  def self.between(start_date, end_date)
-    where('messages.date' => start_date..end_date).order('messages.date ASC')
+  def self.between(start_date, end_date, reverse=false)
+    where('messages.date' => start_date..end_date).
+      order('messages.date ' + (reverse ? 'DESC' : 'ASC'))
   end
   
   def self.between_with_full_sets(start_date, end_date)

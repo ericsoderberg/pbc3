@@ -1,0 +1,125 @@
+.card-pile {
+  position: relative;
+  margin: 0px auto;
+  padding: 0px 0px 0px 12px;
+  list-style-type: none;
+}
+
+.card-container {
+  float: left;
+	width: 201px; height: 308px;
+	margin: 20px 20px;
+	-webkit-perspective: 1000;
+	
+	&:hover {
+	  .card-card {
+	    -webkit-transform: rotateY(180deg);
+	    -moz-transform: rotateY(180deg);
+	    -ms-transform: rotateY(180deg);
+	    transform: rotateY(180deg);
+    }
+    
+    .card-front {
+      z-index: 0;
+    }
+  }
+  
+  &:nth-child(2n+1) {
+  	-webkit-transform: rotate(2deg);
+  	-moz-transform: rotate(2deg);
+  	-ms-transform: rotate(2deg);
+  	transform: rotate(2deg);
+  }
+  
+  &:nth-child(2n) {
+  	-webkit-transform: rotate(-2deg);
+  	-moz-transform: rotate(-2deg);
+  	-ms-transform: rotate(-2deg);
+  	transform: rotate(-2deg);
+  }
+}
+
+.card-card {
+	width: 201px; height: 308px;
+	/*border: 1px solid #fff;*/
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition-duration: 0.5s;
+	-moz-transform-style: preserve-3d;
+	-moz-transition-duration: 0.5s;
+	-ms-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+}
+
+.card-face {
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
+  z-index: 5;
+  
+  .card-image {
+    width: 201px;
+    height: 268px;
+    overflow: hidden;
+  }
+  
+  .portrait {
+    width: 201px;
+  }
+  
+  h4 {
+    margin: 0px;
+    margin-bottom: 5px;
+  }
+  
+  a img {
+  	vertical-align: text-bottom;
+  	margin-left: 5px;
+  }
+  
+  .bio {
+    width: 161px;
+    height: 238px;
+    overflow: hidden;
+  }
+  
+  .card-name {
+    margin: 5px;
+    margin-top: 3px;
+    line-height: 16px;
+  }
+  
+  dt, dd {
+    font-family: fixed;
+    font-size: 70%;
+  }
+  
+  dt {
+    width: 80px;
+    word-wrap: break-word;
+    color: #999;
+  }
+  
+  dd {
+    margin-left:85px;
+    width: 115px;
+  }
+}
+
+.card-front {
+  width: 201px; height: 308px; padding: 0px;
+  background-color: #444;
+  color: #fff;
+  z-index: 10;
+}
+
+.card-back {
+	width: 161px; height: 268px; padding: 20px;
+	-webkit-transform: rotateY(180deg);
+	-moz-transform: rotateY(180deg);
+	-ms-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+	background-color: #eee;
+}

@@ -1,0 +1,30 @@
+<div id="mobile_home">
+<% if @next_message -%>
+
+  <h2>
+    <% url = root_url
+      if @next_message and ! @next_message.events.empty?
+        url = friendly_page_url(@next_message.events.first.page)
+      end %>
+    <%= link_to 'Services', url %>
+  </h2>
+  
+  <div class="service_times">
+  <%= @next_message.date.event_date %>
+  <%= raw @next_message.events.map{ |e|
+      e.start_at.simple_time(true)
+  }.to_sentence() %>
+  </div>
+
+  <%= render :partial => 'mobile_message',
+    :locals => {:message => @next_message} %>
+<% end -%>
+
+<% if @previous_message -%>
+  <h3>Last week</h3>
+  <%= render :partial => 'mobile_message',
+    :locals => {:message => @previous_message} %>
+<% end -%>
+
+<%= render :partial => 'layouts/site_nav' %>
+</div>

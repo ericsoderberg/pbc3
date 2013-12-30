@@ -1,5 +1,6 @@
-<header>
-  <h1 class="<%= @page.nav_context == @page ? 'active' : '' %>">
+<% sub_page = @page.nav_context != @page -%>
+<header id="page_header">
+  <h1 class="<%= sub_page ? '' : 'active' %>">
     <%= link_to @page.nav_context.name,
       friendly_page_path(@page.nav_context) %></h1>
   
@@ -7,7 +8,7 @@
   
   <% if 'header' == @page.nav_context.child_layout and
       not 'blog' == @page.nav_context.layout -%>
-    <ul class="nav">
+    <ul class="nav <%= sub_page ? 'active' : '' %>">
       <%= render :partial => "pages/sub_page", :collection => @header_children %>
     </ul>
   <% end -%>

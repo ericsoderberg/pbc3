@@ -7,7 +7,6 @@
 
 <% unless @filled_forms.empty? -%>
 <div id="submitted_form_list">
-  <h2><%= link_to 'Submitted', form_fills_path(@form) %></h2>
 <ul>
   <% @filled_forms.each do |filled_form| -%>
   <li class="<%= filled_form == @filled_form ? 'active' : '' %>">

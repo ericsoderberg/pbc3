@@ -1,9 +1,9 @@
-<ul class="edit_list">
-  <%= render :partial => 'edit_contact', :collection => @page.contacts %>
-</ul>
-
 <% if @contact.user -%>
 <div class="add_content">
   <%= link_to 'Add contact', new_page_contact_path(@page) %>
 </div>
 <% end -%>
+
+<ul class="edit_list">
+  <%= render :partial => 'edit_contact', :collection => @page.contacts %>
+</ul>

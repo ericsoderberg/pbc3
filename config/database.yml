@@ -47,7 +47,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: pbc3
+  database: pbc3.1
   pool: 5
   username: <%= `whoami`.chomp %>
   password:

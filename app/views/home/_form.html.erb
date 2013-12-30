@@ -11,8 +11,32 @@
     </div>
   <% end %>
   
-  <div class="regular_content">
+  <div class="edit_content">
     <section>
+      <% if @page.parent -%>
+      <div class="field">
+        <%= f.label :on_parent_page?, :class => 'inline' %>
+        <%= f.check_box :parent_feature %>
+      </div>
+      <div id="parent_feature_indexer"
+        <%= raw @page.parent_feature? ? '' : 'style="display:none"' %>>
+        <%= render :partial => 'parent_feature_index' -%>
+      </div>
+      <% end -%>
+      
+      <div class="field">
+        <%= f.label :on_home_page?, :class => 'inline' %>
+        <%= f.check_box :home_feature %>
+      </div>
+      <div class="field">
+        <%= f.label :upcoming?, :class => 'inline' %>
+        <%= f.check_box :feature_upcoming %>
+      </div>
+      <div id="home_feature_indexer"
+        <%= raw @page.home_feature? ? '' : 'style="display:none"' %>>
+        <%= render :partial => 'home_feature_index' -%>
+      </div>
+      
       <div class="field">
         <%= f.label :feature_phrase %><br/>
         <span class="help">The short text when featured. Keep it to about 15 words for the home page.</span>
@@ -23,37 +47,9 @@
         <%= f.label :hero_text %><br/>
         <span class="help">The text overlaying the hero image on the home page.</span>
         <br />
-        <%= f.text_area :hero_text, :size => '80x20', :class => 'textedit' %>
+        <%= f.text_area :hero_text, :size => '80x12', :class => 'textedit' %>
       </div>
     </section>
-
-    <aside class="regular_aside">
-      <div class="form">
-        <% if @page.parent -%>
-        <div class="field">
-          <%= f.label :on_parent_page?, :class => 'inline' %>
-          <%= f.check_box :parent_feature %>
-        </div>
-        <div id="parent_feature_indexer"
-          <%= raw @page.parent_feature? ? '' : 'style="display:none"' %>>
-          <%= render :partial => 'parent_feature_indexer' -%>
-        </div>
-        <% end -%>
-        
-        <div class="field">
-          <%= f.label :on_home_page?, :class => 'inline' %>
-          <%= f.check_box :home_feature %>
-        </div>
-        <div class="field">
-          <%= f.label :upcoming?, :class => 'inline' %>
-          <%= f.check_box :feature_upcoming %>
-        </div>
-        <div id="home_feature_indexer"
-          <%= raw @page.home_feature? ? '' : 'style="display:none"' %>>
-          <%= render :partial => 'home_feature_indexer' -%>
-        </div>
-      </div>
-    </aside>
   </div>
   
   <div class="actions">
@@ -63,11 +59,3 @@
   
 <% end %>
 
-<%= javascript_tag do %>
-  <%= render :partial => 'pages/text_editor', :formats => [:js] -%>
-  <%= render :partial => 'home_feature_indexer', :formats => [:js] -%>
-  <% if @page.parent -%>
-  <%= render :partial => 'parent_feature_indexer', :formats => [:js] -%>
-  <% end -%>
-  <%= render :partial => 'pages/form_aids', :formats => [:js] -%>
-<% end -%>
