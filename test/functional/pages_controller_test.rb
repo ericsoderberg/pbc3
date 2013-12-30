@@ -71,7 +71,7 @@ class PagesControllerTest < ActionController::TestCase
 
   test "should update page" do
     put :update, :id => @page.to_param, :page => @page.attributes,
-      :sub_order => ''
+      :sub_order => @page.id.to_s
     assert_redirected_to edit_page_path(assigns(:page))
   end
 

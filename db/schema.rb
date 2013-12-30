@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131226115325) do
+ActiveRecord::Schema.define(version: 20131230131326) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -347,6 +347,7 @@ ActiveRecord::Schema.define(version: 20131226115325) do
     t.boolean  "any_user"
     t.integer  "updated_by"
     t.text     "secondary_text"
+    t.boolean  "site_primary",         default: false
   end
 
   create_table "payments", force: true do |t|
@@ -424,6 +425,13 @@ ActiveRecord::Schema.define(version: 20131226115325) do
     t.text     "online_bank_vendor"
     t.string   "paypal_business"
     t.text     "phone"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
+    t.string   "acronym"
+    t.boolean  "library"
+    t.boolean  "calendar",            default: true
   end
 
   create_table "styles", force: true do |t|

@@ -16,8 +16,8 @@ class AuthorsController < ApplicationController
         @single_authors << author
       end
     end
-    first_decade = (Message.order('date ASC').first.date.year / 10)
-    last_decade = (Message.order('date ASC').last.date.year / 10)
+    first_decade = Message.exists? ? (Message.order('date ASC').first.date.year / 10) : Time.now.year
+    last_decade = Message.exists? ? (Message.order('date ASC').last.date.year / 10) : Time.now.year
     @decades = (first_decade..last_decade).map{|d| d * 10}
     @num_years = (@decades.last + 10) - @decades.first
     

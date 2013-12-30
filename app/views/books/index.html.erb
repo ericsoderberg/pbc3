@@ -14,7 +14,7 @@
         <h3><%= section[:name] %></h3>
         <ul class="book_section">
           <% section[:books].each do |book| -%>
-            <% opacity = [1.0, [(book[:count].to_f / @max_count), 0.25].max].min -%>
+            <% opacity = [1.0, [(book[:count].to_f / (@max_count + 1)), 0.25].max].min -%>
             <li style="background-color: rgba(196, 196, 196, <%= opacity %>)">
               <%= link_to book[:book], book_path(:id => book[:book]) %></li>
           <% end -%>

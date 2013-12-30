@@ -49,16 +49,14 @@ class AccountsController < ApplicationController
   end
   
   def create
-    #params[:user][:first_name], params[:user][:last_name] =
-    #  params[:user][:name].split(' ', 2)
-    #params[:user].delete(:name)
     @user = User.new(user_params)
     @user.password = SecureRandom.base64(12);
     @user.password_confirmation = @user.password
+    @user.administrator = true unless @site and @site.id
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to(accounts_url,
+        format.html { redirect_to((@site and @site.id ? accounts_url : new_site_url),
           :notice => 'Account was successfully created.') }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
@@ -75,11 +73,9 @@ class AccountsController < ApplicationController
       return
     end
     
-    #params[:user][:first_name], params[:user][:last_name] =
-    #  params[:user][:name].split(' ', 2)
-    #params[:user].delete(:name)
     @user.avatar = nil if params[:delete_avatar]
     @user.portrait = nil if params[:delete_portrait]
+    @user.administrator = true unless @site and @site.id
 
     respond_to do |format|
       if @user.update_attributes(user_params)

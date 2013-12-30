@@ -1,9 +1,14 @@
 class Site < ActiveRecord::Base
-  belongs_to :communities_page, :class_name => 'Page',
-    :foreign_key => :communities_page_id
-  belongs_to :about_page, :class_name => 'Page',
-    :foreign_key => :about_page_id
+  belongs_to :communities_page, class_name: 'Page', foreign_key: :communities_page_id
+  belongs_to :about_page, class_name: 'Page', foreign_key: :about_page_id
   has_one :podcast
+  
+  has_attached_file :icon, :styles => {
+      :normal => '48x',
+      :thumb => '48x'
+    },
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   
   validates :title, :presence => true
   validates :email, :presence => true
@@ -11,4 +16,9 @@ class Site < ActiveRecord::Base
   def email_domain
     "@#{email.split('@')[1]}"
   end
+  
+  def primary_pages
+    Page.where('site_primary = ?', true).order(:parent_index)
+  end
+  
 end

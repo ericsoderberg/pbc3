@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
       @back_date = (@date - 1.year).beginning_of_year
     end
     @messages = Message.between(@back_date, @date, true)
-    @oldest_date = Message.order('date ASC').first.date || Time.now
+    @oldest_date = Message.exists? ? Message.order('date ASC').first.date : Time.now
     @years = (@oldest_date.year..Time.now.year).to_a.reverse
     @year = @date.year
 

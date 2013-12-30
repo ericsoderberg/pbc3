@@ -1,7 +1,17 @@
 module ApplicationHelper
   
   def title(page_title)
-    content_for(:title) {page_title}
+    content_for(:title) {
+      page_title + if @site
+        unless @site.acronym and @site.acronym.empty?
+          ' - ' + @site.acronym
+        else
+          ' - ' + @site.title
+        end
+      else
+        ''
+      end
+    }
   end
   
   def site_title
@@ -11,6 +21,14 @@ module ApplicationHelper
       "<span>#{h first}</span> <span>#{h rest}</span>"
     else
       'Home'
+    end
+  end
+  
+  def site_icon_url
+    if @site and @site.icon and @site.icon.exists?
+      @site.icon.url
+    else
+      image_url('blank-icon.png')
     end
   end
   

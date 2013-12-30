@@ -302,7 +302,7 @@ class Page < ActiveRecord::Base
     return false
   end
   
-  def order_children(ids)
+  def self.order_children(ids)
     result = true
     Page.transaction do
       tmp_children = Page.find(ids)

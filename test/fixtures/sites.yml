@@ -2,6 +2,7 @@ site:
   communities_page: communities
   about_page: about
   title: 'Title'
+  acronym: 'T'
   subtitle: 'sub title'
   email: 'site@localhost'
   address: 'address'

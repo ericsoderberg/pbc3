@@ -1,13 +1,14 @@
-<% title(@site.title) -%>
 <% content_for(:content_class) {'home'}%>
 
 <%= render :partial => "services" %>
 
+<% unless @feature_pages.empty? -%>
 <div id="hero">
   <div id="hero_list">
     <%= render :partial => "page_hero", :collection => @feature_pages %>
   </div>
 </div>
+<% end -%>
 
 <ul id="feature_nav">
   <%= render :partial => "feature_page", :collection => @feature_strip_pages %>

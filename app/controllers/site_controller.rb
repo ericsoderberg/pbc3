@@ -39,6 +39,7 @@ class SiteController < ApplicationController
   # PUT /sites/1.xml
   def update
     @site = Site.first
+    @site.icon = nil if params[:delete_icon]
 
     respond_to do |format|
       if @site.update_attributes(site_params)
@@ -63,7 +64,8 @@ class SiteController < ApplicationController
   def site_params
     params.require(:site).permit(:communities_page_id, :about_page_id,
       :title, :subtitle, :address, :phone, :copyright, :email, :mailman_owner,
-      :check_address, :online_bank_vendor, :paypal_business)
+      :check_address, :online_bank_vendor, :paypal_business, :acronym, :icon,
+      :library, :calendar)
   end
   
 end

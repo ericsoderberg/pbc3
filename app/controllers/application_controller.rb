@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :get_nav_pages
   before_filter :save_path
   before_filter :get_design
+  before_filter :configure_permitted_parameters, if: :devise_controller?
   
   def administrator!
     unless current_user and current_user.administrator?
@@ -33,9 +34,10 @@ class ApplicationController < ActionController::Base
   end
   
   def get_nav_pages
-    @communities = (@site ?
-      [@site.communities_page] + @site.communities_page.children : [])
-    @abouts = (@site ? [@site.about_page] + @site.about_page.children : [])
+    @site_primary_pages = @site ? @site.primary_pages : []
+    #@communities = (@site and @site.communities_page ?
+    #  [@site.communities_page] + @site.communities_page.children : [])
+    #@abouts = (@site and @site.about_page ? [@site.about_page] + @site.about_page.children : [])
   end
   
   def get_design
@@ -58,14 +60,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def after_sign_in_path_for(resource_or_scope)
-    session[:post_login_path] ? session[:post_login_path] : root_url
-  end
-  
-  def after_sign_out_path_for(resource_or_scope)
-    session[:post_login_path] ? session[:post_login_path] : root_url
-  end
-  
   def mobile_device?
     request.user_agent =~ /Mobile|webOS/
   end
@@ -75,5 +69,15 @@ class ApplicationController < ActionController::Base
     request.user_agent.downcase =~ /iphone|ipod/
   end
   helper_method :phone_device?
+  
+  protected
+  
+  def configure_permitted_parameters
+    if @site and @site.id
+      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+    else
+      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation, :administrator) }
+    end
+  end
   
 end

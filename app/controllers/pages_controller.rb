@@ -150,7 +150,14 @@ class PagesController < ApplicationController
   def edit_location
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
-    @siblings = @page.parent ? @page.parent.children : []
+    @siblings = if @page.parent
+        @page.parent.children
+      elsif @page.site_primary?
+        @site.primary_pages
+      else
+        []
+      end
+        
     impossible_parent_ids = (@page.descendants() + [@page]).map{|p| p.id}
     @pages = Page.editable(current_user).
       delete_if{|p| impossible_parent_ids.include?(p.id)}
@@ -229,9 +236,8 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.update_attributes(page_params) and
-        (not params[:page][:parent_id] or
-          not @page.parent or
-          @page.parent.order_children(orderer_sub_ids))
+        (not orderer_sub_ids or
+          Page.order_children(orderer_sub_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -266,7 +272,7 @@ class PagesController < ApplicationController
       :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
       :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,
       :twitter_name, :banner_text,
-      :updated_by).merge(:updated_by => current_user)
+      :updated_by, :site_primary).merge(:updated_by => current_user)
   end
   
 end

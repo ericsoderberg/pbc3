@@ -2,20 +2,26 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title><%= yield(:title) || (@site ? @site.title : 'Site') %></title>
+  <title>
+    <% if content_for?(:title) -%>
+      <%= yield(:title) %>
+    <% elsif @site -%>
+      <%= @site.title %>
+    <% end -%>
+  </title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <% if mobile_device? -%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <!--meta name="apple-mobile-web-app-capable" content="yes"-->
     <!--meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"-->
-    <link href="<%= image_path('pbc3-icon.png') %>" rel="apple-touch-icon">
-    <link href="<%= image_path('pbc3-icon.png') %>" rel="apple-touch-icon-precomposed">
+    <link href="<%= site_icon_url %>" rel="apple-touch-icon">
+    <link href="<%= site_icon_url %>" rel="apple-touch-icon-precomposed">
   <% end -%>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= yield(:scripts) %>
   <%= yield(:feed) %>
   <%= csrf_meta_tag %>
-  <link rel="icon" type="image/png" href="<%= image_path('pbc3-icon.png') %>" />
+  <link rel="icon" type="image/png" href="<%= site_icon_url %>" />
 </head>
 <body class="<%= session[:design] ? "design_#{session[:design]}" : '' %>">
   <div id="content" class="<%= yield(:content_class) %>">
@@ -23,7 +29,7 @@
   <header id="site_header">
     <h1>
       <%= link_to root_path do %>
-      <%= image_tag 'pbc3-icon.png' %>
+      <%= image_tag site_icon_url %>
       <%= raw site_title %>
       <% end %>
     </h1>
@@ -40,7 +46,7 @@
 <%= yield %>
 
   <footer>
-    <% if @site -%>
+    <% if @site and @site.id -%>
       <div id="site_address">
         <%= link_to @site.address,
           'http://maps.apple.com/?q=' + @site.address %>

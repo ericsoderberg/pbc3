@@ -29,6 +29,14 @@
     <% if @page.id -%>
       <% if current_user.administrator? -%>
         <div class="field">
+          <%= f.label :site_primary?, :class => 'inline' %>
+          <%= f.check_box :site_primary %>
+          <div class="help">
+            Include in the top level site navigation
+          </div>
+        </div>
+        
+        <div class="field">
           <%= f.label :parent_page %><br />
           <%= f.collection_select :parent_id, @pages, :id, :name_with_parent,
             {include_blank: true}, {:class => 'page'} %>
