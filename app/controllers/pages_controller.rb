@@ -165,7 +165,7 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
-    @email_lists = EmailList.to_a
+    @email_lists = EmailList.all
   end
   
   def edit_email_members

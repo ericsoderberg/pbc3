@@ -81,20 +81,24 @@ body.design_morocco {
       }
     
       &.next {
-        @include icon-image(-52px, -52px);
+        @include icon-image(-26px, -52px);
       }
       
       &.list {
-        @include icon-image(-104px, -52px);
+        @include icon-image(-52px, -52px);
       }
     
       &.grid {
-        @include icon-image(-130px, -52px);
+        @include icon-image(-78px, -52px);
       }
     
       &.facebook {
-        @include icon-image(-78px, -52px);
+        @include icon-image(-104px, -52px);
         width: 14px;
+      }
+      
+      &.twitter {
+        @include icon-image(-130px, -50px);
       }
     }
   }

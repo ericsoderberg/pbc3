@@ -17,7 +17,7 @@
 <% if @page.feed_page -%>
   <div class="page_control">
     <%= link_to friendly_page_podcast_url(@page.feed_page, :protocol => 'http'),
-      {class: 'feed', type: 'application/rss+xml'} do %>
+      {class: 'icon feed', type: 'application/rss+xml'} do %>
       <%= image_tag('rss.png') %>
     <% end -%>
   </div>
@@ -29,7 +29,7 @@
 <% if (@events and not @events.empty?) or
     (@categorized_events and not @categorized_events[:all].empty?) -%>
   <div class="page_control">
-    <%= link_to page_calendar_path(@page), class: 'calendar' do %>
+    <%= link_to page_calendar_path(@page), class: 'icon calendar' do %>
       <%= image_tag('calendar-3.png') %>
     <% end -%>
   </div>
