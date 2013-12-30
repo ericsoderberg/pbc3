@@ -1,0 +1,23 @@
+<div class="home_section home_pages">
+  <h2>
+    <%= link_to page.name, friendly_page_path(page) %>
+  </h2>
+  <ul>
+    <% page.children.each do |child| -%>
+    <li>
+      <div class="page_image">
+        <% if child.style and child.style.feature_strip.exists? then %>
+      	  <%= image_tag child.style.feature_strip.url(:normal).gsub(' ', '%20') %>
+        <% end %>
+      </div>
+      <div class="page_name">
+        <%= link_to child.name, friendly_page_path(child) %>
+      </div>
+      <div class="page_phrase">
+        <%= raw child.feature_phrase %>
+      </div>
+    </li>
+    <% end %>
+  
+  </ul>
+</div>

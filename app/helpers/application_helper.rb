@@ -1,16 +1,15 @@
 module ApplicationHelper
   
   def title(page_title)
-    content_for(:title) {
-      page_title + if @site
-        unless @site.acronym and @site.acronym.empty?
-          ' - ' + @site.acronym
-        else
-          ' - ' + @site.title
-        end
-      else
-        ''
+    suffix = if @site and page_title != @site.title
+      if @site.acronym and not @site.acronym.empty?
+        ' - ' + @site.acronym
+      elsif @site.title and not @site.title.empty?
+        ' - ' + @site.title
       end
+    end
+    content_for(:title) {
+      page_title + (suffix ? suffix : '')
     }
   end
   

@@ -3,19 +3,23 @@
 
 <div id="hero">
   <div id="hero_list">
-    <%= render :partial => "page_hero", :collection => @feature_pages %>
+    <%= render partial: "page_hero", collection: @feature_pages %>
   </div>
 </div>
 
 <div id="home_primary">
-  <%= render :partial => 'home/morocco/services' %>
+  <%= render partial: 'home/morocco/services' %>
 
-  <%= render :partial => 'home/morocco/calendar' %>
+  <% if @site and @site.calendar? -%>
+  <%= render partial: 'home/morocco/calendar' %>
+  <% end -%>
 
-  <%= render :partial => 'home/morocco/messages' %>
+  <% if @site and @site.library? -%>
+  <%= render partial: 'home/morocco/messages' %>
+  <% end -%>
 
 </div>
 
-<%= render :partial => 'home/morocco/communities' %>
-
-<%= render :partial => 'home/morocco/abouts' %>  
+<% @site_primary_pages.each do |page| -%>
+<%= render partial: 'home/morocco/pages', locals: {page: page} %>
+<% end -%>

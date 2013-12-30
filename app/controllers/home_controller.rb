@@ -16,16 +16,17 @@ class HomeController < ApplicationController
     
     @next_message = Home.next_message
     @previous_message = Home.previous_message
-    @events = Home.events
     @route_prefix = request.protocol + request.host_with_port
     @feature_pages = Page.home_feature_pages(user)
-    @feature_strip_pages = @feature_pages[0,5]
     
     case session[:design]
     when 'modo'
       render 'home/modo/index'
     when 'morocco'
+      @events = Home.events
       render 'home/morocco/index'
+    else
+      @feature_strip_pages = @feature_pages[0,5]
     end
   end
   
