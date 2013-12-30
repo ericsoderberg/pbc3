@@ -14,6 +14,13 @@ body.design_morocco {
   
   div.home_section {
     
+    @include respond-to(small-down) {
+      > * {
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
+    
     > h2 {
       position: relative;
       top: auto;
@@ -94,6 +101,11 @@ body.design_morocco {
       
       > * {
         display: block;
+        
+        @include respond-to(small-down) {
+          display: inline-block;
+          vertical-align: top;
+        }
       }
       
       h2 {

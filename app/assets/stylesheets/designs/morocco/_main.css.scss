@@ -117,6 +117,10 @@ body.design_morocco {
       
       h2 {
         display: block;
+        
+        @include respond-to(tiny) {
+          display: none;
+        }
       }
     }
   }
