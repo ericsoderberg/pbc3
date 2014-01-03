@@ -17,6 +17,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1.xml
   def show
     @resource = Resource.find(params[:id])
+    @events = @resource.events.order('start_at DESC')
 
     respond_to do |format|
       format.html # show.html.erb

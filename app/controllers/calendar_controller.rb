@@ -17,7 +17,7 @@ class CalendarController < ApplicationController
     @stop_date = (@start_date + @months.months).end_of_month.end_of_week.yesterday
     @calendar = Calendar.new(@start_date, @stop_date)
     get_events
-    @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC')
+    @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC').to_a
     @calendar.populate(@events, @holidays)
     @isCurrent = (@date.beginning_of_month.to_date == Date.today.beginning_of_month)
   end
@@ -60,14 +60,14 @@ class CalendarController < ApplicationController
         @resource.events.between(@start_date, @stop_date.end_of_day).
           order("start_at ASC").to_a
       elsif current_user
-        current_user.events(@start_date, @stop_date.end_of_day)
+        current_user.events(@start_date, @stop_date.end_of_day).to_a
       else
         Event.where('featured = ?', true).between(@start_date, @stop_date.end_of_day).
           order("start_at ASC").to_a
       end
     @events = @events.delete_if do |e|
-      not e.authorized?(current_user) or (@singular and e.master)
-    end unless @full
+      not e.authorized?(current_user) or (not @full and @singular and e.master)
+    end
   end
 
 end

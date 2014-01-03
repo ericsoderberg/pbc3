@@ -6,7 +6,7 @@
     :locals => {:active_aspect => 'main'} %>
   
   <table id="events">
-    <% @resource.events.each do |event| -%>
+    <% @events.each do |event| -%>
       <tr>
         <td><%= friendly_range(event, true) %></td>
         <td><%= link_to event.name, friendly_page_path(event.page) %></td>

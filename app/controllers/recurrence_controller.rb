@@ -6,7 +6,7 @@ class RecurrenceController < ApplicationController
   
   def show
     @date = @event.start_at
-    peers = @event.peers
+    peers = @event.peers.to_a
     @calendar = Calendar.new(@event.start_at - 1.month,
       (@event.start_at + 12.months).end_of_month);
     @calendar.populate(peers)
