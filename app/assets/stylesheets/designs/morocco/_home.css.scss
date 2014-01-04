@@ -41,6 +41,16 @@ body.design_morocco {
         font-weight: bold;
         color: #d8d8d8;
         
+        &:after {
+          content: ' >';
+          display: inline-block;
+          font-size: 20px;
+          position: relative;
+          top: -3px;
+          //left: 5px;
+          margin-left: 10px;
+        }
+        
         &:hover {
           opacity: 1;
           color: $link-hover-color;
@@ -139,18 +149,22 @@ body.design_morocco {
     }
   }
 
-  .home_pages {
+  div.home_pages {
+    
+    > h2 a {
+      font-size: 24px;
+    }
     
     > ul {
       list-style-type: none;
       margin: 0px;
+      margin-bottom: 30px;
       padding: 0px;
     
       > li {
         display: inline-block;
         vertical-align: top;
         width: 180px;
-        height: 180px;
         margin-right: 16px;
         
         &:nth-child(5n+5) {
