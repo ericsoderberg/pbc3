@@ -64,6 +64,10 @@ body.design_morocco {
     width: 100%;
     margin: 30px 0px;
     
+    @include respond-to(normal-up) {
+      white-space: nowrap;
+    }
+    
     @include respond-to(small-down) {
       margin: 0px;
     }
@@ -76,6 +80,7 @@ body.design_morocco {
       padding: 0px 20px;
       min-height: 110px;
       @include box-sizing(border-box);
+      white-space: normal;
       
       &:first-child {
         padding-left: 0px;
@@ -102,7 +107,10 @@ body.design_morocco {
       padding-right: 20px;
       border-top: none;
       border-bottom: none;
-      max-width: 25%;
+      
+      @include respond-to(normal-up) {
+        width: 25%;
+      }
       
       @include respond-to(small-down) {
         max-width: none;
@@ -132,7 +140,10 @@ body.design_morocco {
     }
     
     #home_calendar {
-      max-width: 25%;
+      
+      @include respond-to(normal-up) {
+        width: 25%;
+      }
       
       @include respond-to(small-down) {
         max-width: none;
@@ -145,7 +156,14 @@ body.design_morocco {
       }
     }
     
-    #home_messages {
+    div#home_messages {
+      @include respond-to(normal-up) {
+        width: 50%;
+        
+        table#home_messages {
+          width: 100%;
+        }
+      }
     }
   }
 

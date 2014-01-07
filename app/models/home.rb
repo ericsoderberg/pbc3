@@ -2,7 +2,7 @@ class Home
   
   def self.events
     today = Date.today.beginning_of_day
-    Event.featured.between(today, today + 2.weeks).
+    Event.featured.between(today, today + 8.weeks).
       order('start_at ASC').select{|e|
         e.authorized?(nil) and not e.page.obscure? and
         (! e.prev || e.prev.start_at < today) and
@@ -16,8 +16,8 @@ class Home
   end
   
   def self.previous_message
-    today = Date.today.beginning_of_day
-    Message.between(today - 2.weeks, today).last;
+    today = Date.today.end_of_day
+    Message.between(today - 2.weeks, today - 1.day).last;
   end
   
 end

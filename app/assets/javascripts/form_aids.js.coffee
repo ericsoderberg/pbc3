@@ -25,7 +25,7 @@ initialize = ->
           get().join(", ")
       $('#parent_feature_order').val(orderVal)
   }
-  $('select.page').select2({width: 'element', formatResult: formatPageName});
+  $('select.page').select2({width: 'element', formatResult: formatPageName, allowClear: true});
   $('select.event').select2({width: 'element'});
   $('select.email_list').select2({width: 'element'});
 
