@@ -109,7 +109,7 @@ body.design_morocco {
       border-bottom: none;
       
       @include respond-to(normal-up) {
-        width: 25%;
+        width: 20%;
       }
       
       @include respond-to(small-down) {
@@ -153,12 +153,16 @@ body.design_morocco {
         list-style-type: none;
         margin: 0px;
         padding: 0px;
+        
+        > li {
+          margin-bottom: 10px;
+        }
       }
     }
     
     div#home_messages {
       @include respond-to(normal-up) {
-        width: 50%;
+        width: 55%;
         
         table#home_messages {
           width: 100%;
