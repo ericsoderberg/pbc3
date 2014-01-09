@@ -30,6 +30,12 @@
           page_event_invitations_path(@page, @event) %>
     </li>
     <% end -%>
+    <li class="<%= active_aspect == 'share' ? 'active' : '' %>">
+      <%= link_to 'Share' +
+        (@event.shared_pages.count <= 1 ? '' :
+          " (#{@event.shared_pages.count})"),
+          page_event_share_path(@page, @event) %>
+    </li>
   </ul>
   
   <% if 'event' == active_aspect and @event.peers.count > 1 -%>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131230131326) do
+ActiveRecord::Schema.define(version: 20140109130156) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -110,6 +110,13 @@ ActiveRecord::Schema.define(version: 20131230131326) do
   create_table "event_messages", force: true do |t|
     t.integer  "event_id"
     t.integer  "message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "event_pages", force: true do |t|
+    t.integer  "page_id"
+    t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

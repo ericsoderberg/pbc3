@@ -9,6 +9,8 @@ class Page < ActiveRecord::Base
   has_many :audios, -> { order('date DESC', 'caption ASC') }, :dependent => :destroy
   has_many :documents, -> { order('published_at DESC') }, :dependent => :destroy
   has_many :events, -> { order('start_at ASC') }, :dependent => :destroy
+  has_many :event_pages, :dependent => :destroy
+  has_many :shared_events, :through => :event_pages, :class_name => 'Event', :source => :event
   has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
@@ -366,8 +368,9 @@ class Page < ActiveRecord::Base
       stop_date=Date.today.beginning_of_day + 6.months)
     page_ids = [self.id] + self.descendants.map{|page| page.id}
     result =
-      Event.between(start_date, stop_date).
-      where(:page_id => page_ids).
+      Event.between(start_date, stop_date).includes(:event_pages).
+      where('events.page_id IN (?) OR event_pages.page_id IN (?)', page_ids, page_ids).
+      references(:event_pages).
       order("start_at ASC").to_a
     result
   end

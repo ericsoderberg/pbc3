@@ -139,6 +139,7 @@ Pbc3::Application.routes.draw do
           post :bulk_create
         end
       end
+      resource :share, :only => [:show, :update], :controller => :shared_events
     end
     resources :documents
     resources :photos

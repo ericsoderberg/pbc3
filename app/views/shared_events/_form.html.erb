@@ -1,0 +1,19 @@
+<%= form_tag page_event_share_path(@page, @event), :method => :put do %>
+  <table id="shared_pages" class="grid">
+  <% rows = array_to_rows(@pages) -%>
+  <% rows.each do |row| -%>
+    <tr>
+    <% row.each do |page| -%>
+      <td>
+        <%= check_box_tag 'page_ids[]', page.id, page.shared_events.include?(@event) %>
+        <%= page.name %>
+      </td>
+    <% end -%>
+    </tr>
+  <% end -%>
+  </table>
+  
+  <div class="actions">
+    <%= submit_tag("Update Shared Pages") %>
+  </div>
+<% end %>

@@ -1,0 +1,18 @@
+<section>
+  
+  <%= render :partial => 'pages/edit_header',
+    :locals => {:active_aspect => 'share'} %>
+  
+  <div class="edit_content">
+    <section>
+      <%= render :partial => 'events/edit_header',
+        :locals => {:active_aspect => 'share'} %>
+      
+      <%= render 'form' %>
+    </section>
+    <aside>
+      <%= render :partial => 'events/edit_list' %>
+    </aside>
+  </div>
+
+</section>
