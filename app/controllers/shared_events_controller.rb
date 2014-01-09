@@ -5,7 +5,7 @@ class SharedEventsController < ApplicationController
   before_filter :get_event
   
   def show
-    @pages = Page.order('name ASC')
+    @pages = Page.editable(current_user)
     
     respond_to do |format|
       format.html # show.html.erb
