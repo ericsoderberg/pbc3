@@ -176,7 +176,12 @@ class FilledFormsController < ApplicationController
       (filled_form_key and @filled_form.verification_key == filled_form_key)
       return true
     end
-    redirect_to friendly_page_url(@page)
+    if not current_user
+      session[:post_login_path] = request.original_url
+      redirect_to new_user_session_path
+    else
+      redirect_to friendly_page_url(@page)
+    end
     return false
   end
   
