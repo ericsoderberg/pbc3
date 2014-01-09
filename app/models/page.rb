@@ -371,7 +371,7 @@ class Page < ActiveRecord::Base
       Event.between(start_date, stop_date).includes(:event_pages).
       where('events.page_id IN (?) OR event_pages.page_id IN (?)', page_ids, page_ids).
       references(:event_pages).
-      order("start_at ASC").to_a
+      order("start_at ASC, (events.page_id <> #{self.id})").to_a
     result
   end
   
