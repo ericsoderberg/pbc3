@@ -1,14 +1,12 @@
+<%= render :partial => 'forms/breadcrumbs' %>
+
 <header>
   
   <h1>
-    <span class="page_name"><%= link_to @form.page.name, friendly_page_path(@form.page) %></span>
-    <% if @form.event -%>
-    <span class="event_name"><%= @form.event.name %></span>
-    <% end -%>
     <% if current_user and @form.page.administrator?(current_user) -%>
-    <%= link_to @form.name, form_fills_path(@form) %>
+      <%= link_to @form.name, form_fills_path(@form) %>
     <% else -%>
-    <span class="form_name"><%= @form.name %></span>
+      <span class="form_name"><%= @form.name %></span>
     <% end -%>
   </h1>
   

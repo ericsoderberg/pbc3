@@ -10,10 +10,10 @@
       </ul>
     </div>
   <% end -%>
-  
-  <ul class="nav">
-    <li class="<%= 'calendar' == active_aspect ? 'active' : '' %>">
-      <%= link_to 'Calendar', resource_calendar_path(@resource) %></li>
-  </ul>
+  <div class="page_control">
+    <%= link_to resource_calendar_path(@resource), class: 'icon calendar' do %>
+      <%= image_tag('calendar-3.png') %>
+    <% end -%>
+  </div>
   
 </header>

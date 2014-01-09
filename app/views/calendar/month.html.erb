@@ -1,18 +1,16 @@
 <% title(@date.strftime("%B %Y")) -%>
 
+<div id="breadcrumbs">
+  <ul>
+    <% if @page -%>
+      <li><%= link_to @page.name, friendly_page_path(@page) %></li>
+    <% elsif @resource -%>
+      <li><%= link_to @resource.name, resource_path(@resource) %></li>
+    <% end -%>
+  </ul>
+</div>
+
 <section>
-  
-  <% if @page -%>
-    <header>
-      <h1 class="active">
-        <%= link_to @page.name, friendly_page_path(@page) %></h1>
-    </header>
-  <% elsif @resource -%>
-    <header>
-      <h1 class="active">
-        <%= link_to @resource.name, resource_path(@resource) %></h1>
-    </header>
-  <% end -%>
   
   <%= render :partial => 'controls', :locals => {:view => 'grid'} %>
   

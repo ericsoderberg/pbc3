@@ -213,7 +213,7 @@ fieldset {
   padding: 0px 20px;
   color: #666;
   
-  @include respond-to(tiny) {
+  @include respond-to(small-down) {
     padding: 0px;
   }
   

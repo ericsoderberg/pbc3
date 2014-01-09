@@ -56,12 +56,15 @@ layout = ->
       height: slideHeight
       
     slide currentPosition
-      
+  else if $('#banner').length > 0
+    bannerHeight = $('#banner').width() / 4.0
+    $('#banner').css
+      height: bannerHeight
+    
 onResize = ->
-  if initialized
-    # save some CPU by delaying reaction a bit if the use is draggin
-    clearTimeout layoutTimer
-    layoutTimer = setTimeout(layout, 50)
+  # save some CPU by delaying reaction a bit if the use is draggin
+  clearTimeout layoutTimer
+  layoutTimer = setTimeout(layout, 50)
     
 pause = ->
   clearTimeout timer
@@ -76,52 +79,55 @@ resume = ->
   
 initialize = ->
   
-  if ! initialized and $('#animated_banners').length > 0
-    initialized = true
-    slides = $(".slide")
-    numberOfSlides = slides.length
-    automate = true
+  if $('#animated_banners').length > 0
+    if ! initialized
+      initialized = true
+      slides = $(".slide")
+      numberOfSlides = slides.length
+      automate = true
   
-    # Remove scrollbar in JS
-    $("#animated_banners_list").css "overflow", "hidden"
-    # Wrap all .slides with #slide_inner div
-    # Float left to display horizontally
-    slides.wrapAll("<div id=\"slide_inner\"/>").css
-      float: "left"
+      # Remove scrollbar in JS
+      $("#animated_banners_list").css "overflow", "hidden"
+      # Wrap all .slides with #slide_inner div
+      # Float left to display horizontally
+      slides.wrapAll("<div id=\"slide_inner\"/>").css
+        float: "left"
   
-    # Insert left and right arrow controls in the DOM
-    arrow = $('<span></span>').addClass('control').
-      attr('id', 'banner_left_control').text('Move left')
-    $("#animated_banners").prepend(arrow)
-    arrow = arrow.clone().attr('id', 'banner_right_control').text('Move right')
-    $("#animated_banners").append(arrow)
+      # Insert left and right arrow controls in the DOM
+      arrow = $('<span></span>').addClass('control').
+        attr('id', 'banner_left_control').text('Move left')
+      $("#animated_banners").prepend(arrow)
+      arrow = arrow.clone().attr('id', 'banner_right_control').text('Move right')
+      $("#animated_banners").append(arrow)
     
-    # Create listeners for hovering to show controls
-    $("#animated_banners").hover (->
-      showControls = true
-      manageControls currentPosition
-    ), ->
-      showControls = false
-      manageControls currentPosition
+      # Create listeners for hovering to show controls
+      $("#animated_banners").hover (->
+        showControls = true
+        manageControls currentPosition
+      ), ->
+        showControls = false
+        manageControls currentPosition
 
-    # Hide left arrow control on first load
-    manageControls currentPosition
+      # Hide left arrow control on first load
+      manageControls currentPosition
   
-    # Create event listeners for .controls clicks
-    $(".control").on "click", ->
-      if automate
-        automate = false
-        clearInterval timer
-      # Determine new position
-      if ($(this).attr("id") is "banner_right_control")
-        currentPosition += 1
-      else
-        currentPosition -= 1
-      slide currentPosition
+      # Create event listeners for .controls clicks
+      $(".control").on "click", ->
+        if automate
+          automate = false
+          clearInterval timer
+        # Determine new position
+        if ($(this).attr("id") is "banner_right_control")
+          currentPosition += 1
+        else
+          currentPosition -= 1
+        slide currentPosition
   
+      layout()
+
+      resume()
+  else if $('#banner').length > 0
     layout()
-
-    resume()
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)

@@ -10,6 +10,7 @@ class InvitationsController < ApplicationController
     @invitations = @event.invitations.to_a
     if @invitations.empty?
       redirect_to new_page_event_invitation_path(@page, @event)
+      return
     end
     @summary = Invitation.summarize(@invitations)
 

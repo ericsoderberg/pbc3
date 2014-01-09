@@ -42,9 +42,13 @@ class ApplicationController < ActionController::Base
   
   def get_design
     if params['_design']
-      cookies.permanent['design'] = params['_design']
+      if params['_design'].empty?
+        cookies.delete 'design'
+      else
+        cookies.permanent['design'] = params['_design']
+      end
     end
-    session[:design] = cookies['design'] || 'default'
+    session[:design] = cookies['design'] || 'morocco'
   end
   
   def save_path
