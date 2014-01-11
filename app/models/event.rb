@@ -87,6 +87,10 @@ class Event < ActiveRecord::Base
     return (page and page.for_user?(user))
   end
   
+  def global_name_or_name
+    (global_name and not global_name.empty?) ? global_name : name
+  end
+  
   def top_context
     ancestors = page.ancestors
     if ancestors.length > 1
@@ -192,7 +196,7 @@ class Event < ActiveRecord::Base
             self.stop_at.strftime(" %H:%M")) # don't include timezone!
           peer.location = self.location
           peer.featured = self.featured
-          peer.feature_name = self.feature_name
+          peer.global_name = self.global_name
           peer.notes = self.notes
           peer.all_day = self.all_day
           peer.page = self.page

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140111153440) do
+ActiveRecord::Schema.define(version: 20140111182514) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20140111153440) do
     t.text     "invitation_message"
     t.text     "notes"
     t.integer  "updated_by"
-    t.string   "feature_name"
+    t.string   "global_name"
   end
 
   create_table "filled_field_options", force: true do |t|

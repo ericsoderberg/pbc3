@@ -14,7 +14,7 @@
       <% unless conflicts.empty? -%>
         <ul class="resource_conflicts">
           <% conflicts.each do |conflict| -%>
-            <li><%= link_to conflict.name, friendly_page_path(conflict) %></li>
+            <li><%= link_to conflict.global_name_or_name, friendly_page_path(conflict) %></li>
           <% end -%>
         </ul>
       <% end -%>
@@ -37,7 +37,7 @@
       <% unless conflicts.empty? -%>
         <ul class="resource_conflicts">
           <% conflicts.each do |conflict| -%>
-            <li><%= link_to conflict.name, friendly_page_path(conflict) %></li>
+            <li><%= link_to conflict.global_name_or_name, friendly_page_path(conflict) %></li>
           <% end -%>
         </ul>
       <% end -%>

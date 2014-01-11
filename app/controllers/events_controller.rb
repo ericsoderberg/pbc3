@@ -118,7 +118,7 @@ class EventsController < ApplicationController
   def event_params
     params.require(:event).permit(:name, :start_at, :stop_at, :all_day,
       :location, :page_id, :master_id, :featured, :invitation_message, :notes,
-      :updated_by, :feature_name).merge(:updated_by => current_user)
+      :updated_by, :global_name).merge(:updated_by => current_user)
   end
   
 end

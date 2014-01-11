@@ -45,9 +45,9 @@
     <%= f.check_box :featured %>
   </div>
   <div class="field">
-    <%= f.label :feature_name %><br/>
-    <span class="help">Name to use on main calendar if the name above is too generic</span><br />
-    <%= f.text_field :feature_name %>
+    <%= f.label :global_name %><br/>
+    <span class="help">Name to use on main calendar if the event name above is too generic</span><br />
+    <%= f.text_field :global_name %>
   </div>
   <% end -%>
   <% if @event.id and @page.administrator?(current_user) -%>
