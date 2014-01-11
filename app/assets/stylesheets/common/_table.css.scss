@@ -10,6 +10,10 @@ table {
     text-align: left;
   }
   
+  td.numeric, th.numeric {
+    text-align: right;
+  }
+  
   &.grid {
 	  margin: 20px auto;
 	
@@ -43,6 +47,10 @@ table {
   	th {
   		text-align: left;
   		color: #666;
+      
+      &.numeric {
+        text-align: right;
+      }
   	}
 	}
 }

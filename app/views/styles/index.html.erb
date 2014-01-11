@@ -13,10 +13,11 @@
     <th>Name</th>
     <th>Banner</th>
     <th>Home Hero</th>
-    <th>Home Feature</th>
+    <!--th>Home Feature</th-->
     <th>Bio Card</th>
-    <th>Child Feature</th>
-    <th>Colors</th>
+    <!--th>Child Feature</th-->
+    <th colspan="2">Colors</th>
+    <th class="numeric">Usage</th>
   </tr>
 
 <% @styles.each do |style| %>
@@ -32,36 +33,39 @@
       	<%= link_to image_tag(style.hero.url(:thumb)), style.hero.url %>
       <% end %>
     </td>
-    <td>
+    <!--td>
       <% if style.feature_strip.exists? then %>
       	<%= link_to image_tag(style.feature_strip.url(:thumb)),
       	  style.feature_strip.url %>
       <% end %>
-    </td>
+    </td-->
     <td>
       <% if style.bio_back.exists? then %>
       	<%= link_to image_tag(style.bio_back.url(:thumb), :height => 24),
       	  style.bio_back.url %>
       <% end %>
     </td>
-    <td>
+    <!--td>
       <% if style.child_feature.exists? then %>
       	<%= link_to image_tag(style.child_feature.url(:thumb), :height => 24),
       	  style.child_feature.url %>
       <% end %>
-    </td>
+    </td-->
     <td style="color: <%= "#%06x" % style.banner_text_color %>">
       Banner text
     </td>
-    <td style="color: <%= "#%06x" % style.child_feature_text_color %>">
+    <!--td style="color: <%= "#%06x" % style.child_feature_text_color %>">
       Child feature text
     </td>
     <td style="background-color: <%= "#%06x" % style.feature_color %>;
       color: #fff;">
       Home feature text
-    </td>
+    </td-->
     <td style="color: <%= "#%06x" % style.hero_text_color %>">
       Home hero text
+    </td>
+    <td class="numeric">
+      <%= style.pages.count %> pages
     </td>
   </tr>
 <% end %>
