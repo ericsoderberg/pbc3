@@ -192,6 +192,7 @@ class Event < ActiveRecord::Base
             self.stop_at.strftime(" %H:%M")) # don't include timezone!
           peer.location = self.location
           peer.featured = self.featured
+          peer.feature_name = self.feature_name
           peer.notes = self.notes
           peer.all_day = self.all_day
           peer.page = self.page
