@@ -5,6 +5,18 @@
 <div class="regular_content">
   <section>
     
+    <div class="form_sort">
+      By:
+      <ul>
+        <li class="<%= @sort == 'name' ? 'active' : '' %>">
+          <a href="?sort=name">name</a></li>
+        <li class="<%= @sort == 'updated_at' ? 'active' : '' %>">
+          <a href="?sort=updated_at">date</a></li>
+        <li class="<%= @sort == 'version' ? 'active' : '' %>">
+          <a href="?sort=version">version</a></li>
+      </ul>
+    </div>
+    
     <ul class="form_buttons">
       <% if @form.payable? and not @payable_forms.empty? -%>
       <li>
@@ -20,18 +32,6 @@
         <% end %>
       </li>
     </ul>
-    
-    <div class="form_sort">
-      By:
-      <ul>
-        <li class="<%= @sort == 'name' ? 'active' : '' %>">
-          <a href="?sort=name">name</a></li>
-        <li class="<%= @sort == 'updated_at' ? 'active' : '' %>">
-          <a href="?sort=updated_at">date</a></li>
-        <li class="<%= @sort == 'version' ? 'active' : '' %>">
-          <a href="?sort=version">version</a></li>
-      </ul>
-    </div>
     
     <table class="filled_forms">
     <% @filled_forms.each do |filled_form| -%>
