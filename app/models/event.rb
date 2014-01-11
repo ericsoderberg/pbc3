@@ -194,6 +194,7 @@ class Event < ActiveRecord::Base
           peer.featured = self.featured
           peer.notes = self.notes
           peer.all_day = self.all_day
+          peer.page = self.page
           peer.align_reservations(self)
         end
         peer.save!
