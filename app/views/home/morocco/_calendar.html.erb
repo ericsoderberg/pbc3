@@ -4,7 +4,7 @@
     <% @events.each do |event| -%>
     <li>
       <div class="event_name">
-        <%= link_to event.name, friendly_page_path(event.page) %>
+        <%= link_to event.global_name_or_name, friendly_page_path(event.page) %>
       </div>
       <%= event.start_at.event_date %>
       <%= raw event.start_at.simple_time(true) %>
