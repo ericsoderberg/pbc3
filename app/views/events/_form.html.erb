@@ -44,13 +44,18 @@
     <%= f.label :feature_on_main_calendar?, :class => 'inline' %>
     <%= f.check_box :featured %>
   </div>
-  <% if @event.id -%>
   <div class="field">
-    <%= f.label :page %><br/>
-    <%= f.collection_select :page_id, @pages, :id, :name,
-      {}, {:class => 'page'} %>
+    <%= f.label :feature_name %><br/>
+    <span class="help">Name to use on main calendar if the name above is too generic</span><br />
+    <%= f.text_field :feature_name %>
   </div>
   <% end -%>
+  <% if @event.id and @page.administrator?(current_user) -%>
+  <div class="field">
+    <%= f.label :page %><br/>
+    <%= f.collection_select :page_id, @pages, :id, :name_with_parent,
+      {}, {:class => 'page'} %>
+  </div>
   <% end -%>
   <div class="actions">
     <% if @event.peers.count > 1 -%>

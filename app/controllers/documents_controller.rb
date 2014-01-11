@@ -23,6 +23,7 @@ class DocumentsController < ApplicationController
 
   def edit
     @document = @page.documents.find(params[:id])
+    @pages = Page.editable(current_user)
   end
 
   def create
@@ -45,10 +46,11 @@ class DocumentsController < ApplicationController
   def update
     parse_date
     @document = @page.documents.find(params[:id])
+    @page = @document.page
 
     respond_to do |format|
       if @document.update_attributes(document_params)
-        format.html { redirect_to(new_page_document_url(@page),
+        format.html { redirect_to(new_page_document_url(@document.page),
           :notice => 'Document was successfully updated.') }
         format.xml  { head :ok }
       else

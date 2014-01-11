@@ -1,3 +1,7 @@
+<% if @podcast.page -%>
+<%= render :partial => 'pages/breadcrumbs', :locals => {:page => @podcast.page} %>
+<% end -%>
+
 <section>
   
   <% if @podcast.page -%>

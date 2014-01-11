@@ -108,10 +108,12 @@ module CalendarHelper
   end
   
   def event_link(event)
+    name = (@page or @resource or not event.feature_name or event.feature_name.empty?) ?
+      event.name : event.feature_name
     if event.page
-      link_to event.name, friendly_page_path(event.page)
+      link_to name, friendly_page_path(event.page)
     else
-      event.name +
+      name +
       if current_user and current_user.administrator?
         " (#{event.id})"
       end

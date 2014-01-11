@@ -1,5 +1,7 @@
 <% title("Edit #{@email_list.name} Members") -%>
 
+<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+
 <section>
   <%= render :partial => 'edit_header', :locals => {:active_aspect => 'email'} %>
 

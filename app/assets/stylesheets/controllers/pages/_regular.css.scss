@@ -98,7 +98,7 @@
   
   > li {
     display: block;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
     
     @include respond-to(small-up) {
       width: 400px;

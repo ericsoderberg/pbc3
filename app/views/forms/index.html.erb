@@ -1,5 +1,9 @@
 <% title "Forms" -%>
 
+<% if @page -%>
+<%= render :partial => 'pages/breadcrumbs', :locals => {:page => @page} %>
+<% end -%>
+
 <section>
   
   <% if @page %>

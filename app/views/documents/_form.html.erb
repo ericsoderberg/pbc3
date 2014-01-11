@@ -14,10 +14,6 @@
 
   <%= f.hidden_field :page_id %>
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
     <%= f.label :file %><br />
     <%= f.file_field :file %>
   </div>
@@ -31,6 +27,13 @@
       :value => (@document.published_at ?
         l(@document.published_at, :format => :default) : '') %>
   </div>
+  <% if @document.id and @page.administrator?(current_user) -%>
+  <div class="field">
+    <%= f.label :page %><br />
+    <%= f.collection_select :page_id, @pages, :id, :name_with_parent,
+      {}, {:class => 'page'} %>
+  </div>
+  <% end -%>
   <div class="actions">
     <%= f.submit 'Upload Document' %>
     <% if @document.name -%>
