@@ -40,14 +40,14 @@
   <% if @form.id -%>
   <div class="field">
     <%= f.label :event %>
-    <%= f.collection_select :event_id, @events, :id, :name_with_parent,
+    <%= f.collection_select :event_id, @events, :id, :name,
       {:include_blank => 'none'}, {:class => 'event'} %>
   </div>
   <% end -%>
   <% if @form.id and @page.administrator?(current_user) -%>
   <div class="field">
     <%= f.label :page %>
-    <%= f.collection_select :page_id, @pages, :id, :name,
+    <%= f.collection_select :page_id, @pages, :id, :name_with_parent,
       {}, {:class => 'page'} %>
   </div>
   <% end -%>
