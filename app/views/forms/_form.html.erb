@@ -51,6 +51,11 @@
       {}, {:class => 'page'} %>
   </div>
   <% end -%>
+  <div class="field">
+    <%= f.label :advance_version? %>
+    <%= check_box_tag :advance_version %>
+    <span class="help">The current version is <%= @form.version %></span>
+  </div>
   
   <div class="actions">
     <%= f.submit %>

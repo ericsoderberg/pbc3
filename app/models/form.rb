@@ -8,6 +8,8 @@ class Form < ActiveRecord::Base
   
   validates :name, :presence => true
   validates :page, :presence => true
+  validates :version, :presence => true,
+    numericality: { only_integer: true, greater_than: 0 }
   
   searchable do
     text :name, :default_boost => 2
@@ -36,12 +38,12 @@ class Form < ActiveRecord::Base
   
   def visible_filled_forms(user)
     return filled_forms.where('id IS NOT null') if page.administrator?(user)
-    return [] unless user
+    return none unless user
     filled_forms.where('id IS NOT null AND user_id = ?', user.id)
   end
   
   def filled_forms_for_user(user)
-    return [] unless user
+    return none unless user
     filled_forms.where('user_id = ?', user.id)
   end
   

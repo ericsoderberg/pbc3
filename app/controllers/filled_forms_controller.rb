@@ -5,7 +5,9 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms
   # GET /filled_forms.xml
   def index
-    @filled_forms = @form.visible_filled_forms(current_user)
+    @sort = params[:sort] || 'name'
+    @filled_forms = @form.visible_filled_forms(current_user).
+      reorder(@sort + (@sort != 'name' ? ' DESC' : ''))
     @payable_forms = @filled_forms.for_user(current_user).
       where(:payment_id => nil)
     @value_form_fields = @form.form_fields.valued
@@ -82,6 +84,7 @@ class FilledFormsController < ApplicationController
     else
       @filled_form.user = current_user
     end
+    @filled_form.version = @form.version
     populate_filled_fields
     
     if @form.payable?
@@ -120,6 +123,7 @@ class FilledFormsController < ApplicationController
     else
       @filled_form.user = current_user
     end
+    @filled_form.version = @form.version
     populate_filled_fields
     @payment = @filled_form.payment
 

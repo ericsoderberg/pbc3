@@ -21,12 +21,25 @@
       </li>
     </ul>
     
+    <div class="form_sort">
+      By:
+      <ul>
+        <li class="<%= @sort == 'name' ? 'active' : '' %>">
+          <a href="?sort=name">name</a></li>
+        <li class="<%= @sort == 'updated_at' ? 'active' : '' %>">
+          <a href="?sort=updated_at">date</a></li>
+        <li class="<%= @sort == 'version' ? 'active' : '' %>">
+          <a href="?sort=version">version</a></li>
+      </ul>
+    </div>
+    
     <table class="filled_forms">
     <% @filled_forms.each do |filled_form| -%>
       <tr>
         <td><%= link_to filled_form.name,
           edit_form_fill_path(filled_form.form, filled_form) %></td>
-        <td><%= filled_form.created_at.relative_str %></td>
+        <td><%= filled_form.updated_at.relative_str %></td>
+        <td><%= filled_form.version %></td>
         <% if @form.payable? -%>
           <td>
             <%= render :partial => 'payments/filled_form_amount',

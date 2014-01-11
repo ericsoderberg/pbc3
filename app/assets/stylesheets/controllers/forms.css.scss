@@ -306,7 +306,7 @@ h2.form_field_name {
   }
 }
       
-.form_buttons {
+ul.form_buttons {
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -315,6 +315,39 @@ h2.form_field_name {
   li {
     display: inline-block;
     padding-left: 30px;
+  }
+}
+
+div.form_sort {
+  float: right;
+  
+  > * {
+    display: inline-block
+  }
+  
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+  
+    li {
+      display: inline-block;
+      border-right: 1px solid #eee;
+    
+      &:last-child {
+        border-right: none;
+      }
+    
+      &.active {
+        a {
+          color: #333;
+        }
+      }
+    
+      a {
+        padding: 0px 10px;
+      }
+    }
   }
 }
   

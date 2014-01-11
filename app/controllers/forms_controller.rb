@@ -109,6 +109,9 @@ class FormsController < ApplicationController
     if params[:field_order]
       ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
     end
+    if params[:advance_version]
+      params[:form][:version] = @form.version + 1
+    end
 
     respond_to do |format|
       if (not params[:form] or @form.update_attributes(form_params)) and
@@ -143,7 +146,7 @@ class FormsController < ApplicationController
   def form_params
     params.require(:form).permit(:name, :page_id, :event_id,
       :payable, :published, :pay_by_check, :pay_by_paypal,
-      :updated_by).merge(:updated_by => current_user)
+      :updated_by, :version).merge(:updated_by => current_user)
   end
   
 end
