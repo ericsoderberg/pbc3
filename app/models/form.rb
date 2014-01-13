@@ -38,12 +38,12 @@ class Form < ActiveRecord::Base
   
   def visible_filled_forms(user)
     return filled_forms.where('id IS NOT null') if page.administrator?(user)
-    return none unless user
+    return Form.none unless user
     filled_forms.where('id IS NOT null AND user_id = ?', user.id)
   end
   
   def filled_forms_for_user(user)
-    return none unless user
+    return Form.none unless user
     filled_forms.where('user_id = ?', user.id)
   end
   
