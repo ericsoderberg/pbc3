@@ -5,8 +5,9 @@
 <div class="regular_content">
   <section>
     
-    <div class="form_sort">
-      By:
+    <div class="form_admin">
+      <%= @filled_forms.count %>
+      by:
       <ul>
         <li class="<%= @sort == 'name' ? 'active' : '' %>">
           <a href="?sort=name">name</a></li>

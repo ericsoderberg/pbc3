@@ -56,38 +56,6 @@
         <%= @payment.notes %>
       </li-->
     </ul>
-
-    <h3>For</h3>
-
-    <table class="filled_forms">
-      <% @payment.filled_forms.each do |filled_form| -%>
-        <tr>
-          <td>
-            <%= render :partial => 'filled_form_amount',
-              :locals => {:filled_form => filled_form }%>
-          </td>
-          <td>
-            <% if current_user -%>
-              <%= link_to filled_form.name,
-                edit_form_fill_path(filled_form.form, filled_form) %>
-            <% else -%>
-              <%= filled_form.name %>
-            <% end -%>
-          </td>
-          <td><%= filled_form.created_at.relative_str %></td>
-          <td>
-            <% if current_user -%>
-              <%= link_to filled_form.form.name,
-                form_fills_path(filled_form.form) %>
-            <% else -%>
-              <%= filled_form.form.name %>
-            <% end -%>
-          </td>
-          <td><%= link_to filled_form.form.page.name,
-            friendly_page_path(filled_form.form.page) %></td>
-        </tr>
-      <% end -%>
-    </table>
     
   </section>
   
@@ -111,5 +79,43 @@
       </li>
     </ul>
   </aside>
+  
+  <h3>For</h3>
+
+  <table class="filled_forms">
+    <% @payment.filled_forms.each do |filled_form| -%>
+      <tr>
+        <td>
+          <%= render :partial => 'filled_form_amount',
+            :locals => {:filled_form => filled_form }%>
+        </td>
+        <td>
+          <% if current_user -%>
+            <%= link_to filled_form.name,
+              edit_form_fill_path(filled_form.form, filled_form) %>
+          <% else -%>
+            <%= filled_form.name %>
+          <% end -%>
+        </td>
+        <td><%= filled_form.created_at.relative_str %></td>
+        <td>
+          <% if current_user -%>
+            <%= link_to filled_form.form.name,
+              form_fills_path(filled_form.form) %>
+          <% else -%>
+            <%= filled_form.form.name %>
+          <% end -%>
+        </td>
+        <td><%= link_to filled_form.form.page.name,
+          friendly_page_path(filled_form.form.page) %></td>
+        <td>
+          <% if filled_form.form.event -%>
+            <%= filled_form.form.event.name %>
+          <% end -%>
+        </td>
+      </tr>
+    <% end -%>
+  </table>
+  
 </div>
 

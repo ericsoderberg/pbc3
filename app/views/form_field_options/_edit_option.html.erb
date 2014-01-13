@@ -10,51 +10,41 @@
       form_field_option_path(@form, form_field, edit_option),
       :remote => true %>
   </div>
-  <div class="field">
-    <% if form_field.monetary? -%>
-      <%= f.label :value %><br/>
-    <% else -%>
-      <%= f.label :name %><br/>
-    <% end -%>
-    <%= f.text_field :name %>
+  <div class="form_field">
+    <div class="field type">
+      <%= f.label :type %>
+      <%= f.select :option_type,
+          options_for_select(FormFieldOption::TYPES,
+            edit_option.option_type), {},
+            id: "option_type_#{edit_option.id}" %>
+    </div>
+    <div class="field">
+      <%= f.label :disabled? %>
+      <%= f.check_box :disabled %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :type %><br/>
-    <%= f.select :option_type,
-        options_for_select(FormFieldOption::TYPES,
-          edit_option.option_type), {},
-          :id => "option_type_#{edit_option.id}" %>
-  </div>
-  <div id="option_size_<%= edit_option.id %>" class="field size"
-    style="<%= edit_option.sizeable? ? '' : 'display:none' %>">
-    <%= f.label :size %><br/>
-    <%= f.text_field :size, :size => 5 %>
-  </div>
-  <div class="field">
-    <%= f.label :help %><br/>
-    <%= f.text_area :help, :size => "20x2" %>
-  </div>
-  <div class="field">
-    <%= f.label :index %><br/>
-    <%= f.text_field :form_field_index, :size => "2" %>
-  </div>
-  <div class="field">
-    <%= f.label :disabled? %>
-    <%= f.check_box :disabled %>
+  <div class="form_field">
+    <div class="field">
+      <% if form_field.monetary? -%>
+        <%= f.label :value %><br/>
+      <% else -%>
+        <%= f.label :name %><br/>
+      <% end -%>
+      <%= f.text_field :name %>
+    </div>
+    <div id="option_size_<%= edit_option.id %>" class="field size"
+      style="<%= edit_option.sizeable? ? '' : 'display:none' %>">
+      <%= f.label :size %><br/>
+      <%= f.text_field :size, :size => 5 %>
+    </div>
+    <div class="field">
+      <%= f.label :help %><br/>
+      <%= f.text_area :help, :size => "40x2" %>
+    </div>
+    <div class="field">
+      <%= f.label :index %><br/>
+      <%= f.text_field :form_field_index, :size => "2" %>
+    </div>
   </div>
   <% end %>
 <% end %>
-
-<%= javascript_tag do %>
-  $(function() {
-    var id = '<%= edit_option.id %>';
-  	$('#option_type_' + id).change(function() {
-  	  var type = $('#option_type_' + id).val();
-      if ('field' == type || 'area' == type) {
-        $('#option_size_' + id).show('slow');
-      } else {
-        $('#option_size_' + id).hide('slow');
-      }
-    });
-  });
-<% end -%>

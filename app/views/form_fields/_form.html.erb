@@ -20,7 +20,7 @@
       :remote => true %>
   </div>
   <div class="form_field">
-  <div class="field">
+  <div class="field type">
     <%= f.label :type %>
     <!-- rails select doesn't honor an :id parameter :( -->
     <%= f.select :field_type, options_for_select(FormField::TYPES,
@@ -45,7 +45,7 @@
   <div id="field_size_<%= form_field.id %>" class="field size"
     style="<%= form_field.sizeable? ? '' : 'display:none' %>">
     <%= f.label :size %><br />
-    <%= f.text_field :size, :size => 5 %>
+    <%= f.text_field :size, :size => 2 %>
   </div>
   
   <div id="field_value_<%= form_field.id %>" class="field value"
@@ -56,7 +56,7 @@
   
   <div class="field">
     <%= f.label :help %><br />
-    <%= f.text_area :help, :size => '20x4' %>
+    <%= f.text_area :help, :size => '40x2' %>
   </div>
   </div>
   
@@ -67,27 +67,3 @@
   <%= render :partial => 'form_field_options/edit_batch',
     :locals => {:form_field => form_field} %>
 </div>
-
-<%= javascript_tag do %>
-  $(function() {
-    var id = '<%= form_field.id %>';
-  	$('#field_type_' + id).change(function() {
-  	  var type = $('#field_type_' + id).val();
-      if ('single choice' == type || 'multiple choice' == type) {
-        $('#options_' + id).show('fast');
-      } else {
-        $('#options_' + id).hide('fast');
-      }
-      if ('field' == type || 'area' == type) {
-        $('#field_size_' + id).show('slow');
-      } else {
-        $('#field_size_' + id).hide('slow');
-      }
-      if ('count' == type) {
-        $('#field_value_' + id).show('slow');
-      } else {
-        $('#field_value_' + id).hide('slow');
-      }
-    });
-  });
-<% end -%>
