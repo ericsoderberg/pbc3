@@ -61,7 +61,7 @@ class EmailListsController < ApplicationController
 
     respond_to do |format|
       if @email_list.save(@site) and
-        @email_list.add_addresses(add_addresses)
+        @email_list.add_addresses(add_addresses, params[:invite])
         format.html { redirect_to(email_lists_url,
           :notice => 'Email list was successfully created.') }
         format.xml  { render :xml => @email_list, :status => :created, :location => @email_list }
@@ -85,7 +85,7 @@ class EmailListsController < ApplicationController
 
     respond_to do |format|
       if @email_list.remove_addresses(remove_addresses) and
-        @email_list.add_addresses(add_addresses)
+        @email_list.add_addresses(add_addresses, params[:invite])
         format.html { redirect_to((@page ? edit_page_url(@page) : email_lists_url),
           :notice => 'Email list was successfully updated.') }
         format.xml  { head :ok }

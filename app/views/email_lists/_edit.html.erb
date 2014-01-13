@@ -22,10 +22,12 @@
       <% end -%>
 
       <div class="field">
-        <%= label_tag :invite_addresses %>
-        <div class="help">Enter one address per line.<br/>
-          An invitation will be sent to each address,
-          which must be confirmed by the recipient.</div>
+        <%= check_box_tag :invite, '1', true %>
+        <span class="help">Send an invitation email and require confirmation?</span>
+      </div>
+      <div class="field">
+        <%= label_tag :add_addresses %>
+        <span class="help">Enter one address per line.</span>
         <br />
         <%= text_area_tag 'add_addresses', '', :size => '40x5' %>
       </div>

@@ -57,11 +57,12 @@ class EmailList
     system("#{Configuration.mailman_dir}/clone_member -a -r #{old_address} #{new_address}")
   end
   
-  def add_addresses(new_addresses)
+  def add_addresses(new_addresses, invite)
     if new_addresses.empty?
       true
     else
-      IO.popen("#{Configuration.mailman_dir}/invite_members -a n -r - #{@name}", 'w') do |io|
+      cmd = invite ? 'invite_members' : 'add_members'
+      IO.popen("#{Configuration.mailman_dir}/#{cmd} -a n -r - #{@name}", 'w') do |io|
         io.write(new_addresses.join("\n"))
       end
       0 == $?
