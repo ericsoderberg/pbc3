@@ -3,8 +3,6 @@
 <section id="sign_in">
 <h2>Sign in</h2>
 
-<p class="help">Note: If you had an account on the old site, you will need to reset your password using the "Forgot your password?" link below.</p>
-
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <p><%= f.label :email %><br />
   <%= f.text_field :email %></p>

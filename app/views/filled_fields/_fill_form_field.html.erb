@@ -35,7 +35,7 @@
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
             <%= radio_button_tag html_id, option.id,
-              option.selected(filled_field) %>
+              option.selected(filled_field), disabled: option.disabled? %>
             <div class="option_name">
               <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>
@@ -51,7 +51,7 @@
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
             <%= check_box_tag html_id+'[]', option.id,
-              option.selected(filled_field) %>
+              option.selected(filled_field), disabled: option.disabled? %>
             <div class="option_name">
               <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>

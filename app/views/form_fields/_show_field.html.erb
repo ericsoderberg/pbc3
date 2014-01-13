@@ -23,7 +23,7 @@
     <ul>
       <% show_field.form_field_options.each do |option| -%>
       <li class="dynamic_form_option">
-        <%= radio_button_tag show_field.html_name, option.name %>
+        <%= radio_button_tag show_field.html_name, option.name, false, disabled: option.disabled? %>
         <% if show_field.monetary? %>$<% end -%>
         <%= option.name %>
       </li>
@@ -33,7 +33,7 @@
     <ul>
       <% show_field.form_field_options.each do |option| -%>
       <li class="dynamic_form_option">
-        <%= check_box_tag option.html_name, option.name %>
+        <%= check_box_tag option.html_name, option.name, false, disabled: option.disabled? %>
         <% if show_field.monetary? %>$<% end -%>
         <%= option.name %>
       </li>

@@ -70,7 +70,7 @@ class FormFieldOptionsController < ApplicationController
   
   def form_field_option_params
     params.require(:form_field_option).permit(:form_field_id, :form_field_index, :name,
-      :option_type, :help, :size)
+      :option_type, :help, :size, :disabled)
   end
   
 end
