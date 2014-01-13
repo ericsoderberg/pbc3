@@ -10,16 +10,16 @@
   <%= f.text_field :email_confirmation %></p>
   
   <p id="sign_up_name"><%= f.label :name %><br />
-  <%= f.text_field :name %></p>
+  <%= f.text_field :name, size: 30 %></p>
 
   <p id="sign_up_email"><%= f.label :email %><br />
-  <%= f.text_field :email %></p>
+  <%= f.text_field :email, size: 30 %></p>
 
   <p id="sign_up_password"><%= f.label :password %><br />
-  <%= f.password_field :password %></p>
+  <%= f.password_field :password, size: 30 %></p>
 
   <p id="sign_up_password_confirmation"><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></p>
+  <%= f.password_field :password_confirmation, size: 30 %></p>
 
   <p><%= f.submit "Sign up" %></p>
 <% end %>
