@@ -108,7 +108,7 @@ module CalendarHelper
   end
   
   def event_link(event)
-    name = (@page or @resource) ? name : event.global_name_or_name
+    name = (@page or @resource) ? event.name : event.global_name_or_name
     if event.page
       link_to name, friendly_page_path(event.page)
     else
