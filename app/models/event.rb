@@ -221,57 +221,68 @@ class Event < ActiveRecord::Base
     new_peers = []
     copied_peers = []
     new_master = self
+    errors = []
 
-    Event.transaction do
+    begin
+      Event.transaction do
       
-      # add new ones that we don't have yet
-      # do this first in case we destroy this event
-      dates.each do |date|
-        if not current_dates.include?(date)
-          peer = copy(date)
-          peer.reservations.clear # handle later
-          new_peers << peer
-          copied_peers << peer
+        # add new ones that we don't have yet
+        # do this first in case we destroy this event
+        dates.each do |date|
+          if not current_dates.include?(date)
+            peer = copy(date)
+            peer.reservations.clear # handle later
+            new_peers << peer
+            copied_peers << peer
+          end
         end
-      end
       
-      # remove existing dates that aren't specified
-      tmp_peers.each do |peer|
-        if not dates.include?(peer.start_at.to_date)
-          new_master = nil if self == peer
-          peer.destroy
+        # remove existing dates that aren't specified
+        tmp_peers.each do |peer|
+          if not dates.include?(peer.start_at.to_date)
+            new_master = nil if self == peer
+            peer.destroy
+          else
+            new_peers << peer
+          end
+        end
+      
+        # pick new master
+        if new_master
+          self.master = new_master # so validation of prior peers works
         else
-          new_peers << peer
+          # we've destroyed ourself, pick a new master
+          new_master = new_peers.first
+          # now, we need to save this new master with a master_id pointing to itself
+          # need to save it w/o a master_id first so we generate an id
+          new_master.save!
+          new_master.master = new_master
         end
-      end
-      
-      # pick new master
-      if new_master
-        self.master = new_master # so validation of prior peers works
-      else
-        # we've destroyed ourself, pick a new master
-        new_master = new_peers.first
-        # now, we need to save this new master with a master_id pointing to itself
-        # need to save it w/o a master_id first so we generate an id
-        new_master.save!
-        new_master.master = new_master
-      end
 
-      new_peers.each do |peer|
-        peer.master = new_master
-        peer.save!
-      end
+        new_peers.each do |peer|
+          peer.master = new_master
+          peer.save!
+        end
       
-      # we copy the reservations after creating the new events so they have ids
-      copied_peers.each do |peer|
-        self.reservations.each do |reservation|
-          new_reservation = reservation.copy(peer)
-          new_reservation.save!
+        # we copy the reservations after creating the new events so they have ids
+        copied_peers.each do |peer|
+          self.reservations.each do |reservation|
+            new_reservation = reservation.copy(peer)
+            if not new_reservation.save
+              errors.concat(new_reservation.errors.full_messages)
+            end
+          end
+        end
+        
+        unless errors.empty?
+          raise ActiveRecord::Rollback
         end
       end
+    rescue ActiveRecord::RecordInvalid
+      new_master = nil
     end
     
-    new_master
+    errors.empty? ? new_master : errors
   end
   
   private

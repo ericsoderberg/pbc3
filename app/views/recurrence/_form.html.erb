@@ -1,5 +1,15 @@
 <%= form_tag page_event_recurrence_path(@page, @event), :method => :put do %>
   <%= hidden_field_tag :stop, @calendar.stop %>
+  
+<% if @save_errors %>
+  <div class="form_errors">
+    <ul>
+    <% @save_errors.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <table id="recurrence" class="recurrence">
 

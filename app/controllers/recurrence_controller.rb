@@ -5,11 +5,7 @@ class RecurrenceController < ApplicationController
   before_filter :get_event
   
   def show
-    @date = @event.start_at
-    peers = @event.peers.to_a
-    @calendar = Calendar.new(@event.start_at - 1.month,
-      (@event.start_at + 12.months).end_of_month);
-    @calendar.populate(peers)
+    get_calendar
 
     respond_to do |format|
       format.html
@@ -22,11 +18,16 @@ class RecurrenceController < ApplicationController
     dates = params[:days].map{|day| Date.parse(day)}
 
     respond_to do |format|
-      if (@event = @event.replicate(dates))
+      result = @event.replicate(dates)
+      if (result and not result.is_a?(Array))
+        @event = result
         format.html { redirect_to(edit_page_event_url(@page, @event),
           :notice => 'Recurrence was successfully updated.') }
         format.xml  { head :ok }
       else
+        @save_errors = result
+        @event.reload
+        get_calendar
         format.html { render :action => "show" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
@@ -37,6 +38,14 @@ class RecurrenceController < ApplicationController
   
   def get_event
     @event = @page.events.find(params[:event_id])
+  end
+  
+  def get_calendar
+    @date = @event.start_at
+    peers = @event.peers.to_a
+    @calendar = Calendar.new(@event.start_at - 1.month,
+      (@event.start_at + 12.months).end_of_month);
+    @calendar.populate(peers)
   end
   
 end
