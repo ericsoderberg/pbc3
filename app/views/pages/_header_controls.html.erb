@@ -2,7 +2,7 @@
 <% if @page.administrator? current_user -%>
   <div class="page_admin">
     <ul>
-      <li><%= link_to 'Edit page', edit_page_path(@page) %></li>
+      <li><%= link_to 'Edit page', edit_page_path(@page, :protocol => 'https') %></li>
       <li>
         <% if @page.blog? or @page.forum? -%>
           <%= link_to 'Add post', new_page_path(:parent_id => @page.id) %>

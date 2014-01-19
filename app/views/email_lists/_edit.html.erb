@@ -83,18 +83,9 @@
           <% else -%>
             <%= address %>
           <% end -%>
-          <div id="<%= address %>" class="email_address_remover">remove</div>
+          <div data-address="<%= address %>" class="email_address_remover">remove</div>
         </li>
       <% end -%>
     </ul>
   </aside>
 </div>
-
-<%= javascript_tag do -%>
-  $(function() {
-  	$('.email_address_remover').click(
-  		function(){
-  		  $('#remove_addresses').val($('#remove_addresses').val() + '\n' + $(this).attr('id'))
-  		});
-  });
-<% end -%>
