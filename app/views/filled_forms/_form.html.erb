@@ -36,12 +36,14 @@
   <% if not @form.form_fields.empty? -%>
   
   <% if current_user and current_user.administrator? -%>
-    <hr/>
-    <%= f.label :change_submitter %>
-    <span class="help">please use with caution.</span>
-    <%= collection_select(:filled_form, :user_id,
-      User.where("TRIM(both ' ' from name) != ''").order('LOWER(name) ASC'), :id, :name,
-      :include_blank => true) %>
+    <div id="form_fill_submitter">
+      <hr/>
+      <%= f.label :change_submitter %>
+      <span class="help">please use with caution.</span>
+      <%= collection_select(:filled_form, :user_id,
+        User.where("TRIM(both ' ' from name) != ''").order('LOWER(name) ASC'), :id, :name,
+        :include_blank => true) %>
+    </div>
   <% end -%>
   
   <div class="actions">
@@ -57,10 +59,3 @@
   
   <% end -%>
 <% end %>
-
-<%= javascript_tag do %>
-$('#print_form_link').click(function(event){
-  window.print();
-  event.preventDefault(); // Prevent link from following its href
-});
-<% end -%>

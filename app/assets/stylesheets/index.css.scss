@@ -10,7 +10,6 @@
 @import 'common/site_nav';
 @import 'common/form';
 @import 'common/table';
-@import 'common/print';
 
 @import 'controllers/authors';
 @import 'controllers/books';
@@ -31,3 +30,5 @@
 
 @import 'designs/modo/main';
 @import 'designs/morocco/main';
+
+@import 'common/print';
