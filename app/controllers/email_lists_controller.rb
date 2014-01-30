@@ -119,7 +119,7 @@ class EmailListsController < ApplicationController
     end
     @email_list = EmailList.find(params[:id])
     @page = Page.find_by_email_list(@email_list.name)
-    @email_list.add_addresses([params[:email_address]])
+    @email_list.add_addresses([params[:email_address]], true)
     redirect_to friendly_page_path(@page),
       :notice => "Subscribed #{params[:email_address]} to " +
         "#{@email_list.name}#{@site.email_domain}"
