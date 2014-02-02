@@ -1,0 +1,5 @@
+<% form_field ||= @form_field -%>
+<%= content_tag_for(:li, form_field, :class => 'editing') do %>
+  <%= render :partial => 'form_fields/form',
+    :locals => {:form_field => form_field} %>
+<% end %>

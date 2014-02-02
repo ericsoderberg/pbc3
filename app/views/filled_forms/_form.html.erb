@@ -1,37 +1,42 @@
 <%= form_for(@filled_form, :url => (@filled_form.id ?
     form_fill_path(@form, @filled_form) : form_fills_path(@form))) do |f| %>
-  <% if @filled_form.errors.any? %>
+  <% if @filled_form.errors.any? -%>
     <div id="error_explanation">
-      <h2><%= pluralize(@filled_form.errors.count, "error") %> prohibited this filled_form from being saved:</h2>
-
+      <h2><%= pluralize(@filled_form.errors.count, "error") %> prohibited this form from being saved:</h2>
       <ul>
-      <% @filled_form.errors.full_messages.each do |msg| %>
+      <% @filled_form.errors.full_messages.each do |msg| -%>
         <li><%= msg %></li>
-      <% end %>
+      <% end -%>
       </ul>
     </div>
-  <% end %>
-  <% if @payment and @payment.errors.any? %>
+  <% end -%>
+  <% if @payment and @payment.errors.any? -%>
     <div id="error_explanation">
       <h2><%= pluralize(@payment.errors.count, "error") %> prohibited the payment from being saved:</h2>
-
       <ul>
-      <% @payment.errors.full_messages.each do |msg| %>
+      <% @payment.errors.full_messages.each do |msg| -%>
         <li><%= msg %></li>
-      <% end %>
+      <% end -%>
       </ul>
     </div>
-  <% end %>
+  <% end -%>
   
   <%= text_field_tag 'email_address_confirmation', '',
     :id => 'email_address_confirmation', :placeholder => 'email address',
     :autocomplete => (autocomplete_honeypot ? 'off' : 'on') %>
 
+  <% if @form.form_sections.empty? -%>
   <ul id="filled_fields">
     <%= render :partial => 'filled_fields/fill_form_field',
       :collection => @form.form_fields %>
     <li class="form_field"></li><!-- to clear -->
   </ul>
+  <% else -%>
+  <ul id="filled_sections">
+    <%= render :partial => 'filled_forms/fill_form_section',
+      :collection => @form.form_sections %>
+  </ul>
+  <% end -%>
   
   <% if not @form.form_fields.empty? -%>
   

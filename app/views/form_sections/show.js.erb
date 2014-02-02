@@ -1,0 +1,3 @@
+$('#edit_form_section_<%= @form_section.id %>').replaceWith(
+	'<%= escape_javascript(render :partial => "view",\
+	  :locals => {:section => @form_section}) %>');

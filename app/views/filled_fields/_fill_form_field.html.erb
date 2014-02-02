@@ -1,53 +1,77 @@
+<% filled_field = @filled_form.filled_fields.detect{|ff|
+    fill_form_field == ff.form_field}
+  value = filled_field ? filled_field.value : ''
+  html_id = "filled_fields[#{fill_form_field.id}][value]"
+  name_after =  (fill_form_field.dense? and
+    [FormField::SINGLE_LINE, FormField::MULTIPLE_LINES].include?(fill_form_field.field_type))
+  errors = @filled_form.errors[fill_form_field.name]
+  errors = filled_field.errors if errors.empty? and filled_field -%>
+
 <%= content_tag_for(:li, fill_form_field,
   :class => "#{fill_form_field.field_type}" +
-    (fill_form_field.dense? ? ' dense' : '')) do %>
-  <% filled_field = @filled_form.filled_fields.detect{|ff|
-      fill_form_field == ff.form_field}
-    value = filled_field ? filled_field.value : ''
-    html_id = "filled_fields[#{fill_form_field.id}][value]" -%>
+    (fill_form_field.dense? ? ' dense' : '') +
+    (errors.empty? ? '' : ' error')) do %>
   
-  <% unless fill_form_field.dense? -%>
+  <% unless name_after -%>
     <% if FormField::INSTRUCTIONS == fill_form_field.field_type and
         fill_form_field.help.empty? -%>
       <h2 class="form_field_name">
         <%= fill_form_field.name %>
       </h2>
     <% else -%>
-      <div class="form_field_name">
-        <%= fill_form_field.name %>
-      </div>
+      <% if fill_form_field.prompt? -%>
+        <div class="form_field_prompt">
+          <%= fill_form_field.prompt %>
+        </div>
+      <% else -%>
+        <div class="form_field_name">
+          <%= fill_form_field.name %>
+        </div>
+      <% end -%>
     <% end -%>
   <% end -%>
   
-  <div class="form_field_value">
+  <div class="form_field_value <%= fill_form_field.prompt? ? 'prompted' : '' %>">
   <% case fill_form_field.field_type -%>
-    <% when FormField::FIELD -%>
+    <% when FormField::FIELD, FormField::SINGLE_LINE -%>
       <% if fill_form_field.monetary? %>$<% end -%>
       <%= text_field_tag html_id, value, :size => fill_form_field.size,
         :class => "print-overridden" %>
       <div class="print-override"><%= value %></div>
-    <% when FormField::AREA -%>
+    <% when FormField::AREA, FormField::MULTIPLE_LINES -%>
       <%= text_area_tag html_id, value, :size => fill_form_field.size,
         :class => "print-overridden" %>
       <div class="print-override"><%= value %></div>
     <% when FormField::SINGLE_CHOICE -%>
-      <ul class="options_list">
-        <% fill_form_field.form_field_options.each do |option| -%>
-          <li>
-            <%= radio_button_tag html_id, option.id,
-              option.selected(filled_field), disabled: option.disabled? %>
-            <div class="option_name">
+      <% if fill_form_field.dense? -%>
+        <select name="filled_fields[<%= fill_form_field.id %>][value]">
+          <% fill_form_field.form_field_options.each do |option| -%>
+            <option value="<%= option.id %>" <%= option.selected(filled_field) ? 'selected' : '' %>>
               <% if fill_form_field.monetary? %>$<% end -%>
               <%= option.name %>
-            </div>
-            <div class="option_help">
-              <%= raw option.help %>
-            </div>
-          </li>
-        <% end -%>
-      </ul>
+            </option>
+          <% end -%>
+        </select>
+      <% else -%>
+        <ul class="options_list">
+          <% fill_form_field.form_field_options.each do |option| -%>
+            <li>
+              <%= radio_button_tag html_id, option.id,
+                option.selected(filled_field), disabled: option.disabled? %>
+              <div class="option_name">
+                <% if fill_form_field.monetary? %>$<% end -%>
+                <%= option.name %>
+              </div>
+              <div class="option_help">
+                <%= raw option.help %>
+              </div>
+            </li>
+          <% end -%>
+        </ul>
+      <% end -%>
     <% when FormField::MULTIPLE_CHOICE -%>
-      <ul class="options_list">
+      <ul class="options_list <%= fill_form_field.dense? ? 'dense' : '' %>"
+        <%= fill_form_field.limited? ? 'data-limit=' + fill_form_field.limit.to_s : '' %>>
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
             <%= check_box_tag html_id+'[]', option.id,
@@ -62,6 +86,9 @@
           </li>
         <% end -%>
       </ul>
+      <% if fill_form_field.limited? -%>
+        <div class="form_field_options_limit">limit <%= fill_form_field.limit %></div>
+      <% end -%>
     <% when FormField::COUNT -%>
       <%= number_field_tag html_id, value, :size => fill_form_field.size,
         :class => "print-overridden", :min => 0, :step => 1 %>
@@ -69,7 +96,7 @@
     <% when FormField::INSTRUCTIONS -%>
   <% end -%>
   
-  <% if fill_form_field.dense? -%>
+  <% if name_after -%>
   <div class="form_field_name">
     <%= fill_form_field.name %>
   </div>

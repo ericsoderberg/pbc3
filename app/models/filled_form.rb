@@ -10,9 +10,23 @@ class FilledForm < ActiveRecord::Base
   validates :form, :presence => true
   validates :name, :presence => true
   validates :verification_key, :presence => true
+  validate :required_fields_set
   
   before_validation(:on => :create) do
     self.verification_key = SecureRandom.base64(48);
+  end
+  
+  def required_fields_set
+    if form
+      form.form_fields.each do |form_field|
+        if form_field.required?
+          filled_field = filled_fields.detect{|f| f.form_field_id == form_field.id}
+          unless filled_field
+            errors.add(form_field.name, "is required")
+          end
+        end
+      end
+    end
   end
   
   def self.for_user(user)

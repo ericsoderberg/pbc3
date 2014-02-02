@@ -42,5 +42,7 @@ module Pbc3
     #config.assets.paths << "#{Rails.root}/app/assets/stylesheets/mobile/mobile.css.scss"
     #config.assets.paths << "#{Rails.root}/app/assets/javascripts/mobile/mobile.js.coffee"
     config.assets.precompile += ["mobile/mobile.css", "mobile/mobile.js"]
+    
+    config.i18n.enforce_available_locales = false
   end
 end

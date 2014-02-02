@@ -10,6 +10,10 @@ generic_gender:
 generic_colors:
   filled_form: generic_release
   form_field: colors
+  
+generic_acknowledgement:
+  filled_form: generic_release
+  form_field: acknowledgement
 
 old_age:
   filled_form: old_release

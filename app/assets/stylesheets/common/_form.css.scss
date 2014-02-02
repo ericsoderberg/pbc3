@@ -262,7 +262,18 @@ iframe.textedit {
   }
 }
 
-.form_errors {
+.form_errors, #error_explanation {
   color: #c00;
   margin: 10px 0px;
+  
+  > h2 {
+    font-size: 18px;
+    margin: 0px;
+  }
+  
+  > ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+  }
 }

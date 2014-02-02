@@ -1,0 +1,4 @@
+$('#form_section_<%= @form_section.id %> header').replaceWith(
+	'<%= escape_javascript(render :partial => "form",\
+	  :locals => {:form_section => @form_section}) %>');
+      

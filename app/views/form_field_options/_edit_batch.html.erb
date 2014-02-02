@@ -4,7 +4,7 @@
   
 <ul id="form_field_<%= form_field.id %>_options"
   class="form_field_options editing">
-  <%= render :partial => 'form_field_options/edit_option',
+  <%= render :partial => 'form_field_options/edit',
     :collection => form_field.form_field_options,
     :locals => {:form_field => form_field} %>
 </ul>

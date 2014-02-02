@@ -1,0 +1,17 @@
+<% form_section ||= @form_section || show -%>
+<%= content_tag_for(:li, form_section) do %>
+
+  <%= render :partial => 'form_sections/view',
+    :locals => {:form_section => form_section} %>
+  
+  <ul class="dynamic_form_fields">
+    <%= render :partial => 'form_fields/show',
+      :collection => form_section.form_fields %>
+  </ul>
+  
+  <div class="actions dynamic_form">
+    <%= button_to 'Add field',
+      form_fields_path(@form, :form_section_id => form_section.id), :remote => true %>
+    <span class="errors"></span>
+  </div>
+<% end %>

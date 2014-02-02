@@ -17,3 +17,8 @@ blue:
   form_field: colors
   name: Blue
   option_type: fixed
+  
+agree:
+  form_field: acknowledgement
+  name: "I agree"
+  option_type: fixed

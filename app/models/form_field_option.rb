@@ -3,10 +3,13 @@ class FormFieldOption < ActiveRecord::Base
   has_many :filled_field_options, :dependent => :destroy
   
   FIXED = 'fixed'
+  SINGLE_LINE = 'single line'
+  MULTIPLE_LINES = 'multiple lines'
   FIELD = 'field' # TBD
   AREA = 'area'   # TBD
   INSTRUCTIONS = 'instructions'
-  TYPES = [FIXED, FIELD, AREA, INSTRUCTIONS]
+  OLD_TYPES = [FIXED, FIELD, AREA, INSTRUCTIONS]
+  TYPES = [FIXED, SINGLE_LINE, MULTIPLE_LINES, INSTRUCTIONS]
   
   validates :form_field, :presence => true
   validates :name, :presence => true,
@@ -19,7 +22,7 @@ class FormFieldOption < ActiveRecord::Base
   end
   
   def sizeable?
-    [FIELD, AREA].include?(option_type)
+    [FIELD, AREA, SINGLE_LINE, MULTIPLE_LINES].include?(option_type)
   end
   
   def copy(source_option)
@@ -42,7 +45,7 @@ class FormFieldOption < ActiveRecord::Base
         end
       end
       
-      if filled_options.empty?
+      if filled_options.empty? and filled_field.value
         # older forms only have the value
         unless result
           result = (filled_field.value == self.name)

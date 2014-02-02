@@ -1,0 +1,30 @@
+<% form_field_option ||= @form_field_option || show -%>
+<%= content_tag_for(:li, form_field_option) do %>
+  <div class="dynamic_form_field_option_name">
+    <%= form_field_option.name %>
+  </div>
+  <div class="dynamic_form_field_option_value">
+  <% case form_field_option.option_type -%>
+    <% when FormFieldOption::FIXED -%>
+    <% when FormFieldOption::FIELD, FormFieldOption::MULTIPLE_LINES -%>
+      <%= text_field_tag form_field_option.html_name, nil,
+        :size => (form_field_option.size ? form_field_option.size : '') %>
+    <% when FormFieldOption::AREA, FormFieldOption::MULTIPLE_LINES -%>
+      <%= text_area_tag form_field_option.html_name, nil,
+        :size => (form_field_option.size ? form_field_option.size : '') %>
+    <% when FormFieldOption::INSTRUCTIONS -%>
+  <% end -%>
+  </div>
+  <div class="dynamic_form_field_help">
+    <%= form_field_option.help %>
+  </div>
+  
+  <div class="dynamic_form_field_admin">
+    <%= link_to 'edit',
+      edit_form_field_option_path(@form, @form_field, form_field_option),
+      remote: true %>
+    <%= link_to 'delete',
+      form_field_option_path(@form, @form_field, form_field_option),
+      data: {confirm: 'Are you sure?'}, method: :delete, remote: true %>
+  </div>
+<% end %>

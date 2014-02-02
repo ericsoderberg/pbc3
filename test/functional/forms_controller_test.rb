@@ -22,7 +22,7 @@ class FormsControllerTest < ActionController::TestCase
       post :create, :form => @form.attributes
     end
 
-    assert_redirected_to edit_form_path(assigns(:form))
+    assert_redirected_to edit_fields_form_path(assigns(:form))
   end
 
   test "should get edit" do

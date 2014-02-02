@@ -12,3 +12,8 @@ generic_colors_blue:
   filled_field: generic_colors
   form_field_option: blue
   value: Blue
+  
+generic_acknowledgement_agree:
+  filled_field: generic_acknowledgement
+  form_field_option: agree
+  value: 1

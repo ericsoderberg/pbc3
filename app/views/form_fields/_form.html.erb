@@ -19,51 +19,67 @@
     | <%= link_to 'Cancel', form_field_path(@form, form_field),
       :remote => true %>
   </div>
-  <div class="form_field">
-  <div class="field type">
-    <%= f.label :type %>
-    <!-- rails select doesn't honor an :id parameter :( -->
-    <%= f.select :field_type, options_for_select(FormField::TYPES,
-      form_field.field_type), {}, :id => "field_type_#{form_field.id}" %>
-  </div>
-  <div class="field">
-    <%= f.label :monetary? %>
-    <%= f.check_box :monetary %>
-  </div>
-  <div class="field">
-    <%= f.label :dense? %>
-    <%= f.check_box :dense %>
-  </div>
+  
+  <div class="form_field header">
+    <div class="field type">
+      <!-- rails select doesn't honor an :id parameter :( -->
+      <%= f.select :field_type, options_for_select(FormField::TYPES,
+        form_field.field_type), {}, :id => "field_type_#{form_field.id}" %>
+    </div>
+    <div class="field required">
+      <%= f.check_box :required %>
+      <%= f.label :required? %>
+    </div>
+    <div class="field monetary">
+      <%= f.check_box :monetary %>
+      <%= f.label :monetary? %>
+    </div>
+    <div class="field dense">
+      <%= f.check_box :dense %>
+      <%= f.label :dense? %>
+    </div>
   </div>
   
   <div class="form_field">
-  <div class="field">
-    <%= f.label :label %><br />
-    <%= f.text_field :name %>
-  </div>
+    <div class="field name">
+      <%= f.label :label %><br />
+      <%= f.text_field :name %>
+    </div>
   
-  <div id="field_size_<%= form_field.id %>" class="field size"
-    style="<%= form_field.sizeable? ? '' : 'display:none' %>">
-    <%= f.label :size %><br />
-    <%= f.text_field :size, :size => 2 %>
-  </div>
+    <div id="field_size_<%= form_field.id %>"
+      class="field size <%= form_field.sizeable? ? '' : 'inactive' %>">
+      <%= f.label :size %><br />
+      <%= f.text_field :size, :size => 2 %>
+    </div>
+    
+    <div id="field_limit_<%= form_field.id %>"
+      class="field limit <%= form_field.limitable? ? '' : 'inactive' %>">
+      <%= f.label :limit %><br />
+      <%= f.text_field :limit, :size => 2, :type => 'number' %>
+    </div>
   
-  <div id="field_value_<%= form_field.id %>" class="field value"
-    style="<%= form_field.has_value? ? '' : 'display:none' %>">
-    <%= f.label :value %><br />
-    <%= f.text_field :value, :size => 5 %>
-  </div>
+    <div id="field_value_<%= form_field.id %>"
+      class="field value <%= form_field.has_value? ? '' : 'inactive' %>">
+      <%= f.label :value %><br />
+      <%= f.text_field :value, :size => 5 %>
+    </div>
   
-  <div class="field">
-    <%= f.label :help %><br />
-    <%= f.text_area :help, :size => '40x2' %>
-  </div>
+    <div class="field prompt <%= form_field.promptable? ? '' : 'inactive' %>">
+      <%= f.label :prompt %><br />
+      <%= f.text_field :prompt, :size => 80 %>
+    </div>
+    
+    <div class="field help">
+      <%= f.label :help %><br />
+      <%= f.text_area :help, :size => '80x2' %>
+    </div>
+    
   </div>
   
 <% end %>
 
-<div id="options_<%= form_field.id %>" class="edit_options"
-  style="<%= form_field.has_options? ? '' : 'display:none' %>">
+<div id="options_<%= form_field.id %>"
+  class="edit_options <%= form_field.has_options? ? 'active' : '' %>">
   <%= render :partial => 'form_field_options/edit_batch',
     :locals => {:form_field => form_field} %>
 </div>

@@ -1,0 +1,13 @@
+<% form_section ||= @form_section -%>
+<header>
+  <div class="dynamic_form_field_admin">
+    <%= link_to 'edit', edit_form_section_path(@form, form_section),
+      remote: true %>
+    <%= link_to 'copy', copy_form_section_path(@form, form_section),
+      remote: true, method: :post %>
+    <%= link_to 'delete', form_section_path(@form, form_section),
+      data: {confirm: 'Are you sure?'}, method: :delete, remote: true %>
+  </div>
+
+  <h3 class="dynamic_form_section_name"><%= form_section.name %></h3>
+</header>

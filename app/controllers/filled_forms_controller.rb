@@ -200,11 +200,45 @@ class FilledFormsController < ApplicationController
     return true
   end
   
-  def populate_option(form_field, filled_field, value)
-    filled_option = filled_field.filled_field_options.build
+  def populate_option(form_field, filled_field, filled_option, value)
+    filled_option = filled_field.filled_field_options.build unless filled_option
     option = form_field.form_field_options.find(value)
     filled_option.form_field_option = option
     filled_option.value = option.name
+  end
+  
+  def populate_options(form_field, filled_field, value)
+    prior_options = filled_field.filled_field_options.to_a
+    index = 0
+    value.each do |one_value|
+      populate_option(form_field, filled_field, prior_options[index], one_value)
+      index += 1
+    end
+    while index < filled_field.filled_field_options.size
+      filled_field.filled_field_options.delete(prior_options[index])
+    end
+  end
+  
+  def populate_value(form_field, filled_field, value)
+    # create a new one if needed
+    unless filled_field
+      filled_field = @filled_form.filled_fields.build
+      filled_field.filled_form = @filled_form
+      filled_field.form_field = form_field
+    end
+    # populate value
+    case form_field.field_type
+    when FormField::FIELD, FormField::SINGLE_LINE
+      filled_field.value = value
+    when FormField::AREA, FormField::MULTIPLE_LINES
+      filled_field.value = value
+    when FormField::SINGLE_CHOICE
+      populate_option(form_field, filled_field, filled_field.filled_field_options.first, value)
+    when FormField::MULTIPLE_CHOICE
+      populate_options(form_field, filled_field, value)
+    when FormField::COUNT
+      filled_field.value = value
+    end
   end
   
   def populate_filled_fields
@@ -219,29 +253,7 @@ class FilledFormsController < ApplicationController
         # field was filled out
         # get submitted value
         value = params[:filled_fields][field_id.to_s][:value]
-        # create a new one if needed
-        unless filled_field
-          filled_field = @filled_form.filled_fields.build
-          filled_field.filled_form = @filled_form
-          filled_field.form_field = form_field
-        end
-        # populate value
-        case form_field.field_type
-        when FormField::FIELD
-          filled_field.value = value
-        when FormField::AREA
-          filled_field.value = value
-        when FormField::SINGLE_CHOICE
-          filled_field.filled_field_options.clear
-          populate_option(form_field, filled_field, value)
-        when FormField::MULTIPLE_CHOICE
-          filled_field.filled_field_options.clear
-          value.each do |one_value|
-            populate_option(form_field, filled_field, one_value)
-          end
-        when FormField::COUNT
-          filled_field.value = value
-        end
+        populate_value(form_field, filled_field, value)
         # guess at name
         if not @filled_form.name and form_field.name =~ /name/i
           @filled_form.name = value

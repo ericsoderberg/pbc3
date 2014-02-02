@@ -3,14 +3,15 @@ require 'test_helper'
 class FormFieldsControllerTest < ActionController::TestCase
   setup do
     @form_field = form_fields(:age)
+    @form_section = @form_field.form_section
     @form = @form_field.form
     sign_in users(:admin)
   end
 
   test "should create form_field" do
     assert_difference('FormField.count') do
-      post :create, :form_id => @form.id,
-        :form_field => {:name => 'Testing', :field_type => 'field'},
+      post :create, :form_id => @form.id, :form_section_id => @form_section.id,
+        :form_field => {:name => 'Testing', :field_type => 'single line'},
         :format => 'js'
     end
     assert_response :success

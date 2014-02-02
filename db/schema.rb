@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140113054601) do
+ActiveRecord::Schema.define(version: 20140201212257) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -188,8 +188,19 @@ ActiveRecord::Schema.define(version: 20140113054601) do
     t.datetime "updated_at"
     t.boolean  "required"
     t.boolean  "monetary"
-    t.boolean  "dense",      default: false
+    t.boolean  "dense",           default: false
     t.string   "value"
+    t.integer  "form_section_id"
+    t.string   "prompt"
+    t.integer  "limit"
+  end
+
+  create_table "form_sections", force: true do |t|
+    t.integer  "form_id"
+    t.integer  "form_index"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "forms", force: true do |t|

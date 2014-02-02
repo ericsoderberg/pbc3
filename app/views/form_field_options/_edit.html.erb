@@ -1,13 +1,13 @@
 <% form_field ||= @form_field -%>
-<% edit_option ||= @form_field_option -%>
-<%= content_tag_for(:li, edit_option, :class => 'editing') do %>
-  <%= form_for(edit_option,
-    :url => form_field_option_path(@form, form_field, edit_option),
+<% form_field_option ||= @form_field_option || edit -%>
+<%= content_tag_for(:li, form_field_option, :class => 'editing') do %>
+  <%= form_for(form_field_option,
+    :url => form_field_option_path(@form, form_field, form_field_option),
     :remote => true) do |f| %>
   <div class="admin">
     <%= f.submit 'update' %>
     | <%= link_to 'Cancel',
-      form_field_option_path(@form, form_field, edit_option),
+      form_field_option_path(@form, form_field, form_field_option),
       :remote => true %>
   </div>
   <div class="form_field">
@@ -15,8 +15,8 @@
       <%= f.label :type %>
       <%= f.select :option_type,
           options_for_select(FormFieldOption::TYPES,
-            edit_option.option_type), {},
-            id: "option_type_#{edit_option.id}" %>
+            form_field_option.option_type), {},
+            id: "option_type_#{form_field_option.id}" %>
     </div>
     <div class="field">
       <%= f.label :disabled? %>
@@ -32,8 +32,8 @@
       <% end -%>
       <%= f.text_field :name %>
     </div>
-    <div id="option_size_<%= edit_option.id %>" class="field size"
-      style="<%= edit_option.sizeable? ? '' : 'display:none' %>">
+    <div id="option_size_<%= form_field_option.id %>" class="field size"
+      style="<%= form_field_option.sizeable? ? '' : 'display:none' %>">
       <%= f.label :size %><br/>
       <%= f.text_field :size, :size => 5 %>
     </div>

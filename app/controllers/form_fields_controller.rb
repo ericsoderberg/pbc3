@@ -26,9 +26,10 @@ class FormFieldsController < ApplicationController
   # POST /form_fields
   # POST /form_fields.xml
   def create
-    @form_field = @form.form_fields.new
-    @form_field.field_type = FormField::FIELD
-    @form_field.form_index = @form.form_fields.length + 1
+    @form_field = @form_section.form_fields.new
+    @form_field.form = @form
+    @form_field.field_type = FormField::SINGLE_LINE
+    @form_field.form_index = @form.next_index
     @form_field.name = "New Field #{@form_field.form_index}"
 
     respond_to do |format|
@@ -38,6 +39,7 @@ class FormFieldsController < ApplicationController
         format.js
       else
         format.html { render :action => "new" }
+        format.js
       end
     end
   end
@@ -60,13 +62,15 @@ class FormFieldsController < ApplicationController
   
   def copy
     source_form_field = @form.form_fields.find(params[:id])
+    @source_id = source_form_field.id
     @form_field = @form.form_fields.new
     @form_field.form = @form
+    @form_field.form_section = source_form_field.form_section
     @form_field.copy(source_form_field)
 
     respond_to do |format|
-      if @form_field.update_attributes(form_field_params)
-        format.html { redirect_to(@form_field, :notice => 'Form field was successfully updated.') }
+      if @form_field.save
+        format.html { redirect_to(@form_field, :notice => 'Form field was successfully copied.') }
         format.js
       else
         format.html { render :action => "edit" }
@@ -93,11 +97,14 @@ class FormFieldsController < ApplicationController
   def get_form
     @form = Form.find(params[:form_id])
     @page = @form.page
+    if params[:form_section_id]
+      @form_section = @form.form_sections.find(params[:form_section_id])
+    end
   end
   
   def form_field_params
     params.require(:form_field).permit(:form_id, :form_index, :name,
-      :field_type, :help, :size, :required, :monetary, :dense, :value)
+      :field_type, :help, :size, :required, :monetary, :dense, :value, :prompt, :limit)
   end
   
 end

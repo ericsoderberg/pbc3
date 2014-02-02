@@ -1,3 +1,3 @@
 $('#form_field_option_<%= @form_field_option.id %>').replaceWith(
-	'<%= escape_javascript(render :partial => "show_option",
-		:locals => {:show_option => @form_field_option}) %>'); 
+	'<%= escape_javascript(render :partial => "show",
+		:locals => {:form_field_option => @form_field_option}) %>'); 

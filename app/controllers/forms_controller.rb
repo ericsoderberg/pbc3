@@ -74,6 +74,9 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
+    if @form.form_sections.empty?
+      @form.migrate
+    end
     @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
   end
 
@@ -90,7 +93,7 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       if @form.save and (@copy_form or @form.create_default_fields)
-        format.html { redirect_to(edit_form_url(@form),
+        format.html { redirect_to(edit_fields_form_url(@form),
           :notice => 'Form was successfully created.') }
         format.xml  { render :xml => @form, :status => :created, :location => @form }
       else
@@ -109,13 +112,17 @@ class FormsController < ApplicationController
     if params[:field_order]
       ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
     end
+    if params[:section_order]
+      ordered_section_ids = params[:section_order].split(',').map{|id| id.to_i}
+    end
     if params[:advance_version]
       params[:form][:version] = @form.version + 1
     end
 
     respond_to do |format|
       if (not params[:form] or @form.update_attributes(form_params)) and
-        (not ordered_field_ids or @form.order_fields(ordered_field_ids))
+        (not ordered_field_ids or @form.order_fields(ordered_field_ids) and
+        (not ordered_section_ids or @form.order_sections(ordered_section_ids)))
         format.html { redirect_to(new_form_fill_path(@form),
           :notice => 'Form was successfully updated.') }
         format.js { head :ok }

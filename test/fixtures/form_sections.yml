@@ -1,0 +1,13 @@
+first:
+  form: release 
+  form_index: 1
+  name: Initial
+  
+last:
+  form: release 
+  form_index: 2
+  name: Last
+
+retreat:
+  form: retreat_registration
+  form_index: 1

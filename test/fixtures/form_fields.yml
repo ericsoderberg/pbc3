@@ -1,33 +1,46 @@
 age:
   form: release 
   form_index: 1
+  form_section: first
   name: Age
-  field_type: field
+  field_type: "single line"
   size: 4
 
 gender:
   form: release 
   form_index: 2
+  form_section: first
   name: Gender
   field_type: "single choice"
   
 colors:
   form: release 
   form_index: 3
+  form_section: last
   name: Colors
   field_type: "multiple choice"
 
 size:
   form: release
   form_index: 4
+  form_section: last
   name: Size
-  field_type: field
+  field_type: "single line"
   size: 20
+  
+acknowledgement:
+  form: release
+  form_index: 5
+  form_section: last
+  name: Acknowledgement
+  field_type: "multiple choice"
+  required: true
   
 amount:
   form: retreat_registration 
   form_index: 1
+  form_section: retreat
   name: Amount
-  field_type: field
+  field_type: "single line"
   size: 4
   monetary: true

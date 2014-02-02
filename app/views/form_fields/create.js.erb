@@ -1,3 +1,9 @@
-$('#dynamic_form_fields').append(
-	'<%= escape_javascript(render :partial => "edit_field",\
-	  :locals => {:edit_field => @form_field}) %>');
+$('#form_section_<%= @form_section.id %> .errors').empty();
+<% @form_field.errors.full_messages.each do |msg| %>
+    $('#form_section_<%= @form_section.id %> .errors').append('<%= escape_javascript(msg) %>');
+<% end %>
+<% if @form_field.id -%>
+$('#form_section_<%= @form_section.id %> ul.dynamic_form_fields').append(
+	'<%= escape_javascript(render :partial => "edit",\
+	  :locals => {:form_field => @form_field}) %>');
+<% end -%>

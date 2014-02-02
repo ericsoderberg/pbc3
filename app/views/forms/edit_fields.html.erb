@@ -10,15 +10,20 @@
       @form.form_fields.map{|ff| ff.id}.join(', '),
       :id => 'field_order'%>
   <% end -%>
+  <%= form_for(@form, :remote => true, html: {:id => 'form_section_order'}) do |f| %>
+    <%= hidden_field_tag 'section_order',
+      @form.form_sections.map{|fs| fs.id}.join(', '),
+      :id => 'section_order'%>
+  <% end -%>
   
-  <ul id="dynamic_form_fields">
-    <%= render :partial => 'form_fields/show_field',
-      :collection => @form.form_fields %>
+  <ul class="dynamic_form_sections">
+    <%= render :partial => 'form_sections/show',
+      :collection => @form.form_sections %>
   </ul>
   
   <div class="actions dynamic_form">
-    <%= button_to 'Add field',
-      form_fields_path(@form), :remote => true %>
+    <%= button_to 'Add section',
+      form_sections_path(@form), :remote => true %>
   </div>
   
   <p class="help">If you are editing a form that has already been published and filled out, you may want to advance the version number in the <%= link_to 'context', edit_form_path(@form) %> settings.</p>

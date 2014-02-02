@@ -1,0 +1,3 @@
+$('ul.dynamic_form_sections').append(
+	'<%= escape_javascript(render :partial => "edit",\
+	  :locals => {:form_section => @form_section}) %>');
