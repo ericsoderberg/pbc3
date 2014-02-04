@@ -1,5 +1,5 @@
 <%= content_tag_for(:li, fill_form_section) do %>
-  <h3 class="dynamic_form_section_name"><%= fill_form_section.name %></h3>
+  <h3><%= fill_form_section.name %></h3>
   <ul class="filled_fields">
     <%= render :partial => 'filled_fields/fill_form_field',
       :collection => fill_form_section.form_fields %>
