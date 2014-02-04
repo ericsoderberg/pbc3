@@ -450,8 +450,17 @@ h2.form_field_name {
   }
 }
 
-.edit_filled_form hr {
-  clear: both;
+.edit_filled_form {
+  div.form_timestamp {
+    text-align: right;
+    color: #999;
+    font-style: italic;
+  }
+  div#form_fill_submitter {
+    clear: both;
+    margin-top: 5px;
+    text-align: right;
+  }
 }
 
 .filled_form_payment {

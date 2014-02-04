@@ -38,16 +38,19 @@
   </ul>
   <% end -%>
   
+  <% if @filled_form.id -%>
+  <div class="form_timestamp">Updated <%= form_fill_timestamp %></div>
+  <% end -%>
+  
   <% if not @form.form_fields.empty? -%>
   
   <% if current_user and current_user.administrator? -%>
     <div id="form_fill_submitter">
-      <hr/>
-      <%= f.label :change_submitter %>
-      <span class="help">please use with caution.</span>
+      <%= f.label :submitter %>
       <%= collection_select(:filled_form, :user_id,
         User.where("TRIM(both ' ' from name) != ''").order('LOWER(name) ASC'), :id, :name,
         :include_blank => true) %>
+      <div class="help">changing will change who can see it</div>
     </div>
   <% end -%>
   
@@ -63,4 +66,5 @@
   </div>
   
   <% end -%>
+  
 <% end %>

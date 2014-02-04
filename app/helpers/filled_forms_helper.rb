@@ -28,4 +28,8 @@ module FilledFormsHelper
     request.env['HTTP_USER_AGENT'].downcase.index('chrome/') or
     request.env['HTTP_USER_AGENT'].downcase.index('safari/')
   end
+  
+  def form_fill_timestamp
+    @filled_form.updated_at.strftime("%B ") + @filled_form.updated_at.mday.ordinalize + @filled_form.updated_at.strftime(", %Y")
+  end
 end
