@@ -1,7 +1,7 @@
 <%= content_tag_for(:li, show_form_field) do %>
-  <% filled_field = @filled_form.filled_fields.where(
+  <% filled_field = filled_form.filled_fields.where(
     'form_field_id = ?', show_form_field.id).first
-    value = filled_field ? filled_field.value : '' -%>
+    value = filled_field ? filled_field.text_value : '' -%>
     
   <div class="form_field_name">  
     <%= show_form_field.name %>

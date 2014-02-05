@@ -1,12 +1,52 @@
 <%= render :partial => 'forms/breadcrumbs' %>
 
-<header>
+<header id="filled_form_header">
   
   <h1>
-    <% if current_user and @form.page.administrator?(current_user) -%>
-      <%= link_to @form.name, form_fills_path(@form) %>
-    <% else -%>
-      <span class="form_name"><%= @form.name %></span>
+    <% if @filled_form and @filled_form.parent -%>
+      <span class="parent_form">
+        <%= link_to @filled_form.parent.form.name,
+          edit_form_fill_url(@filled_form.parent.form,
+            @filled_form.parent, :protocol => 'https') %>
+      </span>
+    <% elsif @form.parent -%>
+      <span class="parent_form">
+        <%= link_to @form.parent.name,
+          form_fills_url(@form.parent, :protocol => 'https') %>
+      </span>
+    <% end -%>
+    
+    <span class="form_name"><%= @form.name %></span>
+
+    <% if @filled_form and not @filled_form.children.empty? -%>
+      <% child_filled_form = @filled_form.children.first -%>
+      <span class="child_form">
+        <%= link_to child_filled_form.form.name,
+          edit_form_fill_url(child_filled_form.form,
+            child_filled_form, :protocol => 'https') %>
+      </span>
+    <% elsif not @form.children.empty? -%>
+      <% child_form = @form.children.first -%>
+      <span class="child_form">
+        <% if @filled_form and not @filled_form.children.empty? -%>
+          <% child_filled_form = @filled_form.children.first -%>
+          <%= link_to child_filled_form.form.name,
+            edit_form_fill_url(child_filled_form.form,
+              child_filled_form, :protocol => 'https') %>
+        <% elsif @filled_form and @filled_form.id -%>
+          <%= link_to child_form.name,
+            new_form_fill_url(child_form, :protocol => 'https') %>
+        <% elsif (current_user and current_user.administrator?) %>
+          <% if not @filled_form -%>
+            <%= link_to child_form.name,
+              form_fills_url(child_form, :protocol => 'https') %>
+          <% else -%>
+            <%= link_to child_form.name, best_form_url(child_form) %>
+          <% end -%>
+        <% else -%>
+          <%= child_form.name %>
+        <% end -%>
+      </span>
     <% end -%>
   </h1>
   
@@ -15,6 +55,7 @@
     <ul>
       <li><%= link_to 'Edit form', edit_fields_form_path(@form) %><li>
       <li><%= link_to 'Copy form', copy_form_path(@form) %><li>
+      <li><%= link_to 'List', form_fills_path(@form) %></li>
       <li><%= link_to 'CSV',
         form_fills_path(@form, :format => 'csv') %><li>
       <li><%= link_to 'Excel',

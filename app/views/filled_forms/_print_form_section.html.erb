@@ -1,0 +1,9 @@
+<%= content_tag_for(:li, print_form_section) do %>
+  <h3><%= print_form_section.name %></h3>
+  <ul class="filled_fields">
+    <%= render :partial => 'filled_fields/show_form_field',
+      :collection => print_form_section.form_fields,
+      :locals => {:filled_form => filled_form} %>
+    <li class="form_field"></li><!-- to clear -->
+  </ul>
+<% end %>

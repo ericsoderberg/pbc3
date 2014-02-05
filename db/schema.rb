@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140201212257) do
+ActiveRecord::Schema.define(version: 20140204043118) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(version: 20140201212257) do
     t.integer  "payment_id"
     t.string   "verification_key"
     t.integer  "version",          default: 1
+    t.integer  "parent_id"
   end
 
   create_table "form_field_options", force: true do |t|
@@ -215,6 +216,9 @@ ActiveRecord::Schema.define(version: 20140201212257) do
     t.integer  "updated_by"
     t.integer  "event_id"
     t.integer  "version",       default: 1
+    t.integer  "parent_id"
+    t.boolean  "authenticated", default: false
+    t.boolean  "many_per_user", default: false
   end
 
   create_table "holidays", force: true do |t|

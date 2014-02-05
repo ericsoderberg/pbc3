@@ -6,11 +6,14 @@ class FilledForm < ActiveRecord::Base
   has_many :filled_fields, -> {
     includes(:form_field).order('form_fields.form_index') },
     :autosave => true, :dependent => :destroy
+  belongs_to :parent, :class_name => 'FilledForm'
+  has_many :children, :class_name => 'FilledForm', :foreign_key => :parent_id
   
   validates :form, :presence => true
   validates :name, :presence => true
   validates :verification_key, :presence => true
   validate :required_fields_set
+  validate :parent_if_form_parent
   
   before_validation(:on => :create) do
     self.verification_key = SecureRandom.base64(48);
@@ -26,6 +29,12 @@ class FilledForm < ActiveRecord::Base
           end
         end
       end
+    end
+  end
+  
+  def parent_if_form_parent
+    if form and form.parent and not self.parent
+      errors.add(:parent, "is required")
     end
   end
   

@@ -9,8 +9,14 @@
     <%= render :partial => 'payment_fields' %>
     <hr/>
   <% end -%>
+  
+  <% if @filled_form.parent -%>
+  <div id="included_parent_form">
+    <%= render :partial => 'form', :locals => {:filled_form => @filled_form.parent} %>
+  </div>
+  <% end -%>
     
-  <%= render 'form' %>
+  <%= render :partial => 'form', :locals => {:filled_form => @filled_form} %>
 
 </section>
 

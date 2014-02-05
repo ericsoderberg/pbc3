@@ -6,6 +6,8 @@ class Form < ActiveRecord::Base
   has_many :form_sections, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
   has_many :filled_forms, -> { order('name ASC') }, :dependent => :destroy
+  belongs_to :parent, :class_name => 'Form'
+  has_many :children, :class_name => 'Form', :foreign_key => :parent_id
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   validates :name, :presence => true
@@ -39,9 +41,9 @@ class Form < ActiveRecord::Base
   end
   
   def visible_filled_forms(user)
-    return filled_forms.where('id IS NOT null') if page.administrator?(user)
+    return filled_forms.where('filled_forms.id IS NOT null') if page.administrator?(user)
     return Form.none unless user
-    filled_forms.where('id IS NOT null AND user_id = ?', user.id)
+    filled_forms.where('filled_forms.id IS NOT null AND filled_form.user_id = ?', user.id)
   end
   
   def filled_forms_for_user(user)

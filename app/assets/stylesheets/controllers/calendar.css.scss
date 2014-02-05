@@ -1,5 +1,4 @@
 #calendar_header {
-  display: table;
   color: #666;
   width: 100%;
   font-size: 18px;
@@ -11,9 +10,7 @@
   }
   
   #focus_date {
-    display: table-cell;
-    font-size: 28px;
-    color: #666;
+    display: inline-block;
     margin-right: 20px;
     vertical-align: middle;
     
@@ -31,7 +28,7 @@
   }
   
   #calendar_controls {
-    display: table-cell;
+    float: right;
     text-align: right;
     
     @include respond-to(tiny) {

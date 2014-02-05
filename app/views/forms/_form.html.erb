@@ -26,6 +26,16 @@
     <%= f.check_box :published %>
   </div>
   <div class="field">
+    <%= f.label :authenticated? %>
+    <%= f.check_box :authenticated %>
+    <span class="help">Users are required to sign in</span>
+  </div>
+  <div class="field">
+    <%= f.label '> 1 per user?' %>
+    <%= f.check_box :many_per_user %>
+    <span class="help">Expect users to fill out more than one</span>
+  </div>
+  <div class="field">
     <%= f.label :payable? %>
     <%= f.check_box :payable %>
   </div>
@@ -56,6 +66,13 @@
     <%= check_box_tag :advance_version %>
     <span class="help">The current version is <%= @form.version %></span>
   </div>
+  <% if @possible_parents -%>
+  <div class="field">
+    <%= f.label :parent %>
+    <%= f.collection_select :parent_id, @possible_parents, :id, :name,
+      {include_blank: true}, {:class => 'form'} %>
+  </div>
+  <% end -%>
   
   <div class="actions">
     <%= f.submit %>

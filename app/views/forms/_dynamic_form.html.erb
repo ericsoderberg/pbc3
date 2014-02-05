@@ -1,22 +1,3 @@
 <%= content_tag_for(:li, dynamic_form) do %>
-  <% if current_user -%>
-    <% filled_forms = 
-      dynamic_form.filled_forms.for_user(current_user) -%>
-    <% if filled_forms.length > 0 -%>
-      <% if dynamic_form.payable? -%>
-        <%= link_to dynamic_form.name,
-          form_fills_url(dynamic_form, :protocol => 'https') %>
-      <% else -%>
-        <%= link_to dynamic_form.name,
-          edit_form_fill_url(dynamic_form,
-            filled_forms.first, :protocol => 'https') %>
-      <% end -%>
-    <% else -%>
-      <%= link_to dynamic_form.name,
-        new_form_fill_url(dynamic_form, :protocol => 'https') %>
-    <% end -%>
-  <% else -%>
-    <%= link_to dynamic_form.name,
-      new_form_fill_url(dynamic_form, :protocol => 'https') %>
-  <% end -%>
+  <%= link_to dynamic_form.name, best_form_url(dynamic_form) %>
 <% end %>

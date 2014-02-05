@@ -12,6 +12,33 @@ header {
   }
 }
 
+#filled_form_header {
+  span.parent_form {
+    &:after {
+      padding: 0px 10px;
+      content: '>';
+      color: #ccc;
+    }
+  }
+  
+  h1 {
+    font-weight: normal;
+    
+    > a {
+      color: #333;
+    }
+  }
+  
+  span.child_form {
+    color: #ccc;
+
+    &:before {
+      padding: 0px 10px;
+      content: '>';
+    }
+  }
+}
+
 #forms {
   .event_range {
     padding-left: 15px;
@@ -280,8 +307,8 @@ div.actions.dynamic_form {
 }
 	
 #submitted_form_list {
-	background-color: #f8f8f8;
-	padding: 10px 20px 20px 20px;
+	//background-color: #f8f8f8;
+	//padding: 10px 20px 20px 20px;
 	margin-bottom: 20px;
 	
 	h2 {
@@ -301,6 +328,7 @@ div.actions.dynamic_form {
 		
 		li {
 			padding: 4px 10px;
+      margin-bottom: 5px;
 			
 			a {
   		  display: block;
@@ -308,22 +336,22 @@ div.actions.dynamic_form {
   		
   		.form_submitter, .form_date, .form_amount {
   		  display: block;
-  		  padding-left: 10px;
+  		  padding-left: 20px;
 			  color: #666;
 			  font-weight: normal;
 			  white-space: nowrap;
 			}
 			
 			&.active {
-  			background-color: #999;
+  			background-color: #eee; //#999;
   			
   			a, .form_submitter, .form_date, .form_amount, .help {
-  				color: #eee;
+  				//color: #eee;
   			}
   		}
   		
   		&:hover {
-  		  background-color: #ddd;
+  		  background-color: #f8f8f8;
   		  cursor: pointer;
   		  
   		  a:hover {
@@ -337,6 +365,10 @@ div.actions.dynamic_form {
 #new_filled_form_button {
   padding-left: 20px;
   margin-bottom: 20px;
+}
+
+div#included_parent_form {
+  display: none;
 }
 
 #filled_fields, #filled_sections, .filled_fields {
@@ -450,9 +482,10 @@ h2.form_field_name {
   }
 }
 
-.edit_filled_form {
+.edit_filled_form, .new_filled_form {
   div.form_timestamp {
-    text-align: right;
+    //text-align: right;
+    margin-top: 10px;
     color: #999;
     font-style: italic;
   }

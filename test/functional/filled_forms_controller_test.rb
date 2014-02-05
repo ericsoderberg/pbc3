@@ -53,7 +53,7 @@ class FilledFormsControllerTest < ActionController::TestCase
       #assert false, assigns(:filled_form).errors.full_messages.join("\n")
     end
 
-    assert_redirected_to form_fills_path(assigns(:form))
+    assert_redirected_to friendly_page_path(assigns(:page))
   end
 
   test "should show filled_form" do

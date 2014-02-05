@@ -42,6 +42,7 @@ class FormsController < ApplicationController
     @page = @form.page
     return unless page_administrator!
     @copy_form = nil
+    @possible_parents = @form.page.forms if @form.page
 
     respond_to do |format|
       format.html # new.html.erb
@@ -68,6 +69,7 @@ class FormsController < ApplicationController
       where('events.master_id IS NULL')
     @pages = Page.editable(current_user)
     @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
+    @possible_parents = @form.page.forms.delete_if{|f| f.id == @form.id}
   end
   
   def edit_fields
@@ -153,7 +155,8 @@ class FormsController < ApplicationController
   def form_params
     params.require(:form).permit(:name, :page_id, :event_id,
       :payable, :published, :pay_by_check, :pay_by_paypal,
-      :updated_by, :version).merge(:updated_by => current_user)
+      :updated_by, :version, :parent_id, :authenticated,
+      :many_per_user).merge(:updated_by => current_user)
   end
   
 end

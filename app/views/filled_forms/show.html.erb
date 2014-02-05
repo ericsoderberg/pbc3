@@ -1,10 +1,13 @@
+<% filled_form ||= @filled_form -%>
 <% title @form.name -%>
 
 <header>
   <h1>
     <%= link_to @form.page.name, friendly_page_path(@form.page) %>
     &nbsp;&nbsp;
+    <% unless filled_form.parent -%>
     <%= @form.name %>
+    <% end -%>
   </h1>
   
   <% if user_signed_in? and current_user.administrator? -%>
@@ -21,10 +24,15 @@
 <div class="regular_content">
 <section>
   
-  <ul id="filled_fields">
-    <%= render :partial => 'filled_fields/show_form_field',
-      :collection => @form.form_fields %>
-  </ul>
+  <% if filled_form.parent -%>
+  <h2><%= filled_form.parent.form.name %></h2>
+  <%= render :partial => 'show', :locals => {:filled_form => filled_form.parent} %>
+  <% end -%>
+  
+  <% if filled_form.parent -%>
+  <h2><%= filled_form.form.name %></h2>
+  <% end -%>
+  <%= render :partial => 'show', :locals => {:filled_form => filled_form} %>
 
   <div class="timestamp">
     Printed <%= Time.now.strftime("%A %B %e at %r") %>

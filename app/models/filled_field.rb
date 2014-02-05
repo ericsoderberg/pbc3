@@ -18,6 +18,27 @@ class FilledField < ActiveRecord::Base
     end
   end
   
+  def text_value
+    case form_field.field_type
+      when FormField::FIELD, FormField::SINGLE_LINE
+        value
+      when FormField::SINGLE_CHOICE
+        if not filled_field_options.empty?
+          filled_field_options.first.value
+        elsif value and not value.empty?
+          value
+        end
+      when FormField::MULTIPLE_CHOICE
+        if not filled_field_options.empty?
+          filled_field_options.map{|o| o.value}.join(', ')
+        elsif value and not value.empty?
+          value
+        end
+      when FormField::COUNT
+        value + ' x ' + form_field.value
+    end
+  end
+  
   def options_selected_count
     result = 0
     filled_field_options.each{|o| result += 1 if o.form_field_option.selected(self) }

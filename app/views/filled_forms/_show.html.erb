@@ -1,0 +1,14 @@
+<% if filled_form.form.form_sections.empty? -%>
+<ul id="filled_fields">
+  <%= render :partial => 'filled_fields/show_form_field',
+    :collection => filled_form.form.form_fields,
+    :locals => {:filled_form => filled_form} %>
+  <li class="form_field"></li><!-- to clear -->
+</ul>
+<% else -%>
+<ul id="filled_sections">
+  <%= render :partial => 'filled_forms/show_form_section',
+    :collection => filled_form.form.form_sections,
+    :locals => {:filled_form => filled_form} %>
+</ul>
+<% end -%>

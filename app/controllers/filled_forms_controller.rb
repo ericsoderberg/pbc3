@@ -6,14 +6,26 @@ class FilledFormsController < ApplicationController
   # GET /filled_forms.xml
   def index
     @sort = params[:sort] || 'name'
-    @filled_forms = @form.visible_filled_forms(current_user).
-      reorder(@sort + (@sort != 'name' ? ' DESC' : ''))
+    @sort_id = @sort.to_i
+    @filled_forms = @form.visible_filled_forms(current_user)
+    if @sort
+      if @sort_id <= 0
+        @filled_forms = @filled_forms.reorder(@sort + ' DESC')
+      else
+        @filled_forms = @filled_forms.includes(:filled_fields).
+          where('filled_fields.form_field_id = ?', @sort_id).
+          reorder('filled_fields.value').references(:filled_fields)
+      end
+    end
     @payable_forms = @filled_forms.for_user(current_user).
       where(:payment_id => nil)
     @value_form_fields = @form.form_fields.valued
     @columns = @value_form_fields.map{|ff| ff.name} +
       %w{user email} +
       (@form.payable ? %w{state payment date} : [])
+    @sort_options = @value_form_fields.map{|ff| [ff.name, ff.id]}
+    @sort_options << ['date', 'updated_at']
+    @sort_options << ['version']
     
     respond_to do |format|
       format.html # index.html.erb
@@ -53,8 +65,16 @@ class FilledFormsController < ApplicationController
     if current_user
       @filled_form.user = current_user
       @filled_forms = @form.visible_filled_forms(current_user)
+    else
+      session[:post_login_path_override] = request.original_url
+      redirect_to new_user_session_url(:protocol => 'https')
+      return
     end
     session[:edit_form_cancel_path] = new_form_fill_path(@form)
+    if @form.parent
+      @parent_filled_forms = @form.parent.visible_filled_forms(current_user)
+      @filled_form.parent = @parent_filled_forms.first
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -68,6 +88,9 @@ class FilledFormsController < ApplicationController
     @filled_forms = @form.visible_filled_forms(current_user)
     return unless filled_form_authorized!
     session[:edit_form_cancel_path] = edit_form_fill_path(@form, @filled_form)
+    if @form.parent
+      @parent_filled_forms = @form.parent.visible_filled_forms(current_user)
+    end
   end
 
   # POST /filled_forms
@@ -83,6 +106,9 @@ class FilledFormsController < ApplicationController
       @filled_form.user = User.find(params[:filled_form][:user_id])
     else
       @filled_form.user = current_user
+    end
+    if params[:filled_form] and params[:filled_form][:parent_id]
+      @filled_form.parent = FilledForm.find(params[:filled_form][:parent_id])
     end
     @filled_form.version = @form.version
     populate_filled_fields
@@ -122,6 +148,9 @@ class FilledFormsController < ApplicationController
       end
     else
       @filled_form.user = current_user
+    end
+    if params[:filled_form] and params[:filled_form][:parent_id]
+      @filled_form.parent = FilledForm.find(params[:filled_form][:parent_id])
     end
     @filled_form.version = @form.version
     populate_filled_fields
@@ -203,7 +232,10 @@ class FilledFormsController < ApplicationController
   def populate_option(form_field, filled_field, filled_option, value)
     filled_option = filled_field.filled_field_options.build unless filled_option
     option = form_field.form_field_options.find(value)
-    filled_option.form_field_option = option
+    if filled_option.form_field_option != option
+      filled_option.form_field_option = option
+      filled_option.updated_at = Time.now
+    end
     filled_option.value = option.name
   end
   
@@ -233,7 +265,7 @@ class FilledFormsController < ApplicationController
     when FormField::AREA, FormField::MULTIPLE_LINES
       filled_field.value = value
     when FormField::SINGLE_CHOICE
-      populate_option(form_field, filled_field, filled_field.filled_field_options.first, value)
+      populate_options(form_field, filled_field, [value])
     when FormField::MULTIPLE_CHOICE
       populate_options(form_field, filled_field, value)
     when FormField::COUNT
@@ -285,8 +317,16 @@ class FilledFormsController < ApplicationController
         payment_url(@payment,
           {:verification_key => @payment.verification_key})
       end
-    elsif current_user
-      form_fills_url(@form)
+    elsif not @form.children.empty?
+      child_form = @form.children.first
+      filled_form = child_form.filled_forms_for_user(current_user).first
+      if filled_form
+        edit_form_fill_url(child_form, filled_form)
+      else
+        new_form_fill_url(child_form)
+      end
+    elsif current_user and @form.many_per_user?
+      new_form_fill_url(@form)
     else
       friendly_page_url(@page)
     end

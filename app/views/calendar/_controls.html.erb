@@ -4,7 +4,7 @@
     :months => @months ? @months : nil,
     :singular => @singular ? @singular : nil} %>
 <header id="calendar_header">
-  <h2 id="focus_date"><%=h @date.strftime("%B %Y") %></h2>
+  <h1 id="focus_date"><%=h @date.strftime("%B %Y") %></h1>
 
   <div id="calendar_controls">
   <% if (user_signed_in? and current_user.administrator?) or @full -%>

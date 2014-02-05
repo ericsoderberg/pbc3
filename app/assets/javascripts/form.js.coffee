@@ -54,6 +54,10 @@ initialize = ->
     checkLimit(list)
   $('#filled_sections ul.options_list').each (index, elem) ->
     checkLimit($(elem))
+  # submit on sort change for fills index
+  $('#filled_forms_sort select').on 'change', ->
+    console.log('!!! change to', $(this).val())
+    $(this).closest('form').submit()
 
 $(document).ready(initialize)
 $(document).on('page:load', initialize)

@@ -59,7 +59,8 @@ class ApplicationController < ActionController::Base
         not referer_path.starts_with?('/users/password') and
         not referer_path.starts_with?('/password') and
         not referer_path.starts_with?('/private')
-        session[:post_login_path] = request.referer
+        session[:post_login_path] = session[:post_login_path_override] || request.referer
+        session.delete(:post_login_path_override)
       end
     end
   end
