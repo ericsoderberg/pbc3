@@ -9,7 +9,7 @@ module FilledFormsHelper
       (value_form_fields.map{|ff|
         filled_field = filled_form.filled_fields.detect{|fff|
           ff == fff.form_field}
-        filled_field ? filled_field.value : ''} +
+        filled_field ? filled_field.text_value : ''} +
       (filled_form.user ?
         [filled_form.user.name, filled_form.user.email]
         : ['anonymous', '']) +

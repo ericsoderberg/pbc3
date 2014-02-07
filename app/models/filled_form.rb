@@ -7,7 +7,8 @@ class FilledForm < ActiveRecord::Base
     includes(:form_field).order('form_fields.form_index') },
     :autosave => true, :dependent => :destroy
   belongs_to :parent, :class_name => 'FilledForm'
-  has_many :children, :class_name => 'FilledForm', :foreign_key => :parent_id
+  has_many :children, :class_name => 'FilledForm', :foreign_key => :parent_id,
+    :dependent => :destroy
   
   validates :form, :presence => true
   validates :name, :presence => true
