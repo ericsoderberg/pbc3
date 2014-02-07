@@ -1,0 +1,18 @@
+<% value_form_fields.each do |form_field| -%>
+  <% filled_field = filled_form.filled_fields.detect{|fff|
+      form_field == fff.form_field} -%>
+<Cell><Data ss:Type="String"><%= filled_field ? filled_field.text_value : '' %></Data></Cell>
+<% end %>
+<Cell><Data ss:Type="String"><%= filled_form.user ?
+  filled_form.user.name : 'anonymous' %></Data></Cell>
+<Cell><Data ss:Type="String"><%= filled_form.user ?
+  filled_form.user.email : '' %></Data></Cell>
+<% if form.payable? -%>
+  <Cell><Data ss:Type="String"><%= filled_form.payment ?
+    filled_form.payment.state : 'unpaid' %></Data></Cell>
+  <Cell><Data ss:Type="String"><%= filled_form.payment ?
+      filled_form.payment.method : '' %></Data></Cell>
+  <Cell><Data ss:Type="String"><%= (filled_form.payment and
+      filled_form.payment.sent_at) ?
+      filled_form.payment.sent_at.strftime("%m/%d/%Y") : '' %></Data></Cell>
+<% end -%>

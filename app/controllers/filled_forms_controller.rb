@@ -17,12 +17,18 @@ class FilledFormsController < ApplicationController
           reorder('filled_fields.value').references(:filled_fields)
       end
     end
+    
     @payable_forms = @filled_forms.for_user(current_user).
       where(:payment_id => nil)
+      
+    if @form.parent
+      @parent_value_form_fields = @form.parent.form_fields.valued
+      @parent_columns = @form.parent.columns
+    end
+    
     @value_form_fields = @form.form_fields.valued
-    @columns = @value_form_fields.map{|ff| ff.name} +
-      %w{user email} +
-      (@form.payable ? %w{state payment date} : [])
+    @columns = @form.columns
+      
     @sort_options = @value_form_fields.map{|ff| [ff.name, ff.id]}
     @sort_options << ['date', 'updated_at']
     @sort_options << ['version']

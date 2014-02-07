@@ -40,6 +40,12 @@ class Form < ActiveRecord::Base
     Page.order('name')
   end
   
+  def columns
+    form_fields.valued.map{|ff| ff.name} +
+    %w{user email} +
+    (payable ? %w{state payment date} : [])
+  end
+  
   def visible_filled_forms(user)
     return filled_forms.where('filled_forms.id IS NOT null') if page.administrator?(user)
     return Form.none unless user
