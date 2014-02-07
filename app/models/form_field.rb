@@ -59,9 +59,15 @@ class FormField < ActiveRecord::Base
   
   def copy(source_form_field)
     self.name = source_form_field.name
+    self.value = source_form_field.value
     self.field_type = source_form_field.field_type
     self.help = source_form_field.help
     self.prompt = source_form_field.prompt
+    self.required = source_form_field.required
+    self.limit = source_form_field.limit
+    self.monetary = source_form_field.monetary
+    self.dense = source_form_field.dense
+    self.size = source_form_field.size
     self.form_index = source_form_field.form_index
     source_form_field.form_field_options.each do |source_option|
       new_option = self.form_field_options.build

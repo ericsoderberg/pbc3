@@ -1,6 +1,6 @@
 <% filled_field = @filled_form.filled_fields.where(
   'form_field_id = ?', print_form_field.id).first
-  value = filled_field ? filled_field.value : '' -%>
+  value = filled_field ? filled_field.text_value : '' -%>
 <%= print_form_field.name %>: <%= value %>
 <% if print_form_field.help and not print_form_field.help.empty? -%>
 <%= print_form_field.help %>

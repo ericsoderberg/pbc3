@@ -343,11 +343,7 @@ div.actions.dynamic_form {
 			}
 			
 			&.active {
-  			background-color: #eee; //#999;
-  			
-  			a, .form_submitter, .form_date, .form_amount, .help {
-  				//color: #eee;
-  			}
+  			background-color: #eee;
   		}
   		
   		&:hover {
@@ -358,6 +354,36 @@ div.actions.dynamic_form {
     		  opacity: 1;
     		}
   		}
+		}
+	}
+}
+
+#form_payment_list {
+  margin-bottom: 20px;
+  
+	ul {
+		list-style: none;
+		margin: 0px;
+		padding: 0px;
+		text-align: left;
+		max-height: 800px;
+		overflow: auto;
+		
+		li {
+			padding: 4px 10px;
+      margin-bottom: 5px;
+			
+			a {
+  		  display: block;
+        
+        span {
+          white-space: nowrap;
+        }
+  		}
+      
+      form {
+        margin-left: 10px;
+      }
 		}
 	}
 }
@@ -377,10 +403,8 @@ div#included_parent_form {
 	padding: 0px;
 	
 	.form_field {
-	  /*float: left;*/
 	  clear: left;
 		padding: 5px 0px;
-		/*margin-right: 30px;*/
 		margin-bottom: 10px;
     
     &.error {
@@ -463,11 +487,15 @@ h2.form_field_name {
   
   .option_name {
 		display: inline-block;
+    vertical-align: top;
 		padding-right: 20px;
 		min-width: 80px;
 	}
 	.option_help {
 		display: inline-block;
+    vertical-align: top;
+    max-width: 400px;
+    margin-bottom: 10px;
 	}
 	
 	li.form_field.dense {
@@ -498,6 +526,9 @@ h2.form_field_name {
 
 .filled_form_payment {
   margin-bottom: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   
   h3 {
     margin: 0px 0px 15px 0px;

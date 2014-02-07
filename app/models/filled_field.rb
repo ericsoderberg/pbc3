@@ -24,13 +24,13 @@ class FilledField < ActiveRecord::Base
         value
       when FormField::SINGLE_CHOICE
         if not filled_field_options.empty?
-          filled_field_options.first.value
+          filled_field_options.first.text_value
         elsif value and not value.empty?
           value
         end
       when FormField::MULTIPLE_CHOICE
         if not filled_field_options.empty?
-          filled_field_options.map{|o| o.value}.join(', ')
+          filled_field_options.map{|o| o.text_value}.join(', ')
         elsif value and not value.empty?
           value
         end

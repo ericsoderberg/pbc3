@@ -33,3 +33,28 @@
 </ul>
 </div>
 <% end -%>
+
+<% unless @payments.empty? -%>
+<div id="form_payment_list">
+<ul>
+  <% @payments.each do |payment| -%>
+  <li>
+    <% if payment.cancellable? -%>
+      <%= form_tag edit_payment_path(payment), :method => :get, :class => 'button_to' do %>
+        <%= hidden_field_tag :filled_form_key, payment.filled_forms.first.verification_key %>
+        <%= hidden_field_tag :verification_key, payment.verification_key %>
+        <%= submit_tag 'Pay' %>
+      <% end %>
+    <% else -%>
+      <a href="<%= payment_path(payment) %>">
+        <span>$<%= payment.amount %></span>
+        <span><%= payment.state %></span> via
+        <span><%= payment.method %></span>
+        <span><%= payment_label_date(payment) %></span>
+      </a>
+    <% end -%>
+  </li>
+  <% end -%>
+</ul>
+</div>
+<% end -%>

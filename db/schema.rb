@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140204043118) do
+ActiveRecord::Schema.define(version: 20140207130218) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 20140204043118) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "disabled",         default: false
+    t.integer  "value"
   end
 
   create_table "form_fields", force: true do |t|

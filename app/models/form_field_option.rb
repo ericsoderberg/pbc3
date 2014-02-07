@@ -12,8 +12,7 @@ class FormFieldOption < ActiveRecord::Base
   TYPES = [FIXED, SINGLE_LINE, MULTIPLE_LINES, INSTRUCTIONS]
   
   validates :form_field, :presence => true
-  validates :name, :presence => true,
-    :uniqueness => {:scope => :form_field_id}
+  validates :name, :presence => true #, :uniqueness => {:scope => :form_field_id}
   validates :option_type, :presence => true,
     :inclusion => { :in => FormFieldOption::TYPES }
     
@@ -27,8 +26,12 @@ class FormFieldOption < ActiveRecord::Base
   
   def copy(source_option)
     self.name = source_option.name
+    self.value = source_option.value
     self.option_type = source_option.option_type
     self.help = source_option.help
+    self.size = source_option.size
+    self.form_field_index = source_option.form_field_index
+    self.disabled = source_option.disabled
   end
   
   def selected(filled_field)

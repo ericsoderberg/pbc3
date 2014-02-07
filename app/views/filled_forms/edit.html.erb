@@ -7,7 +7,6 @@
   
   <% if @form.payable? and @filled_form.payment and not @filled_form.payment.cancellable? -%>
     <%= render :partial => 'payment_fields' %>
-    <hr/>
   <% end -%>
   
   <% if @filled_form.parent -%>

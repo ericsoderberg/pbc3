@@ -87,6 +87,6 @@ class FilledFormsControllerTest < ActionController::TestCase
       delete :destroy, :form_id => @form.id, :id => @filled_form.to_param
     end
 
-    assert_redirected_to new_form_fill_url(assigns(:form))
+    assert_redirected_to edit_form_fill_url(assigns(:form), assigns(:next_filled_form))
   end
 end

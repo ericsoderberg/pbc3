@@ -31,8 +31,7 @@
       <% form_field.form_field_options.each do |option| -%>
       <li class="dynamic_form_option">
         <%= radio_button_tag form_field.html_name, option.name, false, disabled: option.disabled? %>
-        <% if form_field.monetary? %>$<% end -%>
-        <%= option.name %>
+        <%= form_field_option_text(form_field, option) %>
       </li>
       <% end -%>
     </ul>
@@ -41,8 +40,7 @@
       <% form_field.form_field_options.each do |option| -%>
       <li class="dynamic_form_option">
         <%= check_box_tag option.html_name, option.name, false, disabled: option.disabled? %>
-        <% if form_field.monetary? %>$<% end -%>
-        <%= option.name %>
+        <%= form_field_option_text(form_field, option) %>
       </li>
       <% end -%>
     </ul>

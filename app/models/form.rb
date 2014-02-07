@@ -57,6 +57,12 @@ class Form < ActiveRecord::Base
     filled_forms.where('user_id = ?', user.id)
   end
   
+  def payments_for_user(user)
+    return Payment.none unless user
+    Payment.where('payments.user_id = ?', user.id).includes(:filled_forms).
+      where('filled_forms.form_id = ?', self.id).references(:filled_forms)
+  end
+  
   def next_index
     return form_fields.count + form_sections.count + 1
   end

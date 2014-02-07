@@ -25,13 +25,15 @@
   </div>
   <div class="form_field">
     <div class="field">
-      <% if form_field.monetary? -%>
-        <%= f.label :value %><br/>
-      <% else -%>
-        <%= f.label :name %><br/>
-      <% end -%>
+      <%= f.label :label %><br/>
       <%= f.text_field :name %>
     </div>
+    <% if form_field.monetary? -%>
+    <div class="field">
+      <%= f.label :value %><br/>
+      <%= f.text_field :value, :size => 5 %>
+    </div>
+    <% end -%>
     <div id="option_size_<%= form_field_option.id %>" class="field size"
       style="<%= form_field_option.sizeable? ? '' : 'display:none' %>">
       <%= f.label :size %><br/>

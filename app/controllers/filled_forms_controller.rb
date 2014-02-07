@@ -81,6 +81,7 @@ class FilledFormsController < ApplicationController
       @parent_filled_forms = @form.parent.visible_filled_forms(current_user)
       @filled_form.parent = @parent_filled_forms.first
     end
+    @payments = @form.payments_for_user(current_user)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -97,6 +98,7 @@ class FilledFormsController < ApplicationController
     if @form.parent
       @parent_filled_forms = @form.parent.visible_filled_forms(current_user)
     end
+    @payments = @form.payments_for_user(current_user)
   end
 
   # POST /filled_forms
@@ -120,14 +122,24 @@ class FilledFormsController < ApplicationController
     populate_filled_fields
     
     if @form.payable?
-      @payment = Payment.new(:amount => @filled_form.payable_amount,
-        :method => Payment::METHODS.first, :user => @filled_form.user)
+      # re-use payment from sibling filled forms that haven't been paid
+      siblings = @form.visible_filled_forms(current_user)
+      siblings.each do |sibling_filled_form|
+        if sibling_filled_form.payment and sibling_filled_form.payment.cancellable?
+          @payment = sibling_filled_form.payment
+          break
+        end
+      end
+      unless @payment
+        @payment = Payment.new(:amount => @filled_form.payable_amount,
+          :method => Payment::METHODS.first, :user => @filled_form.user)
+        end
       @payment.filled_forms << @filled_form
     end
 
     respond_to do |format|
       if @filled_form.save and (! @payment or
-        (@payment.amount = @filled_form.payable_amount; @payment.save))
+        (@payment.amount += @filled_form.payable_amount; @payment.save))
         FormMailer.form_email(@filled_form).deliver
         format.html { redirect_to(next_url,
             :notice => "#{@form.name} was successfully submitted.") }
@@ -170,6 +182,7 @@ class FilledFormsController < ApplicationController
         format.xml  { head :ok }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
+        @payments = @form.payments_for_user(current_user)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @filled_form.errors, :status => :unprocessable_entity }
       end
@@ -198,7 +211,12 @@ class FilledFormsController < ApplicationController
         if params[:filled_form_key]
           redirect_to friendly_page_url(@page)
         else
-          redirect_to new_form_fill_url(@form)
+          @next_filled_form = @form.visible_filled_forms(current_user).first()
+          if @next_filled_form
+            redirect_to edit_form_fill_url(@form, @next_filled_form)
+          else
+            redirect_to new_form_fill_url(@form)
+          end
         end
       end
       format.xml  { head :ok }
@@ -242,7 +260,7 @@ class FilledFormsController < ApplicationController
       filled_option.form_field_option = option
       filled_option.updated_at = Time.now
     end
-    filled_option.value = option.name
+    filled_option.value = (option.value ? option.value : option.name)
   end
   
   def populate_options(form_field, filled_field, value)
@@ -314,7 +332,9 @@ class FilledFormsController < ApplicationController
   end
   
   def next_url
-    if @form.payable?
+    if current_user and @form.many_per_user?
+      new_form_fill_url(@form)
+    elsif @form.payable?
       if @payment.cancellable?
         edit_payment_url(@payment,
           {:filled_form_key => @filled_form.verification_key,
@@ -331,8 +351,6 @@ class FilledFormsController < ApplicationController
       else
         new_form_fill_url(child_form)
       end
-    elsif current_user and @form.many_per_user?
-      new_form_fill_url(@form)
     else
       friendly_page_url(@page)
     end
