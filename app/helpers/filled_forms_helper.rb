@@ -8,20 +8,31 @@ module FilledFormsHelper
   end
   
   def filled_form_values(form, value_form_fields, filled_form)
-    value_form_fields.map{|ff|
-      filled_field = filled_form.filled_fields.detect{|fff|
-        ff == fff.form_field}
-      filled_field ? filled_field.text_value : ''} +
-    (filled_form.user ?
+    value_form_fields.map do |ff|
+      if filled_form
+        filled_field = filled_form.filled_fields.detect{|fff|
+          ff == fff.form_field}
+        filled_field ? filled_field.text_value : ''
+      else
+        ''
+      end
+    end +
+    if filled_form and filled_form.user
       [filled_form.user.name, filled_form.user.email]
-      : ['anonymous', '']) +
-    (form.payable? ?
-      (filled_form.payment ?
+    else
+      ['anonymous', '']
+    end +
+    if form.payable?
+      if filled_form and filled_form.payment
         [filled_form.payment.state, filled_form.payment.method,
           (filled_form.payment.sent_at ?
             filled_form.payment.sent_at.strftime("%m/%d/%Y") : '')]
-        : ['unpaid', '', ''])
-      : [])
+      else
+        ['unpaid', '', '']
+      end
+    else
+      []
+    end
   end
   
   def output_csv
