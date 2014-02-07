@@ -123,7 +123,7 @@ class FilledFormsController < ApplicationController
     
     if @form.payable?
       # re-use payment from sibling filled forms that haven't been paid
-      siblings = @form.visible_filled_forms(current_user)
+      siblings = @form.filled_forms_for_user(current_user)
       siblings.each do |sibling_filled_form|
         if sibling_filled_form.payment and sibling_filled_form.payment.cancellable?
           @payment = sibling_filled_form.payment
