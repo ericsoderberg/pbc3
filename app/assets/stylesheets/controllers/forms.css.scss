@@ -497,22 +497,10 @@ h2.form_field_name {
     max-width: 400px;
     margin-bottom: 10px;
 	}
-	
-	li.form_field.dense {
-    float: left;
-    clear: none;
-    padding: 2px 0px;
-    margin: 0px;
-    
-    input {
-      padding: 2px;
-    }
-  }
 }
 
 .edit_filled_form, .new_filled_form {
   div.form_timestamp {
-    //text-align: right;
     margin-top: 10px;
     color: #999;
     font-style: italic;
