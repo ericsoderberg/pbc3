@@ -228,6 +228,18 @@ class Page < ActiveRecord::Base
     return false
   end
   
+  def next_sibling
+    if parent
+      parent.children.where('parent_index = ?', (parent_index + 1)).first
+    end
+  end
+  
+  def previous_sibling
+    if parent
+      parent.children.where('parent_index = ?', (parent_index - 1)).first
+    end
+  end
+  
   def possible_parents
     Page.order('name').to_a.delete_if do |page|
       # don't allow circular references

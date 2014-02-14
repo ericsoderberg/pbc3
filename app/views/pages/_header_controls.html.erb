@@ -36,11 +36,16 @@
 <% end -%>
 <%= render :partial => 'social/tools' %>
 
-<% if @page.parent and 'blog' == @page.parent.layout -%>
-  <div class="page_control">
-    <%= link_to @page.parent.name, friendly_page_path(@page.parent) %>
-  </div>
-  <div class="page_control post_date">
-    <%= @page.created_at.relative_str %>
+<% if @page.parent and @page.parent.blog? -%>
+  <div id="blog_nav" class="page_control">
+    <% if @previous_page -%>
+      <%= link_to '<', friendly_page_path(@previous_page), class: 'icon previous' %>
+    <% end -%>
+    <span class="post_date">
+      <%= @page.created_at.relative_str %>
+    </span>
+    <% if @next_page -%>
+      <%= link_to '>', friendly_page_path(@next_page), class: 'icon next' %>
+    <% end -%>
   </div>
 <% end -%>

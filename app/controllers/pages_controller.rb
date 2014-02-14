@@ -80,6 +80,10 @@ class PagesController < ApplicationController
     @feature_children = @page.feature_children(current_user)
     @aspects = @page.visible_aspects(:children => @children,
       :categorized_events => @categorized_events)
+    if @page.parent and @page.parent.blog?
+      @previous_page = @page.previous_sibling
+      @next_page = @page.next_sibling
+    end
 
     respond_to do |format|
       format.html { render :action => "show_#{@page.layout}" }

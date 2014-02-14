@@ -7,9 +7,9 @@
       <h2 class="post_title">
         <%= link_to child.name, friendly_page_path(child) %>
       </h2>
-      <div class="post_snippet">
-        <%= child.snippet_text %>
-      </div>
+      <p class="post_snippet">
+        <%= truncate(child.snippet_text, length: 270) %>
+      </p>
     </div>
   <% end -%>
 </div>

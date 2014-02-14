@@ -308,7 +308,7 @@ body.design_morocco {
     }
   }
   
-  #calendar_nav {
+  #calendar_nav, #blog_nav {
     .icon.previous {
       @include icon-image(0px, -52px);
     }
