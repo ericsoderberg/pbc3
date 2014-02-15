@@ -58,9 +58,6 @@ class PagesController < ApplicationController
       events = @page.related_events
       events.delete_if{|e| not e.authorized?(current_user)}
       @categorized_events = Event.categorize(events)
-      if @page.event?
-        @event = @categorized_events[:all].first
-      end
       if current_user
         @categorized_events[:all].each do |event|
           if @page == event.page 
@@ -69,6 +66,9 @@ class PagesController < ApplicationController
           end
         end
       end
+    end
+    if @page.event?
+      @event = @page.events.last
     end
     if params[:invitation_key]
       @invitation = Invitation.find_by(key: params[:invitation_key])
