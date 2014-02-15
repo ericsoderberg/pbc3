@@ -58,6 +58,9 @@ class PagesController < ApplicationController
       events = @page.related_events
       events.delete_if{|e| not e.authorized?(current_user)}
       @categorized_events = Event.categorize(events)
+      if @page.event?
+        @event = @categorized_events[:active].first
+      end
       if current_user
         @categorized_events[:all].each do |event|
           if @page == event.page 

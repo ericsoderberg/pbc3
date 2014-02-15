@@ -79,7 +79,7 @@ class InvitationsController < ApplicationController
     respond_to do |format|
       if @invitation.update_attributes(invitation_params)
         @summary = Invitation.summarize(@event.invitations)
-        @heading = @initial_response ? 'Awaiting response' : 'Response'
+        @heading = 'Response'
         @help_message = @initial_response ? 'Thanks for responding' :
           'Thanks for the update'
         format.html { redirect_to(

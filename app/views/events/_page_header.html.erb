@@ -1,0 +1,20 @@
+<header id="page_event_header">
+  
+  <% contextual_times(@event).each do |timestamp| -%>
+    <div class="event_range">
+      <%= timestamp %>
+    </div>
+  <% end -%>
+  
+  <% if @event.location and ! @event.location.empty? -%>
+    <div class="event_location">
+      <%= h @event.location %>
+    </div>
+  <% end -%>
+  <% if @event.notes and ! @event.notes.empty? -%>
+    <div class="event_notes">
+      <%= raw @event.notes %>
+    </div>
+  <% end -%>
+  
+</header>

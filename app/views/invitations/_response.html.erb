@@ -1,7 +1,7 @@
 <% invitation ||= @invitation -%>
 <% responded = ('unknown' != invitation.response) -%>
 <div class="invitation_response" id="<%= dom_id(invitation) %>">
-  <h3><%= 'unknown' == invitation.response ? 'Awaiting response' :
+  <h3><%= 'unknown' == invitation.response ? 'Awaiting your response ...' :
     'Response' %>
     <% unless @user || current_user -%>
       from <%= invitation.email.split('@')[0] %>@...

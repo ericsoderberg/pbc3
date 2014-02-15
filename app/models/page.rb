@@ -24,7 +24,7 @@ class Page < ActiveRecord::Base
   has_many :conversations, -> { order('created_at DESC') }, :dependent => :destroy
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
-  LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum']
+  LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum', 'event']
   CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
   
   # order matters since we store an index to this array
@@ -282,7 +282,8 @@ class Page < ActiveRecord::Base
       when 's'
         return (secondary_text and not secondary_text.empty?)
       when 'e'
-        return (args[:categorized_events] and
+        return ('event' != layout and
+          args[:categorized_events] and
           not args[:categorized_events].empty? and
           not args[:categorized_events][:all].empty?)
       when 'c'
@@ -414,6 +415,10 @@ class Page < ActiveRecord::Base
   
   def gallery?
     'gallery' == layout
+  end
+  
+  def event?
+    'event' == layout
   end
   
   def feed_page
