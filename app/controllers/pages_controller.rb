@@ -59,7 +59,7 @@ class PagesController < ApplicationController
       events.delete_if{|e| not e.authorized?(current_user)}
       @categorized_events = Event.categorize(events)
       if @page.event?
-        @event = @categorized_events[:active].first
+        @event = @categorized_events[:all].first
       end
       if current_user
         @categorized_events[:all].each do |event|

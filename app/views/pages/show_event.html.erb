@@ -14,7 +14,9 @@
 
   <section>
     
+    <% if @event -%>
     <%= render :partial => "events/page_header" %>
+    <% end -%>
     
     <div id="text">
       <%= raw @page.text %>
@@ -26,7 +28,7 @@
 
   <aside>
     
-    <% if @page and user_signed_in? and current_user.administrator? and
+    <% if @page and user_signed_in? and current_user.administrator? and @event and
       not @event.invitations.empty? -%>
       <div class="event_invitations">
         <%= link_to "invitations (#{@event.invitations.where('response = ?', 'yes').count}/#{@event.invitations.count})",
