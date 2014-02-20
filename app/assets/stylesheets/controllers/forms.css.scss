@@ -18,14 +18,25 @@ header {
       padding: 0px 10px;
       content: '>';
       color: #ccc;
+      font-size: 20px;
     }
   }
   
   h1 {
     font-weight: normal;
+    white-space: normal;
     
-    > a {
+    > span {
+      white-space: nowrap;
+    }
+    
+    a {
       color: #333;
+      font-size: 20px;
+      
+      &:hover {
+        color: $link-hover-color;
+      }
     }
   }
   
@@ -35,6 +46,7 @@ header {
     &:before {
       padding: 0px 10px;
       content: '>';
+      font-size: 20px;
     }
   }
 }
