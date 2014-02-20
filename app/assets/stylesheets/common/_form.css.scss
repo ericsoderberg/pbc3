@@ -185,12 +185,27 @@ div.select2-drop {
   background-color: #eee;
   border: 1px #ccc solid;
   min-width: 300px;
-  padding: 5px 0px 0px 5px; //5px 10px;
+  padding: 5px 0px 0px 5px;
   @include box-sizing(border-box);
   
   a, a img {
 	  border: 0;
-	  //vertical-align: middle;
+  }
+  
+  a img {
+    display: none;
+  }
+  
+  a.bold {
+    @include icon-image(0px, -104px);
+  }
+  
+  a.unorderedlist {
+    @include icon-image(-26px, -104px);
+  }
+  
+  a.link {
+    @include icon-image(-52px, -104px);
   }
 
   p {

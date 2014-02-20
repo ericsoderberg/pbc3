@@ -1,8 +1,3 @@
-$link-color: #2f4098; // blue
-$link-hover-color: #d5702c; // orange
-
-$images-file: image-url('pbc3-icons.png');
-
 @mixin icon-image($x, $y) {
   display: inline-block;
   width: 26px;
