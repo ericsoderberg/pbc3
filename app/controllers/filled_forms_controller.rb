@@ -71,7 +71,7 @@ class FilledFormsController < ApplicationController
     if current_user
       @filled_form.user = current_user
       @filled_forms = @form.visible_filled_forms(current_user)
-    else
+    elsif @form.authenticated?
       session[:post_login_path_override] = request.original_url
       redirect_to new_user_session_url(:protocol => 'https')
       return
