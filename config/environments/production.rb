@@ -71,7 +71,7 @@ Pbc3::Application.configure do
   
   config.time_zone = "Pacific Time (US & Canada)"
   
-  config.assets.precompile += %w( newsletter/newsletter.css )
+  config.assets.precompile += %w( newsletter/newsletter.css rte-light/rte.css )
   
   config.after_initialize do
     Configuration.mailman_dir = '/usr/lib/mailman/bin'
