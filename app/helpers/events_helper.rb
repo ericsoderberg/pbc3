@@ -55,10 +55,19 @@ module EventsHelper
     ranges.each do |range, data|
       event = data[:events].first
       if data[:events].count > 1
-        days = data[:events].map do |e|
-          e.start_at.strftime('%a ') +
-          "%d/%d" % [e.start_at.mon, e.start_at.day]
-        end.join(', ')
+        first = data[:events].first
+        last = data[:events].last
+        if (last.start_at.to_date - first.start_at.to_date).round == (data[:events].count - 1)
+          days = first.start_at.strftime('%a ') +
+            "%d/%d" % [first.start_at.mon, first.start_at.day] + ' - ' +
+            last.start_at.strftime('%a ') + 
+            "%d/%d" % [last.start_at.mon, last.start_at.day]
+        else
+          days = data[:events].map do |e|
+            e.start_at.strftime('%a ') +
+            "%d/%d" % [e.start_at.mon, e.start_at.day]
+          end.join(', ')
+        end
         result << (days + ' ' + range)
       else
         result << friendly_range(event, true)
