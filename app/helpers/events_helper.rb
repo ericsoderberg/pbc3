@@ -26,9 +26,63 @@ module EventsHelper
     end
   end
   
+  def peer_ranges(peers)
+    ranges = {} # range => {events}
+    peers.each do |event|
+      range = friendly_range(event, false)
+      ranges[range] = {events: []} unless ranges[range]
+      ranges[range][:events] << event
+    end
+    ranges
+  end
+  
+  def contextual_month_peers(peers, result)
+    ranges = peer_ranges(peers)
+    ranges.each do |range, data|
+      event = data[:events].first
+      if peers.count <= 2
+        peers.each{|e| result << friendly_range(e, true)}
+      elsif data[:events].count > 1
+        result << (event.start_at.strftime("%As ") + range)
+      else
+        result << friendly_range(event, true)
+      end
+    end
+  end
+  
+  def contextual_week_peers(peers, result)
+    ranges = peer_ranges(peers)
+    ranges.each do |range, data|
+      event = data[:events].first
+      if data[:events].count > 1
+        days = data[:events].map do |e|
+          e.start_at.strftime('%a ') +
+          "%d/%d" % [e.start_at.mon, e.start_at.day]
+        end.join(', ')
+        result << (days + ' ' + range)
+      else
+        result << friendly_range(event, true)
+      end
+    end
+  end
+  
   def contextual_times(event)
     # returns a list of event times to show for this event
     result = []
+    month_peers = event.peers_until(event.start_at + 2.months)
+    week_peers = event.peers_until(event.start_at + 1.week)
+    if month_peers.empty?
+      # just show this single date/time
+      result << friendly_range(event, true)
+    elsif week_peers.empty?
+      # next one is more than a week away
+      contextual_month_peers([event].concat(month_peers.to_a()), result)
+    else
+      # peers in the same week
+      contextual_week_peers([event].concat(week_peers.to_a()), result)
+    end
+    
+=begin
     next_event = event.next
     if not next_event or (next_event.start_at > (event.start_at + 2.months))
       # no close future times, just show this single date/time
@@ -73,6 +127,7 @@ module EventsHelper
         end
       end
     end
+=end
     result
   end
   

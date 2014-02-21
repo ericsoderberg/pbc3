@@ -134,6 +134,14 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def peers_until(date)
+    if master
+      master.replicas.where("start_at > '#{start_at}' AND id != #{id} AND start_at <= '#{date}'")
+    else
+      Event.none
+    end
+  end
+  
   # divide the events up into three categories: active, expired, ancient
   # prune out replicas
   def self.categorize(events)
