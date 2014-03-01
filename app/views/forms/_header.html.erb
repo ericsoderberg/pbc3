@@ -3,11 +3,19 @@
 <header id="filled_form_header">
   
   <h1>
+    <% if @new_user -%>
+    <span class="sign_in">Sign In</span>
+    <% end -%>
+    
     <% if @filled_form and @filled_form.parent -%>
       <span class="parent_form">
-        <%= link_to @filled_form.parent.form.name,
-          edit_form_fill_url(@filled_form.parent.form,
-            @filled_form.parent, :protocol => 'https') %>
+        <% if @new_user -%>
+          <%= @filled_form.parent.form.name %>
+        <% else -%>
+          <%= link_to @filled_form.parent.form.name,
+            edit_form_fill_url(@filled_form.parent.form,
+              @filled_form.parent, :protocol => 'https') %>
+        <% end -%>
       </span>
     <% elsif @form.parent -%>
       <span class="parent_form">
@@ -16,7 +24,7 @@
       </span>
     <% end -%>
     
-    <span class="form_name"><%= @form.name %></span>
+    <span class="form_name <%= @new_user ? 'blocked' : '' %>"><%= @form.name %></span>
 
     <% if @filled_form and not @filled_form.children.empty? -%>
       <% child_filled_form = @filled_form.children.first -%>

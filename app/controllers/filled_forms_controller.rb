@@ -73,7 +73,10 @@ class FilledFormsController < ApplicationController
       @filled_forms = @form.visible_filled_forms(current_user)
     elsif @form.authenticated?
       session[:post_login_path_override] = request.original_url
-      redirect_to new_user_session_url(:protocol => 'https')
+      #redirect_to new_user_session_url(:protocol => 'https')
+      @new_user = User.new
+      @devise_mapping ||= Devise.mappings[:user]
+      render 'authenticate'
       return
     end
     session[:edit_form_cancel_path] = new_form_fill_path(@form)

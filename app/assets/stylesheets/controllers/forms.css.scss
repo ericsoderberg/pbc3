@@ -13,7 +13,7 @@ header {
 }
 
 #filled_form_header {
-  span.parent_form {
+  span.parent_form, span.sign_in {
     &:after {
       padding: 0px 10px;
       content: '>';
@@ -38,6 +38,10 @@ header {
         color: $link-hover-color;
       }
     }
+  }
+  
+  span.form_name.blocked {
+    color: #ccc;
   }
   
   span.child_form {
@@ -690,4 +694,19 @@ div.form_admin {
 .payment_method_instructions {
   /*display: inline-block;*/
   margin: 20px 0px;
+}
+
+#form_authenticate {
+  margin-top: 30px;
+  
+  #authentication_text {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 400px;
+  }
+  #sign_in {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0px 0px 0px 60px;
+  }
 }
