@@ -149,6 +149,7 @@ class FilledFormsController < ApplicationController
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
+        @payments = @form.payments_for_user(current_user)
         format.html { render :action => "new" }
         format.xml  { render :xml => @filled_form.errors, :status => :unprocessable_entity }
       end
