@@ -4,10 +4,11 @@ alignPaymentMethodControls = ->
     
 checkLimit = (list) ->
   limit = list.attr('data-limit')
-  if limit and $('input:checked', list).length >= limit
-    $('input:not(:checked)', list).attr('disabled', 'disabled');
-  else
-    $('input:not(:checked)', list).removeAttr('disabled');
+  if limit
+    if $('input:checked', list).length >= limit
+      $('input:not(:checked)', list).attr('disabled', 'disabled')
+    else
+      $('input:not(:checked)', list).removeAttr('disabled')
 
 initialize = ->
   $('#form_payable').on 'change', alignPaymentMethodControls
