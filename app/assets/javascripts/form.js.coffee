@@ -8,7 +8,7 @@ checkLimit = (list) ->
     if $('input:checked', list).length >= limit
       $('input:not(:checked)', list).attr('disabled', 'disabled')
     else
-      $('input:not(:checked)', list).removeAttr('disabled')
+      $('input:not(:checked):not(.disabled)', list).removeAttr('disabled')
 
 initialize = ->
   $('#form_payable').on 'change', alignPaymentMethodControls
