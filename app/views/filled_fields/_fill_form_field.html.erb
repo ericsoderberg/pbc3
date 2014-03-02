@@ -73,7 +73,8 @@
         <% fill_form_field.form_field_options.each do |option| -%>
           <li>
             <%= check_box_tag html_id+'[]', option.id,
-              option.selected(filled_field), disabled: option.disabled?, 'class' => 'disabled' %>
+              option.selected(filled_field), disabled: option.disabled?,
+              'class' => (option.disabled? ? 'disabled' : '') %>
             <div class="option_name">
               <%= form_field_option_text(fill_form_field, option) %>
             </div>
