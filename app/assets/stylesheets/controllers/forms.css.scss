@@ -135,14 +135,6 @@ ul.dynamic_form_fields {
     
     form.edit_form_field {
       
-      /*> .admin {
-        padding: 10px;
-        position: absolute;
-        top: 0px;
-        right: -130px;
-        background-color: $editing-background;
-      }*/
-      
       > div.form_field.header {
         label {
           width: auto;
@@ -160,16 +152,6 @@ ul.dynamic_form_fields {
         }
       }
     }
-    
-    div.edit_options {
-      max-height: 0px;
-      overflow: hidden;
-      
-      &.active {
-        max-height: 800px;
-        overflow: visible;
-      }
-    }
 	}
 }
 
@@ -185,17 +167,6 @@ ul.form_field_options {
         background-color: $editing-background;
       }
     }
-    
-    /*form.edit_form_field_option {
-      
-      > .admin {
-        padding: 10px;
-        position: absolute;
-        top: 0px;
-        right: -130px;
-        background-color: $editing-background;
-      }
-    }*/
   }
 }
 
