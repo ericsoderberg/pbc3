@@ -7,7 +7,7 @@ class Home
         e.authorized?(nil) and not e.page.obscure? and
         (! e.prev || e.prev.start_at < today) and
         e.messages.empty? and
-        (e.start_at < (today + 2.weeks) or
+        (e.start_at < (today + 4.weeks) or
         e.page.home_feature?)
       }
   end
