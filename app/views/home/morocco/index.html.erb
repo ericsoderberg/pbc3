@@ -8,14 +8,16 @@
 </div>
 
 <div id="home_primary">
-  <%= render partial: 'home/morocco/services' %>
+  <div>
+    <%= render partial: 'home/morocco/services' %>
 
+    <% if @site and @site.library? -%>
+    <%= render partial: 'home/morocco/messages' %>
+    <% end -%>
+  </div>
+  
   <% if @site and @site.calendar? -%>
   <%= render partial: 'home/morocco/calendar' %>
-  <% end -%>
-
-  <% if @site and @site.library? -%>
-  <%= render partial: 'home/morocco/messages' %>
   <% end -%>
 
 </div>
