@@ -30,7 +30,7 @@
     
     <ul class="regular_aside">
       <% @page.aspect_order.split(',').each do |aspect| -%>
-        <% if true or not %w(t).include?(aspect) -%>
+        <% if not %w(t).include?(aspect) -%>
           <%= render_page_panel(@page, aspect,
             {:children => @children,
               :categorized_events => @categorized_events,
