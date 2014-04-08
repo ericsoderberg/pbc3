@@ -90,7 +90,12 @@
     <% when FormField::COUNT -%>
       <%= number_field_tag html_id, value, :size => fill_form_field.size,
         :class => "print-overridden", :min => 0, :step => 1 %>
-      <% if fill_form_field.monetary? %>@ $<% end -%><%= fill_form_field.value %>
+      <span class="value">
+        <% if fill_form_field.monetary? %>@ $<% end -%><%= fill_form_field.value %>
+      </span>
+      <% if fill_form_field.limited? %>
+        <span class="help"><%= fill_form_field.remaining %> remaining</span>
+      <% end -%>
     <% when FormField::INSTRUCTIONS -%>
   <% end -%>
   

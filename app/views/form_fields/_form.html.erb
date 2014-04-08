@@ -55,7 +55,7 @@
     <div id="field_limit_<%= form_field.id %>"
       class="field limit <%= form_field.limitable? ? '' : 'inactive' %>">
       <%= f.label :limit %><br />
-      <%= f.text_field :limit, :size => 2, :type => 'number' %>
+      <%= f.text_field :limit, :max => 1000, :min => 0, :type => 'number' %>
     </div>
   
     <div id="field_value_<%= form_field.id %>"

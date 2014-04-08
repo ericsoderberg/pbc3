@@ -150,6 +150,10 @@ ul.dynamic_form_fields {
           max-width: 0px;
           overflow: hidden;
         }
+        
+        label {
+          width: auto;
+        }
       }
     }
 	}
@@ -434,6 +438,10 @@ h2.form_field_name {
 
 .form_field_value {
   display: inline-block;
+  
+  .value {
+    margin-right: 20px;
+  }
 }
 
 .form_field_help {

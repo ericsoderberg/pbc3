@@ -12,8 +12,14 @@ class FilledField < ActiveRecord::Base
   
   def within_limit
     if form_field and form_field.limited?
-      if form_field.limit < options_selected_count
-        errors.add(form_field.name, "too many options selected")
+      if form_field.has_options?
+        if form_field.limit < options_selected_count
+          errors.add(form_field.name, "too many options selected")
+        end
+      elsif form_field.limited?
+        if form_field.remaining < value.to_i
+          errors.add(form_field.name, "not enough remaining")
+        end
       end
     end
   end
@@ -35,7 +41,11 @@ class FilledField < ActiveRecord::Base
           value
         end
       when FormField::COUNT
-        value + ' x ' + form_field.value
+        if form_field.value and form_field.value.to_i > 0
+          value + ' x ' + form_field.value
+        else
+          value
+        end
     end
   end
   

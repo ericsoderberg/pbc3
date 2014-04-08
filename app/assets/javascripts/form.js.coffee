@@ -47,7 +47,8 @@ initialize = ->
       'single choice' == type or 'multiple choice' == type)
     text_types = ['single line', 'multiple lines', 'field', 'area']
     $('> form .field.size', form_field).toggleClass('inactive', text_types.indexOf(type) == -1)
-    $('> form .field.limit', form_field).toggleClass('inactive', 'multiple choice' != type)
+    $('> form .field.limit', form_field).toggleClass('inactive',
+      'multiple choice' != type and 'count' != type)
     $('> form .field.prompt', form_field).toggleClass('inactive', 'instructions' == type)
   # enforce multiple choice limits
   $('#filled_sections').on 'change', 'ul.options_list input', ->

@@ -34,7 +34,7 @@ class FormField < ActiveRecord::Base
   end
   
   def limitable?
-    MULTIPLE_CHOICE == field_type
+    MULTIPLE_CHOICE == field_type or COUNT == field_type
   end
   
   def limited?
@@ -55,6 +55,17 @@ class FormField < ActiveRecord::Base
   
   def html_name
     name.parameterize.underscore
+  end
+  
+  def remaining
+    result = nil
+    if limited?
+      result = limit
+      filled_fields.each do |filled_field|
+        result -= filled_field.value.to_i
+      end
+    end
+    result
   end
   
   def copy(source_form_field)
