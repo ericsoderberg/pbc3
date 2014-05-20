@@ -12,7 +12,8 @@ module FilledFormsHelper
       if filled_form
         filled_field = filled_form.filled_fields.detect{|fff|
           ff == fff.form_field}
-        filled_field ? filled_field.text_value : ''
+        # replace newlines with spaces
+        filled_field ? filled_field.text_value.gsub("\r\n", " ").gsub("\n", " ") : ''
       else
         ''
       end

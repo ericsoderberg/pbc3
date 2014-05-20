@@ -26,7 +26,7 @@ class FilledField < ActiveRecord::Base
   
   def text_value
     case form_field.field_type
-      when FormField::FIELD, FormField::SINGLE_LINE
+      when FormField::FIELD, FormField::SINGLE_LINE, FormField::MULTIPLE_LINES
         value
       when FormField::SINGLE_CHOICE
         if not filled_field_options.empty?
