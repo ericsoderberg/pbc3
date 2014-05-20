@@ -10,7 +10,7 @@ class FilledFormsController < ApplicationController
     @filled_forms = @form.visible_filled_forms(current_user)
     if @sort
       if @sort_id <= 0
-        @filled_forms = @filled_forms.reorder(@sort + ' DESC')
+        @filled_forms = @filled_forms.reorder(@sort + ' ASC')
       else
         @filled_forms = @filled_forms.includes(:filled_fields).
           where('filled_fields.form_field_id = ?', @sort_id).
