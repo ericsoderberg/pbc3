@@ -38,6 +38,8 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find_by(url: params[:id])
     @message = Message.find(params[:id]) unless @message
+    @previous_message = @message.previous
+    @next_message = @message.next
 
     respond_to do |format|
       format.html # show.html.erb

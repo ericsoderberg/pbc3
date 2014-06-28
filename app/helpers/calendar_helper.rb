@@ -7,6 +7,7 @@ module CalendarHelper
     tags << 'new_month_first' if 1 == date.day
     tags << 'new_month' if (1..7).to_a.include?(date.day)
     tags << 'ref' if date.yday == reference.yday
+    tags << 'today' if date.yday == Date.today.yday
     tags << 'active' if active
     tags << 'holiday' unless day.holidays.empty?
     tags << 'odd_month' if (date.month % 2) != (reference.month % 2)

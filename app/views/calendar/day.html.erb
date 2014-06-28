@@ -13,10 +13,11 @@
   
   <header id="calendar_header">
     <h2 id="focus_date">
-    <%=h @date.strftime("%A") %>
+    <%= @date.strftime("%A") %>
     <%= link_to @date.strftime("%B"),
       calendar_path(args.merge(:date => @date.strftime("%Y-%m-%d"))) %>
-    <%=h @date.strftime("%e %Y") %>
+    <%= @date.day.ordinalize %>
+    <%= @date.strftime("%Y") %>
     </h2>
     
     <div id="calendar_controls">
@@ -53,8 +54,8 @@
 <table id="calendar_list">
   <% @events.each do |event| -%>
   <tr>
-    <td class="day"><%= event.start_at.day.ordinalize %></td>
-    <td class="week_day"><%= event.start_at.strftime("%A") %></td>
+    <!--td class="day"><%= event.start_at.day.ordinalize %></td>
+    <td class="week_day"><%= event.start_at.strftime("%A") %></td-->
     <td class="time"><%= event.start_at.simple_time %></td>
     <% if @full -%>
     <td>- <%= event.stop_at.simple_time %></td>

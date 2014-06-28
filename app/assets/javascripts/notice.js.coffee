@@ -5,7 +5,7 @@ initialize = ->
     $('#notice').addClass('active')
     setTimeout (->
       $('#notice').removeClass('active')
-    ), 10000
+    ), 8000
     
 
 $(document).ready(initialize)

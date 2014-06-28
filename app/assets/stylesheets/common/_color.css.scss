@@ -1,7 +1,27 @@
-$link-color: #2f4098; // blue
-$link-hover-color: #d5702c; // orange
+$primary-color: #6e615e;
+$secondary-color: #f99d28;
+$tertiary-color: #faf7ed;
+$link-color: #803e26; //#6e615e; //#2f4098; // blue
+$link-hover-color: $secondary-color; //#d5702c; // orange
+$border-color: #eadebb;
 
-$turquoise: #1ABC9C;
+$body-background-color: $primary-color; //#eadebb;
+$odd-month-background-color: $tertiary-color;
+// header
+$breadcrumb-color: $primary-color;
+$header-editing-background-color: $tertiary-color;
+$header-editing-active-background-color: $primary-color;
+// form
+$input-background-color: #fff;
+$input-border-color: $border-color;
+$input-hover-border-color: $link-hover-color;
+$button-background-color: $tertiary-color;
+$button-border-color: $border-color;
+$button-color: $link-color;
+$button-hover-background-color: $tertiary-color;
+$button-hover-color: $link-hover-color;
+
+/*$turquoise: #1ABC9C;
 $green-sea: #16A085;
 $emerald: #2ECC71;
 $nephritis: #27AE60;
@@ -20,7 +40,7 @@ $pomegranate: #C0392B;
 $clouds: #ECF0F1;
 $silver: #BDC3C7;
 $concrete: #95A5A6;
-$asbestos: #7F8C8D;
+$asbestos: #7F8C8D;*/
 
 @mixin box-shadow($distanceX, $distanceY, $blur, $spread, $color) {
   -webkit-box-shadow: $distanceX $distanceY $blur $spread $color;

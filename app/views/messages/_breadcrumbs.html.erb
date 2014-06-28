@@ -1,9 +1,11 @@
-<div id="breadcrumbs">
-  <ul>
-    <li><%= link_to 'Message Library', messages_path %></li>
-    <% if @message and @message.message_set -%>
-    <li><%= link_to @message.message_set.title,
-          series_path(@message.message_set) %></li>
-    <% end -%>
-  </ul>
-</div>
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Message Library', messages_path %></li>
+      <% if @message and @message.message_set -%>
+      <li><%= link_to @message.message_set.title,
+            series_path(@message.message_set) %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>

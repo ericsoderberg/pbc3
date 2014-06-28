@@ -39,18 +39,12 @@
   </ul>
   
   <% if 'event' == active_aspect and @event.peers.count > 1 -%>
-  <div class="page_admin">
-    <ul>
-      <li>
-        <%= form_tag edit_page_event_path(@page, @event), :method => :get do %>
-          <%= select_tag :id,
-            options_for_select(
-              @event.peers.collect{|e| [e.start_at.simple_date, e.id]},
-              @event.id), {:id => 'date_chooser', :prompt => 'Select Date'} %>
-        <% end %>
-      </li>
-    </ul>
-  </div>
+    <%= form_tag edit_page_event_path(@page, @event), :method => :get do %>
+      <%= select_tag :id,
+        options_for_select(
+          @event.peers.collect{|e| [e.start_at.simple_date, e.id]},
+          @event.id), {:id => 'date_chooser', :prompt => 'Select Date'} %>
+    <% end %>
   <% end -%>
   
   <% end -%>

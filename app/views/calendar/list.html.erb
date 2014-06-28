@@ -1,21 +1,33 @@
 <% title(@date.strftime("%B %Y")) -%>
 
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <% if @page -%>
+        <li><%= link_to @page.name, friendly_page_path(@page) %></li>
+      <% elsif @resource -%>
+        <li><%= link_to @resource.name, resource_path(@resource) %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>
+
 <section>
-  
-  <% if @page -%>
+
+  <% if @page and false -%>
     <header>
       <h1 class="active">
         <%= link_to @page.name, friendly_page_path(@page) %></h1>
     </header>
-  <% elsif @resource -%>
+  <% elsif @resource and false -%>
     <header>
       <h1 class="active">
         <%= link_to @resource.name, resource_path(@resource) %></h1>
     </header>
   <% end -%>
-  
+
   <%= render :partial => 'controls', :locals => {:view => 'list'} %>
-  
+
 <table id="calendar_list">
   <% prior_date = nil -%>
   <% @events.each do |event| -%>
@@ -33,7 +45,10 @@
   <tr class="<%= (new_day || new_month) ? 'new_day' : '' %>">
     <td class="day">
       <% if new_day or new_month -%>
-        <%= event.start_at.day %>
+        <%= link_to event.start_at.day, calendar_day_path(:date => event.start_at.to_date,
+          :page_id => @page ? @page.url : nil,
+          :full => @full ? @full : nil) %>
+        <!--%= event.start_at.day %-->
       <% end -%>
     </td>
     <td class="week_day">

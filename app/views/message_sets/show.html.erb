@@ -11,6 +11,8 @@
     <div class="page_admin">
       <ul>
         <li><%= link_to 'Edit series', edit_series_path(@message_set) %><li>
+        <li><%= link_to 'Add message',
+          new_message_path(:series_id => @message_set.url) %></li>
       </ul>
     </div>
     <% end -%>
@@ -40,12 +42,5 @@
         :locals => {:message => message} %>
     <% end -%>
   </div>
-    
-  <% if current_user and current_user.administrator? -%>
-  <div class="add_content">
-    <%= link_to 'Add message',
-      new_message_path(:series_id => @message_set.url) %>
-  </div>
-  <% end -%>
 
 </section>

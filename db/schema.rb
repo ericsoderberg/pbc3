@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140301151457) do
+ActiveRecord::Schema.define(version: 20140524180403) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -459,7 +459,11 @@ ActiveRecord::Schema.define(version: 20140301151457) do
     t.datetime "icon_updated_at"
     t.string   "acronym"
     t.boolean  "library"
-    t.boolean  "calendar",            default: true
+    t.boolean  "calendar",              default: true
+    t.string   "wordmark_file_name"
+    t.string   "wordmark_content_type"
+    t.integer  "wordmark_file_size"
+    t.datetime "wordmark_updated_at"
   end
 
   create_table "styles", force: true do |t|

@@ -47,6 +47,7 @@
     vertical-align: top;
     margin: 0px;
     margin-right: 15px;
+    margin-bottom: 15px;
     padding: 0px;
     
     @include respond-to(tiny) {
@@ -124,7 +125,7 @@ li.landing_sub .sub_sub_pages {
 
 .landing_content #child_pages {
   padding: 30px 50px 40px 30px;
-  background-color: #e4e4e4;
+  background-color: $tertiary-color;
   }
   .landing_content #child_pages h2 {
     color: #666;

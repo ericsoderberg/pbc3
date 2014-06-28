@@ -13,6 +13,8 @@
     display: inline-block;
     margin-right: 20px;
     vertical-align: middle;
+    font-size: 28px;
+    font-weight: normal;
     
     @include respond-to(tiny) {
       display: block;
@@ -89,15 +91,17 @@
     vertical-align: top;
   }
   
-  a.previous {
+  a.icon.previous {
     //border-right: 1px solid #eee;
-    background: 2px 4px $left-url no-repeat;
+    //background: 2px 4px $left-url no-repeat;
+    @include icon-image(0px, -52px);
   }
     
-  a.next {
+  a.icon.next {
     //border-left: 1px solid #eee;
     margin-right: 0px;
-    background: 2px 4px $right-url no-repeat;
+    //background: 2px 4px $right-url no-repeat;
+    @include icon-image(-26px, -52px);
   }
 }
    
@@ -116,31 +120,27 @@
       display: inline-block;
       white-space: nowrap;
       
-      &.active a {
-  	    color: #666;
-  	    
-  	    &:hover {
-    	    color: #666;
-    	    //background: inherit;
-    	  }
-  	  }
+      a {
+        display: block;
+    	  padding: 0px 10px;
+    	  text-align: center;
+    	  text-decoration: none;
+        opacity: 0.5;
+        padding: 0px;
+        margin-left: 5px;
+        color: transparent;
+        
+        &:hover {
+          opacity: 1;
+        }
+      }
+      
+      &.active {
+        a {
+          opacity: 1;
+        }
+      }
     }
-  }
-  
-  a {
-    display: block;
-	  padding: 0px 10px;
-    font-size: 12px;
-    color: #999;
-	  text-align: center;
-	  text-decoration: none;
-	  border-radius: 3px;
-	  @include transition(all, 0.2s);
-    
-    &:hover {
-		  color: #000;
-		  opacity: 1;
-	  }
   }
 }
     
@@ -173,7 +173,7 @@
   padding: 0px;
   border-spacing: 0px;
   width: 100%;
-  font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
+  font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
   
   th {
     color: #999;
@@ -194,7 +194,15 @@
     }
     
     &.odd_month {
-      background: #f6f6f6;
+      background-color: $odd-month-background-color;
+    }
+    
+    &.today {
+      background-color: $primary-color;
+      
+      a {
+        color: #fff;
+      }
     }
     
     .date, .holiday {
@@ -202,7 +210,7 @@
       padding: 0;
       padding-right: 5px;
       text-align: right;
-      font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
+      font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
       font-size: 10px;
     }
     
@@ -288,10 +296,21 @@
     font-size: 24px;
   }
   
-  .day {
-    font-size: 16px;
-    font-weight: bold;
+  .day, td.time:first-child {
+    font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
+    font-size: 20px;
     color: #aaa;
+    
+    a {
+      font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
+      font-size: 20px;
+      //font-weight: bold;
+      color: #aaa;
+    
+      &:hover {
+        color: $link-hover-color;
+      }
+    }
   }
   
   .name a {

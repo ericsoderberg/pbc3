@@ -43,7 +43,11 @@ ul.resource_conflicts {
   padding: 0px;
   margin-bottom: 20px;
   width: 500px;
-  font-family: 'Lucida Grande', 'lucida sans unicode', sans-serif;
+  font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
+  
+  tbody tr:last-child td {
+    border-bottom: 1px solid #ccc;
+  }
   
   th {
     color: #999;
@@ -58,14 +62,18 @@ ul.resource_conflicts {
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
     
+    &:last-child {
+      border-right: 1px solid #ccc;
+    }
+    
     &.ref {
       color: #eee;
       background-color: #999;
     }
     
     &.active, &.active.odd_month {
-      color: #eee;
-      background-color: #999;
+      color: #fff;
+      background-color: $primary-color;
     }
     
     &.active .month {
@@ -73,7 +81,7 @@ ul.resource_conflicts {
     }
     
     &.odd_month {
-      background-color: #f6f6f6;
+      background-color: $odd-month-background-color;
     }
   }
   

@@ -27,6 +27,8 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     @page = @form.page
     return unless page_administrator!
+    @filled_forms = @form.visible_filled_forms(current_user)
+    @payments = @form.payments_for_user(current_user)
 
     respond_to do |format|
       format.html # show.html.erb

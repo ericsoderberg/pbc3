@@ -1,13 +1,15 @@
 <% ancestors = @form.page.ancestors -%>
 <% ancestors.shift if not ancestors.empty? and ancestors.first.id == @site.communities_page_id -%>
-<div id="breadcrumbs">
-  <ul>
-    <% ancestors.each do |ancestor| -%>
-      <li><%= link_to ancestor.name, friendly_page_path(ancestor) %></li>
-    <% end -%>
-    <li><%= link_to @form.page.name, friendly_page_path(@form.page) %></li>
-    <% if @form.event -%>
-      <li><%= @form.event.name %></li>
-    <% end -%>
-  </ul>
-</div>
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <% ancestors.each do |ancestor| -%>
+        <li><%= link_to ancestor.name, friendly_page_path(ancestor) %></li>
+      <% end -%>
+      <li><%= link_to @form.page.name, friendly_page_path(@form.page) %></li>
+      <% if @form.event -%>
+        <li><%= @form.event.name %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>

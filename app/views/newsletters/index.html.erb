@@ -4,8 +4,10 @@
   
   <%= render :partial => 'site/header' %>
   
-  <div class="add_content header_add_content">
-    <%= link_to 'Add Newsletter', new_newsletter_path %>
+  <div class="page_admin">
+    <ul>
+      <li><%= link_to 'Add Newsletter', new_newsletter_path %></li>
+    </ul>
   </div>
   
   <table id="newsletters" class="grid">

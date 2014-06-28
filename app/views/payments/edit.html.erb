@@ -1,9 +1,11 @@
 <% if current_user and current_user.administrator? -%>
-<div id="breadcrumbs">
-  <ul>
-    <li><%= link_to 'Payments', payments_path %></li>
-  </ul>
-</div>
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Payments', payments_path %></li>
+    </ul>
+  </div>
+<% end -%>
 <% end -%>
 
 <h1>Payment</h1>

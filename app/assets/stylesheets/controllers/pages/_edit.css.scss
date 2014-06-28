@@ -1,6 +1,6 @@
 .add_content {
-  //margin: 20px 0px;
-  padding: 20px;
+  margin: 20px 0px;
+  //padding: 20px;
   
   &.header_add_content {
 		float: right;
@@ -83,7 +83,7 @@
     padding: 0px;
   
     &.active {
-      background-color: #999;
+      background-color: $primary-color;
       border-radius: 3px;
       color: #fff;
     

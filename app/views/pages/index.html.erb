@@ -4,8 +4,10 @@
   
   <%= render :partial => 'site/header' %>
 
-  <div class="add_content" class="header_add_content">
-    <%= link_to 'Add Page', new_page_path %>
+  <div class="page_admin">
+    <ul>
+      <li><%= link_to 'Add Page', new_page_path %></li>
+    </ul>
   </div>
   
   <%= render :partial => 'map', :locals => {:pages => @pages.where('parent_id IS NULL')} %>

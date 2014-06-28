@@ -25,23 +25,23 @@
 </head>
 <body class="<%= session[:design] ? "design_#{session[:design]}" : '' %>">
   <div id="content" class="<%= yield(:content_class) %>">
-    
-  <header id="site_header">
+
+  <header id="site_header" class="<%= site_header_class %>">
     <h1>
       <%= link_to root_path do %>
-      <%= image_tag site_icon_url %>
-      <%= raw site_title %>
+        <%= site_logo %>
+        <%= raw site_title %>
       <% end %>
     </h1>
-    <h2><%= @site ? @site.subtitle : '' %></h2>
-    <div id="site_controls">
-      <%= render :partial => 'layouts/site_nav' %>
-      <%= render :partial => 'layouts/auth' %>
-    </div>
-    
+    <% if content_for?(:breadcrumbs) -%>
+      <%= yield(:breadcrumbs) %>
+    <% end -%>
+    <!--h2><%= @site ? @site.subtitle : '' %></h2-->
+    <%= render :partial => 'layouts/site_controls' %>
+
     <div id="notice"><%= notice %></div>
   </header>
-  
+
 
 <%= yield %>
 
@@ -59,7 +59,7 @@
       </div>
     <% end -%>
   </footer>
-  
+
   </div>
 </body>
 </html>

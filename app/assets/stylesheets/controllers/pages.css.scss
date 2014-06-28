@@ -1,4 +1,4 @@
-.page_admin, #done_page_editing, #done_form_editing, .page_control {
+#done_page_editing, #done_form_editing, .page_control {
   float: right;
   display: block;
 	margin: 0;
@@ -16,40 +16,83 @@
 }
 
 .page_admin {
+  
+  @include respond-to(normal-up) {
+    position: absolute;
+    right: -200px;
+    top: 110px;
+	}
+	
+	@include respond-to(small-down) {
+    position: relative;
+    top: 6px;
+    margin-left: 10px;
+	  background-image: $images-file;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    width: 26px;
+    height: 26px;
+    float: right;
+    
+    &:hover {
+      ul {
+        display: block;
+        position: absolute;
+        right: -20px;
+        width: auto;
+        z-index: 100;
+        
+        a {
+          white-space: nowrap;
+        }
+      }
+    }
+    
+    ul {
+      display: none;
+    }
+  }
+  
   ul {
     list-style-type: none;
+    width: 200px;
+    height: auto;
     margin: 0px;
     padding: 0px;
     vertical-align: baseline;
-    
-    li {
-      float: left;
-      height: 32px;
-    }
+    background-color: $odd-month-background-color;
   }
   
   a {
     display: block;
-	  color: #bbb;
-    font-weight: bold;
-    vertical-align: baseline;
-    
-    &:hover {
-      color: #333;
-      background-color: inherit;
-    }
+    padding: 5px 15px;
   }
 }
+
+.event_admin, .file_admin {
+  background-color: $tertiary-color;
+  padding: 5px 15px;
+  
+	@include respond-to(normal-up) {
+    position: absolute;
+    right: -70px;
+    width: 40px;
+	}
+  
+	@include respond-to(small-down) {
+	  float: right;
+	}
+}
 	
-.page_admin a, .add_content a {
+//.page_admin a,
+.add_content a {
   display: inline-block;
-  color: #bbb;
-  font-weight: bold;
-	padding-left: 20px;
+  background-color: $tertiary-color;
+  color: $link-color;
+	padding: 5px 15px;
 	
 	&:hover {
-    color: #333;
-    background-color: inherit;
+    color: $link-hover-color;
   }
 }
 			

@@ -9,6 +9,7 @@
       color: #999;
       min-width: 120px;
       margin: 7px 10px 10px 0px;
+      font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
     }
   
     h2.post_title {
@@ -48,14 +49,16 @@
     vertical-align: top;
   }
   
-  a.previous {
+  a.icon.previous {
     //border-right: 1px solid #eee;
-    background: 2px 4px $left-url no-repeat;
+    //background: 2px 4px $left-url no-repeat;
+    @include icon-image(0px, -52px);
   }
     
-  a.next {
+  a.icon.next {
     //border-left: 1px solid #eee;
     margin-right: 0px;
-    background: 2px 4px $right-url no-repeat;
+    //background: 2px 4px $right-url no-repeat;
+    @include icon-image(-26px, -52px);
   }
 }

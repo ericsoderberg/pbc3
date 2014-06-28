@@ -1,9 +1,11 @@
-<div id="breadcrumbs">
-  <ul>
-    <li><%= link_to 'Message Library', messages_path %></li>
-    <li><%= link_to 'Authors/Speakers', authors_path %></li>
-  </ul>
-</div>
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Message Library', messages_path %></li>
+      <li><%= link_to 'Authors/Speakers', authors_path %></li>
+    </ul>
+  </div>
+<% end -%>
 
 <section>
   

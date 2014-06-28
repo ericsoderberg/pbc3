@@ -46,9 +46,11 @@
 
 <br />
 
-<div class="add_content">
-  <%= link_to 'Add Form',
-    new_form_path(:page_id => (@page ? @page.id : nil)) %>
+<div class="page_admin">
+  <ul>
+    <li><%= link_to 'Add Form',
+      new_form_path(:page_id => (@page ? @page.id : nil)) %></li>
+  </ul>
 </div>
 
 </section>

@@ -1,11 +1,11 @@
 body {
   margin: 0px;
 	font: 14px/22px Arial, sans-serif;
-	color: $wet-asphalt;
+	color: #666;
 
   @include respond-to(normal-up) {
     padding: 0px 0px 40px 0px;
-  	background-color: #e4e3e1;
+  	background-color: $body-background-color;
   }
 
   @include respond-to(small-down) {
@@ -40,6 +40,7 @@ h2 {
 	font-size: 28px;
 	line-height: 28px;
 	margin: 15px 0;
+  font-weight: normal;
 }
 
 h3 {
@@ -49,18 +50,21 @@ h3 {
 }
 
 h1, h2, h3 {
-  font-family: 'Myriad Web Pro', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
 }
 
 a {
   text-decoration: none;
   color: $link-color;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: normal;
+  
+  &:hover {
+    color: $link-hover-color;
+  }
 }
 
 html.no-touch a:hover {
-  opacity: 0.5;
   background-color: inherit;
 }
 

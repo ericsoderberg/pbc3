@@ -59,15 +59,21 @@
   </h1>
   
   <% if current_user and @form.page.administrator?(current_user) -%>
+  <div class="page_control">
+    <%= link_to 'List', form_fills_path(@form) %>
+  </div>
+  <div class="page_control">
+    <%= link_to 'CSV',
+            form_fills_path(@form, :format => 'csv') %>
+  </div>
+  <div class="page_control">
+    <%= link_to 'Excel',
+            form_fills_path(@form, :format => 'xls') %>
+  </div>
   <div class="page_admin">
     <ul>
       <li><%= link_to 'Edit form', edit_fields_form_path(@form) %><li>
       <li><%= link_to 'Copy form', copy_form_path(@form) %><li>
-      <li><%= link_to 'List', form_fills_path(@form) %></li>
-      <li><%= link_to 'CSV',
-        form_fills_path(@form, :format => 'csv') %><li>
-      <li><%= link_to 'Excel',
-        form_fills_path(@form, :format => 'xls') %><li>
     </ul>
   </div>
   <% end -%>

@@ -1,11 +1,13 @@
 <% title 'Payment' %>
 
 <% if current_user -%>
-<div id="breadcrumbs">
-  <ul>
-    <li><%= link_to 'Payments', payments_path %></li>
-  </ul>
-</div>
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Payments', payments_path %></li>
+    </ul>
+  </div>
+<% end -%>
 <% end -%>
 
 <header>

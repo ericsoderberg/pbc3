@@ -59,6 +59,16 @@ class Message < ActiveRecord::Base
     return 0
   end
   
+  def previous
+    Message.where('messages.date < ?', [date]).
+      order('messages.date DESC').first
+  end
+  
+  def next
+    Message.where('messages.date > ?', [date]).
+      order('messages.date ASC').first
+  end
+  
   def self.find_by_verses(verses)
     ranges = verses.is_a?(String) ? VerseParser.new(verses).ranges : verses
     return [] if ranges.empty?

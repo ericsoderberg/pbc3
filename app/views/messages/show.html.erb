@@ -15,6 +15,17 @@
     </div>
     <% end -%>
     
+    <div id="message_nav">
+      <% if @previous_message -%>
+      <%= link_to '', message_path(@previous_message),
+        class: 'icon previous', title: 'previous message' %>
+      <% end -%>
+      <% if @next_message -%>
+      <%= link_to '', message_path(@next_message),
+        class: 'icon next', title: 'next message' %>
+      <% end -%>
+    </div>
+    
     <div id="message_details">
       <div class="message_date">
         <%= @message.date.relative_str -%>

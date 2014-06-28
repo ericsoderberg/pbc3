@@ -1,0 +1,30 @@
+<div id="site_controls">
+  <form id="search" action="<%= search_path %>">
+    <input name="q" type="search" required
+      placeholder="Search"
+      value="<%= @search_text || '' %>"/>
+  </form>
+  <ul id="auth">
+<% if user_signed_in? -%>
+  <% if current_user.administrator? -%>
+    <li>
+      <%= link_to pages_path, id: 'settings', class: 'icon settings' do %>
+        <%= image_tag('admin.png') %>
+      <% end -%>
+    </li>
+  <% end -%>
+    <li class="current">
+  <%= link_to (current_user.avatar.exists? ?
+      (image_tag current_user.avatar.url(:normal)) : current_user.email),
+    edit_account_url(current_user, :protocol => 'https') %>
+    </li>
+    <li><%= link_to "Sign out",
+      destroy_user_session_url(:protocol => 'https') %></li>
+<% else %>
+    <!--li><%= link_to "Sign up",
+      new_user_registration_url(:protocol => 'https') %></li-->
+    <li><%= link_to "Sign in",
+      new_user_session_url(:protocol => 'https') %></li>
+<% end -%>
+  </ul>
+</div>

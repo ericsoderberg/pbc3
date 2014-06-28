@@ -13,6 +13,17 @@
 	color: #999;
 }
 
+#message_nav {
+  float: right;
+  text-align: right;
+  
+  @include respond-to(tiny) {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+  }
+}
+
 #message_details {
 	margin: 10px 0px 20px 0px;
 	
@@ -119,6 +130,7 @@ header audio {
 	a {
 		font-size: 16px;
 		color: #777;
+    font-weight: bold;
 		
 		&:hover {
 			text-decoration: none;
@@ -191,6 +203,7 @@ div#messages {
   line-height: 244px;
 	color: #f6f6f6;
   background-color: #fff;
+  font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
   z-index: -1;
   
   @include respond-to(tiny) {

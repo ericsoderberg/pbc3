@@ -1,14 +1,16 @@
 <% title(@date.strftime("%B %Y")) -%>
 
-<div id="breadcrumbs">
-  <ul>
-    <% if @page -%>
-      <li><%= link_to @page.name, friendly_page_path(@page) %></li>
-    <% elsif @resource -%>
-      <li><%= link_to @resource.name, resource_path(@resource) %></li>
-    <% end -%>
-  </ul>
-</div>
+<% content_for :breadcrumbs do -%>
+  <div id="breadcrumbs">
+    <ul>
+      <% if @page -%>
+        <li><%= link_to @page.name, friendly_page_path(@page) %></li>
+      <% elsif @resource -%>
+        <li><%= link_to @resource.name, resource_path(@resource) %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>
 
 <section>
   

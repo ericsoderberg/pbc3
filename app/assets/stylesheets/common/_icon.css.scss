@@ -1,4 +1,4 @@
-$images-file: image-url('pbc3-icons.png');
+$images-file: image-url('pbc3-2-icons.png');
 
 @mixin icon-image($x, $y) {
   display: inline-block;
@@ -14,6 +14,77 @@ $images-file: image-url('pbc3-icons.png');
   
   > img {
     display: none;
+  }
+}
+
+a.icon {
+  color: transparent;
+  
+  &:hover {
+    color: transparent;
+  }
+  
+  &.settings {
+    @include icon-image(0px, 0px);
+  }
+  
+  &.email {
+    @include icon-image(-26px, 0px);
+    height: 17px;
+  }
+  
+  &.calendar {
+    @include icon-image(-52px, 0px);
+  }
+
+  &.feed {
+    @include icon-image(-78px, 0px);
+  }
+  
+  &.video {
+    @include icon-image(-104px, 0px);
+    height: 17px;
+    position: relative;
+    top: 2px;
+  }
+  
+  &.audio {
+    @include icon-image(-130px, 0px);
+    height: 17px;
+    position: relative;
+    top: 2px;
+  }
+  
+  &.document {
+    @include icon-image(-156px, 0px);
+    height: 17px;
+    position: relative;
+    top: 2px;
+  }
+  
+  &.previous {
+    @include icon-image(0px, -52px);
+  }
+
+  &.next {
+    @include icon-image(-26px, -52px);
+  }
+  
+  &.list {
+    @include icon-image(-52px, -52px);
+  }
+
+  &.grid {
+    @include icon-image(-78px, -52px);
+  }
+
+  &.facebook {
+    @include icon-image(-104px, -52px);
+    width: 14px;
+  }
+  
+  &.twitter {
+    @include icon-image(-130px, -50px);
   }
 }
 

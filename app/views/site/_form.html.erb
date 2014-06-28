@@ -51,6 +51,15 @@
       <span class="help">(48x48 pixels)</span>
     </div>
     <div class="field">
+      <%= f.label :wordmark %><br/>
+      <% if @site.wordmark.exists? -%>
+        <%= image_tag @site.wordmark.url(:thumb) %>
+        <%= check_box_tag 'delete_wordmark' %> delete wordmark?<br/>
+      <% end -%>
+      <%= f.file_field :wordmark %><br/>
+      <span class="help">(48x&lt;any&gt; pixels)</span>
+    </div>
+    <div class="field">
       <%= f.label :calendar?, :class => 'inline' %>
       <%= f.check_box :calendar %>
     </div>

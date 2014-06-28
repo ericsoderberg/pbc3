@@ -1,11 +1,13 @@
 <% ancestors = page.ancestors -%>
 <% ancestors.shift if not ancestors.empty? and ancestors.first.id == @site.communities_page_id -%>
 <% if not ancestors.empty? -%>
-  <div id="breadcrumbs">
-    <ul>
-      <% ancestors.each do |ancestor| -%>
-        <li><%= link_to ancestor.name, friendly_page_path(ancestor) %></li>
-      <% end -%>
-    </ul>
-  </div>
+  <% content_for :breadcrumbs do -%>
+    <div id="breadcrumbs">
+      <ul>
+        <% ancestors.each do |ancestor| -%>
+          <li><%= link_to ancestor.name, friendly_page_path(ancestor) %></li>
+        <% end -%>
+      </ul>
+    </div>
+  <% end -%>
 <% end -%>
