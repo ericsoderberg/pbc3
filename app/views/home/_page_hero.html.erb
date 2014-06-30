@@ -5,9 +5,9 @@
     </div>
   <% end -%>
   <div class="hero_text"
-    style="color: #<%= page_hero.style.hero_text_color.to_s(16) %>">
+    style="color: #<%= '%06x' % page_hero.style.hero_text_color %>">
     <h2><%= link_to page_hero.name, friendly_page_path(page_hero) %></h2>
-    
+
     <%= raw page_hero.hero_text %>
   </div>
 <% end %>

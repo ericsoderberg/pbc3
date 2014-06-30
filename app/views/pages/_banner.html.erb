@@ -1,6 +1,6 @@
 <% if @page.style and @page.style.banner.exists? -%>
   <% if @page.animate_banner -%>
-  
+
     <div id="animated_banners">
       <div id="animated_banners_list">
         <% ([@page] + @page.children).each do |animated_page| -%>
@@ -15,20 +15,20 @@
         <% end -%>
       </div>
     </div>
-  
+
   <% else -%>
-  
+
     <div id="banner">
       <div class="banner_background">
         <%= image_tag @page.style.banner.url(:normal) %>
       </div>
       <% if @page.banner_text and not @page.banner_text.empty? -%>
       <div id="banner_text"
-        style="color: #<%= @page.style.banner_text_color.to_s(16) %>">
+        style="color: #<%='%06x' %  @page.style.banner_text_color %>">
         <%= raw @page.banner_text %>
       </div>
       <% end -%>
     </div>
-    
+
   <% end -%>
 <% end -%>
