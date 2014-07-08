@@ -4,7 +4,7 @@
       <%= image_tag page_hero.style.hero.url(:normal).gsub(' ', '%20') %>
     </div>
   <% end -%>
-  <div class="hero_text"
+  <div class="hero_text <%= page_hero.style.hero_text_background_overlay ? 'background-overlay' : ''%>"
     style="color: #<%= '%06x' % page_hero.style.hero_text_color %>">
     <h2><%= link_to page_hero.name, friendly_page_path(page_hero) %></h2>
 

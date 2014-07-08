@@ -15,9 +15,9 @@
       <%= f.label :name %><br />
       <%= f.text_field :name %>
     </div>
-  
+
     <h3>Within the page</h3>
-    
+
     <fieldset>
       <caption>Banner at the top</caption>
     <div class="field">
@@ -34,7 +34,7 @@
         :value => "0x%06x" % @style.banner_text_color %>
     </div>
     </fieldset>
-    
+
     <fieldset>
       <caption>Contact card bio background</caption>
     <div class="field">
@@ -51,9 +51,9 @@
         :value => "0x%06x" % @style.bio_back_color %>
     </div>
     </fieldset>
-    
+
     <h3>On the parent's page</h3>
-    
+
     <fieldset>
       <caption>Featured child</caption>
     <div class="field">
@@ -70,9 +70,9 @@
         :value => "0x%06x" % @style.child_feature_text_color %>
     </div>
     </fieldset>
-    
+
     <h3>On the home page</h3>
-    
+
     <fieldset>
       <caption>Hero</caption>
     <div class="field">
@@ -88,8 +88,13 @@
       <%= f.text_field :hero_text_color,
         :value => "0x%06x" % @style.hero_text_color %>
     </div>
+    <div class="field">
+      <%= f.label :background_overlay %><br />
+      <%= f.check_box :hero_text_background_overlay,
+        :value => "0x%06x" % @style.hero_text_color %>
+    </div>
     </fieldset>
-    
+
     <fieldset>
       <caption>Feature box</caption>
     <div class="field">
@@ -106,7 +111,7 @@
         :value => "0x%06x" % @style.feature_color %>
     </div>
     </fieldset>
-  
+
   <div class="actions">
     <%= f.submit (@style.id ? 'Update Style' : 'Add Style') %>
     | <%= link_to 'Cancel', styles_path %>
@@ -115,5 +120,5 @@
       method: :delete %>
     <% end -%>
   </div>
-  
+
 <% end %>

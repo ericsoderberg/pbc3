@@ -1,7 +1,7 @@
 class StylesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
-  
+
   # GET /styles
   # GET /styles.xml
   def index
@@ -95,9 +95,9 @@ class StylesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def fix_colors
     if params[:style][:feature_color] and
         params[:style][:feature_color].is_a?(String)
@@ -125,10 +125,10 @@ class StylesController < ApplicationController
         params[:style][:child_feature_text_color].hex
     end
   end
-    
+
   def style_params
     params.require(:style).permit(:name, :hero_text_color, :feature_color,
       :banner_text_color, :banner, :feature_strip, :hero, :bio_back,
-      :child_feature, :updated_by).merge(:updated_by => current_user)
+      :child_feature, :updated_by, :hero_text_background_overlay).merge(:updated_by => current_user)
   end
 end

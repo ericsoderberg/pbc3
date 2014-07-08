@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140524180403) do
+ActiveRecord::Schema.define(version: 20140708170809) do
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -489,14 +489,15 @@ ActiveRecord::Schema.define(version: 20140524180403) do
     t.string   "bio_back_content_type"
     t.integer  "bio_back_file_size"
     t.datetime "bio_back_updated_at"
-    t.integer  "bio_back_color",             default: 0
-    t.integer  "banner_text_color",          default: 0
+    t.integer  "bio_back_color",               default: 0
+    t.integer  "banner_text_color",            default: 0
     t.string   "child_feature_file_name"
     t.string   "child_feature_content_type"
     t.integer  "child_feature_file_size"
     t.datetime "child_feature_updated_at"
-    t.integer  "child_feature_text_color",   default: 0
+    t.integer  "child_feature_text_color",     default: 0
     t.integer  "updated_by"
+    t.boolean  "hero_text_background_overlay", default: true
   end
 
   create_table "users", force: true do |t|
