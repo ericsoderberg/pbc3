@@ -139,10 +139,18 @@ class Form < ActiveRecord::Base
   end
   
   def copy(source_form)
-    source_form.form_fields.each do |source_form_field|
-      new_form_field = self.form_fields.build
-      new_form_field.form = self
-      new_form_field.copy(source_form_field)
+    if source_form.form_sections.count > 1
+      source_form.form_sections.each do |source_form_section|
+        new_form_section = self.form_sections.build
+        new_form_section.form = self
+        new_form_section.copy(source_form_section)
+      end
+    else
+      source_form.form_fields.each do |source_form_field|
+        new_form_field = self.form_fields.build
+        new_form_field.form = self
+        new_form_field.copy(source_form_field)
+      end
     end
   end
   

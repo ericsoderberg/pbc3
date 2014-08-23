@@ -1,6 +1,7 @@
 class EmailListsController < ApplicationController
   before_filter :authenticate_user!, :except => [:add]
   before_filter :administrator!, :except => [:add, :update]
+  before_filter :set_domain
   
   def index
     @email_lists = if params[:search] and not params[:search].empty?
@@ -60,7 +61,7 @@ class EmailListsController < ApplicationController
     add_addresses = params[:add_addresses].split
 
     respond_to do |format|
-      if @email_list.save(@site) and
+      if @email_list.save and
         @email_list.add_addresses(add_addresses, params[:invite])
         format.html { redirect_to(email_lists_url,
           :notice => 'Email list was successfully created.') }
@@ -90,6 +91,7 @@ class EmailListsController < ApplicationController
           :notice => 'Email list was successfully updated.') }
         format.xml  { head :ok }
       else
+        @pages = Page.where(:email_list => @email_list.name)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @email_list.errors, :status => :unprocessable_entity }
       end
@@ -147,5 +149,9 @@ class EmailListsController < ApplicationController
   
   def adjust_addresses
     params[:email_list][:addresses] = params[:email_list][:addresses].split
+  end
+  
+  def set_domain
+    EmailList.set_domain(@site.email_domain, @site.mailman_owner)
   end
 end

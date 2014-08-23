@@ -3,7 +3,9 @@
     <%= image_tag('mail.png') %>
   <% end -%>
   <div class="contact_name">
-    <%= contact.user.name %>
+    <% if contact.user -%>
+      <%= contact.user.name %>
+    <% end -%>
     <% if contact.role and not contact.role.empty? -%>
       <span class="contact_role"><%= contact.role %></span>
     <% end -%>

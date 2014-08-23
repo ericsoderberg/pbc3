@@ -3,8 +3,15 @@ require 'active_model'
 class EmailList
   include ActiveModel::Validations
   attr_accessor :name, :new_record
+  @@domain = nil
+  @@owner = nil
   
   validates :name, :format => /\A[^@\s]+\Z/
+  
+  def self.set_domain(domain, owner)
+    @@domain = domain
+    @@owner = owner
+  end
   
   def initialize(attributes = nil)
     @new_record = true
@@ -18,20 +25,32 @@ class EmailList
   end
   
   def addresses
-    %x(#{Configuration.mailman_dir}/list_members #{@name}).split.sort
+    if Configuration.mailman
+      %x(#{Configuration.mailman} members #{@name}#{@@domain}).split.sort
+    else
+      %x(#{Configuration.mailman_dir}/list_members #{@name}).split.sort
+    end
   end
   
   def pending
-    %x(#{Configuration.mailman_dir}/withlist -q -l -r dump_pending #{@name}).
-      split("\n").sort.map do |l|
-        p l
-        a = l.strip.split(',', 2)
-        { address: a[0], expires: Time.parse(a[1]) }
-      end
+    if Configuration.mailman
+      []
+    else
+      %x(#{Configuration.mailman_dir}/withlist -q -l -r dump_pending #{@name}).
+        split("\n").sort.map do |l|
+          p l
+          a = l.strip.split(',', 2)
+          { address: a[0], expires: Time.parse(a[1]) }
+        end
+    end
   end
   
   def self.all
-    self.load("#{Configuration.mailman_dir}/list_lists -b")
+    if Configuration.mailman
+      self.load("#{Configuration.mailman} lists")
+    else
+      self.load("#{Configuration.mailman_dir}/list_lists -b")
+    end
   end
   
   def self.find(name)
@@ -61,11 +80,18 @@ class EmailList
     if new_addresses.empty?
       true
     else
-      cmd = invite ? 'invite_members' : 'add_members'
-      IO.popen("#{Configuration.mailman_dir}/#{cmd} -a n -r - #{@name}", 'w') do |io|
-        io.write(new_addresses.join("\n"))
+      if Configuration.mailman
+        IO.popen("#{Configuration.mailman} members --add - #{@name}#{@@domain}", 'w') do |io|
+          io.write(new_addresses.join("\n"))
+        end
+        0 == $?
+      else
+        cmd = invite ? 'invite_members' : 'add_members'
+        IO.popen("#{Configuration.mailman_dir}/#{cmd} -a n -r - #{@name}", 'w') do |io|
+          io.write(new_addresses.join("\n"))
+        end
+        0 == $?
       end
-      0 == $?
     end
   end
   
@@ -80,17 +106,28 @@ class EmailList
     end
   end
   
-  def save(site)
+  def save
     if valid? and @new_record
-      if system("#{Configuration.mailman_dir}/newlist -q #{@name} #{site.mailman_owner} #{UUIDTools::UUID.random_create.to_s}")
-        @new_record = false
-        true
+      if Configuration.mailman
+        if system("#{Configuration.mailman} create #{@name}#{@@domain} --domain --owner #{@@owner}")
+          @new_record = false
+          true
+        end
+      else
+        if system("#{Configuration.mailman_dir}/newlist -q #{@name} #{@@owner} #{UUIDTools::UUID.random_create.to_s}")
+          @new_record = false
+          true
+        end
       end
     end
   end
   
   def destroy
-    system("#{Configuration.mailman_dir}/rmlist -a #{@name}")
+    if Configuration.mailman
+      system("#{Configuration.mailman} remove #{@name}#{@@domain}")
+    else
+      system("#{Configuration.mailman_dir}/rmlist -a #{@name}")
+    end
   end
   
   private
@@ -99,7 +136,7 @@ class EmailList
     result = []
     %x(#{cmd}).split("\n").map do |name|
       next if name =~ /:$/ or 'mailman' == name.strip
-      list = EmailList.new(:name => name.strip)
+      list = EmailList.new(:name => name.strip.split('@').first)
       list.new_record = false
       result << list
     end
