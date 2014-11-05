@@ -13,11 +13,12 @@
     (errors.empty? ? '' : ' error')) do %>
   
   <% unless name_after -%>
-    <% if FormField::INSTRUCTIONS == fill_form_field.field_type and
-        fill_form_field.help.empty? -%>
-      <h2 class="form_field_name">
-        <%= fill_form_field.name %>
-      </h2>
+    <% if FormField::INSTRUCTIONS == fill_form_field.field_type -%>
+      <% if fill_form_field.help.empty? -%>
+        <h2 class="form_field_name">
+          <%= fill_form_field.name %>
+        </h2>
+      <% end %>
     <% else -%>
       <% if fill_form_field.prompt? -%>
         <div class="form_field_prompt">

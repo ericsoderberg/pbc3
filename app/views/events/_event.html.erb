@@ -10,7 +10,7 @@
     <% best_event = event.best_replica(@page.events) -%>
     <div class="event_admin">
       <%= link_to 'Edit',
-        edit_page_event_path(best_event.page, best_event) %>
+        edit_page_event_url(best_event.page, best_event, :protocol => 'https') %>
     </div>
   <% end -%>
   

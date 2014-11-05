@@ -11,9 +11,9 @@
   <% if user_signed_in? and current_user.administrator? -%>
     <div class="page_admin">
       <ul>
-        <li><%= link_to 'Add message', new_message_path %></li>
-        <li><%= link_to 'Add series', new_series_path %></li>
-        <li><%= link_to 'Add author', new_author_path %></li>
+        <li><%= link_to 'Add message', new_message_url(:protocol => 'https') %></li>
+        <li><%= link_to 'Add series', new_series_url(:protocol => 'https') %></li>
+        <li><%= link_to 'Add author', new_author_url(:protocol => 'https') %></li>
       </ul>
     </div>
   <% end -%>
