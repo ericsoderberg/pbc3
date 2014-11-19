@@ -6,12 +6,14 @@
     "border-left: 10px solid ##{event.page.style.feature_color.to_s(16)}" :
     'border-left: 10px solid transparent')) do %>
   
-  <% if @page and user_signed_in? and current_user.administrator? -%>
+  <% if @page and user_signed_in? -%>
     <% best_event = event.best_replica(@page.events) -%>
-    <div class="event_admin">
-      <%= link_to 'Edit',
-        edit_page_event_url(best_event.page, best_event, :protocol => 'https') %>
-    </div>
+    <% if current_user.administrator? or best_event.page.administrator?(current_user) -%>
+      <div class="event_admin">
+        <%= link_to 'Edit',
+          edit_page_event_url(best_event.page, best_event, :protocol => 'https') %>
+      </div>
+    <% end -%>
   <% end -%>
   
   <% unless (no_name || false) -%>

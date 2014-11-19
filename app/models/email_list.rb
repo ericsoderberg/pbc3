@@ -27,29 +27,35 @@ class EmailList
   def addresses
     if Configuration.mailman
       %x(#{Configuration.mailman} members #{@name}#{@@domain}).split.sort
-    else
+    elsif Configuration.mailman_dir
       %x(#{Configuration.mailman_dir}/list_members #{@name}).split.sort
+    else
+      Mailman.members @name
     end
   end
   
   def pending
     if Configuration.mailman
       []
-    else
+    elsif Configuration.mailman_dir
       %x(#{Configuration.mailman_dir}/withlist -q -l -r dump_pending #{@name}).
         split("\n").sort.map do |l|
           p l
           a = l.strip.split(',', 2)
           { address: a[0], expires: Time.parse(a[1]) }
         end
+    else
+      Mailman.pending @name
     end
   end
   
   def self.all
     if Configuration.mailman
       self.load("#{Configuration.mailman} lists")
-    else
+    elsif Configuration.mailman_dir
       self.load("#{Configuration.mailman_dir}/list_lists -b")
+    else
+      Mailman.lists
     end
   end
   
@@ -69,7 +75,13 @@ class EmailList
   end
   
   def self.find_by_address(address)
-    self.load("#{Configuration.mailman_dir}/find_member #{address}")
+    if Configuration.mailman
+      raise 'TBD'
+    elsif Configuration.mailman_dir
+      self.load("#{Configuration.mailman_dir}/find_member #{address}")
+    else
+      Mailman.lists_containing address
+    end
   end
   
   def self.replace_address(old_address, new_address)
@@ -85,7 +97,7 @@ class EmailList
           io.write(new_addresses.join("\n"))
         end
         0 == $?
-      else
+      elsif Configuration.mailman_dir
         cmd = invite ? 'invite_members' : 'add_members'
         IO.popen("#{Configuration.mailman_dir}/#{cmd} -a n -r - #{@name}", 'w') do |io|
           io.write(new_addresses.join("\n"))
@@ -113,7 +125,7 @@ class EmailList
           @new_record = false
           true
         end
-      else
+      elsif Configuration.mailman_dir
         if system("#{Configuration.mailman_dir}/newlist -q #{@name} #{@@owner} #{UUIDTools::UUID.random_create.to_s}")
           @new_record = false
           true
@@ -125,7 +137,7 @@ class EmailList
   def destroy
     if Configuration.mailman
       system("#{Configuration.mailman} remove #{@name}#{@@domain}")
-    else
+    elsif Configuration.mailman_dir
       system("#{Configuration.mailman_dir}/rmlist -a #{@name}")
     end
   end

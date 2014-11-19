@@ -37,7 +37,7 @@ Pbc3::Application.configure do
   config.time_zone = "Pacific Time (US & Canada)"
   
   config.after_initialize do
-    Configuration.mailman_dir = '/usr/local/bin'
+    #Configuration.mailman_dir = '/usr/local/bin'
     #Configuration.mailman = '/tmp/py27/bin/mailman'
     Configuration.paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
   end
