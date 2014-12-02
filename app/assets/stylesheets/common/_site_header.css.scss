@@ -149,9 +149,9 @@
           cursor: pointer;
         }
 
-        &:first-child {
+        &:last-child {
           a {
-            font-size: 32px;
+            font-size: 20px;
             //color: $breadcrumb-color;
           }
         }
