@@ -11,8 +11,8 @@
     font-family: Georgia, serif;
   }
   
-	#site_header #site_controls, footer, #site_nav, #submitted_form_list,
-	.page_admin, .page_control, .admin, .actions, #form_fill_submitter,
+	#site_header div#site_controls, footer, #site_nav, #submitted_form_list,
+	.page_admin, .page_control, header .page_control, .admin, .actions, #form_fill_submitter,
   #form_payment_list {
 		display: none;
 	}
@@ -22,10 +22,11 @@
 		-moz-box-shadow: none;
 		-webkit-box-shadow: none;
 		overflow: visible;
+    border: 1px solid #ccc;
 	}
 	
 	.print-overridden {
-	  display: none;
+	  display: none !important;
 	}
 	
 	.print-override {

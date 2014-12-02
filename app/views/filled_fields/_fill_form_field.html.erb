@@ -1,6 +1,6 @@
 <% filled_field = filled_form.filled_fields.detect{|ff|
     fill_form_field == ff.form_field}
-  value = filled_field ? filled_field.value : ''
+  value = (filled_field && filled_field.value) ? filled_field.value : ''
   html_id = "filled_fields[#{fill_form_field.id}][value]"
   name_after =  (fill_form_field.dense? and
     [FormField::SINGLE_LINE, FormField::MULTIPLE_LINES].include?(fill_form_field.field_type))
@@ -37,12 +37,16 @@
     <% when FormField::FIELD, FormField::SINGLE_LINE -%>
       <% if fill_form_field.monetary? %>$<% end -%>
       <%= text_field_tag html_id, value, :size => fill_form_field.size,
-        :class => "print-overridden" %>
-      <div class="print-override"><%= value %></div>
+        :class => (filled_form.id ? "print-overridden" : '') %>
+      <% if filled_form.id -%>
+        <div class="print-override"><%= value %></div>
+      <% end -%>
     <% when FormField::AREA, FormField::MULTIPLE_LINES -%>
       <%= text_area_tag html_id, value, :size => fill_form_field.size,
-        :class => "print-overridden" %>
-      <div class="print-override"><%= value %></div>
+        :class => (filled_form.id ? "print-overridden" : '') %>
+      <% if filled_form.id -%>
+        <div class="print-override"><%= value %></div>
+      <% end -%>
     <% when FormField::SINGLE_CHOICE -%>
       <% if fill_form_field.dense? -%>
         <select name="filled_fields[<%= fill_form_field.id %>][value]">
@@ -61,7 +65,7 @@
               <div class="option_name">
                 <%= form_field_option_text(fill_form_field, option) %>
               </div>
-              <div class="option_help">
+              <div class="option_help <%= (filled_form.id and ! option.selected(filled_field) ? "print-overridden" : '') %>">
                 <%= raw option.help %>
               </div>
             </li>
@@ -79,7 +83,7 @@
             <div class="option_name">
               <%= form_field_option_text(fill_form_field, option) %>
             </div>
-            <div class="option_help">
+            <div class="option_help <%= (filled_form.id and ! option.selected(filled_field) ? "print-overridden" : '') %>">
               <%= raw option.help %>
             </div>
           </li>
@@ -106,7 +110,7 @@
   </div>
   <% end -%>
   
-  <div class="form_field_help">
+  <div class="form_field_help <%= (filled_form.id and value.empty? ? "print-overridden" : '') %>">
     <%= raw fill_form_field.help %>
   </div>
   </div>
