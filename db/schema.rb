@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708170809) do
+ActiveRecord::Schema.define(version: 20141202130301) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "audios", force: true do |t|
     t.string   "caption"
@@ -221,6 +224,7 @@ ActiveRecord::Schema.define(version: 20140708170809) do
     t.boolean  "authenticated",       default: false
     t.boolean  "many_per_user",       default: false
     t.text     "authentication_text"
+    t.string   "call_to_action"
   end
 
   create_table "holidays", force: true do |t|

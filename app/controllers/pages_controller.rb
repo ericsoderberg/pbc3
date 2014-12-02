@@ -69,6 +69,7 @@ class PagesController < ApplicationController
     end
     if @page.event?
       @event = @page.events.last
+      @form = @page.forms.select{|f| f.visible?(current_user)}.first
     end
     if params[:invitation_key]
       @invitation = Invitation.find_by(key: params[:invitation_key])

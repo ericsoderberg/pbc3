@@ -253,7 +253,7 @@ fieldset {
 
 #text {
   margin: 0px;
-  padding: 0px 20px;
+  padding: 0px;
   color: #666;
   
   @include respond-to(small-down) {

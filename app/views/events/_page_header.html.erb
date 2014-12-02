@@ -12,4 +12,8 @@
     </div>
   <% end -%>
   
+  <% if @form and @form.call_to_action and not @form.call_to_action.empty? -%>
+    <%= link_to @form.call_to_action, best_form_url(@form), class: 'call_to_action' %>
+  <% end -%>
+  
 </header>

@@ -43,6 +43,10 @@
     <%= f.collection_select :event_id, @events, :id, :name,
       {:include_blank => 'none'}, {:class => 'event'} %>
   </div>
+  <div class="field">
+    <%= f.label :call_to_action %>
+    <%= f.text_field :call_to_action %>
+  </div>
   <% end -%>
   <% if @form.id and @page.administrator?(current_user) -%>
   <div class="field">

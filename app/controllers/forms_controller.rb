@@ -158,7 +158,8 @@ class FormsController < ApplicationController
     params.require(:form).permit(:name, :page_id, :event_id,
       :payable, :published, :pay_by_check, :pay_by_paypal,
       :updated_by, :version, :parent_id, :authenticated,
-      :many_per_user, :authentication_text).merge(:updated_by => current_user)
+      :many_per_user, :authentication_text,
+      :call_to_action).merge(:updated_by => current_user)
   end
   
 end
