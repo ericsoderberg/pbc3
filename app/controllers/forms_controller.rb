@@ -71,7 +71,7 @@ class FormsController < ApplicationController
       where('events.master_id IS NULL')
     @pages = Page.editable(current_user)
     @cancel_path = session[:edit_form_cancel_path] || page_path(@page)
-    @possible_parents = @form.page.forms.delete_if{|f| f.id == @form.id}
+    @possible_parents = @form.page.forms.to_a.delete_if{|f| f.id == @form.id}
   end
   
   def edit_fields

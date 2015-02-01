@@ -8,7 +8,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     # Send the email, then test that it got queued
     email = UserMailer.contact_email(page, contact, 'test message',
-      'Tester', 'tester@nowhere').deliver
+      'Tester', 'tester@nowhere').deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     # Test the body of the sent email contains what we expect it to

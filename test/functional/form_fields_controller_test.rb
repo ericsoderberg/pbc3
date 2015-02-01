@@ -18,13 +18,13 @@ class FormFieldsControllerTest < ActionController::TestCase
   end
 
   test "should show form_field" do
-    get :show, :form_id => @form.id, :id => @form_field.to_param,
+    xhr :get, :show, :form_id => @form.id, :id => @form_field.to_param,
       :format => 'js'
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :form_id => @form.id, :id => @form_field.to_param,
+    xhr :get, :edit, :form_id => @form.id, :id => @form_field.to_param,
       :format => 'js'
     assert_response :success
   end

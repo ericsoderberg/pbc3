@@ -59,13 +59,13 @@ class PagesControllerTest < ActionController::TestCase
   end
   
   test "should get search possible parents" do
-    get :search_possible_parents, :id => @page.to_param,
+    xhr :get, :search_possible_parents, :id => @page.to_param,
       :q => 'P', :p => '1', :s => '1', :format => :js
     assert_response :success
   end
   
   test "should get search" do
-    get :search, :q => 'P', :p => '1', :s => '1', :format => :js
+    xhr :get, :search, :q => 'P', :p => '1', :s => '1', :format => :js
     assert_response :success
   end
 

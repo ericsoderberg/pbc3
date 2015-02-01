@@ -17,13 +17,13 @@ class FormFieldOptionsControllerTest < ActionController::TestCase
   end
 
   test "should show form_field_option" do
-    get :show, :form_id => @form.id, :field_id => @form_field.id,
+    xhr :get, :show, :form_id => @form.id, :field_id => @form_field.id,
       :id => @form_field_option.to_param, :format => 'js'
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :form_id => @form.id, :field_id => @form_field.id,
+    xhr :get, :edit, :form_id => @form.id, :field_id => @form_field.id,
       :id => @form_field_option.to_param, :format => 'js'
     assert_response :success
   end

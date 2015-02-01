@@ -143,7 +143,7 @@ class FilledFormsController < ApplicationController
     respond_to do |format|
       if @filled_form.save and (! @payment or
         (@payment.amount += @filled_form.payable_amount; @payment.save))
-        FormMailer.form_email(@filled_form).deliver
+        FormMailer.form_email(@filled_form).deliver_now
         format.html { redirect_to(next_url,
             :notice => "#{@form.name} was successfully submitted.") }
         format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }

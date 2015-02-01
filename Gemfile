@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.2.0'
 
 # Bundle edge Rails instead:
 #gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -16,7 +16,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 
-gem 'devise', '~> 3.0.0.rc'
+gem 'devise', '~> 3.4.1'
 gem 'bluecloth'
 gem 'paperclip', '~> 3.0'
 #gem 'remotipart'
@@ -33,6 +33,8 @@ gem 'kaminari'
 gem 'money'
 gem 'money-rails'
 gem 'simple_xlsx_writer'
+gem "responders"
+gem "sass", :require => 'sass'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -61,5 +63,6 @@ gem 'capistrano', '~> 2'
 group :development do
   gem 'guard'
   gem 'guard-livereload'
+  gem 'web-console', '~> 2.0'
 end
 

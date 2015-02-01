@@ -80,9 +80,9 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     if @site and @site.id
-      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+      devise_parameter_sanitizer.sanitize(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
     else
-      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation, :administrator) }
+      devise_parameter_sanitizer.sanitize(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation, :administrator) }
     end
   end
 

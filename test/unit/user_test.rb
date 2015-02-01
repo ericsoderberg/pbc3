@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   test "normal create" do
     prior_count = User.count
     user = User.new(:name => 'John Doe', :email => 'john.doe@my.com',
-      :password => 'johndoe')
+      :password => 'johndoe1')
     assert user.save, user.errors.full_messages.join("\n")
     assert_equal prior_count + 1, User.count
   end
@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
     ]
     names.each_with_index do |name, index|
       user = User.new(:name => name[0], :email => "john.doe-#{index}@my.com",
-        :password => 'johndoe')
+        :password => 'johndoe1')
       assert user.save, user.errors.full_messages.join("\n")
       assert_equal name[1], user.first_name, 'mismatched first name'
       assert_equal name[2], user.last_name, 'mismatched last name'

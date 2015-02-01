@@ -5,10 +5,10 @@ class AuthorsController < ApplicationController
   # GET /authors
   # GET /authors.xml
   def index
-    @authors = Author.all
+    @authors = Author.all.to_a
     @single_authors = []
     @multiple_authors = []
-    @authors.sort!{|a1, a2| a2.first_year <=> a1.first_year}
+    ##@authors.sort!{|a1, a2| a2.first_year <=> a1.first_year}
     @authors.each do |author|
       if author.messages.count > 1
         @multiple_authors << author
