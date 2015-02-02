@@ -41,9 +41,9 @@ Rails.application.configure do
   
   config.action_mailer.default_url_options = { :host => 'UNCONFIGURED' }
   
-  ##config.time_zone = "Pacific Time (US & Canada)"
+  config.time_zone = "Pacific Time (US & Canada)"
   
-  ##config.after_initialize do
-    ##Configuration.paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
-  ##end
+  config.after_initialize do
+    Configuration.paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+  end
 end

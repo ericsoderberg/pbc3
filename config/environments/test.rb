@@ -42,9 +42,9 @@ Rails.application.configure do
   
   config.action_mailer.default_url_options = { :host => 'localhost' }
   
-  ##config.time_zone = "Pacific Time (US & Canada)"
+  config.time_zone = "Pacific Time (US & Canada)"
   
-  ##config.after_initialize do
-    ##Configuration.mailman_dir = 'test/mailman/bin'
-  ##end
+  config.after_initialize do
+    Configuration.mailman_dir = 'test/mailman/bin'
+  end
 end

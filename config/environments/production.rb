@@ -81,12 +81,12 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'UNCONFIGURED' }
   config.action_mailer.asset_host = "http://www.pbc.org"
   
-  ##config.time_zone = "Pacific Time (US & Canada)"
+  config.time_zone = "Pacific Time (US & Canada)"
   
-  ##config.assets.precompile += %w( newsletter/newsletter.css rte-light/rte.css )
+  config.assets.precompile += %w( newsletter/newsletter.css rte-light/rte.css )
   
-  ##config.after_initialize do
-    ##Configuration.mailman_dir = '/usr/lib/mailman/bin'
-    ##Configuration.paypal_url = 'https://www.paypal.com/cgi-bin/webscr'
-  ##end
+  config.after_initialize do
+    Configuration.mailman_dir = '/usr/lib/mailman/bin'
+    Configuration.paypal_url = 'https://www.paypal.com/cgi-bin/webscr'
+  end
 end
