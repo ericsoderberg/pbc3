@@ -20,8 +20,30 @@ class EmailList
     end
   end
   
+  # ActiveRecord API
+  
+  def to_model
+    self
+  end
+  
+  def persisted?
+    true
+  end
+  
+  def to_key
+    if persisted?
+      @name
+    end
+  end
+  
+  def to_partial_path
+    'email_lists/email_list'
+  end
+  
   def to_param
-    @name
+    if persisted?
+      @name
+    end
   end
   
   def addresses
@@ -51,11 +73,11 @@ class EmailList
   
   def self.all
     if Configuration.mailman
-      self.load("#{Configuration.mailman} lists")
+      self.run("#{Configuration.mailman} lists")
     elsif Configuration.mailman_dir
-      self.load("#{Configuration.mailman_dir}/list_lists -b")
+      self.run("#{Configuration.mailman_dir}/list_lists -b")
     else
-      Mailman.lists
+      self.load(Mailman.lists)
     end
   end
   
@@ -78,9 +100,9 @@ class EmailList
     if Configuration.mailman
       raise 'TBD'
     elsif Configuration.mailman_dir
-      self.load("#{Configuration.mailman_dir}/find_member #{address}")
+      self.run("#{Configuration.mailman_dir}/find_member #{address}")
     else
-      Mailman.lists_containing address
+      self.load(Mailman.lists_containing(address))
     end
   end
   
@@ -144,9 +166,14 @@ class EmailList
   
   private
   
-  def self.load(cmd)
+  def self.run(cmd)
+    data = %x(#{cmd}).split("\n")
+    self.load(data)
+  end
+  
+  def self.load(data)
     result = []
-    %x(#{cmd}).split("\n").map do |name|
+    data.map do |name|
       next if name =~ /:$/ or 'mailman' == name.strip
       list = EmailList.new(:name => name.strip.split('@').first)
       list.new_record = false
