@@ -81,11 +81,14 @@ module EventsHelper
     month_peers = event.peers_until(event.start_at + 2.months)
     week_peers = event.peers_until(event.start_at + 1.week)
     if month_peers.empty?
-      # just show this single date/time
+      # nothing for more than a month, just show this single date/time
       result << friendly_range(event, true)
     elsif week_peers.empty?
       # next one is more than a week away
       contextual_month_peers([event].concat(month_peers.to_a()), result)
+    elsif month_peers.length > week_peers.length
+      # A daily event for some range or a mixture of events, show beginning and end dates
+      contextual_week_peers([event].concat(month_peers.to_a()), result)
     else
       # peers in the same week
       contextual_week_peers([event].concat(week_peers.to_a()), result)
