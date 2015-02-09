@@ -11,7 +11,6 @@ class Page < ActiveRecord::Base
   has_many :events, -> { order('start_at ASC') }, :dependent => :destroy
   has_many :event_pages, :dependent => :destroy
   has_many :shared_events, :through => :event_pages, :class_name => 'Event', :source => :event
-  has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
     :foreign_key => :parent_id

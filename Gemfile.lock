@@ -1,4 +1,15 @@
 GIT
+  remote: git://github.com/ready4god2513/rails-erd.git
+  revision: 3c0e0b93452392651df7daaf8678b2bb9aa8faf1
+  branch: rails-4.2-support-fix
+  specs:
+    rails-erd (1.1.1)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      choice (~> 0.1.6)
+      ruby-graphviz (~> 1.0.4)
+
+GIT
   remote: git://github.com/sunspot/sunspot.git
   revision: 691b42e73beae37e2e05953a1110f4247ec0065c
   specs:
@@ -63,6 +74,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    choice (0.1.7)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.5)
@@ -209,6 +221,7 @@ GEM
       railties (>= 4.2.0, < 5)
     rsolr (1.0.10)
       builder (>= 2.1.2)
+    ruby-graphviz (1.0.9)
     rubyzip (1.1.6)
     sass (3.2.19)
     sass-rails (4.0.5)
@@ -272,6 +285,7 @@ DEPENDENCIES
   pg
   progress_bar
   rails (= 4.2.0)
+  rails-erd!
   responders
   sass
   sass-rails (~> 4.0.0)

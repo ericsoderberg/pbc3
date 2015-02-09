@@ -64,5 +64,6 @@ group :development do
   gem 'guard'
   gem 'guard-livereload'
   gem 'web-console', '~> 2.0'
+  gem 'rails-erd', github: 'ready4god2513/rails-erd', branch: 'rails-4.2-support-fix'
 end
 
