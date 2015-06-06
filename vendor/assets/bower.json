@@ -1,0 +1,12 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "inuit-starter-kit": "latest",
+    "inuit-headings": "latest",
+    "inuit-pack": "latest",
+    "inuit-list-bare": "latest",
+    "inuit-responsive-settings": "latest",
+    "inuit-responsive-tools": "latest",
+    "inuit-buttons": "latest"
+  }
+}

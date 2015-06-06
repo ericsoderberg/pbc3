@@ -46,4 +46,8 @@ Rails.application.configure do
   config.after_initialize do
     Configuration.paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
   end
+  
+  # React development variant (unminified)
+  config.react.variant = :development
+  
 end

@@ -1,0 +1,44 @@
+html {
+  background-color: $background-color;
+  color: $color;
+  font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
+}
+
+html, body {
+  //width: 100%;
+  //height: 100%;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+}
+
+input, textarea, select {
+  border-style: none solid solid solid;
+  border-width: 1px;
+  border-color: $border-color;
+  border-bottom-left-radius: $brand-radius;
+  border-bottom-right-radius: $brand-radius;
+  padding: quarter($inuit-base-spacing-unit);
+  outline: none;
+  
+  &:focus {
+    outline: none;
+    border-color: $focus-color;
+  }
+}
+
+select {
+   color: $color;
+   background-color: $background-color;
+   padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+   //width: 378px;
+   //*width: 350px;
+   //*background: #58B14C;
+   -webkit-appearance: none;
+}
+
+p {
+  max-width: round($inuit-base-spacing-unit * 30); // 720px
+}

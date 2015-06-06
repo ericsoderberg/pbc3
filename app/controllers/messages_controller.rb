@@ -1,49 +1,105 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show, :map_old_file]
-  before_filter :administrator!, :except => [:index, :show, :map_old_file]
+  before_filter :authenticate_user!, :except => [:index, :show, :map_old_file, :suggestions]
+  before_filter :administrator!, :except => [:index, :show, :map_old_file, :suggestions]
   
-  # GET /messages
-  # GET /messages.xml
   def index
-    if params[:year]
-      date = params[:year]
-      date += '-01-01' if date.length == 4
-      @date = date.to_date.end_of_year
-    elsif params[:date]
-      date = params[:date]
-      date += '-01-01' if date.length == 4
-      @date = date.to_date
-    else
-      @date = (Time.now + 2.months)
+    @filter = {}
+    @filter[:search] = params[:search] || ''
+    
+    # parse search
+    tokens = Message.parse_query(@filter[:search])
+    
+    @messages = Message
+    
+    # build query based on token score
+    
+    strong_tokens = tokens.select{|t| t[:score] > 0 and t[:clause]}
+    weak_tokens = tokens.select{|t| t[:score] == 0 and t[:clause]}
+    
+    args = {}
+    weak_clause = strong_clause = nil
+
+    if not weak_tokens.empty?
+      weak_clause = "(" + weak_tokens.map{|t| t[:clause]}.join(' OR ') + ")"
+      weak_tokens.each{|t| args.merge!(t[:args])}
     end
-    if @date.month > 3
-      @back_date = @date.beginning_of_year
-    else
-      @back_date = (@date - 1.year).beginning_of_year
+    
+    if not strong_tokens.empty?
+      strong_clause = strong_tokens.map{|t| t[:clause]}.join(' AND ')
+      strong_tokens.each{|t| args.merge!(t[:args])}
     end
-    @messages = Message.between(@back_date, @date, true)
-    @oldest_date = Message.exists? ? Message.order('date ASC').first.date : Time.now
-    @years = (@oldest_date.year..Time.now.year).to_a.reverse
-    @year = @date.year
+    
+    clause = if strong_clause
+      if weak_clause
+        "#{strong_clause} AND #{weak_clause}"
+      else
+        strong_clause
+      end
+    elsif weak_clause
+      weak_clause
+    end
+    
+    if @filter[:search].length > 0 and ! clause
+      @messages = @messages.none
+    end
+    
+    @messages = @messages.includes(:author, :verse_ranges)
+    @messages = @messages.where(clause, args).references(:authors) if clause
+    @messages = @messages.order('date DESC')
+    
+    # get total count before we limit
+    @count = @messages.count
+    
+    if params[:offset]
+      @messages = @messages.offset(params[:offset])
+    end
+    @messages = @messages.limit(20)
+    
+    @content_partial = 'messages/index'
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @messages }
-      format.js
+      format.json { render :partial => "index" }
     end
   end
-
-  # GET /messages/1
-  # GET /messages/1.xml
+  
+  def suggestions
+    query = params[:q] || ''
+    tokens = Message.parse_query(query)
+    @suggestions = []
+    
+    references = tokens.select{|t| 'reference' == t[:type]}.map{|t| t[:matches]}.flatten.slice(0,5)
+    @suggestions << {label: 'Bible References', suggestions: references} unless references.empty?
+    messages = tokens.select{|t| 'message' == t[:type]}.map{|t| t[:matches]}
+    if not messages.empty?
+      titles = messages.first.limit(5).pluck('title')
+      @suggestions << {label: 'Messages', suggestions: titles}
+    end
+    authors = tokens.select{|t| 'author' == t[:type]}.map{|t| t[:matches]}
+    if not authors.empty?
+      names = authors.first.limit(5).pluck('name')
+      @suggestions << {label: 'Authors', suggestions: names}
+    end
+    dates = tokens.select{|t| 'date' == t[:type]}.map{|t| t[:matches]}.flatten.slice(0, 5)
+    @suggestions << {label: 'Dates', suggestions: dates} unless dates.empty?
+    
+    respond_to do |format|
+      format.json { render :partial => "suggestions" }
+    end
+  end
+  
   def show
-    @message = Message.find_by(url: params[:id])
-    @message = Message.find(params[:id]) unless @message
+    @message = Message.includes(:author, :message_files).find_by(url: params[:id])
+    @message = Message.includes(:author, :message_files).find(params[:id]) unless @message
+    @files = @message.ordered_files
     @previous_message = @message.previous
     @next_message = @message.next
+    
+    @content_partial = 'messages/show'
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @message }
+      format.json { render :partial => "show" }
     end
   end
 
@@ -57,9 +113,7 @@ class MessagesController < ApplicationController
       return
     end
   end
-
-  # GET /messages/new
-  # GET /messages/new.xml
+  
   def new
     if params[:series_id]
       @message_set = MessageSet.find_by(url: params[:series_id])
@@ -74,11 +128,9 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @message }
     end
   end
 
-  # GET /messages/1/edit
   def edit
     @message = Message.find_by(url: params[:id])
     @message_file = if params[:message_file_id]
@@ -90,9 +142,7 @@ class MessagesController < ApplicationController
     @authors = Author.order('name ASC')
     @message_sets = MessageSet.order('title ASC')
   end
-
-  # POST /messages
-  # POST /messages.xml
+  
   def create
     parse_date
     @message = Message.new(message_params)
@@ -106,16 +156,12 @@ class MessagesController < ApplicationController
         format.html { redirect_to((@message.message_set ?
           series_path(@message.message_set) : @message),
           :notice => 'Message was successfully created.') }
-        format.xml  { render :xml => @message, :status => :created, :location => @message }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
       end
     end
   end
-
-  # PUT /messages/1
-  # PUT /messages/1.xml
+  
   def update
     parse_date
     @message = Message.find_by(url: params[:id])
@@ -125,23 +171,18 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.update_attributes(message_params)
         format.html { redirect_to(@message, :notice => 'Message was successfully updated.') }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
       end
     end
   end
-
-  # DELETE /messages/1
-  # DELETE /messages/1.xml
+  
   def destroy
     @message = Message.find_by(url: params[:id])
     @message.destroy
 
     respond_to do |format|
       format.html { redirect_to(messages_url) }
-      format.xml  { head :ok }
     end
   end
   

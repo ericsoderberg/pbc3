@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  has_many :page_elements, as: :element
   belongs_to :page
   has_many :event_pages, :dependent => :destroy
   has_many :shared_pages, :through => :event_pages, :class_name => 'Page',
@@ -291,6 +292,89 @@ class Event < ActiveRecord::Base
     end
     
     errors.empty? ? new_master : errors
+  end
+  
+  def self.parse_query(text)
+    tokens = []
+    
+    date_matches = SearchDate.matches(text)
+    if date_matches
+      if date_matches[:score] > 0
+        date_matches[:clause] = "(events.start_at <= :ed AND events.stop_at >= :sd)"
+        date_matches[:args] = {
+          :sd => date_matches[:range][0].beginning_of_day,
+          :ed => date_matches[:range][1].end_of_day
+        }
+        text = text.gsub(date_matches[:text], '').strip
+      end
+      tokens << date_matches
+    else
+      # no date filter, set to the month we are in
+      start_date = (Date.today.beginning_of_month + 1.day).beginning_of_week.yesterday
+      end_date = (start_date + 1.month).end_of_week.yesterday
+      clause = "(events.start_at <= :ed AND events.stop_at >= :sd)"
+      args = {:sd => start_date, :ed => end_date}
+      range = [start_date, end_date]
+      tokens << {type: 'date', score: 1, clause: clause, args: args, range: range}
+    end
+    
+    event_matches = Event.matches(text)
+    if event_matches
+      if event_matches[:score] > 0
+        text = text.gsub(event_matches[:text], '').strip
+      end
+      tokens << event_matches
+    end
+    
+    resource_matches = Resource.matches(text)
+    if resource_matches
+      if resource_matches[:score] > 0
+        text = text.gsub(resource_matches[:text], '').strip
+      end
+      tokens << resource_matches
+    end
+    
+    page_matches = Page.matches(text)
+    if page_matches
+      if page_matches[:score] > 0
+        text = text.gsub(page_matches[:text], '').strip
+      end
+      tokens << page_matches
+    end
+    
+    # If we have no text left, remove all weak tokens since they aren't needed
+    if text.empty?
+      tokens = tokens.select{|t| t[:score] > 0}
+    end
+    
+    tokens
+  end
+  
+  def self.matches(text)
+    result = nil
+    
+    if text and not text.empty?
+      score = 0
+    
+      # try full title first
+      clause = 'events.name ilike :en'
+      args = {:en => "#{text}"}
+      events = Event.where(clause, args)
+      if events.length == 1
+        score += 1 
+      else
+        clause = 'events.name ~* :en'
+        args = {:en => text.strip.split(' ').join('|')}
+        events = Event.where(clause, args)
+      end
+    
+      if not events.empty?
+        result = {type: 'event', text: text, matches: events, score: score,
+          clause: clause, args: args}
+      end
+    end
+    
+    result
   end
   
   private

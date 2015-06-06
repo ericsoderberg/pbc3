@@ -14,20 +14,37 @@ class HomeController < ApplicationController
     end
     user = user_signed_in? ? current_user : nil
     
-    @next_message = Home.next_message
-    @previous_message = Home.previous_message
-    @route_prefix = request.protocol + request.host_with_port
-    @feature_pages = Page.home_feature_pages(user)
+    @page = Page.find_by_url_or_alias('home')
     
-    case session[:design]
-    when 'modo'
-      render 'home/modo/index'
-    when 'morocco'
-      @events = Home.events
-      render 'home/morocco/index'
-    else
-      @feature_strip_pages = @feature_pages[0,5]
+    if @page.administrator? current_user
+      @edit_actions = [
+        {label: 'Context', url: edit_context_page_url(@page, :protocol => 'https')},
+        {label: 'Contents', url: edit_contents_page_url(@page, :protocol => 'https')},
+        {label: 'Access', url: edit_access_page_url(@page, :protocol => 'https')}
+      ]
     end
+    
+    @content_partial = 'home/index'
+    
+    respond_to do |format|
+      format.html { render :action => "index" }
+      format.json { render :action => "index" }
+    end
+    
+    #@next_message = Home.next_message
+    #@previous_message = Home.previous_message
+    #@route_prefix = request.protocol + request.host_with_port
+    #@feature_pages = Page.home_feature_pages(user)
+    
+    #case session[:design]
+    #when 'modo'
+    #  render 'home/modo/index'
+    #when 'morocco'
+    #  @events = Home.events
+    #  render 'home/morocco/index'
+    #else
+    #  @feature_strip_pages = @feature_pages[0,5]
+    #end
   end
   
   def edit

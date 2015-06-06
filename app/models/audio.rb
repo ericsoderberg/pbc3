@@ -1,4 +1,5 @@
 class Audio < ActiveRecord::Base
+  has_many :page_elements, as: :element
   belongs_to :page
   has_attached_file :audio,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",

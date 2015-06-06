@@ -1,0 +1,47 @@
+.search {
+  @include main-content();
+  
+  &__header {
+    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  }
+  
+  &__clear {
+    position: relative;
+    left: - double($inuit-base-spacing-unit);
+    cursor: pointer;
+    display: none;
+    
+    &--active {
+      display: inline-block;
+    }
+  }
+  
+  &__summary {
+    font-style: italic;
+  }
+  
+  &__results {
+    min-height: 20vh;
+  }
+  
+  &__result {
+    @include inuit-font-size($inuit-base-font-size, double($inuit-base-spacing-unit));
+    border-width: 1px;
+    border-color: transparent;
+    border-style: solid none;
+    transition: border-color $animation-delay;
+    
+    &-name {
+      display: inline-block;
+      width: round($inuit-base-spacing-unit * 12);
+    }
+    
+    &-type {
+      color: $secondary-color;
+    }
+    
+    &:hover {
+      border-color: $border-color;
+    }
+  }
+}

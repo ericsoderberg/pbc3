@@ -1,9 +1,5 @@
 <% title 'Message Library' -%>
 
-<%= render :partial => 'header' %>
-
-<div id="messages" href="top">
-  <%= render :partial => 'messages/messages',
-    :locals => {:messages => @messages} %>
-  <%= render :partial => 'messages/more_messages' %>
-</div>
+<!--%= react_component('Messages',
+    render(template: 'messages/index.json.jbuilder'),
+    { prerender: params[:noprerender].nil?}) %-->

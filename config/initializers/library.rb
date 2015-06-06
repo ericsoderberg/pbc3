@@ -1,1 +1,1 @@
-require 'verse_parser'
+require 'bible'

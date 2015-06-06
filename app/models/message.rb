@@ -19,6 +19,8 @@ class Message < ActiveRecord::Base
   
   validates :title, :presence => true
   
+  scope :on_or_before, ->(date) { where("date <= ?", date) }
+  
   searchable do
     text :title, :default_boost => 2
   end
@@ -69,9 +71,9 @@ class Message < ActiveRecord::Base
       order('messages.date ASC').first
   end
   
-  def self.find_by_verses(verses)
+  def self.includes_verses(verses)
     ranges = verses.is_a?(String) ? VerseParser.new(verses).ranges : verses
-    return [] if ranges.empty?
+    return Message.none if ranges.empty?
     wheres = []
     ranges.each do |range|
       wheres << "(verse_ranges.end_index >= #{range[:begin][:index]}" +
@@ -79,8 +81,7 @@ class Message < ActiveRecord::Base
     end
     Message.includes(:verse_ranges).
       where(wheres.join(' OR ')).
-      order('messages.date desc').
-      order('verse_ranges.begin_index')
+      order('verse_ranges.end_index ASC')
   end
   
   def self.count_for_book(book)
@@ -92,9 +93,8 @@ class Message < ActiveRecord::Base
       references(:verse_ranges).count
   end
   
-  def self.between(start_date, end_date, reverse=false)
-    where('messages.date' => start_date..end_date).
-      order('messages.date ' + (reverse ? 'DESC' : 'ASC'))
+  def self.between(start_date, end_date)
+    where('messages.date' => start_date..end_date)
   end
   
   def self.between_with_full_sets(start_date, end_date)
@@ -175,6 +175,96 @@ class Message < ActiveRecord::Base
   
   def possible_events
     Event.between(date.beginning_of_day, date.end_of_day).order('start_at ASC')
+  end
+  
+  def self.parse_query(text)
+    tokens = []
+    
+    book_matches = Bible.matches(text)
+    if book_matches
+      if book_matches[:score] > 0
+        verse_text = book_matches[:text]
+        verse_ranges = Bible.verse_ranges(verse_text, false)
+        clause = "(verse_ranges.end_index >= :vrb" +
+          " AND verse_ranges.begin_index <= :vre)"
+        args = {:vrb => verse_ranges[0][:begin][:index],
+          :vre => verse_ranges[0][:end][:index]}
+        # TODO: handle multiple ranges
+        #clauses = []
+        #args = {}
+        #verse_ranges.each_with_index do |range, index|
+        #  clauses << "(verse_ranges.end_index >= :vrb#{index}" +
+        #    " AND verse_ranges.begin_index <= :vre#{index})"
+        #  args["vrb#{index}"] = range[:begin][:index]
+        #  args["vre#{index}"] = range[:end][:index]
+        #end
+        #book_matches[:clause] = "(#{clauses.join(' OR ')})"
+        book_matches[:clause] = clause
+        book_matches[:args] = args
+        text = text.gsub(book_matches[:text], '').strip
+      end
+      tokens << book_matches
+    end
+    
+    date_matches = SearchDate.matches(text)
+    if date_matches
+      if date_matches[:score] > 0
+        date_matches[:clause] = "(messages.date >= :sd AND messages.date <= :ed)"
+        date_matches[:args] = {:sd => date_matches[:range][0], :ed => date_matches[:range][1]}
+        text = text.gsub(date_matches[:text], '').strip
+      end
+      tokens << date_matches
+    end
+    
+    author_matches = Author.matches(text)
+    if author_matches
+      if author_matches[:score] > 0
+        text = text.gsub(author_matches[:text], '').strip
+      end
+      tokens << author_matches
+    end
+    
+    message_matches = Message.matches(text)
+    if message_matches
+      if message_matches[:score] > 0
+        text = text.gsub(message_matches[:text], '').strip
+      end
+      tokens << message_matches
+    end
+    
+    # If we have no text left, remove all weak tokens since they aren't needed
+    if text.empty?
+      tokens = tokens.select{|t| t[:score] > 0}
+    end
+    
+    tokens
+  end
+  
+  def self.matches(text)
+    result = nil
+    
+    if text and not text.empty?
+      score = 0
+    
+      # try full title first
+      clause = 'messages.title ilike :mt'
+      args = {:mt => "#{text}"}
+      messages = Message.where(clause, args)
+      if messages.length == 1
+        score += 1 
+      else
+        clause = 'messages.title ~* :mt'
+        args = {:mt => text.strip.split(' ').join('|')}
+        messages = Message.where(clause, args)
+      end
+    
+      if not messages.empty?
+        result = {type: 'message', text: text, matches: messages, score: score,
+          clause: clause, args: args}
+      end
+    end
+    
+    result
   end
   
 end

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_site
+  before_filter :get_app_menu_actions
   before_filter :get_nav_pages
   before_filter :save_path
   before_filter :get_design
@@ -30,8 +31,45 @@ class ApplicationController < ActionController::Base
 
   def get_site
     @site = Site.first
-    @have_wordmark = @site and @site.wordmark and @site.wordmark.exists?
+    @have_wordmark = (@site and @site.wordmark and @site.wordmark.exists?)
     ActionMailer::Base.default_url_options = {:host => request.host_with_port}
+  end
+  
+  def get_app_menu_actions
+    @app_menu_actions = []
+    
+    @app_menu_actions << {label: 'Search', url: search_url}
+    @app_menu_actions << {label: 'Library', url: messages_url}
+    @app_menu_actions << {label: 'Calendar', url: main_calendar_url}
+
+    if user_signed_in?
+      if current_user.avatar.exists?
+        @app_menu_actions << {image: current_user.avatar.url(:normal), url: edit_account_url(current_user, :protocol => 'https')}
+      else
+        @app_menu_actions << {label:  current_user.email, url: edit_account_url(current_user, :protocol => 'https')}
+      end
+      @app_menu_actions << {label: 'Sign out', url:  destroy_user_session_url(:protocol => 'https')}
+    else
+      @app_menu_actions << {label: 'Sign in', url:  new_user_session_url(:protocol => 'https')}
+    end
+    
+    if current_user and current_user.administrator?
+      @app_menu_actions << {label: 'Administrator', url: edit_site_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Accounts', url: accounts_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Newsletters', url: newsletters_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Pages', url: pages_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Email Lists', url: email_lists_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Forms', url: forms_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Payments', url: payments_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Libraries', url: libraries_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Podcast', url: 
+        (@site.podcast ?
+          edit_podcast_url(@site.podcast, {:protocol => 'https'}) :
+          new_podcast_url(:protocol => 'https'))}
+      @app_menu_actions << {label: 'Resources', url: resources_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Holidays', url: holidays_url(:protocol => 'https')}
+      @app_menu_actions << {label: 'Audit Log', url: audit_logs_url(:protocol => 'https')}
+    end
   end
 
   def get_nav_pages

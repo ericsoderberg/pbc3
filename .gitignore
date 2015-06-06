@@ -10,3 +10,4 @@ solr/test
 solr/production
 solr/pids
 solr/default
+node_modules

@@ -1,3 +1,11 @@
+<% title 'Search' -%>
+
+<!--%= react_component('Search',
+    render(template: 'search/search.json.jbuilder'),
+    { prerender: params[:noprerender].nil?}) %-->
+
+<% if false -%>
+
 <% title('Search') -%>
 <header>
   <h1>Search for "<%= @search_text %>"</h1>
@@ -26,5 +34,7 @@
 <% else -%>
 
 <p>Please enter a search term.</p>
+
+<% end -%>
 
 <% end -%>

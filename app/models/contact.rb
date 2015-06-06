@@ -1,4 +1,5 @@
 class Contact < ActiveRecord::Base
+  has_many :page_elements, as: :element
   belongs_to :page
   belongs_to :user
   

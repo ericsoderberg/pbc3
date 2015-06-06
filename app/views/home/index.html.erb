@@ -1,15 +1,5 @@
-<% content_for(:content_class) {'home'}%>
+<% title 'Home' -%>
 
-<%= render :partial => "services" %>
-
-<% unless @feature_pages.empty? -%>
-<div id="hero">
-  <div id="hero_list">
-    <%= render :partial => "page_hero", :collection => @feature_pages %>
-  </div>
-</div>
-<% end -%>
-
-<ul id="feature_nav">
-  <%= render :partial => "feature_page", :collection => @feature_strip_pages %>
-</ul>
+<!--%= react_component('Page',
+    render(template: 'home/index.json.jbuilder'),
+    { prerender: params[:noprerender].nil?}) %-->

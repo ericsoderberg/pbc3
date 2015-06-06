@@ -1,0 +1,180 @@
+.form {
+  position: relative;
+  //top: 0px;
+  //left: 0px;
+  //right: 0px;
+  max-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0 auto;
+  background-color: $background-color;
+  
+  &__header, &__footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    @include main-content();
+    background-color: $header-background-color;
+    z-index: 1;
+  }
+  
+  &__header {
+    top: 0px;
+    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  }
+  
+  &__footer {
+    bottom: 0px;
+    text-align: right;
+    height: quadruple($inuit-base-spacing-unit);
+    padding: $inuit-base-spacing-unit;
+    
+    .btn {
+      &--primary {
+        background-color: $brand-color;
+        color: $brand-over-color;
+      }
+      
+      &:hover {
+        background-color: $brand-accent-color;
+      }
+    }
+    
+    .delete {
+      float: left;
+    }
+  }
+  
+  &__contents {
+    max-height: 100vh;
+    overflow: auto;
+    padding: quadruple($inuit-base-spacing-unit) 0px double($inuit-base-spacing-unit) 0px;
+  }
+  
+  &__validation {
+    @include main-content();
+    color: $validation-color;
+    font-style: italic;
+  }
+  
+  fieldset {
+    max-width: $max-content-width;
+    margin: 0 auto;
+    border: none;
+    //border-top: 1px solid $border-color;
+    padding: 0px;
+    margin-bottom: double($inuit-base-spacing-unit);
+    
+    legend {
+      position: relative;
+      //width: 100%;
+      //max-width: $max-content-width;
+      background-color: $background-color;
+      color: $secondary-color;
+      @include inuit-font-size($inuit-heading-size-3);
+      margin: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit $inuit-base-spacing-unit $inuit-base-spacing-unit;
+      padding-right: halve($inuit-base-spacing-unit);
+      
+      &:before {
+        content: '';
+        position: absolute;
+        width: 100vw;
+        max-width: $max-content-width - double($inuit-base-spacing-unit);
+        top: - quarter($inuit-base-spacing-unit);
+        left: 0px;
+        border-top: 1px solid $border-color;
+      }
+    }
+  }
+  
+  &__field {
+    margin-bottom: halve($inuit-base-spacing-unit);
+    
+    @include media-query(palm) {
+      padding: 0px $inuit-base-spacing-unit;
+    }
+    
+    > label {
+      display: inline-block;
+      width: round($inuit-base-spacing-unit * 8);
+      //vertical-align: top;
+      color: $secondary-color;
+      text-align: right;
+      padding-right: $inuit-base-spacing-unit;
+      
+      @include media-query(palm) {
+        display: block;
+        text-align: left;
+      }
+    }
+    
+    input, textarea, select {
+      max-width: 80vw;
+      //padding: quarter($inuit-base-spacing-unit);
+      margin-right: halve($inuit-base-spacing-unit);
+    }
+    
+    &-help {
+      display: inline-block;
+      color: $secondary-color;
+      font-style: italic;
+    }
+    
+    &--large {
+      textarea {
+        width: 100%;
+        height: 100%;
+        max-width: $max-content-width - double($inuit-base-spacing-unit);
+        margin: 0px $inuit-base-spacing-unit;
+      }
+    }
+  }
+}
+
+.delete {
+  position: relative;
+  
+  &__confirm {
+    position: absolute;
+    left: -100vw;
+    bottom: - $inuit-base-spacing-unit;
+    height: quadruple($inuit-base-spacing-unit);
+    padding: $inuit-base-spacing-unit;
+    //padding: double($inuit-base-spacing-unit);
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: $brand-radius;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all $animation-delay;
+    
+    &--active {
+      left: -1px;
+      opacity: 1;
+    }
+    
+    &-actions {
+      display: inline-block;
+      white-space: nowrap;
+      margin: 0px;
+      
+      .btn {
+        margin-right: quarter($inuit-base-spacing-unit);
+      }
+    }
+  }
+}
+
+li.placeholder {
+  background: $brand-color;
+  color: $brand-accent-color;
+  border-radius: $brand-radius;
+  height: double($inuit-base-spacing-unit);
+  @include inuit-font-size($inuit-heading-size-3, double($inuit-base-spacing-unit));
+  
+  &:before {
+    display: block;
+    content: "Drop here";
+    padding: 0px $inuit-base-spacing-unit;
+  }
+}

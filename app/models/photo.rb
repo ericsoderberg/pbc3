@@ -1,4 +1,5 @@
 class Photo < ActiveRecord::Base
+  has_many :page_elements, as: :element
   belongs_to :page
   has_attached_file :photo, :styles => {
       :normal => '480x',

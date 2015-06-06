@@ -1,4 +1,5 @@
 class Form < ActiveRecord::Base
+  has_many :page_elements, as: :element
   belongs_to :page
   belongs_to :event
   has_many :form_fields, -> { order('form_index ASC') },

@@ -1,4 +1,39 @@
-@import 'common/reset';
+@import "inuit-defaults/settings.defaults";
+@import "inuit-responsive-settings/settings.responsive";
+@import "settings.defaults";
+
+@import "inuit-functions/tools.functions";
+@import "inuit-mixins/tools.mixins";
+@import "inuit-responsive-tools/tools.responsive";
+@import "tools.mixins";
+
+@import "inuit-normalize/generic.normalize";
+@import "inuit-box-sizing/generic.box-sizing";
+
+@import "inuit-page/base.page";
+@import "inuit-headings/base.headings";
+@import "base.app";
+@import "base.icon";
+
+@import "inuit-list-bare/objects.list-bare";
+@import "inuit-pack/objects.pack";
+$inuit-btn-background: $background-color;
+$inuit-btn-border-color: $brand-color;
+$inuit-btn-color: $color;
+$inuit-btn-radius: $brand-radius;
+@import "inuit-buttons/objects.buttons";
+
+@import "objects.menu";
+@import "objects.form";
+@import "objects.app";
+@import "objects.search-input";
+@import "objects.page";
+@import "objects.search";
+@import "objects.calendar";
+@import "objects.message";
+@import "objects.spinner";
+
+/*@import 'common/reset';
 @import 'common/media';
 @import 'common/color';
 @import 'common/icon';
@@ -33,3 +68,4 @@
 @import 'designs/morocco/main';
 
 @import 'common/print';
+*/

@@ -30,5 +30,8 @@ module Pbc3
     ##config.assets.precompile += ["mobile/mobile.css", "mobile/mobile.js"]
     
     ##config.i18n.enforce_available_locales = false
+    
+    config.browserify_rails.paths << /node_modules/
+    config.browserify_rails.commandline_options = "--transform reactify --extension=\".js.jsx\""
   end
 end

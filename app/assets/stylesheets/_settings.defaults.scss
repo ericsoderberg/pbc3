@@ -1,0 +1,28 @@
+// colors
+
+$background-color: #fff;
+$color: #333;
+$secondary-color: #666;
+
+$brand-color: #6E615D; // brown
+$brand-accent-color: #F99D27; // orange
+$brand-secondary-background-color: #ECDDD8;
+$brand-over-color: #fff;
+$brand-radius: 3px;
+
+// http://www.colourlovers.com/palette/564711/m_o_d_e_r_n_._a_r_t
+$link-color: #199DAE; //#23A8B9; //#3AAEBD; //#077083; //#3D362D;
+$focus-color: $brand-accent-color;
+
+$icon-color-enabled: #999;
+$icon-color-disabled: #ccc;
+$icon-color-active: $brand-accent-color;
+
+$border-color: #ddd;
+$header-background-color: rgba(255, 255, 255, 0.9);
+$over-background-color: rgba(249, 157, 39, 0.1);
+$validation-color: #FF4242;
+
+$animation-delay: 0.3s;
+
+$max-content-width: round($inuit-base-spacing-unit * 40); // 960px

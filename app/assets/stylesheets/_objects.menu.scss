@@ -1,0 +1,68 @@
+.menu {
+  position: relative;
+  
+  &__control {
+    height: 100%;
+  }
+  
+  &__actions {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: $brand-color;
+    color: $brand-over-color;
+    border-radius: $brand-radius;
+    text-align: right;
+  }
+  
+  &__action {
+    display: block;
+    padding: 0px $inuit-base-spacing-unit;
+    text-decoration: none;
+    color: inherit;
+    white-space: nowrap;
+    
+    &:hover {
+      color: $brand-accent-color;
+    }
+  }
+  
+  &--down {
+    .menu {
+      &__actions {
+        border-radius: 0 0 $brand-radius $brand-radius;
+      }
+    }
+  }
+  
+  &--up {
+    .menu {
+      &__actions {
+        right: auto;
+        left: 0px;
+        bottom: round($inuit-base-spacing-unit * 3);
+        border-radius: $brand-radius $brand-radius 0 0;
+      }
+    }
+  }
+  
+  &--active {
+    z-index: 1;
+    
+    .menu {
+      &__actions {
+        display: block;
+      }
+    }
+  }
+  
+  &--up.menu--active {
+    .menu {
+      &__actions {
+        right: auto;
+        left: 0px;
+        bottom: round($inuit-base-spacing-unit * 3);
+      }
+    }
+  }
+}

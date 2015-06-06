@@ -3,6 +3,8 @@ class SiteController < ApplicationController
   before_filter :administrator!, :except => [:new, :create]
   before_filter :not_if_existing, :only => [:new, :create]
   
+  layout 'old'
+  
   # GET /sites/new
   # GET /sites/new.xml
   def new

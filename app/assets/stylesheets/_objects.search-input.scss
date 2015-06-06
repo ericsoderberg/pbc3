@@ -1,0 +1,109 @@
+.search-input {
+  position: relative;
+  
+  &__header {
+    position: relative;
+  }
+  
+  &__input {
+    position: relative;
+    width: 100%;
+    padding-right: double($inuit-base-spacing-unit);
+    box-shadow: none;
+    border-top: none;
+    
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  
+  &__icon {
+    position: absolute;
+    left: halve($inuit-base-spacing-unit);
+    display: none;
+    
+    svg {
+      fill: $icon-color-disabled;
+      stroke: $icon-color-disabled;
+    }
+    
+    &--active {
+      display: inline-block;
+    }
+  }
+  
+  &__clear {
+    position: absolute;
+    right: $inuit-base-spacing-unit;
+    cursor: pointer;
+    display: none;
+    
+    svg {
+      fill: $icon-color-disabled;
+      stroke: $icon-color-disabled;
+      
+      &:hover {
+        fill: $icon-color-active;
+        stroke: $icon-color-active;
+      }
+    }
+    
+    &--active {
+      display: inline-block;
+    }
+  }
+  
+  &__suggestions {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    //top: - ($inuit-base-spacing-unit - quarter($inuit-base-spacing-unit));
+    @include inuit-font-size($inuit-base-font-size);
+    background-color: $background-color;
+    border-width: 1px;
+    border-color: $focus-color;
+    border-bottom-left-radius: $brand-radius;
+    border-bottom-right-radius: $brand-radius;
+    border-style: none solid solid solid;
+    //-webkit-box-shadow: 0px 5px 0 5px $background-color, 0px 8px 0 8px $focus-color;
+    //box-shadow: 0px 5px 0 5px $background-color, 0px 8px 0 8px $focus-color;
+    max-height: 50vh;
+    overflow: auto;
+    z-index: 1;
+    display: none;
+    
+    &-section {
+      &-label {
+        padding: quarter($inuit-base-spacing-unit) halve($inuit-base-spacing-unit);
+        color: $secondary-color;
+      }
+    }
+  }
+  
+  &__suggestion {
+    padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+    cursor: pointer;
+    
+    &:hover, &--active {
+      background-color: $brand-color;
+      color: $brand-over-color;
+    }
+  }
+  
+  &--active {
+    .search-input {
+      
+      &__input {
+        border-radius: 0px;
+      }
+      
+      &__icon {
+        display: none;
+      }
+      
+      &__suggestions--active {
+        display: block;
+      }
+    }
+  }
+}

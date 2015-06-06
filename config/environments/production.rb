@@ -89,4 +89,8 @@ Rails.application.configure do
     Configuration.mailman_dir = '/usr/lib/mailman/bin'
     Configuration.paypal_url = 'https://www.paypal.com/cgi-bin/webscr'
   end
+  
+  # React production variant (minified)
+  config.react.variant = :production
+  
 end

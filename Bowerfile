@@ -1,0 +1,10 @@
+# A sample Bowerfile
+# Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+asset 'inuit-starter-kit'
+asset 'inuit-headings'
+asset 'inuit-pack'
+asset 'inuit-list-bare'
+asset 'inuit-responsive-settings'
+asset 'inuit-responsive-tools'
+asset 'inuit-buttons'

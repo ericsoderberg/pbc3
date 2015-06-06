@@ -1,0 +1,21 @@
+<%= form_for(@page, :url => update_contents_order_page_url(@page),
+  :html => {class: "form"}) do |f| %>
+  
+  <div class="form__header">
+    Edit <%= @page.name %>
+  </div>
+
+  <div class="form__contents">
+    <%= render :partial => 'form_errors' %>
+    <fieldset>
+      <%= react_component('PageEditContents',
+        render(template: 'pages/_edit_contents.json.jbuilder'),
+        { prerender: params[:noprerender].nil? }) %>
+    </fieldset>
+  </div>
+
+  <div class="form__footer">
+    <%= f.submit 'OK', class: 'btn btn--primary' %>
+    <%= render 'cancel_control' %>
+  </div>
+<% end %>

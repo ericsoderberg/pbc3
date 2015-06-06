@@ -1,14 +1,99 @@
 class CalendarController < ApplicationController
-  before_filter :get_context
+  #before_filter :get_context
   
   def index
-    if mobile_device?
-      redirect_to view_context.calendar_list_path(params)
+    @filter = {}
+    @filter[:search] = params[:search] || ''
+    
+    # parse search
+    tokens = Event.parse_query(@filter[:search])
+
+    @events = Event
+    
+    # build query based on token score
+    
+    strong_tokens = tokens.select{|t| t[:score] > 0 and t[:clause]}
+    weak_tokens = tokens.select{|t| t[:score] == 0 and t[:clause]}
+    
+    args = {}
+    weak_clause = strong_clause = nil
+
+    if not weak_tokens.empty?
+      weak_clause = "(" + weak_tokens.map{|t| t[:clause]}.join(' OR ') + ")"
+      weak_tokens.each{|t| args.merge!(t[:args])}
+    end
+    
+    if not strong_tokens.empty?
+      strong_clause = strong_tokens.map{|t| t[:clause]}.join(' AND ')
+      strong_tokens.each{|t| args.merge!(t[:args])}
+    end
+    
+    clause = if strong_clause
+      if weak_clause
+        "#{strong_clause} AND #{weak_clause}"
+      else
+        strong_clause
+      end
     else
-      redirect_to view_context.calendar_month_path(params)
+      weak_clause
+    end
+    
+    @events = @events.includes(:page, :resources)
+    @events = @events.where(clause, args).references(:resources) if clause
+    @events = @events.order('start_at ASC')
+    
+    range = tokens.select{|t| 'date' == t[:type]}.first[:range]
+    @start_date = range[0]
+    @stop_date = range[1]
+    @calendar = Calendar.new(@start_date, @stop_date)
+    @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC').to_a
+    @calendar.populate(@events.to_a, @holidays)
+    
+=begin
+    # start with first week having the first day of the referenced month
+    # deal with beginning_of_week being Monday instead of Sunday
+    @start_date =
+      (@date.beginning_of_month + 1.day).beginning_of_week.yesterday
+    @stop_date = (@start_date + @months.months).end_of_month.end_of_week.yesterday
+    @calendar = Calendar.new(@start_date, @stop_date)
+    get_events
+    @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC').to_a
+    @calendar.populate(@events, @holidays)
+    @isCurrent = (@date.beginning_of_month.to_date == Date.today.beginning_of_month)
+=end
+    
+    @content_partial = 'calendar/index'
+
+    respond_to do |format|
+      format.html { render :action => "index" }
+      format.json { render :partial => "index" }
     end
   end
   
+  def suggestions
+    query = params[:q] || ''
+    tokens = Event.parse_query(query)
+    @suggestions = []
+    
+    dates = tokens.select{|t| 'date' == t[:type]}.map{|t| t[:matches]}.flatten.slice(0, 5)
+    @suggestions << {label: 'Dates', suggestions: dates} unless dates.empty?
+    events = tokens.select{|t| 'event' == t[:type]}.map{|t| t[:matches]}
+    if not events.empty?
+      names = events.first.limit(5).pluck('name')
+      @suggestions << {label: 'Events', suggestions: names}
+    end
+    resources = tokens.select{|t| 'resource' == t[:type]}.map{|t| t[:matches]}
+    if not resources.empty?
+      names = resources.first.limit(5).pluck('name')
+      @suggestions << {label: 'Resources', suggestions: names}
+    end
+    
+    respond_to do |format|
+      format.json { render :partial => "suggestions" }
+    end
+  end
+  
+=begin
   def month
     # start with first week having the first day of the referenced month
     # deal with beginning_of_week being Monday instead of Sunday
@@ -69,5 +154,6 @@ class CalendarController < ApplicationController
       not e.authorized?(current_user) or (not @full and @singular and e.master)
     end
   end
+=end
 
 end

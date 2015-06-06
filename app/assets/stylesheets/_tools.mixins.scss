@@ -1,0 +1,5 @@
+@mixin main_content() {
+  max-width: $max-content-width;
+  margin: 0 auto;
+  padding: 0px $inuit-base-spacing-unit;
+}

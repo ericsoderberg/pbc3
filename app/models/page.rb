@@ -2,6 +2,21 @@ class Page < ActiveRecord::Base
   before_save :render_text
   acts_as_url :prefixed_name, :sync_url => true
   
+  has_many :page_elements, -> { order('index ASC').includes(:element) }, :autosave => true
+  has_many :parent_page_elements, as: :element, :class_name => 'PageElement'
+  
+  has_many :contacts, -> { includes(:user).order('users.first_name ASC') },
+    :dependent => :destroy
+  has_many :contact_users, -> { order('users.first_name ASC') }, :through => :contacts, :source => :user
+  has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
+  has_one :podcast
+  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
+  
+  validates :name, :presence => true
+  validates :url, :uniqueness => true
+  validate :reserved_urls
+  
+  # DEPRECATED
   belongs_to :style
   has_many :notes, -> { order('created_at DESC') }
   has_many :photos, :dependent => :destroy
@@ -11,18 +26,12 @@ class Page < ActiveRecord::Base
   has_many :events, -> { order('start_at ASC') }, :dependent => :destroy
   has_many :event_pages, :dependent => :destroy
   has_many :shared_events, :through => :event_pages, :class_name => 'Event', :source => :event
+  has_many :forms, -> { order('LOWER(name) ASC') }, :dependent => :destroy
+  has_many :conversations, -> { order('created_at DESC') }, :dependent => :destroy
   has_one :group
   belongs_to :parent, :class_name => 'Page'
   has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
     :foreign_key => :parent_id
-  has_many :contacts, -> { includes(:user).order('users.first_name ASC') },
-    :dependent => :destroy
-  has_many :contact_users, -> { order('users.first_name ASC') }, :through => :contacts, :source => :user
-  has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
-  has_one :podcast
-  has_many :forms, -> { order('LOWER(name) ASC') }, :dependent => :destroy
-  has_many :conversations, -> { order('created_at DESC') }, :dependent => :destroy
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum', 'event']
   CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
@@ -33,11 +42,9 @@ class Page < ActiveRecord::Base
 
   validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
   validates :child_layout, :presence => true, :inclusion => {:in => CHILD_LAYOUTS}
-  validates :name, :presence => true
   validates :home_feature, :inclusion => {:in => [true, false]}
   validates :parent_feature, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
-  validates :url, :uniqueness => true
   validates :parent_index, :uniqueness => {:scope => :parent_id,
     :unless => Proc.new{|p| not p.parent_id}},
     :numericality => {:greater_than_or_equal_to => 0,
@@ -46,7 +53,7 @@ class Page < ActiveRecord::Base
     :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
   validate :reserved_urls
   
-  before_create do
+  before_create do # DEPRECATED
     self.layout = 'regular'
     self.child_layout = 'header'
     self.aspect_order = 't,c,e,d,f,p,v,a,s'
@@ -62,7 +69,7 @@ class Page < ActiveRecord::Base
     end
   end
   
-  before_validation do
+  before_validation do # DEPRECATED
     unless self.style_id
       self.home_feature = false
       self.parent_feature = false
@@ -78,7 +85,7 @@ class Page < ActiveRecord::Base
     end
   end
   
-  before_validation(:on => :create) do
+  before_validation(:on => :create) do # DEPRECATED
     if parent
       self.parent_index = (parent.children.map{|c| c.parent_index}.max || 0) + 1
     end
@@ -113,11 +120,11 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def self.home_feature_pages(user=nil)
+  def self.home_feature_pages(user=nil) # DEPRECATED
     visible(user).where(['home_feature = ?', true]).order('home_feature_index ASC')
   end
   
-  def feature_children(user=nil)
+  def feature_children(user=nil) # DEPRECATED
     Page.where(:parent_id => self.id).visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
   end
   
@@ -139,7 +146,7 @@ class Page < ActiveRecord::Base
   searchable do
     text :name, :default_boost => 3
     text :url_aliases, :default_boost => 2
-    text :text
+    #text :text
   end
   
   include ActionView::Helpers::SanitizeHelper
@@ -156,7 +163,7 @@ class Page < ActiveRecord::Base
     updated_at
   end
   
-  def nav_context
+  def nav_context # DEPRECATED
     (self.parent and 'blog' != self.parent.layout and 'header' == self.parent.child_layout and
       (self.children.empty? or 'header' != self.child_layout)) ? self.parent : self
     #(not self.landing? and self.parent and self.parent.regular? and
@@ -209,45 +216,45 @@ class Page < ActiveRecord::Base
     return false
   end
   
-  def root
+  def root # DEPRECATED
     parent ? parent.root : self
   end
   
-  def ancestors
+  def ancestors # DEPRECATED
     parent ? (parent.ancestors << parent) : []
   end
   
-  def descendants
+  def descendants # DEPRECATED
     children.map{|child| [child] + child.descendants}.flatten
   end
   
-  def includes?(page)
+  def includes?(page) # DEPRECATED
     children.each do |child|
       return true if page == child or child.includes?(page)
     end
     return false
   end
   
-  def next_sibling
+  def next_sibling # DEPRECATED
     if parent
       parent.children.where('parent_index = ?', (parent_index + 1)).first
     end
   end
   
-  def previous_sibling
+  def previous_sibling # DEPRECATED
     if parent
       parent.children.where('parent_index = ?', (parent_index - 1)).first
     end
   end
   
-  def possible_parents
+  def possible_parents # DEPRECATED
     Page.order('name').to_a.delete_if do |page|
       # don't allow circular references
       page == self or self.includes?(page)
     end
   end
   
-  def possible_aspects(user)
+  def possible_aspects(user) # DEPRECATED
     case layout
     when 'blog', 'forum'
       if user.administrator?
@@ -266,14 +273,14 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def visible_aspects(args={})
+  def visible_aspects(args={}) # DEPRECATED
     aspect_order.split(',').delete_if do |aspects|
       not render_aspects?(aspects, args)
     end
   end
   
   # aspects can be a concatenated string of characters
-  def render_aspects?(aspects, args={})
+  def render_aspects?(aspects, args={}) # DEPRECATED
     aspects.split('').each do |aspect|
       # if any match, return true
       case aspect
@@ -317,7 +324,20 @@ class Page < ActiveRecord::Base
     return false
   end
   
-  def self.order_children(ids)
+  def order_elements(ids)
+    result = true
+    Page.transaction do
+      ids.each_with_index do |id, i|
+        page_element = PageElement.find(id)
+        page_element.index = i+1
+        # don't validate since it will fail as we haven't done them all yet
+        result = false unless page_element.save(:validate => false)
+      end
+    end
+    result
+  end
+  
+  def self.order_children(ids) # DEPRECATED
     result = true
     Page.transaction do
       tmp_children = Page.find(ids)
@@ -335,7 +355,7 @@ class Page < ActiveRecord::Base
     Page.order('name ASC').to_a.select{|p| p.administrator?(user) }
   end
   
-  def self.order_home_features(ids)
+  def self.order_home_features(ids) # DEPRECATED
     result = true
     Page.transaction do
       tmp_features = Page.find(ids)
@@ -349,7 +369,7 @@ class Page < ActiveRecord::Base
     result
   end
   
-  def self.order_parent_features(ids)
+  def self.order_parent_features(ids) # DEPRECATED
     result = true
     Page.transaction do
       tmp_features = Page.find(ids)
@@ -363,7 +383,7 @@ class Page < ActiveRecord::Base
     result
   end
   
-  def self.normalize_indexes(pages=nil)
+  def self.normalize_indexes(pages=nil) # DEPRECATED
     pages = Page.to_a unless pages
     Page.transaction do
       pages.each do |page|
@@ -397,31 +417,31 @@ class Page < ActiveRecord::Base
     Event.categorize(events)
   end
   
-  def landing?
+  def landing? # DEPRECATED
     'landing' == layout
   end
   
-  def regular?
+  def regular? # DEPRECATED
     'regular' == layout
   end
   
-  def blog?
+  def blog? # DEPRECATED
     'blog' == layout
   end
   
-  def forum?
+  def forum? # DEPRECATED
     'forum' == layout
   end
   
-  def gallery?
+  def gallery? # DEPRECATED
     'gallery' == layout
   end
   
-  def event?
+  def event? # DEPRECATED
     'event' == layout
   end
   
-  def feed_page
+  def feed_page # DEPRECATED
     if self.podcast or 'blog' == self.layout
       self
     elsif self.parent and 'blog' == self.parent.layout
@@ -431,13 +451,99 @@ class Page < ActiveRecord::Base
     end
   end
   
-  def color
+  def color # DEPRECATED
     self.style ? self.style.feature_color.to_s(16) : '#ccc'
+  end
+  
+  def convert_to_page_elements
+    if page_elements.empty?
+      # use PageElement
+      index = 1
+      aspect_order.split(',').each do |aspect|
+        case aspect
+        when 't'
+          newText = Text.new(text: self.text)
+          page_elements.build(element: newText, page: self, index: index)
+          index += 1
+        when 's'
+          newText = Text.new(text: self.secondary_text)
+          page_elements.build(element: newText, page: self, index: index)
+          index += 1
+        when 'e'
+          events.each do |event|
+            page_elements.build(element: event, page: self, index: index)
+            index += 1
+          end
+        when 'c'
+          contacts.each do |contact|
+            page_elements.build(element: contact, page: self, index: index)
+            index += 1
+          end
+        when 'd'
+          documents.each do |document|
+            page_elements.build(element: document, page: self, index: index)
+            index += 1
+          end
+        when 'f'
+          forms.each do |form|
+            page_elements.build(element: form, page: self, index: index)
+            index += 1
+          end
+        when 'p'
+          photos.each do |photo|
+            page_elements.build(element: photo, page: self, index: index)
+            index += 1
+          end
+        when 'v'
+          videos.each do |video|
+            page_elements.build(element: video, page: self, index: index)
+            index += 1
+          end
+        when 'a'
+          audios.each do |audio|
+            page_elements.build(element: audio, page: self, index: index)
+            index += 1
+          end
+        when 'g'
+          children.each do |child|
+            page_elements.build(element: child, page: self, index: index)
+            index += 1
+          end
+        end
+      end
+    end
+  end
+  
+  def self.matches(text)
+    result = nil
+    
+    if text and not text.empty?
+      score = 0
+    
+      # try full title first
+      clause = 'pages.name ilike :pn'
+      args = {:pn => "#{text}"}
+      pages = Page.where(clause, args)
+      if pages.length == 1
+        score += 1 
+      else
+        clause = 'pages.name ~* :en'
+        args = {:en => text.strip.split(' ').join('|')}
+        events = Page.where(clause, args)
+      end
+    
+      if not pages.empty?
+        result = {type: 'page', text: text, matches: pages, score: score,
+          clause: clause, args: args}
+      end
+    end
+    
+    result
   end
   
   private
   
-  def extract_first_paragraph(str)
+  def extract_first_paragraph(str) # DEPRECATED
     return '' unless str
     matches = str.scan(/<p>(.*)<\/p>/)
     # TODO: improve this to not include styling from text editor

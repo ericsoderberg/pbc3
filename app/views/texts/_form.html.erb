@@ -1,0 +1,42 @@
+<%= form_for(@text, :url => [@page, @text], :html => { class: "form" }) do |f| %>
+  
+<div class="form__header">
+  <%= @title %>
+</div>
+
+<div class="form__contents">
+  
+  <% if @text.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@text.errors.count, "error") %> prohibited this text from being saved:</h2>
+
+      <ul>
+      <% @text.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= hidden_field_tag :page_id, @page.id %>
+  
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field form__field--large">
+        <%= f.text_area :text, :size => "80x20" %>
+      </li>
+    </ul>
+  </fieldset>
+</div>
+
+  <div class="form__footer">
+    <% if @text.id -%>
+      <%= react_component('Delete',
+        {href: page_text_path(@page, @text), confirm: "Are you sure?",
+          csrfParam: request_forgery_protection_token,
+          csrfToken: form_authenticity_token},
+        { prerender: params[:noprerender].nil? }) %>
+    <% end -%>
+    <%= f.submit (@text.id ? 'OK' : 'Add'), class: 'btn btn--primary' %>
+    <%= link_to 'Cancel', edit_contents_page_path(@page), class: 'btn' %>
+  </div>
+<% end %>

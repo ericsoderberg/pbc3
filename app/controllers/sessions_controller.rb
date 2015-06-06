@@ -1,5 +1,7 @@
 class SessionsController < Devise::SessionsController
   
+  layout 'old'
+  
   def new
     super
   end

@@ -85,6 +85,8 @@ Rails.application.routes.draw do
   get "hyper/index", :controller => 'hyper_home', :action => 'index'
   get "calendar", :controller => 'calendar', :action => 'index',
     :as => 'main_calendar'
+  get "calendar/suggestions", :controller => 'calendar', :action => 'suggestions',
+    :as => 'calendar_suggestions'
   get "calendar/month", :as => 'main_calendar_month'
   get "calendar/list", :as => 'main_calendar_list'
   get "calendar/day", :as => 'main_calendar_day'
@@ -130,6 +132,12 @@ Rails.application.routes.draw do
       get :search
     end
     member do
+      get :edit_context
+      get :edit_contents
+      patch :update_contents_order
+      get :edit_access
+      
+      # DEPRECATED
       get :edit_for_parent
       get :edit_for_feature
       get :search_possible_parents
@@ -137,7 +145,7 @@ Rails.application.routes.draw do
       get :edit_style
       get :edit_email
       get :edit_email_members
-      get :edit_access
+      #get :edit_access
     end
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence
@@ -163,9 +171,10 @@ Rails.application.routes.draw do
     end
     resources :authorizations
     resources :notes
+    resources :texts
     resource :feature, :only => [:edit, :update], :controller => :home
     resource :podcast
-    resource :social, :only => [:edit, :update], :controller => :social
+    #resource :social, :only => [:edit, :update], :controller => :social
     resources :conversations do
       resources :comments
     end
@@ -175,6 +184,7 @@ Rails.application.routes.draw do
   resources :messages do
     resources :files, :controller => :message_files
     collection do
+      get :suggestions
       get :map_old_file
     end
   end

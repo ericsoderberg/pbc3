@@ -1,0 +1,63 @@
+.page {
+  @include main-content();
+  
+  &__header {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+    
+    h1 {
+      -webkit-flex: 0 0 auto;
+      flex: 0 0 auto;
+    }
+  }
+  
+  &__edit-menu {
+    position: relative;
+    right: - $inuit-base-spacing-unit;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+  
+  &__element {
+    margin: double($inuit-base-spacing-unit) 0px;
+    &:first-child {
+      margin-top: 0px;
+    }
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.page-contents-edit {
+  
+  &__add-menu {
+    line-height: double($inuit-base-spacing-unit);
+    //margin-top:  double($inuit-base-spacing-unit);
+  }
+  
+  &__element {
+    position: relative;
+    padding: $inuit-base-spacing-unit;
+    cursor: move;
+    background-color: $background-color;
+    border-right: 4px solid transparent;
+    transition: border-color $animation-delay, background-color $animation-delay;
+    
+    &:hover {
+      background-color: $over-background-color;
+      border-color: $brand-accent-color;
+    }
+    
+    &-edit {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      cursor: pointer;
+    }
+  }
+}
+

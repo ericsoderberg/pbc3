@@ -5,13 +5,13 @@ class PagesController < ApplicationController
       :edit_access, :update, :new, :create, :destroy]
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
+  layout "administration", only: [:edit_context, :edit_contents, :edit_access]
   
   def index
     @pages = Page.order("name ASC")
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @pages }
+      format.html { render layout: "old"}
     end
   end
   
@@ -54,6 +54,7 @@ class PagesController < ApplicationController
       return
     end
     
+=begin
     if (@page != @site.communities_page and @page != @site.about_page)
       events = @page.related_events
       events.delete_if{|e| not e.authorized?(current_user)}
@@ -88,10 +89,21 @@ class PagesController < ApplicationController
       @previous_page = @page.previous_sibling
       @next_page = @page.next_sibling
     end
+=end
+    
+    if @page.administrator? current_user
+      @edit_actions = [
+        {label: 'Context', url: edit_context_page_url(@page, :protocol => 'https')},
+        {label: 'Contents', url: edit_contents_page_url(@page, :protocol => 'https')},
+        {label: 'Access', url: edit_access_page_url(@page, :protocol => 'https')}
+      ]
+    end
+
+    @content_partial = 'pages/show'
 
     respond_to do |format|
-      format.html { render :action => "show_#{@page.layout}" }
-      format.xml  { render :xml => @page }
+      format.html { render :action => "show" }
+      format.json { render :action => "show" }
     end
   end
   
@@ -145,8 +157,7 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @page }
+      format.html
     end
   end
 
@@ -155,6 +166,31 @@ class PagesController < ApplicationController
     return unless page_administrator!
   end
   
+  def edit_context
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+    @email_list = EmailList.find(@page.email_list)
+    @email_lists = EmailList.all
+  end
+  
+  def edit_contents
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+    
+    @add_menu_actions = [
+      {label: 'Text', url: new_page_text_path(@page)},
+      {label: 'Event', url: new_page_event_path(@page)},
+      {label: 'Audio', url: new_page_audio_path(@page)},
+      {label: 'Video', url: new_page_video_path(@page)}
+    ]
+  end
+  
+  def edit_access
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+  end
+  
+  # DEPRECATED
   def edit_location
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
@@ -192,10 +228,10 @@ class PagesController < ApplicationController
     end
   end
   
-  def edit_access
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
-  end
+  #def edit_access
+  #  @page = Page.find_by(url: params[:id])
+  #  return unless page_administrator!
+  #end
   
   def edit_for_parent
     page = Page.find_by(url: params[:id])
@@ -218,10 +254,8 @@ class PagesController < ApplicationController
       if @page.save and (not params[:site_reference] or @site.save)
         format.html { redirect_to(edit_page_path(@page),
           :notice => 'Page was successfully created.') }
-        format.xml  { render :xml => @page, :status => :created, :location => @page }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -247,14 +281,28 @@ class PagesController < ApplicationController
         (not orderer_sub_ids or
           Page.order_children(orderer_sub_ids))
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
-        format.xml  { head :ok }
       else
         format.html {
           @siblings = @page.parent ? @page.parent.children : []
           @aspect = params[:aspect] || 'text'
           render :action => "edit"
         }
-        format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  
+  def update_contents_order
+    @page = Page.find_by(url: params[:id])
+    return unless page_administrator!
+    
+    respond_to do |format|
+      if @page.order_elements(params[:element_order].split(','))
+        format.html { redirect_to(friendly_page_path(@page),
+          :notice => 'Page was successfully updated.') }
+      else
+        format.html {
+          render :action => "edit_contents", :layout => "administration"
+        }
       end
     end
   end
@@ -268,19 +316,23 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }
-      format.xml  { head :ok }
     end
   end
   
   private
   
   def page_params
+    params.require(:page).permit(:name, :private, :obscure,
+      :url_prefix, :url_aliases, :facebook_url, :twitter_name, :email_list, 
+      :updated_by).merge(:updated_by => current_user)
+=begin
     params.require(:page).permit(:name, :text, :secondary_text,
       :parent_id, :private, :style_id,
       :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
       :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,
       :twitter_name, :banner_text,
       :updated_by, :site_primary).merge(:updated_by => current_user)
+=end
   end
   
 end
