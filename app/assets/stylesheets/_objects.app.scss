@@ -4,7 +4,7 @@
 
 .app-header {
   background-color: $brand-secondary-background-color;
-  
+
   &__contents {
     display: -webkit-flex;
     display: flex;
@@ -15,18 +15,18 @@
     max-width: $max-content-width;
     margin: 0 auto;
   }
-  
+
   &__site {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     padding: 0px $inuit-base-spacing-unit;
-    
+
     img {
       margin: $inuit-base-spacing-unit 0px;
       height: double($inuit-base-spacing-unit);
     }
   }
-  
+
   &__menu {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
@@ -36,37 +36,61 @@
 .app-footer {
   background-color: $brand-secondary-background-color;
   margin-top: double($inuit-base-spacing-unit);
-  
+
   &__actions {
-    @include main-content();
-    padding-top: double($inuit-base-spacing-unit);
-    text-align: center;
-    
     @include media-query(lap-and-up) {
+      padding-top: $inuit-base-spacing-unit;
+    }
+  }
+
+  &__actions-set {
+    padding: halve($inuit-base-spacing-unit) 0px;
+    border-bottom: 1px solid $brand-secondary-background-separator-color;
+
+    @include media-query(lap-and-up) {
+      @include main-content();
+      padding: 0px; // reset
       display: -webkit-flex;
       display: flex;
       -webkit-flex-wrap: wrap;
       flex-wrap: wrap;
+      -webkit-justify-content: flex-start;
+      justify-content: flex-start;
     }
   }
-  
+
   &__action {
-    padding: $inuit-base-spacing-unit;
-    
-    @include media-query(lap-and-up) {
-      width: round($inuit-base-spacing-unit * 6);
-      //display: inline-block;      
+
+    a {
+      display: block;
+
+      &:hover {
+        background-color: $background-color;
+        color: $brand-accent-color;
+      }
+
+      @include media-query(palm) {
+        padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+        @include inuit-font-size($inuit-heading-size-3);
+        text-align: center;
+      }
+
+      @include media-query(lap-and-up) {
+        padding: $inuit-base-spacing-unit;
+        width: round($inuit-base-spacing-unit * 6);
+        border-radius: $brand-radius;
+      }
     }
   }
-  
+
   &__summary {
     padding: $inuit-base-spacing-unit 0px;
     color: $secondary-color;
-    
+
     @include media-query(palm) {
       text-align: center;
     }
-    
+
     @include media-query(lap-and-up) {
       display: -webkit-flex;
       display: flex;
@@ -74,7 +98,7 @@
       justify-content: space-between;
       max-width: $max-content-width;
       margin: 0px auto;
-      
+
       > * {
         -webkit-flex: 0 1 auto;
         flex: 0 1 auto;
