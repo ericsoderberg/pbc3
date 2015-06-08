@@ -1,13 +1,31 @@
 class HolidaysController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
-  
+
   def index
-    @holidays = Holiday.order('date ASC')
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @holidays = Holiday
+    if @filter[:search]
+      tokens = Holiday.matches(@filter[:search])
+      @holidays = @holidays.where(tokens[:clause], tokens[:args])
+    end
+    @holidays = @holidays.order('date DESC')
+
+    # get total count before we limit
+    @count = @holidays.count
+
+    if params[:offset]
+      @holidays = @holidays.offset(params[:offset])
+    end
+    @holidays = @holidays.limit(20)
+
+    @content_partial = 'holidays/index'
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @holidays }
+      format.json { render :partial => "index" }
     end
   end
 
@@ -74,18 +92,18 @@ class HolidaysController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def parse_date
     if params[:holiday][:date] and params[:holiday][:date].is_a?(String)
       params[:holiday][:date] =
         Date.parse_from_form(params[:holiday][:date])
     end
   end
-  
+
   def holiday_params
     params.require(:holiday).permit(:name, :date)
   end
-  
+
 end

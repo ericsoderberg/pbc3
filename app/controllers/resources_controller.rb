@@ -1,15 +1,31 @@
 class ResourcesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
-  
-  # GET /resources
-  # GET /resources.xml
+
   def index
-    @resources = Resource.order('name ASC')
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @resources = Resource
+    if @filter[:search]
+      tokens = Resource.matches(@filter[:search])
+      @resources = @resources.where(tokens[:clause], tokens[:args])
+    end
+    @resources = @resources.order('name ASC')
+
+    # get total count before we limit
+    @count = @resources.count
+
+    if params[:offset]
+      @resources = @resources.offset(params[:offset])
+    end
+    @resources = @resources.limit(20)
+
+    @content_partial = 'resources/index'
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @resources }
+      format.json { render :partial => "index" }
     end
   end
 
@@ -86,11 +102,11 @@ class ResourcesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def resource_params
     params.require(:resource).permit(:name, :resource_type)
   end
-  
+
 end

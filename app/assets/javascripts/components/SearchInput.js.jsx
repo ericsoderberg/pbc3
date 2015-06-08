@@ -5,23 +5,23 @@ var REST = require('./REST');
 var ROOT_CLASS = "search-input";
 
 var SearchInput = React.createClass({
-  
+
   propTypes: {
     text: React.PropTypes.string,
     suggestionsPath: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onChange: React.PropTypes.func
   },
-  
+
   _notify: function (text) {
     clearTimeout(this._changeTimer);
     this._changeTimer = setTimeout(function () {
       this.props.onChange(text);
     }.bind(this), 500);
   },
-  
+
   _getSuggestions: function () {
-    if (this.state.text) {
+    if (this.state.text && this.props.suggestionsPath) {
       var path = this.props.suggestionsPath + encodeURIComponent(this.state.text);
       REST.get(path, function (response) {
         this.setState({suggestions: response});
@@ -30,7 +30,7 @@ var SearchInput = React.createClass({
       this.setState({suggestions: []});
     }
   },
-  
+
   _onChange: function (event) {
     var text = event.target.value;
     this.setState({text: text}, function () {
@@ -41,7 +41,7 @@ var SearchInput = React.createClass({
       this._notify(this.state.text);
     });
   },
-  
+
   _onKeyDown: function (event) {
     //console.log('!!!', event.keyCode);
     if (13 === event.keyCode) { // Enter
@@ -99,7 +99,7 @@ var SearchInput = React.createClass({
       }.bind(this));
     }
   },
-  
+
   _onClickClear: function () {
     var text = '';
     this.setState({text: text, suggestions: []}, function () {
@@ -107,13 +107,13 @@ var SearchInput = React.createClass({
       this._notify(this.state.text);
     });
   },
-  
+
   _onMouseDownSuggestion: function (suggestion) {
     this.setState({active: false, text: suggestion}, function () {
       this.props.onChange(this.state.text);
     });
   },
-  
+
   _onFocus: function (event) {
     //console.log('!!! SearchInput _onFocus');
     var input = event.target;
@@ -121,7 +121,7 @@ var SearchInput = React.createClass({
     // select all text
     setTimeout(function () {input.select();}, 1);
   },
-  
+
   _onBlur: function (event) {
     //console.log('!!! SearchInput _onBlur');
     //var element = event.target;
@@ -129,7 +129,7 @@ var SearchInput = React.createClass({
     this.setState({active: false});
     //this.props.onChange(this.state.text);
   },
-  
+
   _onResize: function (event) {
     var containerElement = this.refs.container.getDOMNode();
     var inputElement = this.refs.input.getDOMNode();
@@ -138,7 +138,7 @@ var SearchInput = React.createClass({
     var inputRect = inputElement.getBoundingClientRect();
     suggestionsElement.style.top = (inputRect.bottom - containerRect.top) + 'px';
   },
-  
+
   getInitialState: function () {
     return {
       active: false,
@@ -147,16 +147,16 @@ var SearchInput = React.createClass({
       suggestion: null
     };
   },
-  
+
   componentDidMount: function () {
     window.addEventListener('resize', this._onResize);
     this._onResize();
   },
-  
+
   componentWillUnmount: function () {
     window.removeEventListener('resize', this._onResize);
   },
- 
+
   render: function() {
     var classes = [ROOT_CLASS];
     if (this.state.active) {
@@ -165,7 +165,7 @@ var SearchInput = React.createClass({
     if (this.props.className) {
       classes.push(this.props.className);
     }
-    
+
     var iconClasses = [ROOT_CLASS + "__icon"];
     var clearClasses = [ROOT_CLASS + "__clear"];
     if (this.state.text) {
@@ -173,7 +173,7 @@ var SearchInput = React.createClass({
     } else {
       iconClasses.push(ROOT_CLASS + "__icon--active");
     }
-    
+
     var suggestions = this.state.suggestions.map(function (suggestion) {
       if (typeof suggestion === 'string') {
         var suggestionClasses = [ROOT_CLASS + "__suggestion"];
@@ -211,12 +211,12 @@ var SearchInput = React.createClass({
         );
       }
     }.bind(this));
-    
+
     var suggestionsClasses = [ROOT_CLASS + "__suggestions", "list-bare"];
     if (suggestions.length > 0) {
       suggestionsClasses.push(ROOT_CLASS + "__suggestions--active");
     }
-    
+
     return (
       <div ref="container" className={classes.join(' ')}>
         <header className={ROOT_CLASS + "__header"}>

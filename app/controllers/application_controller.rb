@@ -47,7 +47,6 @@ class ApplicationController < ActionController::Base
     if current_user and current_user.administrator?
       @app_menu_actions << [
         {label: 'Accounts', url: accounts_url(:protocol => 'https')},
-        {label: 'Administrator', url: edit_site_url(:protocol => 'https')},
         {label: 'Audit Log', url: audit_logs_url(:protocol => 'https')},
         {label: 'Email Lists', url: email_lists_url(:protocol => 'https')},
         {label: 'Forms', url: forms_url(:protocol => 'https')},
@@ -60,7 +59,8 @@ class ApplicationController < ActionController::Base
           (@site.podcast ?
             edit_podcast_url(@site.podcast, {:protocol => 'https'}) :
             new_podcast_url(:protocol => 'https'))},
-        {label: 'Resources', url: resources_url(:protocol => 'https')}
+        {label: 'Resources', url: resources_url(:protocol => 'https')},
+        {label: 'Site', url: edit_site_url(:protocol => 'https')}
       ]
     end
 

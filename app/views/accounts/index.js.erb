@@ -1,0 +1,5 @@
+$('#accounts').append(
+	'<%= escape_javascript(render :partial => "accounts",
+		:locals => {:accounts => @accounts}) %>');
+$('#accounts').append(
+	'<%= escape_javascript(render :partial => "more_accounts") %>');

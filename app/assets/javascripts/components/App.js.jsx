@@ -5,20 +5,26 @@ var REST = require('./REST');
 
 var Page = require('./Page');
 var Search = require('./Search');
+var Accounts = require('./Accounts');
 var Calendar = require('./Calendar');
+var Holidays = require('./Holidays');
 var Messages = require('./Messages');
 var Message = require('./Message');
+var Resources = require('./Resources');
 
 var ROUTES = [
   {path: '/search', type: Search},
   {path: '/calendar', type: Calendar},
   {path: '/messages/(.+)', type: Message},
   {path: '/messages', type: Messages},
+  {path: '/accounts', type: Accounts},
+  {path: '/resources', type: Resources},
+  {path: '/holidays', type: Holidays},
   {path: '/(.*)', type: Page}
 ];
 
 var App = React.createClass({
-  
+
   /*propTypes: {
     app: React.PropTypes.shapeOf({
       content: React.PropTypes.object,
@@ -28,7 +34,7 @@ var App = React.createClass({
       site: React.PropTypes.object
     })
   },*/
-  
+
   _onChangePath: function (path) {
     //console.log('!!! App _onChangePath', path);
     REST.get(path, function (response) {
@@ -38,27 +44,27 @@ var App = React.createClass({
       });
     }.bind(this));
   },
-  
+
   getInitialState: function () {
     return {
       path: this.props.app.requestPath,
       content: this.props.app.content
     };
   },
-  
+
   componentWillMount: function () {
     Router.initialize(ROUTES);
   },
-  
+
   componentDidMount: function () {
     Router.run(this._onChangePath);
   },
- 
+
   render: function () {
     var app = this.props.app;
-    
+
     var contents = Router.getElement(this.state.path, this.state.content);
-    
+
     return (
       <div className="app">
         <AppHeader site={app.site} logo={app.logoUrl}

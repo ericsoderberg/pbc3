@@ -1,0 +1,77 @@
+.index {
+
+  &__header {
+    @include main-content();
+    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+    display: -webkit-flex;
+    display: flex;
+
+    @include media-query(palm) {
+      @include inuit-font-size($inuit-heading-size-1);
+      display: block;
+    }
+  }
+
+  &__title {
+    display: block;
+    margin-right: $inuit-base-spacing-unit;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+
+  &__search {
+    display: block;
+    -webkit-flex: 1;
+    flex: 1;
+  }
+
+  &__count {
+    display: block;
+    margin-left: $inuit-base-spacing-unit;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    color: $secondary-color;
+
+    @include media-query(palm) {
+      display: none;
+    }
+  }
+
+  &__items {
+    @include main-content();
+    min-height: 50vh;
+    transition: opacity 0.3s;
+  }
+
+  &__item {
+    position: relative;
+    margin: $inuit-base-spacing-unit 0;
+
+    > * {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 halve($inuit-base-spacing-unit);
+      padding-left: halve($inuit-base-spacing-unit);
+      text-indent: - halve($inuit-base-spacing-unit);
+    }
+  }
+
+  &__no-matches {
+    @include main-content();
+    font-style: italic;
+    color: $secondary-color;
+    margin-top: $inuit-base-spacing-unit;
+  }
+
+  &__spinner {
+    margin: $inuit-base-spacing-unit auto;
+  }
+
+  &--changing {
+    .index {
+      &__items {
+        opacity: 0.2;
+      }
+    }
+  }
+}

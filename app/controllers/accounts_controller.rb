@@ -1,15 +1,33 @@
 class AccountsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!, :except => [:edit, :update, :show]
-  
+
   def index
+    @filter = {}
+    @filter[:search] = params[:search] || ''
+
     if current_user.administrator
       @users = User.order('last_name ASC, last_name IS NULL')
     else
       @users = [current_user]
     end
+
+    # get total count before we limit
+    @count = @users.count
+
+    if params[:offset]
+      @users = @users.offset(params[:offset])
+    end
+    @users = @users.limit(20)
+
+    @content_partial = 'accounts/index'
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :partial => "index" }
+    end
   end
-  
+
   def show
     @user = User.find(params[:id])
     unless @user == current_user || current_user.administrator
@@ -25,7 +43,7 @@ class AccountsController < ApplicationController
 =begin
         if current_user
           pageContext[:events][:all].each do |event|
-            if page == event.page 
+            if page == event.page
               pageContext[:invitation] =
                 event.invitations.where(:email => current_user.email).first
             end
@@ -35,7 +53,7 @@ class AccountsController < ApplicationController
       end
     end
   end
-  
+
   def new
     @user = User.new
   end
@@ -47,7 +65,7 @@ class AccountsController < ApplicationController
       return
     end
   end
-  
+
   def create
     @user = User.new(user_params)
     @user.password = SecureRandom.base64(12);
@@ -65,14 +83,14 @@ class AccountsController < ApplicationController
       end
     end
   end
-  
+
   def update
     @user = User.find(params[:id])
     unless @user == current_user || current_user.administrator
       redirect_to root_url
       return
     end
-    
+
     @user.avatar = nil if params[:delete_avatar]
     @user.portrait = nil if params[:delete_portrait]
     @user.administrator = true unless @site and @site.id
@@ -93,7 +111,7 @@ class AccountsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @user = User.find(params[:id])
     @user.destroy
@@ -103,9 +121,9 @@ class AccountsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def user_params
     params.require(:user).permit(:name, :email, :administrator, :bio,
       :avatar, :portrait)
