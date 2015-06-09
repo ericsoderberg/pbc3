@@ -2,9 +2,9 @@ class SiteController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!, :except => [:new, :create]
   before_filter :not_if_existing, :only => [:new, :create]
-  
-  layout 'old'
-  
+
+  layout "administration"
+
   # GET /sites/new
   # GET /sites/new.xml
   def new
@@ -54,21 +54,21 @@ class SiteController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
   def not_if_existing
     if @site
       redirect_to root_url
       return false
     end
   end
-  
+
   def site_params
     params.require(:site).permit(:communities_page_id, :about_page_id,
       :title, :subtitle, :address, :phone, :copyright, :email, :mailman_owner,
       :check_address, :online_bank_vendor, :paypal_business, :acronym, :icon,
       :library, :calendar, :wordmark)
   end
-  
+
 end

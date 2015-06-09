@@ -1,89 +1,78 @@
-<%= form_for(@site, :url => site_path, :html => { :multipart => true }) do |f| %>
-  <% if @site.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@site.errors.count, "error") %> prohibited this site from being saved:</h2>
+<%= form_for(@site, :url => site_path, :html => { class: "form", :multipart => true }) do |f| %>
+  <%= render :partial => 'form_errors' %>
 
-      <ul>
-      <% @site.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-<div class="regular_content">
-  <section>
-    <div class="field">
-      <%= f.label :title %><br />
-      <%= f.text_field :title, :size => 40 %>
-    </div>
-    <div class="field">
-      <%= f.label :acronym %><br />
-      <%= f.text_field :acronym, :size => 5 %>
-    </div>
-    <div class="field">
-      <%= f.label :subtitle %><br />
-      <%= f.text_field :subtitle, :size => 60 %>
-    </div>
-    <div class="field">
-      <%= f.label :email %><br />
-      <%= f.text_field :email, :size => 60 %>
-    </div>
-    <div class="field">
-      <%= f.label :address %><br />
-      <%= f.text_field :address, :size => 60 %>
-    </div>
-    <div class="field">
-      <%= f.label :phone %><br />
-      <%= f.text_field :phone, :size => 60 %>
-    </div>
-    <div class="field">
-      <%= f.label :copyright %><br />
-      <%= f.text_field :copyright, :size => 60 %>
-    </div>
-    <div class="field">
-      <%= f.label :icon %><br/>
-      <% if @site.icon.exists? -%>
-        <%= image_tag @site.icon.url(:thumb) %>
-        <%= check_box_tag 'delete_icon' %> delete icon?<br/>
-      <% end -%>
-      <%= f.file_field :icon %><br/>
-      <span class="help">(48x48 pixels)</span>
-    </div>
-    <div class="field">
-      <%= f.label :wordmark %><br/>
-      <% if @site.wordmark.exists? -%>
-        <%= image_tag @site.wordmark.url(:thumb) %>
-        <%= check_box_tag 'delete_wordmark' %> delete wordmark?<br/>
-      <% end -%>
-      <%= f.file_field :wordmark %><br/>
-      <span class="help">(48x&lt;any&gt; pixels)</span>
-    </div>
-    <div class="field">
-      <%= f.label :calendar?, :class => 'inline' %>
-      <%= f.check_box :calendar %>
-    </div>
-    <div class="field">
-      <%= f.label :library?, :class => 'inline' %>
-      <%= f.check_box :library %>
-    </div>
-    <div class="field">
-      <%= f.label :mailman_owner %><br />
-      <%= f.text_field :mailman_owner, :size => 60 %>
-    </div>
-    <div class="field">
-      <%= f.label :check_address %>
-      <span class="help">Where people should send checks to.</span><br />
-      <%= f.text_area :check_address, :size => "40x4" %>
-    </div>
-    <div class="field">
-      <%= f.label :paypal_business %><br />
-      <%= f.text_field :paypal_business, :size => 60 %>
-    </div>
-  </section>
+<div class="form__header">
+  Edit Site
 </div>
-  <div class="actions">
-    <%= f.submit %>
-    | <%= link_to 'Cancel', root_path %>
+
+<div class="form__contents">
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :title %>
+        <%= f.text_field :title, :size => 40 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :acronym %>
+        <%= f.text_field :acronym, :size => 5 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :subtitle %>
+        <%= f.text_field :subtitle, :size => 60 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :email %>
+        <%= f.text_field :email, :size => 60 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :address %>
+        <%= f.text_field :address, :size => 60 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :phone %>
+        <%= f.text_field :phone, :size => 60 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :copyright %>
+        <%= f.text_field :copyright, :size => 60 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :icon %>
+        <% if @site.icon.exists? -%>
+          <%= image_tag @site.icon.url(:thumb) %>
+          <%= check_box_tag 'delete_icon' %> delete icon?
+        <% end -%>
+        <%= f.file_field :icon %>
+        <div class="form__field-help">48x48 pixels</div>
+      </li>
+      <li class="form__field">
+        <%= f.label :wordmark %>
+        <% if @site.wordmark.exists? -%>
+          <%= image_tag @site.wordmark.url(:thumb) %>
+          <%= check_box_tag 'delete_wordmark' %> delete wordmark?
+        <% end -%>
+        <%= f.file_field :wordmark %>
+        <div class="form__field-help">48x&lt;any&gt; pixels</div>
+      </li>
+      <li class="form__field">
+        <%= f.label :mailman_owner %>
+        <%= f.text_field :mailman_owner, :size => 60 %>
+      </li>
+      <li class="form__field">
+        <%= f.label :check_address %>
+        <%= f.text_field :check_address, :size => 60 %>
+        <div class="form__field-help">Where people should send checks to.</div>
+      </li>
+      <li class="form__field">
+        <%= f.label :paypal_business %>
+        <%= f.text_field :paypal_business, :size => 60 %>
+      </li>
+    </ul>
+  </fieldset>
+</div>
+
+  <div class="form__footer">
+    <%= link_to 'Cancel', root_path, class: 'btn' %>
+    <%= f.submit class: 'btn btn--primary' %>
   </div>
 <% end %>

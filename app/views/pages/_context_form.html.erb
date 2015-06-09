@@ -1,6 +1,6 @@
 <%= form_for(@page, :html => {class: "form"}) do |f| %>
   <%= render :partial => 'form_errors' %>
-  
+
 <div class="form__header">
   Edit <%= @page.name %>
 </div>
@@ -13,7 +13,7 @@
       <%= f.label :title %>
       <%= f.text_field :name, :size => 80 %>
     </li>
-    
+
     <li class="form__field">
       <%= f.label :title_prefix %>
       <%= f.text_field :url_prefix %>
@@ -70,7 +70,7 @@
 </div>
 
   <div class="form__footer">
-    <%= f.submit 'OK', class: 'btn btn--primary' %>
     <%= render 'cancel_control' %>
+    <%= f.submit 'OK', class: 'btn btn--primary' %>
   </div>
 <% end %>
