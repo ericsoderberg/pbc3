@@ -1,47 +1,58 @@
 .search {
   @include main-content();
-  
+
   &__header {
+    position: relative;
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
   }
-  
+
+  &__input {
+    width: 100%;
+  }
+
   &__clear {
-    position: relative;
-    left: - double($inuit-base-spacing-unit);
+    position: absolute;
+    top: 0px;
+    right: $inuit-base-spacing-unit;
     cursor: pointer;
     display: none;
-    
+
     &--active {
-      display: inline-block;
+      display: block;
     }
   }
-  
+
   &__summary {
     font-style: italic;
   }
-  
+
   &__results {
-    min-height: 20vh;
+    min-height: 40vh;
   }
-  
+
   &__result {
     @include inuit-font-size($inuit-base-font-size, double($inuit-base-spacing-unit));
-    border-width: 1px;
-    border-color: transparent;
-    border-style: solid none;
-    transition: border-color $animation-delay;
-    
+    display: -webkit-flex;
+    display: flex;
+
     &-name {
-      display: inline-block;
-      width: round($inuit-base-spacing-unit * 12);
+      -webkit-flex: 0 0 round($inuit-base-spacing-unit * 12);
+      flex: 0 0 round($inuit-base-spacing-unit * 12);
+      margin-right: $inuit-base-spacing-unit;
+      line-height: $inuit-base-spacing-unit;
+      padding-left: halve($inuit-base-spacing-unit);
+      text-indent: - halve($inuit-base-spacing-unit);
+
+      &:first-line {
+        line-height: double($inuit-base-spacing-unit);
+      }
     }
-    
+
     &-type {
       color: $secondary-color;
-    }
-    
-    &:hover {
-      border-color: $border-color;
+      -webkit-flex: 0 0 round($inuit-base-spacing-unit * 4);
+      flex: 0 0 round($inuit-base-spacing-unit * 4);
+      margin-right: $inuit-base-spacing-unit;
     }
   }
 }

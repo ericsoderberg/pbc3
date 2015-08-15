@@ -1,21 +1,24 @@
 class Page < ActiveRecord::Base
   before_save :render_text
   acts_as_url :prefixed_name, :sync_url => true
-  
+
   has_many :page_elements, -> { order('index ASC').includes(:element) }, :autosave => true
   has_many :parent_page_elements, as: :element, :class_name => 'PageElement'
-  
+
   has_many :contacts, -> { includes(:user).order('users.first_name ASC') },
     :dependent => :destroy
   has_many :contact_users, -> { order('users.first_name ASC') }, :through => :contacts, :source => :user
   has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
   has_one :podcast
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
-  
+
   validates :name, :presence => true
   validates :url, :uniqueness => true
   validate :reserved_urls
-  
+
+  include Searchable
+  search_on :name
+
   # DEPRECATED
   belongs_to :style
   has_many :notes, -> { order('created_at DESC') }
@@ -32,10 +35,10 @@ class Page < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Page'
   has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
     :foreign_key => :parent_id
-  
+
   LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum', 'event']
   CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
-  
+
   # order matters since we store an index to this array
   CONTENT_TYPES = ['text', 'events and contacts', 'documents and forms',
     'child pages', 'photos', 'vides', 'audios', 'social']
@@ -52,7 +55,7 @@ class Page < ActiveRecord::Base
   validates :home_feature_index,
     :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
   validate :reserved_urls
-  
+
   before_create do # DEPRECATED
     self.layout = 'regular'
     self.child_layout = 'header'
@@ -68,7 +71,7 @@ class Page < ActiveRecord::Base
       end
     end
   end
-  
+
   before_validation do # DEPRECATED
     unless self.style_id
       self.home_feature = false
@@ -84,21 +87,21 @@ class Page < ActiveRecord::Base
       self.child_layout = (self.landing? ? 'landing' : 'header')
     end
   end
-  
+
   before_validation(:on => :create) do # DEPRECATED
     if parent
       self.parent_index = (parent.children.map{|c| c.parent_index}.max || 0) + 1
     end
   end
-  
+
   def prefixed_name
     "#{url_prefix} #{name}".strip
   end
-  
+
   def name_with_parent
     parent ? "#{name} -#{parent.name}-" : name
   end
-  
+
   def self.find_by_url_or_alias(url)
     result = Page.find_by(url: url)
     if not result
@@ -111,7 +114,7 @@ class Page < ActiveRecord::Base
     end
     result
   end
-  
+
   def reserved_urls
     if %w(styles resources accounts users site forms payments
       audit_logs email_lists holidays home hyper calendar search
@@ -119,15 +122,15 @@ class Page < ActiveRecord::Base
       errors.add(:name, "that url prefix + name is reserved")
     end
   end
-  
+
   def self.home_feature_pages(user=nil) # DEPRECATED
     visible(user).where(['home_feature = ?', true]).order('home_feature_index ASC')
   end
-  
+
   def feature_children(user=nil) # DEPRECATED
     Page.where(:parent_id => self.id).visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
   end
-  
+
   def self.visible(user)
     email_list_names = []
     if (user and not user.administrator?)
@@ -142,34 +145,28 @@ class Page < ActiveRecord::Base
       (user ? user.administrator? : false), false, true, (user ? true : false),
       (user ? user.id : -1), true, email_list_names).references(:authorizations)
   end
-  
-  searchable do
-    text :name, :default_boost => 3
-    text :url_aliases, :default_boost => 2
-    #text :text
-  end
-  
+
   include ActionView::Helpers::SanitizeHelper
 
   def render_text
     self.snippet_text = strip_tags(strip_links(self.text))
   end
-  
+
   def to_param
     url
   end
-  
+
   def date
     updated_at
   end
-  
+
   def nav_context # DEPRECATED
     (self.parent and 'blog' != self.parent.layout and 'header' == self.parent.child_layout and
       (self.children.empty? or 'header' != self.child_layout)) ? self.parent : self
     #(not self.landing? and self.parent and self.parent.regular? and
     #self.children.empty?) ? self.parent : self
   end
-  
+
   def authorized?(user)
     return true unless self.private?
     return true if user and user.administrator?
@@ -179,7 +176,7 @@ class Page < ActiveRecord::Base
     return true if user.email_lists.map{|el| el.name}.include?(email_list)
     return false
   end
-  
+
   def searchable?(user)
     # administrators can see everything
     return true if user and user.administrator?
@@ -193,7 +190,7 @@ class Page < ActiveRecord::Base
     return false if self.private? or self.obscure?
     return true
   end
-  
+
   def administrator?(user)
     return false unless user
     return true if user.administrator?
@@ -201,13 +198,13 @@ class Page < ActiveRecord::Base
     return parent.administrator?(user) if parent
     return false
   end
-  
+
   def access_administrator?(user)
     return false unless user
     authorizations.each{|a| return true if user == a.user and a.administrator?}
     return false
   end
-  
+
   def for_user?(user)
     return false unless user
     authorizations.each{|a| return true if user == a.user}
@@ -215,45 +212,45 @@ class Page < ActiveRecord::Base
     return true if user.email_lists.map{|el| el.name}.include?(email_list)
     return false
   end
-  
+
   def root # DEPRECATED
     parent ? parent.root : self
   end
-  
+
   def ancestors # DEPRECATED
     parent ? (parent.ancestors << parent) : []
   end
-  
+
   def descendants # DEPRECATED
     children.map{|child| [child] + child.descendants}.flatten
   end
-  
+
   def includes?(page) # DEPRECATED
     children.each do |child|
       return true if page == child or child.includes?(page)
     end
     return false
   end
-  
+
   def next_sibling # DEPRECATED
     if parent
       parent.children.where('parent_index = ?', (parent_index + 1)).first
     end
   end
-  
+
   def previous_sibling # DEPRECATED
     if parent
       parent.children.where('parent_index = ?', (parent_index - 1)).first
     end
   end
-  
+
   def possible_parents # DEPRECATED
     Page.order('name').to_a.delete_if do |page|
       # don't allow circular references
       page == self or self.includes?(page)
     end
   end
-  
+
   def possible_aspects(user) # DEPRECATED
     case layout
     when 'blog', 'forum'
@@ -272,13 +269,13 @@ class Page < ActiveRecord::Base
       end
     end
   end
-  
+
   def visible_aspects(args={}) # DEPRECATED
     aspect_order.split(',').delete_if do |aspects|
       not render_aspects?(aspects, args)
     end
   end
-  
+
   # aspects can be a concatenated string of characters
   def render_aspects?(aspects, args={}) # DEPRECATED
     aspects.split('').each do |aspect|
@@ -323,7 +320,7 @@ class Page < ActiveRecord::Base
     end
     return false
   end
-  
+
   def order_elements(ids)
     result = true
     Page.transaction do
@@ -336,7 +333,7 @@ class Page < ActiveRecord::Base
     end
     result
   end
-  
+
   def self.order_children(ids) # DEPRECATED
     result = true
     Page.transaction do
@@ -350,11 +347,11 @@ class Page < ActiveRecord::Base
     end
     result
   end
-  
+
   def self.editable(user)
     Page.order('name ASC').to_a.select{|p| p.administrator?(user) }
   end
-  
+
   def self.order_home_features(ids) # DEPRECATED
     result = true
     Page.transaction do
@@ -368,7 +365,7 @@ class Page < ActiveRecord::Base
     end
     result
   end
-  
+
   def self.order_parent_features(ids) # DEPRECATED
     result = true
     Page.transaction do
@@ -382,7 +379,7 @@ class Page < ActiveRecord::Base
     end
     result
   end
-  
+
   def self.normalize_indexes(pages=nil) # DEPRECATED
     pages = Page.to_a unless pages
     Page.transaction do
@@ -396,7 +393,7 @@ class Page < ActiveRecord::Base
       end
     end
   end
-  
+
   def related_events(start_date=Date.today.beginning_of_day,
       stop_date=Date.today.beginning_of_day + 6.months)
     page_ids = [self.id] + self.descendants.map{|page| page.id}
@@ -407,40 +404,40 @@ class Page < ActiveRecord::Base
       order("start_at ASC, (events.page_id <> #{self.id})").to_a
     result
   end
-  
+
   def categorized_related_events(start_date=Date.today.beginning_of_day,
       stop_date=Date.today.beginning_of_day + 6.months)
       Event.categorize(related_events(start_date, stop_date))
   end
-  
+
   def categorized_events
     Event.categorize(events)
   end
-  
+
   def landing? # DEPRECATED
     'landing' == layout
   end
-  
+
   def regular? # DEPRECATED
     'regular' == layout
   end
-  
+
   def blog? # DEPRECATED
     'blog' == layout
   end
-  
+
   def forum? # DEPRECATED
     'forum' == layout
   end
-  
+
   def gallery? # DEPRECATED
     'gallery' == layout
   end
-  
+
   def event? # DEPRECATED
     'event' == layout
   end
-  
+
   def feed_page # DEPRECATED
     if self.podcast or 'blog' == self.layout
       self
@@ -450,11 +447,11 @@ class Page < ActiveRecord::Base
       nil
     end
   end
-  
+
   def color # DEPRECATED
     self.style ? self.style.feature_color.to_s(16) : '#ccc'
   end
-  
+
   def convert_to_page_elements
     if page_elements.empty?
       # use PageElement
@@ -513,41 +510,41 @@ class Page < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.matches(text)
     result = nil
-    
+
     if text and not text.empty?
       score = 0
-    
+
       # try full title first
       clause = 'pages.name ilike :pn'
       args = {:pn => "#{text}"}
       pages = Page.where(clause, args)
       if pages.length == 1
-        score += 1 
+        score += 1
       else
         clause = 'pages.name ~* :en'
         args = {:en => text.strip.split(' ').join('|')}
         events = Page.where(clause, args)
       end
-    
+
       if not pages.empty?
         result = {type: 'page', text: text, matches: pages, score: score,
           clause: clause, args: args}
       end
     end
-    
+
     result
   end
-  
+
   private
-  
+
   def extract_first_paragraph(str) # DEPRECATED
     return '' unless str
     matches = str.scan(/<p>(.*)<\/p>/)
     # TODO: improve this to not include styling from text editor
     return (matches and matches[0] ? matches[0][0] : '')
   end
-  
+
 end

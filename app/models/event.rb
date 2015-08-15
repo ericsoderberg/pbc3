@@ -14,84 +14,81 @@ class Event < ActiveRecord::Base
   has_many :events_messages, :dependent => :destroy, :class_name => 'EventMessage'
   has_many :messages, :through => :events_messages, :source => :message
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
-  
+
   validates_presence_of :page, :name, :stop_at
   validates :start_at, :presence => true,
     :uniqueness => {:scope => :master_id,
       :unless => Proc.new{|p| not p.master_id and not p.master}}
   validate :start_before_stop
   validate :no_master_if_replicas
-  
+
+  include Searchable
+  search_on :name
+
   def start_before_stop
     if stop_at and start_at and stop_at < start_at
       errors.add(:stop_at, "can't be before start")
     end
   end
-  
+
   def no_master_if_replicas
     if slave? and master.master and master.master != master
       errors.add(:master_id, "can't be a replica of a replica (master: #{master.id}, master.master: #{master.master.id})")
     end
   end
-  
-  searchable do
-    text :name, :default_boost => 1
-    time :start_at
-    boolean :best do |event| not event.slave? end
-  end
-  
+
   def self.on_or_after(date)
     where("events.start_at >= ?", date)
   end
-  
+
   def self.between(start, stop)
     where("events.stop_at > ? AND events.start_at < ?", start, stop)
   end
-  
+
   scope :masters,
     -> { where("events.master_id = events.id OR events.master_id IS NULL") }
-    
+
   scope :featured,
     -> { where("events.featured = 't'") }
-  
+
   def related_to?(event)
     event.master and self.master == event.master
   end
-  
+
   def slave?
     master and self != master
   end
-  
+
   def regular?
     master and
     master.replicas.between(Date.today, Date.today + 1.month).count > 2
   end
-  
+
   def occasional?
     master and
     master.replicas.between(Date.today, Date.today + 1.month).count <= 2
   end
-  
+
   def singular?
     not master or master.replicas.count <= 1
   end
-  
+
   def authorized?(user)
     return (page and page.authorized?(user))
   end
-  
+
   def searchable?(user)
     return (page and page.searchable?(user))
   end
-  
+
   def for_user?(user)
     return (page and page.for_user?(user))
   end
-  
+
   def global_name_or_name
     (global_name and not global_name.empty?) ? global_name : name
   end
-  
+
   def top_context
     ancestors = page.ancestors
     if ancestors.length > 1
@@ -100,17 +97,17 @@ class Event < ActiveRecord::Base
       page.name
     end
   end
-  
+
   def invitation_for_user(user)
     return nil unless user
     invitations.where('user_id = ?', user).first
   end
-  
+
   def filled_forms_for_user(user)
     return [] unless user
     forms.filled_forms.where('filled_forms.user_id = ?', user)
   end
-  
+
   def peers
     if master
       master.replicas
@@ -118,7 +115,7 @@ class Event < ActiveRecord::Base
       [self]
     end
   end
-  
+
   def next
     if master
       master.replicas.where("start_at > '#{start_at}' AND id != #{id}").first
@@ -126,7 +123,7 @@ class Event < ActiveRecord::Base
       nil
     end
   end
-  
+
   def prev
     if master
       master.replicas.where("start_at < '#{start_at}' AND id != #{id}").last
@@ -134,7 +131,7 @@ class Event < ActiveRecord::Base
       nil
     end
   end
-  
+
   def peers_until(date)
     if master
       master.replicas.where("start_at > '#{start_at}' AND id != #{id} AND start_at <= '#{date}'")
@@ -142,7 +139,7 @@ class Event < ActiveRecord::Base
       Event.none
     end
   end
-  
+
   # divide the events up into three categories: active, expired, ancient
   # prune out replicas
   def self.categorize(events)
@@ -164,7 +161,7 @@ class Event < ActiveRecord::Base
     end
     result
   end
-  
+
   # find the replica that is the closest to today, preferably in the future
   def best_replica(events)
     return self if not master or master.replicas.empty? # no replicas
@@ -182,11 +179,11 @@ class Event < ActiveRecord::Base
         # earlier than today but later than candidate
         candidate = e
       end
-      
+
     end
     candidate
   end
-  
+
   def update_with_replicas(attrs={})
     Event.transaction do
       update_attributes(attrs)
@@ -215,14 +212,14 @@ class Event < ActiveRecord::Base
       end
     end
   end
-  
+
   def align_reservations(source_event)
     self.reservations.clear
     source_event.reservations.each do |reservation|
       self.reservations << reservation.copy(self)
     end
   end
-  
+
   def replicate(dates)
     current_dates = peers.map{|e| e.start_at.to_date}
 
@@ -234,7 +231,7 @@ class Event < ActiveRecord::Base
 
     begin
       Event.transaction do
-      
+
         # add new ones that we don't have yet
         # do this first in case we destroy this event
         dates.each do |date|
@@ -245,7 +242,7 @@ class Event < ActiveRecord::Base
             copied_peers << peer
           end
         end
-      
+
         # remove existing dates that aren't specified
         tmp_peers.each do |peer|
           if not dates.include?(peer.start_at.to_date)
@@ -255,7 +252,7 @@ class Event < ActiveRecord::Base
             new_peers << peer
           end
         end
-      
+
         # pick new master
         if new_master
           self.master = new_master # so validation of prior peers works
@@ -272,7 +269,7 @@ class Event < ActiveRecord::Base
           peer.master = new_master
           peer.save!
         end
-      
+
         # we copy the reservations after creating the new events so they have ids
         copied_peers.each do |peer|
           self.reservations.each do |reservation|
@@ -282,7 +279,7 @@ class Event < ActiveRecord::Base
             end
           end
         end
-        
+
         unless errors.empty?
           raise ActiveRecord::Rollback
         end
@@ -290,13 +287,13 @@ class Event < ActiveRecord::Base
     rescue ActiveRecord::RecordInvalid
       new_master = nil
     end
-    
+
     errors.empty? ? new_master : errors
   end
-  
+
   def self.parse_query(text)
     tokens = []
-    
+
     date_matches = SearchDate.matches(text)
     if date_matches
       if date_matches[:score] > 0
@@ -317,7 +314,7 @@ class Event < ActiveRecord::Base
       range = [start_date, end_date]
       tokens << {type: 'date', score: 1, clause: clause, args: args, range: range}
     end
-    
+
     event_matches = Event.matches(text)
     if event_matches
       if event_matches[:score] > 0
@@ -325,60 +322,62 @@ class Event < ActiveRecord::Base
       end
       tokens << event_matches
     end
-    
-    resource_matches = Resource.matches(text)
+
+    resource_matches = Resource.search_tokens(text)
     if resource_matches
       if resource_matches[:score] > 0
         text = text.gsub(resource_matches[:text], '').strip
       end
       tokens << resource_matches
     end
-    
-    page_matches = Page.matches(text)
+
+    page_matches = Page.search_tokens(text)
     if page_matches
       if page_matches[:score] > 0
         text = text.gsub(page_matches[:text], '').strip
       end
       tokens << page_matches
     end
-    
+
     # If we have no text left, remove all weak tokens since they aren't needed
     if text.empty?
       tokens = tokens.select{|t| t[:score] > 0}
     end
-    
+
     tokens
   end
-  
+
+=begin
   def self.matches(text)
-    result = nil
-    
+    tokens = nil
+
     if text and not text.empty?
       score = 0
-    
+
       # try full title first
       clause = 'events.name ilike :en'
       args = {:en => "#{text}"}
       events = Event.where(clause, args)
       if events.length == 1
-        score += 1 
+        score += 1
       else
         clause = 'events.name ~* :en'
         args = {:en => text.strip.split(' ').join('|')}
         events = Event.where(clause, args)
       end
-    
+
       if not events.empty?
-        result = {type: 'event', text: text, matches: events, score: score,
+        tokens = {type: 'event', text: text, matches: events, score: score,
           clause: clause, args: args}
       end
     end
-    
-    result
+
+    tokens
   end
-  
+=end
+
   private
-  
+
   def copy(date)
     duration = self.stop_at - self.start_at
     new_start_at = Time.parse(date.strftime("%Y-%m-%d") +
@@ -395,7 +394,7 @@ class Event < ActiveRecord::Base
     end
     new_event
   end
-  
+
   def become_master
     if master and self != master
       self.replicas = master.replicas
@@ -403,5 +402,5 @@ class Event < ActiveRecord::Base
       self.replicas.each{|e| e.master = self}
     end
   end
-  
+
 end

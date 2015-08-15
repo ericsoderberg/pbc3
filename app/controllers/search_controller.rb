@@ -1,51 +1,42 @@
 class SearchController < ApplicationController
-  
+
   def search
     @search_text = params[:q]
-    
+    @results = []
+
     #ranges = Bible.verse_ranges(@search_text, true)
     if false and not ranges.empty? # verse
       #@messages = Message.find_by_verses(@search_text)
     elsif @search_text and ! @search_text.strip.empty?
-      #classes = [Text, Message, MessageSet, Event, Document, Author]
-      classes = [Text, Event, Document]
-      classes << Form if user_signed_in?
-      classes << User if user_signed_in?
-      @search = Sunspot.search(*classes) do
-        fulltext params[:q]
-        paginate(:page => (params[:page] || 1))
-        without(:best, false)
+
+      Form.search(@search_text).each do |form|
+        @results << {type: 'Form', url: form_path(form.page), name: form.name,
+          page: {name: form.page.name, url: friendly_page_path(form.page)}}
       end
-      # convert to generic form
-      @results = @search.results.map do |object|
-        case object
-        when Page then
-          {type: 'Page', url: friendly_page_path(object), prefix: object.url_prefix, name: object.name}
-        #when Message then
-          #{type: 'Message', url: message_path(object), name: object.title}
-        #when MessageSet then
-          #{type: 'Message Series', url: series_path(object), name: object.title}
-        #when Author then
-          #{type: 'Author', url: author_path(object), name: object.name}
-        when Event then
-          {type: 'Event', url: friendly_page_path(object.page), name: object.name,
-            page: {name: object.page.name, url:friendly_page_path(object.page)} }
-        when Document then
-          {type: 'Document', url: object.file.url, name: object.name,
-            page: {name: object.page.name, url:friendly_page_path(object.page)} }
-        when Form then
-          {type: 'Form', url: form_fills_path(object), name: object.name,
-            page: {name: object.page.name, url:friendly_page_path(object.page)} }
-        when User then
-          {type: 'User', url: edit_account_path(object), name: object.name}
-        else
-          {}
+
+      Document.search(@search_text).each do |document|
+        @results << {type: 'Document', url: document.file.url, name: document.name,
+          page: {name: document.page.name, url: friendly_page_path(document.page)}}
+      end
+
+      Event.search(@search_text).each do |event|
+        @results << {type: 'Event', url: friendly_page_path(event.page), name: event.name,
+          page: {name: event.page.name, url: friendly_page_path(event.page)}}
+      end
+
+      if user_signed_in?
+        User.search(@search_text).each do |user|
+          @results << {type: 'User', url: edit_account_path(user), name: user.name}
+        end
+
+        Resource.search(@search_text).each do |resource|
+          @results << {type: 'Resource', url: main_calendar_path(search: resource.name), name: resource.name}
         end
       end
     end
-    
+
     @content_partial = 'search/search'
-    
+
     respond_to do |format|
       format.html { render :action => "search" }
       format.json { render :partial => "search" }

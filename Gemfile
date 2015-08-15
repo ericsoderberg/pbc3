@@ -27,11 +27,6 @@ gem 'money'
 gem 'money-rails'
 gem 'stringex'
 
-git 'git://github.com/sunspot/sunspot.git' do
-  gem 'sunspot_rails'
-  gem 'sunspot_solr'
-end
-
 gem "sass", :require => 'sass'
 gem "bower-rails", "~> 0.9.2"
 

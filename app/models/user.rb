@@ -36,13 +36,11 @@ class User < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
 
+  include Searchable
+  search_on [:name, :email]
+
   before_validation do
     split_name
-  end
-
-  searchable do
-    text :name, :default_boost => 2
-    text :email, :default_boost => 2
   end
 
   def email_confirmation

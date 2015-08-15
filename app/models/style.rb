@@ -31,23 +31,19 @@ class Style < ActiveRecord::Base
     :url => "/system/:attachment/:id/:style/:filename"
   has_many :pages, :dependent => :nullify
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
-  
+
   validates_presence_of :name, :hero_text_color, :feature_color
-    
-  searchable do
-    text :name, :default_boost => 2
-  end
-  
+
   def authorized?(user)
     user and user.administrator?
   end
-  
+
   def searchable?(user)
     user and user.administrator?
   end
-  
+
   before_save :update_css
-  
+
   def update_css
     if feature_color
       self.css = "background-color: ##{feature_color.to_s(16)};"
