@@ -2,6 +2,8 @@ class HolidaysController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
 
+  layout "administration", only: [:new, :edit, :delete]
+
   def index
     @filter = {}
     @filter[:search] = params[:search]

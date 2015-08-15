@@ -1,0 +1,15 @@
+<div class="form__contents">
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :type %>
+        <%= f.select :resource_type,
+          options_for_select(Resource::TYPES, @resource.resource_type) %>
+      </li>
+    </ul>
+  </fieldset>
+</div>

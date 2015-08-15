@@ -1,7 +1,8 @@
-var SearchInput = require('./SearchInput');
+var Router = require('./Router');
 var REST = require('./REST');
 var SpinnerIcon = require('./SpinnerIcon');
-var Router = require('./Router');
+var SearchInput = require('./SearchInput');
+var AddIcon = require('./AddIcon');
 
 var CLASS_ROOT = "index";
 
@@ -14,7 +15,8 @@ var Index = React.createClass({
     items: React.PropTypes.array.isRequired,
     count: React.PropTypes.number.isRequired,
     filter: React.PropTypes.object,
-    searchPlaceholder: React.PropTypes.string
+    searchPlaceholder: React.PropTypes.string,
+    newUrl: React.PropTypes.string
   },
 
   getDefaultProps: function () {
@@ -94,25 +96,33 @@ var Index = React.createClass({
       );
     }, this);
 
-    var noMatches = '';
+    var noMatches;
     if (0 === this.state.count) {
       noMatches = (<div className={CLASS_ROOT + "__no-matches"}>No matches</div>);
     }
 
-    var spinner = '';
+    var spinner;
     if (this.state.items.length < this.state.count) {
       spinner = (<div className={CLASS_ROOT + "__spinner spinner"}></div>);
+    }
+
+    var addControl;
+    if (this.props.newUrl) {
+      addControl = (
+        <a className={CLASS_ROOT + "__add control-icon"} href={this.props.newUrl}><AddIcon /></a>
+      );
     }
 
     return (
       <div className={classes.join(' ')}>
         <header className={CLASS_ROOT + "__header"}>
           <h1 className={CLASS_ROOT + "__title"}>{this.props.title}</h1>
+          <span className={CLASS_ROOT + "__count"}>{this.state.count}</span>
           <SearchInput className={CLASS_ROOT + "__search"}
             text={this.state.filter.search}
             placeholder={this.props.searchPlaceholder}
             onChange={this._onChangeSearch} />
-          <span className={CLASS_ROOT + "__count"}>{this.state.count}</span>
+          {addControl}
         </header>
         {noMatches}
         <ol className={CLASS_ROOT + "__items list-bare"}>

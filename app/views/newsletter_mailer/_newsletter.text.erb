@@ -13,16 +13,18 @@ Services
  <%= raw @next_message.events.map{ |e| e.start_at.simple_time(true)}.to_sentence() %>
     <%= @next_message.title %>
     <%= @next_message.verses -%>
-    <%= @next_message.author.name %>
+    <% if @next_message.author -%>
+      <%= @next_message.author.name %>
+    <% end -%>
     <% @next_message.message_files.each do |message_file| -%>
       <% next unless message_file.file.content_type -%>
     <%= message_file.caption %>: <%= @route_prefix %><%= message_file.file.url %>
     <% end -%>
-    
+
     <% if @next_message.events.first and @next_message.events.first.notes and
       ! @next_message.events.first.notes.empty? -%>
     <%= @next_message.events.first.notes %>
-      
+
     <% end -%>
 <% end -%>
 <% if @previous_message -%>
@@ -30,7 +32,9 @@ Services
  <%= raw @previous_message.events.map{ |e| e.start_at.simple_time(true)}.to_sentence() %>
     <%= @previous_message.title %>
     <%= @previous_message.verses -%>
-    <%= @previous_message.author.name %>
+    <% if @previous_message.author -%>
+      <%= @previous_message.author.name %>
+    <% end -%>
     <% @previous_message.message_files.each do |message_file| -%>
       <% next unless message_file.file.content_type -%>
     <%= (message_file.caption and not message_file.caption.empty?) ? message_file.caption : message_file.file.content_type.split('/')[0] %>: <%= @route_prefix %><%= message_file.file.url %>
@@ -48,7 +52,7 @@ Services
   <% else -%>
 <%= @featured_page.name %>
   <% end -%>
-  
+
   <% if @featured_event -%>
     <% if @featured_event.notes and ! @featured_event.notes.empty? -%>
     <%= @featured_event.notes %>

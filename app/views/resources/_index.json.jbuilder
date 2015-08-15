@@ -6,3 +6,4 @@ json.resources @resources do |resource|
 end
 json.count @count
 json.filter @filter
+json.newUrl new_resource_url()

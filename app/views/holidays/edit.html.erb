@@ -1,10 +1,19 @@
-<% title "#{@holiday.name}" -%>
+<% title "Edit #{@holiday.name}" -%>
 
-<section>
-  <header>
-    <h1>Edit <%= @holiday.name %></h1>
-  </header>
-  
-  <%= render 'form' %>
-  
-</section>
+<%= form_for(@holiday, :html => { class: "form" }) do |f| %>
+  <%= render :partial => 'form_errors' %>
+
+<div class="form__header">
+  <span class="form__title">Edit <%= @holiday.name %></span>
+  <%= link_to 'X', holidays_path %>
+</div>
+
+<%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+<div class="form__footer">
+  <%= f.submit "Update", class: 'btn btn--primary' %>
+</div>
+
+<% end %>
+
+<%= render :partial => 'shared/delete', :locals => {:item => @holiday} %>

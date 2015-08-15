@@ -2,6 +2,8 @@ class ResourcesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
 
+  layout "administration", only: [:new, :edit, :delete]
+
   def index
     @filter = {}
     @filter[:search] = params[:search]
@@ -11,7 +13,7 @@ class ResourcesController < ApplicationController
       tokens = Resource.matches(@filter[:search])
       @resources = @resources.where(tokens[:clause], tokens[:args])
     end
-    @resources = @resources.order('name ASC')
+    @resources = @resources.order('LOWER(name) ASC')
 
     # get total count before we limit
     @count = @resources.count
@@ -89,6 +91,10 @@ class ResourcesController < ApplicationController
         format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+  def delete
+    @resource = Resource.find(params[:id])
   end
 
   # DELETE /resources/1

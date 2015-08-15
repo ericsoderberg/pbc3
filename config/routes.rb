@@ -69,7 +69,7 @@ Rails.application.routes.draw do
     end
     resources :holidays
   end
-  
+
   # Redirect to SSL from non-SSL so you don't get 404s
   # Repeat for any custom Devise routes
   %w(users accounts forms site payments audit_logs email_lists
@@ -112,14 +112,18 @@ Rails.application.routes.draw do
   root :to => "home#index"
 
   resources :styles
-  resources :resources
+  resources :resources do
+    member do
+      get :delete
+    end
+  end
   resources :newsletters do
     member do
       post :deliver
     end
   end
   resources :libraries
-  
+
   ###match
   get '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'
   ###match
@@ -136,7 +140,7 @@ Rails.application.routes.draw do
       get :edit_contents
       patch :update_contents_order
       get :edit_access
-      
+
       # DEPRECATED
       get :edit_for_parent
       get :edit_for_feature
@@ -179,7 +183,7 @@ Rails.application.routes.draw do
       resources :comments
     end
   end
-  
+
   resources :authors
   resources :messages do
     resources :files, :controller => :message_files
@@ -193,10 +197,10 @@ Rails.application.routes.draw do
   resources :series, :controller => :message_sets
   resources :books, :only => [:index, :show]
   resource :podcast
-  
+
   ###match
   get '/:id', :to => "pages#show", :as => 'friendly_page'
-  
+
   # redirects from old sites
   ###match
   get '/:page/events' => redirect("/%{page}/calendar")
@@ -212,7 +216,7 @@ Rails.application.routes.draw do
   get '/files/messages/:message_id/:file_name.:format' => redirect("/messages/map_old_file/%{file_name}.%{format}")
   ###match
   get '/message_sets/:id' => redirect("/messages")
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

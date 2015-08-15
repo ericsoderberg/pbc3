@@ -1,7 +1,9 @@
+<% XXXDeprecated %>
+
 <header>
   <h1 class="<%= 'main' == active_aspect ? 'active' : '' %>">
     <%= link_to @resource.name, resource_path(@resource) %></h1>
-  
+
   <% if user_signed_in? and current_user.administrator? -%>
     <div class="page_admin">
       <ul>
@@ -15,5 +17,5 @@
       <%= image_tag('calendar-3.png') %>
     <% end -%>
   </div>
-  
+
 </header>

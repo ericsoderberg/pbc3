@@ -2,7 +2,8 @@
   <%= render :partial => 'form_errors' %>
 
 <div class="form__header">
-  Edit Site
+  <span class="form__title">Edit Site</span>
+  <%= link_to 'X', root_path %>
 </div>
 
 <div class="form__contents">
@@ -38,21 +39,21 @@
       </li>
       <li class="form__field">
         <%= f.label :icon %>
+        <div class="form__field-help">48x48 pixels</div>
         <% if @site.icon.exists? -%>
           <%= image_tag @site.icon.url(:thumb) %>
           <%= check_box_tag 'delete_icon' %> delete icon?
         <% end -%>
         <%= f.file_field :icon %>
-        <div class="form__field-help">48x48 pixels</div>
       </li>
       <li class="form__field">
         <%= f.label :wordmark %>
+        <div class="form__field-help">48x&lt;any&gt; pixels</div>
         <% if @site.wordmark.exists? -%>
           <%= image_tag @site.wordmark.url(:thumb) %>
           <%= check_box_tag 'delete_wordmark' %> delete wordmark?
         <% end -%>
         <%= f.file_field :wordmark %>
-        <div class="form__field-help">48x&lt;any&gt; pixels</div>
       </li>
       <li class="form__field">
         <%= f.label :mailman_owner %>
@@ -60,8 +61,8 @@
       </li>
       <li class="form__field">
         <%= f.label :check_address %>
-        <%= f.text_field :check_address, :size => 60 %>
         <div class="form__field-help">Where people should send checks to.</div>
+        <%= f.text_area :check_address, :size => "60x4" %>
       </li>
       <li class="form__field">
         <%= f.label :paypal_business %>
@@ -72,7 +73,6 @@
 </div>
 
   <div class="form__footer">
-    <%= link_to 'Cancel', root_path, class: 'btn' %>
-    <%= f.submit class: 'btn btn--primary' %>
+    <%= f.submit "Update", class: 'btn btn--primary' %>
   </div>
 <% end %>

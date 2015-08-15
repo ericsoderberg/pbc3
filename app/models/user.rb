@@ -12,18 +12,18 @@ class User < ActiveRecord::Base
   ###  :portrait_file_name, :portrait_content_type, :portrait_file_size,
   ###  :portrait_updated_at, :portrait,
   ###  :bio, :email_confirmation
-  
+
   has_many :contacts, :dependent => :destroy
   has_many :contact_pages, -> { order('LOWER(pages.name) ASC') },
     :through => :contacts, :source => :page
-    
+
   has_many :authorizations, :dependent => :destroy
   has_many :filled_forms, :dependent => :destroy
   has_many :payments, :dependent => :destroy
   has_many :conversations, :dependent => :destroy
   has_many :users_videos, :dependent => :destroy, :class_name => 'UsersVideos'
   has_many :videos, :through => :users_videos, :source => :video
-  
+
   has_attached_file :avatar, :styles => {
       :normal => '50x',
     },
@@ -35,32 +35,32 @@ class User < ActiveRecord::Base
     },
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
-  
+
   before_validation do
     split_name
   end
-  
+
   searchable do
     text :name, :default_boost => 2
     text :email, :default_boost => 2
   end
-  
+
   def email_confirmation
     email
   end
-  
+
   def authorized?(user)
     user and (user.administrator? or user == self)
   end
-  
+
   def searchable?(user)
     user and (user.administrator? or user == self)
   end
-  
+
   def email_lists
     @email_lists ||= EmailList.find_by_address(email)
   end
-  
+
   def split_name
     if self.name
       self.name = self.name.strip
@@ -98,11 +98,11 @@ class User < ActiveRecord::Base
       self.last_name = last_parts.empty? ? nil : last_parts.join(' ')
     end
   end
-  
+
   def pages
     Page.includes(:authorizations).to_a.delete_if{|p| not p.for_user?(self)}
   end
-  
+
   def events(start_at=nil, stop_at=nil)
     start_at ||= Date.today.beginning_of_day
     stop_at ||= start_at + 2.weeks
@@ -113,5 +113,32 @@ class User < ActiveRecord::Base
         #e.messages.empty?
       }
   end
-  
+
+  def self.matches(text)
+    result = nil
+    terms = text.strip.split(' ')
+    index = 0
+    clause = 'users.last_name ILIKE :term OR users.first_name ILIKE :term OR users.email ILIKE :term'
+
+    while index < terms.length
+      term = terms[index]
+      args = {:term => "%#{term}%"}
+      users = User.where(clause, args)
+      score = 0
+      if users.length == 1 and
+        (users.first.first_name == term or users.first.last_name == term or users.first.email == term)
+        score += 1
+      end
+
+      if not users.empty?
+        result = {type: 'user', text: term, matches: users, score: score,
+          clause: clause, args: args}
+      end
+
+      index += 1
+    end
+
+    result
+  end
+
 end

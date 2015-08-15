@@ -1,10 +1,17 @@
-<% title "Resources" -%>
+<% title "Add Resource" -%>
 
-<section>
-  <header>
-    <h1>Add Resource</h1>
-  </header>
-  
-  <%= render 'form' %>
-  
-</section>
+<%= form_for(@resource, :html => { class: "form" }) do |f| %>
+  <%= render :partial => 'form_errors' %>
+
+<div class="form__header">
+  <span class="form__title">Add Resource</span>
+  <%= link_to 'X', resources_path %>
+</div>
+
+<%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+<div class="form__footer">
+  <%= f.submit "Add", class: 'btn btn--primary' %>
+</div>
+
+<% end %>

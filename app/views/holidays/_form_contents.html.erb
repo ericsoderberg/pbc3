@@ -1,0 +1,16 @@
+<div class="form__contents">
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :date %>
+        <%= f.date_field :date, type: 'date', pattern: '\d{4}-\d{2}-\d{2}',
+          placeholder: 'yyyy-mm-dd',
+          value: (@holiday.date ? l(@holiday.date, format: :db) : '') %>
+      </li>
+    </ul>
+  </fieldset>
+</div>

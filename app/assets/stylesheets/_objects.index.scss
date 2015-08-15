@@ -1,6 +1,7 @@
 .index {
 
   &__header {
+    position: relative;
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
     display: -webkit-flex;
@@ -23,17 +24,31 @@
     display: block;
     -webkit-flex: 1;
     flex: 1;
+
+    @include media-query(palm) {
+      margin-bottom: $inuit-base-spacing-unit;
+    }
   }
 
   &__count {
-    display: block;
-    margin-left: $inuit-base-spacing-unit;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    color: $secondary-color;
+    position: absolute;
+    top: 0px;
+    right: - double($inuit-base-spacing-unit);
+    @include inuit-font-size($inuit-base-font-size, inherit);
+    color: $tertiary-color;
 
     @include media-query(palm) {
       display: none;
+    }
+  }
+
+  &__add {
+    margin-left: $inuit-base-spacing-unit;
+
+    @include media-query(palm) {
+      position: absolute;
+      top: 0px;
+      right: halve($inuit-base-spacing-unit);
     }
   }
 
@@ -45,15 +60,40 @@
 
   &__item {
     position: relative;
-    margin: $inuit-base-spacing-unit 0;
+    //padding: halve($inuit-base-spacing-unit) 0px;
+    margin: 0px;
+    line-height: double($inuit-base-spacing-unit);
+    display: -webkit-flex;
+    display: flex;
+
+    &:hover {
+      .control-icon {
+        opacity: 1;
+      }
+    }
 
     > * {
-      display: inline-block;
-      vertical-align: top;
-      margin: 0 halve($inuit-base-spacing-unit);
+      margin-right: halve($inuit-base-spacing-unit);
       padding-left: halve($inuit-base-spacing-unit);
       text-indent: - halve($inuit-base-spacing-unit);
+
+      &:first-child {
+        -webkit-flex: 0 0 round($inuit-base-spacing-unit * 8);
+        flex: 0 0 round($inuit-base-spacing-unit * 8);
+      }
+
+      &:last-child {
+        margin-right: 0px;
+      }
     }
+
+    .control-icon {
+      opacity: 0.2;
+    }
+
+    //> a svg {
+    //  vertical-align: middle;
+    //}
   }
 
   &__no-matches {

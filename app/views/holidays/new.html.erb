@@ -1,10 +1,17 @@
-<% title "Holidays" -%>
+<% title "Add Holiday" -%>
 
-<section>
-  <header>
-    <h1>Add Holiday</h1>
-  </header>
-  
-  <%= render 'form' %>
-  
-</section>
+<%= form_for(@holiday, :html => { class: "form" }) do |f| %>
+  <%= render :partial => 'form_errors' %>
+
+<div class="form__header">
+  <span class="form__title">Add Holiday</span>
+  <%= link_to 'X', holidays_path %>
+</div>
+
+<%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+<div class="form__footer">
+  <%= f.submit "Add", class: 'btn btn--primary' %>
+</div>
+
+<% end %>

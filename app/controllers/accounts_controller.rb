@@ -2,23 +2,32 @@ class AccountsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!, :except => [:edit, :update, :show]
 
+  layout "administration", only: [:edit, :delete, :show]
+
   def index
     @filter = {}
-    @filter[:search] = params[:search] || ''
+    @filter[:search] = params[:search]
 
     if current_user.administrator
-      @users = User.order('last_name ASC, last_name IS NULL')
+      @users = User
+      if @filter[:search]
+        tokens = User.matches(@filter[:search])
+        @users = @users.where(tokens[:clause], tokens[:args])
+      end
+      @users = @users.order('LOWER(last_name) ASC, last_name IS NULL')
+
+      # get total count before we limit
+      @count = @users.count
+
+      if params[:offset]
+        @users = @users.offset(params[:offset])
+      end
+      @users = @users.limit(20)
+
     else
       @users = [current_user]
+      @count = 1
     end
-
-    # get total count before we limit
-    @count = @users.count
-
-    if params[:offset]
-      @users = @users.offset(params[:offset])
-    end
-    @users = @users.limit(20)
 
     @content_partial = 'accounts/index'
 
