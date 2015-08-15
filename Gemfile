@@ -7,11 +7,12 @@ gem 'rails', '4.2.3'
 
 group :assets do
   gem 'sass-rails', '~> 5.0.0'
-  gem 'coffee-rails', '~> 4.0.0'
+  gem 'coffee-rails', '~> 4.0.0' # XXX remove
   gem 'uglifier', '>= 1.3.0'
 end
 
 gem 'pg' # postgres
+gem 'puma'
 
 gem 'daemon_controller'
 gem 'therubyracer', platforms: :ruby
