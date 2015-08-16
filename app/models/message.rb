@@ -33,6 +33,10 @@ class Message < ActiveRecord::Base
     url
   end
 
+  def name
+    title
+  end
+
   before_save :setup_verse_ranges
 
   def setup_verse_ranges

@@ -1,5 +1,14 @@
-<%= render partial: 'messages/breadcrumbs' %>
+<% title "Add Message" -%>
 
-<h1>Add message</h1>
+<%= form_for(@message, :html => { class: "form", :multipart => true }) do |f| %>
 
-<%= render 'form' %>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Add Message', :cancel_path => messages_path} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Add", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>

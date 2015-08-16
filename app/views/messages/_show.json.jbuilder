@@ -3,12 +3,15 @@ json.message do
   if @message.image.exists?
     json.imageUrl @message.image.url(:normal)
   end
-  json.author @message.author
+  if @message.author
+    json.author @message.author
+  end
   json.files @files do |message_file|
     json.content_type message_file.file.content_type
     json.extract! message_file, :vimeo_id, :youtube_id, :caption, :id
     json.url message_file.file.url
   end
+  json.editUrl edit_message_url(@message)
 end
 if @next_message
   json.nextMessage do

@@ -10,8 +10,7 @@ class ResourcesController < ApplicationController
 
     @resources = Resource
     if @filter[:search]
-      tokens = Resource.matches(@filter[:search])
-      @resources = @resources.where(tokens[:clause], tokens[:args])
+      @resources = Resource.search(@filter[:search])
     end
     @resources = @resources.order('LOWER(name) ASC')
 

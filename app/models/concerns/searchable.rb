@@ -42,7 +42,7 @@ module Searchable
 
     def search(text)
       tokens = search_tokens(text)
-      tokens ? self.where(tokens[:clause], tokens[:args]).limit(10) : none
+      tokens ? self.where(tokens[:clause], tokens[:args]) : none
     end
 
     private

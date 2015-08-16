@@ -1,5 +1,8 @@
 var Link = require('./Link');
 var moment = require('moment');
+var EditIcon = require('./EditIcon');
+
+var CLASS_ROOT = "message";
 
 function messageSummary(label, message, onClick) {
   var date = moment(message.date);
@@ -15,13 +18,13 @@ function messageSummary(label, message, onClick) {
 }
 
 var Message = React.createClass({
-  
+
   propTypes: {
     message: React.PropTypes.object,
     nextMessage: React.PropTypes.object,
     previousMessage: React.PropTypes.object
   },
-  
+
   _onResize: function () {
     if (this.refs.video) {
       clearTimeout(this._timer);
@@ -34,7 +37,7 @@ var Message = React.createClass({
       }.bind(this), 200);
     }
   },
-  
+
   getInitialState: function () {
     return {
       message: this.props.message,
@@ -42,16 +45,16 @@ var Message = React.createClass({
       previousMessage: this.props.previousMessage
     };
   },
-  
+
   componentDidMount: function () {
     window.addEventListener('resize', this._onResize);
     this._onResize();
   },
-  
+
   componentWillUnmount: function () {
     window.removeEventListener('resize', this._onResize);
   },
- 
+
   render: function () {
     var message = this.state.message;
     var date = moment(message.date);
@@ -59,7 +62,7 @@ var Message = React.createClass({
     if (message.imageUrl) {
       img = (<img className="message__image" src={message.imageUrl} alt="message image"/>);
     }
-    
+
     var files = message.files.map(function (file) {
       if (file.vimeoId) {
         return (
@@ -94,28 +97,40 @@ var Message = React.createClass({
         );
       }
     });
-    
+
     var next = '';
     if (this.state.nextMessage) {
       var nextMessage = this.state.nextMessage;
       next = messageSummary("Next", nextMessage);
     }
-    
+
     var previous = '';
     if (this.state.previousMessage) {
       var previousMessage = this.state.previousMessage;
       previous = messageSummary("Previous", previousMessage);
     }
-    
+
+    var editControl;
+    if (message.editUrl) {
+      editControl = (
+        <a className={CLASS_ROOT + "__edit control-icon"} href={message.editUrl}>
+          <EditIcon />
+        </a>
+      );
+    }
+
     return (
       <div className="message">
         <header className="message__header">
           <h1 className="message__title">{message.title}</h1>
+          {editControl}
         </header>
         <div className="message__sub-header">
           <span className="message__date">{date.format('MMM D, YYYY')}</span>
           <span className="message__verses">{message.verses}</span>
-          <span className="message__author">{message.author.name}</span>
+          <span className="message__author">
+            {message.author ? message.author.name : ''}
+          </span>
         </div>
         {img}
         {files}

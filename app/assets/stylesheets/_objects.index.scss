@@ -1,7 +1,6 @@
 .index {
 
   &__header {
-    position: relative;
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
     display: -webkit-flex;
@@ -31,10 +30,9 @@
   }
 
   &__count {
-    position: absolute;
-    top: 0px;
-    right: - double($inuit-base-spacing-unit);
-    @include inuit-font-size($inuit-base-font-size, inherit);
+    @include main-content();
+    @include inuit-font-size($inuit-base-font-size);
+    text-align: right;
     color: $tertiary-color;
 
     @include media-query(palm) {
@@ -54,7 +52,7 @@
 
   &__items {
     @include main-content();
-    min-height: 50vh;
+    min-height: 30vh;
     transition: opacity 0.3s;
   }
 
@@ -65,12 +63,6 @@
     line-height: double($inuit-base-spacing-unit);
     display: -webkit-flex;
     display: flex;
-
-    &:hover {
-      .control-icon {
-        opacity: 1;
-      }
-    }
 
     > * {
       margin-right: halve($inuit-base-spacing-unit);
@@ -89,6 +81,10 @@
 
     .control-icon {
       opacity: 0.2;
+
+      &:hover {
+        opacity: 1;
+      }
     }
 
     //> a svg {
@@ -100,7 +96,7 @@
     @include main-content();
     font-style: italic;
     color: $secondary-color;
-    margin-top: $inuit-base-spacing-unit;
+    //margin-top: $inuit-base-spacing-unit;
   }
 
   &__spinner {

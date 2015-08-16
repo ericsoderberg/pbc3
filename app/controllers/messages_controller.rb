@@ -1,21 +1,23 @@
 class MessagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :map_old_file, :suggestions]
   before_filter :administrator!, :except => [:index, :show, :map_old_file, :suggestions]
-  
+
+  layout "administration", only: [:new, :edit, :delete]
+
   def index
     @filter = {}
     @filter[:search] = params[:search] || ''
-    
+
     # parse search
     tokens = Message.parse_query(@filter[:search])
-    
+
     @messages = Message
-    
+
     # build query based on token score
-    
+
     strong_tokens = tokens.select{|t| t[:score] > 0 and t[:clause]}
     weak_tokens = tokens.select{|t| t[:score] == 0 and t[:clause]}
-    
+
     args = {}
     weak_clause = strong_clause = nil
 
@@ -23,12 +25,12 @@ class MessagesController < ApplicationController
       weak_clause = "(" + weak_tokens.map{|t| t[:clause]}.join(' OR ') + ")"
       weak_tokens.each{|t| args.merge!(t[:args])}
     end
-    
+
     if not strong_tokens.empty?
       strong_clause = strong_tokens.map{|t| t[:clause]}.join(' AND ')
       strong_tokens.each{|t| args.merge!(t[:args])}
     end
-    
+
     clause = if strong_clause
       if weak_clause
         "#{strong_clause} AND #{weak_clause}"
@@ -38,23 +40,23 @@ class MessagesController < ApplicationController
     elsif weak_clause
       weak_clause
     end
-    
+
     if @filter[:search].length > 0 and ! clause
       @messages = @messages.none
     end
-    
+
     @messages = @messages.includes(:author, :verse_ranges)
     @messages = @messages.where(clause, args).references(:authors) if clause
     @messages = @messages.order('date DESC')
-    
+
     # get total count before we limit
     @count = @messages.count
-    
+
     if params[:offset]
       @messages = @messages.offset(params[:offset])
     end
     @messages = @messages.limit(20)
-    
+
     @content_partial = 'messages/index'
 
     respond_to do |format|
@@ -62,12 +64,12 @@ class MessagesController < ApplicationController
       format.json { render :partial => "index" }
     end
   end
-  
+
   def suggestions
     query = params[:q] || ''
     tokens = Message.parse_query(query)
     @suggestions = []
-    
+
     references = tokens.select{|t| 'reference' == t[:type]}.map{|t| t[:matches]}.flatten.slice(0,5)
     @suggestions << {label: 'Bible References', suggestions: references} unless references.empty?
     messages = tokens.select{|t| 'message' == t[:type]}.map{|t| t[:matches]}
@@ -82,19 +84,19 @@ class MessagesController < ApplicationController
     end
     dates = tokens.select{|t| 'date' == t[:type]}.map{|t| t[:matches]}.flatten.slice(0, 5)
     @suggestions << {label: 'Dates', suggestions: dates} unless dates.empty?
-    
+
     respond_to do |format|
       format.json { render :partial => "suggestions" }
     end
   end
-  
+
   def show
     @message = Message.includes(:author, :message_files).find_by(url: params[:id])
     @message = Message.includes(:author, :message_files).find(params[:id]) unless @message
     @files = @message.ordered_files
     @previous_message = @message.previous
     @next_message = @message.next
-    
+
     @content_partial = 'messages/show'
 
     respond_to do |format|
@@ -113,7 +115,7 @@ class MessagesController < ApplicationController
       return
     end
   end
-  
+
   def new
     if params[:series_id]
       @message_set = MessageSet.find_by(url: params[:series_id])
@@ -142,7 +144,7 @@ class MessagesController < ApplicationController
     @authors = Author.order('name ASC')
     @message_sets = MessageSet.order('title ASC')
   end
-  
+
   def create
     parse_date
     @message = Message.new(message_params)
@@ -161,7 +163,7 @@ class MessagesController < ApplicationController
       end
     end
   end
-  
+
   def update
     parse_date
     @message = Message.find_by(url: params[:id])
@@ -176,7 +178,7 @@ class MessagesController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @message = Message.find_by(url: params[:id])
     @message.destroy
@@ -185,7 +187,7 @@ class MessagesController < ApplicationController
       format.html { redirect_to(messages_url) }
     end
   end
-  
+
   private
 
   def parse_date
@@ -194,11 +196,11 @@ class MessagesController < ApplicationController
         Date.parse_from_form(params[:message][:date])
     end
   end
-  
+
   def message_params
     params.require(:message).permit(:title, :url, :verses, :date, :author_id,
       :dpid, :description, :message_set_id, :message_set_index, :event_id,
       :library_id, :image, :updated_by).merge(:updated_by => current_user)
   end
-  
+
 end

@@ -96,9 +96,10 @@ var Index = React.createClass({
       );
     }, this);
 
-    var noMatches;
+    var none;
     if (0 === this.state.count) {
-      noMatches = (<div className={CLASS_ROOT + "__no-matches"}>No matches</div>);
+      var text = (this.state.filter.search ? 'No matches' : 'None');
+      none = (<div className={CLASS_ROOT + "__no-matches"}>{text}</div>);
     }
 
     var spinner;
@@ -109,7 +110,9 @@ var Index = React.createClass({
     var addControl;
     if (this.props.newUrl) {
       addControl = (
-        <a className={CLASS_ROOT + "__add control-icon"} href={this.props.newUrl}><AddIcon /></a>
+        <a className={CLASS_ROOT + "__add control-icon"} href={this.props.newUrl}>
+          <AddIcon />
+        </a>
       );
     }
 
@@ -117,18 +120,18 @@ var Index = React.createClass({
       <div className={classes.join(' ')}>
         <header className={CLASS_ROOT + "__header"}>
           <h1 className={CLASS_ROOT + "__title"}>{this.props.title}</h1>
-          <span className={CLASS_ROOT + "__count"}>{this.state.count}</span>
           <SearchInput className={CLASS_ROOT + "__search"}
             text={this.state.filter.search}
             placeholder={this.props.searchPlaceholder}
             onChange={this._onChangeSearch} />
           {addControl}
         </header>
-        {noMatches}
+        {none}
         <ol className={CLASS_ROOT + "__items list-bare"}>
           {items}
         </ol>
         {spinner}
+        <div className={CLASS_ROOT + "__count"}>{this.state.count}</div>
       </div>
     );
   }

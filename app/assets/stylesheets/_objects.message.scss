@@ -1,67 +1,61 @@
 .messages {
-  
+
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
     display: -webkit-flex;
     display: flex;
-    
+
     @include media-query(palm) {
       @include inuit-font-size($inuit-heading-size-1);
       display: block;
     }
   }
-  
+
   &__title {
     display: block;
     margin-right: $inuit-base-spacing-unit;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
   }
-  
+
   &__search {
     display: block;
     -webkit-flex: 1;
     flex: 1;
   }
-  
-  &__filter-control {
-    display: block;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-  }
-  
-  &__filter {
-    max-height: 0px;
-    transition: max-height $animation-delay;
-    
-    &--active {
-      max-height: 2000px;
+
+  &__add {
+    margin-left: $inuit-base-spacing-unit;
+
+    @include media-query(palm) {
+      position: absolute;
+      top: 0px;
+      right: halve($inuit-base-spacing-unit);
     }
   }
-  
+
   &__count {
-    display: block;
-    margin-left: $inuit-base-spacing-unit;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-    color: $secondary-color;
-    
+    @include main-content();
+    @include inuit-font-size($inuit-base-font-size);
+    text-align: right;
+    color: $tertiary-color;
+
     @include media-query(palm) {
       display: none;
     }
   }
-  
+
   &__messages {
     @include main-content();
     min-height: 50vh;
-    transition: opacity 0.3s;        
+    transition: opacity 0.3s;
   }
-  
+
   &__message {
     position: relative;
     margin: $inuit-base-spacing-unit 0;
-    
+
     > * {
       display: inline-block;
       vertical-align: top;
@@ -69,7 +63,7 @@
       padding-left: halve($inuit-base-spacing-unit);
       text-indent: - halve($inuit-base-spacing-unit);
     }
-    
+
     &-year {
       position: absolute;
       top: 0px;
@@ -82,26 +76,26 @@
       margin-left: 0;
       display: none;
     }
-    
+
     &-date {
       width: round($inuit-base-spacing-unit * 3);
       color: $secondary-color;
       margin-left: 0;
     }
-    
+
     &-title {
       width: round($inuit-base-spacing-unit * 12);
       margin-left: 0;
     }
-    
+
     &-verses {
       width: round($inuit-base-spacing-unit * 8);
     }
-    
+
     &-author {
       width: round($inuit-base-spacing-unit * 8);
     }
-    
+
     &--year {
       padding-top: double($inuit-base-spacing-unit);
 
@@ -112,18 +106,18 @@
       }
     }
   }
-  
+
   &__no-matches {
     @include main-content();
     font-style: italic;
     color: $secondary-color;
     margin-top: $inuit-base-spacing-unit;
   }
-  
+
   &__spinner {
     margin: $inuit-base-spacing-unit auto;
   }
-  
+
   &--changing {
     .messages {
       &__messages {
@@ -135,45 +129,26 @@
 
 .messages-search {
   position: relative;
-  
+
   &__input {
     width: 100%;
   }
-  
+
   &__suggestions {
     margin: 0px;
-  }
-}
-
-.messages-filter {
-  @include main-content();
-  background-color: $brand-color;
-  color: $brand-over-color;
-  border-radius: $brand-radius;
-  
-  &__search, &__dates, &__authors {
-    width: 100%;
-    max-width: $max-content-width - double($inuit-base-spacing-unit);
-    margin: $inuit-base-spacing-unit 0px;
-  }
-  
-  &__search {
-    @include inuit-font-size($inuit-heading-size-3, double($inuit-base-spacing-unit));
-    padding: 0 $inuit-base-spacing-unit;
-    color: $color;
   }
 }
 
 .range {
   display: -webkit-flex;
   display: flex;
-  
+
   &__range {
     -webkit-flex: 1;
     flex: 1;
     margin-right: halve($inuit-base-spacing-unit);
   }
-  
+
   &__value {
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
@@ -183,84 +158,77 @@
   }
 }
 
-.books-filter {
-  
-  &__testament {
-    display: inline-block;
-    vertical-align: top;
-  }
-  
-  &__section {
-    display: inline-block;
-    vertical-align: top;
-    width: round($inuit-base-spacing-unit * 6);
-    margin-right: halve($inuit-base-spacing-unit);
-    margin-bottom: $inuit-base-spacing-unit;
-    
-    > label {
-      font-weight: bold;
-    }
-  }
-  
-  input {
-    margin-right: quarter($inuit-base-spacing-unit);
-  }
-}
-
 .message {
-  
+
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+    display: -webkit-flex;
+    display: flex;
   }
-  
+
+  &__title {
+    -webkit-flex: 1;
+    flex: 1;
+  }
+
+  &__edit {
+    margin-left: $inuit-base-spacing-unit;
+
+    @include media-query(palm) {
+      position: absolute;
+      top: 0px;
+      right: halve($inuit-base-spacing-unit);
+    }
+  }
+
   &__sub-header {
     @include main-content();
     margin-bottom: $inuit-base-spacing-unit;
   }
-  
+
   &__date {
     color: $secondary-color;
     margin-right: $inuit-base-spacing-unit;
   }
-  
+
   &__author, &__verses {
     margin-right: $inuit-base-spacing-unit;
   }
-  
+
   &__footer {
     @include main-content();
-    
+
     &-item {
       margin-bottom: $inuit-base-spacing-unit;
     }
-    
+
     &-label, &-date {
       display: inline-block;
       vertical-align: top;
       width: quadruple($inuit-base-spacing-unit);
       margin-right: $inuit-base-spacing-unit;
       color: $secondary-color;
-      
+
       @include media-query(palm) {
         display: block;
         width: 100%;
       }
     }
-    
+
     &-title, &-author, &-verses {
       display: inline-block;
       vertical-align: top;
       width: round($inuit-base-spacing-unit * 8);
       margin-right: $inuit-base-spacing-unit;
-      
+
       @include media-query(palm) {
         display: block;
         width: 100%;
       }
     }
   }
-  
+
   &__image {
     display: block;
     max-width: $max-content-width;
@@ -268,28 +236,28 @@
     @include main-content();
     margin-bottom: double($inuit-base-spacing-unit);
   }
-  
+
   &__file {
     display: block;
     @include main-content();
     margin-bottom: double($inuit-base-spacing-unit);
     @include inuit-font-size($inuit-heading-size-2);
   }
-  
+
   &__audio {
     display: block;
     width: 100%;
     @include main-content();
     margin-bottom: double($inuit-base-spacing-unit);
   }
-  
+
   &__video {
     display: block;
     @include main-content();
     padding: 0px;
     margin-bottom: double($inuit-base-spacing-unit);
     border: none;
-    
+
     @include media-query(palm) {
       margin-left: $inuit-base-spacing-unit;
       margin-right: $inuit-base-spacing-unit;

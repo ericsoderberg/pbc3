@@ -1,0 +1,73 @@
+<div class="form__contents">
+
+  <%= f.hidden_field :message_set_id %>
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :title %>
+        <%= f.text_field :title, :size => '60' %>
+      </li>
+      <li class="form__field">
+        <%= f.label :verses %>
+        <%= f.text_field :verses %>
+      </li>
+      <li class="form__field">
+        <%= f.label :date %>
+        <%= f.date_field :date, type: 'date', pattern: '\d{4}-\d{2}-\d{2}',
+          placeholder: 'yyyy-mm-dd',
+          value: (@message.date ? l(@message.date, format: :db) : '') %>
+      </li>
+      <li class="form__field">
+        <%= f.label :author %>
+        <%= collection_select(:message, :author_id,
+          @authors, :id, :name,
+          :include_blank => true) %>
+      </li>
+      <li class="form__field">
+        <%= f.label :dpid %>
+        <%= f.text_field :dpid, :size => '8' %>
+      </li>
+      <li class="form__field">
+        <%= f.label :description %>
+        <%= f.text_area :description, :size => '60x4' %>
+      </li>
+      <li class="form__field">
+        <%= f.label :image %>
+        <% if @message.image.exists? -%>
+          <%= image_tag @message.image.url(:thumb) %>
+          <%= check_box_tag 'delete_image' %> delete image?
+        <% end -%>
+        <%= f.file_field :image %>
+      </li>
+      <% unless @message.id -%>
+        <li class="form__field">
+          <%= f.label :file %>
+          <%= file_field_tag 'message_file[file]' %>
+        </li>
+      <% else -%>
+        <li class="form__field">
+          <%= f.label :events %>
+          <ul class="message_events">
+            <% @possible_events.each do |event| -%>
+            <li>
+              <%= check_box_tag 'events[]', event.id,
+                @message.events.exists?(event.id) %>
+              <span class="event_name"><%= event.name %></span>
+              <span class="event_range"><%= friendly_range(event) %></span>
+            </li>
+            <% end -%>
+          </ul>
+        </li>
+      <% end -%>
+      <li class="form__field">
+        <%= f.label :series %>
+        <%= collection_select(:message, :message_set_id,
+          @message_sets, :id, :title,
+          :include_blank => true) %>
+      </li>
+    </ul>
+  </fieldset>
+
+</div>
