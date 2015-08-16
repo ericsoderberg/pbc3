@@ -1,12 +1,10 @@
 <%= form_for(@site, :url => site_path, :html => { class: "form", :multipart => true }) do |f| %>
-  <%= render :partial => 'form_errors' %>
 
-<div class="form__header">
-  <span class="form__title">Edit Site</span>
-  <%= link_to 'X', root_path %>
-</div>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Site', :cancel_path => root_path} %>
 
 <div class="form__contents">
+  <%= render :partial => 'form_errors' %>
   <fieldset>
     <ul class="form__fields list-bare">
       <li class="form__field">

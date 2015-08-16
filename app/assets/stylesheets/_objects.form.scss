@@ -2,30 +2,31 @@
   position: relative;
   max-height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow: auto;
   margin: 0 auto;
   background-color: $background-color;
 
   &__header, &__footer {
-    position: absolute;
-    left: 0px;
-    right: 0px;
     @include main-content();
     background-color: $header-background-color;
-    z-index: 1;
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
     justify-content: space-between;
+    -webkit-align-items: center;
+    align-items: center;
   }
 
   &__header {
+    position: absolute;
+    left: 0px;
+    right: 0px;
     top: 0px;
+    z-index: 1;
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
   }
 
   &__footer {
-    bottom: 0px;
     height: quadruple($inuit-base-spacing-unit);
     padding: $inuit-base-spacing-unit;
 
@@ -42,33 +43,37 @@
   }
 
   &__contents {
-    max-height: 100vh;
-    overflow: auto;
-    padding: quadruple($inuit-base-spacing-unit) 0px double($inuit-base-spacing-unit) 0px;
+    padding-top: quadruple($inuit-base-spacing-unit);
   }
 
-  &__validation {
+  &__validation,
+  #error_explanation {
     @include main-content();
     color: $validation-color;
     font-style: italic;
+
+    h2 {
+      display: none;
+    }
+
+    ul {
+      margin-top: 0px;
+    }
   }
 
   fieldset {
     max-width: $max-content-width;
     margin: 0 auto;
     border: none;
-    //border-top: 1px solid $border-color;
     padding: 0px;
     margin-bottom: double($inuit-base-spacing-unit);
 
     &:last-of-type {
-      padding-bottom: $inuit-base-spacing-unit;
+      margin-bottom: 1px;
     }
 
     legend {
       position: relative;
-      //width: 100%;
-      //max-width: $max-content-width;
       background-color: $background-color;
       color: $secondary-color;
       @include inuit-font-size($inuit-heading-size-3);
@@ -82,7 +87,6 @@
         max-width: $max-content-width - double($inuit-base-spacing-unit);
         top: - quarter($inuit-base-spacing-unit);
         left: 0px;
-        //border-top: 1px solid $border-color;
       }
     }
   }
@@ -130,6 +134,16 @@
         max-width: $max-content-width - double($inuit-base-spacing-unit);
         margin: 0px $inuit-base-spacing-unit;
       }
+    }
+  }
+
+  &--compact {
+    .form__header,
+    .form__footer,
+    fieldset,
+    &__validation,
+    #error_explanation {
+      max-width: $compact-content-width;
     }
   }
 }
@@ -227,4 +241,8 @@ li.placeholder {
     content: "Drop here";
     padding: 0px $inuit-base-spacing-unit;
   }
+}
+
+#sign_up_email_confirmation {
+  display: none;
 }
