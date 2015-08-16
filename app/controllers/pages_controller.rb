@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
   layout "administration", only: [:edit_context, :edit_contents, :edit_access]
-  
+
   def index
     @pages = Page.order("name ASC")
 
@@ -14,7 +14,7 @@ class PagesController < ApplicationController
       format.html { render layout: "old"}
     end
   end
-  
+
   def search
     result_page_size = params[:s].to_i
     result_page = params[:p].to_i
@@ -29,7 +29,7 @@ class PagesController < ApplicationController
     @pages = ordered_pages.offset((result_page - 1) * result_page_size).
       limit(result_page_size)
     total = filtered_pages.count
-    
+
     respond_to do |format|
       format.js { render :json => {:results =>
         @pages.map{|page| {:id => page.id, :name => page.prefixed_name, :url => page.url}},
@@ -53,7 +53,7 @@ class PagesController < ApplicationController
       redirect_to friendly_page_url(@page)
       return
     end
-    
+
 =begin
     if (@page != @site.communities_page and @page != @site.about_page)
       events = @page.related_events
@@ -61,7 +61,7 @@ class PagesController < ApplicationController
       @categorized_events = Event.categorize(events)
       if current_user
         @categorized_events[:all].each do |event|
-          if @page == event.page 
+          if @page == event.page
             @invitation =
               event.invitations.where(:email => current_user.email).first
           end
@@ -76,10 +76,10 @@ class PagesController < ApplicationController
       @invitation = Invitation.find_by(key: params[:invitation_key])
     end
     @note = Note.new(:page_id => @page.id)
-    
+
     @header_children = @page.nav_context.children.visible(current_user).
       where('pages.obscure != ? OR pages.id = ?', true, @page.id)
-    
+
     @children = @page.children.visible(current_user).
       where('pages.obscure != ? OR pages.id = ?', true, @page.id)
     @feature_children = @page.feature_children(current_user)
@@ -90,7 +90,7 @@ class PagesController < ApplicationController
       @next_page = @page.next_sibling
     end
 =end
-    
+
     if @page.administrator? current_user
       @edit_actions = [
         {label: 'Context', url: edit_context_page_url(@page, :protocol => 'https')},
@@ -106,21 +106,21 @@ class PagesController < ApplicationController
       format.json { render :action => "show" }
     end
   end
-  
+
   def feed
     @page = Page.find_by(url: params[:id]).includes(:children)
     unless @page and @page.authorized?(current_user)
       redirect_to root_path
       return
     end
-    @pages = @page.children.order("updated_at DESC").limit(20) 
+    @pages = @page.children.order("updated_at DESC").limit(20)
 
     respond_to do |format|
       format.html
       format.rss { render :layout => false } #feed.rss.builder
     end
   end
-  
+
   def search_possible_parents
     @page = Page.find_by(url: params[:id]);
     all_pages = @page.possible_parents
@@ -165,18 +165,18 @@ class PagesController < ApplicationController
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
   end
-  
+
   def edit_context
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
     @email_lists = EmailList.all
   end
-  
+
   def edit_contents
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
-    
+
     @add_menu_actions = [
       {label: 'Text', url: new_page_text_path(@page)},
       {label: 'Event', url: new_page_event_path(@page)},
@@ -184,12 +184,12 @@ class PagesController < ApplicationController
       {label: 'Video', url: new_page_video_path(@page)}
     ]
   end
-  
+
   def edit_access
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
   end
-  
+
   # DEPRECATED
   def edit_location
     @page = Page.find_by(url: params[:id])
@@ -201,24 +201,24 @@ class PagesController < ApplicationController
       else
         []
       end
-        
+
     impossible_parent_ids = (@page.descendants() + [@page]).map{|p| p.id}
     @pages = Page.editable(current_user).
       delete_if{|p| impossible_parent_ids.include?(p.id)}
   end
-  
+
   def edit_style
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
   end
-  
+
   def edit_email
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
     @email_list = EmailList.find(@page.email_list)
     @email_lists = EmailList.all
   end
-  
+
   def edit_email_members
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
@@ -227,12 +227,12 @@ class PagesController < ApplicationController
       redirect_to edit_email_page_path(@page)
     end
   end
-  
+
   #def edit_access
   #  @page = Page.find_by(url: params[:id])
   #  return unless page_administrator!
   #end
-  
+
   def edit_for_parent
     page = Page.find_by(url: params[:id])
     parent = Page.find_by(id: params[:parent_id])
@@ -290,11 +290,11 @@ class PagesController < ApplicationController
       end
     end
   end
-  
+
   def update_contents_order
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
-    
+
     respond_to do |format|
       if @page.order_elements(params[:element_order].split(','))
         format.html { redirect_to(friendly_page_path(@page),
@@ -318,12 +318,12 @@ class PagesController < ApplicationController
       format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }
     end
   end
-  
+
   private
-  
+
   def page_params
     params.require(:page).permit(:name, :private, :obscure,
-      :url_prefix, :url_aliases, :facebook_url, :twitter_name, :email_list, 
+      :url_prefix, :url_aliases, :facebook_url, :twitter_name, :email_list,
       :updated_by).merge(:updated_by => current_user)
 =begin
     params.require(:page).permit(:name, :text, :secondary_text,
@@ -334,5 +334,5 @@ class PagesController < ApplicationController
       :updated_by, :site_primary).merge(:updated_by => current_user)
 =end
   end
-  
+
 end

@@ -2,9 +2,10 @@ class HomeController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :me, :private]
   before_filter :administrator!, :except => [:index, :me, :private]
   before_filter :get_page, :except => [:index, :me]
-  
+
   def index
     unless @site
+      session.delete(:post_login_path)
       unless current_user
         redirect_to new_user_registration_url(:protocol => 'https')
       else
@@ -13,29 +14,30 @@ class HomeController < ApplicationController
       return
     end
     user = user_signed_in? ? current_user : nil
-    
+
     @page = Page.find_by_url_or_alias('home')
-    
-    if @page.administrator? current_user
+    @page = Page.new unless @page
+
+    if @page.id and @page.administrator? current_user
       @edit_actions = [
         {label: 'Context', url: edit_context_page_url(@page, :protocol => 'https')},
         {label: 'Contents', url: edit_contents_page_url(@page, :protocol => 'https')},
         {label: 'Access', url: edit_access_page_url(@page, :protocol => 'https')}
       ]
     end
-    
+
     @content_partial = 'home/index'
-    
+
     respond_to do |format|
       format.html { render :action => "index" }
       format.json { render :action => "index" }
     end
-    
+
     #@next_message = Home.next_message
     #@previous_message = Home.previous_message
     #@route_prefix = request.protocol + request.host_with_port
     #@feature_pages = Page.home_feature_pages(user)
-    
+
     #case session[:design]
     #when 'modo'
     #  render 'home/modo/index'
@@ -46,7 +48,7 @@ class HomeController < ApplicationController
     #  @feature_strip_pages = @feature_pages[0,5]
     #end
   end
-  
+
   def edit
     @home_feature_pages = Page.home_feature_pages(current_user)
     @home_feature_pages << @page unless @home_feature_pages.include?(@page)
@@ -55,7 +57,7 @@ class HomeController < ApplicationController
       @parent_feature_pages << @page unless @parent_feature_pages.include?(@page)
     end
   end
-  
+
   def update
     orderer_home_feature_ids = params[:home_feature_order] ?
       params[:home_feature_order].split(',').map{|id| id.to_i} : []
@@ -63,7 +65,7 @@ class HomeController < ApplicationController
     orderer_parent_feature_ids = params[:parent_feature_order] ?
       params[:parent_feature_order].split(',').map{|id| id.to_i} : []
     params[:page][:parent_feature_index] = orderer_parent_feature_ids.length + 100
-    
+
     respond_to do |format|
       if @page.update_attributes(page_params) and
         (not @page.home_feature? or
@@ -84,9 +86,9 @@ class HomeController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
   def page_params
     params.require(:page).permit(:hero_text, :home_feature,
       :feature_phrase, :home_feature_index, :feature_upcoming, :parent_feature,
