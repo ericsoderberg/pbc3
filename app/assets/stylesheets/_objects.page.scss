@@ -63,6 +63,7 @@
 
     > *:not(.control-icon) {
       margin-right: round($inuit-base-spacing-unit * 3);
+      pointer-events: none;
     }
   }
 }

@@ -1,9 +1,10 @@
 {
   "name": "pbc3",
-  "dependencies" : {
+  "dependencies": {
+    "markdown-it": "^4.4.0",
     "moment": "~> 2.9"
   },
-  "devDependencies" : {
+  "devDependencies": {
     "browserify": "~> 6.3",
     "browserify-incremental": "^1.4.0",
     "reactify": "~> 0.17.1"

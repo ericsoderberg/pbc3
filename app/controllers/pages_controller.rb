@@ -286,11 +286,13 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
+=begin
     if params[:sub_order]
       orderer_sub_ids = params[:sub_order] ?
         params[:sub_order].split(',').map{|id| id.to_i} : []
       params[:page][:parent_index] = @page.id; # will be re-ordered late
     end
+=end
     if not current_user.administrator?
       # remove all fields that only administrators can change
       [:private, :home_feature, :parent_id,
@@ -319,13 +321,15 @@ class PagesController < ApplicationController
     return unless page_administrator!
 
     respond_to do |format|
-      if @page.order_elements(params[:element_order].split(','))
+      if @page.order_elements(params[:element_order])
         format.html { redirect_to(friendly_page_path(@page),
           :notice => 'Page was successfully updated.') }
+        format.json { render :json => 'ok' }
       else
         format.html {
           render :action => "edit_contents", :layout => "administration"
         }
+        format.json { render :json => 'error' }
       end
     end
   end

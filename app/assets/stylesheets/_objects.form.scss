@@ -91,6 +91,15 @@
     }
   }
 
+  &__fields {
+    &_help {
+      padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+      color: $secondary-color;
+      font-style: italic;
+      @include inuit-font-size($label-font-size);
+    }
+  }
+
   &__field {
     position: relative; // for z-index
     padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
@@ -121,6 +130,10 @@
       padding-right: 0px;
     }
 
+    textarea {
+      resize: vertical;
+    }
+
     img {
       max-width: 100%;
     }
@@ -137,7 +150,7 @@
         width: 100%;
         height: 100%;
         max-width: $max-content-width - double($inuit-base-spacing-unit);
-        margin: 0px $inuit-base-spacing-unit;
+        margin: 0px;
       }
     }
 
@@ -176,7 +189,7 @@
   &__control {
     display: block;
     margin-top: $inuit-base-spacing-unit;
-    padding: $inuit-base-spacing-unit;
+    padding: $inuit-base-spacing-unit $inuit-base-spacing-unit $inuit-base-spacing-unit 0;
     height: quadruple($inuit-base-spacing-unit);
     line-height: $inuit-base-spacing-unit;
     border-top: 1px solid $border-color;

@@ -14,6 +14,7 @@
 //= require components
 //= require react_ujs
 //= require focus
+// require markdown-it
 // require moment
 
 // remove?

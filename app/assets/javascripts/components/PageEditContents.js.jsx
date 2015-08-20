@@ -1,12 +1,28 @@
 var Menu = require('./Menu');
 var AddIcon = require('./AddIcon');
 var EditIcon = require('./EditIcon');
+var REST = require('./REST');
 
 var Text = require('./Text');
 var Item = require('./Item');
 var Event = require('./Event');
 
 var PageEditContents = React.createClass({
+
+  _updateOrder: function () {
+    var url = this.props.editContents.updateContentsOrderUrl;
+    var token = this.props.editContents.authenticityToken;
+    var elementIds = this.state.elements.map(function (pageElement) {
+      return pageElement.id;
+    });
+    var data = {
+      element_order: elementIds,
+
+    };
+    REST.patch(url, token, data, function (response) {
+      console.log('!!! PageEditContents _updateOrder completed', response);
+    }.bind(this));
+  },
 
   // http://webcloud.se/sortable-list-component-react-js/
 
@@ -33,7 +49,7 @@ var PageEditContents = React.createClass({
     var to = Number(this._over.dataset.index);
     if (from < to) to--;
     elements.splice(to, 0, elements.splice(from, 1)[0]);
-    this.setState({elements: elements});
+    this.setState({elements: elements}, this._updateOrder);
   },
 
   _dragOver: function (event) {
