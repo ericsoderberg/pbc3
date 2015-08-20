@@ -13,8 +13,9 @@
 //= require react
 //= require components
 //= require react_ujs
+//= require focus
 // require moment
-  
+
 // remove?
 // require jquery
 // require jquery_ujs

@@ -1,0 +1,69 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <legend>Context</legend>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :title %>
+        <%= f.text_field :name, :size => 80 %>
+      </li>
+
+      <li class="form__field">
+        <%= f.label :title_prefix %>
+        <div class="form__field-help">
+          Use the parent page title here for generic page titles like 'Resources'
+        </div>
+        <%= f.text_field :url_prefix %>
+      </li>
+
+      <li class="form__field">
+        <%= f.label :url_aliases %>
+        <%= f.text_area :url_aliases, :size => '23x2' %>
+      </li>
+    </ul>
+  </fieldset>
+
+  <fieldset>
+    <legend>Access</legend>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :obscure?, :class => 'inline' %>
+        <%= f.check_box :obscure, :class => 'submittable' %>
+      </li>
+      <li class="form__field">
+        <%= f.label :private?, :class => 'inline' %>
+        <%= f.check_box :private, :class => 'submittable' %>
+      </li>
+      <li class="form__field">
+        <%= f.label :email_list %>
+        <%= f.collection_select :email_list, @email_lists, :name, :name,
+          {:include_blank => 'none'}, {:class => 'email_list'} %>
+      </li>
+      <li class="form__field">
+        <%= f.label :any_user?, :class => 'inline' %>
+        <%= f.check_box :any_user, :class => 'submittable' %>
+      </li>
+    </ul>
+  </fieldset>
+
+  <fieldset>
+    <legend>Social</legend>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :facebook_url %>
+        <%= f.text_field :facebook_url, :size => '80' %>
+      </li>
+      <li class="form__field">
+        <%= f.label :twitter_name %>
+        <%= f.text_field :twitter_name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :vimeo_url %>
+        <%= "TBD" %>
+      </li>
+    </ul>
+  </fieldset>
+
+</div>

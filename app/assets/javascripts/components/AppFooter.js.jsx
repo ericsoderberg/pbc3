@@ -1,24 +1,42 @@
+var REST = require('./REST');
+
 var AppFooter = React.createClass({
-  
+
   propTypes: {
     menuActions: React.PropTypes.arrayOf(React.PropTypes.object),
     site: React.PropTypes.object
   },
- 
+
+  _onDelete: function (action) {
+    REST.delete(action.url, function () {
+      document.location.reload(true);
+    }.bind(this));
+  },
+
   render: function() {
     var site = this.props.site;
     var copyright = site.copyright.replace('&copy;', '\u00a9');
-    
+
     var actions = [];
     if (this.props.menuActions) {
       actions = this.props.menuActions.map(function (actions, index) {
         items = actions.map(function (action, index) {
+          var control;
+          if ('delete' === action.method) {
+            control = (
+              <a href="#" onClick={this._onDelete.bind(this, action)}>
+                {action.label}
+              </a>
+            );
+          } else {
+            control = <a href={action.url}>{action.label}</a>;
+          }
           return (
             <li key={index} className="app-footer__action">
-              <a href={action.url}>{action.label}</a>
+              {control}
             </li>
           )
-        });
+        }, this);
         return (
           <li key={index}>
             <ol className="app-footer__actions-set list-bare">
@@ -26,9 +44,9 @@ var AppFooter = React.createClass({
             </ol>
           </li>
         );
-      });
+      }, this);
     }
-    
+
     return (
       <footer className="app-footer">
         <ol className="app-footer__actions list-bare">

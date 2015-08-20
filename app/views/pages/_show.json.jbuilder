@@ -8,6 +8,9 @@ json.page do
     when 'Text'
       json.partial! 'texts/show', text: page_element.element
       json.editUrl edit_page_text_url(@page, page_element.element)
+    when 'Item'
+      json.partial! 'items/show', item: page_element.element
+      json.editUrl edit_page_item_url(@page, page_element.element)
     when 'Event'
       json.partial! 'events/show', event: page_element.element
       json.editUrl edit_page_event_url(@page, page_element.element)

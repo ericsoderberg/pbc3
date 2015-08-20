@@ -1,5 +1,14 @@
-<% title("Add #{@page.name} Text") -%>
+<% title "Add Text" -%>
 
-<%= render :partial => 'pages/breadcrumbs', :locals => {:page => @page} %>
+<%= form_for(@text, :url => [@page, @text], :html => { class: "form" }) do |f| %>
 
-<%= render 'form' %>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Add Text', :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Add", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>

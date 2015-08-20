@@ -1,6 +1,6 @@
 .form {
   position: relative;
-  max-height: 100vh;
+  //max-height: 100vh;
   width: 100vw;
   overflow: auto;
   margin: 0 auto;
@@ -92,6 +92,7 @@
   }
 
   &__field {
+    position: relative; // for z-index
     padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
     border: 1px solid $border-color;
     margin-bottom: -1px;
@@ -120,6 +121,10 @@
       padding-right: 0px;
     }
 
+    img {
+      max-width: 100%;
+    }
+
     &-help {
       display: block;
       color: $secondary-color;
@@ -135,6 +140,11 @@
         margin: 0px $inuit-base-spacing-unit;
       }
     }
+
+    &--focus {
+      z-index: 2;
+      border-color: $focus-color;
+    }
   }
 
   &--compact {
@@ -145,6 +155,18 @@
     #error_explanation {
       max-width: $compact-content-width;
     }
+  }
+}
+
+.form__menu {
+  @include main-content();
+
+  a {
+    margin-right: $inuit-base-spacing-unit;
+  }
+
+  &--compact {
+    max-width: $compact-content-width;
   }
 }
 

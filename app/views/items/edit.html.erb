@@ -1,0 +1,17 @@
+<% title "Edit File or Url" -%>
+
+<%= form_for(@item, :url => [@page, @text], :html => { class: "form", :multipart => true }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit File or Url", :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
+
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @item, :url => [@page, @item]} %>

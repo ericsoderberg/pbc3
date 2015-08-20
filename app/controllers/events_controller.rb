@@ -2,11 +2,12 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :get_page, :except => :search
   before_filter :page_administrator!
-  
+  layout "administration", only: [:new, :edit, :create]
+
   def index
     redirect_to new_page_event_url(@page)
   end
-  
+
   def search
     result_page_size = params[:s].to_i
     result_page = params[:p].to_i
@@ -21,7 +22,7 @@ class EventsController < ApplicationController
     @events = ordered_events.offset((result_page - 1) * result_page_size).
       limit(result_page_size)
     total = filtered_events.count
-    
+
     respond_to do |format|
       format.js { render :json => {:results =>
         @events.map{|event| {:id => event.id, :name => event.name, :url => friendly_page_url(event.page)}},
@@ -43,7 +44,7 @@ class EventsController < ApplicationController
     @event = Event.new(:page_id => @page.id)
     @event.start_at = (Time.now + 1.day).beginning_of_day + 10.hour
     @event.stop_at = @event.start_at + 1.hour
-    @event.name = @page.name if @page.related_events.empty?
+    #@event.name = @page.name if @page.related_events.empty?
   end
 
   # GET /events/1/edit
@@ -51,7 +52,7 @@ class EventsController < ApplicationController
     @event = @page.events.find(params[:id])
     @pages = Page.editable(current_user)
   end
-  
+
   def edit_page
     @page = Page.find(params[:id])
   end
@@ -59,7 +60,7 @@ class EventsController < ApplicationController
   def create
     parse_times
     @event = Event.new(event_params)
-    @page = @event.page
+    #@page = @event.page
 
     respond_to do |format|
       if @event.save
@@ -101,7 +102,7 @@ class EventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
 
   def parse_times
@@ -114,11 +115,11 @@ class EventsController < ApplicationController
         DateTime.parse_from_form(params[:event][:stop_at])
     end
   end
-  
+
   def event_params
     params.require(:event).permit(:name, :start_at, :stop_at, :all_day,
       :location, :page_id, :master_id, :featured, :invitation_message, :notes,
       :updated_by, :global_name).merge(:updated_by => current_user)
   end
-  
+
 end

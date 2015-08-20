@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  has_many :page_elements, as: :element
+  has_many :page_elements, as: :element, :dependent => :destroy
   belongs_to :page
   has_many :event_pages, :dependent => :destroy
   has_many :shared_pages, :through => :event_pages, :class_name => 'Page',

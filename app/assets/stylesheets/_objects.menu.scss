@@ -1,10 +1,11 @@
 .menu {
   position: relative;
-  
+  display: inline-block;
+
   &__control {
     height: 100%;
   }
-  
+
   &__actions {
     display: none;
     position: absolute;
@@ -14,19 +15,19 @@
     border-radius: $brand-radius;
     text-align: right;
   }
-  
+
   &__action {
     display: block;
     padding: 0px $inuit-base-spacing-unit;
     text-decoration: none;
     color: inherit;
     white-space: nowrap;
-    
+
     &:hover {
       color: $brand-accent-color;
     }
   }
-  
+
   &--down {
     .menu {
       &__actions {
@@ -34,7 +35,7 @@
       }
     }
   }
-  
+
   &--up {
     .menu {
       &__actions {
@@ -45,17 +46,17 @@
       }
     }
   }
-  
+
   &--active {
     z-index: 1;
-    
+
     .menu {
       &__actions {
         display: block;
       }
     }
   }
-  
+
   &--up.menu--active {
     .menu {
       &__actions {

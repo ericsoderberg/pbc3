@@ -1,0 +1,38 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field form__field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :file %>
+        <div class="form__field-help">Will be uploaded and saved.</div>
+        <% if @item.file.exists? -%>
+          <%= image_tag @item.file.url %>
+          <%= check_box_tag 'delete_file' %> delete file?
+        <% end -%>
+        <%= f.file_field :file %>
+      </li>
+      <li class="form__field form__field">
+        <%= f.label :url %>
+        <div class="form__field-help">Will be referenced remotely.</div>
+        <%= f.text_field :url %>
+      </li>
+      <li class="form__field">
+        <%= f.label :description %>
+        <%= f.text_area :description, :size => "60x4" %>
+      </li>
+      <li class="form__field">
+        <%= f.label :date %>
+        <%= f.date_field :date, type: 'date', pattern: '\d{4}-\d{2}-\d{2}',
+          placeholder: 'yyyy-mm-dd',
+          value: (@item.date ? l(@item.date, format: :db) : '') %>
+      </li>
+    </ul>
+  </fieldset>
+
+</div>

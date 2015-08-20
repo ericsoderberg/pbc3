@@ -1,0 +1,49 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <%= f.hidden_field :page_id %>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :start_at %>
+        <%= f.text_field :start_at,
+          :value => l(@event.start_at, :format => :form) %>
+      </li>
+      <li class="form__field">
+        <%= f.label :stop_at %>
+        <%= f.text_field :stop_at,
+          :value => l(@event.stop_at, :format => :form) %>
+      </li>
+      <li class="form__field">
+        <%= f.label :all_day?, :class => 'inline' %>
+        <%= f.check_box :all_day %>
+      </li>
+      <li class="form__field">
+        <%= f.label :location %>
+        <span class="form__field-help">Remember to make reservations!</span>
+        <%= f.text_field :location %>
+      </li>
+      <li class="form__field">
+        <%= f.label :notes %>
+        <%= f.text_area :notes, :size => '30x4' %>
+      </li>
+      <% if current_user.administrator? -%>
+      <li class="form__field">
+        <%= f.label :feature_on_main_calendar?, :class => 'inline' %>
+        <%= f.check_box :featured %>
+      </li>
+      <li class="form__field">
+        <%= f.label :global_name %>
+        <span class="form__field-help">Name to use on main calendar if the event name above is too generic</span>
+        <%= f.text_field :global_name %>
+      </li>
+      <% end -%>
+    </ul>
+  </fieldset>
+
+</div>

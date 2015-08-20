@@ -176,6 +176,7 @@ Rails.application.routes.draw do
     resources :authorizations
     resources :notes
     resources :texts
+    resources :items
     resource :feature, :only => [:edit, :update], :controller => :home
     resource :podcast
     #resource :social, :only => [:edit, :update], :controller => :social

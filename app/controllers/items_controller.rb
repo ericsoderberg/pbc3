@@ -1,49 +1,40 @@
-class TextsController < ApplicationController
+class ItemsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :get_page
   before_filter :page_administrator!
   layout "administration", only: [:new, :edit]
 
-  def index
-    @texts = Text
-
-    respond_to do |format|
-      format.html
-      format.json { render partial: 'show' }
-    end
-  end
-
   def show
-    @text = Text.find(params[:id])
+    @video = @page.videos.find(params[:id])
 
     respond_to do |format|
-      format.html
-      format.json { render partial: 'show' }
+      format.html # show.html.erb
+      format.xml  { render :xml => @video }
     end
   end
 
   def new
-    @text = Text.new
-    @title = "Add #{@page.name} Text"
+    @item = Item.new
+    @title = "Add #{@page.name} Item"
   end
 
   def edit
-    @text = Text.find(params[:id])
-    @title = "Edit #{@page.name} Text"
+    @item = Item.find(params[:id])
+    @title = "Edit #{@page.name} Item"
   end
 
   def create
-    @text = Text.new(text_params)
+    @item = Item.new(item_params)
     @page_element = @page.page_elements.build({
       page: @page,
-      element: @text,
+      element: @item,
       index: @page.page_elements.length + 1
     })
 
     respond_to do |format|
       if @page_element.save
         format.html { redirect_to(edit_contents_page_url(@page),
-          :notice => 'Text was successfully created.') }
+          :notice => 'Item was successfully created.') }
       else
         format.html { render :action => "new" }
       end
@@ -51,12 +42,12 @@ class TextsController < ApplicationController
   end
 
   def update
-    @text = Text.find(params[:id])
+    @item = Item.find(params[:id])
 
     respond_to do |format|
-      if @text.update_attributes(text_params)
+      if @item.update_attributes(item_params)
         format.html { redirect_to(edit_contents_page_url(@page),
-          :notice => 'Text was successfully updated.') }
+          :notice => 'Item was successfully updated.') }
       else
         format.html { render :action => "edit" }
       end
@@ -64,8 +55,8 @@ class TextsController < ApplicationController
   end
 
   def destroy
-    @text = Text.find(params[:id])
-    @text.destroy
+    @item = Item.find(params[:id])
+    @item.destroy
 
     respond_to do |format|
       format.html { redirect_to(edit_contents_page_url(@page), status: 303) }
@@ -75,8 +66,9 @@ class TextsController < ApplicationController
 
   private
 
-  def text_params
-    params.require(:text).permit(:text)
+  def item_params
+    params.require(:item).permit(:name, :file, :url,
+      :description, :date, :updated_by).merge(:updated_by => current_user)
   end
 
 end

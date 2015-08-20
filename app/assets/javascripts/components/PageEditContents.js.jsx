@@ -3,12 +3,13 @@ var AddIcon = require('./AddIcon');
 var EditIcon = require('./EditIcon');
 
 var Text = require('./Text');
+var Item = require('./Item');
 var Event = require('./Event');
 
 var PageEditContents = React.createClass({
-  
+
   // http://webcloud.se/sortable-list-component-react-js/
-  
+
   _dragStart: function (event) {
     this._dragged = event.currentTarget;
     event.dataTransfer.effectAllowed = 'move';
@@ -16,11 +17,11 @@ var PageEditContents = React.createClass({
     // Firefox requires calling dataTransfer.setData
     // for the drag to properly work
     event.dataTransfer.setData("text/html", event.currentTarget);
-    
+
     this._placeholder = document.createElement("li");
     this._placeholder.className = "placeholder";
   },
-  
+
   _dragEnd: function (event) {
     var placeholder = this._placeholder;
     this._dragged.style.display = "block";
@@ -34,7 +35,7 @@ var PageEditContents = React.createClass({
     elements.splice(to, 0, elements.splice(from, 1)[0]);
     this.setState({elements: elements});
   },
-  
+
   _dragOver: function (event) {
     event.preventDefault();
     var placeholder = this._placeholder;
@@ -47,22 +48,25 @@ var PageEditContents = React.createClass({
       element.parentNode.insertBefore(placeholder, element);
     }
   },
-  
+
   getInitialState: function () {
     return {elements: this.props.editContents.page.pageElements};
   },
- 
+
   render: function () {
     var page = this.props.editContents.page;
     var addIcon = (<AddIcon />);
     var elementIds = [];
-    
+
     var elements = this.state.elements.map(function (pageElement, index) {
       elementIds.push(pageElement.id);
       var contents = ''
       switch (pageElement.type) {
       case 'Text':
         contents = (<Text text={pageElement.text} />);
+        break;
+      case 'Item':
+        contents = (<Item item={pageElement.item} />);
         break;
       case 'Event':
         contents = (<Event event={pageElement.event} />);
@@ -81,7 +85,7 @@ var PageEditContents = React.createClass({
         </li>
       );
     }, this);
-    
+
     return (
       <div className="page-contents-edit">
         <input ref="indexes" type="hidden" name="element_order" value={elementIds.join(',')} />
@@ -89,7 +93,7 @@ var PageEditContents = React.createClass({
           onDragOver={this._dragOver}>
           {elements}
         </ol>
-          
+
         <Menu className="page-contents-edit__add-menu"
           actions={this.props.editContents.addMenuActions} icon={addIcon}
           direction="up" />

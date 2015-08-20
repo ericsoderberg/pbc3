@@ -1,5 +1,20 @@
 <% title("Edit #{@page.name}") -%>
 
-<%= render :partial => 'breadcrumbs', :locals => {:page => @page} %>
+<%= form_for(@page, :url => update_contents_order_page_url(@page),
+  :html => {class: "form"}) do |f| %>
 
-<%= render 'contents_form' %>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit #{@page.name}", :cancel_path => friendly_page_url(@page)} %>
+
+  <div class="form__contents">
+    <%= render :partial => 'form_errors' %>
+    <%= react_component('PageEditContents',
+      render(template: 'pages/_edit_contents.json.jbuilder'),
+      { prerender: params[:noprerender].nil? }) %>
+  </div>
+
+  <div class="form__footer">
+
+  </div>
+
+<% end %>

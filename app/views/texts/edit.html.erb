@@ -1,5 +1,17 @@
-<% title(@title) -%>
+<% title "Edit Text" -%>
 
-<%= render :partial => 'pages/breadcrumbs', :locals => {:page => @page} %>
+<%= form_for(@text, :url => [@page, @text], :html => { class: "form" }) do |f| %>
 
-<%= render 'form' %>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit Text", :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
+
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @text, :url => [@page, @text]} %>

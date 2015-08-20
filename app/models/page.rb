@@ -9,8 +9,8 @@ class Page < ActiveRecord::Base
     :dependent => :destroy
   has_many :contact_users, -> { order('users.first_name ASC') }, :through => :contacts, :source => :user
   has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
-  has_one :podcast
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
+  has_one :podcast
 
   validates :name, :presence => true
   validates :url, :uniqueness => true
@@ -36,63 +36,63 @@ class Page < ActiveRecord::Base
   has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
     :foreign_key => :parent_id
 
-  LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum', 'event']
-  CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
+  #LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum', 'event']
+  #CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']
 
   # order matters since we store an index to this array
-  CONTENT_TYPES = ['text', 'events and contacts', 'documents and forms',
-    'child pages', 'photos', 'vides', 'audios', 'social']
+  #CONTENT_TYPES = ['text', 'events and contacts', 'documents and forms',
+  #  'child pages', 'photos', 'vides', 'audios', 'social']
 
-  validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
-  validates :child_layout, :presence => true, :inclusion => {:in => CHILD_LAYOUTS}
-  validates :home_feature, :inclusion => {:in => [true, false]}
-  validates :parent_feature, :inclusion => {:in => [true, false]}
+  #validates :layout, :presence => true, :inclusion => {:in => LAYOUTS}
+  #validates :child_layout, :presence => true, :inclusion => {:in => CHILD_LAYOUTS}
+  #validates :home_feature, :inclusion => {:in => [true, false]}
+  #validates :parent_feature, :inclusion => {:in => [true, false]}
   validates :private, :inclusion => {:in => [true, false]}
-  validates :parent_index, :uniqueness => {:scope => :parent_id,
-    :unless => Proc.new{|p| not p.parent_id}},
-    :numericality => {:greater_than_or_equal_to => 0,
-      :unless => Proc.new{|p| not p.parent_id}}
-  validates :home_feature_index,
-    :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
+  #validates :parent_index, :uniqueness => {:scope => :parent_id,
+  #  :unless => Proc.new{|p| not p.parent_id}},
+  #  :numericality => {:greater_than_or_equal_to => 0,
+  #    :unless => Proc.new{|p| not p.parent_id}}
+  #validates :home_feature_index,
+  #  :uniqueness => {:if => Proc.new {|p| p.home_feature?}}
   validate :reserved_urls
 
-  before_create do # DEPRECATED
-    self.layout = 'regular'
-    self.child_layout = 'header'
-    self.aspect_order = 't,c,e,d,f,p,v,a,s'
-    self.style = (self.parent ? self.parent.style : Style.first)
-    self.private = self.parent.private if self.parent
-    self.parent_index = self.parent ? self.parent.children.length + 1 : 1
-    if self.parent
-      # transfer authorizations
-      self.parent.authorizations.each do |authorization|
-        self.authorizations.build(:user_id => authorization.user_id,
-          :administrator => authorization.administrator)
-      end
-    end
-  end
+  #before_create do # DEPRECATED
+  #  self.layout = 'regular'
+  #  self.child_layout = 'header'
+  #  self.aspect_order = 't,c,e,d,f,p,v,a,s'
+  #  self.style = (self.parent ? self.parent.style : Style.first)
+  #  self.private = self.parent.private if self.parent
+  #  self.parent_index = self.parent ? self.parent.children.length + 1 : 1
+  #  if self.parent
+  #    # transfer authorizations
+  #    self.parent.authorizations.each do |authorization|
+  #      self.authorizations.build(:user_id => authorization.user_id,
+  #        :administrator => authorization.administrator)
+  #    end
+  #  end
+  #end
 
-  before_validation do # DEPRECATED
-    unless self.style_id
-      self.home_feature = false
-      self.parent_feature = false
-    end
-    self.home_feature_index = nil if not home_feature?
-    self.parent_feature_index = nil if not parent_feature?
-    # map old page_types to new layouts
-    if %w(main leaf post).include?(self.layout)
-      self.layout = 'regular'
-    end
-    if not self.child_layout
-      self.child_layout = (self.landing? ? 'landing' : 'header')
-    end
-  end
+  #before_validation do # DEPRECATED
+  #  unless self.style_id
+  #    self.home_feature = false
+  #    self.parent_feature = false
+  #  end
+  #  self.home_feature_index = nil if not home_feature?
+  #  self.parent_feature_index = nil if not parent_feature?
+  #  # map old page_types to new layouts
+  #  if %w(main leaf post).include?(self.layout)
+  #    self.layout = 'regular'
+  #  end
+  #  if not self.child_layout
+  #    self.child_layout = (self.landing? ? 'landing' : 'header')
+  #  end
+  #end
 
-  before_validation(:on => :create) do # DEPRECATED
-    if parent
-      self.parent_index = (parent.children.map{|c| c.parent_index}.max || 0) + 1
-    end
-  end
+  #before_validation(:on => :create) do # DEPRECATED
+  #  if parent
+  #    self.parent_index = (parent.children.map{|c| c.parent_index}.max || 0) + 1
+  #  end
+  #end
 
   def prefixed_name
     "#{url_prefix} #{name}".strip
@@ -119,17 +119,17 @@ class Page < ActiveRecord::Base
     if %w(styles resources accounts users site forms payments
       audit_logs email_lists holidays home hyper calendar search
       authors messages series books blogs forums podcast).include?(url)
-      errors.add(:name, "that url prefix + name is reserved")
+      errors.add(:title, "url (prefix + name) is reserved")
     end
   end
 
-  def self.home_feature_pages(user=nil) # DEPRECATED
-    visible(user).where(['home_feature = ?', true]).order('home_feature_index ASC')
-  end
+  #def self.home_feature_pages(user=nil) # DEPRECATED
+  #  visible(user).where(['home_feature = ?', true]).order('home_feature_index ASC')
+  #end
 
-  def feature_children(user=nil) # DEPRECATED
-    Page.where(:parent_id => self.id).visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
-  end
+  #def feature_children(user=nil) # DEPRECATED
+  #  Page.where(:parent_id => self.id).visible(user).where(['parent_feature = ?', true]).order('parent_feature_index ASC')
+  #end
 
   def self.visible(user)
     email_list_names = []
@@ -160,12 +160,12 @@ class Page < ActiveRecord::Base
     updated_at
   end
 
-  def nav_context # DEPRECATED
-    (self.parent and 'blog' != self.parent.layout and 'header' == self.parent.child_layout and
-      (self.children.empty? or 'header' != self.child_layout)) ? self.parent : self
+  #def nav_context # DEPRECATED
+  #  (self.parent and 'blog' != self.parent.layout and 'header' == self.parent.child_layout and
+  #    (self.children.empty? or 'header' != self.child_layout)) ? self.parent : self
     #(not self.landing? and self.parent and self.parent.regular? and
     #self.children.empty?) ? self.parent : self
-  end
+  #end
 
   def authorized?(user)
     return true unless self.private?
@@ -213,68 +213,69 @@ class Page < ActiveRecord::Base
     return false
   end
 
-  def root # DEPRECATED
-    parent ? parent.root : self
-  end
+=begin
+  #def root # DEPRECATED
+  #  parent ? parent.root : self
+  #end
 
-  def ancestors # DEPRECATED
-    parent ? (parent.ancestors << parent) : []
-  end
+  #def ancestors # DEPRECATED
+  #  parent ? (parent.ancestors << parent) : []
+  #end
 
-  def descendants # DEPRECATED
-    children.map{|child| [child] + child.descendants}.flatten
-  end
+  #def descendants # DEPRECATED
+  #  children.map{|child| [child] + child.descendants}.flatten
+  #end
 
-  def includes?(page) # DEPRECATED
-    children.each do |child|
-      return true if page == child or child.includes?(page)
-    end
-    return false
-  end
+  #def includes?(page) # DEPRECATED
+  #  children.each do |child|
+  #    return true if page == child or child.includes?(page)
+  #  end
+  #  return false
+  #end
 
-  def next_sibling # DEPRECATED
-    if parent
-      parent.children.where('parent_index = ?', (parent_index + 1)).first
-    end
-  end
+  #def next_sibling # DEPRECATED
+  #  if parent
+  #    parent.children.where('parent_index = ?', (parent_index + 1)).first
+  #  end
+  #end
 
-  def previous_sibling # DEPRECATED
-    if parent
-      parent.children.where('parent_index = ?', (parent_index - 1)).first
-    end
-  end
+  #def previous_sibling # DEPRECATED
+  #  if parent
+  #    parent.children.where('parent_index = ?', (parent_index - 1)).first
+  #  end
+  #end
 
-  def possible_parents # DEPRECATED
-    Page.order('name').to_a.delete_if do |page|
-      # don't allow circular references
-      page == self or self.includes?(page)
-    end
-  end
+  #def possible_parents # DEPRECATED
+  #  Page.order('name').to_a.delete_if do |page|
+  #    # don't allow circular references
+  #    page == self or self.includes?(page)
+  #  end
+  #end
 
-  def possible_aspects(user) # DEPRECATED
-    case layout
-    when 'blog', 'forum'
-      if user.administrator?
-        %w(location text email contacts access style feature)
-      else
-        %w(text email contacts access style)
-      end
-    else
-      if user.administrator?
-        %w(location text photos videos audios documents forms email
-          contacts access style feature podcast social events)
-      else
-        %w(text photos videos audios documents forms email
-          contacts access style social events)
-      end
-    end
-  end
+  #def possible_aspects(user) # DEPRECATED
+  #  case layout
+  #  when 'blog', 'forum'
+  #    if user.administrator?
+  #      %w(location text email contacts access style feature)
+  #    else
+  #      %w(text email contacts access style)
+  #    end
+  #  else
+  #    if user.administrator?
+  #      %w(location text photos videos audios documents forms email
+  #        contacts access style feature podcast social events)
+  #    else
+  #      %w(text photos videos audios documents forms email
+  #        contacts access style social events)
+  #    end
+  #  end
+  #end
 
-  def visible_aspects(args={}) # DEPRECATED
-    aspect_order.split(',').delete_if do |aspects|
-      not render_aspects?(aspects, args)
-    end
-  end
+  #def visible_aspects(args={}) # DEPRECATED
+  #  aspect_order.split(',').delete_if do |aspects|
+  #    not render_aspects?(aspects, args)
+  #  end
+  #end
 
   # aspects can be a concatenated string of characters
   def render_aspects?(aspects, args={}) # DEPRECATED
@@ -320,6 +321,7 @@ class Page < ActiveRecord::Base
     end
     return false
   end
+=end
 
   def order_elements(ids)
     result = true
@@ -334,6 +336,7 @@ class Page < ActiveRecord::Base
     result
   end
 
+=begin
   def self.order_children(ids) # DEPRECATED
     result = true
     Page.transaction do
@@ -347,11 +350,13 @@ class Page < ActiveRecord::Base
     end
     result
   end
+=end
 
   def self.editable(user)
     Page.order('name ASC').to_a.select{|p| p.administrator?(user) }
   end
 
+=begin
   def self.order_home_features(ids) # DEPRECATED
     result = true
     Page.transaction do
@@ -451,6 +456,7 @@ class Page < ActiveRecord::Base
   def color # DEPRECATED
     self.style ? self.style.feature_color.to_s(16) : '#ccc'
   end
+=end
 
   def convert_to_page_elements
     if page_elements.empty?

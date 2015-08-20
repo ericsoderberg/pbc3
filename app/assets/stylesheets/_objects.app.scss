@@ -39,17 +39,17 @@
 
   &__actions {
     @include media-query(lap-and-up) {
+      @include main-content();
       padding-top: $inuit-base-spacing-unit;
     }
   }
 
   &__actions-set {
-    padding: halve($inuit-base-spacing-unit) 0px;
+    padding: quarter($inuit-base-spacing-unit) 0px;
     border-bottom: 1px solid $brand-secondary-background-separator-color;
 
     @include media-query(lap-and-up) {
-      @include main-content();
-      padding: 0px; // reset
+      //padding: 0px; // reset
       display: -webkit-flex;
       display: flex;
       -webkit-flex-wrap: wrap;
@@ -63,20 +63,16 @@
 
     a {
       display: block;
-
-      &:hover {
-        background-color: $background-color;
-        color: $brand-accent-color;
-      }
+      margin: quarter($inuit-base-spacing-unit) 0px;
 
       @include media-query(palm) {
-        padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+        //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
         @include inuit-font-size($inuit-heading-size-3);
         text-align: center;
       }
 
       @include media-query(lap-and-up) {
-        padding: $inuit-base-spacing-unit;
+        //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
         width: round($inuit-base-spacing-unit * 6);
         border-radius: $brand-radius;
       }

@@ -1,9 +1,11 @@
-<%= form_for(item, method: "delete", :html => { class: "delete" }) do |f| %>
+<%- name = item.has_attribute?(:name) ? item.name : '' -%>
+<%- url ||= [item] -%>
+<%= form_for(item, url: url, method: "delete", :html => { class: "delete" }) do |f| %>
   <div class="delete__control">
     <span class="delete__trigger">Delete</span>
     <span class="delete__prompt">
-      Are you sure you want to delete <%= item.name %>?
-      <%= f.submit "Yes, delete #{item.name}", class: 'btn' %>
+      Are you sure you want to delete <%= name %>?
+      <%= f.submit "Yes, delete #{name}", class: 'btn' %>
     </span>
   </div>
 <% end -%>

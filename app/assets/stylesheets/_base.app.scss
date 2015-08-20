@@ -12,6 +12,10 @@ html, body {
 a {
   color: $link-color;
   text-decoration: none;
+
+  &:hover {
+    color: darken($link-color, 10%);
+  }
 }
 
 input, textarea, select {
@@ -22,7 +26,7 @@ input, textarea, select {
   border-bottom-right-radius: $brand-radius;
   padding: quarter($inuit-base-spacing-unit);
   outline: none;
-  
+
   &:focus {
     outline: none;
     border-color: $focus-color;

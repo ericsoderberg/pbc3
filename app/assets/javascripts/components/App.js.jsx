@@ -5,6 +5,7 @@ var REST = require('./REST');
 
 var Page = require('./Page');
 var Search = require('./Search');
+var Pages = require('./Pages');
 var Accounts = require('./Accounts');
 var Calendar = require('./Calendar');
 var Holidays = require('./Holidays');
@@ -14,6 +15,7 @@ var Resources = require('./Resources');
 
 var ROUTES = [
   {path: '/search', type: Search},
+  {path: '/pages', type: Pages},
   {path: '/calendar', type: Calendar},
   {path: '/messages/(.+)', type: Message},
   {path: '/messages', type: Messages},

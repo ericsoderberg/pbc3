@@ -5,13 +5,31 @@ class PagesController < ApplicationController
       :edit_access, :update, :new, :create, :destroy]
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
-  layout "administration", only: [:edit_context, :edit_contents, :edit_access]
+  layout "administration", only: [:new, :create, :edit, :edit_context, :edit_contents, :edit_access]
 
   def index
-    @pages = Page.order("name ASC")
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @pages = Page
+    if @filter[:search]
+      @pages = Page.search(@filter[:search])
+    end
+    @pages = @pages.order('LOWER(name) ASC')
+
+    # get total count before we limit
+    @count = @pages.count
+
+    if params[:offset]
+      @pages = @pages.offset(params[:offset])
+    end
+    @pages = @pages.limit(20)
+
+    @content_partial = 'pages/index'
 
     respond_to do |format|
-      format.html { render layout: "old"}
+      format.html # index.html.erb
+      format.json { render :partial => "index" }
     end
   end
 
@@ -93,9 +111,8 @@ class PagesController < ApplicationController
 
     if @page.administrator? current_user
       @edit_actions = [
-        {label: 'Context', url: edit_context_page_url(@page, :protocol => 'https')},
-        {label: 'Contents', url: edit_contents_page_url(@page, :protocol => 'https')},
-        {label: 'Access', url: edit_access_page_url(@page, :protocol => 'https')}
+        {label: 'Context', url: edit_page_url(@page, :protocol => 'https')},
+        {label: 'Contents', url: edit_contents_page_url(@page, :protocol => 'https')}
       ]
     end
 
@@ -149,12 +166,13 @@ class PagesController < ApplicationController
     @page = Page.new
     @page.parent = Page.find_by(id: params[:parent_id])
     return unless page_administrator!(@page.parent)
-    @page.text = ''
+    #@page.text = ''
     @page.url_prefix = @page.parent.url if @page.parent
-    if current_user.administrator? and params[:site_page]
-      @site_reference = params[:site_page]
-      @page.name = @site_reference.capitalize
-    end
+    #if current_user.administrator? and params[:site_page]
+    #  @site_reference = params[:site_page]
+    #  @page.name = @site_reference.capitalize
+    #end
+    @email_lists = EmailList.all
 
     respond_to do |format|
       format.html
@@ -164,6 +182,11 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
+    @email_lists = EmailList.all
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def edit_context
@@ -179,9 +202,8 @@ class PagesController < ApplicationController
 
     @add_menu_actions = [
       {label: 'Text', url: new_page_text_path(@page)},
-      {label: 'Event', url: new_page_event_path(@page)},
-      {label: 'Audio', url: new_page_audio_path(@page)},
-      {label: 'Video', url: new_page_video_path(@page)}
+      {label: 'File/Url', url: new_page_item_path(@page)},
+      {label: 'Event', url: new_page_event_path(@page)}
     ]
   end
 
@@ -252,9 +274,10 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.save and (not params[:site_reference] or @site.save)
-        format.html { redirect_to(edit_page_path(@page),
+        format.html { redirect_to(friendly_page_path(@page),
           :notice => 'Page was successfully created.') }
       else
+        @email_lists = EmailList.all
         format.html { render :action => "new" }
       end
     end

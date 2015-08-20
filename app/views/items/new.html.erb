@@ -1,0 +1,14 @@
+<% title "Add File or Url" -%>
+
+<%= form_for(@item, :url => [@page, @item], :html => { class: "form", :multipart => true }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Add File or Url', :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Add", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
