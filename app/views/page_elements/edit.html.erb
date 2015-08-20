@@ -1,0 +1,17 @@
+<% title "Edit Page" -%>
+
+<%= form_for(@page_element, :url => page_element_path(@page, @page_element), :html => { class: "form" }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit Page", :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
+
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @page_element, :url => page_element_path(@page, @page_element)} %>

@@ -63,10 +63,10 @@
 
     a {
       display: block;
-      margin: quarter($inuit-base-spacing-unit) 0px;
 
       @include media-query(palm) {
         //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+        margin: halve($inuit-base-spacing-unit) 0px;
         @include inuit-font-size($inuit-heading-size-3);
         text-align: center;
       }
@@ -75,6 +75,7 @@
         //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
         width: round($inuit-base-spacing-unit * 6);
         border-radius: $brand-radius;
+        margin: quarter($inuit-base-spacing-unit) 0px;
       }
     }
   }

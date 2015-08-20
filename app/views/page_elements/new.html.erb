@@ -1,0 +1,15 @@
+<% title "Link Page" -%>
+
+<%= form_for(@page_element, :url => page_elements_path(@page), :html => { class: "form" }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Link Page',
+      :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Link", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>

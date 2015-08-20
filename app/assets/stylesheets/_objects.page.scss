@@ -16,9 +16,13 @@
 
   &__edit-menu {
     position: relative;
-    right: - $inuit-base-spacing-unit;
+    right: 0px; //- $inuit-base-spacing-unit;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
+  }
+
+  &__elements {
+    min-height: $min-content-height;
   }
 
   &__element {
@@ -37,7 +41,7 @@
   &__add-menu {
     display: block;
     width: double($inuit-base-spacing-unit);
-    margin: $inuit-base-spacing-unit auto 0 auto;
+    margin: 0 auto;
     line-height: double($inuit-base-spacing-unit);
   }
 

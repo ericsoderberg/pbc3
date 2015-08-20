@@ -203,13 +203,9 @@ class PagesController < ApplicationController
     @add_menu_actions = [
       {label: 'Text', url: new_page_text_path(@page)},
       {label: 'File/Url', url: new_page_item_path(@page)},
-      {label: 'Event', url: new_page_event_path(@page)}
+      {label: 'Event', url: new_page_event_path(@page)},
+      {label: 'Page', url: new_page_element_path(@page)}
     ]
-  end
-
-  def edit_access
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
   end
 
   # DEPRECATED
@@ -267,10 +263,6 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(page_params)
     return unless page_administrator!(@page.parent)
-    if current_user.administrator? and params[:site_reference]
-      @site.communities_page = @page if 'communities' == params[:site_reference]
-      @site.about_page = @page if 'about' == params[:site_reference]
-    end
 
     respond_to do |format|
       if @page.save and (not params[:site_reference] or @site.save)
@@ -286,13 +278,6 @@ class PagesController < ApplicationController
   def update
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
-=begin
-    if params[:sub_order]
-      orderer_sub_ids = params[:sub_order] ?
-        params[:sub_order].split(',').map{|id| id.to_i} : []
-      params[:page][:parent_index] = @page.id; # will be re-ordered late
-    end
-=end
     if not current_user.administrator?
       # remove all fields that only administrators can change
       [:private, :home_feature, :parent_id,
@@ -351,7 +336,7 @@ class PagesController < ApplicationController
   def page_params
     params.require(:page).permit(:name, :private, :obscure,
       :url_prefix, :url_aliases, :facebook_url, :twitter_name, :email_list,
-      :updated_by).merge(:updated_by => current_user)
+      :updated_by, :parent_id).merge(:updated_by => current_user)
 =begin
     params.require(:page).permit(:name, :text, :secondary_text,
       :parent_id, :private, :style_id,

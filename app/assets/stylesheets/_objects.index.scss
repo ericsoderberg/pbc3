@@ -32,6 +32,7 @@
   &__count {
     @include main-content();
     @include inuit-font-size($inuit-base-font-size);
+    padding-right: round($inuit-base-spacing-unit * 1.5);
     text-align: right;
     color: $tertiary-color;
 
@@ -52,7 +53,7 @@
 
   &__items {
     @include main-content();
-    min-height: 30vh;
+    min-height: $min-content-height;
     transition: opacity 0.3s;
   }
 

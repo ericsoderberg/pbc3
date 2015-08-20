@@ -1,0 +1,11 @@
+<% if @page_element.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@page_element.errors.count, "error") %> prohibited this page element from being saved:</h2>
+
+    <ul>
+    <% @page_element.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

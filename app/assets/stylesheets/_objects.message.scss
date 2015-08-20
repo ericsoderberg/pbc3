@@ -48,7 +48,7 @@
 
   &__messages {
     @include main-content();
-    min-height: 50vh;
+    min-height: $min-content-height;
     transition: opacity 0.3s;
   }
 

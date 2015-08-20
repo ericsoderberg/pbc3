@@ -1,28 +1,38 @@
 var Menu = React.createClass({
-  
+
+  propTypes: {
+    direction: React.PropTypes.oneOf(['up', 'down'])
+  },
+
+  getDefaultProps: function () {
+    return {
+      direction: 'down'
+    };
+  },
+
   _onClickControl: function (event) {
     this.setState({active: true});
     document.addEventListener('click', this._onBodyClick);
   },
-  
+
   _onBodyClick: function () {
     this.setState({active: false});
     document.removeEventListener('click', this._onBodyClick);
   },
-  
+
   getInitialState: function () {
     return {active: false};
   },
-  
+
   componentDidMount: function () {
   },
-  
+
   componentWillUnmount: function () {
     if (this.state.active) {
       document.removeEventListener('click', this._onBodyClick);
     }
   },
- 
+
   render: function() {
     var classes = ["menu"];
     var controlClasses = ["menu__control control-icon"];
@@ -37,7 +47,7 @@ var Menu = React.createClass({
     if (this.props.className) {
       classes.push(this.props.className);
     }
-    
+
     var items = [];
     if (this.props.actions) {
       items = this.props.actions.map(function (action, index) {
@@ -52,7 +62,7 @@ var Menu = React.createClass({
         );
       });
     }
-    
+
     return (
       <div className={classes.join(' ')}>
         <div className={controlClasses.join(' ')} onClick={this._onClickControl}>

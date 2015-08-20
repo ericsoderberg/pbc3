@@ -4,12 +4,12 @@
 
   <fieldset>
     <legend>Context</legend>
+    <%= f.hidden_field :parent_id %>
     <ul class="form__fields list-bare">
       <li class="form__field">
         <%= f.label :title %>
         <%= f.text_field :name, :size => 80 %>
       </li>
-
       <li class="form__field">
         <%= f.label :title_prefix %>
         <div class="form__field-help">
@@ -17,7 +17,6 @@
         </div>
         <%= f.text_field :url_prefix %>
       </li>
-
       <li class="form__field">
         <%= f.label :url_aliases %>
         <%= f.text_area :url_aliases, :size => '23x2' %>

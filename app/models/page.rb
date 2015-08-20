@@ -3,7 +3,7 @@ class Page < ActiveRecord::Base
   acts_as_url :prefixed_name, :sync_url => true
 
   has_many :page_elements, -> { order('index ASC').includes(:element) }, :autosave => true
-  has_many :parent_page_elements, as: :element, :class_name => 'PageElement'
+  has_many :containing_page_elements, as: :element, :class_name => 'PageElement'
 
   has_many :contacts, -> { includes(:user).order('users.first_name ASC') },
     :dependent => :destroy
@@ -457,6 +457,12 @@ class Page < ActiveRecord::Base
     self.style ? self.style.feature_color.to_s(16) : '#ccc'
   end
 =end
+
+  def possible_linked_pages
+    linkedPageIds = self.page_elements.where('element_type = ?', "Page").map{|pe| pe.element_id}
+    return Page.where('id != ?', self.id).
+      where('id NOT IN (?)', linkedPageIds).order('LOWER(name) ASC')
+  end
 
   def convert_to_page_elements
     if page_elements.empty?

@@ -33,6 +33,9 @@ var Page = React.createClass({
       case 'Event':
         contents = (<Event event={pageElement.event} />);
         break;
+      case 'Page':
+        contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);
+        break;
       }
       return (<li key={pageElement.index} className="page__element">{contents}</li>);
     });

@@ -1,0 +1,16 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field form__field">
+        <%= f.label :page %>
+        <%= f.select :element_id,
+          options_from_collection_for_select(@pages,
+            :id, :name, @page_element.element_id) %>
+      </li>
+    </ul>
+  </fieldset>
+
+</div>

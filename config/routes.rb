@@ -139,7 +139,6 @@ Rails.application.routes.draw do
       get :edit_context
       get :edit_contents
       patch :update_contents_order
-      get :edit_access
 
       # DEPRECATED
       get :edit_for_parent
@@ -149,8 +148,9 @@ Rails.application.routes.draw do
       get :edit_style
       get :edit_email
       get :edit_email_members
-      #get :edit_access
     end
+    resources :elements, :only => [:new, :create, :edit, :update, :destroy],
+      :controller => :page_elements
     resources :events do
       resource :recurrence, :only => [:show, :update], :controller => :recurrence
       resource :reservations, :only => [:show, :update]
