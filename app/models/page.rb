@@ -384,21 +384,20 @@ class Page < ActiveRecord::Base
     end
     result
   end
+=end
 
-  def self.normalize_indexes(pages=nil) # DEPRECATED
-    pages = Page.to_a unless pages
-    Page.transaction do
-      pages.each do |page|
-        page.children.each_with_index do |child, i|
-          if (i+1) != child.parent_index
-            child.parent_index = i+1
-            child.save
-          end
+  def normalize_indexes
+    PageElement.transaction do
+      page_elements.each_with_index do |page_element, i|
+        if (i+1) != page_element.index
+          page_element.index = i+1
+          page_element.save
         end
       end
     end
   end
 
+=begin
   def related_events(start_date=Date.today.beginning_of_day,
       stop_date=Date.today.beginning_of_day + 6.months)
     page_ids = [self.id] + self.descendants.map{|page| page.id}
@@ -459,9 +458,12 @@ class Page < ActiveRecord::Base
 =end
 
   def possible_linked_pages
+    pages = Page.where('id != ?', self.id)
     linkedPageIds = self.page_elements.where('element_type = ?', "Page").map{|pe| pe.element_id}
-    return Page.where('id != ?', self.id).
-      where('id NOT IN (?)', linkedPageIds).order('LOWER(name) ASC')
+    if linkedPageIds.count > 0
+      pages = pages.where('id NOT IN (?)', linkedPageIds)
+    end
+    return pages.order('LOWER(name) ASC')
   end
 
   def convert_to_page_elements

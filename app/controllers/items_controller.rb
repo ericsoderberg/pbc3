@@ -57,6 +57,7 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
+    @page.normalize_indexes
 
     respond_to do |format|
       format.html { redirect_to(edit_contents_page_url(@page), status: 303) }

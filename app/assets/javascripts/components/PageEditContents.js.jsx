@@ -58,7 +58,8 @@ var PageEditContents = React.createClass({
     this._dragged.style.display = "none";
     var element = event.target;
     // find containing element
-    while ((element = element.parentElement) && !element.classList.contains('page-contents-edit__element'));
+    while (!element.classList.contains('page-contents-edit__element') &&
+      (element = element.parentElement));
     if (element && element.className !== "placeholder") {
       this._over = element;
       element.parentNode.insertBefore(placeholder, element);

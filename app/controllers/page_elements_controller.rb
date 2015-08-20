@@ -47,6 +47,7 @@ class PageElementsController < ApplicationController
   def destroy
     @page_element = PageElement.find(params[:id])
     @page_element.destroy
+    @page.normalize_indexes
 
     respond_to do |format|
       format.html { redirect_to(edit_contents_page_url(@page)) }
