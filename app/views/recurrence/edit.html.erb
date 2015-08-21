@@ -1,0 +1,14 @@
+<% title "Edit Recurrence" -%>
+
+<%= form_tag page_event_recurrence_path(@page, @event), :method => :put, class: "form" do %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit Recurrence", :cancel_path => edit_page_event_url(@page, @event)} %>
+
+  <%= render :partial => 'form_contents' %>
+
+  <div class="form__footer">
+    <%= submit_tag "Update", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>

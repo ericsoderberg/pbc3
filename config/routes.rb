@@ -152,8 +152,8 @@ Rails.application.routes.draw do
     resources :elements, :only => [:new, :create, :edit, :update, :destroy],
       :controller => :page_elements
     resources :events do
-      resource :recurrence, :only => [:show, :update], :controller => :recurrence
-      resource :reservations, :only => [:show, :update]
+      resource :recurrence, :only => [:edit, :update], :controller => :recurrence
+      resource :reservations, :only => [:edit, :update]
       resources :invitations, :only => [:index, :new, :update, :destroy] do
         collection do
           post :bulk_create

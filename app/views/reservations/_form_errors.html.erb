@@ -1,0 +1,9 @@
+<% if @errors %>
+  <div class="form__validation">
+    <ul>
+    <% @errors.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

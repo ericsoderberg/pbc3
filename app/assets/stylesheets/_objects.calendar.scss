@@ -1,35 +1,35 @@
 .calendar {
-  
+
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
     display: -webkit-flex;
     display: flex;
-    
+
     @include media-query(palm) {
       @include inuit-font-size($inuit-heading-size-1);
       display: block;
     }
   }
-  
+
   &__title {
     display: block;
     margin-right: $inuit-base-spacing-unit;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
   }
-  
+
   &__search {
     display: block;
     -webkit-flex: 1;
     flex: 1;
   }
-  
+
   &__weeks {
     //padding: 0px $inuit-base-spacing-unit;
     text-align: center;
   }
-  
+
   &__week {
     &--header {
       .calendar {
@@ -44,43 +44,57 @@
       }
     }
   }
-  
+
   &__day {
     display: inline-block;
     vertical-align: top;
     width: 13vw;
     text-align: left;
-    
+
+    .form__field & {
+      @include media-query(lap-and-up) {
+        width: 11vw;
+        // -4 is for border
+        max-width: round(
+          ($max-content-width - quadruple($inuit-base-spacing-unit)) / 7) - 4;
+      }
+    }
+
     &-date {
       padding: quarter($inuit-base-spacing-unit);
       text-align: right;
       background-color: #eee;
       border-right: 2px solid $background-color;
-      
+      margin-bottom: 2px;
+
+      &--alternate {
+        background-color: #f2f2f2;
+      }
+
       &-month {
         margin-right: quarter($inuit-base-spacing-unit);
         display: none;
-        
+
         &--first {
           display: inline;
         }
       }
-      
+
       &-weekday {
         margin-right: quarter($inuit-base-spacing-unit);
         display: none;
       }
     }
   }
-  
+
   &__events {
     margin: quarter($inuit-base-spacing-unit) 0;
   }
-  
+
   &__event {
     text-indent: - halve($inuit-base-spacing-unit);
     padding-left: halve($inuit-base-spacing-unit);
-    
+
     &-time {
       width: round($inuit-base-spacing-unit * 3);
       margin-right: quarter($inuit-base-spacing-unit);
@@ -89,35 +103,35 @@
       display: none;
     }
   }
-  
+
   &__spinner {
     margin: $inuit-base-spacing-unit auto;
   }
-  
+
   @include media-query(palm) {
-    
+
     &__week {
       &--header {
         display: none;
       }
     }
-    
+
     &__day {
       display: block;
       width: auto;
       padding: 0px $inuit-base-spacing-unit;
-      
+
       &-date {
         &-month {
           display: inline;
         }
-        
+
         &-weekday {
           display: inline;
         }
       }
     }
-    
+
     &__event {
       &-time {
         display: inline-block;

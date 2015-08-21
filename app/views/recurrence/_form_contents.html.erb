@@ -1,0 +1,56 @@
+<div class="form__contents">
+  <%= hidden_field_tag :stop, @calendar.stop %>
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field form__field--large">
+
+        <div class="calendar">
+          <ol class="calendar__weeks list-bare">
+
+            <li class="calendar__week calendar__week--header">
+              <ol class="calendar__days list-bare">
+                <% @calendar.weeks.first.days.each do |day|
+                  name = day.date.strftime("%a") -%>
+                  <li class="calendar__day">
+                    <input type="checkbox" name="<%= name %>"
+                      id="<%= name %>" value="<%= name %>">
+                    <%= name %>
+                  </li>
+                <% end -%>
+              </ol>
+            </li>
+
+            <% @calendar.weeks.each do |week| -%>
+              <li class="calendar__week">
+                <ol class="calendar__days list-bare">
+                  <% week.days.each do |day| -%>
+                    <li class="calendar__day">
+                      <div class="calendar__day-date">
+                        <% if 1 == day.date.day %>
+                          <span class="calendar__day-date-month calendar__day-date-month--first">
+                            <%= day.date.strftime("%B") %>
+                          </span>
+                        <% end -%>
+                        <input type="checkbox" name="days[]"
+                          id="days_" value="<%= day.date.strftime('%Y-%m-%d') %>"
+                          <%= (! day.events.empty?) ? 'checked="checked"' : "" %>
+                          class="<%= day.date.strftime("%a") %>">
+                        <%= day.date.day %>
+                      </div>
+                    </li>
+                  <% end -%>
+                </ol>
+              </li>
+            <% end -%>
+          </ol>
+        </div>
+
+      </li>
+
+<%= javascript_tag do %>
+  <%= render :partial => 'weeks', :formats => [:js] -%>
+<% end -%>
+</div>

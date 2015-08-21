@@ -8,7 +8,7 @@ class EventsController < ApplicationController
     redirect_to new_page_event_url(@page)
   end
 
-  def search
+  def search # DEPRECATED?
     result_page_size = params[:s].to_i
     result_page = params[:p].to_i
     filtered_events = Event.where("events.name ILIKE ?", (params[:q] || '') + '%')
@@ -47,24 +47,27 @@ class EventsController < ApplicationController
     #@event.name = @page.name if @page.related_events.empty?
   end
 
-  # GET /events/1/edit
   def edit
     @event = @page.events.find(params[:id])
-    @pages = Page.editable(current_user)
+    #@pages = Page.editable(current_user)
   end
 
-  def edit_page
+  def edit_page # DEPRECATED?
     @page = Page.find(params[:id])
   end
 
   def create
     parse_times
     @event = Event.new(event_params)
-    #@page = @event.page
+    @page_element = @page.page_elements.build({
+      page: @page,
+      element: @event,
+      index: @page.page_elements.length + 1
+    })
 
     respond_to do |format|
-      if @event.save
-        format.html { redirect_to(edit_page_event_url(@page, @event),
+      if @page_element.save
+        format.html { redirect_to(edit_contents_page_url(@page),
             :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
@@ -96,9 +99,10 @@ class EventsController < ApplicationController
   def destroy
     @event = @page.events.find(params[:id])
     @event.destroy
+    @page.normalize_indexes
 
     respond_to do |format|
-      format.html { redirect_to(new_page_event_url(@page)) }
+      format.html { redirect_to(edit_contents_page_url(@page)) }
       format.xml  { head :ok }
     end
   end

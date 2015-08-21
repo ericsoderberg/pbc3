@@ -1,22 +1,23 @@
-<%= render :partial => 'pages/breadcrumbs', :locals => {:page => @page} %>
+<% title "Edit Event" -%>
 
-<section>
-  
-  <%= render :partial => 'pages/edit_header',
-    :locals => {:active_aspect => 'events'} %>
-  
-  <div class="edit_content">
-    
-    <section>
-      <%= render :partial => 'edit_header',
-        :locals => {:active_aspect => 'event'} %>
-      <%= render 'form' %>
-    </section>
-    
-    <aside>
-      <%= render :partial => 'edit_list' %>
-    </aside>
+<%= form_for(@event, :url => [@page, @event], :html => { class: "form" }) do |f| %>
 
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit Event", :cancel_path => edit_contents_page_url(@page)} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+    <%= link_to 'Reservations' + (@event.reservations.empty? ? '' :
+        " (#{@event.reservations.count})"),
+      edit_page_event_reservations_path(@page, @event) %>
+    <%= link_to "Recurrence" + (@event.peers.count <= 1 ? '' :
+      " (#{@event.peers.count})"),
+      edit_page_event_recurrence_path(@page, @event) %>
   </div>
 
-</section>
+<% end %>
+
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @event, :url => [@page, @event]} %>

@@ -3,11 +3,12 @@ class ReservationsController < ApplicationController
   before_filter :get_page
   before_filter :page_administrator!
   before_filter :get_event
-  
-  def show
+  layout "administration"
+
+  def edit
     @resources = Resource.order('name ASC')
     @long = params[:long] || false
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @reservation }
@@ -39,11 +40,11 @@ class ReservationsController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
   def get_event
     @event = @page.events.find(params[:event_id])
   end
-  
+
 end

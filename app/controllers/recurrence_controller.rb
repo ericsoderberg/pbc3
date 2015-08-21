@@ -3,8 +3,9 @@ class RecurrenceController < ApplicationController
   before_filter :get_page
   before_filter :page_administrator!
   before_filter :get_event
-  
-  def show
+  layout "administration"
+
+  def edit
     get_calendar
 
     respond_to do |format|
@@ -33,13 +34,13 @@ class RecurrenceController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
   def get_event
     @event = @page.events.find(params[:event_id])
   end
-  
+
   def get_calendar
     @date = @event.start_at
     peers = @event.peers.to_a
@@ -47,5 +48,5 @@ class RecurrenceController < ApplicationController
       (@event.start_at + 12.months).end_of_month);
     @calendar.populate(peers)
   end
-  
+
 end

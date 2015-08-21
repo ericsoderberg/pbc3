@@ -123,11 +123,13 @@
       @include inuit-font-size($label-font-size);
     }
 
-    input, textarea, select {
-      width: 100%;
-      border: none;
-      padding-left: 0px;
-      padding-right: 0px;
+    &:not(.form__field--multiple) {
+      input:not([type="checkbox"]), textarea, select {
+        width: 100%;
+        border: none;
+        padding-left: 0px;
+        padding-right: 0px;
+      }
     }
 
     textarea {

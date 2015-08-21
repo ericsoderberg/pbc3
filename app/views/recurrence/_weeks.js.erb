@@ -1,9 +1,19 @@
-$(function() {
+function columnClicks() {
   <% @calendar.weeks.first.days.each do |day|
     name = day.date.strftime("%a") -%>
-    $('#<%= name %>').click(function() {
-      $('input:checkbox.<%= name %>').attr('checked',
-        $('#<%= name %>').is(':checked'));
-    })
+    var element = document.getElementById('<%= name %>');
+    element.addEventListener('click', function (event) {
+      var checked = event.target.checked;
+      var boxes = document.querySelectorAll('.<%= name %>');
+      for (var i=0; i<boxes.length; i++) {
+        boxes[i].checked = checked;
+      }
+    });
   <% end -%>
-});
+}
+
+if (document.readyState != 'loading'){
+  columnClicks();
+} else {
+  document.addEventListener('DOMContentLoaded', columnClicks);
+}
