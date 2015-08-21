@@ -6,44 +6,60 @@
     <ul class="form__fields list-bare">
       <li class="form__field form__field--large form__field--multiple">
         <label>Rooms</label>
-        <ul class="list-bare">
+        <ul class="reservations list-bare">
           <% @resources.rooms.each do |resource| -%>
             <% conflicts = resource.other_events_during(@event) -%>
             <% reservation = @event.reservations.where(
               :resource_id => resource.id).first -%>
-            <li>
+            <li class="reservations__resource <%= conflicts.empty? ? '' : 'reservations__resource--used' %>">
               <%= check_box_tag 'resources[]', resource.id,
                 @event.resources.include?(resource),
                 :disabled => (not conflicts.empty?) %>
-              <span class="name"><%= resource.name %></span>
-              <%= text_field_tag "options[#{resource.id}][pre_time]",
-                (reservation ? reservation.pre_time : 0),
-                :id => "#{resource.id}_pre_value", :size => 2 %>h
-              <%= text_field_tag "options[#{resource.id}][post_time]",
-                (reservation ? reservation.post_time : 0),
-                :id => "#{resource.id}_post_value", :size => 2 %>h
-              <ul class="resource_conflicts">
-                <% conflicts.each do |conflict| -%>
-                  <li><%= link_to conflict.global_name_or_name,
-                    friendly_page_path(conflict) %></li>
-                <% end -%>
-              </ul>
+              <span class="reservations__resource-name"><%= resource.name %></span>
+              <% if conflicts.empty? -%>
+                <span class="reservations__resource-pre-post">
+                  <span class="reservations__resource-pre-post-control">
+                    setup time
+                  </span>
+                  <ul class="reservations__resource-pre-post-fields form_fields list-bare">
+                    <li class="form__field">
+                      <label>Setup</label>
+                      <%= text_field_tag "options[#{resource.id}][pre_time]",
+                        (reservation ? reservation.pre_time : 0),
+                        :id => "#{resource.id}_pre_value", :size => 2 %>
+                    </li>
+                    <li class="form__field">
+                      <label>Teardown</label>
+                      <%= text_field_tag "options[#{resource.id}][post_time]",
+                        (reservation ? reservation.post_time : 0),
+                        :id => "#{resource.id}_post_value", :size => 2 %>
+                    </li>
+                  </ul>
+                </span>
+              <% else -%>
+                <ul class="reservations__resource-conflicts list-bare">
+                  <% conflicts.each do |conflict| -%>
+                    <li><%= link_to conflict.global_name_or_name,
+                      friendly_page_path(conflict) %></li>
+                  <% end -%>
+                </ul>
+              <% end -%>
             </li>
           <% end -%>
         </ul>
       </li>
       <li class="form__field form__field--large form__field--multiple">
         <label>Equipment</label>
-        <ul class="list-bare">
+        <ul class="reservations list-bare">
           <% @resources.equipment.each do |resource| -%>
             <% conflicts = resource.other_events_during(@event) -%>
-            <li>
+            <li class="reservations__resource <%= conflicts.empty? ? '' : 'reservations__resource--used' %>">
               <%= check_box_tag 'resources[]', resource.id,
                 @event.resources.include?(resource),
                 :disabled => (not conflicts.empty?) %>
-              <%= resource.name %>
+              <span class="reservations__resource-name"><%= resource.name %></span>
               <% unless conflicts.empty? -%>
-                <ul class="resource_conflicts">
+                <ul class="reservations__resource-conflicts list-bare">
                   <% conflicts.each do |conflict| -%>
                     <li><%= link_to conflict.global_name_or_name,
                       friendly_page_path(conflict) %></li>

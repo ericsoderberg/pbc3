@@ -29,7 +29,7 @@ class RecurrenceController < ApplicationController
         @save_errors = result
         @event.reload
         get_calendar
-        format.html { render :action => "show" }
+        format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end

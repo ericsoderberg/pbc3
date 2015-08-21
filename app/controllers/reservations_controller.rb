@@ -29,14 +29,14 @@ class ReservationsController < ApplicationController
         else
           @resources = Resource.order('name ASC')
           @long = params[:long] || false
-          format.html { render :action => "show" }
+          format.html { render :action => "edit" }
           format.xml  { render :xml => @reservation.errors, :status => :unprocessable_entity }
         end
       rescue ActiveRecord::RecordInvalid => e
         @errors = e.message
         @resources = Resource.order('name ASC')
         @long = params[:long] || false
-        format.html { render :action => "show" }
+        format.html { render :action => "edit" }
       end
     end
   end
