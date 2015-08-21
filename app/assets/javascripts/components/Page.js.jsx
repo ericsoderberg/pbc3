@@ -14,7 +14,7 @@ var Page = React.createClass({
   render: function() {
     var page = this.props.page;
 
-    var editMenu = '';
+    var editMenu;
     if (page.editActions) {
       editMenu = (
         <Menu className="page__edit-menu" actions={page.editActions} icon={(<EditIcon/>)} />
@@ -22,7 +22,7 @@ var Page = React.createClass({
     }
 
     var elements = page.pageElements.map(function (pageElement) {
-      var contents = ''
+      var contents;
       switch (pageElement.type) {
       case 'Text':
         contents = (<Text text={pageElement.text} />);
@@ -42,10 +42,7 @@ var Page = React.createClass({
 
     return (
       <div className="page">
-        <header className="page__header">
-          <h1>{page.name}</h1>
-          {editMenu}
-        </header>
+        {editMenu}
         <ol className="page__elements list-bare">
           {elements}
         </ol>

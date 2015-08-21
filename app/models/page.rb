@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  before_save :render_text
+  #before_save :render_text
   acts_as_url :prefixed_name, :sync_url => true
 
   has_many :page_elements, -> { order('index ASC').includes(:element) }, :autosave => true
@@ -15,6 +15,8 @@ class Page < ActiveRecord::Base
   validates :name, :presence => true
   validates :url, :uniqueness => true
   validate :reserved_urls
+
+  after_create :add_initial_text
 
   include Searchable
   search_on :name
@@ -94,13 +96,22 @@ class Page < ActiveRecord::Base
   #  end
   #end
 
+  def add_initial_text
+    text = Text.new(text: "# #{self.name}")
+    page_element = self.page_elements.create({
+      page: self,
+      element: text,
+      index: self.page_elements.length + 1
+    })
+  end
+
   def prefixed_name
     "#{url_prefix} #{name}".strip
   end
 
-  def name_with_parent
-    parent ? "#{name} -#{parent.name}-" : name
-  end
+  #def name_with_parent
+  #  parent ? "#{name} -#{parent.name}-" : name
+  #end
 
   def self.find_by_url_or_alias(url)
     result = Page.find_by(url: url)
@@ -148,9 +159,9 @@ class Page < ActiveRecord::Base
 
   include ActionView::Helpers::SanitizeHelper
 
-  def render_text
-    self.snippet_text = strip_tags(strip_links(self.text))
-  end
+  #def render_text
+  #  self.snippet_text = strip_tags(strip_links(self.text))
+  #end
 
   def to_param
     url

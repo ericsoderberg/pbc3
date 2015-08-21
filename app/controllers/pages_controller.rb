@@ -265,7 +265,7 @@ class PagesController < ApplicationController
     return unless page_administrator!(@page.parent)
 
     respond_to do |format|
-      if @page.save and (not params[:site_reference] or @site.save)
+      if @page.save
         format.html { redirect_to(friendly_page_path(@page),
           :notice => 'Page was successfully created.') }
       else

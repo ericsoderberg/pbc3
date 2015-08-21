@@ -1,7 +1,7 @@
 .page {
   @include main-content();
 
-  &__header {
+  /*&__header {
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
@@ -19,6 +19,12 @@
     right: 0px; //- $inuit-base-spacing-unit;
     -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
+  }*/
+
+  &__edit-menu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
   }
 
   &__elements {
