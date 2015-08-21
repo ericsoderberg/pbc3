@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
 
     if user_signed_in?
       @app_menu_actions << [
-        {label: 'Account', url: edit_account_url(current_user, :protocol => 'https')},
+        {label: 'My Account', url: edit_account_url(current_user, :protocol => 'https')},
         {label: 'Sign out', url:  destroy_user_session_url(:protocol => 'https'), :method => 'delete', token: session[:_csrf_token]}
       ]
     else

@@ -1,68 +1,20 @@
-<%= form_for(@user, :url => account_path(@user), :html => { :multipart => true, :class => 'form' }) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this account from being saved:</h2>
+<% title "Edit #{@user.name}" -%>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_for(@user, :url => account_path(@user),
+  :html => { :multipart => true, class: "form" }) do |f| %>
 
-<div class="edit_content">
-  <section>
-    <div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name %>
-    </div>
-    <div class="field">
-      <%= f.label :email %><br />
-      <%= f.text_field :email %>
-    </div>
-    <div class="field">
-      <%= f.label :avatar %><br />
-      <% if @user.avatar.exists? -%>
-        <%= image_tag @user.avatar.url(:normal) %>
-        <%= check_box_tag 'delete_avatar' %> delete photo?
-      <% end -%>
-      <%= f.file_field :avatar %>
-    </div>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit #{@user.name}", :cancel_path => root_path} %>
 
-    <div class="field">
-      <%= f.label :portrait %><br/>
-      <% if @user.portrait.exists? -%>
-        <%= image_tag @user.portrait.url(:thumb) %>
-        <%= check_box_tag 'delete_portrait' %> delete photo?<br/>
-      <% end -%>
-      <%= f.file_field :portrait %><br/>
-      <span class="help">(2x3 aspect ratio)</span>
-    </div>
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
 
-    <div class="field">
-      <%= f.label :biography %><br />
-      <%= f.text_area :bio, :size => "40x5" %>
-    </div>
-
-    <% if current_user.administrator -%>
-    <div class="field">
-      <%= f.label :administrator %>
-      <%= f.check_box :administrator %>
-    </div>
-    <% end -%>
-
-  </section>
-</div>
-
-  <div class="actions">
-    <%= f.submit %>
-    <% if current_user.administrator -%>
-     | <%= link_to 'Cancel', accounts_path %>
-     | <%= link_to 'Delete account', account_path(@user), data: {confirm: 'Are you sure?'},
-         method: :delete%>
-    <% else -%>
-     | <%= link_to 'Cancel', root_path %>
-    <% end -%>
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
   </div>
+
 <% end %>
+
+<% if @user != current_user -%>
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @user, :url => account_path(@user)} %>
+<% end -%>

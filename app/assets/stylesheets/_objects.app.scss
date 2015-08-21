@@ -1,9 +1,13 @@
 .app {
   background-color: $background-color;
+  padding-top: quadruple($inuit-base-spacing-unit);
 }
 
 .app-header {
-  background-color: $brand-secondary-background-color;
+  position: absolute;
+  top: 0px;
+  width: 100vw;
+  //background-color: $brand-secondary-background-color;
 
   &__contents {
     display: -webkit-flex;
