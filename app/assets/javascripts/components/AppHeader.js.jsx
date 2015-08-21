@@ -1,17 +1,11 @@
-var Menu = require('./Menu');
-var MenuIcon = require('./MenuIcon');
-
 var AppHeader = React.createClass({
-  
+
   propTypes: {
     logo: React.PropTypes.node,
-    menuActions: React.PropTypes.arrayOf(React.PropTypes.object),
     rootPath: React.PropTypes.string
   },
- 
+
   render: function() {
-    var icon = (<MenuIcon />);
-    
     return (
       <header className="app-header">
         <div className="app-header__contents">

@@ -115,8 +115,7 @@ var PageEditContents = React.createClass({
         </ol>
 
         <Menu className="page-contents-edit__add-menu"
-          actions={this.props.editContents.addMenuActions} icon={addIcon}
-          direction="up" />
+          actions={this.props.editContents.addMenuActions} icon={addIcon} />
       </div>
     );
   }
