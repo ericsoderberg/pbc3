@@ -1,15 +1,19 @@
-<% title "#{@form.name}" -%>
+<% title "Edit #{@form.name}" -%>
 
-<%= render :partial => 'edit_header' %>
+<%= form_for(@form, :html => { class: "form" }) do |f| %>
 
-<div class="regular_content">
-  
-<section>
-  
-  <div id="dynamic_form_form">
-    <%= render 'form' %>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit #{@form.name}", :cancel_path => forms_url} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+    <% if @form.id -%>
+      <%= link_to 'Contents', edit_contents_form_path(@form) %>
+    <% end -%>
   </div>
-  
-</section>
 
-</div>
+<% end %>
+
+<%= render :partial => 'shared/delete', :locals => {:item => @form} %>

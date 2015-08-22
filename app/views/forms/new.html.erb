@@ -1,14 +1,14 @@
-<% title "Forms" -%>
+<% title "Add Form" -%>
 
-<% if @page -%>
-<%= render :partial => 'pages/breadcrumbs', :locals => {:page => @page} %>
-<% end -%>
+<%= form_for(@form, :html => { class: "form" }) do |f| %>
 
-<section>
-  <header>
-    <h1>New Form</h1>
-  </header>
-  
-  <%= render 'form' %>
-  
-</section>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Add Form', :cancel_path => forms_path} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Add", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>

@@ -8,7 +8,7 @@
 
   <div class="form__contents">
     <%= render :partial => 'form_errors' %>
-    <%= react_component('PageEditContents',
+    <%= react_component('PageBuilder',
       render(template: 'pages/_edit_contents.json.jbuilder'),
       { prerender: params[:noprerender].nil? }) %>
   </div>

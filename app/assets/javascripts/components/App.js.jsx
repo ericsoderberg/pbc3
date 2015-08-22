@@ -12,6 +12,7 @@ var Holidays = require('./Holidays');
 var Messages = require('./Messages');
 var Message = require('./Message');
 var Resources = require('./Resources');
+var Forms = require('./Forms');
 
 var ROUTES = [
   {path: '/search', type: Search},
@@ -22,6 +23,7 @@ var ROUTES = [
   {path: '/accounts', type: Accounts},
   {path: '/resources', type: Resources},
   {path: '/holidays', type: Holidays},
+  {path: '/forms', type: Forms},
   {path: '/(.*)', type: Page}
 ];
 

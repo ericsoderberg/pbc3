@@ -1,0 +1,30 @@
+function alignDependents (selector, visible) {
+  var dependents = document.querySelectorAll(selector);
+  for (var i = 0; i < dependents.length; i += 1) {
+    if (visible) {
+      dependents[i].classList.remove('form__field--hidden');
+    } else {
+      dependents[i].classList.add('form__field--hidden');
+    }
+  }
+}
+
+function progressives () {
+  var payable = document.getElementById('form_payable');
+  alignDependents('.form_payable_dependent', payable.checked);
+  payable.addEventListener('click', function (event) {
+    alignDependents('.form_payable_dependent', event.target.checked);
+  });
+
+  var authenticated = document.getElementById('form_authenticated');
+  alignDependents('.form_authenticated_dependent', authenticated.checked);
+  authenticated.addEventListener('click', function (event) {
+    alignDependents('.form_authenticated_dependent', event.target.checked);
+  });
+}
+
+if (document.readyState != 'loading'){
+  progressives();
+} else {
+  document.addEventListener('DOMContentLoaded', progressives);
+}

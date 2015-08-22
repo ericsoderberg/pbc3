@@ -1,0 +1,66 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <% if @copy_form -%>
+      <%= hidden_field_tag :copy_form_id, @copy_form.id %>
+    <% end -%>
+    <%= f.hidden_field :page_id %>
+
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :published? %>
+        <%= f.check_box :published %>
+      </li>
+      <li class="form__field">
+        <%= f.label :payable? %>
+        <%= f.check_box :payable %>
+      </li>
+      <li class="form__field form_payable_dependent">
+        <%= f.label :pay_by_check? %>
+        <%= f.check_box :pay_by_check %>
+      </li>
+      <li class="form__field form_payable_dependent">
+        <%= f.label :pay_by_paypal? %>
+        <%= f.check_box :pay_by_paypal %>
+      </li>
+      <li class="form__field">
+        <%= f.label '> 1 per user?' %>
+        <span class="form__field-help">Expect people to fill out more than one</span>
+        <%= f.check_box :many_per_user %>
+      </li>
+      <% if @form.id -%>
+      <li class="form__field">
+        <%= f.label :advance_version? %>
+        <span class="form__field-help">The current version is <%= @form.version %></span>
+        <%= check_box_tag :advance_version %>
+      </li>
+      <% end -%>
+      <% if @possible_parents -%>
+      <li class="form__field">
+        <%= f.label :parent %>
+        <%= f.collection_select :parent_id, @possible_parents, :id, :name,
+          {include_blank: true}, {:class => 'form'} %>
+      </li>
+      <% end -%>
+      <li class="form__field">
+        <%= f.label :authenticated? %>
+        <span class="form__field-help">People are required to sign in</span>
+        <%= f.check_box :authenticated %>
+      </li>
+      <li class="form__field form_authenticated_dependent">
+        <%= f.label :authentication_text %>
+        <%= f.text_area :authentication_text, :size => '100x10', :class => 'textedit' %>
+      </li>
+    </ul>
+  </fieldset>
+
+  <%= javascript_tag do %>
+    <%= render :partial => 'form_contents', :formats => [:js] -%>
+  <% end -%>
+</div>

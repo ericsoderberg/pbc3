@@ -209,6 +209,7 @@ class PagesController < ApplicationController
   end
 
   # DEPRECATED
+=begin
   def edit_location
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
@@ -259,6 +260,7 @@ class PagesController < ApplicationController
     siblings = siblings.to_a.map{|s| {id: s.id, name: s.name, url: s.url}}
     render :json => siblings
   end
+=end
 
   def create
     @page = Page.new(page_params)

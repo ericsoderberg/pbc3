@@ -1,5 +1,6 @@
+var Drop = require('../utils/Drop');
 
-var Drop = React.createClass({
+var MenuDrop = React.createClass({
 
   propTypes: {
     actions: React.PropTypes.arrayOf(React.PropTypes.object),
@@ -7,25 +8,25 @@ var Drop = React.createClass({
   },
 
   render: function () {
-    var items = [];
+    var actions = [];
     if (this.props.actions) {
-      items = this.props.actions.map(function (action, index) {
+      actions = this.props.actions.map(function (action, index) {
         var label = action.label;
         if (action.image) {
           label = (<img src={action.image} />);
         }
         return (
-          <li key={action.label || index}>
-            <a href={action.url} className="menu__action">{label}</a>
-          </li>
+          <a key={action.label || index} href={action.url}
+            className="menu__action">{label}</a>
         );
       });
     }
 
     return (
-      <ol className="menu__actions list-bare">
-        {items}
-      </ol>
+      <nav className="menu__actions">
+        {actions}
+        {this.props.children}
+      </nav>
     );
   }
 });
@@ -42,60 +43,28 @@ var Menu = React.createClass({
     };
   },
 
-  _place: function () {
-    var controlRect = this.refs.control.getDOMNode().getBoundingClientRect();
-    var containerRect = this._container.getBoundingClientRect();
-    var windowWidth = window.innerWidth;
-    var windowHeight = window.innerHeight;
-
-    // clear prior styling
-    this._container.style.left = '';
-    this._container.style.width = '';
-    this._container.style.top = '';
-
-    var width = Math.min(
-      Math.max(controlRect.width, containerRect.width), windowWidth);
-    var left = controlRect.left + controlRect.width - width;
-    var top = controlRect.top + controlRect.height;
-
-    if (left < 0) {
-      left = controlRect.left;
-    }
-    if ((top + containerRect.height) > windowHeight) {
-      top = controlRect.top - containerRect.height;
-    }
-
-    this._container.style.left = '' + left + 'px';
-    this._container.style.width = '' + width + 'px';
-    this._container.style.top = '' + top + 'px';
-  },
-
   _renderDrop: function () {
     return (
-      <Drop actions={this.props.actions}>
+      <MenuDrop actions={this.props.actions}>
         {this.props.children}
-      </Drop>
+      </MenuDrop>
     );
   },
 
   _open: function () {
-    // setup DOM
-    this._container = document.createElement('div');
-    this._container.classList.add('menu__drop');
-    document.body.appendChild(this._container);
-    React.render(this._renderDrop(), this._container);
-    this._place();
+    this._drop = Drop.add(this.refs.control.getDOMNode(),
+      this._renderDrop(), {top: 'bottom', right: 'right'});
     this.setState({active: true});
     document.addEventListener('click', this._onElsewhere);
-    window.addEventListener('resize', this._onElsewhere);
   },
 
   _close: function () {
-    React.unmountComponentAtNode(this._container);
-    document.body.removeChild(this._container);
-    this.setState({active: false});
     document.removeEventListener('click', this._onElsewhere);
-    window.removeEventListener('resize', this._onElsewhere);
+    if (this._drop) {
+      this._drop.remove();
+      this._drop = null;
+    }
+    this.setState({active: false});
   },
 
   _onClickControl: function (event) {
@@ -119,8 +88,7 @@ var Menu = React.createClass({
 
   componentWillUnmount: function () {
     if (this.state.active) {
-      document.removeEventListener('click', this._onElsewhere);
-      window.removeEventListener('resize', this._onElsewhere);
+      this._close();
     }
   },
 

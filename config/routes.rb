@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     resources :forms do
       member do
         get 'copy'
-        get 'edit_fields'
+        get 'edit_contents'
       end
       resources :sections, :controller => 'form_sections',
         :except => [:index, :new] do
@@ -141,13 +141,13 @@ Rails.application.routes.draw do
       patch :update_contents_order
 
       # DEPRECATED
-      get :edit_for_parent
-      get :edit_for_feature
-      get :search_possible_parents
-      get :edit_location
-      get :edit_style
-      get :edit_email
-      get :edit_email_members
+      #get :edit_for_parent
+      #get :edit_for_feature
+      #get :search_possible_parents
+      #get :edit_location
+      #get :edit_style
+      #get :edit_email
+      #get :edit_email_members
     end
     resources :elements, :only => [:new, :create, :edit, :update, :destroy],
       :controller => :page_elements
@@ -161,12 +161,12 @@ Rails.application.routes.draw do
       end
       resource :share, :only => [:show, :update], :controller => :shared_events
     end
-    resources :documents
-    resources :photos
-    resources :videos do
-      resources :users_videos
-    end
-    resources :audios
+    #resources :documents
+    #resources :photos
+    #resources :videos do
+    #  resources :users_videos
+    #end
+    #resources :audios
     resources :contacts do
       member do
         get :email
@@ -174,7 +174,7 @@ Rails.application.routes.draw do
       end
     end
     resources :authorizations
-    resources :notes
+    #resources :notes
     resources :texts
     resources :items
     resource :feature, :only => [:edit, :update], :controller => :home

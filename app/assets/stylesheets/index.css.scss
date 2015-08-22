@@ -23,8 +23,10 @@ $inuit-btn-color: $color;
 $inuit-btn-radius: $brand-radius;
 @import "inuit-buttons/objects.buttons";
 
+@import "objects.drop";
 @import "objects.menu";
 @import "objects.form";
+@import "objects.form-builder";
 @import "objects.app";
 @import "objects.search-input";
 @import "objects.page";

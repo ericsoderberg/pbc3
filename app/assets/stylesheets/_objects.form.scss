@@ -93,7 +93,9 @@
 
   &__fields {
     &_help {
-      padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+      position: relative; // for edit control
+      padding: halve($inuit-base-spacing-unit) 0px;
+      margin: 0 $inuit-base-spacing-unit;
       color: $secondary-color;
       font-style: italic;
       @include inuit-font-size($label-font-size);
@@ -124,11 +126,16 @@
     }
 
     &:not(.form__field--multiple) {
-      input:not([type="checkbox"]), textarea, select {
+      input:not([type="checkbox"]):not([type="radio"]), textarea, select {
         width: 100%;
         border: none;
         padding-left: 0px;
         padding-right: 0px;
+      }
+
+      input[type="checkbox"],
+      input[type="radio"] {
+        margin-right: halve($inuit-base-spacing-unit);
       }
     }
 
@@ -147,6 +154,21 @@
       @include inuit-font-size($label-font-size);
     }
 
+    &-edit {
+      position: absolute;
+      top: 0px;
+      right: - round($inuit-base-spacing-unit * 3);
+    }
+
+    &-option {
+      &-help {
+        margin-left: $inuit-base-spacing-unit;
+        color: $secondary-color;
+        font-style: italic;
+        @include inuit-font-size($label-font-size);
+      }
+    }
+
     &--large {
       textarea {
         width: 100%;
@@ -160,6 +182,10 @@
       z-index: 2;
       border-color: $focus-color;
     }
+
+    &--hidden {
+      display: none;
+    }
   }
 
   &--compact {
@@ -170,6 +196,13 @@
     #error_explanation {
       max-width: $compact-content-width;
     }
+  }
+
+  .drop & {
+    width: auto;
+    border: 1px solid $border-color;
+    width: $compact-content-width;
+    max-height: 100vh;
   }
 }
 
@@ -232,46 +265,17 @@
   }
 }
 
-/*.delete {
-  position: relative;
-
-  &__confirm {
-    position: absolute;
-    left: -100vw;
-    bottom: - $inuit-base-spacing-unit;
-    height: quadruple($inuit-base-spacing-unit);
-    padding: $inuit-base-spacing-unit;
-    //padding: double($inuit-base-spacing-unit);
-    background-color: #fff;
-    border: 1px solid $border-color;
-    border-radius: $brand-radius;
-    white-space: nowrap;
-    opacity: 0;
-    transition: all $animation-delay;
-
-    &--active {
-      left: -1px;
-      opacity: 1;
-    }
-
-    &-actions {
-      display: inline-block;
-      white-space: nowrap;
-      margin: 0px;
-
-      .btn {
-        margin-right: quarter($inuit-base-spacing-unit);
-      }
-    }
-  }
-}*/
-
 li.placeholder {
   background: $brand-color;
   color: $brand-accent-color;
-  border-radius: $brand-radius;
+  //border-radius: $brand-radius;
   height: double($inuit-base-spacing-unit);
   @include inuit-font-size($inuit-heading-size-3, double($inuit-base-spacing-unit));
+
+  @include media-query(lap-and-up) {
+    margin-left: $inuit-base-spacing-unit;
+    margin-right: $inuit-base-spacing-unit;
+  }
 
   &:before {
     display: block;

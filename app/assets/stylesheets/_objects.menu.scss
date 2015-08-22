@@ -6,26 +6,23 @@
     //height: 100%;
   }
 
-  &__drop {
-    position: fixed;
-    z-index: 20;
-    // left and top will be set via javascript
+  &__actions {
     background-color: $brand-color;
     color: $brand-over-color;
     border-radius: $brand-radius 0 $brand-radius $brand-radius;
     text-align: right;
     @include inuit-font-size($inuit-base-font-size);
-  }
 
-  &__action {
-    display: block;
-    padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
-    text-decoration: none;
-    color: inherit;
-    white-space: nowrap;
+    > * {
+      display: block;
+      padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+      text-decoration: none;
+      color: inherit;
+      white-space: nowrap;
 
-    &:hover {
-      color: $brand-accent-color;
+      &:hover {
+        color: $brand-accent-color;
+      }
     }
   }
 

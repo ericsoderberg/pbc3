@@ -1,0 +1,61 @@
+.form-builder {
+
+  &__add {
+    display: block;
+    width: double($inuit-base-spacing-unit);
+    margin: $inuit-base-spacing-unit auto;
+    line-height: double($inuit-base-spacing-unit);
+  }
+
+  &__section {
+    @include main-content();
+    position: relative;
+    padding: $inuit-base-spacing-unit;
+    //cursor: move;
+    //background-color: $background-color;
+    //transition: border-color $animation-delay, background-color $animation-delay;
+
+    //&:hover {
+    //  background-color: $over-background-color;
+    //  border-color: $brand-accent-color;
+    //}
+
+    &-edit {
+      position: absolute;
+      top: halve($inuit-base-spacing-unit);
+      right: $inuit-base-spacing-unit;
+      cursor: pointer;
+    }
+
+    > *:not(.control-icon) {
+      margin-right: round($inuit-base-spacing-unit * 3);
+    }
+  }
+
+  &__field {
+    position: relative;
+    background-color: $background-color;
+    cursor: move;
+    transition: border-color $animation-delay, background-color $animation-delay;
+
+    &:hover {
+      background-color: $over-background-color;
+      border-color: $brand-accent-color;
+    }
+
+    &-edit {
+      position: absolute;
+      top: 0px; //halve($inuit-base-spacing-unit);
+      right: $inuit-base-spacing-unit;
+      cursor: pointer;
+    }
+
+    > *:not(.control-icon) {
+      pointer-events: none;
+    }
+
+    input {
+      background-color: transparent;
+    }
+  }
+}

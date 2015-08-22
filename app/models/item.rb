@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   has_many :page_elements, as: :element, :dependent => :destroy
-  belongs_to :page
+  has_many :pages, :through => :page_elements, :class_name => 'Page',
+    :source => :page
   has_attached_file :file,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"

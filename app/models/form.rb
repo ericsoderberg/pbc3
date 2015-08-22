@@ -1,7 +1,9 @@
 class Form < ActiveRecord::Base
-  has_many :page_elements, as: :element
-  belongs_to :page
-  belongs_to :event
+  has_many :page_elements, as: :element, :dependent => :destroy
+  has_many :pages, :through => :page_elements, :class_name => 'Page',
+    :source => :page
+  #belongs_to :page
+  #belongs_to :event
   has_many :form_fields, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
   has_many :form_sections, -> { order('form_index ASC') },
@@ -12,9 +14,11 @@ class Form < ActiveRecord::Base
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
 
   validates :name, :presence => true
-  validates :page, :presence => true
+  #validates :page, :presence => true
   validates :version, :presence => true,
     numericality: { only_integer: true, greater_than: 0 }
+
+  after_create :create_default_fields
 
   include Searchable
   search_on :name
@@ -36,9 +40,9 @@ class Form < ActiveRecord::Base
     authorized?(user) and (published? or page.administrator?(user))
   end
 
-  def possible_pages
-    Page.order('name')
-  end
+  #def possible_pages
+  #  Page.order('name')
+  #end
 
   def columns
     form_fields.valued.map{|ff| ff.name} +

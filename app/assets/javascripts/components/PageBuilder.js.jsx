@@ -7,7 +7,9 @@ var Text = require('./Text');
 var Item = require('./Item');
 var Event = require('./Event');
 
-var PageEditContents = React.createClass({
+var CLASS_ROOT = "page-builder";
+
+var PageBuilder = React.createClass({
 
   _updateOrder: function () {
     var url = this.props.editContents.updateContentsOrderUrl;
@@ -20,7 +22,7 @@ var PageEditContents = React.createClass({
 
     };
     REST.patch(url, token, data, function (response) {
-      console.log('!!! PageEditContents _updateOrder completed', response);
+      console.log('!!! PageBuilder _updateOrder completed', response);
     }.bind(this));
   },
 
@@ -58,7 +60,7 @@ var PageEditContents = React.createClass({
     this._dragged.style.display = "none";
     var element = event.target;
     // find containing element
-    while (!element.classList.contains('page-contents-edit__element') &&
+    while (!element.classList.contains(CLASS_ROOT + '__element') &&
       (element = element.parentElement));
     if (element && element.className !== "placeholder") {
       this._over = element;
@@ -93,12 +95,13 @@ var PageEditContents = React.createClass({
         break;
       }
       return (
-        <li key={pageElement.id} className="page-contents-edit__element"
+        <li key={pageElement.id} className={CLASS_ROOT + "__element"}
           data-index={index}
           draggable="true"
           onDragEnd={this._dragEnd}
           onDragStart={this._dragStart}>
-          <a className="page-contents-edit__element-edit control-icon" href={pageElement.editUrl}>
+          <a className={CLASS_ROOT + "__element-edit control-icon"}
+            href={pageElement.editUrl}>
             <EditIcon />
           </a>
           {contents}
@@ -107,18 +110,18 @@ var PageEditContents = React.createClass({
     }, this);
 
     return (
-      <div className="page-contents-edit">
+      <div className={CLASS_ROOT}>
         <input ref="indexes" type="hidden" name="element_order" value={elementIds.join(',')} />
-        <ol className="page-contents-edit__elements list-bare"
+        <ol className={CLASS_ROOT + "__elements list-bare"}
           onDragOver={this._dragOver}>
           {elements}
         </ol>
 
-        <Menu className="page-contents-edit__add-menu"
+        <Menu className={CLASS_ROOT + "__add-menu"}
           actions={this.props.editContents.addMenuActions} icon={addIcon} />
       </div>
     );
   }
 });
 
-module.exports = PageEditContents;
+module.exports = PageBuilder;

@@ -1,5 +1,5 @@
 var CloseIcon = React.createClass({
- 
+
   render: function() {
     return (
       <svg className={this.props.className}

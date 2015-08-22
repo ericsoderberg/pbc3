@@ -22,6 +22,7 @@ class Page < ActiveRecord::Base
   search_on :name
 
   # DEPRECATED
+=begin
   belongs_to :style
   has_many :notes, -> { order('created_at DESC') }
   has_many :photos, :dependent => :destroy
@@ -37,6 +38,7 @@ class Page < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Page'
   has_many :children, -> { order(:parent_index) }, :class_name => 'Page',
     :foreign_key => :parent_id
+=end
 
   #LAYOUTS = ['regular', 'landing', 'gallery', 'blog', 'forum', 'event']
   #CHILD_LAYOUTS = ['header', 'feature', 'panel', 'landing']

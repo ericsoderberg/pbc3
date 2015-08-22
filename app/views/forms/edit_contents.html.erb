@@ -1,0 +1,20 @@
+<% title("Edit #{@form.name}") -%>
+
+<%= form_for(@form, :html => {class: "form"}) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit #{@form.name}", :cancel_path => forms_url} %>
+
+  <div class="form__contents">
+    <%= render :partial => 'form_errors' %>
+    <%= react_component('FormBuilder',
+      render(template: 'forms/_edit_contents.json.jbuilder'),
+      { prerender: params[:noprerender].nil? }) %>
+  </div>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+    <%= link_to 'Context', edit_form_path(@form) %>
+  </div>
+
+<% end %>
