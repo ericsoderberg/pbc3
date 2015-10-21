@@ -13,7 +13,7 @@ json.page do
       json.editUrl edit_page_item_url(@page, page_element.element)
     when 'Event'
       json.partial! 'events/show', event: page_element.element
-      json.editUrl edit_page_event_url(@page, page_element.element)
+      json.editUrl edit_event_url(page_element.element)
     when 'Page'
       json.partial! 'page_elements/show_page', page: page_element.element
       json.editUrl edit_page_element_url(@page, page_element)

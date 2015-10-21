@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   has_many :messages, :through => :events_messages, :source => :message
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
 
-  validates_presence_of :page, :name, :stop_at
+  validates_presence_of :name, :stop_at
   validates :start_at, :presence => true,
     :uniqueness => {:scope => :master_id,
       :unless => Proc.new{|p| not p.master_id and not p.master}}
@@ -75,30 +75,34 @@ class Event < ActiveRecord::Base
     not master or master.replicas.count <= 1
   end
 
+  def page
+    pages.empty? ? nil : pages.first
+  end
+
   def authorized?(user)
-    return (page and page.authorized?(user))
+     user.administrator? or (page and page.authorized?(user))
   end
 
   def searchable?(user)
-    return (page and page.searchable?(user))
+    user.administrator? or (page and page.searchable?(user))
   end
 
   def for_user?(user)
-    return (page and page.for_user?(user))
+    page and page.for_user?(user)
   end
 
   def global_name_or_name
     (global_name and not global_name.empty?) ? global_name : name
   end
 
-  def top_context
-    ancestors = page.ancestors
-    if ancestors.length > 1
-      page.ancestors.slice(1).name
-    else
-      page.name
-    end
-  end
+  #def top_context
+  #  ancestors = page.ancestors
+  #  if ancestors.length > 1
+  #    page.ancestors.slice(1).name
+  #  else
+  #    page.name
+  #  end
+  #end
 
   def invitation_for_user(user)
     return nil unless user
@@ -207,7 +211,7 @@ class Event < ActiveRecord::Base
           peer.global_name = self.global_name
           peer.notes = self.notes
           peer.all_day = self.all_day
-          peer.page = self.page
+          #peer.page = self.page
           peer.align_reservations(self)
         end
         peer.save!
@@ -349,7 +353,6 @@ class Event < ActiveRecord::Base
     tokens
   end
 
-=begin
   def self.matches(text)
     tokens = nil
 
@@ -376,7 +379,6 @@ class Event < ActiveRecord::Base
 
     tokens
   end
-=end
 
   private
 
@@ -390,7 +392,7 @@ class Event < ActiveRecord::Base
       :featured => self.featured,
       :notes => self.notes}
     new_event = Event.new(params)
-    new_event.page = self.page
+    #new_event.page = self.page
     self.reservations.each do |reservation|
       new_event.reservations << reservation.copy(new_event)
     end

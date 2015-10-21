@@ -1,5 +1,5 @@
 class Calendar
-  
+
   def initialize(start, stop)
     @weeks = []
     date = @start = start.tomorrow.beginning_of_week.yesterday.to_date
@@ -11,25 +11,25 @@ class Calendar
       date = date + 1
     end
   end
-  
+
   attr_reader :weeks, :start, :stop
-  
+
   def populate(events, holidays=[])
     weeks.each do |week|
       week.days.each do |day|
         carry_over_events = []
         while not events.empty? and
           events.first.start_at.to_date < (day.date + 1)
-          
+
           event = events.shift
           day.events << event
           # hold on to re-insert for the next day
           carry_over_events << event if event.stop_at.to_date > day.date.to_date
         end
-        
+
         # re-insert multi-day events
         carry_over_events.reverse.each{|e| events.unshift(e)}
-        
+
         # add holidays
         if holidays.first and holidays.first.date == day.date
           day.holidays << holidays.shift
@@ -37,7 +37,7 @@ class Calendar
       end
     end
   end
-  
+
 end
 
 class Week
@@ -61,13 +61,13 @@ class SearchDate
     result = nil
     terms = text.strip.split(' ')
     index = 0
-    
+
     while index < terms.length
       term = terms[index]
       next_term = terms[index+1]
       next_next_term = terms[index+2]
       score = 0
-      
+
       # check for month
       months = (1..12).map{|i| Date::MONTHNAMES[i]}.select{|m| m.match(/^#{term}/i)}
       if not months.empty?
@@ -108,10 +108,10 @@ class SearchDate
             score += 1 if months[0] == term
           end
         end
-        
+
         result = {type: 'date', text: term, matches: matches, score: score, range: range}
       end
-      
+
       # check for short form
       if term.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)
         # e.g. "5/2/2015"
@@ -131,7 +131,7 @@ class SearchDate
         range = [date, date]
         result = {type: 'date', text: term, matches: [term], score: 1, range: range}
       end
-      
+
       # check for year
       if term.match(/^1$|^19$|^19\d{1,2}$|^2$|^20$|^20\d{1,2}$/)
         number = term.to_i
@@ -156,7 +156,7 @@ class SearchDate
 
       index += 1
     end
-    
+
     result
   end
 end

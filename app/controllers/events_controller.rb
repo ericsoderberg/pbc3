@@ -1,13 +1,12 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :get_page, :except => :search
-  before_filter :page_administrator!
-  layout "administration", only: [:new, :edit, :create]
+  layout "administration", only: [:new, :edit, :create, :update]
 
   def index
-    redirect_to new_page_event_url(@page)
+    redirect_to new_event_url(@page)
   end
 
+=begin
   def search # DEPRECATED?
     result_page_size = params[:s].to_i
     result_page = params[:p].to_i
@@ -30,6 +29,7 @@ class EventsController < ApplicationController
       }
     end
   end
+=end
 
   def show
     @event = Event.find(params[:id])
@@ -41,36 +41,49 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new(:page_id => @page.id)
+    @event = Event.new()
+    if @page
+      @event.page = @page
+      @event.name = @page.name
+    end
     @event.start_at = (Time.now + 1.day).beginning_of_day + 10.hour
     @event.stop_at = @event.start_at + 1.hour
-    #@event.name = @page.name if @page.related_events.empty?
+    @pages = Page.editable(current_user).available_for_event(@event).sort()
+    @cancel_url = context_url
   end
 
   def edit
-    @event = @page.events.find(params[:id])
-    #@pages = Page.editable(current_user)
+    @event = Event.find(params[:id])
+    @page = @event.page
+    @pages = Page.editable(current_user).available_for_event(@event).sort()
+    @cancel_url = context_url
   end
 
-  def edit_page # DEPRECATED?
-    @page = Page.find(params[:id])
-  end
+  #def edit_page # DEPRECATED?
+  #  @page = Page.find(params[:id])
+  #end
 
   def create
     parse_times
     @event = Event.new(event_params)
-    @page_element = @page.page_elements.build({
-      page: @page,
-      element: @event,
-      index: @page.page_elements.length + 1
-    })
+    @page = Page.find(params[:page_id])
+    if @page
+      page_element = @page.page_elements.build({
+        page: @page,
+        element: @event,
+        index: @page.page_elements.length + 1
+      })
+    end
+    target_url = context_url
 
     respond_to do |format|
-      if @page_element.save
-        format.html { redirect_to(edit_contents_page_url(@page),
+      if @event.save and (! page_element || page_element.save)
+        format.html { redirect_to(target_url,
             :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
+        @pages = Page.editable(current_user).available_for_event(@event).sort()
+        @cancel_url = context_url
         format.html { render :action => "new" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
@@ -79,17 +92,32 @@ class EventsController < ApplicationController
 
   def update
     parse_times
-    @event = @page.events.find(params[:id])
-    @page = @event.page
+    @event = Event.find(params[:id])
+    @page = Page.find(params[:page_id]) unless params[:page_id].empty?
+    if @event.page and @event.page.id != params[:page_id]
+      # user changed the page, remove all elements and re-associate with the new page
+      @event.page_elements.clear
+    end
+    if @page and (not @event.page or @event.page != @page)
+      page_element = @page.page_elements.build({
+        page: @page,
+        element: @event,
+        index: @page.page_elements.length + 1
+      })
+    end
     update_method = 'Update all' == params[:commit] ?
       'update_with_replicas' : 'update_attributes'
+    target_url = context_url
 
     respond_to do |format|
-      if @event.send(update_method, event_params)
-        format.html { redirect_to(new_page_event_url(@event.page),
+      if @event.send(update_method, event_params) and
+        (! page_element || page_element.save)
+        format.html { redirect_to(target_url,
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }
       else
+        @pages = Page.editable(current_user).available_for_event(@event).sort()
+        @cancel_url = context_url
         format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
@@ -97,17 +125,25 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = @page.events.find(params[:id])
+    @event = Event.find(params[:id])
+    @page = @event.page
+    target_url = context_url
     @event.destroy
-    @page.normalize_indexes
+    if @page
+      @page.normalize_indexes
+    end
 
     respond_to do |format|
-      format.html { redirect_to(edit_contents_page_url(@page)) }
+      format.html { redirect_to(target_url) }
       format.xml  { head :ok }
     end
   end
 
   private
+
+  def context_url
+    @event.page ? edit_contents_page_url(@event.page) : main_calendar_url()
+  end
 
   def parse_times
     if params[:event][:start_at] and params[:event][:start_at].is_a?(String)
@@ -122,7 +158,8 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:name, :start_at, :stop_at, :all_day,
-      :location, :page_id, :master_id, :featured, :invitation_message, :notes,
+      :location, #:page_id,
+      :master_id, :featured, :invitation_message, :notes,
       :updated_by, :global_name).merge(:updated_by => current_user)
   end
 

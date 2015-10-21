@@ -27,7 +27,8 @@ Rails.application.routes.draw do
     resources :forms do
       member do
         get 'copy'
-        get 'edit_contents'
+        get 'edit_contents', :controller => 'form_builder', :action => 'edit'
+        post 'update_contents', :controller => 'form_builder', :action => 'update'
       end
       resources :sections, :controller => 'form_sections',
         :except => [:index, :new] do
@@ -151,16 +152,6 @@ Rails.application.routes.draw do
     end
     resources :elements, :only => [:new, :create, :edit, :update, :destroy],
       :controller => :page_elements
-    resources :events do
-      resource :recurrence, :only => [:edit, :update], :controller => :recurrence
-      resource :reservations, :only => [:edit, :update]
-      resources :invitations, :only => [:index, :new, :update, :destroy] do
-        collection do
-          post :bulk_create
-        end
-      end
-      resource :share, :only => [:show, :update], :controller => :shared_events
-    end
     #resources :documents
     #resources :photos
     #resources :videos do
@@ -183,6 +174,17 @@ Rails.application.routes.draw do
     resources :conversations do
       resources :comments
     end
+  end
+
+  resources :events do
+    resource :recurrence, :only => [:edit, :update], :controller => :recurrence
+    resource :reservations, :only => [:edit, :update]
+    resources :invitations, :only => [:index, :new, :update, :destroy] do
+      collection do
+        post :bulk_create
+      end
+    end
+    resource :share, :only => [:show, :update], :controller => :shared_events
   end
 
   resources :authors

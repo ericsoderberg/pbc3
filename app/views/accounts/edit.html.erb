@@ -17,4 +17,8 @@
 <% if @user != current_user -%>
 <%= render :partial => 'shared/delete',
   :locals => {:item => @user, :url => account_path(@user)} %>
+<% else -%>
+<div class="form__menu">
+  <%= link_to 'Change password', edit_user_registration_path(@user) %>
+</div>
 <% end -%>

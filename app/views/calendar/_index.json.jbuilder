@@ -9,11 +9,16 @@ json.weeks @calendar.weeks do |week|
     json.events day.events do |event|
       json.extract!(event, :name, :start_at, :stop_at, :location)
       #json.friendlyTimes contextual_times(event)
-      json.url event_link(event)
+      if event.page
+        json.url friendly_page_path(event.page)
+      else
+        json.url edit_event_path(event)
+      end
     end
     json.holidays day.holidays do |holiday|
       json.extract! holiday, :name, :date
     end
   end
 end
+json.newUrl new_event_url()
 json.filter @filter

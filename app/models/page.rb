@@ -11,6 +11,7 @@ class Page < ActiveRecord::Base
   has_many :authorizations, -> { includes(:user).order('users.first_name ASC') }, :dependent => :destroy
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by'
   has_one :podcast
+  #has_many :events # many due to replicated events
 
   validates :name, :presence => true
   validates :url, :uniqueness => true
@@ -159,6 +160,23 @@ class Page < ActiveRecord::Base
       (user ? user.id : -1), true, email_list_names).references(:authorizations)
   end
 
+  def self.editable(user)
+    includes(:authorizations).
+    where('? OR authorizations.user_id = ?',
+      (user ? user.administrator? : false),
+      (user ? user.id : -1)).references(:authorizations)
+  end
+
+  def self.available_for_event(event)
+    other_page_ids = PageElement.page_ids_with_events_other_than(event)
+    other_page_ids.empty? ? where('true') :
+      where('pages.id NOT IN (?)', other_page_ids)
+  end
+
+  def self.sort()
+    order('LOWER(pages.name) ASC')
+  end
+
   include ActionView::Helpers::SanitizeHelper
 
   #def render_text
@@ -224,6 +242,10 @@ class Page < ActiveRecord::Base
     return false unless email_list
     return true if user.email_lists.map{|el| el.name}.include?(email_list)
     return false
+  end
+
+  def has_event?
+    not page_elements.select{|pe| pe.element_type == 'Event'}.empty?
   end
 
 =begin
@@ -364,10 +386,6 @@ class Page < ActiveRecord::Base
     result
   end
 =end
-
-  def self.editable(user)
-    Page.order('name ASC').to_a.select{|p| p.administrator?(user) }
-  end
 
 =begin
   def self.order_home_features(ids) # DEPRECATED

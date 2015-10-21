@@ -1,9 +1,9 @@
 <% title "Add Event" -%>
 
-<%= form_for(@event, :url => [@page, @event], :html => { class: "form" }) do |f| %>
+<%= form_for(@event, :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => 'Add Event', :cancel_path => edit_contents_page_url(@page)} %>
+    :locals => {:title => 'Add Event', :cancel_path => @cancel_url} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

@@ -203,9 +203,11 @@ class PagesController < ApplicationController
     @add_menu_actions = [
       {label: 'Text', url: new_page_text_path(@page)},
       {label: 'File/Url', url: new_page_item_path(@page)},
-      {label: 'Event', url: new_page_event_path(@page)},
       {label: 'Page', url: new_page_element_path(@page)}
     ]
+    unless @page.has_event?
+      @add_menu_actions << {label: 'Event', url: new_event_path(@page)}
+    end
   end
 
   # DEPRECATED

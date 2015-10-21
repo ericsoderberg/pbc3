@@ -1,16 +1,17 @@
 var moment = require('moment');
 var SearchInput = require('./SearchInput');
+var AddIcon = require('./AddIcon');
 var REST = require('./REST');
 var SpinnerIcon = require('./SpinnerIcon');
 var Router = require('./Router');
 
 var Calendar = React.createClass({
-  
+
   propTypes: {
     weeks: React.PropTypes.array.isRequired,
     daysOfWeek: React.PropTypes.array.isRequired
   },
-  
+
   _onChangeSearch: function (search) {
     var path = '?';
     if (search) {
@@ -28,7 +29,7 @@ var Calendar = React.createClass({
       });
     }.bind(this));
   },
-  
+
   getInitialState: function () {
     return {
       //filterActive: false,
@@ -36,12 +37,12 @@ var Calendar = React.createClass({
       filter: this.props.filter
     };
   },
- 
+
   render: function () {
     var daysOfWeek = this.props.daysOfWeek.map(function (dayOfWeek) {
       return (<li className="calendar__day">{dayOfWeek}</li>);
     });
-    
+
     var weeks = this.state.weeks.map(function (week) {
       var days = week.days.map(function (day) {
         var date = moment(day.date);
@@ -81,7 +82,7 @@ var Calendar = React.createClass({
         </li>
       );
     });
-    
+
     return (
       <div className="calendar">
         <header className="calendar__header">
@@ -90,6 +91,9 @@ var Calendar = React.createClass({
             text={this.state.filter.search}
             suggestionsPath={'/calendar/suggestions?q='}
             onChange={this._onChangeSearch} />
+          <a className={"calendar__add control-icon"} href={this.props.newUrl}>
+            <AddIcon />
+          </a>
         </header>
         <ol className="calendar__weeks list-bare">
           <li className="calendar__week calendar__week--header">

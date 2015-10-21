@@ -3,8 +3,14 @@
   <%= render :partial => 'form_errors' %>
 
   <fieldset>
-    <%= f.hidden_field :page_id %>
     <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :page %>
+        <%= select_tag :page_id,
+          options_from_collection_for_select(@pages,
+            :id, :name, @page ? @page.id : nil),
+          {include_blank: true} %>
+      </li>
       <li class="form__field">
         <%= f.label :name %>
         <%= f.text_field :name %>
