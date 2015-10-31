@@ -22,7 +22,7 @@ class RecurrenceController < ApplicationController
       result = @event.replicate(dates)
       if (result and not result.is_a?(Array))
         @event = result
-        format.html { redirect_to(edit_page_event_url(@page, @event),
+        format.html { redirect_to(edit_event_url(@event),
           :notice => 'Recurrence was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -38,7 +38,7 @@ class RecurrenceController < ApplicationController
   private
 
   def get_event
-    @event = @page.events.find(params[:event_id])
+    @event = Event.find(params[:event_id])
   end
 
   def get_calendar

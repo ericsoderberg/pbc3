@@ -153,6 +153,10 @@ var SearchInput = React.createClass({
     this._onResize();
   },
 
+  componentWillReceiveProps: function (nextProps) {
+    this.setState({text: nextProps.text});
+  },
+
   componentWillUnmount: function () {
     window.removeEventListener('resize', this._onResize);
   },

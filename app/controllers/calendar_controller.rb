@@ -49,6 +49,19 @@ class CalendarController < ApplicationController
     @holidays = Holiday.where(:date => @start_date..@stop_date).order('date ASC').to_a
     @calendar.populate(@events.to_a, @holidays)
 
+    # set up next and previous links
+    delta = @stop_date.to_date - @start_date.to_date
+    if delta <= 1
+      @next = @stop_date.next_day.strftime("%B %d %Y")
+      @previous = @start_date.prev_day.strftime("%B %d %Y")
+    elsif delta <= 42
+      @next = @stop_date.next_month.strftime("%B %Y")
+      @previous = @start_date.prev_month.strftime("%B %Y")
+    else
+      @next = @stop_date.next_year.strftime("%Y")
+      @previous = @start_date.prev_year.strftime("%Y")
+    end
+
 =begin
     # start with first week having the first day of the referenced month
     # deal with beginning_of_week being Monday instead of Sunday

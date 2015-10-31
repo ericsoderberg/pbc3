@@ -16,7 +16,12 @@ class PageElementsController < ApplicationController
 
   def create
     @page_element = @page.page_elements.build(page_element_params)
-    @page_element.element = Page.find(@page_element.element_id)
+    @page_element.element = case @page_element.element_type
+      when 'Page'
+        Page
+      when 'Event'
+        Event
+      end.find(@page_element.element_id)
     @page_element.index = @page.page_elements.length + 1
 
     respond_to do |format|
@@ -57,7 +62,7 @@ class PageElementsController < ApplicationController
   private
 
   def page_element_params
-    params.require(:page_element).permit(:page_id, :element_id)
+    params.require(:page_element).permit(:page_id, :element_id, :element_type)
   end
 
 end

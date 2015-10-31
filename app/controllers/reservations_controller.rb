@@ -23,7 +23,7 @@ class ReservationsController < ApplicationController
         if Reservation.reserve(@event, @resources,
           'Update for all' == params[:commit],
           params[:options])
-          format.html { redirect_to(edit_page_event_url(@page, @event),
+          format.html { redirect_to(edit_event_url(@event),
             :notice => 'Reservations were successfully updated.') }
           format.xml  { head :ok }
         else
@@ -44,7 +44,7 @@ class ReservationsController < ApplicationController
   private
 
   def get_event
-    @event = @page.events.find(params[:event_id])
+    @event = Event.find(params[:event_id])
   end
 
 end

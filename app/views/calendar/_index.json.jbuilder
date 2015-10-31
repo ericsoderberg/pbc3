@@ -2,7 +2,11 @@ daysOfWeek = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
 
 #json.start @calendar.start
 #json.stop @calendar.stop
-json.daysOfWeek daysOfWeek
+if @calendar.start != @calendar.stop
+  json.daysOfWeek daysOfWeek
+else
+  json.daysOfWeek daysOfWeek.slice(@calendar.start.wday, 1)
+end
 json.weeks @calendar.weeks do |week|
   json.days week.days do |day|
     json.date day.date
@@ -22,3 +26,5 @@ json.weeks @calendar.weeks do |week|
 end
 json.newUrl new_event_url()
 json.filter @filter
+json.next @next
+json.previous @previous

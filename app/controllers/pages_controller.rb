@@ -206,7 +206,7 @@ class PagesController < ApplicationController
       {label: 'Page', url: new_page_element_path(@page)}
     ]
     unless @page.has_event?
-      @add_menu_actions << {label: 'Event', url: new_event_path(@page)}
+      @add_menu_actions << {label: 'Event', url: new_event_path(:page_id => @page.id)}
     end
   end
 

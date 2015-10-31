@@ -9,7 +9,9 @@ var Calendar = React.createClass({
 
   propTypes: {
     weeks: React.PropTypes.array.isRequired,
-    daysOfWeek: React.PropTypes.array.isRequired
+    daysOfWeek: React.PropTypes.array.isRequired,
+    next: React.PropTypes.string.isRequired,
+    previous: React.PropTypes.string.isRequired
   },
 
   _onChangeSearch: function (search) {
@@ -18,14 +20,21 @@ var Calendar = React.createClass({
       path += 'search=' + encodeURIComponent(search);
     }
     Router.replace(path);
-    this.setState({
-      weeks: [],
-    });
+    clearTimeout(this._resetTimer);
+    this._resetTimer = setTimeout(function () {
+      this.setState({
+        weeks: [],
+      });
+    }, 100);
+
     //console.log('!!! Calendar _onChangeSearch', path);
     REST.get(path, function (response) {
+      clearTimeout(this._resetTimer);
       this.setState({
         weeks: response.weeks,
         filter: response.filter,
+        next: response.next,
+        previous: response.previous
       });
     }.bind(this));
   },
@@ -34,13 +43,17 @@ var Calendar = React.createClass({
     return {
       //filterActive: false,
       weeks: this.props.weeks || [],
-      filter: this.props.filter
+      filter: this.props.filter,
+      next: this.props.next,
+      previous: this.props.previous
     };
   },
 
   render: function () {
     var daysOfWeek = this.props.daysOfWeek.map(function (dayOfWeek) {
-      return (<li className="calendar__day">{dayOfWeek}</li>);
+      return (
+        <div key={dayOfWeek} className="calendar__day">{dayOfWeek}</div>
+      );
     });
 
     var weeks = this.state.weeks.map(function (week) {
@@ -55,14 +68,14 @@ var Calendar = React.createClass({
         var events = day.events.map(function (event) {
           var start = moment(event.startAt);
           return (
-            <li className="calendar__event">
+            <li key={event.url} className="calendar__event">
               <span className="calendar__event-time">{start.format('h:mm a')}</span>
               <a href={event.url}>{event.name}</a>
             </li>
           );
         });
         return (
-          <li className="calendar__day">
+          <div key={day.date} className="calendar__day">
             <div className="calendar__day-date">
               {dayOfWeek}
               {month}
@@ -71,20 +84,18 @@ var Calendar = React.createClass({
             <ol className="calendar__events list-bare">
               {events}
             </ol>
-          </li>
+          </div>
         );
       });
       return (
-        <li className="calendar__week">
-          <ol className="calendar__days list-bare">
-            {days}
-          </ol>
-        </li>
+        <div key={week.days[0].date} className="calendar__week">
+          {days}
+        </div>
       );
     });
 
     return (
-      <div className="calendar">
+      <div className="calendar calendar__weeks">
         <header className="calendar__header">
           <h1 className="calendar__title">Calendar</h1>
           <SearchInput className="calendar__search"
@@ -95,15 +106,18 @@ var Calendar = React.createClass({
             <AddIcon />
           </a>
         </header>
-        <ol className="calendar__weeks list-bare">
-          <li className="calendar__week calendar__week--header">
-            <ol className="calendar__days list-bare">
-              {daysOfWeek}
-            </ol>
-          </li>
-          {weeks}
-        </ol>
-        <div className="calendar__spinner spinner"></div>
+        <div className="calendar__week calendar__week--header">
+          {daysOfWeek}
+        </div>
+        {weeks}
+        <div className="calendar__nav">
+          <a onClick={this._onChangeSearch.bind(this, this.state.previous)}>
+            {this.state.previous}
+          </a>
+          <a onClick={this._onChangeSearch.bind(this, this.state.next)}>
+            {this.state.next}
+          </a>
+        </div>
       </div>
     );
   }

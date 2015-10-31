@@ -1,10 +1,26 @@
 .calendar {
 
+  @include media-query(lap-and-up) {
+    padding: 0 $inuit-base-spacing-unit;
+
+    .form__field & {
+      padding: 0;
+    }
+  }
+
+  @include media-query(desk) {
+    padding: 0 double($inuit-base-spacing-unit);
+
+    .form__field & {
+      padding: 0;
+    }
+  }
+
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: -webkit-flex;
     display: flex;
+    margin-bottom: $inuit-base-spacing-unit;
 
     @include media-query(palm) {
       @include inuit-font-size($inuit-heading-size-1);
@@ -15,22 +31,22 @@
   &__title {
     display: block;
     margin-right: $inuit-base-spacing-unit;
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
   }
 
   &__search {
     display: block;
-    -webkit-flex: 1;
     flex: 1;
   }
 
-  &__weeks {
-    //padding: 0px $inuit-base-spacing-unit;
-    text-align: center;
-  }
-
   &__week {
+    display: flex;
+    align-items: stretch;
+
+    .form__field & {
+      align-items: flex-end;
+    }
+
     &--header {
       .calendar {
         &__day {
@@ -48,17 +64,9 @@
   &__day {
     display: inline-block;
     vertical-align: top;
-    width: 13vw;
+    //width: 13vw;
+    flex: 1;
     text-align: left;
-
-    .form__field & {
-      @include media-query(lap-and-up) {
-        width: 11vw;
-        // -4 is for border
-        max-width: round(
-          ($max-content-width - quadruple($inuit-base-spacing-unit)) / 7) - 4;
-      }
-    }
 
     &-date {
       padding: quarter($inuit-base-spacing-unit);
@@ -67,16 +75,26 @@
       border-right: 2px solid $background-color;
       margin-bottom: 2px;
 
+      .form__field & {
+        text-align: left;
+        height: 100%;
+      }
+
       &--alternate {
         background-color: #f2f2f2;
       }
 
-      &-month {
+      &-month,
+      &-year {
         margin-right: quarter($inuit-base-spacing-unit);
         display: none;
 
         &--first {
           display: inline;
+
+          .form__field & {
+            display: block;
+          }
         }
       }
 
@@ -88,7 +106,7 @@
   }
 
   &__events {
-    margin: quarter($inuit-base-spacing-unit) 0;
+    margin: quarter($inuit-base-spacing-unit);
   }
 
   &__event {
@@ -101,6 +119,31 @@
       text-indent: 0;
       color: $secondary-color;
       display: none;
+
+      @include media-query(desk) {
+        display: inline-block;
+      }
+    }
+  }
+
+  &__nav {
+    margin-top: double($inuit-base-spacing-unit);
+    display: flex;
+    justify-content: space-between;
+
+    a {
+      cursor: pointer;
+      &:first-child {
+        &:before {
+          content: '< ';
+        }
+      }
+
+      &:last-child {
+        &:after {
+          content: ' >';
+        }
+      }
     }
   }
 
@@ -111,6 +154,8 @@
   @include media-query(palm) {
 
     &__week {
+      flex-direction: column;
+
       &--header {
         display: none;
       }

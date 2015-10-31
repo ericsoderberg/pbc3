@@ -2,13 +2,19 @@ class Calendar
 
   def initialize(start, stop)
     @weeks = []
-    date = @start = start.tomorrow.beginning_of_week.yesterday.to_date
-    @stop = stop = stop.tomorrow.end_of_week.yesterday.to_date
-    while (date <= stop.to_date) do
-      @weeks << Week.new if 0 == date.wday
-      day = Day.new(date)
-      @weeks[-1].days << day
-      date = date + 1
+    if start == stop
+      @weeks << Week.new
+      @weeks[-1].days << Day.new(start)
+      @start = @stop = start
+    else
+      date = @start = start.tomorrow.beginning_of_week.yesterday.to_date
+      @stop = stop = stop.tomorrow.end_of_week.yesterday.to_date
+      while (date <= stop.to_date) do
+        @weeks << Week.new if 0 == date.wday
+        day = Day.new(date)
+        @weeks[-1].days << day
+        date = date + 1
+      end
     end
   end
 
@@ -62,7 +68,7 @@ class SearchDate
     terms = text.strip.split(' ')
     index = 0
 
-    while index < terms.length
+    while index < terms.length and not result
       term = terms[index]
       next_term = terms[index+1]
       next_next_term = terms[index+2]
@@ -101,6 +107,7 @@ class SearchDate
           index += 1
           next_term = terms[index+1]
         else
+          # just month, e.g. "May"
           matches = months.map{|m| "#{m} #{Date.today.year}"}
           if matches.length == 1
             date = Date.parse(matches[0])
@@ -110,10 +117,9 @@ class SearchDate
         end
 
         result = {type: 'date', text: term, matches: matches, score: score, range: range}
-      end
 
       # check for short form
-      if term.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)
+      elsif term.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)
         # e.g. "5/2/2015"
         date =  Date.strptime(term, "%m/%d/%Y")
         range = [date, date]
@@ -130,10 +136,9 @@ class SearchDate
         date = Date.parse(matches[0])
         range = [date, date]
         result = {type: 'date', text: term, matches: [term], score: 1, range: range}
-      end
 
       # check for year
-      if term.match(/^1$|^19$|^19\d{1,2}$|^2$|^20$|^20\d{1,2}$/)
+      elsif term.match(/^1$|^19$|^19\d{1,2}$|^2$|^20$|^20\d{1,2}$/)
         number = term.to_i
         if number < 10
           year = ["#{term}999".to_i, Date.today.year+1].min
@@ -152,9 +157,10 @@ class SearchDate
         range = [Date.parse("1/#{year}"), Date.parse("12/#{year}")]
         result = {type: 'date', text: term, matches: matches, score: score,
           range: range}
-      end
+      else
 
-      index += 1
+        index += 1
+      end
     end
 
     result

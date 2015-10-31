@@ -7,45 +7,44 @@
     <ul class="form__fields list-bare">
       <li class="form__field form__field--large">
 
-        <div class="calendar">
-          <ol class="calendar__weeks list-bare">
+        <div class="calendar calendar--weeks">
 
-            <li class="calendar__week calendar__week--header">
-              <ol class="calendar__days list-bare">
-                <% @calendar.weeks.first.days.each do |day|
-                  name = day.date.strftime("%a") -%>
-                  <li class="calendar__day">
-                    <input type="checkbox" name="<%= name %>"
-                      id="<%= name %>" value="<%= name %>">
-                    <%= name %>
-                  </li>
-                <% end -%>
-              </ol>
-            </li>
-
-            <% @calendar.weeks.each do |week| -%>
-              <li class="calendar__week">
-                <ol class="calendar__days list-bare">
-                  <% week.days.each do |day| -%>
-                    <li class="calendar__day">
-                      <div class="calendar__day-date">
-                        <% if 1 == day.date.day %>
-                          <span class="calendar__day-date-month calendar__day-date-month--first">
-                            <%= day.date.strftime("%B") %>
-                          </span>
-                        <% end -%>
-                        <input type="checkbox" name="days[]"
-                          id="days_" value="<%= day.date.strftime('%Y-%m-%d') %>"
-                          <%= (! day.events.empty?) ? 'checked="checked"' : "" %>
-                          class="<%= day.date.strftime("%a") %>">
-                        <%= day.date.day %>
-                      </div>
-                    </li>
-                  <% end -%>
-                </ol>
-              </li>
+          <div class="calendar__week calendar__week--header">
+            <% @calendar.weeks.first.days.each do |day|
+              name = day.date.strftime("%a") -%>
+              <div class="calendar__day">
+                <input type="checkbox" name="<%= name %>"
+                  id="<%= name %>" value="<%= name %>">
+                <%= name %>
+              </div>
             <% end -%>
-          </ol>
+          </div>
+
+          <% @calendar.weeks.each do |week| -%>
+            <div class="calendar__week">
+              <% week.days.each do |day| -%>
+                <div class="calendar__day">
+                  <div class="calendar__day-date">
+                    <% if 1 == day.date.day %>
+                      <% if 1 == day.date.month %>
+                        <span class="calendar__day-date-year calendar__day-date-year--first">
+                          <%= day.date.strftime("%Y") %>
+                        </span>
+                      <% end -%>
+                      <span class="calendar__day-date-month calendar__day-date-month--first">
+                        <%= day.date.strftime("%B") %>
+                      </span>
+                    <% end -%>
+                    <input type="checkbox" name="days[]"
+                      id="days_" value="<%= day.date.strftime('%Y-%m-%d') %>"
+                      <%= (! day.events.empty?) ? 'checked="checked"' : "" %>
+                      class="<%= day.date.strftime("%a") %>">
+                    <%= day.date.day %>
+                  </div>
+                </div>
+              <% end -%>
+            </div>
+          <% end -%>
         </div>
 
       </li>

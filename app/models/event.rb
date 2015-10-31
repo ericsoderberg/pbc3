@@ -76,7 +76,7 @@ class Event < ActiveRecord::Base
   end
 
   def page
-    pages.empty? ? nil : pages.first
+    page_elements.empty? ? nil : pages.first
   end
 
   def authorized?(user)
@@ -313,8 +313,8 @@ class Event < ActiveRecord::Base
       tokens << date_matches
     else
       # no date filter, set to the month we are in
-      start_date = (Date.today.beginning_of_month + 1.day).beginning_of_week.yesterday
-      end_date = (start_date + 1.month).end_of_week.yesterday
+      start_date = Date.today.beginning_of_month
+      end_date = start_date.end_of_month
       clause = "(events.start_at <= :ed AND events.stop_at >= :sd)"
       args = {:sd => start_date, :ed => end_date}
       range = [start_date, end_date]
