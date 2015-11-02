@@ -18,6 +18,24 @@ var PageBuilder = React.createClass({
     editContents: React.PropTypes.object.isRequired
   },
 
+  _onSubmit: function (event) {
+    event.preventDefault();
+    var url = this.props.editContents.updateContentsOrderUrl;
+    var token = this.props.editContents.authenticityToken;
+    var elementIds = this.state.elements.map(function (pageElement) {
+      return pageElement.id;
+    });
+    var data = {
+      element_order: elementIds
+    };
+    REST.patch(url, token, data, function (response) {
+      console.log('!!! PageBuilder _onSubmit completed', response);
+      if (response.result === 'ok') {
+        location = response.redirect_to;
+      }
+    }.bind(this));
+  },
+
   _updateOrder: function () {
     var url = this.props.editContents.updateContentsOrderUrl;
     var token = this.props.editContents.authenticityToken;
@@ -25,8 +43,7 @@ var PageBuilder = React.createClass({
       return pageElement.id;
     });
     var data = {
-      element_order: elementIds,
-
+      element_order: elementIds
     };
     REST.patch(url, token, data, function (response) {
       console.log('!!! PageBuilder _updateOrder completed', response);
@@ -51,7 +68,7 @@ var PageBuilder = React.createClass({
     elements.forEach(function (section, index) {
       section.index = index + 1;
     });
-    this.setState({elements: elements}, this._updateOrder);
+    this.setState({elements: elements});
   },
 
   getInitialState: function () {
@@ -99,7 +116,7 @@ var PageBuilder = React.createClass({
     }, this);
 
     return (
-      <div className={CLASS_ROOT}>
+      <form className={CLASS_ROOT + " form"}>
         <input ref="indexes" type="hidden" name="element_order" value={elementIds.join(',')} />
         <div className={CLASS_ROOT + "__elements"}
           onDragOver={this._dragOver}>
@@ -108,10 +125,20 @@ var PageBuilder = React.createClass({
 
         <Menu className={CLASS_ROOT + "__add-menu"}
           actions={this.props.editContents.addMenuActions} icon={addIcon} />
+
+        <div className="form__footer">
+          <input type="submit" value="Update" className="btn btn--primary"
+            onClick={this._onSubmit} />
+          <a href={this.props.editContents.editContextUrl}>
+            Context
+          </a>
+        </div>
+        {/*}
         <footer className={CLASS_ROOT + "__footer"}>
-          <a href={this.props.editContents.editContextUrl}>Contents</a>
+          <a href={this.props.editContents.editContextUrl}>Context</a>
         </footer>
-      </div>
+        {*/}
+      </form>
     );
   }
 });

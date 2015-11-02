@@ -45,7 +45,8 @@ var FormFieldOptionEditor = React.createClass({
     onUpdate: React.PropTypes.func.isRequired
   },
 
-  _onUpdate: function () {
+  _onUpdate: function (event) {
+    event.preventDefault();
     this.props.onUpdate(this.state.option);
   },
 
@@ -210,7 +211,8 @@ var FormFieldEditor = React.createClass({
     onUpdate: React.PropTypes.func.isRequired
   },
 
-  _onUpdate: function () {
+  _onUpdate: function (event) {
+    event.preventDefault();
     this.props.onUpdate(this.state.field);
   },
 
@@ -563,7 +565,8 @@ var FormSectionEditor = React.createClass({
     onUpdate: React.PropTypes.func.isRequired
   },
 
-  _onUpdate: function () {
+  _onUpdate: function (event) {
+    event.preventDefault();
     this.props.onUpdate(this.state.section);
   },
 
@@ -611,8 +614,8 @@ var FormSectionEditor = React.createClass({
         </div>
         <div className="form__footer">
           <button className="btn btn--primary" onClick={this._onUpdate}>
-            OK<
-          /button>
+            OK
+          </button>
           <a href="#" onClick={this.props.onRemove}>Remove</a>
         </div>
       </form>

@@ -4,7 +4,10 @@
   width: 100vw;
   overflow: auto;
   margin: 0 auto;
-  //background-color: $background-color;
+
+  .drop & {
+    background-color: $background-color;
+  }
 
   .page__element &,
   .page-builder__element & {

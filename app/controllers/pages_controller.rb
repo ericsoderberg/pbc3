@@ -311,7 +311,8 @@ class PagesController < ApplicationController
       if @page.order_elements(params[:element_order])
         format.html { redirect_to(friendly_page_path(@page),
           :notice => 'Page was successfully updated.') }
-        format.json { render :json => 'ok' }
+        format.json { render :json => {result: 'ok',
+          redirect_to: friendly_page_path(@page)} }
       else
         format.html {
           render :action => "edit_contents", :layout => "administration"
