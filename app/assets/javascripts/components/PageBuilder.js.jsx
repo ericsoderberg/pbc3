@@ -2,6 +2,7 @@ var Menu = require('./Menu');
 var AddIcon = require('./AddIcon');
 var EditIcon = require('./EditIcon');
 var REST = require('./REST');
+var DragAndDrop = require('../utils/DragAndDrop');
 
 var Text = require('./Text');
 var Item = require('./Item');
@@ -9,6 +10,7 @@ var Event = require('./Event');
 var Form = require('./Form');
 
 var CLASS_ROOT = "page-builder";
+var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
 
 var PageBuilder = React.createClass({
 
@@ -31,46 +33,25 @@ var PageBuilder = React.createClass({
     }.bind(this));
   },
 
-  // http://webcloud.se/sortable-list-component-react-js/
-
   _dragStart: function (event) {
-    this._dragged = event.currentTarget;
-    event.dataTransfer.effectAllowed = 'move';
-
-    // Firefox requires calling dataTransfer.setData
-    // for the drag to properly work
-    event.dataTransfer.setData("text/html", event.currentTarget);
-
-    this._placeholder = document.createElement("li");
-    this._placeholder.className = "placeholder";
-  },
-
-  _dragEnd: function (event) {
-    var placeholder = this._placeholder;
-    this._dragged.style.display = "block";
-    this._dragged.parentNode.removeChild(placeholder);
-
-    // Update state
-    var elements = this.state.elements;
-    var from = Number(this._dragged.dataset.index);
-    var to = Number(this._over.dataset.index);
-    if (from < to) to--;
-    elements.splice(to, 0, elements.splice(from, 1)[0]);
-    this.setState({elements: elements}, this._updateOrder);
+    this._dragAndDrop = DragAndDrop.start({
+      event: event,
+      itemClass: CLASS_ROOT + '__element',
+      placeholderClass: PLACEHOLDER_CLASS,
+      list: this.state.elements.slice(0)
+    });
   },
 
   _dragOver: function (event) {
-    event.preventDefault();
-    var placeholder = this._placeholder;
-    this._dragged.style.display = "none";
-    var element = event.target;
-    // find containing element
-    while (!element.classList.contains(CLASS_ROOT + '__element') &&
-      (element = element.parentElement));
-    if (element && element.className !== "placeholder") {
-      this._over = element;
-      element.parentNode.insertBefore(placeholder, element);
-    }
+    this._dragAndDrop.over(event);
+  },
+
+  _dragEnd: function (event) {
+    var elements = this._dragAndDrop.end(event);
+    elements.forEach(function (section, index) {
+      section.index = index + 1;
+    });
+    this.setState({elements: elements}, this._updateOrder);
   },
 
   getInitialState: function () {
@@ -103,7 +84,7 @@ var PageBuilder = React.createClass({
         break;
       }
       return (
-        <li key={pageElement.id} className={CLASS_ROOT + "__element"}
+        <div key={pageElement.id} className={CLASS_ROOT + "__element"}
           data-index={index}
           draggable="true"
           onDragEnd={this._dragEnd}
@@ -113,17 +94,17 @@ var PageBuilder = React.createClass({
             <EditIcon />
           </a>
           {contents}
-        </li>
+        </div>
       );
     }, this);
 
     return (
       <div className={CLASS_ROOT}>
         <input ref="indexes" type="hidden" name="element_order" value={elementIds.join(',')} />
-        <ol className={CLASS_ROOT + "__elements list-bare"}
+        <div className={CLASS_ROOT + "__elements"}
           onDragOver={this._dragOver}>
           {elements}
-        </ol>
+        </div>
 
         <Menu className={CLASS_ROOT + "__add-menu"}
           actions={this.props.editContents.addMenuActions} icon={addIcon} />

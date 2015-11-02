@@ -7,8 +7,11 @@ class FormBuilderController < ApplicationController
   def edit
     return unless administrator!
     @form_builder_form = FormBuilderForm.new(form: @form)
-    @page = @form.page
+    @page = Page.find(params[:page_id]) if params[:page_id]
+    @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     @cancel_url = context_url(@page)
+    @edit_context_url = @page ?
+      edit_form_path(@form, {:page_id => @page.id}) : edit_form_path(@form)
   end
 
   def update

@@ -16,4 +16,8 @@
 
 <% end %>
 
+<% if @page_element -%>
+<%= render :partial => 'page_elements/delete' %>
+<% end -%>
+
 <%= render :partial => 'shared/delete', :locals => {:item => @form} %>

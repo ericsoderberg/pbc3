@@ -60,7 +60,8 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
-    @page = @event.page
+    @page = Page.find(params[:page_id]) if params[:page_id]
+    @page_element = @page.page_elements.where('element_id = ?', @event.id).first
     @pages = Page.editable(current_user).available_for_event(@event).sort()
     @cancel_url = context_url(@page)
   end

@@ -13,13 +13,15 @@ json.page do
       json.editUrl edit_page_item_url(@page, page_element.element)
     when 'Event'
       json.partial! 'events/show', event: page_element.element
-      json.editUrl edit_event_url(page_element.element)
+      json.editUrl edit_event_url(page_element.element, {:page_id => @page.id})
     when 'Page'
       json.partial! 'page_elements/show_page', page: page_element.element
-      json.editUrl edit_page_element_url(@page, page_element)
+      json.editUrl edit_page_element_url(@page, page_element,
+        {:page_id => @page.id})
     when 'Form'
       json.partial! 'forms/show', form: page_element.element
-      json.editUrl edit_contents_form_url(page_element.element)
+      json.editUrl edit_contents_form_url(page_element.element,
+        {:page_id => @page.id})
     end
   end
   if @edit_url

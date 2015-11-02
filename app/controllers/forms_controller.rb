@@ -98,7 +98,8 @@ class FormsController < ApplicationController
   def edit
     return unless administrator!
     @form = Form.find(params[:id])
-    @page = @form.page
+    @page = Page.find(params[:page_id]) if params[:page_id]
+    @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     @cancel_url = context_url(@page)
     #@page = @form.page
     #return unless page_administrator!

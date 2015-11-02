@@ -1,0 +1,4 @@
+<%= form_for(@page_element, :url => page_element_path(@page, @page_element),
+  method: "delete", :html => { class: "delete" }) do |f| %>
+  <%= f.submit "Detach from #{@page_element.page.name}", class: 'btn' %>
+<% end -%>
