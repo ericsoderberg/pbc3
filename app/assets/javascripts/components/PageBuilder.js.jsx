@@ -11,6 +11,10 @@ var CLASS_ROOT = "page-builder";
 
 var PageBuilder = React.createClass({
 
+  propTypes: {
+    editContents: React.PropTypes.object.isRequired
+  },
+
   _updateOrder: function () {
     var url = this.props.editContents.updateContentsOrderUrl;
     var token = this.props.editContents.authenticityToken;
@@ -119,6 +123,9 @@ var PageBuilder = React.createClass({
 
         <Menu className={CLASS_ROOT + "__add-menu"}
           actions={this.props.editContents.addMenuActions} icon={addIcon} />
+        <footer className={CLASS_ROOT + "__footer"}>
+          <a href={this.props.editContents.editContextUrl}>Contents</a>
+        </footer>
       </div>
     );
   }

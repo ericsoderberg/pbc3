@@ -16,10 +16,12 @@ var Page = React.createClass({
   render: function() {
     var page = this.props.page;
 
-    var editMenu;
-    if (page.editActions) {
-      editMenu = (
-        <Menu className={CLASS_ROOT + "__edit-menu"} actions={page.editActions} icon={(<EditIcon/>)} />
+    var editControl;
+    if (page.editUrl) {
+      editControl = (
+        <a href={page.editUrl} className={CLASS_ROOT + "__edit control-icon"}>
+          <EditIcon />
+        </a>
       );
     }
 
@@ -48,7 +50,7 @@ var Page = React.createClass({
 
     return (
       <div className={CLASS_ROOT}>
-        {editMenu}
+        {editControl}
         <ol className={CLASS_ROOT + "__elements list-bare"}>
           {elements}
         </ol>

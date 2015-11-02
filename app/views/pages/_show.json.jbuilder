@@ -19,9 +19,7 @@ json.page do
       json.editUrl edit_page_element_url(@page, page_element)
     end
   end
-  if @edit_actions
-    json.edit_actions do
-      json.array! @edit_actions, :label, :url
-    end
+  if @edit_url
+    json.editUrl @edit_url
   end
 end

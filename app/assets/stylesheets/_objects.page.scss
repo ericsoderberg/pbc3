@@ -21,10 +21,10 @@
     flex: 0 0 auto;
   }*/
 
-  &__edit-menu {
+  &__edit {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: $inuit-base-spacing-unit;
+    right: $inuit-base-spacing-unit;
   }
 
   &__elements {
@@ -49,6 +49,14 @@
     width: double($inuit-base-spacing-unit);
     margin: 0 auto;
     line-height: double($inuit-base-spacing-unit);
+  }
+
+  &__footer {
+    @include main-content();
+
+    > a {
+      float: right;
+    }
   }
 
   &__element {
