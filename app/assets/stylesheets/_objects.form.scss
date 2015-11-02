@@ -4,17 +4,29 @@
   width: 100vw;
   overflow: auto;
   margin: 0 auto;
-  background-color: $background-color;
+  //background-color: $background-color;
+
+  .page__element &,
+  .page-builder__element & {
+    width: auto;
+    margin: 0;
+  }
 
   &__header, &__footer {
     @include main-content();
-    background-color: $header-background-color;
+    //background-color: $header-background-color;
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
     justify-content: space-between;
     -webkit-align-items: center;
     align-items: center;
+
+    .page__element &,
+    .page-builder__element & {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
 
   &__header {
@@ -81,6 +93,12 @@
       margin: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit $inuit-base-spacing-unit $inuit-base-spacing-unit;
       padding-right: quadruple($inuit-base-spacing-unit);
 
+      .page__element &,
+      .page-builder__element & {
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+
       &:before {
         content: '';
         position: absolute;
@@ -102,6 +120,12 @@
 
       @include media-query(lap-and-up) {
         margin: 0 $inuit-base-spacing-unit;
+
+        .page__element &,
+        .page-builder__element & {
+          margin-left: 0px;
+          margin-right: 0px;
+        }
       }
 
       @include media-query(palm) {
@@ -125,6 +149,12 @@
     @include media-query(lap-and-up) {
       margin-left: $inuit-base-spacing-unit;
       margin-right: $inuit-base-spacing-unit;
+
+      .page__element &,
+      .page-builder__element & {
+        margin-left: 0px;
+        margin-right: 0px;
+      }
     }
 
     > label {

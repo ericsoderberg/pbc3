@@ -28,6 +28,10 @@ class Form < ActiveRecord::Base
     self.pay_by_paypal = true if self.pay_by_paypal.nil?
   end
 
+  def page
+    page_elements.empty? ? nil : pages.first
+  end
+
   def authorized?(user)
     page.authorized?(user)
   end

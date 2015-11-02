@@ -7,16 +7,28 @@ class FormBuilderController < ApplicationController
   def edit
     return unless administrator!
     @form_builder_form = FormBuilderForm.new(form: @form)
+    @page = @form.page
+    @cancel_url = context_url(@page)
   end
 
   def update
     return unless administrator!
     @form_builder_form = FormBuilderForm.new(form: @form)
+    @page = Page.where(id: params[:page_id]).first
+    if @page
+      page_element = @page.page_elements.build({
+        page: @page,
+        element: @form,
+        index: @page.page_elements.length + 1
+      })
+    end
+    target_url = context_url(@page)
+
     respond_to do |format|
       if @form_builder_form.update_attributes(form_builder_params)
-        format.html { redirect_to(forms_path,
+        format.html { redirect_to(target_url,
           :notice => 'Form contents were successfully updated.') }
-        format.json { render :json => {result: 'ok', redirect_to: forms_path} }
+        format.json { render :json => {result: 'ok', redirect_to: target_url} }
       else
         format.html {
           render :action => "edit", :layout => "administration"
@@ -31,6 +43,10 @@ class FormBuilderController < ApplicationController
   def get_form
     @form = Form.find(params[:id])
     #@page = @form.page
+  end
+
+  def context_url(page)
+    page ? edit_contents_page_url(page) : forms_url()
   end
 
   def form_builder_params

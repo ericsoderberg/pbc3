@@ -4,6 +4,7 @@ var EditIcon = require('./EditIcon');
 var Text = require('./Text');
 var Item = require('./Item');
 var Event = require('./Event');
+var Form = require('./Form');
 
 var CLASS_ROOT = "page";
 
@@ -39,6 +40,9 @@ var Page = React.createClass({
         break;
       case 'Page':
         contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);
+        break;
+      case 'Form':
+        contents = (<Form form={pageElement.form} />);
         break;
       }
       return (

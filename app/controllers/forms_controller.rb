@@ -61,6 +61,17 @@ class FormsController < ApplicationController
   def new
     return unless administrator!
     @form = Form.new
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
+      @page_element = @form.page_elements.build({
+        page: @page,
+        element: @form,
+        element_type: 'Form'
+      })
+      @form.name = @page.name
+      @forms = Form.order('name ASC')
+    end
+    @cancel_url = context_url(@page)
     #@form.page = Page.find(params[:page_id]) if params[:page_id]
     #@page = @form.page
     #return unless page_administrator!
@@ -87,6 +98,8 @@ class FormsController < ApplicationController
   def edit
     return unless administrator!
     @form = Form.find(params[:id])
+    @page = @form.page
+    @cancel_url = context_url(@page)
     #@page = @form.page
     #return unless page_administrator!
     #@events = @page.events.between(Date.today, Date.today + 3.months).
@@ -139,10 +152,11 @@ class FormsController < ApplicationController
     if params[:advance_version]
       params[:form][:version] = @form.version + 1
     end
+    target_url = context_url(@page)
 
     respond_to do |format|
       if (@form.update_attributes(form_params))
-        format.html { redirect_to(forms_path(),
+        format.html { redirect_to(target_url,
           :notice => 'Form was successfully updated.') }
         format.js { head :ok }
         format.xml  { head :ok }
@@ -178,14 +192,19 @@ class FormsController < ApplicationController
     #@page = @form.page
     #return unless page_administrator!
     @form.destroy
+    target_url = context_url(@page)
 
     respond_to do |format|
-      format.html { redirect_to(forms_url) }
+      format.html { redirect_to(target_url) }
       format.xml  { head :ok }
     end
   end
 
   private
+
+  def context_url(page)
+    page ? edit_contents_page_url(page) : forms_url()
+  end
 
   def form_params
     params.require(:form).permit(:name, #:page_id, :event_id,

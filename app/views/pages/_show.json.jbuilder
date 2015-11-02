@@ -17,6 +17,9 @@ json.page do
     when 'Page'
       json.partial! 'page_elements/show_page', page: page_element.element
       json.editUrl edit_page_element_url(@page, page_element)
+    when 'Form'
+      json.partial! 'forms/show', form: page_element.element
+      json.editUrl edit_contents_form_url(page_element.element)
     end
   end
   if @edit_url

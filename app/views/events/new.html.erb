@@ -14,7 +14,8 @@
 <% end %>
 
 <% if @page and not @event.id -%>
-<%= form_for(@page_element, :url => page_elements_path(@page, @page_element), :html => { class: "form" }) do |f| %>
+<%= form_for(@page_element, :url => page_elements_path(@page, @page_element),
+  :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
     :locals => {:title => 'Attach Event'} %>
