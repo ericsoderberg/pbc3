@@ -1,4 +1,7 @@
+<% cancel_path ||= nil -%>
 <div class="form__header">
   <span class="form__title"><%= title %></span>
-  <%= link_to render(:partial => 'shared/cancel_icon'), cancel_path, {:class => 'control-icon'} %>
+  <% if cancel_path -%>
+    <%= link_to render(:partial => 'shared/cancel_icon'), cancel_path, {:class => 'control-icon'} %>
+  <% end -%>
 </div>

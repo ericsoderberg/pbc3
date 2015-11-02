@@ -96,6 +96,7 @@ class FormsController < ApplicationController
     #@possible_parents = @form.page.forms.to_a.delete_if{|f| f.id == @form.id}
   end
 
+=begin
   def edit_contents
     return unless administrator!
     @form = Form.find(params[:id])
@@ -106,6 +107,7 @@ class FormsController < ApplicationController
     end
     #@cancel_path = session[:edit_form_cancel_path] || page_path(@page)
   end
+=end
 
   def create
     return unless administrator!
@@ -134,21 +136,13 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     #@page = @form.page
     #return unless page_administrator!
-    if params[:field_order]
-      ordered_field_ids = params[:field_order].split(',').map{|id| id.to_i}
-    end
-    if params[:section_order]
-      ordered_section_ids = params[:section_order].split(',').map{|id| id.to_i}
-    end
     if params[:advance_version]
       params[:form][:version] = @form.version + 1
     end
 
     respond_to do |format|
-      if (not params[:form] or @form.update_attributes(form_params)) and
-        (not ordered_field_ids or @form.order_fields(ordered_field_ids) and
-        (not ordered_section_ids or @form.order_sections(ordered_section_ids)))
-        format.html { redirect_to(new_form_fill_path(@form),
+      if (@form.update_attributes(form_params))
+        format.html { redirect_to(forms_path(),
           :notice => 'Form was successfully updated.') }
         format.js { head :ok }
         format.xml  { head :ok }
@@ -158,6 +152,25 @@ class FormsController < ApplicationController
       end
     end
   end
+
+=begin
+  def update_contents
+    return unless administrator!
+    @form = Form.find(params[:id])
+    respond_to do |format|
+      if @form.update_contents(form_contents_params)
+        format.html { redirect_to(forms_path,
+          :notice => 'Form contents were successfully updated.') }
+        format.json { render :json => 'ok' }
+      else
+        format.html {
+          render :action => "edit_contents", :layout => "administration"
+        }
+        format.json { render :json => 'error' }
+      end
+    end
+  end
+=end
 
   def destroy
     return unless administrator!
@@ -182,5 +195,40 @@ class FormsController < ApplicationController
       #:call_to_action
       ).merge(:updated_by => current_user)
   end
+
+=begin
+  def form_contents_params
+    params.permit(:name,
+      {:formSections => [:id, :name, :formIndex,
+        {:formFields => [:id, :name, :formIndex,
+          :fieldType, :help, :required, :monetary, :value, :limit,
+          {:formFieldOptions => [:id, :name, :optionType, :help, :disabled, :value]}
+        ]}
+      ]}
+    )
+  end
+
+  def form_contents_params2
+    # convert to a hash since couldn't get permit to work
+    form = {}
+    form[:form_sections] = params[:formSections].map do |fs|
+      form_section = {id: fs[:id], name: fs[:name], form_index: fs[:formIndex]}
+      form_section[:form_fields] = fs[:formFields].map do |f|
+        form_field = {id: f[:id], name: f[:name], form_index: f[:formIndex],
+          field_type: f[:fieldType], help: f[:help], required: f[:required], monetary: f[:monetary],
+          limit: f[:limit]}
+        if f[:formFieldOptions]
+          form_field[:form_field_options] = f[:formFieldOptions].map do |o|
+            {id: o[:id], name: o[:name], form_field_index: o[:formFieldIndex],
+              help: o[:help], value: o[:value]}
+          end
+        end
+        form_field
+      end
+      form_section
+    end
+    form
+  end
+=end
 
 end

@@ -4,11 +4,11 @@ json.form do
     json.extract!(form_section, :id, :name, :form_index)
     json.formFields form_section.form_fields do |form_field|
       json.extract!(form_field, :id, :name, :form_index,
-        :field_type, :help, :size, :required, :monetary,
-        :dense, :value, :prompt, :limit)
+        :field_type, :help, :required, :monetary,
+        :value, :limit)
       json.formFieldOptions form_field.form_field_options do |form_field_option|
         json.extract!(form_field_option, :id, :name, :form_field_index,
-          :option_type, :help, :size, :disabled, :value)
+          :option_type, :help, :disabled, :value)
       end
     end
   end

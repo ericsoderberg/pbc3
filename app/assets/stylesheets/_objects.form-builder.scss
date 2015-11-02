@@ -11,23 +11,20 @@
     @include main-content();
     position: relative;
     padding: $inuit-base-spacing-unit;
-    //cursor: move;
-    //background-color: $background-color;
-    //transition: border-color $animation-delay, background-color $animation-delay;
 
-    //&:hover {
-    //  background-color: $over-background-color;
-    //  border-color: $brand-accent-color;
-    //}
+    &-header {
+      min-height: $inuit-base-spacing-unit;
+      cursor: move;
+    }
 
     &-edit {
       position: absolute;
-      top: halve($inuit-base-spacing-unit);
+      top: 0px; //halve($inuit-base-spacing-unit);
       right: $inuit-base-spacing-unit;
       cursor: pointer;
     }
 
-    > *:not(.control-icon) {
+    > .form__fields {
       margin-right: round($inuit-base-spacing-unit * 3);
     }
   }
@@ -46,8 +43,15 @@
     &-edit {
       position: absolute;
       top: 0px; //halve($inuit-base-spacing-unit);
-      right: $inuit-base-spacing-unit;
       cursor: pointer;
+
+      @include media-query(palm) {
+        right: - double($inuit-base-spacing-unit);
+      }
+
+      @include media-query(lap-and-up) {
+        right: - round($inuit-base-spacing-unit * 3);
+      }
     }
 
     > *:not(.control-icon) {
@@ -57,5 +61,11 @@
     input {
       background-color: transparent;
     }
+  }
+
+  &__placeholder {
+    height: quadruple($inuit-base-spacing-unit);
+    background-color: $placeholder-background-color;
+    margin: 0 $inuit-base-spacing-unit;
   }
 }

@@ -47,7 +47,8 @@
   }
 
   &__validation,
-  #error_explanation {
+  #error_explanation,
+  &_errors {
     @include main-content();
     color: $validation-color;
     font-style: italic;
@@ -78,7 +79,7 @@
       color: $secondary-color;
       @include inuit-font-size($inuit-heading-size-3);
       margin: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit $inuit-base-spacing-unit $inuit-base-spacing-unit;
-      padding-right: halve($inuit-base-spacing-unit);
+      padding-right: quadruple($inuit-base-spacing-unit);
 
       &:before {
         content: '';
@@ -95,10 +96,17 @@
     &_help {
       position: relative; // for edit control
       padding: halve($inuit-base-spacing-unit) 0px;
-      margin: 0 $inuit-base-spacing-unit;
       color: $secondary-color;
       font-style: italic;
       @include inuit-font-size($label-font-size);
+
+      @include media-query(lap-and-up) {
+        margin: 0 $inuit-base-spacing-unit;
+      }
+
+      @include media-query(palm) {
+        padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+      }
     }
   }
 
@@ -154,11 +162,11 @@
       @include inuit-font-size($label-font-size);
     }
 
-    &-edit {
-      position: absolute;
-      top: 0px;
-      right: - round($inuit-base-spacing-unit * 3);
-    }
+    //&-edit {
+    //  position: absolute;
+    //  top: 0px;
+    //  right: - round($inuit-base-spacing-unit * 3);
+    //}
 
     &-option {
       &-help {
@@ -189,25 +197,32 @@
   }
 
   &--compact {
-    .form__header,
-    .form__footer,
-    fieldset,
-    &__validation,
-    #error_explanation {
-      max-width: $compact-content-width;
+
+    @include media-query(lap-and-up) {
+      .form__header,
+      .form__footer,
+      fieldset,
+      &__validation,
+      #error_explanation,
+      .form_errors {
+        max-width: $compact-content-width;
+      }
     }
   }
 
   .drop & {
-    width: auto;
     border: 1px solid $border-color;
-    width: $compact-content-width;
     max-height: 100vh;
+
+    @include media-query(lap-and-up) {
+      width: $compact-content-width;
+    }
   }
 }
 
 .form__menu {
   @include main-content();
+  margin-bottom: double($inuit-base-spacing-unit);
 
   a {
     margin-right: $inuit-base-spacing-unit;

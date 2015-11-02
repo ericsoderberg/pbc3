@@ -67,6 +67,7 @@ class Form < ActiveRecord::Base
       where('filled_forms.form_id = ?', self.id).references(:filled_forms)
   end
 
+=begin
   def next_index
     return form_fields.count + form_sections.count + 1
   end
@@ -98,18 +99,19 @@ class Form < ActiveRecord::Base
     end
     result
   end
+=end
 
   def create_default_fields
     Form.transaction do
       section = form_sections.create({form_index: 1, name: ''})
       section.save!
       section.form_fields.create({:field_type => FormField::INSTRUCTIONS,
-        :form => section.form, :form_index => 2, :name => "Instructions",
+        :form_index => 2, :name => "Instructions",
         :help => "Please change this to say something helpful"}) and
       section.form_fields.create({:field_type => FormField::SINGLE_LINE,
-        :form => section.form, :form_index => 3, :name => "Name"}) and
+        :form_index => 3, :name => "Name"}) and
       section.form_fields.create({:field_type => FormField::SINGLE_LINE,
-        :form => section.form, :form_index => 4, :name => "Email"})
+        :form_index => 4, :name => "Email"})
       section.save!
     end
   end

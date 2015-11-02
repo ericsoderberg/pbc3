@@ -3,8 +3,11 @@ var AddIcon = require('./AddIcon');
 var EditIcon = require('./EditIcon');
 var CloseIcon = require('./CloseIcon');
 var Drop = require('../utils/Drop');
+var DragAndDrop = require('../utils/DragAndDrop');
+var REST = require('./REST');
 
 var CLASS_ROOT = "form-builder";
+var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
 
 var FIELD_TYPES = [
   'single line',
@@ -22,17 +25,24 @@ var OPTION_TYPES = [
   'instructions'
 ];
 
+function itemId(item) {
+  return (item.hasOwnProperty('id') ? item.id : item['_id']);
+}
+
+function idsMatch(o1, o2) {
+  return ((o1.hasOwnProperty('id') && o2.hasOwnProperty('id') &&
+      o1.id === o2.id) ||
+    (o1.hasOwnProperty('_id') && o2.hasOwnProperty('_id') &&
+      o1['_id'] === o2['_id']));
+}
+
 var FormFieldOptionEditor = React.createClass({
 
   propTypes: {
     option: React.PropTypes.object.isRequired,
     onCancel: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
+    onRemove: React.PropTypes.func.isRequired,
     onUpdate: React.PropTypes.func.isRequired
-  },
-
-  getInitialState: function () {
-    return {option: this.props.option};
   },
 
   _onUpdate: function () {
@@ -51,6 +61,14 @@ var FormFieldOptionEditor = React.createClass({
     this.setState(option);
   },
 
+  getInitialState: function () {
+    return {option: this.props.option};
+  },
+
+  componentDidMount: function () {
+    this.refs.name.getDOMNode().focus();
+  },
+
   render: function () {
     var option = this.props.option;
 
@@ -64,23 +82,27 @@ var FormFieldOptionEditor = React.createClass({
         </div>
         <div className="form__contents">
           <fieldset>
-            <ul className="form__fields list-bare">
-              <li className="form__field">
+            <div className="form__fields">
+              <div className="form__field">
                 <label>Name</label>
                 <input ref="name" type="text"
-                  onChange={this._onChange.bind(this, "name")} value={option.name} />
-              </li>
-              <li className="form__field">
+                  onChange={this._onChange.bind(this, "name")}
+                  value={option.name} />
+              </div>
+              <div className="form__field">
                 <label>Help</label>
                 <input ref="help" type="text"
-                  onChange={this._onChange.bind(this, "help")} value={option.help} />
-              </li>
-            </ul>
+                  onChange={this._onChange.bind(this, "help")}
+                  value={option.help} />
+              </div>
+            </div>
           </fieldset>
         </div>
         <div className="form__footer">
-          <button className="btn btn--primary" onClick={this._onUpdate}>Update</button>
-          <a href="#" onClick={this.props.onDelete}>Delete</a>
+          <button className="btn btn--primary" onClick={this._onUpdate}>
+            OK
+          </button>
+          <a href="#" onClick={this.props.onRemove}>Remove</a>
         </div>
       </form>
     );
@@ -90,10 +112,14 @@ var FormFieldOptionEditor = React.createClass({
 var FormFieldOptionBuilder = React.createClass({
 
   propTypes: {
+    dragStart: React.PropTypes.func.isRequired,
+    dragEnd: React.PropTypes.func.isRequired,
+    index: React.PropTypes.number.isRequired,
+    edit: React.PropTypes.bool,
     fieldType: React.PropTypes.string.isRequired,
     option: React.PropTypes.object.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired
+    onRemove: React.PropTypes.func.isRequired
   },
 
   _renderEdit: function () {
@@ -101,7 +127,7 @@ var FormFieldOptionBuilder = React.createClass({
       <FormFieldOptionEditor option={this.props.option}
         onCancel={this._onCancelEdit}
         onUpdate={this._onUpdate}
-        onDelete={this._onDelete} />
+        onRemove={this._onRemove} />
     );
   },
 
@@ -126,9 +152,20 @@ var FormFieldOptionBuilder = React.createClass({
     this.props.onUpdate(option);
   },
 
-  _onDelete: function () {
+  _onRemove: function () {
     this._onCancelEdit();
-    this.props.onDelete(this.props.option.id);
+    this.props.onRemove(itemId(this.props.option));
+  },
+
+  getInitialState: function () {
+    return { editOnMount: this.props.edit };
+  },
+
+  componentDidMount: function () {
+    if (this.state.editOnMount) {
+      this._onEdit();
+      this.setState({ editOnMount: false });
+    }
   },
 
   componentWillUnmount: function () {
@@ -147,14 +184,18 @@ var FormFieldOptionBuilder = React.createClass({
     );
 
     return (
-      <li className="form__field">
+      <div className={CLASS_ROOT + "__field form__field"}
+        data-index={this.props.index}
+        draggable="true"
+        onDragStart={this.props.dragStart}
+        onDragEnd={this.props.dragEnd}>
         {editControl}
         <input type={type} />
         {option.name}
         <span className="form__field-option-help">
           {option.help}
         </span>
-      </li>
+      </div>
     );
   }
 });
@@ -165,12 +206,8 @@ var FormFieldEditor = React.createClass({
     field: React.PropTypes.object.isRequired,
     onCancel: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
+    onRemove: React.PropTypes.func.isRequired,
     onUpdate: React.PropTypes.func.isRequired
-  },
-
-  getInitialState: function () {
-    return {field: this.props.field};
   },
 
   _onUpdate: function () {
@@ -191,29 +228,63 @@ var FormFieldEditor = React.createClass({
 
   _onOptionUpdate: function (option) {
     var field = this.state.field;
-    field.formFieldOptions = field.formFieldOptions.map(function (formFieldOption) {
-      return (option.id === formFieldOption.id ? option : formFieldOption);
-    });
-    this.setState({field: field}, this.props.onChange);
+    field.formFieldOptions =
+      field.formFieldOptions.map(function (formFieldOption) {
+        return (idsMatch(option, formFieldOption) ? option : formFieldOption);
+      });
+    this.setState({field: field, newOption: null}, this.props.onChange);
   },
 
-  _onOptionDelete: function (id) {
+  _onOptionRemove: function (id) {
     var field = this.state.field;
-    field.formFieldOptions = field.formFieldOptions.filter(function (formFieldOption) {
-      return (id !== formFieldOption.id);
-    });
-    this.setState({field: field}, this.props.onChange);
+    field.formFieldOptions =
+      field.formFieldOptions.filter(function (formFieldOption) {
+        return (id !== itemId(formFieldOption));
+      });
+    this.setState({field: field, newOption: null}, this.props.onChange);
   },
 
   _onAddOption: function () {
     var field = this.props.field;
     var option = {
-      id: '__' + (new Date()).getTime(),
+      _id: '__' + (new Date()).getTime(),
       name: 'New option',
       optionType: 'fixed'
     };
     field.formFieldOptions.push(option);
+    this.setState({field: field, newOption: option}, this.props.onChange);
+  },
+
+  _dragStart: function (event) {
+    this._dragAndDrop = DragAndDrop.start({
+      event: event,
+      itemClass: CLASS_ROOT + '__field',
+      placeholderClass: PLACEHOLDER_CLASS,
+      list: this.state.field.formFieldOptions.slice(0)
+    });
+  },
+
+  _dragEnd: function (event) {
+    var field = this.state.field;
+    var options = this._dragAndDrop.end(event);
+    options.forEach(function (option, index) {
+      option.formFieldIndex = index + 1;
+    });
+    field.formFieldOptions = options;
     this.setState({field: field}, this.props.onChange);
+  },
+
+  _dragOver: function (event) {
+    this._dragAndDrop.over(event);
+  },
+
+  getInitialState: function () {
+    return {field: this.props.field};
+  },
+
+  componentDidMount: function () {
+    component = this.refs.name || this.refs.help;
+    component.getDOMNode().focus();
   },
 
   render: function () {
@@ -227,64 +298,71 @@ var FormFieldEditor = React.createClass({
     if ('instructions' !== field.fieldType) {
 
       name = (
-        <li className="form__field">
+        <div className="form__field">
           <label>Name</label>
           <input ref="name" type="text"
             onChange={this._onChange.bind(this, "name")} value={field.name} />
-        </li>
+        </div>
       );
 
       help = (
-        <li className="form__field">
+        <div className="form__field">
           <label>Help</label>
           <input ref="help" type="text"
             onChange={this._onChange.bind(this, "help")} value={field.help} />
-        </li>
+        </div>
       );
 
       required = (
-        <li className="form__field">
+        <div className="form__field">
           <label>Required</label>
           <input ref="required" type="checkbox"
             onChange={this._onToggle.bind(this, "required")}
             checked={field.required} />
-        </li>
+        </div>
       );
 
       monetary = (
-        <li className="form__field">
+        <div className="form__field">
           <label>Monetary</label>
           <input ref="monetary" type="checkbox"
             onChange={this._onToggle.bind(this, "monetary")}
             checked={field.monetary} />
-        </li>
+        </div>
       );
 
     } else {
       help = (
-        <li className="form__field">
+        <div className="form__field">
           <textarea ref="help"
             onChange={this._onChange.bind(this, "help")} value={field.help} />
-        </li>
+        </div>
       );
     }
 
     var options;
-    if ('single choice' === field.fieldType || 'multiple choice' === field.fieldType) {
-      var opts = field.formFieldOptions.map(function (option) {
+    if ('single choice' === field.fieldType ||
+      'multiple choice' === field.fieldType) {
+      var opts = field.formFieldOptions.map(function (option, index) {
         return (
-          <FormFieldOptionBuilder key={option.id} fieldType={field.fieldType}
+          <FormFieldOptionBuilder key={itemId(option)}
+            fieldType={field.fieldType}
             option={option} onUpdate={this._onOptionUpdate}
-            onDelete={this._onOptionDelete} />
+            onRemove={this._onOptionRemove}
+            edit={option === this.state.newOption}
+            index={index}
+            dragStart={this._dragStart}
+            dragEnd={this._dragEnd} />
         );
       }, this);
       options = (
-        <fieldset>
+        <fieldset className={CLASS_ROOT + "__section"}>
           <legend>Options</legend>
-          <ul className="form__fields list-bare">
+          <div className="form__fields" onDragOver={this._dragOver}>
             {opts}
-          </ul>
-          <a className={CLASS_ROOT + "__add control-icon"} onClick={this._onAddOption}>
+          </div>
+          <a className={CLASS_ROOT + "__add control-icon"}
+            onClick={this._onAddOption}>
             <AddIcon />
           </a>
         </fieldset>
@@ -301,18 +379,20 @@ var FormFieldEditor = React.createClass({
         </div>
         <div className="form__contents">
           <fieldset>
-            <ul className="form__fields list-bare">
+            <div className="form__fields">
               {name}
               {help}
               {required}
               {monetary}
-            </ul>
+            </div>
           </fieldset>
           {options}
         </div>
         <div className="form__footer">
-          <button className="btn btn--primary" onClick={this._onUpdate}>Update</button>
-          <a href="#" onClick={this.props.onDelete}>Delete</a>
+          <button className="btn btn--primary" onClick={this._onUpdate}>
+            OK<
+          /button>
+          <a href="#" onClick={this.props.onRemove}>Remove</a>
         </div>
       </form>
     );
@@ -327,7 +407,7 @@ var FormFieldBuilder = React.createClass({
     field: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired
+    onRemove: React.PropTypes.func.isRequired
   },
 
   _renderEdit: function () {
@@ -336,7 +416,7 @@ var FormFieldBuilder = React.createClass({
         onCancel={this._onCancelEdit}
         onChange={this._onEditChange}
         onUpdate={this._onUpdate}
-        onDelete={this._onDelete} />
+        onRemove={this._onRemove} />
     );
   },
 
@@ -361,13 +441,24 @@ var FormFieldBuilder = React.createClass({
     this.props.onUpdate(field);
   },
 
-  _onDelete: function () {
+  _onRemove: function () {
     this._onCancelEdit();
-    this.props.onDelete(this.props.field.id);
+    this.props.onRemove(itemId(this.props.field));
   },
 
   _onEditChange: function () {
     this._drop.place();
+  },
+
+  getInitialState: function () {
+    return { editOnMount: this.props.field.hasOwnProperty('_id') };
+  },
+
+  componentDidMount: function () {
+    if (this.state.editOnMount) {
+      this._onEdit();
+      this.setState({ editOnMount: false });
+    }
   },
 
   componentWillUnmount: function () {
@@ -378,7 +469,8 @@ var FormFieldBuilder = React.createClass({
     var field = this.props.field;
 
     var editControl = (
-      <a ref="edit" href="#" className="form__field-edit control-icon" onClick={this._onEdit}>
+      <a ref="edit" href="#" className={CLASS_ROOT + "__field-edit control-icon"}
+        onClick={this._onEdit}>
         <EditIcon />
       </a>
     );
@@ -388,14 +480,14 @@ var FormFieldBuilder = React.createClass({
     if ('instructions' === field.fieldType) {
 
       result = (
-        <li className={CLASS_ROOT + "__field form__fields_help"}
+        <div className={CLASS_ROOT + "__field form__fields_help"}
           data-index={this.props.index}
           draggable="true"
           onDragStart={this.props.dragStart}
           onDragEnd={this.props.dragEnd}>
           {editControl}
           {field.help}
-        </li>
+        </div>
       );
 
     } else {
@@ -416,17 +508,9 @@ var FormFieldBuilder = React.createClass({
       } else if ('multiple lines' === field.fieldType) {
         content = <textarea value={field.value} />;
       } else if ('single choice' === field.fieldType) {
-        /*var options = field.formFieldOptions.map(function (option) {
-          return <option>{option.name}</option>;
-        });
-        content = (
-          <select>
-            {options}
-          </select>
-        );*/
         var content = field.formFieldOptions.map(function (option) {
           return (
-            <div key={option.id} className={CLASS_ROOT + "__field-option"}>
+            <div key={itemId(option)} className={CLASS_ROOT + "__field-option"}>
               <input type="radio" />
               {option.name}
               <span className="form__field-option-help">
@@ -438,7 +522,7 @@ var FormFieldBuilder = React.createClass({
       } else if ('multiple choice' === field.fieldType) {
         var content = field.formFieldOptions.map(function (option) {
           return (
-            <div key={option.id} className={CLASS_ROOT + "__field-option"}>
+            <div key={itemId(option)} className={CLASS_ROOT + "__field-option"}>
               <input type="checkbox" />
               {option.name}
               <span className="form__field-option-help">
@@ -452,7 +536,7 @@ var FormFieldBuilder = React.createClass({
       }
 
       result = (
-        <li className={CLASS_ROOT + "__field form__field"}
+        <div className={CLASS_ROOT + "__field form__field"}
           data-index={this.props.index}
           draggable="true"
           onDragStart={this.props.dragStart}
@@ -461,7 +545,7 @@ var FormFieldBuilder = React.createClass({
           {label}
           {help}
           {content}
-        </li>
+        </div>
       );
     }
 
@@ -469,150 +553,129 @@ var FormFieldBuilder = React.createClass({
   }
 });
 
-var FormSectionBuilder = React.createClass({
+var FormSectionEditor = React.createClass({
 
   propTypes: {
-    onUpdate: React.PropTypes.func.isRequired,
-    section: React.PropTypes.object.isRequired
+    section: React.PropTypes.object.isRequired,
+    onCancel: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    onRemove: React.PropTypes.func.isRequired,
+    onUpdate: React.PropTypes.func.isRequired
+  },
+
+  _onUpdate: function () {
+    this.props.onUpdate(this.state.section);
+  },
+
+  _onChange: function (name) {
+    var section = this.state.section;
+    section[name] = this.refs[name].getDOMNode().value;
+    this.setState({section: section}, this.props.onChange);
+  },
+
+  _onToggle: function (name) {
+    section = this.state.section;
+    section[name] = ! section[name];
+    this.setState({section: section}, this.props.onChange);
   },
 
   getInitialState: function () {
     return {section: this.props.section};
   },
 
-  _onFieldUpdate: function (field) {
-    var section = this.state.section;
-    section.formFields = section.formFields.map(function (formField) {
-      return (field.id === formField.id ? field : formField);
-    });
-    this.props.onUpdate(section);
-  },
-
-  _onFieldDelete: function (id) {
-    var section = this.state.section;
-    section.formFields = section.formFields.filter(function (formField) {
-      return (id !== formField.id);
-    });
-    this.props.onUpdate(section);
-  },
-
-  // http://webcloud.se/sortable-list-component-react-js/
-
-  _dragStart: function (event) {
-    this._dragged = event.currentTarget;
-    event.dataTransfer.effectAllowed = 'move';
-
-    // Firefox requires calling dataTransfer.setData
-    // for the drag to properly work
-    event.dataTransfer.setData("text/html", event.currentTarget);
-
-    this._placeholder = document.createElement("li");
-    this._placeholder.className = "placeholder";
-  },
-
-  _dragEnd: function (event) {
-    var placeholder = this._placeholder;
-    this._dragged.style.display = "block";
-    this._dragged.parentNode.removeChild(placeholder);
-
-    // Update state
-    var section = this.state.section;
-    var formFields = section.formFields;
-    var from = Number(this._dragged.dataset.index);
-    var to = Number(this._over.dataset.index);
-    if (from < to) to--;
-    formFields.splice(to, 0, formFields.splice(from, 1)[0]);
-    section.formFields = formFields;
-    this.setState({section: section});
-  },
-
-  _dragOver: function (event) {
-    event.preventDefault();
-    var placeholder = this._placeholder;
-    this._dragged.style.display = "none";
-    var element = event.target;
-    // find containing element
-    while (!element.classList.contains(CLASS_ROOT + '__field') &&
-      (element = element.parentElement));
-    if (element && element.className !== "placeholder") {
-      this._over = element;
-      element.parentNode.insertBefore(placeholder, element);
-    }
+  componentDidMount: function () {
+    this.refs.name.getDOMNode().focus();
   },
 
   render: function () {
     var section = this.props.section;
-    var fields = section.formFields.map(function (formField, index) {
-      return (
-        <FormFieldBuilder key={formField.id} field={formField}
-          onUpdate={this._onFieldUpdate}
-          onDelete={this._onFieldDelete}
-          index={index}
-          dragStart={this._dragStart}
-          dragEnd={this._dragEnd} />
-      );
-    }, this);
 
     return (
-      <fieldset className={CLASS_ROOT + "__section"}>
-        <ul className="form__fields list-bare" onDragOver={this._dragOver}>
-          {fields}
-        </ul>
-      </fieldset>
+      <form className="form form--compact drop">
+        <div className="form__header">
+          <span className="form__title">Edit Section</span>
+          <a href="#" className="control-icon" onClick={this.props.onCancel}>
+            <CloseIcon />
+          </a>
+        </div>
+        <div className="form__contents">
+          <fieldset>
+            <div className="form__fields">
+              <div className="form__field">
+                <label>Name</label>
+                <input ref="name" type="text"
+                  onChange={this._onChange.bind(this, "name")} value={section.name} />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div className="form__footer">
+          <button className="btn btn--primary" onClick={this._onUpdate}>
+            OK<
+          /button>
+          <a href="#" onClick={this.props.onRemove}>Remove</a>
+        </div>
+      </form>
     );
   }
 });
 
-var FormBuilder = React.createClass({
+var FormSectionBuilder = React.createClass({
 
-  // http://webcloud.se/sortable-list-component-react-js/
-
-  _dragStart: function (event) {
-    this._dragged = event.currentTarget;
-    event.dataTransfer.effectAllowed = 'move';
-
-    // Firefox requires calling dataTransfer.setData
-    // for the drag to properly work
-    event.dataTransfer.setData("text/html", event.currentTarget);
-
-    this._placeholder = document.createElement("li");
-    this._placeholder.className = "placeholder";
+  propTypes: {
+    dragStart: React.PropTypes.func.isRequired,
+    dragEnd: React.PropTypes.func.isRequired,
+    index: React.PropTypes.number.isRequired,
+    onAddSection: React.PropTypes.func.isRequired,
+    onRemove: React.PropTypes.func.isRequired,
+    onUpdate: React.PropTypes.func.isRequired,
+    section: React.PropTypes.object.isRequired
   },
 
-  _dragEnd: function (event) {
-    var placeholder = this._placeholder;
-    this._dragged.style.display = "block";
-    this._dragged.parentNode.removeChild(placeholder);
-
-    // Update state
-    var form = this.state.form;
-    var sections = form.sections;
-    var from = Number(this._dragged.dataset.index);
-    var to = Number(this._over.dataset.index);
-    if (from < to) to--;
-    sections.splice(to, 0, sections.splice(from, 1)[0]);
-    form.sections = sections;
-    this.setState({form: form});
+  _renderEdit: function () {
+    return (
+      <FormSectionEditor section={this.props.section}
+        onCancel={this._onCancelEdit}
+        onChange={this._onEditChange}
+        onUpdate={this._onUpdate}
+        onRemove={this._onRemove} />
+    );
   },
 
-  _dragOver: function (event) {
-    event.preventDefault();
-    var placeholder = this._placeholder;
-    this._dragged.style.display = "none";
-    var element = event.target;
-    // find containing element
-    while (!element.classList.contains(CLASS_ROOT + '__section') &&
-      (element = element.parentElement));
-    if (element && element.className !== "placeholder") {
-      this._over = element;
-      element.parentNode.insertBefore(placeholder, element);
+  _onEdit: function () {
+    if (this._drop) {
+      this._onCancelEdit();
+    } else {
+      this._drop = Drop.add(this.refs.edit.getDOMNode(),
+        this._renderEdit(), {top: 'top', right: 'left'});
     }
   },
 
+  _onCancelEdit: function () {
+    if (this._drop) {
+      this._drop.remove();
+      this._drop = null;
+    }
+  },
+
+  _onUpdate: function (section) {
+    this._onCancelEdit();
+    this.props.onUpdate(section);
+  },
+
+  _onRemove: function () {
+    this._onCancelEdit();
+    this.props.onRemove(itemId(this.props.section));
+  },
+
+  _onEditChange: function () {
+    this._drop.place();
+  },
+
   _onAddField: function (type) {
-    var form = this.state.form;
+    var section = this.state.section;
     var field = {
-      id: '__' + (new Date()).getTime(),
+      "_id": '__' + (new Date()).getTime(),
       fieldType: type
     };
     if ('instructions' === type) {
@@ -622,12 +685,191 @@ var FormBuilder = React.createClass({
     }
     if ('single choice' === type || 'multiple choice' === type) {
       field.formFieldOptions = [{
-        id: '__' + (new Date()).getTime(),
+        "_id": '__' + (new Date()).getTime(),
         name: 'Option 1',
         optionType: 'fixed'
       }];
     }
-    form.formSections[0].formFields.push(field);
+    section.formFields.push(field);
+    this.props.onUpdate(section);
+  },
+
+  _onFieldUpdate: function (field) {
+    var section = this.state.section;
+    section.formFields = section.formFields.map(function (formField) {
+      return (idsMatch(field, formField) ? field : formField);
+    });
+    this.props.onUpdate(section);
+  },
+
+  _onFieldRemove: function (id) {
+    var section = this.state.section;
+    section.formFields = section.formFields.filter(function (formField) {
+      return (id !== itemId(formField));
+    });
+    this.props.onUpdate(section);
+  },
+
+  _dragStart: function (event) {
+    this._dragAndDrop = DragAndDrop.start({
+      event: event,
+      itemClass: CLASS_ROOT + '__field',
+      placeholderClass: PLACEHOLDER_CLASS,
+      list: this.state.section.formFields.slice(0)
+    });
+  },
+
+  _dragOver: function (event) {
+    this._dragAndDrop.over(event);
+  },
+
+  _dragEnd: function (event) {
+    var section = this.state.section;
+    var fields = this._dragAndDrop.end(event);
+    fields.forEach(function (field, index) {
+      field.formIndex = index + 1;
+    });
+    section.formFields = fields;
+    this.props.onUpdate(section);
+  },
+
+  getInitialState: function () {
+    return {
+      section: this.props.section,
+      editOnMount: this.props.section.hasOwnProperty('_id')
+    };
+  },
+
+  componentDidMount: function () {
+    if (this.state.editOnMount) {
+      this._onEdit();
+      this.setState({ editOnMount: false });
+    }
+  },
+
+  componentWillUnmount: function () {
+    this._onCancelEdit();
+  },
+
+  render: function () {
+    var section = this.props.section;
+
+    var editControl = (
+      <a ref="edit" href="#" className={CLASS_ROOT + "__section-edit control-icon"}
+        onClick={this._onEdit}>
+        <EditIcon />
+      </a>
+    );
+
+    var fields = section.formFields.map(function (formField, index) {
+      return (
+        <FormFieldBuilder key={itemId(formField)} field={formField}
+          onUpdate={this._onFieldUpdate}
+          onRemove={this._onFieldRemove}
+          index={index}
+          dragStart={this._dragStart}
+          dragEnd={this._dragEnd} />
+      );
+    }, this);
+
+    var adds = FIELD_TYPES.map(function (type) {
+      return (
+        <a key={type} href="#" onClick={this._onAddField.bind(this, type)}>
+          {type}
+        </a>
+      );
+    }, this);
+    adds.push(
+      <a key="section" href="#" onClick={this.props.onAddSection}>section</a>
+    );
+
+    return (
+      <fieldset className={CLASS_ROOT + "__section"}
+        data-index={this.props.index}
+        draggable="true"
+        onDragStart={this.props.dragStart}
+        onDragEnd={this.props.dragEnd}>
+        <legend className={CLASS_ROOT + "__section-header"}>
+          {editControl}
+          <h2>{section.name}</h2>
+        </legend>
+        <div className="form__fields" onDragOver={this._dragOver}>
+          {fields}
+        </div>
+        <Menu className={CLASS_ROOT + "__add"} icon={<AddIcon />}>
+          {adds}
+        </Menu>
+      </fieldset>
+    );
+  }
+});
+
+var FormBuilder = React.createClass({
+
+  propTypes: {
+    editContents: React.PropTypes.object.isRequired
+  },
+
+  _onSubmit: function (event) {
+    event.preventDefault();
+    var url = this.props.editContents.updateUrl;
+    var token = this.props.editContents.authenticityToken;
+    console.log('!!! FormBuilder _onSubmit', token, this.state.form);
+    REST.post(url, token, {form: this.state.form}, function (response) {
+      console.log('!!! FormBuilder _onSubmit completed', response);
+      if (response.result === 'ok') {
+        location = response.redirect_to;
+      }
+    }.bind(this));
+  },
+
+  _dragStart: function (event) {
+    this._dragAndDrop = DragAndDrop.start({
+      event: event,
+      itemClass: CLASS_ROOT + '__section',
+      placeholderClass: PLACEHOLDER_CLASS,
+      list: this.state.form.formSections.slice(0)
+    });
+  },
+
+  _dragOver: function (event) {
+    this._dragAndDrop.over(event);
+  },
+
+  _dragEnd: function (event) {
+    var form = this.state.form;
+    var sections = this._dragAndDrop.end(event);
+    sections.forEach(function (section, index) {
+      section.formIndex = index + 1;
+    });
+    form.formSections = sections;
+    this.setState({form: form});
+  },
+
+  _onAddSection: function () {
+    var form = this.state.form;
+    var section = {
+      "_id": '__' + (new Date()).getTime(),
+      name: "New section",
+      formFields: []
+    };
+    form.formSections.push(section);
+    this.setState({form: form});
+  },
+
+  _onSectionUpdate: function (section) {
+    var form = this.state.form;
+    form.formSections = form.formSections.map(function (formSection) {
+      return (idsMatch(section, formSection) ? section : formSection);
+    });
+    this.setState({form: form});
+  },
+
+  _onSectionRemove: function (id) {
+    var form = this.state.form;
+    form.formSections = form.formSections.filter(function (formSection) {
+      return (id !== itemId(formSection));
+    });
     this.setState({form: form});
   },
 
@@ -635,44 +877,46 @@ var FormBuilder = React.createClass({
     return {form: this.props.editContents.form};
   },
 
-  _onSectionUpdate: function (section) {
-    var form = this.state.form;
-    form.formSections = form.formSections.map(function (formSection) {
-      return (section.id === formSection.id ? section : formSection);
-    });
-    this.setState({form: form});
-  },
-
   render: function () {
     var form = this.state.form;
-    var sections = form.formSections.map(function (formSection) {
+    var sections = form.formSections.map(function (formSection, index) {
       return (
-        <FormSectionBuilder key={formSection.id} section={formSection}
-          onUpdate={this._onSectionUpdate} />
+        <FormSectionBuilder key={itemId(formSection)} section={formSection}
+          onUpdate={this._onSectionUpdate}
+          onRemove={this._onSectionRemove}
+          onAddSection={this._onAddSection}
+          index={index}
+          dragStart={this._dragStart}
+          dragEnd={this._dragEnd} />
       );
     }, this);
 
-    var adds = FIELD_TYPES.map(function (type) {
-      return <a key={type} href="#" onClick={this._onAddField.bind(this, type)}>{type}</a>
-    }, this);
-
-    /*
-        <ol className={CLASS_ROOT + "__sections list-bare"}
-          onDragOver={this._dragOver}>
-          {sections}
-        </ol>
-    */
-
     return (
-      <div className={CLASS_ROOT}>
-        <ol className={CLASS_ROOT + "__sections list-bare"}>
-          {sections}
-        </ol>
+      <form className="form">
+        <div className="form__header">
+          <span className="form__title">Edit {form.name}</span>
+          <a className="control-icon" href={this.props.editContents.cancelUrl}>
+            <CloseIcon />
+          </a>
+        </div>
 
-        <Menu className={CLASS_ROOT + "__add"} icon={<AddIcon />}>
-          {adds}
-        </Menu>
-      </div>
+        <div className="form__contents">
+          <div className={CLASS_ROOT}>
+            <div className={CLASS_ROOT + "__sections"}
+              onDragOver={this._dragOver}>
+              {sections}
+            </div>
+          </div>
+        </div>
+
+        <div className="form__footer">
+          <input type="submit" value="Update" className="btn btn--primary"
+            onClick={this._onSubmit} />
+          <a href={this.props.editContents.editContextUrl}>
+            Context
+          </a>
+        </div>
+      </form>
     );
   }
 });
