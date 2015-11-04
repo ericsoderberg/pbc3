@@ -4,12 +4,16 @@ class FilledField < ActiveRecord::Base
   has_many :filled_field_options, -> {
     includes(:form_field_option) },
     :autosave => true, :dependent => :destroy
-  
+
   validates :filled_form, :presence => true
   validates :form_field_id, :presence => true,
     :uniqueness => {:scope => :filled_form_id}
   validate :within_limit
-  
+
+  def filled_field_option(form_field_option)
+    filled_field_options.where('form_field_option_id = ?', form_field_option.id).first
+  end
+
   def within_limit
     if form_field and form_field.limited?
       if form_field.has_options?
@@ -23,7 +27,7 @@ class FilledField < ActiveRecord::Base
       end
     end
   end
-  
+
   def text_value
     case form_field.field_type
       when FormField::FIELD, FormField::SINGLE_LINE, FormField::MULTIPLE_LINES
@@ -48,13 +52,13 @@ class FilledField < ActiveRecord::Base
         end
     end
   end
-  
+
   def options_selected_count
     result = 0
     filled_field_options.each{|o| result += 1 if o.form_field_option.selected(self) }
     result
   end
-  
+
   def payable_amount
     case form_field.field_type
       when FormField::FIELD, FormField::SINGLE_LINE
@@ -81,5 +85,5 @@ class FilledField < ActiveRecord::Base
         0.to_money
     end
   end
-  
+
 end

@@ -3,7 +3,8 @@ var REST = require('./REST');
 var AppFooter = React.createClass({
 
   propTypes: {
-    menuActions: React.PropTypes.arrayOf(React.PropTypes.object),
+    menuActions: React.PropTypes.arrayOf(
+      React.PropTypes.arrayOf(React.PropTypes.object)),
     site: React.PropTypes.object
   },
 

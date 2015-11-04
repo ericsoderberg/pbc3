@@ -229,6 +229,14 @@
     }
   }
 
+  // hide so users don't see but robots do, controllers fail if filled out
+  #email_address_confirmation {
+    opacity: 0.1;
+    position: absolute;
+    top: -50px;
+    //right: -50px;
+  }
+
   &--compact {
 
     @include media-query(lap-and-up) {

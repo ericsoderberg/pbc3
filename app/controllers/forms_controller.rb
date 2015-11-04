@@ -98,9 +98,14 @@ class FormsController < ApplicationController
   def edit
     return unless administrator!
     @form = Form.find(params[:id])
-    @page = Page.find(params[:page_id]) if params[:page_id]
-    @page_element = @page.page_elements.where('element_id = ?', @form.id).first
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
+      @page_element = @page.page_elements.where('element_id = ?', @form.id).first
+    end
     @cancel_url = context_url(@page)
+    @edit_contents_url = @page ?
+      edit_contents_form_path(@form, {:page_id => @page.id}) :
+      edit_contents_form_path(@form)
     #@page = @form.page
     #return unless page_administrator!
     #@events = @page.events.between(Date.today, Date.today + 3.months).
@@ -211,7 +216,7 @@ class FormsController < ApplicationController
     params.require(:form).permit(:name, #:page_id, :event_id,
       :payable, :published, :pay_by_check, :pay_by_paypal,
       :updated_by, :version, :parent_id, :authenticated,
-      :many_per_user, :authentication_text,
+      :many_per_user, :authentication_text, :submit_label
       #:call_to_action
       ).merge(:updated_by => current_user)
   end

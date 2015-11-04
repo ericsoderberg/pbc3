@@ -4,10 +4,11 @@ class Form < ActiveRecord::Base
     :source => :page
   #belongs_to :page
   #belongs_to :event
-  has_many :form_fields, -> { order('form_index ASC') },
-    :autosave => true, :dependent => :destroy
+  #has_many :form_fields, -> { order('form_index ASC') },
+  #  :autosave => true, :dependent => :destroy
   has_many :form_sections, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
+  has_many :form_fields, :through => :form_sections
   has_many :filled_forms, -> { order('name ASC') }, :dependent => :destroy
   belongs_to :parent, :class_name => 'Form'
   has_many :children, :class_name => 'Form', :foreign_key => :parent_id

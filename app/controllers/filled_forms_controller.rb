@@ -1,9 +1,8 @@
 class FilledFormsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:new, :create, :edit, :update, :destroy]
+  before_filter :authenticate_user!,
+    :except => [:new, :create, :edit, :update, :destroy]
   before_filter :get_form, :except => [:user_index]
-  
-  # GET /filled_forms
-  # GET /filled_forms.xml
+
   def index
     @sort = params[:sort] || 'name'
     @sort_id = @sort.to_i
@@ -17,22 +16,22 @@ class FilledFormsController < ApplicationController
           reorder('filled_fields.value').references(:filled_fields)
       end
     end
-    
+
     @payable_forms = @filled_forms.for_user(current_user).
       where(:payment_id => nil)
-      
+
     if @form.parent
       @parent_value_form_fields = @form.parent.form_fields.valued
       @parent_columns = @form.parent.columns
     end
-    
+
     @value_form_fields = @form.form_fields.valued
     @columns = @form.columns
-      
+
     @sort_options = @value_form_fields.map{|ff| [ff.name, ff.id]}
     @sort_options << ['date', 'updated_at']
     @sort_options << ['version']
-    
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @filled_forms }
@@ -40,7 +39,7 @@ class FilledFormsController < ApplicationController
       format.xls # index.xls.erb
     end
   end
-  
+
   def user_index
     @user = User.find(params[:id])
     @user = current_user unless current_user.administrator?
@@ -52,8 +51,6 @@ class FilledFormsController < ApplicationController
     end
   end
 
-  # GET /filled_forms/1
-  # GET /filled_forms/1.xml
   def show
     @filled_form = @form.filled_forms.find(params[:id])
     return unless filled_form_authorized!
@@ -64,8 +61,6 @@ class FilledFormsController < ApplicationController
     end
   end
 
-  # GET /filled_forms/new
-  # GET /filled_forms/new.xml
   def new
     @filled_form = @form.build_fill
     if current_user
@@ -92,7 +87,6 @@ class FilledFormsController < ApplicationController
     end
   end
 
-  # GET /filled_forms/1/edit
   def edit
     @filled_form = @form.filled_forms.find(params[:id])
     @filled_forms = @form.visible_filled_forms(current_user)
@@ -104,8 +98,6 @@ class FilledFormsController < ApplicationController
     @payments = @form.payments_for_user(current_user)
   end
 
-  # POST /filled_forms
-  # POST /filled_forms.xml
   def create
     if not params[:email_address_confirmation].empty?
       redirect_to root_path
@@ -123,7 +115,7 @@ class FilledFormsController < ApplicationController
     end
     @filled_form.version = @form.version
     populate_filled_fields
-    
+
     if @form.payable?
       # re-use payment from sibling filled forms that haven't been paid
       siblings = @form.filled_forms_for_user(current_user)
@@ -146,12 +138,13 @@ class FilledFormsController < ApplicationController
         FormMailer.form_email(@filled_form).deliver_now
         format.html { redirect_to(next_url,
             :notice => "#{@form.name} was successfully submitted.") }
-        format.xml  { render :xml => @filled_form, :status => :created, :location => @filled_form }
+        format.json { render :json => {result: 'ok'} }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
         @payments = @form.payments_for_user(current_user)
         format.html { render :action => "new" }
-        format.xml  { render :xml => @filled_form.errors, :status => :unprocessable_entity }
+        format.json { render :json => {result: 'error', errors: @filled_form.errors},
+          :status => :unprocessable_entity }
       end
     end
   end
@@ -183,12 +176,13 @@ class FilledFormsController < ApplicationController
         FormMailer.form_email(@filled_form).deliver
         format.html { redirect_to(next_url,
           :notice => "#{@form.name} was successfully updated.") }
-        format.xml  { head :ok }
+        format.json { render :json => {result: 'ok'} }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
         @payments = @form.payments_for_user(current_user)
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @filled_form.errors, :status => :unprocessable_entity }
+        format.json { render :json => {result: 'error', errors: @filled_form.errors},
+          :status => :unprocessable_entity }
       end
     end
   end
@@ -226,9 +220,9 @@ class FilledFormsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def filled_form_authorized!
     filled_form_key = params[:filled_form_key]
     if (current_user and
@@ -245,7 +239,7 @@ class FilledFormsController < ApplicationController
     end
     return false
   end
-  
+
   def get_form
     @form = Form.find(params[:form_id])
     @page = @form.page
@@ -256,7 +250,7 @@ class FilledFormsController < ApplicationController
     session[:edit_form_cancel_path] = form_fills_path(@form)
     return true
   end
-  
+
   def populate_option(form_field, filled_field, filled_option, value)
     filled_option = filled_field.filled_field_options.build unless filled_option
     option = form_field.form_field_options.find(value)
@@ -266,7 +260,7 @@ class FilledFormsController < ApplicationController
     end
     filled_option.value = (option.value ? option.value : option.name)
   end
-  
+
   def populate_options(form_field, filled_field, value)
     prior_options = filled_field.filled_field_options.to_a
     index = 0
@@ -278,7 +272,7 @@ class FilledFormsController < ApplicationController
       filled_field.filled_field_options.delete(prior_options[index])
     end
   end
-  
+
   def populate_value(form_field, filled_field, value)
     # create a new one if needed
     unless filled_field
@@ -300,7 +294,7 @@ class FilledFormsController < ApplicationController
       filled_field.value = value
     end
   end
-  
+
   def populate_filled_fields
     @filled_form.name = nil
     @form.form_fields.each do |form_field|
@@ -312,7 +306,7 @@ class FilledFormsController < ApplicationController
       if params[:filled_fields].has_key?(field_id.to_s)
         # field was filled out
         # get submitted value
-        value = params[:filled_fields][field_id.to_s][:value]
+        value = params[:filled_fields][field_id.to_s] #[:value]
         populate_value(form_field, filled_field, value)
         # guess at name
         if not @filled_form.name and form_field.name =~ /name/i
@@ -334,7 +328,7 @@ class FilledFormsController < ApplicationController
     end
     @filled_form.updated_at = Time.now
   end
-  
+
   def next_url
     if current_user and @form.many_per_user?
       new_form_fill_url(@form)
@@ -359,5 +353,5 @@ class FilledFormsController < ApplicationController
       friendly_page_url(@page)
     end
   end
-  
+
 end

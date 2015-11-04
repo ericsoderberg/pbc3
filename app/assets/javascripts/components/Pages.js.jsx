@@ -8,7 +8,7 @@ var Pages = React.createClass({
   // match app/views/resources/_index.json.jbuilder
   propTypes: {
     newUrl: React.PropTypes.string,
-    resources: React.PropTypes.array.isRequired,
+    pages: React.PropTypes.array.isRequired,
     count: React.PropTypes.number.isRequired,
     filter: React.PropTypes.object
   },

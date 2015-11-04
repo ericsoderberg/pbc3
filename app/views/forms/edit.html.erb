@@ -10,7 +10,7 @@
   <div class="form__footer">
     <%= f.submit "Update", class: 'btn btn--primary' %>
     <% if @form.id -%>
-      <%= link_to 'Contents', edit_contents_form_path(@form) %>
+      <%= link_to 'Contents', @edit_contents_url %>
     <% end -%>
   </div>
 
