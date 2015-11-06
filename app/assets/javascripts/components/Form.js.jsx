@@ -1,29 +1,119 @@
 var REST = require('./REST');
+var moment = require('moment');
 
 CLASS_ROOT = "form";
+
+function formFieldForFilledField (form, filledField) {
+  var result;
+  form.formSections.some(function (formSection) {
+    return formSection.formFields.some(function (formField) {
+      if (formField.id === filledField.formFieldId) {
+        result = formField;
+        return true;
+      }
+    });
+  });
+  return result;
+}
+
+function filledFieldForFormField (filledForm, formField) {
+  var result;
+  filledForm.filledFields.some(function (filledField) {
+    if (formField.id === filledField.formFieldId) {
+      result = filledField;
+      return true;
+    }
+  });
+  return result;
+}
+
+function filledOptionForFormOption (filledForm, formField, formFieldOption) {
+  var result;
+  filledForm.filledFields.some(function (filledField) {
+    if (formField.id === filledField.formFieldId) {
+      return filledField.filledFieldOptions.some(function (filledFieldOption) {
+        if (filledFieldOption.formFieldOptionId === formFieldOption.id) {
+          result = filledFieldOption;
+          return true;
+        }
+      });
+    }
+  });
+  return result;
+}
+
+function filledFieldsForForm (form, filledForm) {
+  var result = {};
+  filledForm.filledFields.forEach(function (filledField) {
+    var formField = formFieldForFilledField(form, filledField);
+    if ('single choice' === formField.fieldType) {
+      if (filledField.filledFieldOptions.length > 0) {
+        result[formField.id] =
+          filledField.filledFieldOptions[0].formFieldOptionId;
+      }
+    } else if ('multiple choice' === formField.fieldType) {
+      if (filledField.filledFieldOptions.length > 0) {
+        result[formField.id] =
+          filledField.filledFieldOptions.map(function (filledFieldOption) {
+            return (filledFieldOption.formFieldOptionId);
+          });
+      }
+    } else {
+      result[formField.id] = filledField.value;
+    }
+  });
+  return result;
+}
 
 var Option = React.createClass({
 
   propTypes: {
-    field: React.PropTypes.object.isRequired,
-    option: React.PropTypes.object.isRequired,
+    filledForm: React.PropTypes.object.isRequired,
+    formField: React.PropTypes.object.isRequired,
+    formFieldOption: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired
   },
 
   _onToggle: function () {
-    var option = this.props.option;
-    if (! option.hasOwnProperty('filledFieldOption')) {
-      option.filledFieldOption = {value: option.formFieldOption.name};
-    } else {
-      delete option.filledFieldOption;
+    var filledForm = this.props.filledForm;
+    var formField = this.props.formField;
+    var formFieldOption = this.props.formFieldOption;
+    var filledField = filledFieldForFormField(filledForm, formField);
+    var filledFieldOption =
+      filledOptionForFormOption(filledForm, formField, formFieldOption);
+
+    if (! filledField) {
+      filledField = {
+        formFieldId: formField.id,
+        filledFieldOptions: []
+      };
+      filledForm.filledFields.push(filledField);
     }
-    this.props.onChange(option);
+
+    if (! filledFieldOption) {
+      filledFieldOption = {
+        value: formFieldOption.name,
+        formFieldOptionId: formFieldOption.id
+      };
+      if ('single choice' === formField.fieldType) {
+        filledField.filledFieldOptions = [filledFieldOption];
+      } else {
+        filledField.filledFieldOptions.push(filledFieldOption);
+      }
+    } else {
+      filledField.filledFieldOptions =
+        filledField.filledFieldOptions.filter(function (option) {
+          return (option.formFieldOptionId !== formFieldOption.id);
+        });
+    }
+    this.props.onChange(filledForm);
   },
 
   render: function () {
-    var formField = this.props.field.formField;
-    var formFieldOption = this.props.option.formFieldOption;
-    var filledFieldOption = this.props.option.filledFieldOption;
+    var formField = this.props.formField;
+    var formFieldOption = this.props.formFieldOption;
+    var filledFieldOption =
+      filledOptionForFormOption(this.props.filledForm, formField, formFieldOption);
     var checked = filledFieldOption ? true : false;
     var type;
     var name;
@@ -50,43 +140,26 @@ var Option = React.createClass({
 var Field = React.createClass({
 
   propTypes: {
-    field: React.PropTypes.object.isRequired,
+    filledForm: React.PropTypes.object.isRequired,
+    formField: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired
   },
 
   _onChange: function (event) {
-    var field = this.props.field;
-    if (! field.hasOwnProperty('filledField')) {
-      field.filledField = {};
+    var filledForm = this.props.filledForm;
+    var formField = this.props.formField;
+    var filledField = filledFieldForFormField(filledForm, formField);
+    if (! filledField) {
+      filledField = {formFieldId: formField.id}
+      filledForm.filledFields.push(filledField);
     }
-    field.filledField.value = event.target.value;
-    this.props.onChange(field);
-  },
-
-  _onOptionChange: function (option) {
-    var field = this.props.field;
-    field.options = field.options.map(function (option2) {
-      var result;
-      if ('single choice' === field.formField.fieldType) {
-        // turn off all other options
-        if (option.formFieldOption.id === option2.formFieldOption.id) {
-          result = option;
-        } else {
-          result = {formFieldOption: option2.formFieldOption};
-        }
-      } else {
-        result = (option.formFieldOption.id === option2.formFieldOption.id ?
-          option : option2);
-      }
-      return result;
-    });
-    this.props.onChange(field);
+    filledField.value = event.target.value;
+    this.props.onChange(filledForm);
   },
 
   render: function () {
-    var field = this.props.field;
-    var formField = field.formField;
-    var filledField = field.filledField;
+    var formField = this.props.formField;
+    var filledField = filledFieldForFormField(this.props.filledForm, formField);
 
     var result;
 
@@ -123,19 +196,21 @@ var Field = React.createClass({
             onChange={this._onChange} />
         );
       } else if ('single choice' === formField.fieldType) {
-        content = field.options.map(function (option) {
+        content = formField.formFieldOptions.map(function (formFieldOption) {
           return (
-            <Option key={option.formFieldOption.id}
-              field={field} option={option}
-              onChange={this._onOptionChange} />
+            <Option key={formFieldOption.id}
+              formField={formField} formFieldOption={formFieldOption}
+              filledForm={this.props.filledForm}
+              onChange={this.props.onChange} />
           );
         }, this);
       } else if ('multiple choice' === formField.fieldType) {
-        content = field.options.map(function (option) {
+        content = formField.formFieldOptions.map(function (formFieldOption) {
           return (
-            <Option key={option.formFieldOption.id}
-              field={field} option={option}
-              onChange={this._onOptionChange} />
+            <Option key={formFieldOption.id}
+              formField={formField} formFieldOption={formFieldOption}
+              filledForm={this.props.filledForm}
+              onChange={this.props.onChange} />
           );
         }, this);
       } else if ('count' === formField.fieldType) {
@@ -161,32 +236,31 @@ var Field = React.createClass({
 var Section = React.createClass({
 
   propTypes: {
+    filledForm: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    section: React.PropTypes.object.isRequired
+    formSection: React.PropTypes.object.isRequired
   },
 
-  _onFieldChange: function (field) {
-    var section = this.props.section;
-    section.fields = section.fields.map(function (field2) {
-      return (field.formField.id === field2.formField.id ? field : field2);
-    });
-    this.props.onChange(section);
+  _onChange: function (filledForm) {
+    this.props.onChange(filledForm);
   },
 
   render: function () {
-    var section = this.props.section;
+    var formSection = this.props.formSection;
 
-    var fields = section.fields.map(function (field, index) {
+    var fields = formSection.formFields.map(function (formField) {
       return (
-        <Field key={field.formField.id} field={field}
-          onChange={this._onFieldChange} />
+        <Field key={formField.id}
+          formField={formField}
+          filledForm={this.props.filledForm}
+          onChange={this._onChange} />
       );
     }, this);
 
     return (
       <fieldset className={CLASS_ROOT + "__section"}>
         <legend className={CLASS_ROOT + "__section-header"}>
-          <h2>{section.name}</h2>
+          <h2>{formSection.name}</h2>
         </legend>
         <div className="form__fields">
           {fields}
@@ -200,11 +274,8 @@ var Section = React.createClass({
 var Form = React.createClass({
 
   propTypes: {
-    authenticityToken: React.PropTypes.string,
-    createUrl: React.PropTypes.string,
     form: React.PropTypes.object.isRequired,
-    tag: React.PropTypes.string,
-    updateUrl: React.PropTypes.string,
+    tag: React.PropTypes.string
   },
 
   getDefaultProps: function () {
@@ -212,79 +283,117 @@ var Form = React.createClass({
   },
 
   getInitialState: function () {
-    return {form: this.props.form};
-  },
-
-  _filledFields: function () {
-    var filledFields = {};
-    this.state.form.formSections.forEach(function (formSection) {
-      formSection.fields.forEach(function (field) {
-        if (field.hasOwnProperty('options')) {
-          var filledOptions = field.options.filter(function (option) {
-            return option.hasOwnProperty('filledFieldOption');
-          });
-          if (filledOptions.length > 0) {
-            if ('single choice' === field.formField.fieldType) {
-              filledFields[field.formField.id] =
-                filledOptions[0].formFieldOption.id;
-            } else if ('multiple choice' === field.formField.fieldType) {
-              filledFields[field.formField.id] =
-                filledOptions.map(function (option) {
-                  return (option.formFieldOption.id);
-                });
-            }
-          }
-        } else if (field.hasOwnProperty('filledField')) {
-          filledFields[field.formField.id] = field.filledField.value;
-        }
-      });
-    });
-    return filledFields;
+    var mode;
+    var filledForm;
+    if (this.props.form.filledForms.length === 0 || 'form' !== this.props.tag) {
+      mode = 'new';
+      filledForm = {filledFields: []};
+    } else {
+      mode = 'show';
+    }
+    return {
+      filledForm: filledForm,
+      filledForms: this.props.form.filledForms,
+      mode: mode
+    };
   },
 
   _onSubmit: function (event) {
     event.preventDefault();
+    var filledForm = this.state.filledForm;
+    var filledFields = filledFieldsForForm(this.props.form.form, filledForm)
     var url;
     var action;
-    if (this.props.createUrl) {
-      url = this.props.createUrl;
+    if ('new' === this.state.mode) {
+      url = this.props.form.createUrl;
       action = 'post';
-    } else if (this.props.updateUrl) {
-      url = this.props.updateUrl;
+    } else {
+      url = this.state.filledForm.url;
       action = 'put';
     }
-    if (action) {
-      var token = this.props.authenticityToken;
-      var filledFields = this._filledFields();
-      console.log('!!! Form _onSubmit', token, filledFields);
-      REST[action](url, token,
-        {filledFields: filledFields, email_address_confirmation: ''},
-        function (response) {
-          console.log('!!! Form _onSubmit completed', response);
-          if (response.result === 'ok') {
-            ///location = response.redirect_to;
+    var token = this.props.form.authenticityToken;
+    REST[action](url, token,
+      {filledFields: filledFields, email_address_confirmation: ''},
+      function (response) {
+        if (response.id) {
+          filledForm = response;
+          var filledForms
+          if ('new' === this.state.mode) {
+            filledForms = this.state.filledForms;
+            filledForms.push(filledForm);
+          } else {
+            filledForms = this.state.filledForms.map(function (filledForm2) {
+              return (filledForm2.id === filledForm.id ? filledForm : filledForm2);
+            });
           }
-        }.bind(this));
-    }
+          this.setState({mode: 'show', filledForm: null, filledForms: filledForms});
+        }
+      }.bind(this));
   },
 
-  _onSectionChange: function (section) {
-    var form = this.state.form;
-    form.formSections = form.formSections.map(function (formSection) {
-      return (section.id === formSection.id ? section : formSection);
-    });
-    this.setState({form: form});
+  _onDelete: function (filledForm) {
+    var token = this.props.form.authenticityToken;
+    REST.delete(filledForm.url, token, function (response) {
+      if (response.result === 'ok') {
+        var filledForms = this.state.filledForms.filter(function (filled) {
+          return (filled.id !== filledForm.id);
+        });
+        var mode = this.state.mode;
+        filledForm = null;
+        if (filledForms.length === 0) {
+          mode = 'new';
+          filledForm = {filledFields: []};
+        } else {
+          mode = 'show';
+        }
+        this.setState({filledForms: filledForms,
+          mode: mode, filledForm: filledForm});
+      }
+    }.bind(this));
   },
 
-  render: function() {
-    var form = this.props.form;
+  _onEdit: function (filledForm) {
+    this.setState({mode: 'edit', filledForm: filledForm});
+  },
+
+  _onChange: function (filledForm) {
+    this.setState({filledForm: filledForm});
+  },
+
+  _onCancel: function (event) {
+    this.setState({mode: 'show', filledForm: null});
+  },
+
+  _onAdd: function (event) {
+    event.preventDefault();
+    this.setState({mode: 'new', filledForm: {filledFields: []}});
+  },
+
+  _renderEdit: function () {
+    var form = this.props.form.form;
 
     var sections = form.formSections.map(function (formSection, index) {
       return (
-        <Section key={formSection.id} section={formSection}
-          onChange={this._onSectionChange} />
+        <Section key={formSection.id}
+          formSection={formSection}
+          filledForm={this.state.filledForm}
+          onChange={this._onChange} />
       );
     }, this);
+
+    var remove;
+    var cancel;
+    if ('edit' === this.state.mode) {
+      cancel = <a onClick={this._onCancel}>Cancel</a>;
+      remove = <a onClick={function (event) {
+        event.preventDefault();
+        if (window.confirm('Are you sure?')) {
+          this._onDelete(this.state.filledForm);
+        }
+      }.bind(this)}>Remove</a>;
+    } else if (form.manyPerUser && this.state.filledForms.length > 0) {
+      cancel = <a onClick={this._onCancel}>Cancel</a>;
+    }
 
     return (
       <this.props.tag className={CLASS_ROOT}>
@@ -304,9 +413,97 @@ var Form = React.createClass({
           <input type="submit" value={form.submitLabel || 'Submit'}
             className="btn btn--primary"
             onClick={this._onSubmit} />
+          {remove}
+          {cancel}
         </div>
       </this.props.tag>
     );
+  },
+
+  _renderSummary: function (form, filledForm) {
+    var createdAt = moment(filledForm.createdAt);
+    var updatedAt = moment(filledForm.updatedAt);
+    var now = moment();
+    var summary;
+
+    if (updatedAt.isBefore(now, 'minute')) {
+      if (createdAt.isBefore(updatedAt)) {
+        summary = 'Updated';
+      } else {
+        summary = 'Submitted';
+        if (form.manyPerUser) {
+          summary += ' for';
+        }
+      }
+      if (form.manyPerUser) {
+        summary += ' ' + filledForm.name;
+      }
+      summary += ' ' + updatedAt.fromNow()
+    } else {
+      summary = 'Thanks for';
+      if (createdAt.isBefore(updatedAt)) {
+        summary += ' the update';
+      } else {
+        summary += ' your submittal';
+      }
+      if (form.manyPerUser) {
+        summary += ' for ' + filledForm.name;
+      }
+    }
+    summary += '.';
+    return summary;
+  },
+
+  _renderShow: function () {
+    var form = this.props.form.form;
+    var classRoot = CLASS_ROOT + '-fills';
+
+    var filledForms = this.state.filledForms.map(function (filledForm) {
+      var summary = this._renderSummary(form, filledForm);
+      return (
+        <tr key={filledForm.id} className={classRoot + '__fill'}>
+          <td className={classRoot + '__date'}>{summary}</td>
+          <td>
+            <button onClick={function (event) {
+              event.preventDefault();
+              this._onEdit(filledForm);
+            }.bind(this)}>Update</button>
+          </td>
+        </tr>
+      )
+    }, this);
+
+    var add;
+    if (form.manyPerUser) {
+      add = (
+        <button onClick={this._onAdd} className={classRoot + '__add'}>
+          Add another
+        </button>
+      );
+    }
+    var list;
+    if (this.props.form.indexUrl) {
+      list = <a href={this.props.form.indexUrl}>list</a>;
+    }
+
+    return (
+      <div className={classRoot}>
+        <div className={classRoot + "__header"}>{form.name}</div>
+        <table>{filledForms}</table>
+        {add}
+        {list}
+      </div>
+    );
+  },
+
+  render: function () {
+    var result;
+    if ('new' === this.state.mode || 'edit' === this.state.mode) {
+      result = this._renderEdit();
+    } else {
+      result = this._renderShow();
+    }
+    return result;
   }
 });
 

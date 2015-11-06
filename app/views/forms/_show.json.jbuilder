@@ -1,14 +1,14 @@
 form ||= @form
 json.form do
-  json.extract!(form, :id, :name)
+  json.extract!(form, :id, :name, :submit_label, :many_per_user, :published)
   json.formSections form.form_sections do |form_section|
-    json.extract!(form_section, :id, :name, :form_index)
+    json.extract!(form_section, :id, :name)
     json.formFields form_section.form_fields do |form_field|
-      json.extract!(form_field, :id, :name, :form_index,
+      json.extract!(form_field, :id, :name,
         :field_type, :help, :required, :monetary,
         :value, :limit)
       json.formFieldOptions form_field.form_field_options do |form_field_option|
-        json.extract!(form_field_option, :id, :name, :form_field_index,
+        json.extract!(form_field_option, :id, :name,
           :option_type, :help, :disabled, :value)
       end
     end

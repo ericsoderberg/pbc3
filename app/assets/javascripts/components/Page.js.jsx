@@ -42,9 +42,7 @@ var Page = React.createClass({
         contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);
         break;
       case 'Form':
-        contents = (<Form form={pageElement.form}
-          authenticityToken={pageElement.authenticityToken}
-          createUrl={pageElement.createUrl} updateUrl={pageElement.updateUrl} />);
+        contents = (<Form form={pageElement.form} />);
         break;
       }
       return (

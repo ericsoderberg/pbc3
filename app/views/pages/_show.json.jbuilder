@@ -19,19 +19,7 @@ json.page do
       json.editUrl edit_page_element_url(@page, page_element,
         {:page_id => @page.id})
     when 'Form'
-      form = page_element.element
-      filled_forms = form.filled_forms_for_user(current_user)
-      if filled_forms.empty?
-        json.partial! 'filled_forms/new', filled_form: form.build_fill()
-        json.createUrl form_fills_url(form)
-      elsif not form.many_per_user
-        filled_form = filled_forms.first
-        json.partial! 'filled_forms/edit', filled_form: filled_form
-        json.updateUrl form_fill_url(form, filled_form)
-      else
-        json.partial! 'filled_forms/index', filled_forms: filled_forms
-      end
-      json.authenticityToken form_authenticity_token()
+      json.partial! 'filled_forms/index', form: page_element.element
       json.editUrl edit_contents_form_url(page_element.element,
         {:page_id => @page.id})
     end

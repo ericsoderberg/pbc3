@@ -135,12 +135,17 @@ class FormsController < ApplicationController
       @copy_form = Form.find(params[:copy_form_id])
       @form.copy(@copy_form)
     end
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
+      @page_element = @page.page_elements.where('element_id = ?', @form.id).first
+    end
+    target_url = context_url(@page)
     #@page = @form.page
     #return unless page_administrator!
 
     respond_to do |format|
       if @form.save
-        format.html { redirect_to(edit_contents_form_url(@form),
+        format.html { redirect_to(target_url,
           :notice => 'Form was successfully created.') }
         format.xml  { render :xml => @form, :status => :created, :location => @form }
       else
@@ -153,6 +158,10 @@ class FormsController < ApplicationController
   def update
     return unless administrator!
     @form = Form.find(params[:id])
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
+      @page_element = @page.page_elements.where('element_id = ?', @form.id).first
+    end
     #@page = @form.page
     #return unless page_administrator!
     if params[:advance_version]

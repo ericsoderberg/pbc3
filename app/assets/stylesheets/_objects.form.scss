@@ -343,3 +343,24 @@ li.placeholder {
 #sign_up_email_confirmation {
   display: none;
 }
+
+.form-fills {
+  &__header {
+    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  }
+
+  &__fill {
+
+    td {
+      padding-bottom: halve($inuit-base-spacing-unit);
+    }
+
+    button {
+      margin-left: $inuit-base-spacing-unit;
+    }
+  }
+
+  &__add {
+    margin-top: halve($inuit-base-spacing-unit);
+  }
+}

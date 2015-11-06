@@ -138,7 +138,7 @@ class FilledFormsController < ApplicationController
         FormMailer.form_email(@filled_form).deliver_now
         format.html { redirect_to(next_url,
             :notice => "#{@form.name} was successfully submitted.") }
-        format.json { render :json => {result: 'ok'} }
+        format.json { render :partial => "show", :layout => false }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
         @payments = @form.payments_for_user(current_user)
@@ -149,8 +149,6 @@ class FilledFormsController < ApplicationController
     end
   end
 
-  # PUT /filled_forms/1
-  # PUT /filled_forms/1.xml
   def update
     @filled_form = @form.filled_forms.find(params[:id])
     return unless filled_form_authorized!
@@ -176,7 +174,7 @@ class FilledFormsController < ApplicationController
         FormMailer.form_email(@filled_form).deliver
         format.html { redirect_to(next_url,
           :notice => "#{@form.name} was successfully updated.") }
-        format.json { render :json => {result: 'ok'} }
+        format.json { render :partial => "show", :layout => false }
       else
         @filled_forms = @form.visible_filled_forms(current_user)
         @payments = @form.payments_for_user(current_user)
@@ -187,8 +185,6 @@ class FilledFormsController < ApplicationController
     end
   end
 
-  # DELETE /filled_forms/1
-  # DELETE /filled_forms/1.xml
   def destroy
     if params[:filled_form_key]
       @filled_form = FilledForm.where(:verification_key =>
@@ -217,7 +213,7 @@ class FilledFormsController < ApplicationController
           end
         end
       end
-      format.xml  { head :ok }
+      format.json { render :json => {result: 'ok'} }
     end
   end
 

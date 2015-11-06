@@ -6,7 +6,9 @@
     <% if @copy_form -%>
       <%= hidden_field_tag :copy_form_id, @copy_form.id %>
     <% end -%>
-    <%= f.hidden_field :page_id %>
+    <% if @page -%>
+      <%= hidden_field_tag :page_id, @page.id %>
+    <% end -%>
 
     <ul class="form__fields list-bare">
       <li class="form__field">
