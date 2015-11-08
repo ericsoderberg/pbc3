@@ -11,7 +11,7 @@ class FormBuilderController < ApplicationController
       @page = Page.find(params[:page_id])
       @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     end
-    @cancel_url = context_url(@page)
+    @cancel_url = context_url
     @edit_context_url = @page ?
       edit_form_path(@form, {:page_id => @page.id}) : edit_form_path(@form)
   end
@@ -27,7 +27,7 @@ class FormBuilderController < ApplicationController
         index: @page.page_elements.length + 1
       })
     end
-    target_url = context_url(@page)
+    target_url = context_url
 
     respond_to do |format|
       if @form_builder_form.update_attributes(form_builder_params)
@@ -50,8 +50,8 @@ class FormBuilderController < ApplicationController
     #@page = @form.page
   end
 
-  def context_url(page)
-    page ? edit_contents_page_url(page) : forms_url()
+  def context_url
+    @page ? edit_contents_page_url(@page) : form_fills_url(@form)
   end
 
   def form_builder_params

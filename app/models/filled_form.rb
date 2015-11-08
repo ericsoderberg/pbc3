@@ -20,6 +20,9 @@ class FilledForm < ActiveRecord::Base
     self.verification_key = SecureRandom.base64(48);
   end
 
+  include Searchable
+  search_on :name
+
   def required_fields_set
     if form
       form.form_fields.each do |form_field|

@@ -16,7 +16,7 @@ var Forms = React.createClass({
   _renderForm: function (form) {
     return (
       <a className={CLASS_ROOT + "__form-name"}
-        href={form.editUrl}>
+        href={form.formFillsUrl}>
         {form.name}
       </a>
     );

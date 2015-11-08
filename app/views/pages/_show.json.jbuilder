@@ -19,7 +19,9 @@ json.page do
       json.editUrl edit_page_element_url(@page, page_element,
         {:page_id => @page.id})
     when 'Form'
-      json.partial! 'filled_forms/index', form: page_element.element
+      form = page_element.element
+      json.partial! 'filled_forms/page_index', form: form,
+        filled_forms: form.filled_forms_for_user(current_user)
       json.editUrl edit_contents_form_url(page_element.element,
         {:page_id => @page.id})
     end

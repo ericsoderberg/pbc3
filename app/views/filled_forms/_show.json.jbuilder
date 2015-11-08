@@ -7,3 +7,4 @@ json.filledFields filled_form.filled_fields do |filled_field|
   end
 end
 json.url form_fill_url(filled_form.form, filled_form)
+json.editUrl edit_form_fill_url(filled_form.form, filled_form)

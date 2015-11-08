@@ -2,54 +2,80 @@ class FilledFormsController < ApplicationController
   before_filter :authenticate_user!,
     :except => [:new, :create, :edit, :update, :destroy]
   before_filter :get_form, :except => [:user_index]
+  layout "administration", only: [:new, :create, :edit, :update]
 
   def index
-    @sort = params[:sort] || 'name'
-    @sort_id = @sort.to_i
-    @filled_forms = @form.visible_filled_forms(current_user)
-    if @sort
-      if @sort_id <= 0
-        @filled_forms = @filled_forms.reorder(@sort + ' ASC')
-      else
-        @filled_forms = @filled_forms.includes(:filled_fields).
-          where('filled_fields.form_field_id = ?', @sort_id).
-          reorder('filled_fields.value').references(:filled_fields)
-      end
+    return unless administrator!
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @filled_forms = @form.filled_forms
+    if @filter[:search]
+      @filled_forms = @filled_forms.search(@filter[:search])
     end
+    @filled_forms = @filled_forms.order('LOWER(name) ASC')
 
-    @payable_forms = @filled_forms.for_user(current_user).
-      where(:payment_id => nil)
+    # get total count before we limit
+    @count = @filled_forms.count
 
-    if @form.parent
-      @parent_value_form_fields = @form.parent.form_fields.valued
-      @parent_columns = @form.parent.columns
+    if params[:offset]
+      @filled_forms = @filled_forms.offset(params[:offset])
     end
+    @filled_forms = @filled_forms.limit(20)
 
-    @value_form_fields = @form.form_fields.valued
-    @columns = @form.columns
-
-    @sort_options = @value_form_fields.map{|ff| [ff.name, ff.id]}
-    @sort_options << ['date', 'updated_at']
-    @sort_options << ['version']
+    @content_partial = 'filled_forms/index'
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @filled_forms }
-      format.csv # index.csv.erb
-      format.xls # index.xls.erb
+      format.json { render :partial => "index" }
     end
+
+    # @sort = params[:sort] || 'name'
+    # @sort_id = @sort.to_i
+    # @filled_forms = @form.filled_forms
+    # if @sort
+    #   if @sort_id <= 0
+    #     @filled_forms = @filled_forms.reorder(@sort + ' ASC')
+    #   else
+    #     @filled_forms = @filled_forms.includes(:filled_fields).
+    #       where('filled_fields.form_field_id = ?', @sort_id).
+    #       reorder('filled_fields.value').references(:filled_fields)
+    #   end
+    # end
+
+    #@payable_forms = @filled_forms.for_user(current_user).
+    #  where(:payment_id => nil)
+
+    #if @form.parent
+    #  @parent_value_form_fields = @form.parent.form_fields.valued
+    #  @parent_columns = @form.parent.columns
+    #end
+
+    # @value_form_fields = @form.form_fields.valued
+    # @columns = @form.columns
+    #
+    # @sort_options = @value_form_fields.map{|ff| [ff.name, ff.id]}
+    # @sort_options << ['date', 'updated_at']
+    # @sort_options << ['version']
+    #
+    # respond_to do |format|
+    #   format.html # index.html.erb
+    #   format.json { render :partial => "index" }
+    #   format.csv # index.csv.erb
+    #   format.xls # index.xls.erb
+    # end
   end
 
-  def user_index
-    @user = User.find(params[:id])
-    @user = current_user unless current_user.administrator?
-    @filled_forms = @user.filled_forms.to_a
-
-    respond_to do |format|
-      format.html # user_index.html.erb
-      format.xml  { render :xml => @filled_forms }
-    end
-  end
+  # def user_index
+  #   @user = User.find(params[:id])
+  #   @user = current_user unless current_user.administrator?
+  #   @filled_forms = @user.filled_forms.to_a
+  #
+  #   respond_to do |format|
+  #     format.html # user_index.html.erb
+  #     format.xml  { render :xml => @filled_forms }
+  #   end
+  # end
 
   def show
     @filled_form = @form.filled_forms.find(params[:id])
@@ -89,13 +115,14 @@ class FilledFormsController < ApplicationController
 
   def edit
     @filled_form = @form.filled_forms.find(params[:id])
-    @filled_forms = @form.visible_filled_forms(current_user)
+    @filled_forms = [@filled_form] #@form.visible_filled_forms(current_user)
     return unless filled_form_authorized!
     session[:edit_form_cancel_path] = edit_form_fill_path(@form, @filled_form)
     if @form.parent
       @parent_filled_forms = @form.parent.visible_filled_forms(current_user)
     end
     @payments = @form.payments_for_user(current_user)
+    @mode = 'edit'
   end
 
   def create

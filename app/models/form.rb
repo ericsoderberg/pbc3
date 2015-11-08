@@ -34,14 +34,17 @@ class Form < ActiveRecord::Base
   end
 
   def authorized?(user)
+    return true if user and user.administrator?
     page.authorized?(user)
   end
 
   def searchable?(user)
+    return true if user and user.administrator?
     page.searchable?(user)
   end
 
   def visible?(user)
+    return true if user and user.administrator?
     authorized?(user) and (published? or page.administrator?(user))
   end
 

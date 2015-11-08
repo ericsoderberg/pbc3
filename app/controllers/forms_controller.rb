@@ -71,7 +71,7 @@ class FormsController < ApplicationController
       @form.name = @page.name
       @forms = Form.order('name ASC')
     end
-    @cancel_url = context_url(@page)
+    @cancel_url = context_url
     #@form.page = Page.find(params[:page_id]) if params[:page_id]
     #@page = @form.page
     #return unless page_administrator!
@@ -102,7 +102,7 @@ class FormsController < ApplicationController
       @page = Page.find(params[:page_id])
       @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     end
-    @cancel_url = context_url(@page)
+    @cancel_url = context_url
     @edit_contents_url = @page ?
       edit_contents_form_path(@form, {:page_id => @page.id}) :
       edit_contents_form_path(@form)
@@ -139,7 +139,7 @@ class FormsController < ApplicationController
       @page = Page.find(params[:page_id])
       @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     end
-    target_url = context_url(@page)
+    target_url = context_url
     #@page = @form.page
     #return unless page_administrator!
 
@@ -167,7 +167,7 @@ class FormsController < ApplicationController
     if params[:advance_version]
       params[:form][:version] = @form.version + 1
     end
-    target_url = context_url(@page)
+    target_url = context_url
 
     respond_to do |format|
       if (@form.update_attributes(form_params))
@@ -204,10 +204,10 @@ class FormsController < ApplicationController
   def destroy
     return unless administrator!
     @form = Form.find(params[:id])
-    #@page = @form.page
+    @page = @form.page
     #return unless page_administrator!
     @form.destroy
-    target_url = context_url(@page)
+    target_url = context_url
 
     respond_to do |format|
       format.html { redirect_to(target_url) }
@@ -217,8 +217,8 @@ class FormsController < ApplicationController
 
   private
 
-  def context_url(page)
-    page ? edit_contents_page_url(page) : forms_url()
+  def context_url
+    @page ? edit_contents_page_url(@page) : form_fills_url(@form)
   end
 
   def form_params

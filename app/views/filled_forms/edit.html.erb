@@ -1,26 +1,5 @@
-<% title @form.name -%>
+<% title("Edit #{@form.name} for #{@filled_form.name}") -%>
 
-<%= render :partial => "forms/header" %>
-
-<div class="regular_content mini-aside">
-<section>
-  
-  <% if @form.payable? and @filled_form.payment and not @filled_form.payment.cancellable? -%>
-    <%= render :partial => 'payment_fields' %>
-  <% end -%>
-  
-  <% if @filled_form.parent -%>
-  <div id="included_parent_form">
-    <%= render :partial => 'form', :locals => {:filled_form => @filled_form.parent} %>
-  </div>
-  <% end -%>
-    
-  <%= render :partial => 'form', :locals => {:filled_form => @filled_form} %>
-
-</section>
-
-<aside>
-  <%= render :partial => "filled_forms/index" %>
-</aside>
-
-</div>
+<%= react_component('Form',
+  render(template: 'filled_forms/_page_index.json.jbuilder'),
+  { prerender: params[:noprerender].nil? }) %>

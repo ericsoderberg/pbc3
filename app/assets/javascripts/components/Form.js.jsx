@@ -1,5 +1,6 @@
 var REST = require('./REST');
 var moment = require('moment');
+var CloseIcon = require('./CloseIcon');
 
 CLASS_ROOT = "form";
 
@@ -275,6 +276,7 @@ var Form = React.createClass({
 
   propTypes: {
     form: React.PropTypes.object.isRequired,
+    mode: React.PropTypes.string,
     tag: React.PropTypes.string
   },
 
@@ -285,12 +287,20 @@ var Form = React.createClass({
   getInitialState: function () {
     var mode;
     var filledForm;
-    if (this.props.form.filledForms.length === 0 || 'form' !== this.props.tag) {
+
+    if (this.props.form.mode) {
+      mode = this.props.form.mode;
+    } else if (this.props.form.filledForms.length === 0 || 'form' !== this.props.tag) {
       mode = 'new';
-      filledForm = {filledFields: []};
     } else {
       mode = 'show';
     }
+    if ('new' === mode) {
+      filledForm = {filledFields: []};
+    } else if ('edit' === mode) {
+      filledForm = this.props.form.filledForms[0];
+    }
+
     return {
       filledForm: filledForm,
       filledForms: this.props.form.filledForms,
@@ -383,6 +393,7 @@ var Form = React.createClass({
 
     var remove;
     var cancel;
+    var headerCancel;
     if ('edit' === this.state.mode) {
       cancel = <a onClick={this._onCancel}>Cancel</a>;
       remove = <a onClick={function (event) {
@@ -391,6 +402,14 @@ var Form = React.createClass({
           this._onDelete(this.state.filledForm);
         }
       }.bind(this)}>Remove</a>;
+      if ('edit' === this.props.form.mode) {
+        headerCancel = (
+          <a className="control-icon" href={this.props.form.indexUrl}>
+            <CloseIcon />
+          </a>
+        );
+        cancel = null;
+      }
     } else if (form.manyPerUser && this.state.filledForms.length > 0) {
       cancel = <a onClick={this._onCancel}>Cancel</a>;
     }
@@ -398,7 +417,8 @@ var Form = React.createClass({
     return (
       <this.props.tag className={CLASS_ROOT}>
         <div className={CLASS_ROOT + "__header"}>
-          {form.name}
+          <span className="form__title">{form.name}</span>
+          {headerCancel}
         </div>
 
         <div className={CLASS_ROOT + "__contents"}>

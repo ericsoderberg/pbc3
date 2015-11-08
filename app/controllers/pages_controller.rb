@@ -5,7 +5,8 @@ class PagesController < ApplicationController
       :edit_access, :update, :new, :create, :destroy]
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
-  layout "administration", only: [:new, :create, :edit, :edit_context, :edit_contents, :edit_access]
+  layout "administration", only: [:new, :create, :edit, :edit_context,
+    :edit_contents, :edit_access]
 
   def index
     @filter = {}

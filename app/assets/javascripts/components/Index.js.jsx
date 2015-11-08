@@ -3,6 +3,7 @@ var REST = require('./REST');
 var SpinnerIcon = require('./SpinnerIcon');
 var SearchInput = require('./SearchInput');
 var AddIcon = require('./AddIcon');
+var EditIcon = require('./EditIcon');
 
 var CLASS_ROOT = "index";
 
@@ -16,6 +17,7 @@ var Index = React.createClass({
     count: React.PropTypes.number.isRequired,
     filter: React.PropTypes.object,
     searchPlaceholder: React.PropTypes.string,
+    editUrl: React.PropTypes.string,
     newUrl: React.PropTypes.string
   },
 
@@ -116,6 +118,15 @@ var Index = React.createClass({
       );
     }
 
+    var editControl;
+    if (this.props.editUrl) {
+      editControl = (
+        <a className={CLASS_ROOT + "__edit control-icon"} href={this.props.editUrl}>
+          <EditIcon />
+        </a>
+      );
+    }
+
     return (
       <div className={classes.join(' ')}>
         <header className={CLASS_ROOT + "__header"}>
@@ -125,6 +136,7 @@ var Index = React.createClass({
             placeholder={this.props.searchPlaceholder}
             onChange={this._onChangeSearch} />
           {addControl}
+          {editControl}
         </header>
         {none}
         <ol className={CLASS_ROOT + "__items list-bare"}>
