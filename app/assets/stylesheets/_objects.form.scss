@@ -195,6 +195,13 @@
       @include inuit-font-size($label-font-size);
     }
 
+    &-error {
+      display: block;
+      float: right;
+      color: $validation-color;
+      @include inuit-font-size($label-font-size);
+    }
+
     //&-edit {
     //  position: absolute;
     //  top: 0px;

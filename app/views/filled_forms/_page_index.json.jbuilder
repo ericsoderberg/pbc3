@@ -1,5 +1,6 @@
 form ||= @form
 filled_forms = @filled_forms || form.filled_forms_for_user(current_user)
+page ||= nil
 
 json.form do
 
@@ -9,6 +10,9 @@ json.form do
 
   json.createUrl form_fills_url(form)
   json.authenticityToken form_authenticity_token()
+  if page
+    json.pageId page.id
+  end
 
   if current_user and current_user.administrator?
     json.indexUrl form_fills_url(form)

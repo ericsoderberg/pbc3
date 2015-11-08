@@ -106,6 +106,7 @@ class FilledFormsController < ApplicationController
       @filled_form.parent = @parent_filled_forms.first
     end
     @payments = @form.payments_for_user(current_user)
+    @mode = 'new'
 
     respond_to do |format|
       format.html # new.html.erb
@@ -170,7 +171,7 @@ class FilledFormsController < ApplicationController
         @filled_forms = @form.visible_filled_forms(current_user)
         @payments = @form.payments_for_user(current_user)
         format.html { render :action => "new" }
-        format.json { render :json => {result: 'error', errors: @filled_form.errors},
+        format.json { render :json => @filled_form.errors,
           :status => :unprocessable_entity }
       end
     end
@@ -265,12 +266,14 @@ class FilledFormsController < ApplicationController
 
   def get_form
     @form = Form.find(params[:form_id])
-    @page = @form.page
-    if not @form.visible?(current_user)
-      redirect_to friendly_page_url(@page)
-      return false
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
     end
-    session[:edit_form_cancel_path] = form_fills_path(@form)
+    # if not @form.visible?(current_user)
+    #   redirect_to friendly_page_url(@page)
+    #   return false
+    # end
+    # session[:edit_form_cancel_path] = form_fills_path(@form)
     return true
   end
 

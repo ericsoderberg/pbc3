@@ -8,3 +8,6 @@ json.filledFields filled_form.filled_fields do |filled_field|
 end
 json.url form_fill_url(filled_form.form, filled_form)
 json.editUrl edit_form_fill_url(filled_form.form, filled_form)
+if not @page
+  json.redirectUrl form_fills_url(@form)
+end

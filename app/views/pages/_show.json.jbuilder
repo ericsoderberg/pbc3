@@ -21,7 +21,8 @@ json.page do
     when 'Form'
       form = page_element.element
       json.partial! 'filled_forms/page_index', form: form,
-        filled_forms: form.filled_forms_for_user(current_user)
+        filled_forms: form.filled_forms_for_user(current_user),
+        page: @page
       json.editUrl edit_contents_form_url(page_element.element,
         {:page_id => @page.id})
     end

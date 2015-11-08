@@ -333,6 +333,14 @@ var FormFieldEditor = React.createClass({
         </div>
       );
 
+      defaultValue = (
+        <div className="form__field">
+          <label>Default value</label>
+          <input ref="value" type="text"
+            onChange={this._onChange.bind(this, "value")} value={field.value} />
+        </div>
+      );
+
     } else {
       help = (
         <div className="form__field">
@@ -386,6 +394,7 @@ var FormFieldEditor = React.createClass({
               {help}
               {required}
               {monetary}
+              {defaultValue}
             </div>
           </fieldset>
           {options}

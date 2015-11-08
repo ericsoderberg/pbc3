@@ -141,6 +141,7 @@ var Option = React.createClass({
 var Field = React.createClass({
 
   propTypes: {
+    fieldErrors: React.PropTypes.object,
     filledForm: React.PropTypes.object.isRequired,
     formField: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired
@@ -183,6 +184,14 @@ var Field = React.createClass({
       if (formField.help) {
         help = <div className="form__field-help">{formField.help}</div>;
       }
+      var error;
+      if (this.props.fieldErrors.hasOwnProperty(formField.name)) {
+        error = (
+          <div className="form__field-error">
+            {this.props.fieldErrors[formField.name]}
+          </div>
+        );
+      }
 
       var content;
       var value = filledField ? filledField.value : formField.value;
@@ -223,6 +232,7 @@ var Field = React.createClass({
 
       result = (
         <div className={CLASS_ROOT + "__field"}>
+          {error}
           {label}
           {help}
           {content}
@@ -237,9 +247,10 @@ var Field = React.createClass({
 var Section = React.createClass({
 
   propTypes: {
+    fieldErrors: React.PropTypes.object.isRequired,
     filledForm: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    formSection: React.PropTypes.object.isRequired
+    formSection: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired
   },
 
   _onChange: function (filledForm) {
@@ -254,6 +265,7 @@ var Section = React.createClass({
         <Field key={formField.id}
           formField={formField}
           filledForm={this.props.filledForm}
+          fieldErrors={this.props.fieldErrors}
           onChange={this._onChange} />
       );
     }, this);
@@ -304,7 +316,8 @@ var Form = React.createClass({
     return {
       filledForm: filledForm,
       filledForms: this.props.form.filledForms,
-      mode: mode
+      mode: mode,
+      fieldErrors: {}
     };
   },
 
@@ -321,11 +334,22 @@ var Form = React.createClass({
       url = this.state.filledForm.url;
       action = 'put';
     }
+    var data = {
+      filledFields: filledFields,
+      email_address_confirmation: ''
+    };
+    if (this.props.form.pageId) {
+      data.pageId = this.props.form.pageId;
+    }
     var token = this.props.form.authenticityToken;
-    REST[action](url, token,
-      {filledFields: filledFields, email_address_confirmation: ''},
+    REST[action](url, token, data,
       function (response) {
-        if (response.id) {
+        // Successful submit
+        if (response.redirectUrl) {
+          // not in a page
+          window.location = response.redirectUrl;
+        } else {
+          // in a page
           filledForm = response;
           var filledForms
           if ('new' === this.state.mode) {
@@ -336,8 +360,15 @@ var Form = React.createClass({
               return (filledForm2.id === filledForm.id ? filledForm : filledForm2);
             });
           }
-          this.setState({mode: 'show', filledForm: null, filledForms: filledForms});
+          this.setState({
+            mode: 'show',
+            filledForm: null,
+            filledForms: filledForms,
+            fieldErrors: {}
+          });
         }
+      }.bind(this), function (errors) {
+        this.setState({fieldErrors: errors});
       }.bind(this));
   },
 
@@ -387,6 +418,7 @@ var Form = React.createClass({
         <Section key={formSection.id}
           formSection={formSection}
           filledForm={this.state.filledForm}
+          fieldErrors={this.state.fieldErrors}
           onChange={this._onChange} />
       );
     }, this);
@@ -410,6 +442,12 @@ var Form = React.createClass({
         );
         cancel = null;
       }
+    } else if ('new' === this.props.form.mode) {
+      headerCancel = (
+        <a className="control-icon" href={this.props.form.indexUrl}>
+          <CloseIcon />
+        </a>
+      );
     } else if (form.manyPerUser && this.state.filledForms.length > 0) {
       cancel = <a onClick={this._onCancel}>Cancel</a>;
     }
