@@ -4,6 +4,9 @@ class FormField < ActiveRecord::Base
   has_many :form_field_options, -> { order('form_field_index ASC') },
     :autosave => true, :dependent => :destroy
   has_many :filled_fields, :dependent => :destroy
+  belongs_to :depends_on, :class_name => 'FormField'
+  has_many :dependent_fields, :class_name => 'FormField', :dependent => :nullify
+  has_many :dependent_sections, :class_name => 'FormSection', :dependent => :nullify
 
   FIELD = 'field'
   AREA = 'area'

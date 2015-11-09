@@ -113,14 +113,14 @@ var FormFieldOptionEditor = React.createClass({
 var FormFieldOptionBuilder = React.createClass({
 
   propTypes: {
-    dragStart: React.PropTypes.func.isRequired,
     dragEnd: React.PropTypes.func.isRequired,
-    index: React.PropTypes.number.isRequired,
+    dragStart: React.PropTypes.func.isRequired,
     edit: React.PropTypes.bool,
     fieldType: React.PropTypes.string.isRequired,
-    option: React.PropTypes.object.isRequired,
+    index: React.PropTypes.number.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
-    onRemove: React.PropTypes.func.isRequired
+    onRemove: React.PropTypes.func.isRequired,
+    option: React.PropTypes.object.isRequired
   },
 
   _renderEdit: function () {
@@ -201,10 +201,24 @@ var FormFieldOptionBuilder = React.createClass({
   }
 });
 
+function renderDependsOnOptions (field, form) {
+  var result = [];
+  form.formSections.some(function (formSection) {
+    return formSection.formFields.some(function (formField) {
+      if (formField.id === field.id) return true;
+      result.push(
+        <option key={formField.id} label={formField.name} value={formField.id}/>
+      );
+    });
+  });
+  return result;
+}
+
 var FormFieldEditor = React.createClass({
 
   propTypes: {
     field: React.PropTypes.object.isRequired,
+    form: React.PropTypes.object.isRequired,
     onCancel: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired,
@@ -280,6 +294,8 @@ var FormFieldEditor = React.createClass({
     this._dragAndDrop.over(event);
   },
 
+
+
   getInitialState: function () {
     return {field: this.props.field};
   },
@@ -296,6 +312,8 @@ var FormFieldEditor = React.createClass({
     var help;
     var required;
     var monetary;
+    var defaultValue;
+    var dependsOnId;
 
     if ('instructions' !== field.fieldType) {
 
@@ -333,13 +351,40 @@ var FormFieldEditor = React.createClass({
         </div>
       );
 
-      defaultValue = (
-        <div className="form__field">
-          <label>Default value</label>
-          <input ref="value" type="text"
-            onChange={this._onChange.bind(this, "value")} value={field.value} />
-        </div>
-      );
+      if (true || 'single choice' !== field.fieldType &&
+        'multiple choice' !== field.fieldType) {
+        defaultValue = (
+          <div className="form__field">
+            <label>Default value</label>
+            <input ref="value" type="text"
+              onChange={this._onChange.bind(this, "value")} value={field.value} />
+          </div>
+        );
+      }
+
+      dependsOnOptions = [<option></option>];
+      this.props.form.formSections.some(function (formSection) {
+        return formSection.formFields.some(function (formField) {
+          if (formField.id === field.id) return true;
+          if ('instructions' !== formField.fieldType) {
+            dependsOnOptions.push(
+              <option key={formField.id} label={formField.name} value={formField.id}/>
+            );
+          }
+        });
+      });
+
+      if (dependsOnOptions.length > 1) {
+        dependsOnId = (
+          <div className="form__field">
+            <label>Depends on</label>
+            <select ref="dependsOnId" value={field.dependsOnId}
+              onChange={this._onChange.bind(this, "dependsOnId")}>
+              {dependsOnOptions}
+            </select>
+          </div>
+        );
+      }
 
     } else {
       help = (
@@ -395,6 +440,7 @@ var FormFieldEditor = React.createClass({
               {required}
               {monetary}
               {defaultValue}
+              {dependsOnId}
             </div>
           </fieldset>
           {options}
@@ -416,6 +462,7 @@ var FormFieldBuilder = React.createClass({
     dragStart: React.PropTypes.func.isRequired,
     dragEnd: React.PropTypes.func.isRequired,
     field: React.PropTypes.object.isRequired,
+    form: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired
@@ -424,6 +471,7 @@ var FormFieldBuilder = React.createClass({
   _renderEdit: function () {
     return (
       <FormFieldEditor field={this.props.field}
+        form={this.props.form}
         onCancel={this._onCancelEdit}
         onChange={this._onEditChange}
         onUpdate={this._onUpdate}
@@ -567,11 +615,12 @@ var FormFieldBuilder = React.createClass({
 var FormSectionEditor = React.createClass({
 
   propTypes: {
-    section: React.PropTypes.object.isRequired,
+    form: React.PropTypes.object.isRequired,
     onCancel: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired,
-    onUpdate: React.PropTypes.func.isRequired
+    onUpdate: React.PropTypes.func.isRequired,
+    section: React.PropTypes.object.isRequired
   },
 
   _onUpdate: function (event) {
@@ -602,6 +651,31 @@ var FormSectionEditor = React.createClass({
   render: function () {
     var section = this.props.section;
 
+    var dependsOnId;
+    var dependsOnOptions = [<option></option>];
+    this.props.form.formSections.some(function (formSection) {
+      if (formSection.id === section.id) return true;
+      formSection.formFields.some(function (formField) {
+        if ('instructions' !== formField.fieldType) {
+          dependsOnOptions.push(
+            <option key={formField.id} label={formField.name} value={formField.id}/>
+          );
+        }
+      });
+    });
+
+    if (dependsOnOptions.length > 1) {
+      dependsOnId = (
+        <div className="form__field">
+          <label>Depends on</label>
+          <select ref="dependsOnId" value={section.dependsOnId}
+            onChange={this._onChange.bind(this, "dependsOnId")}>
+            {dependsOnOptions}
+          </select>
+        </div>
+      );
+    }
+
     return (
       <form className="form form--compact drop">
         <div className="form__header">
@@ -618,6 +692,7 @@ var FormSectionEditor = React.createClass({
                 <input ref="name" type="text"
                   onChange={this._onChange.bind(this, "name")} value={section.name} />
               </div>
+              {dependsOnId}
             </div>
           </fieldset>
         </div>
@@ -637,6 +712,7 @@ var FormSectionBuilder = React.createClass({
   propTypes: {
     dragStart: React.PropTypes.func.isRequired,
     dragEnd: React.PropTypes.func.isRequired,
+    form: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired,
     onAddSection: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired,
@@ -647,6 +723,7 @@ var FormSectionBuilder = React.createClass({
   _renderEdit: function () {
     return (
       <FormSectionEditor section={this.props.section}
+        form={this.props.form}
         onCancel={this._onCancelEdit}
         onChange={this._onEditChange}
         onUpdate={this._onUpdate}
@@ -775,7 +852,9 @@ var FormSectionBuilder = React.createClass({
 
     var fields = section.formFields.map(function (formField, index) {
       return (
-        <FormFieldBuilder key={itemId(formField)} field={formField}
+        <FormFieldBuilder key={itemId(formField)}
+          field={formField}
+          form={this.props.form}
           onUpdate={this._onFieldUpdate}
           onRemove={this._onFieldRemove}
           index={index}
@@ -826,8 +905,14 @@ var FormBuilder = React.createClass({
     event.preventDefault();
     var url = this.props.editContents.updateUrl;
     var token = this.props.editContents.authenticityToken;
+    var data = {
+      form: this.state.form
+    };
+    if (this.props.editContents.pageId) {
+      data.pageId = this.props.editContents.pageId;
+    }
     console.log('!!! FormBuilder _onSubmit', token, this.state.form);
-    REST.post(url, token, {form: this.state.form}, function (response) {
+    REST.post(url, token, data, function (response) {
       console.log('!!! FormBuilder _onSubmit completed', response);
       if (response.result === 'ok') {
         location = response.redirect_to;
@@ -893,7 +978,9 @@ var FormBuilder = React.createClass({
     var form = this.state.form;
     var sections = form.formSections.map(function (formSection, index) {
       return (
-        <FormSectionBuilder key={itemId(formSection)} section={formSection}
+        <FormSectionBuilder key={itemId(formSection)}
+          section={formSection}
+          form={form}
           onUpdate={this._onSectionUpdate}
           onRemove={this._onSectionRemove}
           onAddSection={this._onAddSection}

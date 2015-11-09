@@ -46,7 +46,7 @@ class FormBuilderForm
       @form.update_attributes!(params.slice(*%w[id name]))
       params["form_sections"].each do |fs|
 
-        fs_params = fs.slice(*%w[id name form_index])
+        fs_params = fs.slice(*%w[id name form_index depends_on_id])
         if fs_params["id"] and @form.form_sections.exists?(fs_params["id"])
           form_section = @form.form_sections.find(fs_params["id"])
           form_section.update_attributes!(fs_params)
@@ -58,7 +58,7 @@ class FormBuilderForm
         fs["form_fields"].each do |ff|
 
           ff_params = ff.slice(*%w[id name form_index field_type help
-            required monetary value limit])
+            required monetary value limit depends_on_id])
           if ff_params["id"] and form_section.form_fields.exists?(ff_params["id"])
             form_field = form_section.form_fields.find(ff_params["id"])
             form_field.update_attributes!(ff_params)

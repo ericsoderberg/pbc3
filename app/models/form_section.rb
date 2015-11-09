@@ -2,9 +2,10 @@ class FormSection < ActiveRecord::Base
   belongs_to :form
   has_many :form_fields, -> { order('form_index ASC') },
     :autosave => true, :dependent => :destroy
+  belongs_to :depends_on, :class_name => 'FormField'
     
   validates :form, :presence => true
-    
+
   def copy(source_form_section)
     self.name = source_form_section.name
     source_form_section.form_fields.each do |source_field|

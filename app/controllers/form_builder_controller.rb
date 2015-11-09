@@ -47,7 +47,9 @@ class FormBuilderController < ApplicationController
 
   def get_form
     @form = Form.find(params[:id])
-    #@page = @form.page
+    if params[:page_id]
+      @page = Page.find(params[:page_id])
+    end
   end
 
   def context_url
@@ -56,9 +58,10 @@ class FormBuilderController < ApplicationController
 
   def form_builder_params
     params.require(:form).permit(:id, :name,
-      {:form_sections => [:id, :name, :form_index,
+      {:form_sections => [:id, :name, :form_index, :depends_on_id,
         {:form_fields => [:id, :name, :form_index,
           :field_type, :help, :required, :monetary, :value, :limit,
+          :depends_on_id,
           {:form_field_options => [:id, :name, :option_type,
             :help, :disabled, :value, :form_field_index]}
         ]}

@@ -4,11 +4,11 @@ var CloseIcon = require('./CloseIcon');
 
 CLASS_ROOT = "form";
 
-function formFieldForFilledField (form, filledField) {
+function findFormField (form, formFieldId) {
   var result;
   form.formSections.some(function (formSection) {
     return formSection.formFields.some(function (formField) {
-      if (formField.id === filledField.formFieldId) {
+      if (formField.id === formFieldId) {
         result = formField;
         return true;
       }
@@ -17,10 +17,10 @@ function formFieldForFilledField (form, filledField) {
   return result;
 }
 
-function filledFieldForFormField (filledForm, formField) {
+function findFilledField (filledForm, formFieldId) {
   var result;
   filledForm.filledFields.some(function (filledField) {
-    if (formField.id === filledField.formFieldId) {
+    if (filledField.formFieldId === formFieldId) {
       result = filledField;
       return true;
     }
@@ -46,7 +46,7 @@ function filledOptionForFormOption (filledForm, formField, formFieldOption) {
 function filledFieldsForForm (form, filledForm) {
   var result = {};
   filledForm.filledFields.forEach(function (filledField) {
-    var formField = formFieldForFilledField(form, filledField);
+    var formField = findFormField(form, filledField.formFieldId);
     if ('single choice' === formField.fieldType) {
       if (filledField.filledFieldOptions.length > 0) {
         result[formField.id] =
@@ -79,7 +79,7 @@ var Option = React.createClass({
     var filledForm = this.props.filledForm;
     var formField = this.props.formField;
     var formFieldOption = this.props.formFieldOption;
-    var filledField = filledFieldForFormField(filledForm, formField);
+    var filledField = findFilledField(filledForm, formField.id);
     var filledFieldOption =
       filledOptionForFormOption(filledForm, formField, formFieldOption);
 
@@ -106,6 +106,11 @@ var Option = React.createClass({
         filledField.filledFieldOptions.filter(function (option) {
           return (option.formFieldOptionId !== formFieldOption.id);
         });
+      if (filledField.filledFieldOptions.length === 0) {
+        filledForm.filledFields = filledForm.filledFields.filter(function (field) {
+          return (formField.id !== field.formFieldId);
+        });
+      }
     }
     this.props.onChange(filledForm);
   },
@@ -148,24 +153,40 @@ var Field = React.createClass({
   },
 
   _onChange: function (event) {
+    var value = event.target.value;
     var filledForm = this.props.filledForm;
     var formField = this.props.formField;
-    var filledField = filledFieldForFormField(filledForm, formField);
-    if (! filledField) {
-      filledField = {formFieldId: formField.id}
-      filledForm.filledFields.push(filledField);
+    var filledField = findFilledField(filledForm, formField.id);
+    if (value) {
+      if (! filledField) {
+        filledField = {formFieldId: formField.id}
+        filledForm.filledFields.push(filledField);
+      }
+      filledField.value = value;
+    } else {
+      filledForm.filledFields = filledForm.filledFields.filter(function (field) {
+        return (formField.id !== field.formFieldId);
+      });
     }
-    filledField.value = event.target.value;
     this.props.onChange(filledForm);
   },
 
   render: function () {
     var formField = this.props.formField;
-    var filledField = filledFieldForFormField(this.props.filledForm, formField);
+    var filledField = findFilledField(this.props.filledForm, formField.id);
+    var hidden = false;
+    if (formField.dependsOnId) {
+      var dependsOn = findFilledField(this.props.filledForm, formField.dependsOnId);
+      if (! dependsOn) {
+        hidden = true;
+      }
+    }
 
     var result;
 
-    if ('instructions' === formField.fieldType) {
+    if (hidden) {
+      result = <span></span>;
+    } else if ('instructions' === formField.fieldType) {
 
       result = (
         <div className={CLASS_ROOT + "__field form__fields_help"}>
@@ -260,26 +281,42 @@ var Section = React.createClass({
   render: function () {
     var formSection = this.props.formSection;
 
-    var fields = formSection.formFields.map(function (formField) {
-      return (
-        <Field key={formField.id}
-          formField={formField}
-          filledForm={this.props.filledForm}
-          fieldErrors={this.props.fieldErrors}
-          onChange={this._onChange} />
-      );
-    }, this);
+    var hidden = false;
+    if (formSection.dependsOnId) {
+      var dependsOn = findFilledField(this.props.filledForm, formSection.dependsOnId);
+      if (! dependsOn) {
+        hidden = true;
+      }
+    }
 
-    return (
-      <fieldset className={CLASS_ROOT + "__section"}>
-        <legend className={CLASS_ROOT + "__section-header"}>
-          <h2>{formSection.name}</h2>
-        </legend>
-        <div className="form__fields">
-          {fields}
-        </div>
-      </fieldset>
-    );
+    var result;
+
+    if (hidden) {
+      result = <span></span>;
+    } else {
+      var fields = formSection.formFields.map(function (formField) {
+        return (
+          <Field key={formField.id}
+            formField={formField}
+            filledForm={this.props.filledForm}
+            fieldErrors={this.props.fieldErrors}
+            onChange={this._onChange} />
+        );
+      }, this);
+
+      result = (
+        <fieldset className={CLASS_ROOT + "__section"}>
+          <legend className={CLASS_ROOT + "__section-header"}>
+            <h2>{formSection.name}</h2>
+          </legend>
+          <div className="form__fields">
+            {fields}
+          </div>
+        </fieldset>
+      );
+    }
+
+    return result;
   }
 });
 
