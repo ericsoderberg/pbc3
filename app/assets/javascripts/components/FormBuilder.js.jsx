@@ -484,7 +484,7 @@ var FormFieldBuilder = React.createClass({
       this._onCancelEdit();
     } else {
       this._drop = Drop.add(this.refs.edit.getDOMNode(),
-        this._renderEdit(), {top: 'top', right: 'left'});
+        this._renderEdit(), {top: 'top', right: 'right'});
     }
   },
 

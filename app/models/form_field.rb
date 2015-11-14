@@ -5,8 +5,10 @@ class FormField < ActiveRecord::Base
     :autosave => true, :dependent => :destroy
   has_many :filled_fields, :dependent => :destroy
   belongs_to :depends_on, :class_name => 'FormField'
-  has_many :dependent_fields, :class_name => 'FormField', :dependent => :nullify
-  has_many :dependent_sections, :class_name => 'FormSection', :dependent => :nullify
+  has_many :dependent_fields, :class_name => 'FormField',
+    :foreign_key => 'depends_on_id', :dependent => :nullify
+  has_many :dependent_sections, :class_name => 'FormSection',
+    :foreign_key => 'depends_on_id', :dependent => :nullify
 
   FIELD = 'field'
   AREA = 'area'
