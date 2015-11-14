@@ -464,7 +464,6 @@ var Form = React.createClass({
     var cancel;
     var headerCancel;
     if ('edit' === this.state.mode) {
-      cancel = <a onClick={this._onCancel}>Cancel</a>;
       remove = <a onClick={function (event) {
         event.preventDefault();
         if (window.confirm('Are you sure?')) {
@@ -477,7 +476,13 @@ var Form = React.createClass({
             <CloseIcon />
           </a>
         );
-        cancel = null;
+      } else {
+        headerCancel = (
+          <a className="control-icon" onClick={this._onCancel}>
+            <CloseIcon />
+          </a>
+        );
+        cancel = <a onClick={this._onCancel}>Cancel</a>;
       }
     } else if ('new' === this.props.form.mode) {
       headerCancel = (
@@ -486,6 +491,11 @@ var Form = React.createClass({
         </a>
       );
     } else if (form.manyPerUser && this.state.filledForms.length > 0) {
+      headerCancel = (
+        <a className="control-icon" onClick={this._onCancel}>
+          <CloseIcon />
+        </a>
+      );
       cancel = <a onClick={this._onCancel}>Cancel</a>;
     }
 
