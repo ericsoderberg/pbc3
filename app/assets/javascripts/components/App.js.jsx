@@ -14,6 +14,7 @@ var Message = require('./Message');
 var Resources = require('./Resources');
 var Forms = require('./Forms');
 var FilledForms = require('./FilledForms');
+var Newsletters = require('./Newsletters');
 
 var ROUTES = [
   {path: '/search', type: Search},
@@ -24,6 +25,7 @@ var ROUTES = [
   {path: '/accounts', type: Accounts},
   {path: '/resources', type: Resources},
   {path: '/holidays', type: Holidays},
+  {path: '/newsletters', type: Newsletters},
   {path: '/forms/[^/]+/fills', type: FilledForms},
   {path: '/forms', type: Forms},
   {path: '/(.*)', type: Page}

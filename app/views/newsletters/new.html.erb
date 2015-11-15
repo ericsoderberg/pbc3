@@ -1,10 +1,14 @@
-<% title "Newsletter" -%>
+<% title "Add Newsletter" -%>
 
-<section>
-  <header>
-    <h1>Add Newsletter</h1>
-  </header>
-  
-  <%= render 'form' %>
-  
-</section>
+<%= form_for(@newsletter, :html => { class: "form" }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Add Newsletter', :cancel_path => newsletters_path} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Add", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>

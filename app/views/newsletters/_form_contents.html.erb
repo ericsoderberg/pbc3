@@ -1,0 +1,43 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= f.label :published_at %>
+        <%= f.date_field :published_at, type: 'date', pattern: '\d{4}-\d{2}-\d{2}',
+          placeholder: 'yyyy-mm-dd',
+          value: (@newsletter.published_at ? l(@newsletter.published_at, format: :db) : '') %>
+      </li>
+      <li class="form__field">
+        <%= f.label :email_list %>
+        <%= f.collection_select :email_list, @email_lists, :name, :name,
+          {:include_blank => 'none'}, {:class => 'email_list'} %>
+      </li>
+      <li class="form__field">
+        <%= f.label :featured_page %>
+        <%= f.collection_select :featured_page_id, @pages, :id, :name,
+          {:include_blank => 'none'}, {:class => 'page'} %>
+      </li>
+      <li class="form__field">
+        <%= f.label :featured_event %>
+        <%= f.collection_select :featured_event_id, @events, :id, :name,
+          {:include_blank => 'none'}, {:class => 'event'} %>
+      </li>
+      <li class="form__field">
+        <%= f.label :window %>
+        <%= f.number_field :window, {:size => 2} %> weeks
+      </li>
+      <li class="form__field">
+        <%= f.label :note %>
+        <%= f.text_area :note, :size => '60x4' %>
+      </li>
+    </ul>
+  </fieldset>
+
+</div>

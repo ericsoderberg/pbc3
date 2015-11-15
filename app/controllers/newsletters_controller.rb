@@ -1,12 +1,32 @@
 class NewslettersController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :administrator!, :except => [:index, :show]
-  
+
+  layout "administration", only: [:new, :edit, :delete]
+
   def index
-    @newsletters = Newsletter.order('published_at DESC')
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @newsletters = Newsletter
+    if @filter[:search]
+      @newsletters = Newsletter.search(@filter[:search])
+    end
+    @newsletters = @newsletters.order('published_at DESC')
+
+    # get total count before we limit
+    @count = @newsletters.count
+
+    if params[:offset]
+      @newsletters = @newsletters.offset(params[:offset])
+    end
+    @newsletters = @newsletters.limit(20)
+
+    @content_partial = 'newsletters/index'
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render :partial => "index" }
     end
   end
 
@@ -18,9 +38,6 @@ class NewslettersController < ApplicationController
     @next_newsletter = @newsletter.next
     @featured_page = @newsletter.featured_page
     @featured_event = @newsletter.featured_event
-    if @featured_event and not @featured_page
-      @featured_page = @featured_event.page
-    end
     @next_message = @newsletter.next_message
     @previous_message = @newsletter.previous_message
     @focus_messages = ((not @newsletter.note or @newsletter.note.empty?) and not @featured_page)
@@ -81,7 +98,7 @@ class NewslettersController < ApplicationController
       end
     end
   end
-  
+
   def deliver
     @newsletter = Newsletter.find_by_published_at(params[:id])
     @email = params[:email]
@@ -102,9 +119,9 @@ class NewslettersController < ApplicationController
       format.html { redirect_to(newsletters_url) }
     end
   end
-  
+
   private
-  
+
   def cleanup_params
     if params[:newsletter][:published_at] and
       params[:newsletter][:published_at].is_a?(String)
@@ -112,11 +129,11 @@ class NewslettersController < ApplicationController
         Date.parse_from_form(params[:newsletter][:published_at])
     end
   end
-  
+
   def newsletter_params
     params.require(:newsletter).permit(:name,
       :email_list, :published_at, :featured_page_id, :featured_event_id, :note,
       :window, :updated_by).merge(:updated_by => current_user)
   end
-  
+
 end

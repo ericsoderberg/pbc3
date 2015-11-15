@@ -10,8 +10,7 @@ class HolidaysController < ApplicationController
 
     @holidays = Holiday
     if @filter[:search]
-      tokens = Holiday.matches(@filter[:search])
-      @holidays = @holidays.where(tokens[:clause], tokens[:args])
+      @holidays = Holiday.search(@filter[:search])
     end
     @holidays = @holidays.order('date DESC')
 
