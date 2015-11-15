@@ -1,0 +1,49 @@
+.page-builder {
+
+  &__add {
+    display: block;
+    width: double($inuit-base-spacing-unit);
+    margin: $inuit-base-spacing-unit auto;
+    line-height: double($inuit-base-spacing-unit);
+  }
+
+  &__footer {
+    @include main-content();
+
+    > a {
+      float: right;
+    }
+  }
+
+  &__element {
+    @include main-content();
+    position: relative;
+    padding: $inuit-base-spacing-unit;
+    cursor: move;
+    background-color: $background-color;
+    transition: border-color $animation-delay, background-color $animation-delay;
+
+    &:hover {
+      background-color: $over-background-color;
+      border-color: $brand-accent-color;
+    }
+
+    &-edit {
+      position: absolute;
+      top: halve($inuit-base-spacing-unit);
+      right: $inuit-base-spacing-unit;
+      cursor: pointer;
+    }
+
+    > *:not(.control-icon) {
+      margin-right: round($inuit-base-spacing-unit * 3);
+      pointer-events: none;
+    }
+  }
+
+  &__placeholder {
+    @include main-content();
+    height: quadruple($inuit-base-spacing-unit);
+    background-color: $placeholder-background-color;
+  }
+}

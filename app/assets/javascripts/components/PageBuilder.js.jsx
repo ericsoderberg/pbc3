@@ -123,7 +123,7 @@ var PageBuilder = React.createClass({
           {elements}
         </div>
 
-        <Menu className={CLASS_ROOT + "__add-menu"}
+        <Menu className={CLASS_ROOT + "__add"}
           actions={this.props.editContents.addMenuActions} icon={addIcon} />
 
         <div className="form__footer">
