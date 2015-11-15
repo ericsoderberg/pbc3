@@ -2,9 +2,7 @@
   margin-top: halve($inuit-base-spacing-unit);
 
   &__resource {
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
     margin-bottom: halve($inuit-base-spacing-unit);
 

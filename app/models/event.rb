@@ -26,6 +26,7 @@ class Event < ActiveRecord::Base
 
   include Searchable
   search_on :name
+  search_scope :masters
 
   def start_before_stop
     if stop_at and start_at and stop_at < start_at

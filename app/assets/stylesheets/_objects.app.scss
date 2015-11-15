@@ -10,9 +10,7 @@
   //background-color: $brand-secondary-background-color;
 
   &__contents {
-    display: -webkit-flex;
     display: flex;
-    -webkit-justify-content: space-between;
     justify-content: space-between;
     height: quadruple($inuit-base-spacing-unit);
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
@@ -21,7 +19,6 @@
   }
 
   &__site {
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     padding: 0px $inuit-base-spacing-unit;
 
@@ -32,7 +29,6 @@
   }
 
   &__menu {
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
   }
 }
@@ -54,11 +50,8 @@
 
     @include media-query(lap-and-up) {
       //padding: 0px; // reset
-      display: -webkit-flex;
       display: flex;
-      -webkit-flex-wrap: wrap;
       flex-wrap: wrap;
-      -webkit-justify-content: flex-start;
       justify-content: flex-start;
     }
   }
@@ -93,15 +86,12 @@
     }
 
     @include media-query(lap-and-up) {
-      display: -webkit-flex;
       display: flex;
-      -webkit-justify-content: space-between;
       justify-content: space-between;
       max-width: $max-content-width;
       margin: 0px auto;
 
       > * {
-        -webkit-flex: 0 1 auto;
         flex: 0 1 auto;
         margin: $inuit-base-spacing-unit;
       }

@@ -18,11 +18,8 @@
   &__header, &__footer {
     @include main-content();
     //background-color: $header-background-color;
-    display: -webkit-flex;
     display: flex;
-    -webkit-justify-content: space-between;
     justify-content: space-between;
-    -webkit-align-items: center;
     align-items: center;
 
     .page__element &,

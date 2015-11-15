@@ -3,7 +3,6 @@
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: -webkit-flex;
     display: flex;
 
     @include media-query(palm) {
@@ -15,13 +14,11 @@
   &__title {
     display: block;
     margin-right: $inuit-base-spacing-unit;
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
   }
 
   &__search {
     display: block;
-    -webkit-flex: 1;
     flex: 1;
 
     @include media-query(palm) {
@@ -62,7 +59,6 @@
     //padding: halve($inuit-base-spacing-unit) 0px;
     margin: 0px;
     line-height: double($inuit-base-spacing-unit);
-    display: -webkit-flex;
     display: flex;
 
     > * {
@@ -71,7 +67,6 @@
       text-indent: - halve($inuit-base-spacing-unit);
 
       &:first-child {
-        -webkit-flex: 0 0 round($inuit-base-spacing-unit * 8);
         flex: 0 0 round($inuit-base-spacing-unit * 8);
       }
 

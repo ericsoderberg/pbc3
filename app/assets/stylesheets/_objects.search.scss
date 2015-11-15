@@ -31,28 +31,20 @@
   }
 
   &__result {
-    @include inuit-font-size($inuit-base-font-size, double($inuit-base-spacing-unit));
-    display: -webkit-flex;
-    display: flex;
 
     &-name {
-      -webkit-flex: 0 0 round($inuit-base-spacing-unit * 12);
-      flex: 0 0 round($inuit-base-spacing-unit * 12);
-      margin-right: $inuit-base-spacing-unit;
-      line-height: $inuit-base-spacing-unit;
       padding-left: halve($inuit-base-spacing-unit);
       text-indent: - halve($inuit-base-spacing-unit);
-
-      &:first-line {
-        line-height: double($inuit-base-spacing-unit);
-      }
+      margin-bottom: halve($inuit-base-spacing-unit);
     }
 
-    &-type {
+    &-text {
       color: $secondary-color;
-      -webkit-flex: 0 0 round($inuit-base-spacing-unit * 4);
-      flex: 0 0 round($inuit-base-spacing-unit * 4);
-      margin-right: $inuit-base-spacing-unit;
+      @include inuit-font-size($label-font-size);
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

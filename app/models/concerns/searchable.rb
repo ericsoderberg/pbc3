@@ -4,6 +4,7 @@ module Searchable
   module ClassMethods
 
     attr_reader :search_attributes
+    attr_reader :search_on_scope
 
     def search_tokens(text)
       tokens = nil
@@ -17,21 +18,28 @@ module Searchable
       while index < terms.length
         term = terms[index]
         args = {:term => "%#{term}%"}
-        items = self.where(clause, args)
+        items = (self.search_on_scope ? self.send(self.search_on_scope) : self).
+          where(clause, args)
         score = 0
-        if items.length == 1 and self.search_attributes.select{|a| items.first[a] == term}.length > 0
+        if items.length == 1 and
+          self.search_attributes.select{|a| items.first[a] == term}.length > 0
+
           score += 1
+
         else
+
           clause = self.search_attributes.map do |attribute|
             "#{table_name}.#{attribute} ~* :term"
           end.join(' OR ')
           args = {:term => text.strip.split(' ').join('|')}
-          items = self.where(clause, args)
+          items = (self.search_on_scope ? self.send(self.search_on_scope) : self).
+            where(clause, args)
+
         end
 
         if not items.empty?
-          tokens = {type: self.class.name, text: term, matches: items, score: score,
-            clause: clause, args: args}
+          tokens = {type: self.class.name, text: term, matches: items,
+            score: score, clause: clause, args: args}
         end
 
         index += 1
@@ -42,13 +50,18 @@ module Searchable
 
     def search(text)
       tokens = search_tokens(text)
-      tokens ? self.where(tokens[:clause], tokens[:args]) : none
+      tokens ? (self.search_on_scope ? self.send(self.search_on_scope) : self).
+        where(tokens[:clause], tokens[:args]) : none
     end
 
     private
 
     def search_on(attribute)
       @search_attributes = attribute.respond_to?('map') ? attribute : [attribute]
+    end
+
+    def search_scope(scope)
+      @search_on_scope = scope
     end
   end
 end

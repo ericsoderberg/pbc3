@@ -3,7 +3,6 @@
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: -webkit-flex;
     display: flex;
 
     @include media-query(palm) {
@@ -15,13 +14,11 @@
   &__title {
     display: block;
     margin-right: $inuit-base-spacing-unit;
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
   }
 
   &__search {
     display: block;
-    -webkit-flex: 1;
     flex: 1;
   }
 
@@ -140,17 +137,14 @@
 }
 
 .range {
-  display: -webkit-flex;
   display: flex;
 
   &__range {
-    -webkit-flex: 1;
     flex: 1;
     margin-right: halve($inuit-base-spacing-unit);
   }
 
   &__value {
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     width: quadruple($inuit-base-spacing-unit);
     padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
@@ -163,12 +157,10 @@
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: -webkit-flex;
     display: flex;
   }
 
   &__title {
-    -webkit-flex: 1;
     flex: 1;
   }
 

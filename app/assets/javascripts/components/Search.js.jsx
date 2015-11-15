@@ -68,15 +68,10 @@ var Search = React.createClass({
     var results = '';
     if (this.state.results) {
       results = this.state.results.map(function (result) {
-        var page;
-        if (result.page) {
-          page = <a className="search__result-page" href={result.page.url}>{result.page.name}</a>;
-        }
         return (
           <li key={result.name + result.url} className="search__result">
-            <a className="search__result-name" href={result.url}>{result.name}</a>
-            <span className="search__result-type">{result.type}</span>
-            {page}
+            <h4 className="search__result-name"><a href={result.url}>{result.name}</a></h4>
+            <div className="search__result-text">{result.text}</div>
           </li>
         );
       });
