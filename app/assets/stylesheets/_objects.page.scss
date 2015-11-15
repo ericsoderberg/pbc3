@@ -1,25 +1,37 @@
 .page {
   @include main-content();
 
-  /*&__header {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  // &__header {
+  //   display: -webkit-flex;
+  //   display: flex;
+  //   -webkit-justify-content: space-between;
+  //   justify-content: space-between;
+  //   @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  //
+  //   h1 {
+  //     -webkit-flex: 0 0 auto;
+  //     flex: 0 0 auto;
+  //   }
+  // }
+  //
+  // &__edit-menu {
+  //   position: relative;
+  //   right: 0px; //- $inuit-base-spacing-unit;
+  //   -webkit-flex: 0 0 auto;
+  //   flex: 0 0 auto;
+  // }
 
-    h1 {
-      -webkit-flex: 0 0 auto;
-      flex: 0 0 auto;
+  &__back {
+    position: absolute;
+    top: 0px;
+    left: $inuit-base-spacing-unit;
+    @include inuit-font-size($label-font-size);
+
+    &:before {
+      content: '< ';
+      font-weight: bold;
     }
   }
-
-  &__edit-menu {
-    position: relative;
-    right: 0px; //- $inuit-base-spacing-unit;
-    -webkit-flex: 0 0 auto;
-    flex: 0 0 auto;
-  }*/
 
   &__edit {
     position: absolute;

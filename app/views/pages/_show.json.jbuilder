@@ -29,4 +29,10 @@ json.page do
   if @edit_url
     json.editUrl @edit_url
   end
+  if @back_page
+    json.backPage do
+      json.name @back_page.name
+      json.url friendly_page_url(@back_page)
+    end
+  end
 end

@@ -38,16 +38,16 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
   config.action_mailer.default_url_options = { :host => 'UNCONFIGURED' }
-  
+
   config.time_zone = "Pacific Time (US & Canada)"
-  
+
   config.after_initialize do
     Configuration.paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
   end
-  
+
   # React development variant (unminified)
   config.react.variant = :development
-  
+
 end

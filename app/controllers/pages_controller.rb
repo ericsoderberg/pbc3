@@ -26,6 +26,8 @@ class PagesController < ApplicationController
     end
     @pages = @pages.limit(20)
 
+    session[:breadcrumbs] = ''
+
     @content_partial = 'pages/index'
 
     respond_to do |format|
@@ -109,6 +111,22 @@ class PagesController < ApplicationController
       @next_page = @page.next_sibling
     end
 =end
+
+    # Page breadcrumbs. Only do this for pages as everything else anchors to
+    # a page.
+    breadcrumbs = (session[:breadcrumbs] || '').split('|')
+    if breadcrumbs.length > 1 and breadcrumbs[-2].to_i == @page.id
+      # user has gone back, prune breadcrumbs
+      breadcrumbs.pop
+    elsif breadcrumbs.length > 0 and breadcrumbs[-1].to_i == @page.id
+      # user has refreshed, no change
+    else
+      breadcrumbs.push(@page.id)
+    end
+    session[:breadcrumbs] = breadcrumbs.join('|')
+    if breadcrumbs.length > 1
+      @back_page = Page.find(breadcrumbs[-2].to_i)
+    end
 
     if @page.administrator? current_user
       @edit_url = edit_contents_page_url(@page, :protocol => 'https')

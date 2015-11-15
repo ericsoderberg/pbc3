@@ -17,6 +17,15 @@ var Page = React.createClass({
   render: function() {
     var page = this.props.page;
 
+    var backPage;
+    if (page.backPage) {
+      backPage = (
+        <a className={CLASS_ROOT + "__back"} href={page.backPage.url}>
+          {page.backPage.name}
+        </a>
+      );
+    }
+
     var editControl;
     if (page.editUrl) {
       editControl = (
@@ -55,6 +64,7 @@ var Page = React.createClass({
     return (
       <div className={CLASS_ROOT}>
         {editControl}
+        {backPage}
         <ol className={CLASS_ROOT + "__elements list-bare"}>
           {elements}
         </ol>

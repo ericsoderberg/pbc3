@@ -5,7 +5,7 @@ class PageElementsController < ApplicationController
   layout "administration"
 
   def new
-    @page_element = @page.page_elements.build()
+    @page_element = @page.page_elements.build(:element_type => 'Page')
     @pages = @page.possible_linked_pages()
   end
 

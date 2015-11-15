@@ -4,6 +4,8 @@
 
   <fieldset>
     <ul class="form__fields list-bare">
+      <%= f.hidden_field :page_id %>
+      <%= f.hidden_field :element_type %>
       <li class="form__field form__field">
         <%= f.label :page %>
         <%= f.select :element_id,
