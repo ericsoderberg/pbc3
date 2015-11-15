@@ -18,15 +18,11 @@ class HomeController < ApplicationController
     @page = Page.find_by_url_or_alias('home')
     @page = Page.new unless @page
 
-    if @page.id and @page.administrator? current_user
-      @edit_actions = [
-        {label: 'Context', url: edit_context_page_url(@page, :protocol => 'https')},
-        {label: 'Contents', url: edit_contents_page_url(@page, :protocol => 'https')},
-        {label: 'Access', url: edit_access_page_url(@page, :protocol => 'https')}
-      ]
+    if @page.administrator? current_user
+      @edit_url = edit_contents_page_url(@page, :protocol => 'https')
     end
 
-    @content_partial = 'home/index'
+    @content_partial = 'pages/show'
 
     respond_to do |format|
       format.html { render :action => "index" }

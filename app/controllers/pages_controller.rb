@@ -180,14 +180,6 @@ class PagesController < ApplicationController
 
   def new
     @page = Page.new
-    @page.parent = Page.find_by(id: params[:parent_id])
-    return unless page_administrator!(@page.parent)
-    #@page.text = ''
-    @page.url_prefix = @page.parent.url if @page.parent
-    #if current_user.administrator? and params[:site_page]
-    #  @site_reference = params[:site_page]
-    #  @page.name = @site_reference.capitalize
-    #end
     @email_lists = EmailList.all
 
     respond_to do |format|
@@ -283,7 +275,6 @@ class PagesController < ApplicationController
 
   def create
     @page = Page.new(page_params)
-    return unless page_administrator!(@page.parent)
 
     respond_to do |format|
       if @page.save
