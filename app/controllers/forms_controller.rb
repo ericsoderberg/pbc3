@@ -77,6 +77,7 @@ class FormsController < ApplicationController
     #return unless page_administrator!
     @copy_form = nil
     #@possible_parents = @form.page.forms if @form.page
+    @message = "Editing #{@page.name} Page" if @page
 
     respond_to do |format|
       format.html # new.html.erb
@@ -106,6 +107,7 @@ class FormsController < ApplicationController
     @edit_contents_url = @page ?
       edit_contents_form_path(@form, {:page_id => @page.id}) :
       edit_contents_form_path(@form)
+    @message = "Editing #{@page.name} Page" if @page
     #@page = @form.page
     #return unless page_administrator!
     #@events = @page.events.between(Date.today, Date.today + 3.months).
@@ -139,14 +141,17 @@ class FormsController < ApplicationController
       @page = Page.find(params[:page_id])
       @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     end
-    target_url = context_url
     #@page = @form.page
     #return unless page_administrator!
 
     respond_to do |format|
       if @form.save
-        format.html { redirect_to(target_url,
-          :notice => 'Form was successfully created.') }
+        format.html {
+          target_url = @page ? edit_contents_form_url(@form, {:page_id => @page.id}) :
+            edit_contents_form_url(@form)
+          redirect_to(target_url,
+            :notice => 'Form was successfully created.')
+        }
         format.xml  { render :xml => @form, :status => :created, :location => @form }
       else
         format.html { render :action => "new" }
@@ -207,6 +212,7 @@ class FormsController < ApplicationController
     @page = @form.page
     #return unless page_administrator!
     @form.destroy
+    @form = nil
     target_url = context_url
 
     respond_to do |format|
@@ -218,7 +224,8 @@ class FormsController < ApplicationController
   private
 
   def context_url
-    @page ? edit_contents_page_url(@page) : form_fills_url(@form)
+    (@page ? edit_contents_page_url(@page) :
+      ((@form and @form.id) ? form_fills_url(@form) : forms_url))
   end
 
   def form_params

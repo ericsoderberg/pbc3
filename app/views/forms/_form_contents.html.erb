@@ -11,16 +11,28 @@
     <% end -%>
 
     <ul class="form__fields list-bare">
+      <% unless @form.id -%>
+      <li class="form__field form__field-help">
+        First, set up the form context. You will then be taken to edit the form
+        contents.
+      </li>
+      <% end -%>
       <li class="form__field">
         <%= f.label :name %>
-        <%= f.text_field :name %>
+        <%= f.text_field :name, autofocus: true %>
       </li>
       <li class="form__field">
         <%= f.label :published? %>
+        <div class="form__field-help">
+          Whether non-administrators can see the form.
+        </div>
         <%= f.check_box :published %>
       </li>
       <li class="form__field">
         <%= f.label :payable? %>
+        <div class="form__field-help">
+          Whether payments are expected.
+        </div>
         <%= f.check_box :payable %>
       </li>
       <li class="form__field form_payable_dependent">
@@ -33,7 +45,7 @@
       </li>
       <li class="form__field">
         <%= f.label '> 1 per user?' %>
-        <span class="form__field-help">Expect people to fill out more than one</span>
+        <span class="form__field-help">Expect people to fill out more than one.</span>
         <%= f.check_box :many_per_user %>
       </li>
       <li class="form__field">

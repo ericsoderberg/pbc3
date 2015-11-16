@@ -56,6 +56,7 @@ class EventsController < ApplicationController
     @event.stop_at = @event.start_at + 1.hour
     @pages = Page.editable(current_user).available_for_event(@event).sort()
     @cancel_url = context_url(@page)
+    @message = "Editing #{@page.name} Page" if @page
   end
 
   def edit
@@ -64,6 +65,9 @@ class EventsController < ApplicationController
     @page_element = @page.page_elements.where('element_id = ?', @event.id).first if @page
     @pages = Page.editable(current_user).available_for_event(@event).sort()
     @cancel_url = context_url(@page)
+    @message = (@event.page_elements.empty? ?
+      "This event is not associated with any pages." :
+      (@page ? "Editing #{@page.name} Page" : ""))
   end
 
   #def edit_page # DEPRECATED?
@@ -73,7 +77,7 @@ class EventsController < ApplicationController
   def create
     parse_times
     @event = Event.new(event_params)
-    @page = Page.where(id: params[:page_id]).first
+    @page = Page.where(id: params[:page_id]).first if params[:page_id]
     if @page
       page_element = @page.page_elements.build({
         page: @page,
@@ -100,22 +104,10 @@ class EventsController < ApplicationController
   def update
     parse_times
     @event = Event.find(params[:id])
-    @prior_page = @event.page
-    @page = Page.find(params[:page_id]) unless params[:page_id].empty?
-    if @event.page and @event.page.id != params[:page_id]
-      # user changed the page, remove all elements and re-associate with the new page
-      @event.page_elements.clear
-    end
-    if @page and (not @event.page or @event.page != @page)
-      page_element = @page.page_elements.build({
-        page: @page,
-        element: @event,
-        index: @page.page_elements.length + 1
-      })
-    end
+    @page = Page.where(id: params[:page_id]).first if params[:page_id]
     update_method = 'Update all' == params[:commit] ?
       'update_with_replicas' : 'update_attributes'
-    target_url = context_url(@prior_page) # go back where we came from
+    target_url = context_url(@page) # go back where we came from
 
     respond_to do |format|
       if @event.send(update_method, event_params) and
@@ -125,7 +117,7 @@ class EventsController < ApplicationController
         format.xml  { head :ok }
       else
         @pages = Page.editable(current_user).available_for_event(@event).sort()
-        @cancel_url = context_url(@prior_page)
+        @cancel_url = context_url(@page)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
@@ -150,7 +142,8 @@ class EventsController < ApplicationController
   private
 
   def context_url(page)
-    page ? edit_contents_page_url(page) : main_calendar_url()
+    page ? edit_contents_page_url(page) :
+      main_calendar_url(:search => @event.start_at.strftime("%B %Y"))
   end
 
   def parse_times

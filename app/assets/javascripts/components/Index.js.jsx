@@ -10,19 +10,21 @@ var CLASS_ROOT = "index";
 var Index = React.createClass({
 
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    itemRenderer: React.PropTypes.func.isRequired,
-    responseProperty: React.PropTypes.string.isRequired,
-    items: React.PropTypes.array.isRequired,
     count: React.PropTypes.number.isRequired,
-    filter: React.PropTypes.object,
-    searchPlaceholder: React.PropTypes.string,
     editUrl: React.PropTypes.string,
-    newUrl: React.PropTypes.string
+    filter: React.PropTypes.object,
+    itemRenderer: React.PropTypes.func.isRequired,
+    items: React.PropTypes.array.isRequired,
+    newUrl: React.PropTypes.string,
+    noneMessage: React.PropTypes.string,
+    responseProperty: React.PropTypes.string.isRequired,
+    searchPlaceholder: React.PropTypes.string,
+    title: React.PropTypes.string.isRequired
   },
 
   getDefaultProps: function () {
     return {
+      noneMessage: "None",
       searchPlaceholder: "Search"
     };
   },
@@ -100,7 +102,8 @@ var Index = React.createClass({
 
     var none;
     if (0 === this.state.count) {
-      var text = (this.state.filter.search ? 'No matches' : 'None');
+      var text = (this.state.filter.search ? 'No matches' :
+        this.props.noneMessage);
       none = (<div className={CLASS_ROOT + "__no-matches"}>{text}</div>);
     }
 

@@ -2,7 +2,8 @@ class Page < ActiveRecord::Base
   #before_save :render_text
   acts_as_url :prefixed_name, :sync_url => true
 
-  has_many :page_elements, -> { order('index ASC').includes(:element) }, :autosave => true
+  has_many :page_elements, -> { order('index ASC').includes(:element) },
+    :autosave => true, :dependent => :destroy
   has_many :containing_page_elements, as: :element, :class_name => 'PageElement'
 
   has_many :contacts, -> { includes(:user).order('users.first_name ASC') },

@@ -1,3 +1,5 @@
+var CalendarIcon = require('./CalendarIcon');
+
 var Event = React.createClass({
 
   render: function() {
@@ -6,6 +8,7 @@ var Event = React.createClass({
       <div className="event">
         <h2 className="event__times">{event.friendlyTimes}</h2>
         <h3 className="event__location">{event.location}</h3>
+        <a className="control-icon" href={event.calendarUrl}><CalendarIcon /></a>
       </div>
     );
   }

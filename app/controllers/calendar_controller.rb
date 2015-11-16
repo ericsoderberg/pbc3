@@ -92,7 +92,8 @@ class CalendarController < ApplicationController
     @suggestions << {label: 'Dates', suggestions: dates} unless dates.empty?
     events = tokens.select{|t| 'event' == t[:type]}.map{|t| t[:matches]}
     if not events.empty?
-      names = events.first.limit(5).pluck('name')
+      names = events.first.limit(5).pluck('name', 'start_at').map {|a|
+        a[0] + a[1].strftime(" %B %Y")}
       @suggestions << {label: 'Events', suggestions: names}
     end
     resources = tokens.select{|t| 'resource' == t[:type]}.map{|t| t[:matches]}

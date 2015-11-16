@@ -14,6 +14,7 @@ class FormBuilderController < ApplicationController
     @cancel_url = context_url
     @edit_context_url = @page ?
       edit_form_path(@form, {:page_id => @page.id}) : edit_form_path(@form)
+    @message = "Editing #{@page.name} Page" if @page
   end
 
   def update

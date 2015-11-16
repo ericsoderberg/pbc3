@@ -4,13 +4,6 @@
 
   <fieldset>
     <ul class="form__fields list-bare">
-      <!--li class="form__field">
-        <%= f.label :page %>
-        <%= select_tag :page_id,
-          options_from_collection_for_select(@pages,
-            :id, :name, @page ? @page.id : nil),
-          {include_blank: true} %>
-      </li-->
       <li class="form__field">
         <%= f.label :name %>
         <%= f.text_field :name, { autofocus: true } %>
@@ -18,12 +11,13 @@
       <li class="form__field">
         <%= f.label :start_at %>
         <%= f.datetime_local_field :start_at,
-          :value => @event.start_at.iso8601[0...-6], :step => 300 %>
+          :value => @event.start_at.iso8601[0, 16], :step => 300,
+          :onchange => "startChanged()" %>
       </li>
       <li class="form__field">
         <%= f.label :stop_at %>
         <%= f.datetime_local_field :stop_at,
-          :value => @event.stop_at.iso8601[0...-6], :step => 300 %>
+          :value => @event.stop_at.iso8601[0, 16], :step => 300 %>
       </li>
       <li class="form__field">
         <%= f.label :all_day?, :class => 'inline' %>
@@ -31,7 +25,7 @@
       </li>
       <li class="form__field">
         <%= f.label :location %>
-        <span class="form__field-help">Remember to make reservations!</span>
+        <span class="form__field-help">Remember to make reservations if needed!</span>
         <%= f.text_field :location %>
       </li>
       <li class="form__field">
@@ -53,5 +47,13 @@
       <% end -%>
     </ul>
   </fieldset>
+
+  <script>
+  function startChanged() {
+    var date = new Date(document.getElementById('event_start_at').value);
+    date.setHours(date.getHours() + 1);
+    document.getElementById('event_stop_at').value = date.toISOString().slice(0,16);
+  }
+  </script>
 
 </div>

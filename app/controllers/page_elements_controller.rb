@@ -7,11 +7,13 @@ class PageElementsController < ApplicationController
   def new
     @page_element = @page.page_elements.build(:element_type => 'Page')
     @pages = @page.possible_linked_pages()
+    @message = "Editing #{@page.name} Page"
   end
 
   def edit
     @page_element = PageElement.find(params[:id])
     @pages = @page.possible_linked_pages.to_a << @page_element.element
+    @message = "Editing #{@page.name} Page"
   end
 
   def create

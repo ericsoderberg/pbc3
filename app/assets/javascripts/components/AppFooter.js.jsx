@@ -8,12 +8,6 @@ var AppFooter = React.createClass({
     site: React.PropTypes.object
   },
 
-  _onDelete: function (action) {
-    REST.delete(action.url, function () {
-      document.location.reload(true);
-    }.bind(this));
-  },
-
   render: function() {
     var site = this.props.site;
     var copyright = site.copyright.replace('&copy;', '\u00a9');
@@ -25,9 +19,11 @@ var AppFooter = React.createClass({
           var control;
           if ('delete' === action.method) {
             control = (
-              <a href="#" onClick={this._onDelete.bind(this, action)}>
-                {action.label}
-              </a>
+              <form action={action.url} method="post">
+                <input name="_method" type="hidden" value="delete" />
+                <input name="authenticity_token" type="hidden" value={action.token} />
+                <input type="submit" value={action.label} className="anchor" />
+              </form>
             );
           } else {
             control = <a href={action.url}>{action.label}</a>;

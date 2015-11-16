@@ -2,7 +2,8 @@ var EditIcon = React.createClass({
 
   render: function() {
     return (
-      <svg className={this.props.className} width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+      <svg className={this.props.className} version="1.1"
+        width="24px" height="24px" viewBox="0 0 24 24"
         fill="#6E615D">
         <g fill="none" fillRule="evenodd" strokeLinejoin="round">
           <path d="M15,5 L3,17 L2,22 L6.99743652,21 L19,9" strokeWidth="3"></path>

@@ -10,7 +10,6 @@ class Item < ActiveRecord::Base
   before_save :set_kind
 
   def set_kind
-    logger.info "!!! Item url: #{self.url} file_name: #{self.file_file_name}"
     path = self.file_file_name || self.url
     # determine what type it is based on what we see in the URL
     if path =~ /vimeo|youtube|\.mp4|\.mpeg/i
@@ -24,7 +23,6 @@ class Item < ActiveRecord::Base
     else
       self.kind = 'unknown'
     end
-    logger.info "!!! Item set_kind #{path} set to #{self.kind}"
   end
 
 end

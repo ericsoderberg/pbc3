@@ -3,7 +3,9 @@
 <%= form_for(@item, :url => [@page, @item], :html => { class: "form", :multipart => true }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => 'Add File or Url', :cancel_path => edit_contents_page_url(@page)} %>
+    :locals => {:title => 'Add File or Url',
+      :cancel_path => edit_contents_page_url(@page),
+      :message => @message} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

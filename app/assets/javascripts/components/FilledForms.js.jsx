@@ -29,6 +29,7 @@ var FilledForms = React.createClass({
       <Index title={this.props.form.name} itemRenderer={this._renderFilledForm}
         responseProperty="filledForms" items={this.props.filledForms}
         count={this.props.count} filter={this.props.filter}
+        noneMessage="Nobody has filled out this form yet"
         newUrl={this.props.newUrl} editUrl={this.props.editUrl} />
     );
   }

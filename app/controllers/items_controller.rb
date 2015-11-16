@@ -16,11 +16,13 @@ class ItemsController < ApplicationController
   def new
     @item = Item.new
     @title = "Add #{@page.name} Item"
+    @message = "Editing #{@page.name} Page"
   end
 
   def edit
     @item = Item.find(params[:id])
     @title = "Edit #{@page.name} Item"
+    @message = "Editing #{@page.name} Page"
   end
 
   def create

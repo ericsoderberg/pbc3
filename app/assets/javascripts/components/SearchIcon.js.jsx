@@ -1,9 +1,9 @@
 var SearchIcon = React.createClass({
- 
+
   render: function() {
     return (
-      <svg className={this.props.className}
-        width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+      <svg className={this.props.className} version="1.1"
+        width="24px" height="24px" viewBox="0 0 24 24"
         stroke="#6E615D">
         <g fill="none" fillRule="evenodd">
           <circle strokeWidth="3" cx="10" cy="10" r="8"></circle>

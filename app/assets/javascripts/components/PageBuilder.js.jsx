@@ -29,7 +29,6 @@ var PageBuilder = React.createClass({
       element_order: elementIds
     };
     REST.patch(url, token, data, function (response) {
-      console.log('!!! PageBuilder _onSubmit completed', response);
       if (response.result === 'ok') {
         location = response.redirect_to;
       }
@@ -46,7 +45,7 @@ var PageBuilder = React.createClass({
       element_order: elementIds
     };
     REST.patch(url, token, data, function (response) {
-      console.log('!!! PageBuilder _updateOrder completed', response);
+      // console.log('!!! PageBuilder _updateOrder completed', response);
     }.bind(this));
   },
 

@@ -4,7 +4,8 @@
 
   <%= render :partial => 'shared/form_header',
     :locals => {:title => 'Link Page',
-      :cancel_path => edit_contents_page_url(@page)} %>
+      :cancel_path => edit_contents_page_url(@page),
+      :message => @message} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

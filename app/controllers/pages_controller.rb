@@ -278,7 +278,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.save
-        format.html { redirect_to(friendly_page_path(@page),
+        format.html { redirect_to(edit_contents_page_path(@page),
           :notice => 'Page was successfully created.') }
       else
         @email_lists = EmailList.all
@@ -334,13 +334,13 @@ class PagesController < ApplicationController
 
   def destroy
     @page = Page.find_by(url: params[:id])
-    return unless page_administrator! and page_administrator!(@page.parent)
-    parent = @page.parent
+    return unless page_administrator! # and page_administrator!(@page.parent)
+    #parent = @page.parent
     @page.destroy
     # what about index and feature_index being shifted?
 
     respond_to do |format|
-      format.html { redirect_to(parent ? friendly_page_url(parent) : pages_url) }
+      format.html { redirect_to(pages_url) } #parent ? friendly_page_url(parent) : pages_url) }
     end
   end
 

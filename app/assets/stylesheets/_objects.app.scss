@@ -58,8 +58,10 @@
 
   &__action {
 
-    a {
+    a,
+    .anchor {
       display: block;
+      text-align: left;
 
       @include media-query(palm) {
         //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;

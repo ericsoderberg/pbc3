@@ -67,9 +67,13 @@ var Calendar = React.createClass({
         var month = (<span className={monthClasses.join(' ')}>{date.format('MMMM')}</span>);
         var events = day.events.map(function (event) {
           var start = moment(event.startAt);
+          var time;
+          if (start.isAfter(date)) {
+            time = <span className="calendar__event-time">{start.format('h:mm a')}</span>
+          }
           return (
             <li key={event.url} className="calendar__event">
-              <span className="calendar__event-time">{start.format('h:mm a')}</span>
+              {time}
               <a href={event.url}>{event.name}</a>
             </li>
           );

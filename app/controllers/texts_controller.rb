@@ -24,12 +24,12 @@ class TextsController < ApplicationController
 
   def new
     @text = Text.new
-    @title = "Add #{@page.name} Text"
+    @message = "Editing #{@page.name} Page"
   end
 
   def edit
     @text = Text.find(params[:id])
-    @title = "Edit #{@page.name} Text"
+    @message = "Editing #{@page.name} Page"
   end
 
   def create

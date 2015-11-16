@@ -7,4 +7,5 @@ json.editContents do
   if @page
     json.pageId @page.id
   end
+  json.message @message
 end

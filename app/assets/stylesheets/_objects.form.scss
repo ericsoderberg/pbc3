@@ -36,6 +36,14 @@
     top: 0px;
     z-index: 1;
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+
+    &-message {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      @include main-content();
+      @include inuit-font-size($label-font-size);
+    }
   }
 
   &__footer {

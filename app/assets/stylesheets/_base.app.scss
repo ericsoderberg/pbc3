@@ -9,7 +9,8 @@ html, body {
   //height: 100%;
 }
 
-a {
+a,
+.anchor {
   color: $link-color;
   text-decoration: none;
 
@@ -39,6 +40,12 @@ input, textarea, select {
     outline: none;
     border-color: $focus-color;
   }
+}
+
+input.anchor {
+  border: none;
+  background-color: transparent;
+  padding: 0px;
 }
 
 $small-drop-caret: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAOhJREFUSA3tksENgzAMRUmrrlApuTAAxxw6QvfojYmYKtw6QpUDI1Rq6o8MStsAMT1UlbAUcMB+33FcFJttHfifDlhrT7QO31YMBlgDZw8HH5RSF3JLY0zrvX8MAZI3F1gT66y17ohz2zGgDSFc6UdF+5oDJWwUidMDXoFFfgtAfwJUjMppX7KI6CQJeOOcu48CcNaKzMFfBNaILME/BCQiOfCkQI5ILhwshceUpUAcG0/LeKEpzqwAEhIiRTSKs3Dk92MKZ8rep4vgR57zRTiYiwIIikVo29HKgiNXZGgXt0yUtwX/tgNPQqatJ1aBLFMAAAAASUVORK5CYII=);

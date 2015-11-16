@@ -911,9 +911,9 @@ var FormBuilder = React.createClass({
     if (this.props.editContents.pageId) {
       data.pageId = this.props.editContents.pageId;
     }
-    console.log('!!! FormBuilder _onSubmit', token, this.state.form);
+    // console.log('!!! FormBuilder _onSubmit', token, this.state.form);
     REST.post(url, token, data, function (response) {
-      console.log('!!! FormBuilder _onSubmit completed', response);
+      // console.log('!!! FormBuilder _onSubmit completed', response);
       if (response.result === 'ok') {
         location = response.redirect_to;
       }
@@ -990,10 +990,20 @@ var FormBuilder = React.createClass({
       );
     }, this);
 
+    var message;
+    if (this.props.editContents.message) {
+      message = (
+        <div className="form__header-message">
+          {this.props.editContents.message}
+        </div>
+      );
+    }
+
     return (
       <form className="form">
         <div className="form__header">
           <span className="form__title">Edit {form.name}</span>
+          {message}
           <a className="control-icon" href={this.props.editContents.cancelUrl}>
             <CloseIcon />
           </a>

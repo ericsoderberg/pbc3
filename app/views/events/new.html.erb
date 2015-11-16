@@ -3,7 +3,8 @@
 <%= form_for(@event, :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => 'Add Event', :cancel_path => @cancel_url} %>
+    :locals => {:title => 'Add Event', :cancel_path => @cancel_url,
+      :message => @message} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

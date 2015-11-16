@@ -44,12 +44,21 @@
   }
 
   &__element {
+    position: relative;
     margin: double($inuit-base-spacing-unit) 0px;
+
     &:first-child {
       margin-top: 0px;
     }
+
     &:last-child {
       margin-bottom: 0px;
+    }
+
+    .control-icon {
+      position: absolute;
+      right: 0px;
+      top: 0px;
     }
   }
 }
