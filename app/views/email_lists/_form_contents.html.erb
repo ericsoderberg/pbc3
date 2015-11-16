@@ -1,0 +1,23 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :name %>
+        <div class="form__field-help">
+           <%= @site.email_domain %>
+        </div>
+        <%= f.text_field :name %>
+      </li>
+      <li class="form__field">
+        <%= label_tag :addresses %>
+        <div class="form__field-help">
+          Enter one address per line
+        </div>
+        <%= text_area_tag 'add_addresses', '', :size => '40x10' %>
+      </li>
+    </ul>
+  </fieldset>
+</div>

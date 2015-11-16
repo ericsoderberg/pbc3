@@ -1,0 +1,11 @@
+<% if @email_list.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@email_list.errors.count, "error") %> prohibited this email list from being saved:</h2>
+
+    <ul>
+    <% @email_list.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
