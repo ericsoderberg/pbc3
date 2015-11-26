@@ -1,4 +1,4 @@
-<%- name = item.has_attribute?(:name) ? item.name : '' -%>
+<%- name = item.name || '' -%>
 <%- url ||= [item] -%>
 <%= form_for(item, url: url, method: "delete", :html => { class: "delete" }) do |f| %>
   <div class="delete__control">

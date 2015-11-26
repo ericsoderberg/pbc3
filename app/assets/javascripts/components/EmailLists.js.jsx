@@ -15,7 +15,7 @@ var EmailLists = React.createClass({
 
   _renderEmailList: function (emailList) {
     return (
-      <a className={CLASS_ROOT + "__name"} href={emailList.editUrl}>
+      <a className={CLASS_ROOT + "__name"} href={emailList.showUrl}>
         {emailList.name}
       </a>
     );

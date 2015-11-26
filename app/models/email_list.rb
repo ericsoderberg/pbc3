@@ -2,6 +2,7 @@ require 'active_model'
 
 class EmailList
   include ActiveModel::Model
+  include ActiveModel::Conversion
   include ActiveModel::Validations
   attr_accessor :name, :new_record
   @@domain = nil
@@ -21,39 +22,30 @@ class EmailList
     end
   end
 
-  # ActiveRecord API
-
-  def to_model
-    self
-  end
+  # ActiveModel::Conversion
 
   def persisted?
-    true
+    not @new_record
   end
 
-  def to_key
-    if persisted?
-      @name
-    end
+  def id
+    @name
   end
 
-  def to_partial_path
-    'email_lists/email_list'
-  end
-
-  def to_param
-    if persisted?
-      @name
-    end
-  end
-
-  def addresses
+  def email_addresses
     if Configuration.mailman
       %x(#{Configuration.mailman} members #{@name}#{@@domain}).split.sort
     elsif Configuration.mailman_dir
       %x(#{Configuration.mailman_dir}/list_members #{@name}).split.sort
     else
       Mailman.members @name
+    end
+  end
+
+  def search(text)
+    terms = text.strip.split(' ').map{|term| /#{term}/i}
+    self.email_addresses.select do |email_address|
+      terms.any?{|term| term.match(email_address)}
     end
   end
 
@@ -126,6 +118,8 @@ class EmailList
           io.write(new_addresses.join("\n"))
         end
         0 == $?
+      else
+        Mailman.add @name, new_addresses
       end
     end
   end
@@ -134,10 +128,14 @@ class EmailList
     if old_addresses.empty?
       true
     else
-      IO.popen("#{Configuration.mailman_dir}/remove_members -n -N -f - #{@name}", 'w') do |io|
-        io.write(old_addresses.join("\n"))
+      if Configuration.mailman_dir
+        IO.popen("#{Configuration.mailman_dir}/remove_members -n -N -f - #{@name}", 'w') do |io|
+          io.write(old_addresses.join("\n"))
+        end
+        0 == $?
+      else
+        Mailman.remove @name, old_addresses
       end
-      0 == $?
     end
   end
 

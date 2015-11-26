@@ -38,7 +38,6 @@ class ResourcesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @resource }
     end
   end
 
@@ -49,7 +48,6 @@ class ResourcesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @resource }
     end
   end
 
@@ -67,10 +65,8 @@ class ResourcesController < ApplicationController
       if @resource.save
         format.html { redirect_to(resources_url,
           :notice => 'Resource was successfully created.') }
-        format.xml  { render :xml => @resource, :status => :created, :location => @resource }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -84,10 +80,8 @@ class ResourcesController < ApplicationController
       if @resource.update_attributes(resource_params)
         format.html { redirect_to(resources_url,
           :notice => 'Resource was successfully updated.') }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
       end
     end
   end

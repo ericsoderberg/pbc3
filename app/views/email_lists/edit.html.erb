@@ -1,9 +1,11 @@
 <% title "Edit #{@email_list.name}" -%>
 
-<%= form_for(@email_list, :url => email_list_path(@email_list), :html => { class: "form" }) do |f| %>
+<%= form_for(@email_list, :url => email_list_path(@email_list),
+  :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => "Edit #{@email_list.name}", :cancel_path => email_lists_path} %>
+    :locals => {:title => 'Edit Email List',
+    :cancel_path => email_list_path(@email_list)} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

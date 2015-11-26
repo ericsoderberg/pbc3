@@ -1,17 +1,31 @@
-<header>
-<h2>Subscribe to <%= @email_list.name %><%= @site.email_domain %></h2>
-</header>
+<% title "Subscribe to #{@email_list.name}#{@site.email_domain}" -%>
 
-<%= form_tag subscribe_email_list_path(@email_list) do %>
+<%= form_for(@email_list, :url => add_email_list_path(@email_list),
+  :method=> :post, :html => { class: "form" }) do |f| %>
 
-  <div class="field">
-    <%= label_tag :email_address %><br />
-    <%= text_field_tag 'email_address', '', :size => 40 %>
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Subscribe to #{@email_list.name}#{@site.email_domain}",
+    :cancel_path => email_list_path(@email_list)} %>
+
+  <div class="form__contents">
+
+    <%= render :partial => 'form_errors' %>
+
+    <fieldset>
+      <ul class="form__fields list-bare">
+        <li class="form__field">
+          <%= label_tag :addresses %>
+          <div class="form__field-help">
+            Enter one address per line
+          </div>
+          <%= text_area_tag 'email_addresses', '', :size => '40x10' %>
+        </li>
+      </ul>
+    </fieldset>
   </div>
-  <div class="actions">
-    <%= submit_tag 'Subscribe' %>
-    | <%= link_to 'Cancel', friendly_page_path(@page) %>
+
+  <div class="form__footer">
+    <%= f.submit "Subscribe", class: 'btn btn--primary' %>
   </div>
-  
+
 <% end %>
-

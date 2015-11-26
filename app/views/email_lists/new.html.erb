@@ -1,9 +1,11 @@
 <% title "Add Email List" -%>
 
-<%= form_for(@email_list, :url => email_lists_path, :method => :post, :html => { class: "form" }) do |f| %>
+<%= form_for(@email_list, :url => email_lists_path, :method => :post,
+  :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => 'Add Email List', :cancel_path => email_lists_path} %>
+    :locals => {:title => 'Add Email List',
+    :cancel_path => email_lists_path} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

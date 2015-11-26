@@ -20,11 +20,15 @@ a,
 }
 
 button {
-  background-color: $button-background-color;
   border: none;
-  padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
-  border-radius: 1px;
-  box-shadow: 0 1px 2px 0px #ccc;
+  background: none;
+
+  &:not(.control-icon) {
+    background-color: $button-background-color;
+    padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+    border-radius: 1px;
+    box-shadow: 0 1px 2px 0px #ccc;
+  }
 }
 
 input, textarea, select {
