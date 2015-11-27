@@ -10,3 +10,10 @@ json.editUrl edit_contents_form_path(form)
 json.form do
   json.name form.name
 end
+
+if @page
+  json.page do
+    json.extract!(@page, :name)
+    json.url friendly_page_path(@page)
+  end
+end

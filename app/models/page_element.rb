@@ -4,7 +4,7 @@ class PageElement < ActiveRecord::Base
   validates :index, :uniqueness => {:scope => :page_id},
     :numericality => {:greater_than_or_equal_to => 1}
   # element can be in a page only once
-  validates :element_id, :uniqueness => {:scope => :element_type}
+  validates :element_id, :uniqueness => {:scope => [:element_type, :page_id]}
   # element cannot be in two pages, except Page -> Page
 
   def self.page_ids_with_events_other_than(event)

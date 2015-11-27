@@ -45,7 +45,7 @@ var Page = React.createClass({
         contents = (<Item item={pageElement.item} />);
         break;
       case 'Event':
-        contents = (<Event event={pageElement.event} />);
+        contents = (<Event event={pageElement.event} pageName={page.name} />);
         break;
       case 'Page':
         contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);

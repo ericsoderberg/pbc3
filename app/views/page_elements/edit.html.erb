@@ -1,9 +1,9 @@
-<% title "Edit Page" -%>
+<% title "Edit Page Attachment" -%>
 
 <%= form_for(@page_element, :url => page_element_path(@page, @page_element), :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => "Edit Page",
+    :locals => {:title => "Edit Page Attachment",
       :cancel_path => edit_contents_page_url(@page),
       :message => @message} %>
 

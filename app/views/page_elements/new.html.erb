@@ -1,16 +1,16 @@
-<% title "Link Page" -%>
+<% title "Attach Page" -%>
 
 <%= form_for(@page_element, :url => page_elements_path(@page), :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => 'Link Page',
+    :locals => {:title => 'Attach Page',
       :cancel_path => edit_contents_page_url(@page),
       :message => @message} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 
   <div class="form__footer">
-    <%= f.submit "Link", class: 'btn btn--primary' %>
+    <%= f.submit "Attach", class: 'btn btn--primary' %>
   </div>
 
 <% end %>

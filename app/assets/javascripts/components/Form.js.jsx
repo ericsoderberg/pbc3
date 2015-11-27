@@ -569,10 +569,10 @@ var Form = React.createClass({
         <tr key={filledForm.id} className={classRoot + '__fill'}>
           <td className={classRoot + '__date'}>{summary}</td>
           <td>
-            <button onClick={function (event) {
+            <a onClick={function (event) {
               event.preventDefault();
               this._onEdit(filledForm);
-            }.bind(this)}>Update</button>
+            }.bind(this)}>Update</a>
           </td>
         </tr>
       )
@@ -581,14 +581,15 @@ var Form = React.createClass({
     var add;
     if (form.manyPerUser) {
       add = (
-        <button onClick={this._onAdd} className={classRoot + '__add'}>
+        <a onClick={this._onAdd} className={classRoot + '__add'}>
           Add another
-        </button>
+        </a>
       );
     }
-    var list;
+    var all;
     if (this.props.form.indexUrl) {
-      list = <a href={this.props.form.indexUrl}>list</a>;
+      all = <a className={classRoot + '__all'}
+        href={this.props.form.indexUrl}>all</a>;
     }
 
     return (
@@ -596,7 +597,7 @@ var Form = React.createClass({
         <div className={classRoot + "__header"}>{form.name}</div>
         <table>{filledForms}</table>
         {add}
-        {list}
+        {all}
       </div>
     );
   },

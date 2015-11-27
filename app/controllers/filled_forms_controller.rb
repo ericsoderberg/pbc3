@@ -22,6 +22,7 @@ class FilledFormsController < ApplicationController
       @filled_forms = @filled_forms.offset(params[:offset])
     end
     @filled_forms = @filled_forms.limit(20)
+    @page = Page.find(params[:page_id]) if params[:page_id]
 
     @content_partial = 'filled_forms/index'
 

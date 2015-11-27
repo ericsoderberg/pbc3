@@ -17,6 +17,7 @@ var Index = React.createClass({
     items: React.PropTypes.array.isRequired,
     newUrl: React.PropTypes.string,
     noneMessage: React.PropTypes.string,
+    page: React.PropTypes.object,
     responseProperty: React.PropTypes.string.isRequired,
     searchPlaceholder: React.PropTypes.string,
     title: React.PropTypes.string.isRequired
@@ -130,8 +131,18 @@ var Index = React.createClass({
       );
     }
 
+    var backPage;
+    if (this.props.page) {
+      backPage = (
+        <a className={CLASS_ROOT + "__back"} href={this.props.page.url}>
+          {this.props.page.name}
+        </a>
+      );
+    }
+
     return (
       <div className={classes.join(' ')}>
+        {backPage}
         <header className={CLASS_ROOT + "__header"}>
           <h1 className={CLASS_ROOT + "__title"}>{this.props.title}</h1>
           <SearchInput className={CLASS_ROOT + "__search"}

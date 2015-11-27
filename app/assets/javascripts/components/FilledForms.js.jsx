@@ -12,7 +12,8 @@ var FilledForms = React.createClass({
     filledForms: React.PropTypes.array.isRequired,
     filter: React.PropTypes.object,
     form: React.PropTypes.object,
-    newUrl: React.PropTypes.string
+    newUrl: React.PropTypes.string,
+    page: React.PropTypes.object
   },
 
   _renderFilledForm: function (filledForm) {
@@ -30,7 +31,8 @@ var FilledForms = React.createClass({
         responseProperty="filledForms" items={this.props.filledForms}
         count={this.props.count} filter={this.props.filter}
         noneMessage="Nobody has filled out this form yet"
-        newUrl={this.props.newUrl} editUrl={this.props.editUrl} />
+        newUrl={this.props.newUrl} editUrl={this.props.editUrl}
+        page={this.props.page} />
     );
   }
 });

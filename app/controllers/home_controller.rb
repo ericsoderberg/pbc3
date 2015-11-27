@@ -22,6 +22,8 @@ class HomeController < ApplicationController
       @edit_url = edit_contents_page_url(@page, :protocol => 'https')
     end
 
+    session[:breadcrumbs] = '' # clear breadcrumbs
+
     @content_partial = 'pages/show'
 
     respond_to do |format|

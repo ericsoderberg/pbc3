@@ -166,6 +166,9 @@ var SearchInput = React.createClass({
     if (this.state.active) {
       classes.push(ROOT_CLASS + "--active");
     }
+    if (this.state.text && this.state.text.length > 20) {
+      classes.push(ROOT_CLASS + "--long");
+    }
     if (this.props.className) {
       classes.push(this.props.className);
     }

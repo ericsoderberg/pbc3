@@ -15,7 +15,7 @@ json.form do
   end
 
   if current_user and current_user.administrator?
-    json.indexUrl form_fills_url(form)
+    json.indexUrl form_fills_url(form, :page_id => (page ? page.id : nil))
     if @mode
       json.mode @mode
     end

@@ -118,6 +118,9 @@ var Calendar = React.createClass({
           <a onClick={this._onChangeSearch.bind(this, this.state.previous)}>
             {this.state.previous}
           </a>
+          <a onClick={this._onChangeSearch.bind(this, '')}>
+            Today
+          </a>
           <a onClick={this._onChangeSearch.bind(this, this.state.next)}>
             {this.state.next}
           </a>

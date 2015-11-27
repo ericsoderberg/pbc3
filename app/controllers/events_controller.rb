@@ -110,8 +110,7 @@ class EventsController < ApplicationController
     target_url = context_url(@page) # go back where we came from
 
     respond_to do |format|
-      if @event.send(update_method, event_params) and
-        (! page_element || page_element.save)
+      if @event.send(update_method, event_params)
         format.html { redirect_to(target_url,
             :notice => 'Event was successfully updated.') }
         format.xml  { head :ok }

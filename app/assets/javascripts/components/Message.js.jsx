@@ -6,13 +6,14 @@ var CLASS_ROOT = "message";
 
 function messageSummary(label, message, onClick) {
   var date = moment(message.date);
+  var author = (message.author ? message.author.name : '');
   return (
     <div className="message__footer-item">
       <span className="message__footer-label">{label}</span>
       <span className="message__footer-date">{date.format('MMM D, YYYY')}</span>
       <Link className="message__footer-title" href={message.url}>{message.title}</Link>
       <span className="message__footer-verses">{message.verses}</span>
-      <span className="message__footer-author">{message.author.name}</span>
+      <span className="message__footer-author">{author}</span>
     </div>
   );
 }

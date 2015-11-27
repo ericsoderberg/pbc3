@@ -3,65 +3,38 @@
   <%= render :partial => 'form_errors' %>
 
   <fieldset>
-    <legend>Context</legend>
     <%= f.hidden_field :parent_id %>
     <ul class="form__fields list-bare">
       <li class="form__field">
         <%= f.label :title %>
         <%= f.text_field :name, size: 80, autofocus: true  %>
       </li>
-      <li class="form__field">
-        <%= f.label :title_prefix %>
-        <div class="form__field-help">
-          If your page title is rather generic, like 'Resources',
-          add the parent page title here to distinguish it.
-        </div>
-        <%= f.text_field :url_prefix %>
-      </li>
-      <li class="form__field">
-        <%= f.label :url_aliases %>
-        <div class="form__field-help">
-          If you change a page's name, you can put the old url name here
-          so links still work.
-        </div>
-        <%= f.text_area :url_aliases, :size => '23x2' %>
-      </li>
     </ul>
   </fieldset>
 
   <fieldset>
-    <legend>Access</legend>
-    <ul class="form__fields list-bare">
-      <!-- <li class="form__field">
-        <%= f.label :obscure?, :class => 'inline' %>
-        <%= f.check_box :obscure, :class => 'submittable' %>
-      </li> -->
+    <legend class="form__expander" onclick="showAccess()">Access</legend>
+    <ul id="access_fields" class="form__fields list-bare" style="display:none;">
       <li class="form__field">
         <%= f.label :private?, :class => 'inline' %>
-        <div class="form__field-help">
-          If checked, only adminstrators or people on the below email list
-          will be able to see the page.
-        </div>
-        <%= f.check_box :private, :class => 'submittable' %>
+        <%= f.check_box :private, :class => 'submittable',
+          :onchange => "privateChanged()" %>
       </li>
-      <li class="form__field">
+      <li class="form__field" id="email_list"
+        style="<%= @page.private ? '' : 'display:none;' %>">
         <%= f.label :email_list %>
         <div class="form__field-help">
-          See the description for private above.
+          User accounts whose email is in this list will be able to see the page.
         </div>
         <%= f.collection_select :email_list, @email_lists, :name, :name,
-          {:include_blank => 'none'}, {:class => 'email_list'} %>
+          {:include_blank => true}, {:class => 'email_list'} %>
       </li>
-      <!-- <li class="form__field">
-        <%= f.label :any_user?, :class => 'inline' %>
-        <%= f.check_box :any_user, :class => 'submittable' %>
-      </li> -->
     </ul>
   </fieldset>
 
   <fieldset>
-    <legend>Social</legend>
-    <ul class="form__fields list-bare">
+    <legend class="form__expander" onclick="showSocial()">Social</legend>
+    <ul id="social_fields" class="form__fields list-bare" style="display:none;">
       <li class="form__field">
         <%= f.label :facebook_url %>
         <%= f.text_field :facebook_url, :size => '80' %>
@@ -76,5 +49,50 @@
       </li>
     </ul>
   </fieldset>
+
+  <fieldset>
+    <legend class="form__expander" onclick="showAdvanced()">Advanced</legend>
+    <ul id="advanced_fields" class="form__fields list-bare" style="display:none;">
+      <li class="form__field">
+        <%= f.label :title_prefix %>
+        <div class="form__field-help">
+          If your page title is rather generic, like 'Resources',
+          add a prefix to distinguish it.
+        </div>
+        <%= f.text_field :url_prefix %>
+      </li>
+      <li class="form__field">
+        <%= f.label :url_aliases %>
+        <div class="form__field-help">
+          If you change a page's name, you can put the old url name here
+          so links still work.
+        </div>
+        <%= f.text_area :url_aliases, :size => '23x2' %>
+      </li>
+    </ul>
+  </fieldset>
+
+  <script>
+  function privateChanged() {
+    var checked = document.getElementById('page_private').checked;
+    document.getElementById('email_list').style.display =
+      (checked ? '' : 'none');
+  }
+  function showAdvanced() {
+    var element = document.getElementById('advanced_fields');
+    var current = element.style.display;
+    element.style.display = (current === 'none' ? '' : 'none');
+  }
+  function showSocial() {
+    var element = document.getElementById('social_fields');
+    var current = element.style.display;
+    element.style.display = (current === 'none' ? '' : 'none');
+  }
+  function showAccess() {
+    var element = document.getElementById('access_fields');
+    var current = element.style.display;
+    element.style.display = (current === 'none' ? '' : 'none');
+  }
+  </script>
 
 </div>

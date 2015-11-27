@@ -70,6 +70,12 @@
           <% end -%>
         </ul>
       </li>
+      <% if not @event.singular? -%>
+      <li class="form__field">
+        <label>All dates?</label>
+        <%= check_box_tag :all_dates %>
+      </li>
+      <% end -%>
     </ul>
   </fieldset>
 

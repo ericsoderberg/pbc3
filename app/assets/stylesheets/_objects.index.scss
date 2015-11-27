@@ -1,5 +1,17 @@
 .index {
 
+  &__back {
+    position: absolute;
+    top: 0;
+    left: $inuit-base-spacing-unit;
+    @include inuit-font-size($label-font-size);
+
+    &:before {
+      content: '< ';
+      font-weight: bold;
+    }
+  }
+
   &__header {
     @include main-content();
     @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));

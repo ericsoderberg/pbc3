@@ -39,6 +39,10 @@
       margin-right: round($inuit-base-spacing-unit * 3);
       pointer-events: none;
     }
+
+    .control-icon:not(.page-builder__element-edit) {
+      display: none;
+    }
   }
 
   &__placeholder {

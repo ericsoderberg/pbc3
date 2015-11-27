@@ -212,11 +212,9 @@ class PagesController < ApplicationController
       {label: 'Text', url: new_page_text_path(@page)},
       {label: 'File/Url', url: new_page_item_path(@page)},
       {label: 'Page', url: new_page_element_path(@page)},
-      {label: 'Form', url: new_form_path(:page_id => @page.id)}
+      {label: 'Form', url: new_form_path(:page_id => @page.id)},
+      {label: 'Event', url: new_event_path(:page_id => @page.id)}
     ]
-    unless @page.has_event?
-      @add_menu_actions << {label: 'Event', url: new_event_path(:page_id => @page.id)}
-    end
   end
 
   # DEPRECATED

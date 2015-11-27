@@ -99,7 +99,7 @@
       color: $secondary-color;
       @include inuit-font-size($inuit-heading-size-3);
       margin: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit $inuit-base-spacing-unit $inuit-base-spacing-unit;
-      padding-right: quadruple($inuit-base-spacing-unit);
+      padding-right: double($inuit-base-spacing-unit);
 
       .page__element &,
       .page-builder__element & {
@@ -241,6 +241,12 @@
     }
   }
 
+  &__expander {
+    // padding-right: double($inuit-base-spacing-unit);
+    cursor: pointer;
+    background: $small-drop-caret no-repeat center right;
+  }
+
   // hide so users don't see but robots do, controllers fail if filled out
   #email_address_confirmation {
     opacity: 0.1;
@@ -367,12 +373,19 @@ li.placeholder {
       padding-bottom: halve($inuit-base-spacing-unit);
     }
 
-    button {
+    button,
+    a {
       margin-left: $inuit-base-spacing-unit;
     }
   }
 
   &__add {
     margin-top: halve($inuit-base-spacing-unit);
+  }
+
+  &__all {
+    position: absolute;
+    top: double($inuit-base-spacing-unit);
+    right: halve($inuit-base-spacing-unit);
   }
 }

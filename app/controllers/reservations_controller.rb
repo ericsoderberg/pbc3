@@ -21,8 +21,7 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       begin
         if Reservation.reserve(@event, @resources,
-          'Update for all' == params[:commit],
-          params[:options])
+          params[:all_dates], params[:options])
           format.html { redirect_to(edit_event_url(@event),
             :notice => 'Reservations were successfully updated.') }
           format.xml  { head :ok }

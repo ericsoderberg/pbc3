@@ -77,7 +77,8 @@ class Event < ActiveRecord::Base
   end
 
   def page
-    page_elements.empty? ? nil : pages.first
+    event = master || self
+    event.page_elements.empty? ? nil : event.pages.first
   end
 
   def authorized?(user)
@@ -338,13 +339,13 @@ class Event < ActiveRecord::Base
       tokens << resource_matches
     end
 
-    page_matches = Page.search_tokens(text)
-    if page_matches
-      if page_matches[:score] > 0
-        text = text.gsub(page_matches[:text], '').strip
-      end
-      tokens << page_matches
-    end
+    # page_matches = Page.search_tokens(text)
+    # if page_matches
+    #   if page_matches[:score] > 0
+    #     text = text.gsub(page_matches[:text], '').strip
+    #   end
+    #   tokens << page_matches
+    # end
 
     # If we have no text left, remove all weak tokens since they aren't needed
     if text.empty?

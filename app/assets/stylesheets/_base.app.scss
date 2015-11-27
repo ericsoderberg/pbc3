@@ -13,6 +13,7 @@ a,
 .anchor {
   color: $link-color;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     color: darken($link-color, 10%);

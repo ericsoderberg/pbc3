@@ -1,58 +1,58 @@
 .search-input {
   position: relative;
-  
+
   &__header {
     position: relative;
   }
-  
+
   &__input {
     position: relative;
     width: 100%;
     padding-right: double($inuit-base-spacing-unit);
     box-shadow: none;
     border-top: none;
-    
+
     &:focus {
       box-shadow: none;
     }
   }
-  
+
   &__icon {
     position: absolute;
     left: halve($inuit-base-spacing-unit);
     display: none;
-    
+
     svg {
       fill: $icon-color-disabled;
       stroke: $icon-color-disabled;
     }
-    
+
     &--active {
       display: inline-block;
     }
   }
-  
+
   &__clear {
     position: absolute;
     right: $inuit-base-spacing-unit;
     cursor: pointer;
     display: none;
-    
+
     svg {
       fill: $icon-color-disabled;
       stroke: $icon-color-disabled;
-      
+
       &:hover {
         fill: $icon-color-active;
         stroke: $icon-color-active;
       }
     }
-    
+
     &--active {
       display: inline-block;
     }
   }
-  
+
   &__suggestions {
     position: absolute;
     left: 0px;
@@ -71,7 +71,7 @@
     overflow: auto;
     z-index: 1;
     display: none;
-    
+
     &-section {
       &-label {
         padding: quarter($inuit-base-spacing-unit) halve($inuit-base-spacing-unit);
@@ -79,28 +79,34 @@
       }
     }
   }
-  
+
   &__suggestion {
     padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
     cursor: pointer;
-    
+
     &:hover, &--active {
       background-color: $brand-color;
       color: $brand-over-color;
     }
   }
-  
+
+  &--long {
+    .search-input__input {
+      @include inuit-font-size($inuit-base-font-size);
+    }
+  }
+
   &--active {
     .search-input {
-      
+
       &__input {
         border-radius: 0px;
       }
-      
+
       &__icon {
         display: none;
       }
-      
+
       &__suggestions--active {
         display: block;
       }
