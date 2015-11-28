@@ -1,4 +1,4 @@
-var CloseIcon = require('./CloseIcon');
+var CloseIcon = require('./icons/CloseIcon');
 var REST = require('./REST');
 var Router = require('./Router');
 

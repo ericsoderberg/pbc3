@@ -1,0 +1,50 @@
+.layer__overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.layer {
+  position: fixed;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  border: 1px solid $border-color;
+  background-color: $background-color;
+  pointer-events: auto;
+
+  &--top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &--right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

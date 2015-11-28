@@ -19,8 +19,8 @@
 
     &-edit {
       position: absolute;
-      top: 0px; //halve($inuit-base-spacing-unit);
-      right: $inuit-base-spacing-unit;
+      top: 0; //halve($inuit-base-spacing-unit);
+      right: 0; //$inuit-base-spacing-unit;
       cursor: pointer;
     }
 
@@ -42,7 +42,7 @@
 
     &-edit {
       position: absolute;
-      top: 0px; //halve($inuit-base-spacing-unit);
+      top: 0; //halve($inuit-base-spacing-unit);
       cursor: pointer;
 
       @include media-query(palm) {

@@ -3,5 +3,5 @@
 // require_tree ./utils
 App = require('./components/App');
 PageBuilder = require('./components/PageBuilder');
-FormBuilder = require('./components/FormBuilder');
+FormBuilder = require('./components/formBuilder/FormBuilder');
 Form = require('./components/Form');

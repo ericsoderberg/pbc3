@@ -1,5 +1,5 @@
-var SearchIcon = require('./SearchIcon');
-var CloseIcon = require('./CloseIcon');
+var SearchIcon = require('./icons/SearchIcon');
+var CloseIcon = require('./icons/CloseIcon');
 var REST = require('./REST');
 
 var ROOT_CLASS = "search-input";

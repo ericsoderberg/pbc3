@@ -3,17 +3,17 @@ var EditIcon = require('./icons/EditIcon');
 
 var CLASS_ROOT = "forms";
 
-var Forms = React.createClass({
+var Payments = React.createClass({
 
   // match app/views/forms/_index.json.jbuilder
   propTypes: {
     newUrl: React.PropTypes.string,
-    forms: React.PropTypes.array.isRequired,
+    payments: React.PropTypes.array.isRequired,
     count: React.PropTypes.number.isRequired,
     filter: React.PropTypes.object
   },
 
-  _renderForm: function (form) {
+  _renderPayment: function (form) {
     return (
       <a className={CLASS_ROOT + "__form-name"}
         href={form.formFillsUrl}>
@@ -24,12 +24,12 @@ var Forms = React.createClass({
 
   render: function () {
     return (
-      <Index title="Forms" itemRenderer={this._renderForm}
-        responseProperty="forms" items={this.props.forms}
+      <Index title="Payments" itemRenderer={this._renderPayment}
+        responseProperty="payments" items={this.props.payments}
         count={this.props.count} filter={this.props.filter}
         newUrl={this.props.newUrl} />
     );
   }
 });
 
-module.exports = Forms;
+module.exports = Payments;

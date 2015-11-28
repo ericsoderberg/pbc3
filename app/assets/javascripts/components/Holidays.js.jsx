@@ -1,6 +1,6 @@
 var moment = require('moment');
 var Index = require('./Index');
-var EditIcon = require('./EditIcon');
+var EditIcon = require('./icons/EditIcon');
 
 var CLASS_ROOT = "holidays";
 

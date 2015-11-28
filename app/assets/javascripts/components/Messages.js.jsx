@@ -1,8 +1,8 @@
 var moment = require('moment');
 var SearchInput = require('./SearchInput');
 var REST = require('./REST');
-var SpinnerIcon = require('./SpinnerIcon');
-var AddIcon = require('./AddIcon');
+var SpinnerIcon = require('./icons/SpinnerIcon');
+var AddIcon = require('./icons/AddIcon');
 var Router = require('./Router');
 
 var CLASS_ROOT = "messages";

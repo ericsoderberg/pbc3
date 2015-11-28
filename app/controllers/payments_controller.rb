@@ -1,33 +1,57 @@
 class PaymentsController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create, :edit, :update, :show, :notify]
   skip_before_filter :verify_authenticity_token, :only => [:notify]
-  
+  layout "administration", only: [:new, :create, :edit, :update]
+
   def index
-    if params[:state]
-      @state = params[:state]
+    return unless administrator!
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @payments = Payment
+    @payments = @payments.search(@filter[:search]) if @filter[:search]
+    @payments = @payments.order('created_at DESC')
+
+    # get total count before we limit
+    @count = @payments.count
+
+    if params[:offset]
+      @payments = @payments.offset(params[:offset])
     end
-      
-    if ('pending' == @state)
-      @payments = Payment.where('sent_at IS NULL').
-      order("created_at DESC")
-    elsif ('sent' == @state)
-      @payments = Payment.where('sent_at IS NOT NULL AND ' +
-        '(received_amount IS NULL AND received_at IS NULL)').
-        order("created_at DESC")
-    elsif ('received' == @state)
-      @payments = Payment.where('sent_at IS NOT NULL AND ' +
-        '(received_amount > 0 OR received_at IS NOT NULL)').
-        order("created_at DESC")
-    else
-      @payments = Payment.order("created_at DESC")
-    end
+    @payments = @payments.limit(20)
+
+    @content_partial = 'payments/index'
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @payments }
+      format.json { render :partial => "index" }
     end
+
+    # if params[:state]
+    #   @state = params[:state]
+    # end
+    #
+    # if ('pending' == @state)
+    #   @payments = Payment.where('sent_at IS NULL').
+    #   order("created_at DESC")
+    # elsif ('sent' == @state)
+    #   @payments = Payment.where('sent_at IS NOT NULL AND ' +
+    #     '(received_amount IS NULL AND received_at IS NULL)').
+    #     order("created_at DESC")
+    # elsif ('received' == @state)
+    #   @payments = Payment.where('sent_at IS NOT NULL AND ' +
+    #     '(received_amount > 0 OR received_at IS NOT NULL)').
+    #     order("created_at DESC")
+    # else
+    #   @payments = Payment.order("created_at DESC")
+    # end
+    #
+    # respond_to do |format|
+    #   format.html # index.html.erb
+    #   format.xml  { render :xml => @payments }
+    # end
   end
-  
+
   def user_index
     @user = User.find(params[:id])
     @user = current_user unless current_user.administrator?
@@ -65,7 +89,7 @@ class PaymentsController < ApplicationController
       if @filled_form.payment
         redirect_to(payment_url(@filled_form.payment,
           :verification_key => @filled_form.payment.verification_key))
-        return 
+        return
       end
       @filled_forms = [@filled_form]
     elsif not current_user
@@ -79,13 +103,13 @@ class PaymentsController < ApplicationController
       @filled_forms = current_user.filled_forms.includes(:form).
         where('forms.payable' => true, :payment_id => nil)
     end
-    
+
     @payment.amount = 0.to_money
     @filled_forms.each do |filled_form|
       @payment.filled_forms << filled_form
       @payment.amount += filled_form.payable_amount
     end
-    
+
     if @filled_forms.empty?
       redirect_to @form ? form_fills_path(@form) : root_path
       return false
@@ -105,11 +129,11 @@ class PaymentsController < ApplicationController
         return
       end
     end
-      
+
     if params[:filled_form_key]
       @filled_form_key = params[:filled_form_key]
     end
-    
+
     @filled_form = @payment.filled_forms.first
     @filled_forms = FilledForm.possible_for_payment(@payment)
     return unless payment_authorized!
@@ -131,9 +155,9 @@ class PaymentsController < ApplicationController
         return
       end
     end
-    
+
     if @payment.filled_forms.empty?
-      redirect_to 
+      redirect_to
     end
 
     respond_to do |format|
@@ -196,13 +220,13 @@ class PaymentsController < ApplicationController
       end
     end
   end
-  
+
   def notify
     require "net/http"
     require "uri"
-    
+
     @payment = Payment.find(params[:id])
-    
+
     uri = URI.parse("#{Configuration.paypal_url}?cmd=_notify-validate")
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -247,9 +271,9 @@ class PaymentsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def payment_authorized!
     verification_key = params[:verification_key]
     if (current_user and current_user.administrator?) or
@@ -260,7 +284,7 @@ class PaymentsController < ApplicationController
     redirect_to root_url
     return false
   end
-  
+
   def parse_date
     if params[:payment][:sent_at] and
       params[:payment][:sent_at].is_a?(String) and
@@ -275,17 +299,17 @@ class PaymentsController < ApplicationController
         Date.parse_from_form(params[:payment][:received_at])
     end
   end
-  
+
   def strip_admin_params
     params[:payment].delete(:received_amount)
     params[:payment].delete(:received_at)
     params[:payment].delete(:received_notes)
   end
-  
+
   def payment_params
     params.require(:payment).permit(:amount, :method,
       :received_amount, :received_at, :received_by, :received_notes,
       :notes, :sent_at, :verification_key)
   end
-  
+
 end

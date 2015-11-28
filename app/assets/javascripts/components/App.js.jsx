@@ -14,6 +14,7 @@ var Message = require('./Message');
 var Resources = require('./Resources');
 var Forms = require('./Forms');
 var FilledForms = require('./FilledForms');
+var Payments = require('./Payments');
 var Newsletters = require('./Newsletters');
 var EmailLists = require('./EmailLists');
 var EmailList = require('./EmailList');
@@ -32,6 +33,7 @@ var ROUTES = [
   {path: '/email_lists', type: EmailLists},
   {path: '/forms/[^/]+/fills', type: FilledForms},
   {path: '/forms', type: Forms},
+  {path: '/payments', type: Payments},
   {path: '/(.*)', type: Page}
 ];
 

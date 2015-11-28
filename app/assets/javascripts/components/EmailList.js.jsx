@@ -1,5 +1,5 @@
 var Index = require('./Index');
-var CloseIcon = require('./CloseIcon');
+var CloseIcon = require('./icons/CloseIcon');
 
 var CLASS_ROOT = "email-list";
 

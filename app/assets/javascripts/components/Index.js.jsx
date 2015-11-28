@@ -1,9 +1,9 @@
 var Router = require('./Router');
 var REST = require('./REST');
-var SpinnerIcon = require('./SpinnerIcon');
+var SpinnerIcon = require('./icons/SpinnerIcon');
 var SearchInput = require('./SearchInput');
-var AddIcon = require('./AddIcon');
-var EditIcon = require('./EditIcon');
+var AddIcon = require('./icons/AddIcon');
+var EditIcon = require('./icons/EditIcon');
 
 var CLASS_ROOT = "index";
 

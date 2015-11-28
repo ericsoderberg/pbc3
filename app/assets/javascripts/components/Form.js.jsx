@@ -1,6 +1,6 @@
 var REST = require('./REST');
 var moment = require('moment');
-var CloseIcon = require('./CloseIcon');
+var CloseIcon = require('./icons/CloseIcon');
 
 CLASS_ROOT = "form";
 

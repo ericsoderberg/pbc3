@@ -1,6 +1,6 @@
 var Menu = require('./Menu');
-var AddIcon = require('./AddIcon');
-var EditIcon = require('./EditIcon');
+var AddIcon = require('./icons/AddIcon');
+var EditIcon = require('./icons/EditIcon');
 var REST = require('./REST');
 var DragAndDrop = require('../utils/DragAndDrop');
 

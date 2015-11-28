@@ -1,6 +1,6 @@
 var Link = require('./Link');
 var moment = require('moment');
-var EditIcon = require('./EditIcon');
+var EditIcon = require('./icons/EditIcon');
 
 var CLASS_ROOT = "message";
 

@@ -1,8 +1,8 @@
 var moment = require('moment');
 var SearchInput = require('./SearchInput');
-var AddIcon = require('./AddIcon');
+var AddIcon = require('./icons/AddIcon');
 var REST = require('./REST');
-var SpinnerIcon = require('./SpinnerIcon');
+var SpinnerIcon = require('./icons/SpinnerIcon');
 var Router = require('./Router');
 
 var Calendar = React.createClass({

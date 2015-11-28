@@ -1,5 +1,5 @@
 var Menu = require('./Menu');
-var EditIcon = require('./EditIcon');
+var EditIcon = require('./icons/EditIcon');
 
 var Text = require('./Text');
 var Item = require('./Item');

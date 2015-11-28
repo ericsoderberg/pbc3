@@ -1,4 +1,4 @@
-var CalendarIcon = require('./CalendarIcon');
+var CalendarIcon = require('./icons/CalendarIcon');
 
 var Event = React.createClass({
 

@@ -12,7 +12,8 @@ var HORIZONTAL_ALIGN_OPTIONS = ['right', 'left'];
 
 var Drop = {
 
-  // How callers can validate a property for drop alignment which will be passed to add().
+  // How callers can validate a property for drop alignment which will be
+  // passed to add().
   alignPropType: React.PropTypes.shape({
     top: React.PropTypes.oneOf(VERTICAL_ALIGN_OPTIONS),
     bottom: React.PropTypes.oneOf(VERTICAL_ALIGN_OPTIONS),
@@ -180,8 +181,9 @@ var Drop = {
     }
     if ((top + containerRect.height) > windowHeight) {
       // For now, just slide up so we can see it.
-      // TODO: when we don't want to cover the control, like with SearchInput and Calendar,
-      // add bottom margin to the control to allow the user to scroll down if needed.
+      // TODO: when we don't want to cover the control, like with SearchInput
+      // and Calendar, add bottom margin to the control to allow the user to
+      // scroll down if needed.
       if (align.top === 'bottom') {
         top = controlRect.top - containerRect.height;
       } else {
