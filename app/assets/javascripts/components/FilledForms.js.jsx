@@ -1,5 +1,6 @@
 var Index = require('./Index');
-var EditIcon = require('./EditIcon');
+var moment = require('moment');
+var EditIcon = require('./icons/EditIcon');
 
 var CLASS_ROOT = "filled-forms";
 
@@ -17,12 +18,19 @@ var FilledForms = React.createClass({
   },
 
   _renderFilledForm: function (filledForm) {
-    return (
-      <a className={CLASS_ROOT + "__form-name"}
+    var date = moment(filledForm.updatedAt);
+    var parts = [
+      <a key="name" className={CLASS_ROOT + "__form-name"}
         href={filledForm.editUrl}>
         {filledForm.name}
-      </a>
-    );
+      </a>,
+      <span key="date">{date.format('MMM D, YYYY')}</span>
+    ];
+    var version;
+    if (this.props.form.version > 1) {
+      parts.push(<span>{filledForm.version}</span>);
+    }
+    return parts;
   },
 
   render: function () {

@@ -8,7 +8,7 @@ json.newUrl new_form_fill_url(form)
 json.editUrl edit_contents_form_path(form)
 
 json.form do
-  json.name form.name
+  json.extract!(form, :name, :version)
 end
 
 if @page

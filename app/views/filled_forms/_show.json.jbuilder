@@ -1,5 +1,5 @@
 filled_form ||= @filled_form
-json.extract!(filled_form, :id, :name, :created_at, :updated_at)
+json.extract!(filled_form, :id, :name, :created_at, :updated_at, :version)
 json.filledFields filled_form.filled_fields do |filled_field|
   json.extract!(filled_field, :form_field_id, :value)
   json.filledFieldOptions filled_field.filled_field_options do |filled_option|
