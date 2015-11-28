@@ -4,4 +4,4 @@
 App = require('./components/App');
 PageBuilder = require('./components/PageBuilder');
 FormBuilder = require('./components/formBuilder/FormBuilder');
-Form = require('./components/Form');
+Form = require('./components/form/Form');
