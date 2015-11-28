@@ -9,7 +9,7 @@ json.form do
         :value, :limit, :depends_on_id, :unit_value)
       json.formFieldOptions form_field.form_field_options do |form_field_option|
         json.extract!(form_field_option, :id, :name,
-          :option_type, :help, :disabled, :value)
+          :option_type, :help, :disabled, :value, :limit)
       end
     end
   end

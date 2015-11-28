@@ -69,7 +69,8 @@ class FormBuilderForm
 
           ff["form_field_options"].each do |fo|
 
-            fo_params = fo.slice(*%w[id name option_type help disabled value form_field_index])
+            fo_params = fo.slice(*%w[id name option_type help disabled value
+              limit form_field_index])
             if fo_params["id"] and form_field.form_field_options.exists?(fo_params["id"])
               form_field_option = form_field.form_field_options.find(fo_params["id"])
               form_field_option.update_attributes!(fo_params)

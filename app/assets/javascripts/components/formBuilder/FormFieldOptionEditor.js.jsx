@@ -74,6 +74,12 @@ var FormFieldOptionEditor = React.createClass({
                   onChange={this._onChange.bind(this, "help")}
                   value={option.help} />
               </div>
+              <div className="form__field">
+                <label>Limit</label>
+                <input ref="limit" type="number"
+                  onChange={this._onChange.bind(this, "limit")}
+                  value={option.limit} />
+              </div>
             </div>
           </fieldset>
         </div>

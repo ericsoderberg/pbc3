@@ -308,7 +308,6 @@ class FilledFormsController < ApplicationController
       filled_field.form_field = form_field
     end
     # populate value
-    logger.info("!!! populate #{form_field.name} with #{value}")
     case form_field.field_type
     when FormField::FIELD, FormField::SINGLE_LINE
       filled_field.value = value
@@ -320,7 +319,6 @@ class FilledFormsController < ApplicationController
       populate_options(form_field, filled_field, value)
     when FormField::COUNT
       filled_field.value = value
-      logger.info("!!! populated count with #{value}")
     end
   end
 

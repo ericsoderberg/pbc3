@@ -64,7 +64,7 @@ class FormBuilderController < ApplicationController
           :field_type, :help, :required, :monetary, :value, :limit,
           :depends_on_id, :unit_value,
           {:form_field_options => [:id, :name, :option_type,
-            :help, :disabled, :value, :form_field_index]}
+            :help, :disabled, :value, :limit, :form_field_index]}
         ]}
       ]}
     )

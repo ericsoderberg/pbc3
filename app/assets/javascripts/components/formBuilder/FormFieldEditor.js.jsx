@@ -106,6 +106,7 @@ var FormFieldEditor = React.createClass({
     var defaultValue;
     var dependsOnId;
     var unitValue;
+    var limit;
 
     if ('instructions' !== field.fieldType) {
 
@@ -209,6 +210,14 @@ var FormFieldEditor = React.createClass({
             {unitValueInput}
           </div>
         );
+
+        limit = (
+          <div className="form__field">
+            <label>Limit</label>
+            <input ref="limit" type="number"
+              onChange={this._onChange.bind(this, "limit")} value={field.limit} />
+          </div>
+        )
       }
 
     } else {
@@ -268,6 +277,7 @@ var FormFieldEditor = React.createClass({
               {monetary}
               {unitValue}
               {defaultValue}
+              {limit}
               {dependsOnId}
             </div>
           </fieldset>

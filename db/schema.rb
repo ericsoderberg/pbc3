@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151128174846) do
+ActiveRecord::Schema.define(version: 20151128183927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20151128174846) do
     t.datetime "updated_at"
     t.boolean  "disabled",                     default: false
     t.integer  "value"
+    t.integer  "limit"
   end
 
   create_table "form_fields", force: :cascade do |t|
