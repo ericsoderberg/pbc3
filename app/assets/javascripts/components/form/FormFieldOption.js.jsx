@@ -56,7 +56,13 @@ var FormFieldOption = React.createClass({
     var formFieldOption = this.props.formFieldOption;
     var filledFieldOption = formUtils.filledOptionForFormOption(
       this.props.filledForm, formField, formFieldOption);
+
+    var classes = [CLASS_ROOT + "__field-option"];
     var checked = filledFieldOption ? true : false;
+    if (checked) {
+      classes.push(CLASS_ROOT + "__field-option--active");
+    }
+
     var type;
     var name;
     if ('single choice' === formField.fieldType) {
@@ -66,14 +72,28 @@ var FormFieldOption = React.createClass({
       type = "checkbox";
       name = formField.name + "[]";
     }
+
+    var value;
+    if (formFieldOption.value) {
+      var prefix = formField.monetary ? '$' : '';
+      value = (
+        <span className="form__field-option-suffix">
+          {prefix}{formFieldOption.value}
+        </span>
+      );
+    }
+
     return (
-      <div key={formFieldOption.id} className={CLASS_ROOT + "__field-option"}>
-        <input type={type} name={name} checked={checked}
-          onChange={this._onToggle} />
-        {formFieldOption.name}
+      <div key={formFieldOption.id} className={classes.join(' ')}>
+        <span>
+          <input type={type} name={name} checked={checked}
+            onChange={this._onToggle} />
+          {formFieldOption.name}
+        </span>
         <span className="form__field-option-help">
           {formFieldOption.help}
         </span>
+        {value}
       </div>
     );
   }

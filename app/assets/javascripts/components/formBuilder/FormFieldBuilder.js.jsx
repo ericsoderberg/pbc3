@@ -1,12 +1,9 @@
 var EditIcon = require('../icons/EditIcon');
 var Layer = require('../../utils/Layer');
 var FormFieldEditor = require('./FormFieldEditor');
+var formBuilderUtils = require('./formBuilderUtils');
 
 var CLASS_ROOT = "form-builder";
-
-function itemId(item) {
-  return (item.hasOwnProperty('id') ? item.id : item['_id']);
-}
 
 var FormFieldBuilder = React.createClass({
 
@@ -52,7 +49,7 @@ var FormFieldBuilder = React.createClass({
 
   _onRemove: function () {
     this._onCancelEdit();
-    this.props.onRemove(itemId(this.props.field));
+    this.props.onRemove(formBuilderUtils.itemId(this.props.field));
   },
 
   getInitialState: function () {
@@ -110,34 +107,48 @@ var FormFieldBuilder = React.createClass({
       var content;
       if ('single line' === field.fieldType) {
         content = <input type="text" defaultValue={field.value} />;
+        if (field.monetary) {
+          content = (
+            <div className="form__field-decorated-input">${content}</div>
+          );
+        }
       } else if ('multiple lines' === field.fieldType) {
         content = <textarea defaultValue={field.value} />;
-      } else if ('single choice' === field.fieldType) {
+      } else if ('single choice' === field.fieldType ||
+        'multiple choice' === field.fieldType) {
+        var type = 'multiple choice' === field.fieldType ? 'checkbox' : 'radio';
         var content = field.formFieldOptions.map(function (option) {
+          var value;
+          if (option.value) {
+            var prefix = field.monetary ? '$' : '';
+            value = (
+              <span className="form__field-option-suffix">
+                {prefix}{option.value}
+              </span>
+            );
+          }
           return (
-            <div key={itemId(option)} className={CLASS_ROOT + "__field-option"}>
-              <input type="radio" />
-              {option.name}
+            <div key={formBuilderUtils.itemId(option)}
+              className={CLASS_ROOT + "__field-option form__field-option"}>
+              <span>
+                <input type={type} />
+                {option.name}
+              </span>
               <span className="form__field-option-help">
                 {option.help}
               </span>
-            </div>
-          );
-        });
-      } else if ('multiple choice' === field.fieldType) {
-        var content = field.formFieldOptions.map(function (option) {
-          return (
-            <div key={itemId(option)} className={CLASS_ROOT + "__field-option"}>
-              <input type="checkbox" />
-              {option.name}
-              <span className="form__field-option-help">
-                {option.help}
-              </span>
+              {value}
             </div>
           );
         });
       } else if ('count' === field.fieldType) {
-        content = <input type="number" defaultValue={field.value} />;
+        var suffix = 'x ' + (field.monetary ? '$' : '') + field.unitValue;
+        content = (
+          <div className="form__field-decorated-input">
+            <input type="number" defaultValue={field.value} />
+            <span className="form__field-decorated-input-suffix">{suffix}</span>
+          </div>
+        );
       }
 
       result = (

@@ -58,7 +58,7 @@ class FormBuilderForm
         fs["form_fields"].each do |ff|
 
           ff_params = ff.slice(*%w[id name form_index field_type help
-            required monetary value limit depends_on_id])
+            required monetary value limit depends_on_id unit_value])
           if ff_params["id"] and form_section.form_fields.exists?(ff_params["id"])
             form_field = form_section.form_fields.find(ff_params["id"])
             form_field.update_attributes!(ff_params)

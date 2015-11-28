@@ -2,40 +2,10 @@ var CloseIcon = require('../icons/CloseIcon');
 var DragAndDrop = require('../../utils/DragAndDrop');
 var REST = require('../REST');
 var FormSectionBuilder = require('./FormSectionBuilder');
+var formBuilderUtils = require('./formBuilderUtils');
 
 var CLASS_ROOT = "form-builder";
 var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
-
-// var OPTION_TYPES = [
-//   'fixed',
-//   'single line',
-//   'multiple lines',
-//   'instructions'
-// ];
-
-function itemId(item) {
-  return (item.hasOwnProperty('id') ? item.id : item['_id']);
-}
-
-function idsMatch(o1, o2) {
-  return ((o1.hasOwnProperty('id') && o2.hasOwnProperty('id') &&
-      o1.id === o2.id) ||
-    (o1.hasOwnProperty('_id') && o2.hasOwnProperty('_id') &&
-      o1['_id'] === o2['_id']));
-}
-
-// function renderDependsOnOptions (field, form) {
-//   var result = [];
-//   form.formSections.some(function (formSection) {
-//     return formSection.formFields.some(function (formField) {
-//       if (formField.id === field.id) return true;
-//       result.push(
-//         <option key={formField.id} label={formField.name} value={formField.id}/>
-//       );
-//     });
-//   });
-//   return result;
-// }
 
 var FormBuilder = React.createClass({
 
@@ -99,7 +69,7 @@ var FormBuilder = React.createClass({
   _onSectionUpdate: function (section) {
     var form = this.state.form;
     form.formSections = form.formSections.map(function (formSection) {
-      return (idsMatch(section, formSection) ? section : formSection);
+      return (formBuilderUtils.idsMatch(section, formSection) ? section : formSection);
     });
     this.setState({form: form});
   },
@@ -107,7 +77,7 @@ var FormBuilder = React.createClass({
   _onSectionRemove: function (id) {
     var form = this.state.form;
     form.formSections = form.formSections.filter(function (formSection) {
-      return (id !== itemId(formSection));
+      return (id !== formBuilderUtils.itemId(formSection));
     });
     this.setState({form: form});
   },
@@ -120,7 +90,7 @@ var FormBuilder = React.createClass({
     var form = this.state.form;
     var sections = form.formSections.map(function (formSection, index) {
       return (
-        <FormSectionBuilder key={itemId(formSection)}
+        <FormSectionBuilder key={formBuilderUtils.itemId(formSection)}
           section={formSection}
           form={form}
           onUpdate={this._onSectionUpdate}

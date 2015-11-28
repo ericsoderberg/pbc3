@@ -182,6 +182,29 @@
       max-width: 100%;
     }
 
+    &-decorated-input {
+      display: flex;
+      align-items: center;
+
+      &-prefix {
+        color: $secondary-color;
+        margin-right: quarter($inuit-base-spacing-unit);
+      }
+
+      &-suffix {
+        color: $secondary-color;
+        margin-left: $inuit-base-spacing-unit;
+      }
+
+      > * {
+        flex: 0 0 auto;
+      }
+
+      input:not([type="checkbox"]):not([type="radio"]) {
+        flex: 1;
+      }
+    }
+
     &-help {
       display: block;
       color: $secondary-color;
@@ -203,11 +226,31 @@
     //}
 
     &-option {
+      display: flex;
+      justify-content: space-between;
+      text-align: left;
+
+      > input {
+        flex: 0 0 auto;
+      }
+
       &-help {
         margin-left: $inuit-base-spacing-unit;
         color: $secondary-color;
         font-style: italic;
         @include inuit-font-size($label-font-size);
+      }
+
+      &-suffix {
+        margin-left: $inuit-base-spacing-unit;
+        color: $secondary-color;
+        text-align: right;
+      }
+
+      &--active {
+        .form__field-option-suffix {
+          color: $color;
+        }
       }
     }
 

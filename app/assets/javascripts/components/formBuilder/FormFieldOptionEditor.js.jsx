@@ -3,6 +3,7 @@ var CloseIcon = require('../icons/CloseIcon');
 var FormFieldOptionEditor = React.createClass({
 
   propTypes: {
+    monetary: React.PropTypes.bool,
     option: React.PropTypes.object.isRequired,
     onCancel: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired,
@@ -37,6 +38,18 @@ var FormFieldOptionEditor = React.createClass({
   render: function () {
     var option = this.props.option;
 
+    var value;
+    if (this.props.monetary) {
+      value = (
+        <div className="form__field form__field--monetary">
+          <label>Value</label>
+          <input ref="value" type="number"
+            onChange={this._onChange.bind(this, "value")}
+            value={option.value} />
+        </div>
+      );
+    }
+
     return (
       <form className="form form--compact">
         <div className="form__header">
@@ -54,6 +67,7 @@ var FormFieldOptionEditor = React.createClass({
                   onChange={this._onChange.bind(this, "name")}
                   value={option.name} />
               </div>
+              {value}
               <div className="form__field">
                 <label>Help</label>
                 <input ref="help" type="text"

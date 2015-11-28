@@ -62,7 +62,7 @@ class FormBuilderController < ApplicationController
       {:form_sections => [:id, :name, :form_index, :depends_on_id,
         {:form_fields => [:id, :name, :form_index,
           :field_type, :help, :required, :monetary, :value, :limit,
-          :depends_on_id,
+          :depends_on_id, :unit_value,
           {:form_field_options => [:id, :name, :option_type,
             :help, :disabled, :value, :form_field_index]}
         ]}

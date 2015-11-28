@@ -2,20 +2,10 @@ var AddIcon = require('../icons/AddIcon');
 var CloseIcon = require('../icons/CloseIcon');
 var DragAndDrop = require('../../utils/DragAndDrop');
 var FormFieldOptionBuilder = require('./FormFieldOptionBuilder');
+var formBuilderUtils = require('./formBuilderUtils');
 
 var CLASS_ROOT = "form-builder";
 var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
-
-function itemId(item) {
-  return (item.hasOwnProperty('id') ? item.id : item['_id']);
-}
-
-function idsMatch(o1, o2) {
-  return ((o1.hasOwnProperty('id') && o2.hasOwnProperty('id') &&
-      o1.id === o2.id) ||
-    (o1.hasOwnProperty('_id') && o2.hasOwnProperty('_id') &&
-      o1['_id'] === o2['_id']));
-}
 
 var FormFieldEditor = React.createClass({
 
@@ -48,7 +38,8 @@ var FormFieldEditor = React.createClass({
     var field = this.state.field;
     field.formFieldOptions =
       field.formFieldOptions.map(function (formFieldOption) {
-        return (idsMatch(option, formFieldOption) ? option : formFieldOption);
+        return (formBuilderUtils.idsMatch(option, formFieldOption) ?
+          option : formFieldOption);
       });
     this.setState({field: field, newOption: null});
   },
@@ -57,7 +48,7 @@ var FormFieldEditor = React.createClass({
     var field = this.state.field;
     field.formFieldOptions =
       field.formFieldOptions.filter(function (formFieldOption) {
-        return (id !== itemId(formFieldOption));
+        return (id !== formBuilderUtils.itemId(formFieldOption));
       });
     this.setState({field: field, newOption: null});
   },
@@ -96,8 +87,6 @@ var FormFieldEditor = React.createClass({
     this._dragAndDrop.over(event);
   },
 
-
-
   getInitialState: function () {
     return {field: this.props.field};
   },
@@ -116,6 +105,7 @@ var FormFieldEditor = React.createClass({
     var monetary;
     var defaultValue;
     var dependsOnId;
+    var unitValue;
 
     if ('instructions' !== field.fieldType) {
 
@@ -153,16 +143,25 @@ var FormFieldEditor = React.createClass({
         </div>
       );
 
-      if (true || 'single choice' !== field.fieldType &&
-        'multiple choice' !== field.fieldType) {
-        defaultValue = (
-          <div className="form__field">
-            <label>Default value</label>
-            <input ref="value" type="text"
-              onChange={this._onChange.bind(this, "value")} value={field.value} />
+      var defaultType = ('count' === field.fieldType ? 'number' : 'text');
+      var defaultInput = (
+        <input ref="value" type={defaultType}
+          onChange={this._onChange.bind(this, "value")} value={field.value} />
+      );
+      if (field.monetary && 'count' !== field.fieldType) {
+        defaultInput = (
+          <div className="form__field-decorated-input">
+            <span className="form__field-decorated-input-prefix">$</span>
+            {defaultInput}
           </div>
         );
       }
+      defaultValue = (
+        <div className="form__field">
+          <label>Default value</label>
+          {defaultInput}
+        </div>
+      );
 
       dependsOnOptions = [<option key="none"></option>];
       this.props.form.formSections.some(function (formSection) {
@@ -170,7 +169,8 @@ var FormFieldEditor = React.createClass({
           if (formField.id === field.id) return true;
           if ('instructions' !== formField.fieldType) {
             dependsOnOptions.push(
-              <option key={formField.id} label={formField.name} value={formField.id}/>
+              <option key={formField.id} label={formField.name}
+                value={formField.id}/>
             );
           }
         });
@@ -188,7 +188,31 @@ var FormFieldEditor = React.createClass({
         );
       }
 
+      if ('count' === field.fieldType) {
+        var unitValueType = (field.monetary ? 'number' : 'text');
+        var unitValueInput = (
+          <input ref="unitValue" type={unitValueType}
+            onChange={this._onChange.bind(this, "unitValue")}
+            value={field.unitValue} />
+        );
+        if (field.monetary) {
+          unitValueInput = (
+            <div className="form__field-decorated-input">
+              <span className="form__field-decorated-input-prefix">$</span>
+              {unitValueInput}
+            </div>
+          );
+        }
+        unitValue = (
+          <div className="form__field">
+            <label>Unit value</label>
+            {unitValueInput}
+          </div>
+        );
+      }
+
     } else {
+
       help = (
         <div className="form__field">
           <textarea ref="help"
@@ -202,14 +226,15 @@ var FormFieldEditor = React.createClass({
       'multiple choice' === field.fieldType) {
       var opts = field.formFieldOptions.map(function (option, index) {
         return (
-          <FormFieldOptionBuilder key={itemId(option)}
+          <FormFieldOptionBuilder key={formBuilderUtils.itemId(option)}
             fieldType={field.fieldType}
             option={option} onUpdate={this._onOptionUpdate}
             onRemove={this._onOptionRemove}
             edit={option === this.state.newOption}
             index={index}
             dragStart={this._dragStart}
-            dragEnd={this._dragEnd} />
+            dragEnd={this._dragEnd}
+            monetary={field.monetary} />
         );
       }, this);
       options = (
@@ -241,6 +266,7 @@ var FormFieldEditor = React.createClass({
               {help}
               {required}
               {monetary}
+              {unitValue}
               {defaultValue}
               {dependsOnId}
             </div>

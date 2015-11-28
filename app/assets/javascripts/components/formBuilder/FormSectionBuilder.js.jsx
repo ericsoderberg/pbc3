@@ -5,6 +5,7 @@ var Layer = require('../../utils/Layer');
 var DragAndDrop = require('../../utils/DragAndDrop');
 var FormFieldBuilder = require('./FormFieldBuilder');
 var FormSectionEditor = require('./FormSectionEditor');
+var formBuilderUtils = require('./formBuilderUtils');
 
 var CLASS_ROOT = "form-builder";
 var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
@@ -17,10 +18,6 @@ var FIELD_TYPES = [
   'count',
   'instructions'
 ];
-
-function itemId(item) {
-  return (item.hasOwnProperty('id') ? item.id : item['_id']);
-}
 
 var FormSectionBuilder = React.createClass({
 
@@ -67,7 +64,7 @@ var FormSectionBuilder = React.createClass({
 
   _onRemove: function () {
     this._onCancelEdit();
-    this.props.onRemove(itemId(this.props.section));
+    this.props.onRemove(formBuilderUtils.itemId(this.props.section));
   },
 
   _onAddField: function (type) {
@@ -95,7 +92,7 @@ var FormSectionBuilder = React.createClass({
   _onFieldUpdate: function (field) {
     var section = this.state.section;
     section.formFields = section.formFields.map(function (formField) {
-      return (idsMatch(field, formField) ? field : formField);
+      return (formBuilderUtils.idsMatch(field, formField) ? field : formField);
     });
     this.props.onUpdate(section);
   },
@@ -103,7 +100,7 @@ var FormSectionBuilder = React.createClass({
   _onFieldRemove: function (id) {
     var section = this.state.section;
     section.formFields = section.formFields.filter(function (formField) {
-      return (id !== itemId(formField));
+      return (id !== formBuilderUtils.itemId(formField));
     });
     this.props.onUpdate(section);
   },
@@ -161,7 +158,7 @@ var FormSectionBuilder = React.createClass({
 
     var fields = section.formFields.map(function (formField, index) {
       return (
-        <FormFieldBuilder key={itemId(formField)}
+        <FormFieldBuilder key={formBuilderUtils.itemId(formField)}
           field={formField}
           form={this.props.form}
           onUpdate={this._onFieldUpdate}

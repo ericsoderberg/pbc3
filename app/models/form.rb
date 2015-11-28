@@ -59,7 +59,9 @@ class Form < ActiveRecord::Base
   end
 
   def visible_filled_forms(user)
-    return filled_forms.where('filled_forms.id IS NOT null') if page.administrator?(user)
+    if user.administrator? or (page and page.administrator?(user))
+      return filled_forms.where('filled_forms.id IS NOT null')
+    end
     return FilledForm.none unless user
     filled_forms.where('filled_forms.id IS NOT null AND filled_forms.user_id = ?', user.id)
   end

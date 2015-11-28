@@ -1,12 +1,9 @@
 var EditIcon = require('../icons/EditIcon');
 var Layer = require('../../utils/Layer');
 var FormFieldOptionEditor = require('./FormFieldOptionEditor');
+var formBuilderUtils = require('./formBuilderUtils');
 
 var CLASS_ROOT = "form-builder";
-
-function itemId(item) {
-  return (item.hasOwnProperty('id') ? item.id : item['_id']);
-}
 
 var FormFieldOptionBuilder = React.createClass({
 
@@ -16,6 +13,7 @@ var FormFieldOptionBuilder = React.createClass({
     edit: React.PropTypes.bool,
     fieldType: React.PropTypes.string.isRequired,
     index: React.PropTypes.number.isRequired,
+    monetary: React.PropTypes.bool,
     onUpdate: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired,
     option: React.PropTypes.object.isRequired
@@ -26,7 +24,8 @@ var FormFieldOptionBuilder = React.createClass({
       <FormFieldOptionEditor option={this.props.option}
         onCancel={this._onCancelEdit}
         onUpdate={this._onUpdate}
-        onRemove={this._onRemove} />
+        onRemove={this._onRemove}
+        monetary={this.props.monetary} />
     );
   },
 
@@ -52,7 +51,7 @@ var FormFieldOptionBuilder = React.createClass({
 
   _onRemove: function () {
     this._onCancelEdit();
-    this.props.onRemove(itemId(this.props.option));
+    this.props.onRemove(formBuilderUtils.itemId(this.props.option));
   },
 
   getInitialState: function () {
@@ -81,6 +80,16 @@ var FormFieldOptionBuilder = React.createClass({
       </a>
     );
 
+    var value;
+    if (option.value) {
+      var prefix = this.props.monetary ? '$' : '';
+      value = (
+        <span className="form__field-option-suffix">
+          {prefix}{option.value}
+        </span>
+      );
+    }
+
     return (
       <div className={CLASS_ROOT + "__field form__field"}
         data-index={this.props.index}
@@ -88,11 +97,16 @@ var FormFieldOptionBuilder = React.createClass({
         onDragStart={this.props.dragStart}
         onDragEnd={this.props.dragEnd}>
         {editControl}
-        <input type={type} />
-        {option.name}
-        <span className="form__field-option-help">
-          {option.help}
-        </span>
+        <div className="form__field-option">
+          <span>
+            <input type={type} />
+            {option.name}
+          </span>
+          <span className="form__field-option-help">
+            {option.help}
+          </span>
+          {value}
+        </div>
       </div>
     );
   }

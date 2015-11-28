@@ -34,14 +34,10 @@
           Whether payments are expected.
         </div>
         <%= f.check_box :payable %>
-      </li>
-      <li class="form__field form_payable_dependent">
-        <%= f.label :pay_by_check? %>
-        <%= f.check_box :pay_by_check %>
-      </li>
-      <li class="form__field form_payable_dependent">
-        <%= f.label :pay_by_paypal? %>
-        <%= f.check_box :pay_by_paypal %>
+        <div class="form_payable_dependent">
+          <%= f.check_box :pay_by_check %><%= f.label :check %><br/>
+          <%= f.check_box :pay_by_paypal %><%= f.label :PayPal %>
+        </div>
       </li>
       <li class="form__field">
         <%= f.label '> 1 per user?' %>

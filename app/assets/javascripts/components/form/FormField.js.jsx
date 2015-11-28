@@ -83,33 +83,42 @@ var FormField = React.createClass({
           <input ref="input" type="text" name={formField.name} value={value}
             onChange={this._onChange} />
         );
+        if (formField.monetary) {
+          content = (
+            <div className="form__field-decorated-input">
+              <span className="form__field-decorated-input-prefix">$</span>
+              {content}
+            </div>
+          );
+        }
       } else if ('multiple lines' === formField.fieldType) {
         content = (
           <textarea ref="input" name={formField.name} value={value}
             onChange={this._onChange} />
         );
-      } else if ('single choice' === formField.fieldType) {
+      } else if ('single choice' === formField.fieldType ||
+        'multiple choice' === formField.fieldType) {
         content = formField.formFieldOptions.map(function (formFieldOption) {
           return (
             <FormFieldOption key={formFieldOption.id}
-              formField={formField} formFieldOption={formFieldOption}
-              filledForm={this.props.filledForm}
-              onChange={this.props.onChange} />
-          );
-        }, this);
-      } else if ('multiple choice' === formField.fieldType) {
-        content = formField.formFieldOptions.map(function (formFieldOption) {
-          return (
-            <FormFieldOption key={formFieldOption.id}
-              formField={formField} formFieldOption={formFieldOption}
+              formField={formField}
+              formFieldOption={formFieldOption}
               filledForm={this.props.filledForm}
               onChange={this.props.onChange} />
           );
         }, this);
       } else if ('count' === formField.fieldType) {
+        var suffix = 'x ' + (formField.monetary ? '$' : '') + formField.unitValue;
+        if (value) {
+          suffix += ' = ' + (formField.monetary ? '$' : '') +
+            (formField.unitValue * value);
+        }
         content = (
-          <input ref="input" type="number" name={formField.name} value={value}
-            onChange={this._onChange} />
+          <div className="form__field-decorated-input">
+            <input ref="input" type="number" name={formField.name}
+              value={value} onChange={this._onChange} />
+            <span className="form__field-decorated-input-suffix">{suffix}</span>
+          </div>
         );
       }
 
