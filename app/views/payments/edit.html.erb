@@ -1,4 +1,27 @@
-<% if current_user and current_user.administrator? -%>
+<% title "Edit #{@payment.name}" -%>
+
+<%= form_for(@payment, :html => { class: "form" }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit #{@payment.name}", :cancel_path => @cancel_url,
+      :message => @message} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
+
+<%= render :partial => 'shared/delete', :locals => {:item => @payment} %>
+
+
+
+
+
+
+<% if false and current_user and current_user.administrator? -%>
 <% content_for :breadcrumbs do -%>
   <div id="breadcrumbs">
     <ul>
@@ -8,11 +31,11 @@
 <% end -%>
 <% end -%>
 
-<h1>Payment</h1>
+<!-- <h1>Payment</h1> -->
 
-<% if @filled_form and @filled_form.form.payable? and
+<% if false and @filled_form and @filled_form.form.payable? and
   'pending' == @payment.state -%>
   <%= render 'pay' %>
-<% else -%>
+<% elsif false -%>
   <%= render 'form' %>
 <% end -%>

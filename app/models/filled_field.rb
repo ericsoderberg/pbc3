@@ -46,7 +46,7 @@ class FilledField < ActiveRecord::Base
         end
       when FormField::COUNT
         if form_field.value and form_field.value.to_i > 0
-          value + ' x ' + form_field.value
+          value + ' x ' + form_field.unit_value
         else
           value
         end
@@ -80,7 +80,7 @@ class FilledField < ActiveRecord::Base
           0.to_money
         end
       when FormField::COUNT
-        (value.to_i * form_field.value.to_i).to_money
+        (value.to_i * form_field.unit_value.to_i).to_money
       else
         0.to_money
     end

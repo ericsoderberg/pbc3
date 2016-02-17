@@ -1,0 +1,56 @@
+<div class="form__contents">
+
+  <%= render :partial => 'form_errors' %>
+
+  <fieldset>
+    <% if @page -%>
+      <%= hidden_field_tag :page_id, @page.id %>
+    <% end -%>
+    <% if @filled_form_key -%>
+      <%= hidden_field_tag :filled_form_key, @filled_form_key %>
+    <% end -%>
+    <%= hidden_field_tag :verification_key, @payment.verification_key %>
+
+    <ul class="form__fields list-bare">
+      <li class="form__field">
+        <%= f.label :for %>
+        <% @filled_forms.each do |filled_form| -%>
+          <% amount = filled_form.payable_amount -%>
+          <div class="form__field-option">
+            <span>
+              <% if @filled_forms.length > 1 -%>
+                <%= check_box_tag 'filled_form_ids[]', filled_form.id,
+                  @payment.filled_forms.include?(filled_form),
+                  {'data-amount' => amount} %>
+              <% end -%>
+              <%= link_to filled_form.name,
+                edit_form_fill_path(filled_form.form, filled_form,
+                  {:filled_form_key => filled_form.verification_key}) %>
+            </span>
+            <span className="form__field-option-suffix">
+              $<%= amount %>
+            </span>
+          </div>
+        <% end -%>
+      </li>
+      <li class="form__field">
+        <%= f.label :method %>
+        <div class="form__field-help">
+          We accept payment via a check (from your onlink bank or checkbook) or PayPal.
+        </div>
+        <div class="form__field-option">
+          <span>
+            <%= radio_button_tag 'payment[method]', 'check' %>
+            Check
+          </span>
+        </div>
+        <div class="form__field-option">
+          <span>
+            <%= radio_button_tag 'payment[method]', 'paypal' %>
+            PayPal
+          </span>
+        </div>
+      </li>
+    </ul>
+  </fieldset>
+</div>

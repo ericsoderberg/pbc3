@@ -145,27 +145,14 @@ class FilledFormsController < ApplicationController
     @filled_form.version = @form.version
     populate_filled_fields
 
-    if @form.payable?
-      # re-use payment from sibling filled forms that haven't been paid
-      siblings = @form.filled_forms_for_user(current_user)
-      siblings.each do |sibling_filled_form|
-        if sibling_filled_form.payment and sibling_filled_form.payment.cancellable?
-          @payment = sibling_filled_form.payment
-          break
-        end
-      end
-      unless @payment
-        @payment = Payment.new(:amount => @filled_form.payable_amount,
-          :method => Payment::METHODS.first, :user => @filled_form.user)
-        end
-      @payment.filled_forms << @filled_form
-    end
+    @payment = @filled_form.find_or_create_payment if @form.payable?
 
     respond_to do |format|
       if @filled_form.save and (! @payment or
         (@payment.amount += @filled_form.payable_amount; @payment.save))
         FormMailer.form_email(@filled_form).deliver_now
-        format.html { redirect_to(next_url,
+        @next_url = next_url
+        format.html { redirect_to(@next_url,
             :notice => "#{@form.name} was successfully submitted.") }
         format.json { render :partial => "show", :layout => false }
       else
@@ -196,12 +183,13 @@ class FilledFormsController < ApplicationController
     end
     @filled_form.version = @form.version
     populate_filled_fields
-    @payment = @filled_form.payment
+    @payment = @filled_form.find_or_create_payment if @form.payable?
 
     respond_to do |format|
       if @filled_form.save
         FormMailer.form_email(@filled_form).deliver
-        format.html { redirect_to(next_url,
+        @next_url = next_url
+        format.html { redirect_to(@next_url,
           :notice => "#{@form.name} was successfully updated.") }
         format.json { render :partial => "show", :layout => false }
       else
@@ -357,7 +345,7 @@ class FilledFormsController < ApplicationController
   end
 
   def next_url
-    if current_user and @form.many_per_user?
+    if current_user and @form.many_per_user? and @page
       new_form_fill_url(@form)
     elsif @form.payable?
       if @payment.cancellable?
@@ -376,8 +364,10 @@ class FilledFormsController < ApplicationController
       else
         new_form_fill_url(child_form)
       end
-    else
+    elsif @page
       friendly_page_url(@page)
+    else
+      form_fills_url(@form)
     end
   end
 

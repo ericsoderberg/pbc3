@@ -52,16 +52,16 @@ class PaymentsController < ApplicationController
     # end
   end
 
-  def user_index
-    @user = User.find(params[:id])
-    @user = current_user unless current_user.administrator?
-    @payments = @user.payments.to_a
-
-    respond_to do |format|
-      format.html # user_index.html.erb
-      format.xml  { render :xml => @filled_forms }
-    end
-  end
+  # def user_index
+  #   @user = User.find(params[:id])
+  #   @user = current_user unless current_user.administrator?
+  #   @payments = @user.payments.to_a
+  #
+  #   respond_to do |format|
+  #     format.html # user_index.html.erb
+  #     format.xml  { render :xml => @filled_forms }
+  #   end
+  # end
 
   def show
     @payment = Payment.find(params[:id])
@@ -73,70 +73,70 @@ class PaymentsController < ApplicationController
     end
   end
 
-  def new
-    @payment = Payment.new
-    @payment.user = current_user
-    @payment.method = Payment::METHODS.first
-    @payment.sent_at = Date.today
-    if params[:filled_form_key]
-      @filled_form_key = params[:filled_form_key]
-      @filled_form = FilledForm.where(:verification_key => params[:filled_form_key]).first
-      unless @filled_form
-        redirect_to root_url
-        return
-      end
-      # if the form has already been payed, show the payment
-      if @filled_form.payment
-        redirect_to(payment_url(@filled_form.payment,
-          :verification_key => @filled_form.payment.verification_key))
-        return
-      end
-      @filled_forms = [@filled_form]
-    elsif not current_user
-      redirect_to root_url
-      return
-    elsif params[:form_id]
-      @form = Form.find(params[:form_id])
-      @filled_forms = @form.filled_forms.
-        for_user(current_user).where(:payment_id => nil)
-    else
-      @filled_forms = current_user.filled_forms.includes(:form).
-        where('forms.payable' => true, :payment_id => nil)
-    end
-
-    @payment.amount = 0.to_money
-    @filled_forms.each do |filled_form|
-      @payment.filled_forms << filled_form
-      @payment.amount += filled_form.payable_amount
-    end
-
-    if @filled_forms.empty?
-      redirect_to @form ? form_fills_path(@form) : root_path
-      return false
-    end
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @payment }
-    end
-  end
+  # def new
+  #   @payment = Payment.new
+  #   @payment.user = current_user
+  #   @payment.method = Payment::METHODS.first
+  #   @payment.sent_at = Date.today
+  #   if params[:filled_form_key]
+  #     @filled_form_key = params[:filled_form_key]
+  #     @filled_form = FilledForm.where(:verification_key => params[:filled_form_key]).first
+  #     unless @filled_form
+  #       redirect_to root_url
+  #       return
+  #     end
+  #     # if the form has already been payed, show the payment
+  #     if @filled_form.payment
+  #       redirect_to(payment_url(@filled_form.payment,
+  #         :verification_key => @filled_form.payment.verification_key))
+  #       return
+  #     end
+  #     @filled_forms = [@filled_form]
+  #   elsif not current_user
+  #     redirect_to root_url
+  #     return
+  #   elsif params[:form_id]
+  #     @form = Form.find(params[:form_id])
+  #     @filled_forms = @form.filled_forms.
+  #       for_user(current_user).where(:payment_id => nil)
+  #   else
+  #     @filled_forms = current_user.filled_forms.includes(:form).
+  #       where('forms.payable' => true, :payment_id => nil)
+  #   end
+  #
+  #   @payment.amount = 0.to_money
+  #   @filled_forms.each do |filled_form|
+  #     @payment.filled_forms << filled_form
+  #     @payment.amount += filled_form.payable_amount
+  #   end
+  #
+  #   if @filled_forms.empty?
+  #     redirect_to @form ? form_fills_path(@form) : root_path
+  #     return false
+  #   end
+  #
+  #   respond_to do |format|
+  #     format.html # new.html.erb
+  #     format.xml  { render :xml => @payment }
+  #   end
+  # end
 
   def edit
     @payment = Payment.find(params[:id])
-    if not current_user or not current_user.administrator?
-      if params[:verification_key] != @payment.verification_key
-        redirect_to root_url
-        return
-      end
-    end
+    # if not current_user or not current_user.administrator?
+    #   if params[:verification_key] != @payment.verification_key
+    #     redirect_to root_url
+    #     return
+    #   end
+    # end
+    return unless payment_authorized!
 
     if params[:filled_form_key]
       @filled_form_key = params[:filled_form_key]
     end
 
-    @filled_form = @payment.filled_forms.first
+    # @filled_form = @payment.filled_forms.first
     @filled_forms = FilledForm.possible_for_payment(@payment)
-    return unless payment_authorized!
   end
 
   def create

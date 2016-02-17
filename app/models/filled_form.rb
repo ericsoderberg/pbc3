@@ -91,4 +91,22 @@ class FilledForm < ActiveRecord::Base
     'sent' == payment_state
   end
 
+  def find_or_create_payment
+    payment = nil
+    # re-use payment from sibling filled forms that haven't been paid
+    siblings = form.filled_forms_for_user(self.user)
+    siblings.each do |sibling_filled_form|
+      if sibling_filled_form.payment and sibling_filled_form.payment.cancellable?
+        payment = sibling_filled_form.payment
+        break
+      end
+    end
+    unless payment
+      payment = Payment.new(:amount => self.payable_amount,
+        :method => Payment::METHODS.first, :user => self.user)
+      end
+    payment.filled_forms << self
+    payment
+  end
+
 end

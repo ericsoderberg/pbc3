@@ -6,7 +6,8 @@ json.form do
 
   json.partial! 'forms/show', :form => form
 
-  json.filled_forms filled_forms, partial: 'filled_forms/show', as: :filled_form
+  json.filled_forms filled_forms, partial: 'filled_forms/show',
+    :locals => {:form => form}, as: :filled_form
 
   json.createUrl form_fills_url(form)
   json.authenticityToken form_authenticity_token()
