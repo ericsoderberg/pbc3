@@ -1,258 +1,256 @@
-.messages {
+// Messages
 
-  &__header {
-    @include main-content();
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: flex;
+.messages__header {
+  @include main-content();
+  @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  display: flex;
 
-    @include media-query(palm) {
-      @include inuit-font-size($inuit-heading-size-1);
-      display: block;
-    }
-  }
-
-  &__title {
+  @include media-query(palm) {
+    @include inuit-font-size($inuit-heading-size-1);
     display: block;
-    margin-right: $inuit-base-spacing-unit;
-    flex: 0 0 auto;
   }
+}
 
-  &__search {
+.messages__title {
+  display: block;
+  margin-right: $inuit-base-spacing-unit;
+  flex: 0 0 auto;
+}
+
+.messages__search {
+  display: block;
+  flex: 1;
+}
+
+.messages__add {
+  margin-left: $inuit-base-spacing-unit;
+
+  @include media-query(palm) {
+    position: absolute;
+    top: 0px;
+    right: halve($inuit-base-spacing-unit);
+  }
+}
+
+.messages__count {
+  @include main-content();
+  @include inuit-font-size($inuit-base-font-size);
+  text-align: right;
+  color: $tertiary-color;
+
+  @include media-query(palm) {
+    display: none;
+  }
+}
+
+.messages__messages {
+  @include main-content();
+  min-height: $min-content-height;
+  transition: opacity 0.3s;
+}
+
+.messages__message {
+  position: relative;
+  margin: $inuit-base-spacing-unit 0;
+
+  > * {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 halve($inuit-base-spacing-unit);
+    padding-left: halve($inuit-base-spacing-unit);
+    text-indent: - halve($inuit-base-spacing-unit);
+  }
+}
+
+.messages__message-year {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: round($inuit-base-spacing-unit * 2);
+  @include inuit-font-size($inuit-heading-size-3, double($inuit-base-spacing-unit));
+  color: $secondary-color;
+  width: 100%;
+  border-top: 1px solid $border-color;
+  margin-left: 0;
+  display: none;
+}
+
+.messages__message-date {
+  width: round($inuit-base-spacing-unit * 3);
+  color: $secondary-color;
+  margin-left: 0;
+}
+
+.messages__message-title {
+  width: round($inuit-base-spacing-unit * 12);
+  margin-left: 0;
+}
+
+.messages__message-verses {
+  width: round($inuit-base-spacing-unit * 8);
+}
+
+.messages__message-author {
+  width: round($inuit-base-spacing-unit * 8);
+}
+
+.messages__message--year {
+  padding-top: double($inuit-base-spacing-unit);
+
+  .messages__message-year {
     display: block;
-    flex: 1;
   }
+}
 
-  &__add {
-    margin-left: $inuit-base-spacing-unit;
+.messages__no-matches {
+  @include main-content();
+  font-style: italic;
+  color: $secondary-color;
+  margin-top: $inuit-base-spacing-unit;
+}
 
-    @include media-query(palm) {
-      position: absolute;
-      top: 0px;
-      right: halve($inuit-base-spacing-unit);
-    }
-  }
+.messages__spinner {
+  margin: $inuit-base-spacing-unit auto;
+}
 
-  &__count {
-    @include main-content();
-    @include inuit-font-size($inuit-base-font-size);
-    text-align: right;
-    color: $tertiary-color;
-
-    @include media-query(palm) {
-      display: none;
-    }
-  }
-
-  &__messages {
-    @include main-content();
-    min-height: $min-content-height;
-    transition: opacity 0.3s;
-  }
-
-  &__message {
-    position: relative;
-    margin: $inuit-base-spacing-unit 0;
-
-    > * {
-      display: inline-block;
-      vertical-align: top;
-      margin: 0 halve($inuit-base-spacing-unit);
-      padding-left: halve($inuit-base-spacing-unit);
-      text-indent: - halve($inuit-base-spacing-unit);
-    }
-
-    &-year {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: round($inuit-base-spacing-unit * 2);
-      @include inuit-font-size($inuit-heading-size-3, double($inuit-base-spacing-unit));
-      color: $secondary-color;
-      width: 100%;
-      border-top: 1px solid $border-color;
-      margin-left: 0;
-      display: none;
-    }
-
-    &-date {
-      width: round($inuit-base-spacing-unit * 3);
-      color: $secondary-color;
-      margin-left: 0;
-    }
-
-    &-title {
-      width: round($inuit-base-spacing-unit * 12);
-      margin-left: 0;
-    }
-
-    &-verses {
-      width: round($inuit-base-spacing-unit * 8);
-    }
-
-    &-author {
-      width: round($inuit-base-spacing-unit * 8);
-    }
-
-    &--year {
-      padding-top: double($inuit-base-spacing-unit);
-
-      .messages__message {
-        &-year {
-          display: block;
-        }
-      }
-    }
-  }
-
-  &__no-matches {
-    @include main-content();
-    font-style: italic;
-    color: $secondary-color;
-    margin-top: $inuit-base-spacing-unit;
-  }
-
-  &__spinner {
-    margin: $inuit-base-spacing-unit auto;
-  }
-
-  &--changing {
-    .messages {
-      &__messages {
-        opacity: 0.2;
-      }
-    }
+.messages--changing {
+  .messages__messages {
+    opacity: 0.2;
   }
 }
 
 .messages-search {
   position: relative;
+}
 
-  &__input {
-    width: 100%;
-  }
+.messages-search__input {
+  width: 100%;
+}
 
-  &__suggestions {
-    margin: 0px;
-  }
+.messages-search__suggestions {
+  margin: 0px;
 }
 
 .range {
   display: flex;
+}
 
-  &__range {
-    flex: 1;
-    margin-right: halve($inuit-base-spacing-unit);
-  }
+.range__range {
+  flex: 1;
+  margin-right: halve($inuit-base-spacing-unit);
+}
 
-  &__value {
-    flex: 0 0 auto;
-    width: quadruple($inuit-base-spacing-unit);
-    padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
-    color: $color;
+.range__value {
+  flex: 0 0 auto;
+  width: quadruple($inuit-base-spacing-unit);
+  padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+  color: $color;
+}
+
+// Message
+
+.message__header {
+  @include main-content();
+  @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  display: flex;
+}
+
+.message__title {
+  flex: 1;
+}
+
+.message__edit {
+  margin-left: $inuit-base-spacing-unit;
+
+  @include media-query(palm) {
+    position: absolute;
+    top: 0px;
+    right: halve($inuit-base-spacing-unit);
   }
 }
 
-.message {
+.message__sub-header {
+  @include main-content();
+  margin-bottom: $inuit-base-spacing-unit;
+}
 
-  &__header {
-    @include main-content();
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: flex;
+.message__date {
+  color: $secondary-color;
+  margin-right: $inuit-base-spacing-unit;
+}
+
+.message__author,
+.message__verses {
+  margin-right: $inuit-base-spacing-unit;
+}
+
+.message__footer {
+  @include main-content();
+}
+
+.message__footer-item {
+  margin-bottom: $inuit-base-spacing-unit;
+}
+
+.message__footer-label,
+.message__footer-date {
+  display: inline-block;
+  vertical-align: top;
+  width: quadruple($inuit-base-spacing-unit);
+  margin-right: $inuit-base-spacing-unit;
+  color: $secondary-color;
+
+  @include media-query(palm) {
+    display: block;
+    width: 100%;
   }
+}
 
-  &__title {
-    flex: 1;
+.message__footer-title,
+.message__footer-author,
+.message__footer-verses {
+  display: inline-block;
+  vertical-align: top;
+  width: round($inuit-base-spacing-unit * 8);
+  margin-right: $inuit-base-spacing-unit;
+
+  @include media-query(palm) {
+    display: block;
+    width: 100%;
   }
+}
 
-  &__edit {
+.message__image {
+  display: block;
+  max-width: $max-content-width;
+  width: 100%;
+  @include main-content();
+  margin-bottom: double($inuit-base-spacing-unit);
+}
+
+.message__file {
+  display: block;
+  @include main-content();
+  margin-bottom: double($inuit-base-spacing-unit);
+  @include inuit-font-size($inuit-heading-size-2);
+}
+
+.message__audio {
+  display: block;
+  width: 100%;
+  @include main-content();
+  margin-bottom: double($inuit-base-spacing-unit);
+}
+
+.message__video {
+  display: block;
+  @include main-content();
+  padding: 0px;
+  margin-bottom: double($inuit-base-spacing-unit);
+  border: none;
+
+  @include media-query(palm) {
     margin-left: $inuit-base-spacing-unit;
-
-    @include media-query(palm) {
-      position: absolute;
-      top: 0px;
-      right: halve($inuit-base-spacing-unit);
-    }
-  }
-
-  &__sub-header {
-    @include main-content();
-    margin-bottom: $inuit-base-spacing-unit;
-  }
-
-  &__date {
-    color: $secondary-color;
     margin-right: $inuit-base-spacing-unit;
-  }
-
-  &__author, &__verses {
-    margin-right: $inuit-base-spacing-unit;
-  }
-
-  &__footer {
-    @include main-content();
-
-    &-item {
-      margin-bottom: $inuit-base-spacing-unit;
-    }
-
-    &-label, &-date {
-      display: inline-block;
-      vertical-align: top;
-      width: quadruple($inuit-base-spacing-unit);
-      margin-right: $inuit-base-spacing-unit;
-      color: $secondary-color;
-
-      @include media-query(palm) {
-        display: block;
-        width: 100%;
-      }
-    }
-
-    &-title, &-author, &-verses {
-      display: inline-block;
-      vertical-align: top;
-      width: round($inuit-base-spacing-unit * 8);
-      margin-right: $inuit-base-spacing-unit;
-
-      @include media-query(palm) {
-        display: block;
-        width: 100%;
-      }
-    }
-  }
-
-  &__image {
-    display: block;
-    max-width: $max-content-width;
-    width: 100%;
-    @include main-content();
-    margin-bottom: double($inuit-base-spacing-unit);
-  }
-
-  &__file {
-    display: block;
-    @include main-content();
-    margin-bottom: double($inuit-base-spacing-unit);
-    @include inuit-font-size($inuit-heading-size-2);
-  }
-
-  &__audio {
-    display: block;
-    width: 100%;
-    @include main-content();
-    margin-bottom: double($inuit-base-spacing-unit);
-  }
-
-  &__video {
-    display: block;
-    @include main-content();
-    padding: 0px;
-    margin-bottom: double($inuit-base-spacing-unit);
-    border: none;
-
-    @include media-query(palm) {
-      margin-left: $inuit-base-spacing-unit;
-      margin-right: $inuit-base-spacing-unit;
-    }
   }
 }

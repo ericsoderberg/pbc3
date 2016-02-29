@@ -18,21 +18,21 @@
       stroke: $icon-color-active;
     }
   }
+}
 
-  &--active {
-    background-color: $brand-color;
+.control-icon--active {
+  background-color: $brand-color;
 
-    svg {
-      fill: $brand-over-color;
-      stroke: $brand-over-color;
-    }
-
-    &-down {
-      border-radius: $brand-radius $brand-radius 0 0;
-    }
-
-    &-up {
-      border-radius: 0 0 $brand-radius $brand-radius;
-    }
+  svg {
+    fill: $brand-over-color;
+    stroke: $brand-over-color;
   }
+}
+
+.control-icon--active-down {
+  border-radius: $brand-radius $brand-radius 0 0;
+}
+
+.control-icon--active-up {
+  border-radius: 0 0 $brand-radius $brand-radius;
 }

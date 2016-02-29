@@ -2,7 +2,7 @@
 <%= form_for(filled_form, :url => (filled_form.id ?
     form_fill_path(filled_form.form, filled_form) : form_fills_path(filled_form.form))) do |f| %>
   <% if filled_form.errors.any? -%>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(filled_form.errors.count, "error") %> prohibited this form from being saved:</h2>
       <ul>
       <% filled_form.errors.full_messages.each do |msg| -%>
@@ -12,7 +12,7 @@
     </div>
   <% end -%>
   <% if @payment and @payment.errors.any? -%>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@payment.errors.count, "error") %> prohibited the payment from being saved:</h2>
       <ul>
       <% @payment.errors.full_messages.each do |msg| -%>

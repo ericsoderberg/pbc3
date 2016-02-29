@@ -1,70 +1,70 @@
 .reservations {
   margin-top: halve($inuit-base-spacing-unit);
+}
 
-  &__resource {
-    display: flex;
-    align-items: center;
-    margin-bottom: halve($inuit-base-spacing-unit);
+.reservations__resource {
+  display: flex;
+  align-items: center;
+  margin-bottom: halve($inuit-base-spacing-unit);
 
-    input[type="checkbox"] {
-      margin-right: halve($inuit-base-spacing-unit);
-    }
+  input[type="checkbox"] {
+    margin-right: halve($inuit-base-spacing-unit);
+  }
+}
 
-    &-name {
-      width: round($inuit-base-spacing-unit * 8);
-    }
+.reservations__resource-name {
+  width: round($inuit-base-spacing-unit * 8);
+}
 
-    &-pre-post {
-      position: relative;
-      width: round($inuit-base-spacing-unit * 8);
-      height: $inuit-base-spacing-unit;
-      overflow: visible;
+.reservations__resource-pre-post {
+  position: relative;
+  width: round($inuit-base-spacing-unit * 8);
+  height: $inuit-base-spacing-unit;
+  overflow: visible;
 
-      &-control {
-        display: block;
-        color: $secondary-color;
-      }
-
-      &-fields {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        max-height: 0;
-        overflow: hidden;
-        background-color: $background-color;
-        transition: 0.5s;
-
-        > li {
-          margin: 0px;
-        }
-      }
-
-      &:hover {
-        .reservations__resource-pre-post-fields {
-          z-index: 1;
-          max-height: 200px;
-          padding-bottom: 1px;
-        }
-      }
-    }
-
-    &-conflicts {
-
-      li {
-        display: inline-block;
-
-        &::after {
-          content: ', ';
-        }
-
-        &:last-child::after {
-          content: '';
-        }
-      }
-    }
-
-    &--used {
-      color: $tertiary-color;
+  &:hover {
+    .reservations__resource-pre-post-fields {
+      z-index: 1;
+      max-height: 200px;
+      padding-bottom: 1px;
     }
   }
+}
+
+.reservations__resource-pre-post-control {
+  display: block;
+  color: $secondary-color;
+}
+
+.reservations__resource-pre-post-fields {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  max-height: 0;
+  overflow: hidden;
+  background-color: $background-color;
+  transition: 0.5s;
+
+  > li {
+    margin: 0px;
+  }
+}
+
+.reservations__resourc-conflicts {
+
+  li {
+    display: inline-block;
+
+    &::after {
+      content: ', ';
+    }
+
+    &:last-child::after {
+      content: '';
+    }
+  }
+}
+
+.reservations__resourc--used {
+  color: $tertiary-color;
 }

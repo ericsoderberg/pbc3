@@ -1,61 +1,62 @@
 .page {
   @include main-content();
+}
 
-  &__back {
-    position: absolute;
-    top: 0;
-    left: $inuit-base-spacing-unit;
-    @include inuit-font-size($label-font-size);
+.page__back {
+  position: absolute;
+  top: 0;
+  left: $inuit-base-spacing-unit;
+  @include inuit-font-size($label-font-size);
 
-    &:before {
-      content: '< ';
-      font-weight: bold;
-    }
-  }
-
-  &__edit {
-    position: absolute;
-    top: $inuit-base-spacing-unit;
-    right: $inuit-base-spacing-unit;
-  }
-
-  &__elements {
-    min-height: $min-content-height;
-  }
-
-  &__element {
-    position: relative;
-    margin: double($inuit-base-spacing-unit) 0;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    .control-icon {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
+  &:before {
+    content: '< ';
+    font-weight: bold;
   }
 }
 
-.item {
-  max-width: $max-content-width;
+.page__edit {
+  position: absolute;
+  top: $inuit-base-spacing-unit;
+  right: $inuit-base-spacing-unit;
+}
 
-  &--image {
-    img {
-      width: 100%;
-    }
+.page__elements {
+  min-height: $min-content-height;
+}
+
+.page__element {
+  position: relative;
+  margin: double($inuit-base-spacing-unit) 0;
+
+  &:first-child {
+    margin-top: 0;
   }
 
-  &--audio {
-    audio {
-      display: block;
-      width: 100%;
-    }
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .control-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+
+.item {
+  max-width: $max-content-width;
+}
+
+.item--image {
+  img {
+    width: 100%;
+  }
+}
+
+.item--audio {
+  audio {
+    display: block;
+    width: 100%;
   }
 }

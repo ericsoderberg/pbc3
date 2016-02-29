@@ -18,6 +18,7 @@ if @next_message
     json.extract! @next_message, :title, :verses, :date
     json.author @next_message.author
     json.url message_url(@next_message)
+    json.path message_path(@next_message)
   end
 end
 if @previous_message
@@ -25,5 +26,6 @@ if @previous_message
     json.extract! @previous_message, :title, :verses, :date
     json.author @previous_message.author
     json.url message_url(@previous_message)
+    json.path message_path(@previous_message)
   end
 end

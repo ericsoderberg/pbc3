@@ -2,7 +2,7 @@
   :url => (@page ? page_podcast_path(@page) : podcast_path),
   :html => { :multipart => true }) do |f| %>
   <% if @podcast.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@podcast.errors.count, "error") %> prohibited this podcast from being saved:</h2>
 
       <ul>

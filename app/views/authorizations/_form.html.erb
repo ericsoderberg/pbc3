@@ -1,6 +1,6 @@
 <%= form_for(@authorization, :url => [@page, @authorization]) do |f| %>
   <% if @authorization.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@authorization.errors.count, "error") %> prohibited this authorization from being saved:</h2>
 
       <ul>

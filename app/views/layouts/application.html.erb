@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
-<%= render :partial => 'layouts/head' %>
+<head>
+  <meta charset="UTF-8">
+  <title><%= @site.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="<%= site_icon_url %>" rel="apple-touch-icon">
+  <link href="<%= site_icon_url %>" rel="apple-touch-icon-precomposed">
+  <%= csrf_meta_tag %>
+  <link rel="icon" type="image/png" href="<%= site_icon_url %>" />
+</head>
 <body>
-    
-  <%= react_component('App',
-    render(template: 'layouts/_app.json.jbuilder'),
-    { prerender: params[:noprerender].nil? }) %>
-
+  <div id="content">
+  </div>
+  <%= javascript_include_tag "index.bundle" %>
 </body>
 </html>

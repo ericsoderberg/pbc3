@@ -1,7 +1,7 @@
 <%= form_for(@video, :url => [@page, @video],
   :html => { :multipart => true }) do |f| %>
   <% if @video.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
 
       <ul>

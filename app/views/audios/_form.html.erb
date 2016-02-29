@@ -1,7 +1,7 @@
 <%= form_for(@audio, :url => [@page, @audio],
   :html => { :multipart => true }) do |f| %>
   <% if @audio.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@audio.errors.count, "error") %> prohibited this audio from being saved:</h2>
 
       <ul>

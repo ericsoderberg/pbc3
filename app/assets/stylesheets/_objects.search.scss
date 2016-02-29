@@ -1,50 +1,47 @@
 .search {
   @include main-content();
+}
 
-  &__header {
-    position: relative;
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-  }
+.search__header {
+  position: relative;
+  @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+}
 
-  &__input {
-    width: 100%;
-  }
+.search__input {
+  width: 100%;
+}
 
-  &__clear {
-    position: absolute;
-    top: 0px;
-    right: $inuit-base-spacing-unit;
-    cursor: pointer;
-    display: none;
+.search__clear {
+  position: absolute;
+  top: 0px;
+  right: $inuit-base-spacing-unit;
+  cursor: pointer;
+  display: none;
+}
 
-    &--active {
-      display: block;
-    }
-  }
+.search__clear--active {
+  display: block;
+}
 
-  &__summary {
-    font-style: italic;
-  }
+.search__summary {
+  font-style: italic;
+}
 
-  &__results {
-    min-height: $min-content-height;
-  }
+.search__results {
+  min-height: $min-content-height;
+}
 
-  &__result {
+.search__result-name {
+  padding-left: halve($inuit-base-spacing-unit);
+  text-indent: - halve($inuit-base-spacing-unit);
+  margin-bottom: halve($inuit-base-spacing-unit);
+}
 
-    &-name {
-      padding-left: halve($inuit-base-spacing-unit);
-      text-indent: - halve($inuit-base-spacing-unit);
-      margin-bottom: halve($inuit-base-spacing-unit);
-    }
-
-    &-text {
-      color: $secondary-color;
-      @include inuit-font-size($label-font-size);
-      max-width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
+.search__result-text {
+  color: $secondary-color;
+  @include inuit-font-size($label-font-size);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,7 +1,7 @@
 <%= form_for(@contact, :url => [@page, @contact],
   :html => {:multipart => true}) do |f| %>
   <% if @contact.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
 
       <ul>

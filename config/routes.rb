@@ -73,13 +73,14 @@ Rails.application.routes.draw do
 
   # Redirect to SSL from non-SSL so you don't get 404s
   # Repeat for any custom Devise routes
-  %w(users accounts forms site payments audit_logs email_lists
+  %w(users accounts forms payments audit_logs email_lists
     holidays).each do |area|
     ###match
     get "/#{area}(/*path)", :to => redirect { |_, request|
       "https://" + request.host_with_port + request.fullpath }
   end
 
+  get "site", :controller => 'site', :action => 'show'
   get "home/index"
   get "private", :controller => 'home', :action => 'private'
   get "hyper", :controller => 'hyper_home', :action => 'index'
@@ -136,20 +137,11 @@ Rails.application.routes.draw do
     collection do
       get :search
     end
-    member do
-      get :edit_context
-      get :edit_contents
-      patch :update_contents_order
-
-      # DEPRECATED
-      #get :edit_for_parent
-      #get :edit_for_feature
-      #get :search_possible_parents
-      #get :edit_location
-      #get :edit_style
-      #get :edit_email
-      #get :edit_email_members
-    end
+    # member do
+    #   get :edit_context
+    #   get :edit_contents
+    #   patch :update_contents_order
+    # end
     resources :elements, :only => [:new, :create, :edit, :update, :destroy],
       :controller => :page_elements
     #resources :documents
@@ -168,7 +160,7 @@ Rails.application.routes.draw do
     #resources :notes
     resources :texts
     resources :items
-    resource :feature, :only => [:edit, :update], :controller => :home
+    # resource :feature, :only => [:edit, :update], :controller => :home
     resource :podcast
     #resource :social, :only => [:edit, :update], :controller => :social
     resources :conversations do
@@ -177,14 +169,14 @@ Rails.application.routes.draw do
   end
 
   resources :events do
-    resource :recurrence, :only => [:edit, :update], :controller => :recurrence
-    resource :reservations, :only => [:edit, :update]
+    # resource :recurrence, :only => [:edit, :update], :controller => :recurrence
+    # resource :reservations, :only => [:edit, :update]
     resources :invitations, :only => [:index, :new, :update, :destroy] do
       collection do
         post :bulk_create
       end
     end
-    resource :share, :only => [:show, :update], :controller => :shared_events
+    # resource :share, :only => [:show, :update], :controller => :shared_events
   end
 
   resources :authors

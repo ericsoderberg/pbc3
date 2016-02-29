@@ -1,5 +1,4 @@
 .calendar {
-
   @include media-query(lap-and-up) {
     padding: 0 $inuit-base-spacing-unit;
 
@@ -15,172 +14,166 @@
       padding: 0;
     }
   }
+}
 
-  &__header {
-    @include main-content();
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: flex;
-    margin-bottom: $inuit-base-spacing-unit;
-
-    @include media-query(palm) {
-      @include inuit-font-size($inuit-heading-size-1);
-      display: block;
-    }
-  }
-
-  &__title {
-    display: block;
-    margin-right: $inuit-base-spacing-unit;
-    flex: 0 0 auto;
-  }
-
-  &__search {
-    display: block;
-    flex: 1;
-  }
-
-  &__week {
-    display: flex;
-    align-items: stretch;
-
-    .form__field & {
-      align-items: flex-end;
-    }
-
-    &--header {
-      .calendar {
-        &__day {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: right;
-          padding: quarter($inuit-base-spacing-unit);
-          color: $secondary-color;
-        }
-      }
-    }
-  }
-
-  &__day {
-    display: inline-block;
-    vertical-align: top;
-    //width: 13vw;
-    flex: 1;
-    text-align: left;
-
-    &-date {
-      padding: quarter($inuit-base-spacing-unit);
-      text-align: right;
-      background-color: #eee;
-      border-right: 2px solid $background-color;
-      margin-bottom: 2px;
-
-      .form__field & {
-        text-align: left;
-        height: 100%;
-      }
-
-      &--alternate {
-        background-color: #f2f2f2;
-      }
-
-      &-month,
-      &-year {
-        margin-right: quarter($inuit-base-spacing-unit);
-        display: none;
-
-        &--first {
-          display: inline;
-
-          .form__field & {
-            display: block;
-          }
-        }
-      }
-
-      &-weekday {
-        margin-right: quarter($inuit-base-spacing-unit);
-        display: none;
-      }
-    }
-  }
-
-  &__events {
-    margin: quarter($inuit-base-spacing-unit);
-  }
-
-  &__event {
-    text-indent: - halve($inuit-base-spacing-unit);
-    padding-left: halve($inuit-base-spacing-unit);
-
-    &-time {
-      width: round($inuit-base-spacing-unit * 3);
-      margin-right: quarter($inuit-base-spacing-unit);
-      text-indent: 0;
-      color: $secondary-color;
-      display: none;
-
-      @include media-query(desk) {
-        display: inline-block;
-      }
-    }
-  }
-
-  &__nav {
-    margin-top: double($inuit-base-spacing-unit);
-    display: flex;
-    justify-content: space-between;
-
-    a {
-      cursor: pointer;
-      &:first-child {
-        &:before {
-          content: '< ';
-        }
-      }
-
-      &:last-child {
-        &:after {
-          content: ' >';
-        }
-      }
-    }
-  }
-
-  &__spinner {
-    margin: $inuit-base-spacing-unit auto;
-  }
+.calendar__header {
+  @include main-content();
+  @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  display: flex;
+  margin-bottom: $inuit-base-spacing-unit;
 
   @include media-query(palm) {
+    @include inuit-font-size($inuit-heading-size-1);
+    display: block;
+  }
+}
 
-    &__week {
-      flex-direction: column;
+.calendar__title {
+  display: block;
+  margin-right: $inuit-base-spacing-unit;
+  flex: 0 0 auto;
+}
 
-      &--header {
-        display: none;
-      }
-    }
+.calendar__search {
+  display: block;
+  flex: 1;
+}
 
-    &__day {
+.calendar__week {
+  display: flex;
+  align-items: stretch;
+
+  .form__field & {
+    align-items: flex-end;
+  }
+}
+
+.calendar__week--header {
+  .calendar__day {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    padding: quarter($inuit-base-spacing-unit);
+    color: $secondary-color;
+  }
+}
+
+.calendar__day {
+  display: inline-block;
+  vertical-align: top;
+  //width: 13vw;
+  flex: 1;
+  text-align: left;
+}
+
+.calendar__day-date {
+  padding: quarter($inuit-base-spacing-unit);
+  text-align: right;
+  background-color: #eee;
+  border-right: 2px solid $background-color;
+  margin-bottom: 2px;
+
+  .form__field & {
+    text-align: left;
+    height: 100%;
+  }
+}
+
+.calendar__day-date--alternate {
+  background-color: #f2f2f2;
+}
+
+.calendar__day-date-month,
+.calendar__day-date-year {
+  margin-right: quarter($inuit-base-spacing-unit);
+  display: none;
+
+  &--first {
+    display: inline;
+
+    .form__field & {
       display: block;
-      width: auto;
-      padding: 0px $inuit-base-spacing-unit;
+    }
+  }
+}
 
-      &-date {
-        &-month {
-          display: inline;
-        }
+.calendar__day-date-weekday {
+  margin-right: quarter($inuit-base-spacing-unit);
+  display: none;
+}
 
-        &-weekday {
-          display: inline;
-        }
+.calendar__events {
+  margin: quarter($inuit-base-spacing-unit);
+}
+
+.calendar__event {
+  text-indent: - halve($inuit-base-spacing-unit);
+  padding-left: halve($inuit-base-spacing-unit);
+}
+
+.calendar__event-time {
+  width: round($inuit-base-spacing-unit * 3);
+  margin-right: quarter($inuit-base-spacing-unit);
+  text-indent: 0;
+  color: $secondary-color;
+  display: none;
+
+  @include media-query(desk) {
+    display: inline-block;
+  }
+}
+
+.calendar__nav {
+  margin-top: double($inuit-base-spacing-unit);
+  display: flex;
+  justify-content: space-between;
+
+  a {
+    cursor: pointer;
+    &:first-child {
+      &:before {
+        content: '< ';
       }
     }
 
-    &__event {
-      &-time {
-        display: inline-block;
+    &:last-child {
+      &:after {
+        content: ' >';
       }
     }
+  }
+}
+
+.calendar__spinner {
+  margin: $inuit-base-spacing-unit auto;
+}
+
+@include media-query(palm) {
+
+  .calendar__week {
+    flex-direction: column;
+  }
+
+  .calendar__week--header {
+    display: none;
+  }
+
+  .calendar__day {
+    display: block;
+    width: auto;
+    padding: 0px $inuit-base-spacing-unit;
+  }
+
+  .calendar__day-date-month {
+    display: inline;
+  }
+
+  .calendar__day-date-weekday {
+    display: inline;
+  }
+
+  .calendar__event-time {
+    display: inline-block;
   }
 }

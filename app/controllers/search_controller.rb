@@ -18,14 +18,14 @@ class SearchController < ApplicationController
           text = text_element.element.text.split("\n").
             select{|line| line !~ text_regex}.join("\n")
         end
-        @results << {name: page.name, url: friendly_page_path(page), text: text}
+        @results << {name: page.name, path: friendly_page_path(page), text: text}
       end
 
       Form.search(@search_text).limit(10).each do |form|
         url = form.page ? friendly_page_path(form.page) : form_fills_url(form)
         form_field = form.form_fields.where('field_type = ?', 'instructions').first
         text = form_field ? form_field.help : '';
-        @results << {name: form.name, url: url, text: text}
+        @results << {name: form.name, path: url, text: text}
       end
 
       Document.search(@search_text).limit(10).each do |document|
@@ -35,25 +35,23 @@ class SearchController < ApplicationController
       Event.search(@search_text).limit(10).each do |event|
         url = event.page ? friendly_page_path(event.page) : edit_event_path(event)
         text = view_context.contextual_times(event)
-        @results << {name: event.name, url: url, text: text}
+        @results << {name: event.name, path: url, text: text}
       end
 
       if user_signed_in?
         User.search(@search_text).limit(10).each do |user|
-          @results << {name: user.name, url: edit_account_path(user)}
+          @results << {name: user.name, path: edit_account_path(user)}
         end
 
         Resource.search(@search_text).limit(10).each do |resource|
-          @results << {name: resource.name, url: main_calendar_path(search: resource.name)}
+          @results << {name: resource.name, path: main_calendar_path(search: resource.name)}
         end
       end
     end
 
-    @content_partial = 'search/search'
-
     respond_to do |format|
-      format.html { render :action => "search" }
-      format.json { render :partial => "search" }
+      format.html { render '/home/index' }
+      format.json
     end
   end
 

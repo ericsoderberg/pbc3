@@ -3,7 +3,7 @@
     series_index_path),
   :html => { :multipart => true }) do |f| %>
   <% if @message_set.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@message_set.errors.count, "error") %> prohibited this message_set from being saved:</h2>
 
       <ul>

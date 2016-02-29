@@ -1,5 +1,5 @@
 <% if @payment.errors.any? %>
-  <div id="error_explanation">
+  <div class="form__error-explanation">
     <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
 
     <ul>

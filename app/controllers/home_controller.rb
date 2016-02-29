@@ -18,9 +18,9 @@ class HomeController < ApplicationController
     @page = Page.find_by_url_or_alias('home')
     @page = Page.new unless @page
 
-    if @page.administrator? current_user
-      @edit_url = edit_contents_page_url(@page, :protocol => 'https')
-    end
+    # if @page.administrator? current_user
+    #   @edit_url = edit_contents_page_url(@page, :protocol => 'https')
+    # end
 
     session[:breadcrumbs] = '' # clear breadcrumbs
 

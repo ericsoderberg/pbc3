@@ -129,14 +129,15 @@ class PagesController < ApplicationController
     end
 
     if @page.administrator? current_user
-      @edit_url = edit_contents_page_url(@page, :protocol => 'https')
+      @edit_url = edit_page_url(@page, :protocol => 'https')
     end
 
     @content_partial = 'pages/show'
 
     respond_to do |format|
+      format.html { render '/home/index' }
       format.html { render :action => "show" }
-      format.json { render :action => "show" }
+      format.json
     end
   end
 

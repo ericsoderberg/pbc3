@@ -1,68 +1,60 @@
 .menu {
   position: relative;
   display: inline-block;
+}
 
-  &__control {
-    //height: 100%;
+.menu__control {
+  //height: 100%;
+}
+
+.menu__actions {
+  background-color: $brand-color;
+  color: $brand-over-color;
+  border-radius: $brand-radius 0 $brand-radius $brand-radius;
+  text-align: right;
+  @include inuit-font-size($inuit-base-font-size);
+
+  > * {
+    display: block;
+    padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+    text-decoration: none;
+    color: inherit;
+    white-space: nowrap;
+
+    &:hover {
+      color: $brand-accent-color;
+    }
   }
+}
 
-  &__actions {
-    background-color: $brand-color;
-    color: $brand-over-color;
+.menu--down {
+  .menu__actions {
     border-radius: $brand-radius 0 $brand-radius $brand-radius;
-    text-align: right;
-    @include inuit-font-size($inuit-base-font-size);
+  }
+}
 
-    > * {
-      display: block;
-      padding: quarter($inuit-base-spacing-unit) $inuit-base-spacing-unit;
-      text-decoration: none;
-      color: inherit;
-      white-space: nowrap;
-
-      &:hover {
-        color: $brand-accent-color;
-      }
-    }
+.menu--up {
+  .menu__actions {
+    right: auto;
+    left: 0px;
+    text-align: left;
+    bottom: double($inuit-base-spacing-unit);
+    border-radius: $brand-radius $brand-radius $brand-radius 0;
   }
 
-  &--down {
-    .menu {
-      &__actions {
-        border-radius: $brand-radius 0 $brand-radius $brand-radius;
-      }
+  &.menu--active {
+    .menu__actions {
+      right: auto;
+      left: 0px;
+      //bottom: round($inuit-base-spacing-unit * 3);
     }
   }
+}
 
-  &--up {
-    .menu {
-      &__actions {
-        right: auto;
-        left: 0px;
-        text-align: left;
-        bottom: double($inuit-base-spacing-unit);
-        border-radius: $brand-radius $brand-radius $brand-radius 0;
-      }
-    }
-  }
+.menu--active {
+  z-index: 1;
 
-  &--active {
-    z-index: 1;
-
-    .menu {
-      &__actions {
-        display: block;
-      }
-    }
-  }
-
-  &--up.menu--active {
-    .menu {
-      &__actions {
-        right: auto;
-        left: 0px;
-        //bottom: round($inuit-base-spacing-unit * 3);
-      }
-    }
+  .menu__actions {
+    display: block;
   }
 }

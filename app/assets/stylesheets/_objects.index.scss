@@ -1,121 +1,116 @@
-.index {
+.index__back {
+  position: absolute;
+  top: 0;
+  left: $inuit-base-spacing-unit;
+  @include inuit-font-size($label-font-size);
 
-  &__back {
+  &:before {
+    content: '< ';
+    font-weight: bold;
+  }
+}
+
+.index__header {
+  @include main-content();
+  @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  display: flex;
+
+  @include media-query(palm) {
+    @include inuit-font-size($inuit-heading-size-1);
+    display: block;
+  }
+}
+
+.index__title {
+  display: block;
+  margin-right: $inuit-base-spacing-unit;
+  flex: 0 0 auto;
+}
+
+.index__search {
+  display: block;
+  flex: 1;
+
+  @include media-query(palm) {
+    margin-bottom: $inuit-base-spacing-unit;
+  }
+}
+
+.index__count {
+  @include main-content();
+  @include inuit-font-size($inuit-base-font-size);
+  padding-right: round($inuit-base-spacing-unit * 1.5);
+  text-align: right;
+  color: $tertiary-color;
+
+  @include media-query(palm) {
+    display: none;
+  }
+}
+
+.index__add {
+  margin-left: $inuit-base-spacing-unit;
+
+  @include media-query(palm) {
     position: absolute;
-    top: 0;
-    left: $inuit-base-spacing-unit;
-    @include inuit-font-size($label-font-size);
+    top: 0px;
+    right: halve($inuit-base-spacing-unit);
+  }
+}
 
-    &:before {
-      content: '< ';
-      font-weight: bold;
+.index__items {
+  @include main-content();
+  min-height: $min-content-height;
+  transition: opacity 0.3s;
+}
+
+.index__item {
+  position: relative;
+  //padding: halve($inuit-base-spacing-unit) 0px;
+  margin: 0px;
+  line-height: double($inuit-base-spacing-unit);
+  display: flex;
+
+  > * {
+    margin-right: halve($inuit-base-spacing-unit);
+    padding-left: halve($inuit-base-spacing-unit);
+    text-indent: - halve($inuit-base-spacing-unit);
+
+    &:first-child {
+      flex: 0 0 round($inuit-base-spacing-unit * 8);
+    }
+
+    &:last-child {
+      margin-right: 0px;
     }
   }
 
-  &__header {
-    @include main-content();
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    display: flex;
+  .control-icon {
+    opacity: 0.2;
 
-    @include media-query(palm) {
-      @include inuit-font-size($inuit-heading-size-1);
-      display: block;
+    &:hover {
+      opacity: 1;
     }
   }
 
-  &__title {
-    display: block;
-    margin-right: $inuit-base-spacing-unit;
-    flex: 0 0 auto;
-  }
+  //> a svg {
+  //  vertical-align: middle;
+  //}
+}
 
-  &__search {
-    display: block;
-    flex: 1;
+.index__no-matches {
+  @include main-content();
+  font-style: italic;
+  color: $secondary-color;
+  //margin-top: $inuit-base-spacing-unit;
+}
 
-    @include media-query(palm) {
-      margin-bottom: $inuit-base-spacing-unit;
-    }
-  }
+.index__spinner {
+  margin: $inuit-base-spacing-unit auto;
+}
 
-  &__count {
-    @include main-content();
-    @include inuit-font-size($inuit-base-font-size);
-    padding-right: round($inuit-base-spacing-unit * 1.5);
-    text-align: right;
-    color: $tertiary-color;
-
-    @include media-query(palm) {
-      display: none;
-    }
-  }
-
-  &__add {
-    margin-left: $inuit-base-spacing-unit;
-
-    @include media-query(palm) {
-      position: absolute;
-      top: 0px;
-      right: halve($inuit-base-spacing-unit);
-    }
-  }
-
-  &__items {
-    @include main-content();
-    min-height: $min-content-height;
-    transition: opacity 0.3s;
-  }
-
-  &__item {
-    position: relative;
-    //padding: halve($inuit-base-spacing-unit) 0px;
-    margin: 0px;
-    line-height: double($inuit-base-spacing-unit);
-    display: flex;
-
-    > * {
-      margin-right: halve($inuit-base-spacing-unit);
-      padding-left: halve($inuit-base-spacing-unit);
-      text-indent: - halve($inuit-base-spacing-unit);
-
-      &:first-child {
-        flex: 0 0 round($inuit-base-spacing-unit * 8);
-      }
-
-      &:last-child {
-        margin-right: 0px;
-      }
-    }
-
-    .control-icon {
-      opacity: 0.2;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-    //> a svg {
-    //  vertical-align: middle;
-    //}
-  }
-
-  &__no-matches {
-    @include main-content();
-    font-style: italic;
-    color: $secondary-color;
-    //margin-top: $inuit-base-spacing-unit;
-  }
-
-  &__spinner {
-    margin: $inuit-base-spacing-unit auto;
-  }
-
-  &--changing {
-    .index {
-      &__items {
-        opacity: 0.2;
-      }
-    }
+.index--changing {
+  .index__items {
+    opacity: 0.2;
   }
 }

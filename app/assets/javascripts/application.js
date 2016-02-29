@@ -10,20 +10,3 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require react
-//= require components
-//= require react_ujs
-//= require focus
-// require markdown-it
-// require moment
-
-// remove?
-// require jquery
-// require jquery_ujs
-// require date
-// require jquery-ui-1.10.3.custom
-// require jquery-ui-timepicker-addon
-// require rte-light/jquery.rte
-// require select2
-// require masonry.pkgd
-// require turbolinks NOTE:later

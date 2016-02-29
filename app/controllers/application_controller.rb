@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   before_filter :get_app_menu_actions
   before_filter :get_nav_pages
   before_filter :save_path
-  before_filter :get_design
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   def administrator!
@@ -39,27 +38,27 @@ class ApplicationController < ActionController::Base
     @app_menu_actions = []
 
     @app_menu_actions << [
-      {label: 'Search', url: search_url},
-      {label: 'Library', url: messages_url},
-      {label: 'Calendar', url: main_calendar_url}
+      {label: 'Search', path: search_path},
+      {label: 'Library', path: messages_path},
+      {label: 'Calendar', path: main_calendar_path}
     ]
 
     if current_user and current_user.administrator?
       @app_menu_actions << [
-        {label: 'Accounts', url: accounts_url(:protocol => 'https')},
-        {label: 'Audit Log', url: audit_logs_url(:protocol => 'https')},
-        {label: 'Email Lists', url: email_lists_url(:protocol => 'https')},
-        {label: 'Forms', url: forms_url(:protocol => 'https')},
-        {label: 'Holidays', url: holidays_url(:protocol => 'https')},
-        {label: 'Libraries', url: libraries_url(:protocol => 'https')},
-        {label: 'Newsletters', url: newsletters_url(:protocol => 'https')},
-        {label: 'Pages', url: pages_url(:protocol => 'https')},
-        {label: 'Payments', url: payments_url(:protocol => 'https')},
+        {label: 'Accounts', path: accounts_path},
+        {label: 'Audit Log', path: audit_logs_path},
+        {label: 'Email Lists', path: email_lists_path},
+        {label: 'Forms', path: forms_path},
+        {label: 'Holidays', path: holidays_path},
+        {label: 'Libraries', path: libraries_path},
+        {label: 'Newsletters', path: newsletters_path},
+        {label: 'Pages', path: pages_path},
+        {label: 'Payments', path: payments_path},
         {label: 'Podcast', url:
           (@site and @site.podcast ?
             edit_podcast_url(@site.podcast, {:protocol => 'https'}) :
             new_podcast_url(:protocol => 'https'))},
-        {label: 'Resources', url: resources_url(:protocol => 'https')},
+        {label: 'Resources', path: resources_path},
         {label: 'Site', url: edit_site_url(:protocol => 'https')}
       ]
     end
@@ -78,20 +77,6 @@ class ApplicationController < ActionController::Base
 
   def get_nav_pages
     @site_primary_pages = @site ? @site.primary_pages : []
-    #@communities = (@site and @site.communities_page ?
-    #  [@site.communities_page] + @site.communities_page.children : [])
-    #@abouts = (@site and @site.about_page ? [@site.about_page] + @site.about_page.children : [])
-  end
-
-  def get_design
-    if params['_design']
-      if params['_design'].empty?
-        cookies.delete 'design'
-      else
-        cookies.permanent['design'] = params['_design']
-      end
-    end
-    session[:design] = cookies['design'] || 'morocco'
   end
 
   def save_path

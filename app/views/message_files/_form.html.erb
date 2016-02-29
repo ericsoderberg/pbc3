@@ -4,7 +4,7 @@
   :html => { :multipart => true }) do |f| %>
   
   <% if @message_file.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@message_file.errors.count, "error") %> prohibited this message_file from being saved:</h2>
 
       <ul>

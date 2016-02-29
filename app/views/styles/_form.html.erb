@@ -1,6 +1,6 @@
 <%= form_for(@style, :html => { :multipart => true }) do |f| %>
   <% if @style.errors.any? %>
-    <div id="error_explanation">
+    <div class="form__error-explanation">
       <h2><%= pluralize(@style.errors.count, "error") %> prohibited this style from being saved:</h2>
 
       <ul>

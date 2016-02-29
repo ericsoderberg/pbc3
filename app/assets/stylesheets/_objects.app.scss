@@ -8,95 +8,95 @@
   top: 0px;
   width: 100vw;
   //background-color: $brand-secondary-background-color;
+}
 
-  &__contents {
-    display: flex;
-    justify-content: space-between;
-    height: quadruple($inuit-base-spacing-unit);
-    @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
-    max-width: $max-content-width;
-    margin: 0 auto;
+.app-header__contents {
+  display: flex;
+  justify-content: space-between;
+  height: quadruple($inuit-base-spacing-unit);
+  @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
+  max-width: $max-content-width;
+  margin: 0 auto;
+}
+
+.app-header__site {
+  flex: 0 0 auto;
+  padding: 0px $inuit-base-spacing-unit;
+
+  img {
+    margin: $inuit-base-spacing-unit 0px;
+    height: double($inuit-base-spacing-unit);
   }
+}
 
-  &__site {
-    flex: 0 0 auto;
-    padding: 0px $inuit-base-spacing-unit;
-
-    img {
-      margin: $inuit-base-spacing-unit 0px;
-      height: double($inuit-base-spacing-unit);
-    }
-  }
-
-  &__menu {
-    flex: 0 0 auto;
-  }
+.app-header__menu {
+  flex: 0 0 auto;
 }
 
 .app-footer {
   background-color: $brand-secondary-background-color;
   margin-top: double($inuit-base-spacing-unit);
+}
 
-  &__actions {
-    @include media-query(lap-and-up) {
-      @include main-content();
-      padding-top: $inuit-base-spacing-unit;
-    }
+.app-footer__actions {
+  @include media-query(lap-and-up) {
+    @include main-content();
+    padding-top: $inuit-base-spacing-unit;
   }
+}
 
-  &__actions-set {
-    padding: quarter($inuit-base-spacing-unit) 0px;
-    border-bottom: 1px solid $brand-secondary-background-separator-color;
+.app-footer__actions-set {
+  padding: quarter($inuit-base-spacing-unit) 0px;
+  border-bottom: 1px solid $brand-secondary-background-separator-color;
 
-    @include media-query(lap-and-up) {
-      //padding: 0px; // reset
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-    }
+  @include media-query(lap-and-up) {
+    //padding: 0px; // reset
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
+}
 
-  &__action {
+.app-footer__action {
 
-    a,
-    .anchor {
-      display: block;
-      text-align: left;
-
-      @include media-query(palm) {
-        //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
-        margin: halve($inuit-base-spacing-unit) 0px;
-        @include inuit-font-size($inuit-heading-size-3);
-        text-align: center;
-      }
-
-      @include media-query(lap-and-up) {
-        //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
-        width: round($inuit-base-spacing-unit * 6);
-        border-radius: $brand-radius;
-        margin: quarter($inuit-base-spacing-unit) 0px;
-      }
-    }
-  }
-
-  &__summary {
-    padding: $inuit-base-spacing-unit 0px;
-    color: $secondary-color;
+  a,
+  .anchor {
+    display: block;
+    text-align: left;
 
     @include media-query(palm) {
+      //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+      margin: halve($inuit-base-spacing-unit) 0px;
+      @include inuit-font-size($inuit-heading-size-3);
       text-align: center;
     }
 
     @include media-query(lap-and-up) {
-      display: flex;
-      justify-content: space-between;
-      max-width: $max-content-width;
-      margin: 0px auto;
+      //padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit;
+      width: round($inuit-base-spacing-unit * 6);
+      border-radius: $brand-radius;
+      margin: quarter($inuit-base-spacing-unit) 0px;
+    }
+  }
+}
 
-      > * {
-        flex: 0 1 auto;
-        margin: $inuit-base-spacing-unit;
-      }
+.app-footer__summary {
+  padding: $inuit-base-spacing-unit 0px;
+  color: $secondary-color;
+
+  @include media-query(palm) {
+    text-align: center;
+  }
+
+  @include media-query(lap-and-up) {
+    display: flex;
+    justify-content: space-between;
+    max-width: $max-content-width;
+    margin: 0px auto;
+
+    > * {
+      flex: 0 1 auto;
+      margin: $inuit-base-spacing-unit;
     }
   }
 }

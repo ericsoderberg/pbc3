@@ -1,12 +1,17 @@
 class SiteController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :administrator!, :except => [:new, :create]
+  before_filter :authenticate_user!, :except => [:show]
+  before_filter :administrator!, :except => [:show, :new, :create]
   before_filter :not_if_existing, :only => [:new, :create]
 
   layout "administration"
 
-  # GET /sites/new
-  # GET /sites/new.xml
+  def show
+    @site = Site.first
+    respond_to do |format|
+      format.json
+    end
+  end
+
   def new
     @site = Site.new
 
@@ -16,29 +21,22 @@ class SiteController < ApplicationController
     end
   end
 
-  # GET /sites/1/edit
   def edit
     @site = Site.first
   end
 
-  # POST /sites
-  # POST /sites.xml
   def create
     @site = Site.new(site_params)
 
     respond_to do |format|
       if @site.save
         format.html { redirect_to(root_url, :notice => 'Site was successfully created.') }
-        format.xml  { render :xml => @site, :status => :created, :location => @site }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # PUT /sites/1
-  # PUT /sites/1.xml
   def update
     @site = Site.first
     @site.icon = nil if params[:delete_icon]

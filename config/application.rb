@@ -20,18 +20,15 @@ module Pbc3
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
     # Configure sensitive parameters which will be filtered from the log file.
     ##config.filter_parameters += [:password]
-    
+
     ##config.assets.precompile += ["mobile/mobile.css", "mobile/mobile.js"]
-    
+
     ##config.i18n.enforce_available_locales = false
-    
-    config.browserify_rails.paths << /node_modules/
-    config.browserify_rails.commandline_options = "--transform reactify --extension=\".js.jsx\""
   end
 end
