@@ -1,6 +1,6 @@
 json.page do
   json.extract!(@page, :id, :name)
-  json.page_elements @page.page_elements do |page_element|
+  json.pageElements @page.page_elements do |page_element|
     json.id page_element.id
     json.index page_element.index
     json.type page_element.element_type

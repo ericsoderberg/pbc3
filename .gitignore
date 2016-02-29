@@ -1,4 +1,5 @@
 .bundle
+app/assets/javascripts/*bundle*
 db/*.sqlite3
 log/*.log
 log/*.lck

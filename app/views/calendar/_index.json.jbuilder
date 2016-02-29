@@ -15,6 +15,7 @@ json.weeks @calendar.weeks do |week|
       #json.friendlyTimes contextual_times(event)
       if event.page
         json.url friendly_page_path(event.page)
+        json.path friendly_page_path(event.page)
       else
         json.url edit_event_path(event)
       end

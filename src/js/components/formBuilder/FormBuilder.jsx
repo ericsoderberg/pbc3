@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import CloseIconfrom '../icons/CloseIcon');
-import DragAndDropfrom '../../utils/DragAndDrop');
-import RESTfrom '../REST');
-import FormSectionBuilderfrom './FormSectionBuilder');
-import formBuilderUtilsfrom './formBuilderUtils');
+import CloseIcon from '../icons/CloseIcon');
+import DragAndDrop from '../../utils/DragAndDrop');
+import REST from '../REST');
+import FormSectionBuilder from './FormSectionBuilder');
+import formBuilderUtils from './formBuilderUtils');
 
 var CLASS_ROOT = "form-builder";
 var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";

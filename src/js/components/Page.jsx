@@ -27,8 +27,7 @@ class Page extends Component {
   }
 
   render () {
-    console.log('!!! Page render', this.props);
-    const { page: {page: { name, pageElements, editUrl }, backPage} } = this.props;
+    const { page: { name, pageElements, editUrl, backPage } } = this.props;
 
     let backPageLink;
     if (backPage) {
@@ -88,11 +87,14 @@ class Page extends Component {
 
 Page.propTypes = {
   id: PropTypes.string,
-  page: PropTypes.object
+  page: PropTypes.shape({
+    name: PropTypes.string,
+    pageElements: PropTypes.array
+  })
 };
 
 let select = (state, props) => ({
-  id: props.params.splat,
+  id: props.params.id,
   page: state.page
 });
 

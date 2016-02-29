@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   # edit and update are handled inline below
   # new and create are handled inline and use the parent's' authorization
   layout "administration", only: [:new, :create, :edit, :edit_context,
-    :edit_contents, :edit_access]
+    :edit_access]
 
   def index
     @filter = {}
@@ -129,7 +129,7 @@ class PagesController < ApplicationController
     end
 
     if @page.administrator? current_user
-      @edit_url = edit_page_url(@page, :protocol => 'https')
+      @edit_url = edit_contents_page_url(@page, :protocol => 'https')
     end
 
     @content_partial = 'pages/show'
@@ -137,7 +137,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { render '/home/index' }
       format.html { render :action => "show" }
-      format.json
+      format.json { render :partial => "show" }
     end
   end
 
@@ -198,12 +198,12 @@ class PagesController < ApplicationController
     end
   end
 
-  def edit_context
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
-    @email_list = EmailList.find(@page.email_list)
-    @email_lists = EmailList.all
-  end
+  # def edit_context
+  #   @page = Page.find_by(url: params[:id])
+  #   return unless page_administrator!
+  #   @email_list = EmailList.find(@page.email_list)
+  #   @email_lists = EmailList.all
+  # end
 
   def edit_contents
     @page = Page.find_by(url: params[:id])
@@ -216,6 +216,11 @@ class PagesController < ApplicationController
       {label: 'Form', url: new_form_path(:page_id => @page.id)},
       {label: 'Event', url: new_event_path(:page_id => @page.id)}
     ]
+
+    respond_to do |format|
+      format.html { render :action => "edit_contents", :layout => 'admin' }
+      format.json { render :partial => "edit_contents" }
+    end
   end
 
   # DEPRECATED

@@ -31,6 +31,6 @@ export default { path: '/', component: App,
     { path: 'forms/:id/fills', component: FilledForms},
     { path: 'forms', component: Forms},
     { path: 'payments', component: Payments},
-    { path: '*', component: Page}
+    { path: ':id', component: Page}
   ]
 };

@@ -1,59 +1,60 @@
 import React, { Component, PropTypes } from 'react';
-import Menu from './Menu');
-import AddIcon from './icons/AddIcon');
-import EditIcon from './icons/EditIcon');
-import REST from './REST');
-import DragAndDrop from '../utils/DragAndDrop');
-
-import Text from './Text');
-import Item from './Item');
-import Event from './Event');
-import Form from './form/Form');
+import { connect } from 'react-redux';
+import { loadPageEdit, updatePageContentsOrder, unloadPage } from '../actions/actions';
+import Menu from './Menu';
+import AddIcon from './icons/AddIcon';
+import EditIcon from './icons/EditIcon';
+import CloseIcon from './icons/CloseIcon';
+import DragAndDrop from '../utils/DragAndDrop';
+import Text from './Text';
+import Item from './Item';
+import Event from './Event';
+// import Form from './form/Form';
 
 var CLASS_ROOT = "page-builder";
-var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
+var PLACEHOLDER_CLASS = `${CLASS_ROOT}__placeholder`;
 
-export default class PageBuilder extends Component {
+class PageBuilder extends Component {
 
-  propTypes: {
-    editContents: PropTypes.object.isRequired
+  constructor (props) {
+    super(props);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._dragStart = this._dragStart.bind(this);
+    this._dragOver = this._dragOver.bind(this);
+    this._dragEnd = this._dragEnd.bind(this);
+    this.state = { elements: props.page.pageElements };
+  }
+
+  componentDidMount () {
+    this.props.dispatch(loadPageEdit(this.props.id));
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.id !== this.props.id) {
+      this.props.dispatch(loadPageEdit(nextProps.id));
+    }
+    this.setState({ elements: nextProps.page.pageElements });
+  }
+
+  componentWillUnmount () {
+    this.props.dispatch(unloadPage());
   }
 
   _onSubmit (event) {
     event.preventDefault();
-    var url = this.props.editContents.updateContentsOrderUrl;
-    var token = this.props.editContents.authenticityToken;
-    var elementIds = this.state.elements.map(function (pageElement) {
+    const { edit: { updateContentsOrderPath, authenticityToken }} = this.props;
+    const { elements } = this.state;
+    const elementIds = elements.map(pageElement => {
       return pageElement.id;
     });
-    var data = {
-      element_order: elementIds
-    };
-    REST.patch(url, token, data, function (response) {
-      if (response.result === 'ok') {
-        location = response.redirect_to;
-      }
-    }.bind(this));
-  }
-
-  _updateOrder () {
-    var url = this.props.editContents.updateContentsOrderUrl;
-    var token = this.props.editContents.authenticityToken;
-    var elementIds = this.state.elements.map(function (pageElement) {
-      return pageElement.id;
-    });
-    var data = {
-      element_order: elementIds
-    };
-    REST.patch(url, token, data, function (response) {
-      // console.log('!!! PageBuilder _updateOrder completed', response);
-    }.bind(this));
+    this.props.dispatch(updatePageContentsOrder(
+      updateContentsOrderPath, authenticityToken, elementIds));
   }
 
   _dragStart (event) {
     this._dragAndDrop = DragAndDrop.start({
       event: event,
-      itemClass: CLASS_ROOT + '__element',
+      itemClass: `${CLASS_ROOT}__element`,
       placeholderClass: PLACEHOLDER_CLASS,
       list: this.state.elements.slice(0)
     });
@@ -64,78 +65,85 @@ export default class PageBuilder extends Component {
   }
 
   _dragEnd (event) {
-    var elements = this._dragAndDrop.end(event);
+    let elements = this._dragAndDrop.end(event);
     elements.forEach(function (section, index) {
       section.index = index + 1;
     });
     this.setState({elements: elements});
   }
 
-  getInitialState () {
-    return {elements: this.props.editContents.page.pageElements};
-  }
-
   render () {
-    var page = this.props.editContents.page;
-    var addIcon = (<AddIcon />);
-    var elementIds = [];
+    const { page: { name },
+      edit: { addMenuActions, editContextUrl, cancelUrl }} = this.props;
+    const addIcon = (<AddIcon />);
+    let elementIds = [];
 
-    var elements = this.state.elements.map(function (pageElement, index) {
+    const elements = this.state.elements.map((pageElement, index) => {
       elementIds.push(pageElement.id);
-      var contents = ''
+      let contents = '';
       switch (pageElement.type) {
-      case 'Text':
-        contents = (<Text text={pageElement.text} />);
-        break;
-      case 'Item':
-        contents = (<Item item={pageElement.item} />);
-        break;
-      case 'Event':
-        contents = (<Event event={pageElement.event} />);
-        break;
-      case 'Page':
-        contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);
-        break;
-      case 'Form':
-        contents = (<Form form={pageElement.form} tag="div" />);
-        break;
+        case 'Text':
+          contents = (<Text text={pageElement.text} />);
+          break;
+        case 'Item':
+          contents = (<Item item={pageElement.item} />);
+          break;
+        case 'Event':
+          contents = (<Event event={pageElement.event} />);
+          break;
+        case 'Page':
+          contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);
+          break;
+        // case 'Form':
+        //   contents = (<Form form={pageElement.form} tag="div" />);
+        //   break;
       }
       return (
-        <div key={pageElement.id} className={CLASS_ROOT + "__element"}
+        <div key={pageElement.id} className={`${CLASS_ROOT}__element`}
           data-index={index}
           draggable="true"
           onDragEnd={this._dragEnd}
           onDragStart={this._dragStart}>
-          <a className={CLASS_ROOT + "__element-edit control-icon"}
+          <a className={`${CLASS_ROOT}__element-edit control-icon`}
             href={pageElement.editUrl}>
             <EditIcon />
           </a>
           {contents}
         </div>
       );
-    }, this);
+    });
 
     return (
-      <form className={CLASS_ROOT + " form"}>
-        <input ref="indexes" type="hidden" name="element_order" value={elementIds.join(',')} />
-        <div className={CLASS_ROOT + "__elements"}
-          onDragOver={this._dragOver}>
-          {elements}
+      <form className={`${CLASS_ROOT} form`}>
+        <div className="form__header">
+          <span className="form__title">Edit {name}</span>
+          <a className="control-icon" href={cancelUrl}>
+            <CloseIcon />
+          </a>
         </div>
 
-        <Menu className={CLASS_ROOT + "__add"}
-          actions={this.props.editContents.addMenuActions} icon={addIcon} />
+        <div className="form__contents">
+          <input ref="indexes" type="hidden" name="element_order"
+            value={elementIds.join(',')} />
+          <div className={`${CLASS_ROOT}__elements`}
+            onDragOver={this._dragOver}>
+            {elements}
+          </div>
+
+          <Menu className={`${CLASS_ROOT}__add`}
+            actions={addMenuActions} icon={addIcon} />
+        </div>
 
         <div className="form__footer">
           <input type="submit" value="Update" className="btn btn--primary"
             onClick={this._onSubmit} />
-          <a href={this.props.editContents.editContextUrl}>
+          <a href={editContextUrl}>
             Context
           </a>
         </div>
         {/*}
-        <footer className={CLASS_ROOT + "__footer"}>
-          <a href={this.props.editContents.editContextUrl}>Context</a>
+        <footer className={`${CLASS_ROOT}__footer`}>
+          <a href={this.props.page.editContextUrl}>Context</a>
         </footer>
         {*/}
       </form>
@@ -143,4 +151,24 @@ export default class PageBuilder extends Component {
   }
 };
 
-module.exports = PageBuilder;
+PageBuilder.propTypes = {
+  id: PropTypes.string,
+  page: PropTypes.shape({
+    name: PropTypes.string,
+    pageElements: PropTypes.array
+  }),
+  edit: PropTypes.shape({
+    addMenuActions: PropTypes.array,
+    authenticityToken: PropTypes.string,
+    editContextUrl: PropTypes.string,
+    updateContentsOrderPath: PropTypes.string
+  })
+};
+
+let select = (state, props) => ({
+  id: props.params.id,
+  page: state.page,
+  edit: state.pageEdit
+});
+
+export default connect(select)(PageBuilder);

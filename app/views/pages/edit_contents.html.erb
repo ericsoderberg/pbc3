@@ -1,6 +1,6 @@
 <% title("Edit #{@page.name} Page") -%>
 
-<%= form_for(@page, :url => update_contents_order_page_url(@page),
+<!-- <%= form_for(@page, :url => update_contents_order_page_url(@page),
   :html => {class: "form"}) do |f| %>
 
   <%= render :partial => 'shared/form_header',
@@ -8,13 +8,10 @@
 
   <div class="form__contents">
     <%= render :partial => 'form_errors' %>
-    <%= react_component('PageBuilder',
-      render(template: 'pages/_edit_contents.json.jbuilder'),
-      { prerender: params[:noprerender].nil? }) %>
   </div>
 
   <div class="form__footer">
 
   </div>
 
-<% end %>
+<% end %> -->

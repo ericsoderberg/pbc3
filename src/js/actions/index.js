@@ -33,7 +33,8 @@ export function loadIndex (category, context) {
           context: (context ? res.body[context] : undefined),
           items: res.body[category],
           filter: res.body.filter,
-          count: res.body.count
+          count: res.body.count,
+          newUrl: res.body.newUrl
         });
       }
     });

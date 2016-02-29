@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import history from './routeHistory';
-import routes from './routes';
+import routes from './adminRoutes';
 import store from './store';
 
 let element = document.getElementById('content');

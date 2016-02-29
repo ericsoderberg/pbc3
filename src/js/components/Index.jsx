@@ -45,8 +45,8 @@ class Index extends Component {
   }
 
   render () {
-    const { index: { changing, count, filter },
-      noneMessage, itemRenderer, newUrl, editUrl, page } = this.props;
+    const { index: { changing, count, filter, newUrl },
+      noneMessage, itemRenderer, editUrl, page } = this.props;
     let classes = [CLASS_ROOT];
     if (changing) {
       classes.push(`${CLASS_ROOT}--changing`);
@@ -129,10 +129,10 @@ Index.propTypes = {
     changing: PropTypes.bool,
     count: PropTypes.number,
     filter: PropTypes.object.isRequired,
-    items: PropTypes.array.isRequired
+    items: PropTypes.array.isRequired,
+    newUrl: PropTypes.string
   }).isRequired,
   itemRenderer: PropTypes.func.isRequired,
-  newUrl: PropTypes.string,
   noneMessage: PropTypes.string,
   page: PropTypes.object,
   searchPlaceholder: PropTypes.string,

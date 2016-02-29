@@ -9,7 +9,8 @@ const initialState = {
   context: {},
   count: 0,
   filter: {},
-  items: []
+  items: [],
+  newUrl: undefined
 };
 
 const handlers = {
@@ -25,7 +26,8 @@ const handlers = {
     changing: false,
     context: action.context,
     filter: action.filter,
-    items: action.items
+    items: action.items,
+    newUrl: action.newUrl
   }),
 
   [INDEX_SEARCH]: (state, action) => ({

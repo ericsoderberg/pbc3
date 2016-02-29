@@ -137,11 +137,11 @@ Rails.application.routes.draw do
     collection do
       get :search
     end
-    # member do
-    #   get :edit_context
-    #   get :edit_contents
-    #   patch :update_contents_order
-    # end
+    member do
+      get :edit
+      get :edit_contents
+      patch :update_contents_order
+    end
     resources :elements, :only => [:new, :create, :edit, :update, :destroy],
       :controller => :page_elements
     #resources :documents

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { loadCalendar, searchCalendar, unloadCalendar } from '../actions/actions';
 import moment from 'moment';
@@ -26,35 +27,35 @@ class Calendar extends Component {
 
   render () {
     const { calendar } = this.props;
-    var daysOfWeek = calendar.daysOfWeek.map(function (dayOfWeek) {
+    const daysOfWeek = calendar.daysOfWeek.map(function (dayOfWeek) {
       return (
         <div key={dayOfWeek} className="calendar__day">{dayOfWeek}</div>
       );
     });
 
-    var weeks = calendar.weeks.map(function (week) {
-      var days = week.days.map(function (day) {
-        var date = moment(day.date);
+    const weeks = calendar.weeks.map(function (week) {
+      const days = week.days.map(function (day) {
+        const date = moment(day.date);
 
-        var dayOfWeek = (
+        const dayOfWeek = (
           <span className="calendar__day-date-weekday">
             {date.format('dddd')}
           </span>
         );
 
-        var monthClasses = ["calendar__day-date-month"];
+        let monthClasses = ["calendar__day-date-month"];
         if (1 === date.date()) {
           monthClasses.push("calendar__day-date-month--first");
         }
-        var month = (
+        const month = (
           <span className={monthClasses.join(' ')}>
             {date.format('MMMM')}
           </span>
         );
 
-        var events = day.events.map(event => {
-          var start = moment(event.startAt);
-          var time;
+        const events = day.events.map(event => {
+          const start = moment(event.startAt);
+          let time;
           if (start.isAfter(date)) {
             time = (
               <span className="calendar__event-time">
@@ -62,10 +63,16 @@ class Calendar extends Component {
               </span>
             );
           }
+          let link;
+          if (event.path) {
+            link = <Link to={event.path}>{event.name}</Link>;
+          } else {
+            link = <a href={event.url}>{event.name}</a>;
+          }
           return (
             <li key={event.url} className="calendar__event">
               {time}
-              <a href={event.url}>{event.name}</a>
+              {link}
             </li>
           );
         });
@@ -99,7 +106,7 @@ class Calendar extends Component {
             text={calendar.filter.search}
             suggestionsPath={'/calendar/suggestions?q='}
             onChange={this._onChangeSearch} />
-          <a className={"calendar__add control-icon"} href={this.props.newUrl}>
+          <a className={"calendar__add control-icon"} href={calendar.newUrl}>
             <AddIcon />
           </a>
         </header>
@@ -127,10 +134,10 @@ Calendar.propTypes = {
   calendar: PropTypes.shape({
     weeks: PropTypes.array.isRequired,
     daysOfWeek: PropTypes.array.isRequired,
+    newUrl: PropTypes.string,
     next: PropTypes.string,
     previous: PropTypes.string
-  }).isRequired,
-  newUrl: PropTypes.string
+  }).isRequired
 };
 
 let select = (state) => ({calendar: state.calendar});

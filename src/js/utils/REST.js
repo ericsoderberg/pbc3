@@ -5,6 +5,8 @@ let _headers = {
   'Content-Type': 'application/json'
 };
 
+const _timeout = 10000; // 10s
+
 // convert params to string, to deal with array values
 function buildQueryParams(params) {
   var result = [];

@@ -19,10 +19,11 @@ const handlers = {
   }),
 
   [CALENDAR_LOAD_SUCCESS]: (state, action) => ({
-    weeks: action.weeks,
     filter: action.filter,
+    newUrl: action.newUrl,
     next: action.next,
     previous: action.previous,
+    weeks: action.weeks,
     changing: false
   }),
 
