@@ -14,6 +14,9 @@ export default class FormBuilder extends Component {
   constructor (props) {
     super(props);
     this._onSubmit = this._onSubmit.bind(this);
+    this._onAddSection = this._onAddSection.bind(this);
+    this._onSectionUpdate = this._onSectionUpdate.bind(this);
+    this._onSectionRemove = this._onSectionRemove.bind(this);
     this._dragStart = this._dragStart.bind(this);
     this._dragOver = this._dragOver.bind(this);
     this._dragEnd = this._dragEnd.bind(this);
@@ -42,29 +45,6 @@ export default class FormBuilder extends Component {
     this.props.dispatch(updateForm(updateUrl, authenticityToken, form, pageId));
   }
 
-  _dragStart (event) {
-    this._dragAndDrop = DragAndDrop.start({
-      event: event,
-      itemClass: `${CLASS_ROOT}__section`,
-      placeholderClass: PLACEHOLDER_CLASS,
-      list: this.state.form.formSections.slice(0)
-    });
-  }
-
-  _dragOver (event) {
-    this._dragAndDrop.over(event);
-  }
-
-  _dragEnd (event) {
-    let form = this.state.form;
-    let sections = this._dragAndDrop.end(event);
-    sections.forEach(function (section, index) {
-      section.formIndex = index + 1;
-    });
-    form.formSections = sections;
-    this.setState({form: form});
-  }
-
   _onAddSection () {
     let form = this.state.form;
     const section = {
@@ -89,6 +69,29 @@ export default class FormBuilder extends Component {
     form.formSections = form.formSections.filter(formSection => {
       return (id !== formBuilderUtils.itemId(formSection));
     });
+    this.setState({form: form});
+  }
+
+  _dragStart (event) {
+    this._dragAndDrop = DragAndDrop.start({
+      event: event,
+      itemClass: `${CLASS_ROOT}__section`,
+      placeholderClass: PLACEHOLDER_CLASS,
+      list: this.state.form.formSections.slice(0)
+    });
+  }
+
+  _dragOver (event) {
+    this._dragAndDrop.over(event);
+  }
+
+  _dragEnd (event) {
+    let form = this.state.form;
+    let sections = this._dragAndDrop.end(event);
+    sections.forEach(function (section, index) {
+      section.formIndex = index + 1;
+    });
+    form.formSections = sections;
     this.setState({form: form});
   }
 

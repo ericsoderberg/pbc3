@@ -5,11 +5,14 @@ export default class FormFieldOptionEditor extends Component {
 
   constructor (props) {
     super(props);
+    this._onUpdate = this._onUpdate.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this._onToggle = this._onToggle.bind(this);
     this.state = { option: props.option };
   }
 
   componentDidMount () {
-    this.refs.name.getDOMNode().focus();
+    this.refs.name.focus();
   }
 
   _onUpdate (event) {
@@ -18,8 +21,8 @@ export default class FormFieldOptionEditor extends Component {
   }
 
   _onChange (name) {
-    var option = this.state.option;
-    option[name] = this.refs[name].getDOMNode().value;
+    let option = this.state.option;
+    option[name] = this.refs[name].value;
     this.setState(option);
   }
 

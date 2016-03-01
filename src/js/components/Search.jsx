@@ -41,7 +41,7 @@ class Search extends Component {
     var query = '';
     this.setState({query: query}, function () {
       this.props.dispatch(loadSearch(this.state.query));
-      this.refs.input.getDOMNode().focus();
+      this.refs.input.focus();
     });
   }
 

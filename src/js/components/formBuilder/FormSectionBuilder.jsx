@@ -24,6 +24,16 @@ export default class FormSectionBuilder extends Component {
 
   constructor (props) {
     super(props);
+    this._onCancelEdit = this._onCancelEdit.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
+    this._onRemove = this._onRemove.bind(this);
+    this._onEdit = this._onEdit.bind(this);
+    this._onAddField = this._onAddField.bind(this);
+    this._onFieldUpdate = this._onFieldUpdate.bind(this);
+    this._onFieldRemove = this._onFieldRemove.bind(this);
+    this._dragStart = this._dragStart.bind(this);
+    this._dragOver = this._dragOver.bind(this);
+    this._dragEnd = this._dragEnd.bind(this);
     this.state = {
       section: props.section,
       editOnMount: props.section.hasOwnProperty('_id')
@@ -39,6 +49,23 @@ export default class FormSectionBuilder extends Component {
 
   componentWillUnmount () {
     this._onCancelEdit();
+  }
+
+  _onCancelEdit () {
+    if (this._layer) {
+      this._layer.remove();
+      this._layer = null;
+    }
+  }
+
+  _onUpdate (section) {
+    this._onCancelEdit();
+    this.props.onUpdate(section);
+  }
+
+  _onRemove () {
+    this._onCancelEdit();
+    this.props.onRemove(formBuilderUtils.itemId(this.props.section));
   }
 
   _renderEdit () {
@@ -57,23 +84,6 @@ export default class FormSectionBuilder extends Component {
     } else {
       this._layer = Layer.add(this._renderEdit());
     }
-  }
-
-  _onCancelEdit () {
-    if (this._layer) {
-      this._layer.remove();
-      this._layer = null;
-    }
-  }
-
-  _onUpdate (section) {
-    this._onCancelEdit();
-    this.props.onUpdate(section);
-  }
-
-  _onRemove () {
-    this._onCancelEdit();
-    this.props.onRemove(formBuilderUtils.itemId(this.props.section));
   }
 
   _onAddField (type) {

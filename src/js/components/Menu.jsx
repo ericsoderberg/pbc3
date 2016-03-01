@@ -36,6 +36,8 @@ export default class Menu extends Component {
 
   constructor () {
     super();
+    this._onClickControl = this._onClickControl.bind(this);
+    this._onElsewhere = this._onElsewhere.bind(this);
     this.state = { active: false };
   }
 
@@ -54,7 +56,7 @@ export default class Menu extends Component {
   }
 
   _open () {
-    this._drop = Drop.add(this.refs.control.getDOMNode(),
+    this._drop = Drop.add(this.refs.control,
       this._renderDrop(), {top: 'bottom', right: 'right'});
     this.setState({active: true});
     document.addEventListener('click', this._onElsewhere);

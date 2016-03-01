@@ -10,6 +10,10 @@ export default class FormFieldOptionBuilder extends Component {
 
   constructor (props) {
     super(props);
+    this._onCancelEdit = this._onCancelEdit.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
+    this._onRemove = this._onRemove.bind(this);
+    this._onEdit = this._onEdit.bind(this);
     this.state = { editOnMount: props.edit };
   }
 
@@ -22,6 +26,23 @@ export default class FormFieldOptionBuilder extends Component {
 
   componentWillUnmount () {
     this._onCancelEdit();
+  }
+
+  _onCancelEdit () {
+    if (this._layer) {
+      this._layer.remove();
+      this._layer = null;
+    }
+  }
+
+  _onUpdate (option) {
+    this._onCancelEdit();
+    this.props.onUpdate(option);
+  }
+
+  _onRemove () {
+    this._onCancelEdit();
+    this.props.onRemove(formBuilderUtils.itemId(this.props.option));
   }
 
   _renderEdit () {
@@ -40,23 +61,6 @@ export default class FormFieldOptionBuilder extends Component {
     } else {
       this._layer = Layer.add(this._renderEdit(), 'right');
     }
-  }
-
-  _onCancelEdit () {
-    if (this._layer) {
-      this._layer.remove();
-      this._layer = null;
-    }
-  }
-
-  _onUpdate (option) {
-    this._onCancelEdit();
-    this.props.onUpdate(option);
-  }
-
-  _onRemove () {
-    this._onCancelEdit();
-    this.props.onRemove(formBuilderUtils.itemId(this.props.option));
   }
 
   render () {

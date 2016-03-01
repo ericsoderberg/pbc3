@@ -1,4 +1,4 @@
-var DOM = require('../utils/DOM');
+import { render, unmountComponentAtNode } from 'react-dom';
 
 var Layer = {
 
@@ -29,7 +29,7 @@ var Layer = {
     }
     layer.overlay.appendChild(layer.container);
     document.body.appendChild(layer.overlay);
-    React.render(content, layer.container);
+    render(content, layer.container);
     layer.bodyScrollTop = document.body.scrollTop;
     document.body.classList.add('noscroll');
 
@@ -44,13 +44,13 @@ var Layer = {
   },
 
   _remove: function (layer) {
-    React.unmountComponentAtNode(layer.container);
+    unmountComponentAtNode(layer.container);
     document.body.removeChild(layer.overlay);
     document.body.classList.remove('noscroll');
     setTimeout(function () {
       document.body.scrollTop = layer.bodyScrollTop;
     }, 1);
-  },
+  }
 
 };
 

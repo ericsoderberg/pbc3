@@ -12,12 +12,22 @@ export default class FormFieldEditor extends Component {
 
   constructor (props) {
     super(props);
+    this._onUpdate = this._onUpdate.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this._onToggle = this._onToggle.bind(this);
+    this._onOptionUpdate = this._onOptionUpdate.bind(this);
+    this._onOptionRemove = this._onOptionRemove.bind(this);
+    this._onAddOption = this._onAddOption.bind(this);
+    this._onAddOption = this._onAddOption.bind(this);
+    this._dragStart = this._dragStart.bind(this);
+    this._dragOver = this._dragOver.bind(this);
+    this._dragEnd = this._dragEnd.bind(this);
     this.state = { field: this.props.field };
   }
 
   componentDidMount () {
-    component = this.refs.name || this.refs.help;
-    component.getDOMNode().focus();
+    const component = this.refs.name || this.refs.help;
+    component.focus();
   }
 
   _onUpdate (event) {
@@ -27,7 +37,7 @@ export default class FormFieldEditor extends Component {
 
   _onChange (name) {
     let field = this.state.field;
-    field[name] = this.refs[name].getDOMNode().value;
+    field[name] = this.refs[name].value;
     this.setState({field: field});
   }
 
@@ -151,7 +161,7 @@ export default class FormFieldEditor extends Component {
         </div>
       );
 
-      dependsOnOptions = [<option key="none"></option>];
+      let dependsOnOptions = [<option key="none"></option>];
       this.props.form.formSections.some(function (formSection) {
         return formSection.formFields.some(function (formField) {
           if (formField.id === field.id) return true;

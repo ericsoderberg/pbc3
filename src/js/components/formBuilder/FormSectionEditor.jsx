@@ -6,6 +6,9 @@ export default class FormSectionEditor extends Component {
 
   constructor (props) {
     super(props);
+    this._onUpdate = this._onUpdate.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this._onToggle = this._onToggle.bind(this);
     this.state = { section: props.section };
   }
 
@@ -20,7 +23,7 @@ export default class FormSectionEditor extends Component {
 
   _onChange (name) {
     let section = this.state.section;
-    section[name] = this.refs[name].getDOMNode().value;
+    section[name] = this.refs[name].value;
     this.setState({section: section});
   }
 
