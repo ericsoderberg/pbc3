@@ -183,19 +183,21 @@ export default class FormSectionBuilder extends Component {
     );
 
     return (
-      <fieldset className={CLASS_ROOT + "__section"}
+      <fieldset className={`${CLASS_ROOT}__section`}
         data-index={this.props.index}
         draggable="true"
         onDragStart={this.props.dragStart}
         onDragEnd={this.props.dragEnd}>
-        <legend className={CLASS_ROOT + "__section-header"}>
+        <div className={`${CLASS_ROOT}__section-header`}>
+          <div className={`${CLASS_ROOT}__section-header-contents`}>
+            <h2>{section.name}</h2>
+          </div>
           {editControl}
-          <h2>{section.name}</h2>
-        </legend>
+        </div>
         <div className="form__fields" onDragOver={this._dragOver}>
           {fields}
         </div>
-        <Menu className={CLASS_ROOT + "__add"} icon={<AddIcon />}>
+        <Menu className={`${CLASS_ROOT}__add`} icon={<AddIcon />}>
           {adds}
         </Menu>
       </fieldset>

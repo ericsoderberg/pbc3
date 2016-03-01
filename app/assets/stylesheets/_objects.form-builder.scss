@@ -9,21 +9,30 @@
   @include main-content();
   position: relative;
   padding: $inuit-base-spacing-unit;
-
-  > .form__fields {
-    margin-right: round($inuit-base-spacing-unit * 3);
-  }
 }
 
 .form-builder__section-header {
-  min-height: $inuit-base-spacing-unit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   cursor: move;
+
+  @include media-query(palm) {
+    padding-left: $inuit-base-spacing-unit;
+  }
+
+  @include media-query(lap-and-up) {
+    margin: 0 $inuit-base-spacing-unit;
+  }
+}
+
+.form-builder__section-header-contents {
+  flex: 1;
 }
 
 .form-builder__section-edit {
-  position: absolute;
-  top: 0; //halve($inuit-base-spacing-unit);
-  right: 0; //$inuit-base-spacing-unit;
+  flex: 0 0 auto;
+  margin-right: halve($inuit-base-spacing-unit);
   cursor: pointer;
 }
 
@@ -32,10 +41,17 @@
   background-color: $background-color;
   cursor: move;
   transition: border-color $animation-delay, background-color $animation-delay;
+  display: flex;
+  flex-direction: row;
 
   &:hover {
     background-color: $over-background-color;
     border-color: $brand-accent-color;
+    z-index: 1;
+  }
+
+  &.form__fields-help {
+    padding-right: $inuit-base-spacing-unit;
   }
 
   > *:not(.control-icon) {
@@ -47,18 +63,16 @@
   }
 }
 
+.form-builder__field-content {
+  flex: 1;
+}
+
 .form-builder__field-edit {
-  position: absolute;
-  top: 0; //halve($inuit-base-spacing-unit);
+  flex: 0 0 auto;
+  display: inline-block;
+  margin-right: - halve($inuit-base-spacing-unit);
+  margin-left: $inuit-base-spacing-unit;
   cursor: pointer;
-
-  @include media-query(palm) {
-    right: - double($inuit-base-spacing-unit);
-  }
-
-  @include media-query(lap-and-up) {
-    right: - round($inuit-base-spacing-unit * 3);
-  }
 }
 
 .form-builder__placeholder {

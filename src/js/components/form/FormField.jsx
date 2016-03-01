@@ -45,7 +45,7 @@ export default class FormField extends Component {
     } else if ('instructions' === formField.fieldType) {
 
       result = (
-        <div className={CLASS_ROOT + "__field form__fields_help"}>
+        <div className={`${CLASS_ROOT}__field form__fields-help`}>
           {formField.help}
         </div>
       );
@@ -117,7 +117,7 @@ export default class FormField extends Component {
       }
 
       result = (
-        <div className={CLASS_ROOT + "__field"}>
+        <div className={`${CLASS_ROOT}__field`}>
           {error}
           {label}
           {help}

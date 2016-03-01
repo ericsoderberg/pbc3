@@ -67,7 +67,7 @@ export default class FormFieldBuilder extends Component {
     var field = this.props.field;
 
     var editControl = (
-      <a ref="edit" href="#" className={CLASS_ROOT + "__field-edit control-icon"}
+      <a ref="edit" href="#" className={`${CLASS_ROOT}__field-edit control-icon`}
         onClick={this._onEdit}>
         <EditIcon />
       </a>
@@ -78,13 +78,15 @@ export default class FormFieldBuilder extends Component {
     if ('instructions' === field.fieldType) {
 
       result = (
-        <div className={CLASS_ROOT + "__field form__fields_help"}
+        <div className={`${CLASS_ROOT}__field form__fields-help`}
           data-index={this.props.index}
           draggable="true"
           onDragStart={this.props.dragStart}
           onDragEnd={this.props.dragEnd}>
+          <div className={`${CLASS_ROOT}__field-content`}>
+            {field.help}
+          </div>
           {editControl}
-          {field.help}
         </div>
       );
 
@@ -125,7 +127,7 @@ export default class FormFieldBuilder extends Component {
           }
           return (
             <div key={formBuilderUtils.itemId(option)}
-              className={CLASS_ROOT + "__field-option form__field-option"}>
+              className={`${CLASS_ROOT}__field-option form__field-option`}>
               <span>
                 <input type={type} />
                 {option.name}
@@ -148,15 +150,17 @@ export default class FormFieldBuilder extends Component {
       }
 
       result = (
-        <div className={CLASS_ROOT + "__field form__field"}
+        <div className={`${CLASS_ROOT}__field form__field`}
           data-index={this.props.index}
           draggable="true"
           onDragStart={this.props.dragStart}
           onDragEnd={this.props.dragEnd}>
+          <div className={`${CLASS_ROOT}__field-content`}>
+            {label}
+            {help}
+            {content}
+          </div>
           {editControl}
-          {label}
-          {help}
-          {content}
         </div>
       );
     }
