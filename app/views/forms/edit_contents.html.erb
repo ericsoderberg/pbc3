@@ -1,5 +1,1 @@
 <% title("Edit #{@form.name}") -%>
-
-<%= react_component('FormBuilder',
-  render(template: 'forms/_edit_contents.json.jbuilder'),
-  { prerender: params[:noprerender].nil? }) %>

@@ -2,7 +2,7 @@ class FormBuilderController < ApplicationController
   before_filter :authenticate_user!
   before_filter :get_form
   #before_filter :page_administrator!
-  layout "administration", only: [:edit, :update]
+  layout "admin"
 
   def edit
     return unless administrator!
@@ -15,6 +15,11 @@ class FormBuilderController < ApplicationController
     @edit_context_url = @page ?
       edit_form_path(@form, {:page_id => @page.id}) : edit_form_path(@form)
     @message = "Editing #{@page.name} Page" if @page
+
+    respond_to do |format|
+      format.html { render :action => "edit", :layout => 'admin' }
+      format.json { render :partial => "edit" }
+    end
   end
 
   def update
@@ -37,7 +42,7 @@ class FormBuilderController < ApplicationController
         format.json { render :json => {result: 'ok', redirect_to: target_url} }
       else
         format.html {
-          render :action => "edit", :layout => "administration"
+          render :action => "edit", :layout => "admin"
         }
         format.json { render :json => 'error' }
       end

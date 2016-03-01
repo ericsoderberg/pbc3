@@ -49,9 +49,7 @@ export function updatePageContentsOrder (path, token, elementIds) {
     const data = { element_order: elementIds };
     REST.patch(path, token, data).end((err, res) => {
       if (!err && res.ok) {
-        dispatch({
-          type: PAGE_UPDATE_CONTENTS_ORDER_SUCCESS
-        });
+        dispatch({ type: PAGE_UPDATE_CONTENTS_ORDER_SUCCESS });
         location = res.body.redirect_to;
       }
     });

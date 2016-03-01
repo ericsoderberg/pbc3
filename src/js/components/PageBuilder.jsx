@@ -42,13 +42,13 @@ class PageBuilder extends Component {
 
   _onSubmit (event) {
     event.preventDefault();
-    const { edit: { updateContentsOrderPath, authenticityToken }} = this.props;
+    const { edit: { updateContentsOrderUrl, authenticityToken }} = this.props;
     const { elements } = this.state;
     const elementIds = elements.map(pageElement => {
       return pageElement.id;
     });
     this.props.dispatch(updatePageContentsOrder(
-      updateContentsOrderPath, authenticityToken, elementIds));
+      updateContentsOrderUrl, authenticityToken, elementIds));
   }
 
   _dragStart (event) {
@@ -161,7 +161,7 @@ PageBuilder.propTypes = {
     addMenuActions: PropTypes.array,
     authenticityToken: PropTypes.string,
     editContextUrl: PropTypes.string,
-    updateContentsOrderPath: PropTypes.string
+    updateContentsOrderUrl: PropTypes.string
   })
 };
 

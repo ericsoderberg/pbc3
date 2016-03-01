@@ -1,24 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-var EditIconfrom '../icons/EditIcon');
-var Layerfrom '../../utils/Layer');
-var FormFieldOptionEditorfrom './FormFieldOptionEditor');
-var formBuilderUtilsfrom './formBuilderUtils');
+import EditIcon from '../icons/EditIcon';
+import Layer from '../../utils/Layer';
+import FormFieldOptionEditor from './FormFieldOptionEditor';
+import formBuilderUtils from './formBuilderUtils';
 
 var CLASS_ROOT = "form-builder";
 
-var FormFieldOptionBuilderextends Component {
+export default class FormFieldOptionBuilder extends Component {
 
-  propTypes: {
-    dragEnd: PropTypes.func.isRequired,
-    dragStart: PropTypes.func.isRequired,
-    edit: PropTypes.bool,
-    fieldType: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
-    monetary: PropTypes.bool,
-    onUpdate: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    option: PropTypes.object.isRequired
-  },
+  constructor (props) {
+    super(props);
+    this.state = { editOnMount: props.edit };
+  }
+
+  componentDidMount () {
+    if (this.state.editOnMount) {
+      this._onEdit();
+      this.setState({ editOnMount: false });
+    }
+  }
+
+  componentWillUnmount () {
+    this._onCancelEdit();
+  }
 
   _renderEdit () {
     return (
@@ -28,7 +32,7 @@ var FormFieldOptionBuilderextends Component {
         onRemove={this._onRemove}
         monetary={this.props.monetary} />
     );
-  },
+  }
 
   _onEdit () {
     if (this._layer) {
@@ -36,46 +40,31 @@ var FormFieldOptionBuilderextends Component {
     } else {
       this._layer = Layer.add(this._renderEdit(), 'right');
     }
-  },
+  }
 
   _onCancelEdit () {
     if (this._layer) {
       this._layer.remove();
       this._layer = null;
     }
-  },
+  }
 
   _onUpdate (option) {
     this._onCancelEdit();
     this.props.onUpdate(option);
-  },
+  }
 
   _onRemove () {
     this._onCancelEdit();
     this.props.onRemove(formBuilderUtils.itemId(this.props.option));
-  },
-
-  getInitialState () {
-    return { editOnMount: this.props.edit };
-  },
-
-  componentDidMount () {
-    if (this.state.editOnMount) {
-      this._onEdit();
-      this.setState({ editOnMount: false });
-    }
-  },
-
-  componentWillUnmount () {
-    this._onCancelEdit();
-  },
+  }
 
   render () {
-    var type = ('single choice' === this.props.fieldType ? 'radio' : 'checkbox');
-    var option = this.props.option;
+    const type = ('single choice' === this.props.fieldType ? 'radio' : 'checkbox');
+    const option = this.props.option;
 
-    var editControl = (
-      <a ref="edit" href="#" className={CLASS_ROOT + "__field-edit control-icon"}
+    const editControl = (
+      <a ref="edit" href="#" className={`${CLASS_ROOT}__field-edit control-icon`}
         onClick={this._onEdit}>
         <EditIcon />
       </a>
@@ -92,7 +81,7 @@ var FormFieldOptionBuilderextends Component {
     }
 
     return (
-      <div className={CLASS_ROOT + "__field form__field"}
+      <div className={`${CLASS_ROOT}__field form__field`}
         data-index={this.props.index}
         draggable="true"
         onDragStart={this.props.dragStart}
@@ -111,6 +100,16 @@ var FormFieldOptionBuilderextends Component {
       </div>
     );
   }
-});
+};
 
-module.exports = FormFieldOptionBuilder;
+FormFieldOptionBuilder.propTypes = {
+  dragEnd: PropTypes.func.isRequired,
+  dragStart: PropTypes.func.isRequired,
+  edit: PropTypes.bool,
+  fieldType: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  monetary: PropTypes.bool,
+  onUpdate: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  option: PropTypes.object.isRequired
+};

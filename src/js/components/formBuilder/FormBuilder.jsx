@@ -1,95 +1,101 @@
 import React, { Component, PropTypes } from 'react';
-import CloseIcon from '../icons/CloseIcon');
-import DragAndDrop from '../../utils/DragAndDrop');
-import REST from '../REST');
-import FormSectionBuilder from './FormSectionBuilder');
-import formBuilderUtils from './formBuilderUtils');
+import { connect } from 'react-redux';
+import { loadFormEdit, updateForm, unloadForm } from '../../actions/actions';
+import CloseIcon from '../icons/CloseIcon';
+import DragAndDrop from '../../utils/DragAndDrop';
+import FormSectionBuilder from './FormSectionBuilder';
+import formBuilderUtils from './formBuilderUtils';
 
-var CLASS_ROOT = "form-builder";
-var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
+const CLASS_ROOT = "form-builder";
+const PLACEHOLDER_CLASS = `${CLASS_ROOT}__placeholder`;
 
-var FormBuilderextends Component {
+export default class FormBuilder extends Component {
 
-  propTypes: {
-    editContents: PropTypes.object.isRequired
-  },
+  constructor (props) {
+    super(props);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._dragStart = this._dragStart.bind(this);
+    this._dragOver = this._dragOver.bind(this);
+    this._dragEnd = this._dragEnd.bind(this);
+    this.state = { form: props.form };
+  }
+
+  componentDidMount () {
+    this.props.dispatch(loadFormEdit(this.props.id));
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.id !== this.props.id) {
+      this.props.dispatch(loadFormEdit(nextProps.id));
+    }
+    this.setState({ form: nextProps.form });
+  }
+
+  componentWillUnmount () {
+    this.props.dispatch(unloadForm());
+  }
 
   _onSubmit (event) {
     event.preventDefault();
-    var url = this.props.editContents.updateUrl;
-    var token = this.props.editContents.authenticityToken;
-    var data = {
-      form: this.state.form
-    };
-    if (this.props.editContents.pageId) {
-      data.pageId = this.props.editContents.pageId;
-    }
-    // console.log('!!! FormBuilder _onSubmit', token, this.state.form);
-    REST.post(url, token, data, function (response) {
-      // console.log('!!! FormBuilder _onSubmit completed', response);
-      if (response.result === 'ok') {
-        location = response.redirect_to;
-      }
-    }.bind(this));
-  },
+    const { edit: { updateUrl, authenticityToken, pageId }} = this.props;
+    const { form } = this.state;
+    this.props.dispatch(updateForm(updateUrl, authenticityToken, form, pageId));
+  }
 
   _dragStart (event) {
     this._dragAndDrop = DragAndDrop.start({
       event: event,
-      itemClass: CLASS_ROOT + '__section',
+      itemClass: `${CLASS_ROOT}__section`,
       placeholderClass: PLACEHOLDER_CLASS,
       list: this.state.form.formSections.slice(0)
     });
-  },
+  }
 
   _dragOver (event) {
     this._dragAndDrop.over(event);
-  },
+  }
 
   _dragEnd (event) {
-    var form = this.state.form;
-    var sections = this._dragAndDrop.end(event);
+    let form = this.state.form;
+    let sections = this._dragAndDrop.end(event);
     sections.forEach(function (section, index) {
       section.formIndex = index + 1;
     });
     form.formSections = sections;
     this.setState({form: form});
-  },
+  }
 
   _onAddSection () {
-    var form = this.state.form;
-    var section = {
-      "_id": '__' + (new Date()).getTime(),
+    let form = this.state.form;
+    const section = {
+      "_id": `__${(new Date()).getTime()}`,
       name: "New section",
       formFields: []
     };
     form.formSections.push(section);
     this.setState({form: form});
-  },
+  }
 
   _onSectionUpdate (section) {
-    var form = this.state.form;
-    form.formSections = form.formSections.map(function (formSection) {
+    let form = this.state.form;
+    form.formSections = form.formSections.map(formSection => {
       return (formBuilderUtils.idsMatch(section, formSection) ? section : formSection);
     });
     this.setState({form: form});
-  },
+  }
 
   _onSectionRemove (id) {
-    var form = this.state.form;
-    form.formSections = form.formSections.filter(function (formSection) {
+    let form = this.state.form;
+    form.formSections = form.formSections.filter(formSection => {
       return (id !== formBuilderUtils.itemId(formSection));
     });
     this.setState({form: form});
-  },
-
-  getInitialState () {
-    return {form: this.props.editContents.form};
-  },
+  }
 
   render () {
-    var form = this.state.form;
-    var sections = form.formSections.map(function (formSection, index) {
+    const { edit: { message, cancelUrl, editContextUrl }} = this.props;
+    const { form } = this.state;
+    const sections = form.formSections.map((formSection, index) => {
       return (
         <FormSectionBuilder key={formBuilderUtils.itemId(formSection)}
           section={formSection}
@@ -101,13 +107,13 @@ var FormBuilderextends Component {
           dragStart={this._dragStart}
           dragEnd={this._dragEnd} />
       );
-    }, this);
+    });
 
-    var message;
-    if (this.props.editContents.message) {
-      message = (
+    let errorMessage;
+    if (message) {
+      errorMessage = (
         <div className="form__header-message">
-          {this.props.editContents.message}
+          {message}
         </div>
       );
     }
@@ -116,15 +122,15 @@ var FormBuilderextends Component {
       <form className="form">
         <div className="form__header">
           <span className="form__title">Edit {form.name}</span>
-          {message}
-          <a className="control-icon" href={this.props.editContents.cancelUrl}>
+          {errorMessage}
+          <a className="control-icon" href={cancelUrl}>
             <CloseIcon />
           </a>
         </div>
 
         <div className="form__contents">
           <div className={CLASS_ROOT}>
-            <div className={CLASS_ROOT + "__sections"}
+            <div className={`${CLASS_ROOT}__sections`}
               onDragOver={this._dragOver}>
               {sections}
             </div>
@@ -134,13 +140,33 @@ var FormBuilderextends Component {
         <div className="form__footer">
           <input type="submit" value="Update" className="btn btn--primary"
             onClick={this._onSubmit} />
-          <a href={this.props.editContents.editContextUrl}>
+          <a href={editContextUrl}>
             Context
           </a>
         </div>
       </form>
     );
   }
+}
+
+FormBuilder.propTypes = {
+  id: PropTypes.string,
+  form: PropTypes.shape({
+    name: PropTypes.string,
+    formSections: PropTypes.array
+  }),
+  edit: PropTypes.shape({
+    authenticityToken: PropTypes.string,
+    cancelUrl: PropTypes.string,
+    editContextUrl: PropTypes.string,
+    updateUrl: PropTypes.string
+  })
+};
+
+let select = (state, props) => ({
+  id: props.params.id,
+  form: state.form,
+  edit: state.formEdit
 });
 
-module.exports = FormBuilder;
+export default connect(select)(FormBuilder);

@@ -9,4 +9,4 @@ module.exports = {
   itemId: function (item) {
     return (item.hasOwnProperty('id') ? item.id : item['_id']);
   }
-}
+};

@@ -34,7 +34,8 @@ export function loadIndex (category, context) {
           items: res.body[category],
           filter: res.body.filter,
           count: res.body.count,
-          newUrl: res.body.newUrl
+          newUrl: res.body.newUrl,
+          editUrl: res.body.editUrl
         });
       }
     });

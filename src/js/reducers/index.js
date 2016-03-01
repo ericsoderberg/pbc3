@@ -8,6 +8,7 @@ const initialState = {
   changing: false,
   context: {},
   count: 0,
+  editUrl: undefined,
   filter: {},
   items: [],
   newUrl: undefined
@@ -25,6 +26,7 @@ const handlers = {
     count: action.count,
     changing: false,
     context: action.context,
+    editUrl: action.editUrl,
     filter: action.filter,
     items: action.items,
     newUrl: action.newUrl

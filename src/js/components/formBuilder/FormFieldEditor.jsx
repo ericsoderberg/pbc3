@@ -1,113 +1,99 @@
 import React, { Component, PropTypes } from 'react';
-import AddIconfrom '../icons/AddIcon');
-import CloseIconfrom '../icons/CloseIcon');
-import DragAndDropfrom '../../utils/DragAndDrop');
-import FormFieldOptionBuilderfrom './FormFieldOptionBuilder');
-import formBuilderUtilsfrom './formBuilderUtils');
+import AddIcon from '../icons/AddIcon';
+import CloseIcon from '../icons/CloseIcon';
+import DragAndDrop from '../../utils/DragAndDrop';
+import FormFieldOptionBuilder from './FormFieldOptionBuilder';
+import formBuilderUtils from './formBuilderUtils';
 
 var CLASS_ROOT = "form-builder";
-var PLACEHOLDER_CLASS = CLASS_ROOT + "__placeholder";
+var PLACEHOLDER_CLASS = `${CLASS_ROOT}__placeholder`;
 
-var FormFieldEditorextends Component {
+export default class FormFieldEditor extends Component {
 
-  propTypes: {
-    field: PropTypes.object.isRequired,
-    form: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
-  },
+  constructor (props) {
+    super(props);
+    this.state = { field: this.props.field };
+  }
+
+  componentDidMount () {
+    component = this.refs.name || this.refs.help;
+    component.getDOMNode().focus();
+  }
 
   _onUpdate (event) {
     event.preventDefault();
     this.props.onUpdate(this.state.field);
-  },
+  }
 
   _onChange (name) {
-    var field = this.state.field;
+    let field = this.state.field;
     field[name] = this.refs[name].getDOMNode().value;
     this.setState({field: field});
-  },
+  }
 
   _onToggle (name) {
-    field = this.state.field;
+    let field = this.state.field;
     field[name] = ! field[name];
     this.setState({field: field});
-  },
+  }
 
   _onOptionUpdate (option) {
-    var field = this.state.field;
+    let field = this.state.field;
     field.formFieldOptions =
-      field.formFieldOptions.map(function (formFieldOption) {
+      field.formFieldOptions.map(formFieldOption => {
         return (formBuilderUtils.idsMatch(option, formFieldOption) ?
           option : formFieldOption);
       });
     this.setState({field: field, newOption: null});
-  },
+  }
 
   _onOptionRemove (id) {
-    var field = this.state.field;
+    let field = this.state.field;
     field.formFieldOptions =
-      field.formFieldOptions.filter(function (formFieldOption) {
+      field.formFieldOptions.filter(formFieldOption => {
         return (id !== formBuilderUtils.itemId(formFieldOption));
       });
     this.setState({field: field, newOption: null});
-  },
+  }
 
   _onAddOption () {
-    var field = this.props.field;
-    var option = {
-      _id: '__' + (new Date()).getTime(),
+    let field = this.props.field;
+    const option = {
+      _id: `__${(new Date()).getTime()}`,
       name: 'New option',
       optionType: 'fixed'
     };
     field.formFieldOptions.push(option);
     this.setState({field: field, newOption: option});
-  },
+  }
 
   _dragStart (event) {
     this._dragAndDrop = DragAndDrop.start({
       event: event,
-      itemClass: CLASS_ROOT + '__field',
+      itemClass: `${CLASS_ROOT}__field`,
       placeholderClass: PLACEHOLDER_CLASS,
       list: this.state.field.formFieldOptions.slice(0)
     });
-  },
+  }
 
   _dragEnd (event) {
-    var field = this.state.field;
-    var options = this._dragAndDrop.end(event);
+    let field = this.state.field;
+    let options = this._dragAndDrop.end(event);
     options.forEach(function (option, index) {
       option.formFieldIndex = index + 1;
     });
     field.formFieldOptions = options;
     this.setState({field: field});
-  },
+  }
 
   _dragOver (event) {
     this._dragAndDrop.over(event);
-  },
-
-  getInitialState () {
-    return {field: this.props.field};
-  },
-
-  componentDidMount () {
-    component = this.refs.name || this.refs.help;
-    component.getDOMNode().focus();
-  },
+  }
 
   render () {
     var field = this.props.field;
 
-    var name;
-    var help;
-    var required;
-    var monetary;
-    var defaultValue;
-    var dependsOnId;
-    var unitValue;
-    var limit;
+    let name, help, required, monetary, defaultValue, dependsOnId, unitValue, limit;
 
     if ('instructions' !== field.fieldType) {
 
@@ -145,8 +131,8 @@ var FormFieldEditorextends Component {
         </div>
       );
 
-      var defaultType = ('count' === field.fieldType ? 'number' : 'text');
-      var defaultInput = (
+      let defaultType = ('count' === field.fieldType ? 'number' : 'text');
+      let defaultInput = (
         <input ref="value" type={defaultType}
           onChange={this._onChange.bind(this, "value")} value={field.value} />
       );
@@ -191,8 +177,8 @@ var FormFieldEditorextends Component {
       }
 
       if ('count' === field.fieldType) {
-        var unitValueType = (field.monetary ? 'number' : 'text');
-        var unitValueInput = (
+        let unitValueType = (field.monetary ? 'number' : 'text');
+        let unitValueInput = (
           <input ref="unitValue" type={unitValueType}
             onChange={this._onChange.bind(this, "unitValue")}
             value={field.unitValue} />
@@ -218,7 +204,7 @@ var FormFieldEditorextends Component {
             <input ref="limit" type="number"
               onChange={this._onChange.bind(this, "limit")} value={field.limit} />
           </div>
-        )
+        );
       }
 
     } else {
@@ -231,10 +217,10 @@ var FormFieldEditorextends Component {
       );
     }
 
-    var options;
+    let options;
     if ('single choice' === field.fieldType ||
       'multiple choice' === field.fieldType) {
-      var opts = field.formFieldOptions.map(function (option, index) {
+      const opts = field.formFieldOptions.map(function (option, index) {
         return (
           <FormFieldOptionBuilder key={formBuilderUtils.itemId(option)}
             fieldType={field.fieldType}
@@ -293,6 +279,12 @@ var FormFieldEditorextends Component {
       </form>
     );
   }
-});
+};
 
-module.exports = FormFieldEditor;
+FormFieldEditor.propTypes = {
+  field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired
+};

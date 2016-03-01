@@ -1,40 +1,33 @@
 import React, { Component, PropTypes } from 'react';
-var CloseIconfrom '../icons/CloseIcon');
+import CloseIcon from '../icons/CloseIcon';
 
-var FormFieldOptionEditorextends Component {
+export default class FormFieldOptionEditor extends Component {
 
-  propTypes: {
-    monetary: PropTypes.bool,
-    option: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
-  },
+  constructor (props) {
+    super(props);
+    this.state = { option: props.option };
+  }
+
+  componentDidMount () {
+    this.refs.name.getDOMNode().focus();
+  }
 
   _onUpdate (event) {
     event.preventDefault();
     this.props.onUpdate(this.state.option);
-  },
+  }
 
   _onChange (name) {
     var option = this.state.option;
     option[name] = this.refs[name].getDOMNode().value;
     this.setState(option);
-  },
+  }
 
   _onToggle (name) {
     option = this.state.option;
     option[name] = ! option[name];
     this.setState(option);
-  },
-
-  getInitialState () {
-    return {option: this.props.option};
-  },
-
-  componentDidMount () {
-    this.refs.name.getDOMNode().focus();
-  },
+  }
 
   render () {
     var option = this.props.option;
@@ -93,6 +86,12 @@ var FormFieldOptionEditorextends Component {
       </form>
     );
   }
-});
+};
 
-module.exports = FormFieldOptionEditor;
+FormFieldOptionEditor.propTypes = {
+  monetary: PropTypes.bool,
+  option: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired
+};

@@ -5,7 +5,7 @@ json.filled_forms filled_forms, partial: 'filled_forms/show', as: :filled_form
 json.count @count
 json.filter @filter
 json.newUrl new_form_fill_url(form)
-json.editUrl edit_contents_form_path(form)
+json.editUrl edit_contents_form_url(form)
 
 json.form do
   json.extract!(form, :name, :version)

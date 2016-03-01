@@ -1,47 +1,40 @@
 import React, { Component, PropTypes } from 'react';
-var CloseIconfrom '../icons/CloseIcon');
-var Dropfrom '../../utils/Drop');
+import CloseIcon from '../icons/CloseIcon';
+import Drop from '../../utils/Drop';
 
-var FormSectionEditorextends Component {
+export default class FormSectionEditor extends Component {
 
-  propTypes: {
-    form: PropTypes.object.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    section: PropTypes.object.isRequired
-  },
+  constructor (props) {
+    super(props);
+    this.state = { section: props.section };
+  }
+
+  componentDidMount () {
+    this.refs.name.focus();
+  }
 
   _onUpdate (event) {
     event.preventDefault();
     this.props.onUpdate(this.state.section);
-  },
+  }
 
   _onChange (name) {
-    var section = this.state.section;
+    let section = this.state.section;
     section[name] = this.refs[name].getDOMNode().value;
     this.setState({section: section});
-  },
+  }
 
   _onToggle (name) {
-    section = this.state.section;
+    let section = this.state.section;
     section[name] = ! section[name];
     this.setState({section: section});
-  },
-
-  getInitialState () {
-    return {section: this.props.section};
-  },
-
-  componentDidMount () {
-    this.refs.name.getDOMNode().focus();
-  },
+  }
 
   render () {
-    var section = this.props.section;
+    const section = this.props.section;
 
-    var dependsOnId;
-    var dependsOnOptions = [<option key="none"></option>];
+    let dependsOnId;
+    let dependsOnOptions = [<option key="none"></option>];
     this.props.form.formSections.some(function (formSection) {
       if (formSection.id === section.id) return true;
       formSection.formFields.some(function (formField) {
@@ -94,6 +87,12 @@ var FormSectionEditorextends Component {
       </form>
     );
   }
-});
+};
 
-module.exports = FormSectionEditor;
+FormSectionEditor.propTypes = {
+  form: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  section: PropTypes.object.isRequired
+};

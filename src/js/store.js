@@ -3,6 +3,8 @@ import thunk from 'redux-thunk';
 
 // TODO: fix webpack loader to allow import * from './reducers'
 import calendar from './reducers/calendar';
+import form from './reducers/form';
+import formEdit from './reducers/formEdit';
 import index from './reducers/index';
 import message from './reducers/message';
 import messages from './reducers/messages';
@@ -15,6 +17,8 @@ export default compose(
   applyMiddleware(thunk)
 )(createStore)(combineReducers({
   calendar,
+  form,
+  formEdit,
   index,
   message,
   messages,

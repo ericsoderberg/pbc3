@@ -1,22 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-import EditIconfrom '../icons/EditIcon');
-import Layerfrom '../../utils/Layer');
-import FormFieldEditorfrom './FormFieldEditor');
-import formBuilderUtilsfrom './formBuilderUtils');
+import EditIcon from '../icons/EditIcon';
+import Layer from '../../utils/Layer';
+import FormFieldEditor from './FormFieldEditor';
+import formBuilderUtils from './formBuilderUtils';
 
 var CLASS_ROOT = "form-builder";
 
-var FormFieldBuilderextends Component {
+export default class FormFieldBuilder extends Component {
 
-  propTypes: {
-    dragStart: PropTypes.func.isRequired,
-    dragEnd: PropTypes.func.isRequired,
-    field: PropTypes.object.isRequired,
-    form: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired
-  },
+  constructor (props) {
+    super(props);
+    this.state = { editOnMount: props.field.hasOwnProperty('_id') };
+  }
+
+  componentDidMount () {
+    if (this.state.editOnMount) {
+      this._onEdit();
+      this.setState({ editOnMount: false });
+    }
+  }
+
+  componentWillUnmount () {
+    this._onCancelEdit();
+  }
 
   _renderEdit () {
     return (
@@ -26,7 +32,7 @@ var FormFieldBuilderextends Component {
         onUpdate={this._onUpdate}
         onRemove={this._onRemove} />
     );
-  },
+  }
 
   _onEdit () {
     if (this._layer) {
@@ -34,39 +40,24 @@ var FormFieldBuilderextends Component {
     } else {
       this._layer = Layer.add(this._renderEdit(), 'right');
     }
-  },
+  }
 
   _onCancelEdit () {
     if (this._layer) {
       this._layer.remove();
       this._layer = null;
     }
-  },
+  }
 
   _onUpdate (field) {
     this._onCancelEdit();
     this.props.onUpdate(field);
-  },
+  }
 
   _onRemove () {
     this._onCancelEdit();
     this.props.onRemove(formBuilderUtils.itemId(this.props.field));
-  },
-
-  getInitialState () {
-    return { editOnMount: this.props.field.hasOwnProperty('_id') };
-  },
-
-  componentDidMount () {
-    if (this.state.editOnMount) {
-      this._onEdit();
-      this.setState({ editOnMount: false });
-    }
-  },
-
-  componentWillUnmount () {
-    this._onCancelEdit();
-  },
+  }
 
   render () {
     var field = this.props.field;
@@ -168,6 +159,16 @@ var FormFieldBuilderextends Component {
 
     return result;
   }
-});
+};
+
+FormFieldBuilder.propTypes = {
+  dragStart: PropTypes.func.isRequired,
+  dragEnd: PropTypes.func.isRequired,
+  field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired
+};
 
 module.exports = FormFieldBuilder;

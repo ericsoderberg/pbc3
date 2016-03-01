@@ -8,7 +8,7 @@ import formUtils from './formUtils';
 const CLASS_ROOT = "form";
 
 function filledFieldsForForm (form, filledForm) {
-  var result = {};
+  let result = {};
   filledForm.filledFields.forEach(function (filledField) {
     var formField = formUtils.findFormField(form, filledField.formFieldId);
     if ('single choice' === formField.fieldType) {
@@ -35,8 +35,8 @@ export default class Form extends Component {
   constructor (props) {
     super(props);
 
-    var mode;
-    var filledForm;
+    let mode;
+    let filledForm;
 
     if (props.form.mode) {
       mode = props.form.mode;
@@ -61,10 +61,10 @@ export default class Form extends Component {
 
   _onSubmit (event) {
     event.preventDefault();
-    var filledForm = this.state.filledForm;
-    var filledFields = filledFieldsForForm(this.props.form.form, filledForm);
-    var url;
-    var action;
+    const filledForm = this.state.filledForm;
+    const filledFields = filledFieldsForForm(this.props.form.form, filledForm);
+    let url;
+    let action;
     if ('new' === this.state.mode) {
       url = this.props.form.createUrl;
       action = 'post';
@@ -79,7 +79,7 @@ export default class Form extends Component {
     if (this.props.form.pageId) {
       data.pageId = this.props.form.pageId;
     }
-    var token = this.props.form.authenticityToken;
+    const token = this.props.form.authenticityToken;
     REST[action](url, token, data,
       function (response) {
         // Successful submit
@@ -88,8 +88,8 @@ export default class Form extends Component {
           window.location = response.redirectUrl;
         } else {
           // in a page
-          filledForm = response;
-          var filledForms;
+          let filledForm = response;
+          let filledForms;
           if ('new' === this.state.mode) {
             filledForms = this.state.filledForms;
             filledForms.push(filledForm);
@@ -111,13 +111,13 @@ export default class Form extends Component {
   }
 
   _onDelete (filledForm) {
-    var token = this.props.form.authenticityToken;
+    const token = this.props.form.authenticityToken;
     REST.delete(filledForm.url, token, function (response) {
       if (response.result === 'ok') {
-        var filledForms = this.state.filledForms.filter(function (filled) {
+        const filledForms = this.state.filledForms.filter(function (filled) {
           return (filled.id !== filledForm.id);
         });
-        var mode = this.state.mode;
+        let mode = this.state.mode;
         filledForm = null;
         if (filledForms.length === 0) {
           mode = 'new';
@@ -315,6 +315,9 @@ export default class Form extends Component {
 };
 
 Form.propTypes = {
+  authenticityToken: PropTypes.string,
+  createUrl: PropTypes.string,
+  filled_forms: PropTypes.array,
   form: PropTypes.object.isRequired,
   mode: PropTypes.string,
   tag: PropTypes.string
