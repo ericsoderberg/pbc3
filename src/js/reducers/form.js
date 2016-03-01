@@ -1,5 +1,6 @@
 import { FORM_LOAD, FORM_LOAD_SUCCESS,
   FORM_EDIT_LOAD, FORM_EDIT_LOAD_SUCCESS,
+  FORM_FILL_EDIT_LOAD, FORM_FILL_EDIT_LOAD_SUCCESS,
   FORM_UNLOAD } from '../actions/actions';
 
 const initialState = {
@@ -15,6 +16,10 @@ const handlers = {
   [FORM_EDIT_LOAD]: (state, action) => (initialState),
 
   [FORM_EDIT_LOAD_SUCCESS]: (state, action) => (action.form),
+
+  [FORM_FILL_EDIT_LOAD]: (state, action) => (initialState),
+
+  [FORM_FILL_EDIT_LOAD_SUCCESS]: (state, action) => (action.form),
 
   [FORM_UNLOAD]: (state, action) => (initialState)
 

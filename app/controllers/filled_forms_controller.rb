@@ -2,7 +2,7 @@ class FilledFormsController < ApplicationController
   before_filter :authenticate_user!,
     :except => [:new, :create, :edit, :update, :destroy]
   before_filter :get_form, :except => [:user_index]
-  layout "administration", only: [:new, :create, :edit, :update]
+  layout "admin", only: [:new, :create, :edit, :update]
 
   def index
     return unless administrator!
@@ -107,11 +107,11 @@ class FilledFormsController < ApplicationController
       @filled_form.parent = @parent_filled_forms.first
     end
     @payments = @form.payments_for_user(current_user)
-    @mode = 'new'
+    # @mode = 'new'
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @filled_form }
+      format.html { render :action => "edit" }
+      format.json { render :partial => "edit" }
     end
   end
 
@@ -124,7 +124,12 @@ class FilledFormsController < ApplicationController
       @parent_filled_forms = @form.parent.visible_filled_forms(current_user)
     end
     @payments = @form.payments_for_user(current_user)
-    @mode = 'edit'
+    # @mode = 'edit'
+
+    respond_to do |format|
+      format.html { render :action => "edit" }
+      format.json { render :partial => "edit" }
+    end
   end
 
   def create

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import REST from '../REST';
+import { connect } from 'react-redux';
+import { loadForm, updateForm, unloadForm } from '../../actions/actions';
 import moment from 'moment';
 import CloseIcon from '../icons/CloseIcon';
 import FormSection from './FormSection';
@@ -9,7 +10,7 @@ const CLASS_ROOT = "form";
 
 function filledFieldsForForm (form, filledForm) {
   let result = {};
-  filledForm.filledFields.forEach(function (filledField) {
+  filledForm.filledFields.forEach(filledField => {
     var formField = formUtils.findFormField(form, filledField.formFieldId);
     if ('single choice' === formField.fieldType) {
       if (filledField.filledFieldOptions.length > 0) {
@@ -19,7 +20,7 @@ function filledFieldsForForm (form, filledForm) {
     } else if ('multiple choice' === formField.fieldType) {
       if (filledField.filledFieldOptions.length > 0) {
         result[formField.id] =
-          filledField.filledFieldOptions.map(function (filledFieldOption) {
+          filledField.filledFieldOptions.map(filledFieldOption => {
             return (filledFieldOption.formFieldOptionId);
           });
       }
@@ -264,20 +265,20 @@ export default class Form extends Component {
     var form = this.props.form.form;
     var classRoot = CLASS_ROOT + '-fills';
 
-    var filledForms = this.state.filledForms.map(function (filledForm) {
+    var filledForms = this.state.filledForms.map(filledForm => {
       var summary = this._renderSummary(form, filledForm);
       return (
         <tr key={filledForm.id} className={classRoot + '__fill'}>
           <td className={classRoot + '__date'}>{summary}</td>
           <td>
-            <a onClick={function (event) {
+            <a onClick={(event) => {
               event.preventDefault();
               this._onEdit(filledForm);
-            }.bind(this)}>Update</a>
+            }}>Update</a>
           </td>
         </tr>
       );
-    }, this);
+    });
 
     var add;
     if (form.manyPerUser) {

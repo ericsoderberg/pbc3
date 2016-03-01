@@ -5,12 +5,15 @@ const CLASS_ROOT = "form";
 
 export default class FormFieldOption extends Component {
 
+  constructor () {
+    super();
+    this._onToggle = this._onToggle.bind(this);
+  }
+
   _onToggle () {
-    var filledForm = this.props.filledForm;
-    var formField = this.props.formField;
-    var formFieldOption = this.props.formFieldOption;
-    var filledField = formUtils.findFilledField(filledForm, formField.id);
-    var filledFieldOption = formUtils.filledOptionForFormOption(filledForm,
+    const { formFill, formField, formFieldOption } = this.props;
+    var filledField = formUtils.findFilledField(formFill, formField.id);
+    var filledFieldOption = formUtils.filledOptionForFormOption(formFill,
       formField, formFieldOption);
 
     if (! filledField) {
@@ -18,7 +21,7 @@ export default class FormFieldOption extends Component {
         formFieldId: formField.id,
         filledFieldOptions: []
       };
-      filledForm.filledFields.push(filledField);
+      formFill.filledFields.push(filledField);
     }
 
     if (! filledFieldOption) {
@@ -33,32 +36,30 @@ export default class FormFieldOption extends Component {
       }
     } else {
       filledField.filledFieldOptions =
-        filledField.filledFieldOptions.filter(function (option) {
+        filledField.filledFieldOptions.filter(option => {
           return (option.formFieldOptionId !== formFieldOption.id);
         });
       if (filledField.filledFieldOptions.length === 0) {
-        filledForm.filledFields = filledForm.filledFields.filter(function (field) {
+        formFill.filledFields = formFill.filledFields.filter(field => {
           return (formField.id !== field.formFieldId);
         });
       }
     }
-    this.props.onChange(filledForm);
+    this.props.onChange(formFill);
   }
 
   render () {
-    var formField = this.props.formField;
-    var formFieldOption = this.props.formFieldOption;
-    var filledFieldOption = formUtils.filledOptionForFormOption(
-      this.props.filledForm, formField, formFieldOption);
+    const { formFill, formField, formFieldOption } = this.props;
+    var filledFieldOption = formUtils.filledOptionForFormOption(formFill,
+      formField, formFieldOption);
 
-    var classes = [CLASS_ROOT + "__field-option"];
-    var checked = filledFieldOption ? true : false;
+    let classes = [`${CLASS_ROOT}__field-option`];
+    const checked = filledFieldOption ? true : false;
     if (checked) {
-      classes.push(CLASS_ROOT + "__field-option--active");
+      classes.push(`${CLASS_ROOT}__field-option--active`);
     }
 
-    var type;
-    var name;
+    let type, name;
     if ('single choice' === formField.fieldType) {
       type = "radio";
       name = formField.name;
@@ -67,9 +68,9 @@ export default class FormFieldOption extends Component {
       name = formField.name + "[]";
     }
 
-    var value;
+    let value;
     if (formFieldOption.value) {
-      var prefix = formField.monetary ? '$' : '';
+      const prefix = formField.monetary ? '$' : '';
       value = (
         <span className="form__field-option-suffix">
           {prefix}{formFieldOption.value}
@@ -94,7 +95,7 @@ export default class FormFieldOption extends Component {
 };
 
 FormFieldOption.propTypes = {
-  filledForm: PropTypes.object.isRequired,
+  formFill: PropTypes.object.isRequired,
   formField: PropTypes.object.isRequired,
   formFieldOption: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired

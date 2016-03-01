@@ -1,5 +1,1 @@
 <% title(@form.name) -%>
-
-<%= react_component('Form',
-  render(template: 'filled_forms/_page_index.json.jbuilder'),
-  { prerender: params[:noprerender].nil? }) %>

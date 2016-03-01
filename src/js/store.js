@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import calendar from './reducers/calendar';
 import form from './reducers/form';
 import formEdit from './reducers/formEdit';
+import formFill from './reducers/formFill';
+import formFillEdit from './reducers/formFillEdit';
 import index from './reducers/index';
 import message from './reducers/message';
 import messages from './reducers/messages';
@@ -19,6 +21,8 @@ export default compose(
   calendar,
   form,
   formEdit,
+  formFill,
+  formFillEdit,
   index,
   message,
   messages,

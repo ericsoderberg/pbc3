@@ -1,9 +1,10 @@
 module.exports = {
-  filledOptionForFormOption: function (filledForm, formField, formFieldOption) {
+
+  filledOptionForFormOption: function (formFill, formField, formFieldOption) {
     var result;
-    filledForm.filledFields.some(function (filledField) {
+    formFill.filledFields.some(filledField => {
       if (formField.id === filledField.formFieldId) {
-        return filledField.filledFieldOptions.some(function (filledFieldOption) {
+        return filledField.filledFieldOptions.some(filledFieldOption => {
           if (filledFieldOption.formFieldOptionId === formFieldOption.id) {
             result = filledFieldOption;
             return true;
@@ -14,9 +15,9 @@ module.exports = {
     return result;
   },
 
-  findFilledField: function (filledForm, formFieldId) {
+  findFilledField: function (formFill, formFieldId) {
     var result;
-    filledForm.filledFields.some(function (filledField) {
+    formFill.filledFields.some(filledField => {
       if (filledField.formFieldId === formFieldId) {
         result = filledField;
         return true;
@@ -27,8 +28,8 @@ module.exports = {
 
   findFormField: function (form, formFieldId) {
     var result;
-    form.formSections.some(function (formSection) {
-      return formSection.formFields.some(function (formField) {
+    form.formSections.some(formSection => {
+      return formSection.formFields.some(formField => {
         if (formField.id === formFieldId) {
           result = formField;
           return true;
@@ -37,4 +38,5 @@ module.exports = {
     });
     return result;
   }
-}
+  
+};

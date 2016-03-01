@@ -6,39 +6,43 @@ const CLASS_ROOT = "form";
 
 export default class FormSection extends Component {
 
-  _onChange (filledForm) {
-    this.props.onChange(filledForm);
+  constructor () {
+    super();
+    this._onChange = this._onChange.bind(this);
+  }
+
+  _onChange (formFill) {
+    this.props.onChange(formFill);
   }
 
   render () {
-    var formSection = this.props.formSection;
+    const { formSection, formFill, fieldErrors } = this.props;
 
-    var hidden = false;
+    let hidden = false;
     if (formSection.dependsOnId) {
-      var dependsOn = formUtils.findFilledField(this.props.filledForm, formSection.dependsOnId);
+      const dependsOn = formUtils.findFilledField(formFill, formSection.dependsOnId);
       if (! dependsOn) {
         hidden = true;
       }
     }
 
-    var result;
-
+    let result;
     if (hidden) {
       result = <span></span>;
     } else {
-      var fields = formSection.formFields.map(function (formField) {
+      const fields = formSection.formFields.map(formField => {
         return (
           <FormField key={formField.id}
             formField={formField}
-            filledForm={this.props.filledForm}
-            fieldErrors={this.props.fieldErrors}
+            formFill={formFill}
+            fieldErrors={fieldErrors}
             onChange={this._onChange} />
         );
-      }, this);
+      });
 
       result = (
-        <fieldset className={CLASS_ROOT + "__section"}>
-          <legend className={CLASS_ROOT + "__section-header"}>
+        <fieldset className={`${CLASS_ROOT}__section`}>
+          <legend className={`${CLASS_ROOT}__section-header`}>
             <h2>{formSection.name}</h2>
           </legend>
           <div className="form__fields">
@@ -54,7 +58,7 @@ export default class FormSection extends Component {
 
 FormSection.propTypes = {
   fieldErrors: PropTypes.object.isRequired,
-  filledForm: PropTypes.object.isRequired,
+  formFill: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
 };

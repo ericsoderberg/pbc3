@@ -6,42 +6,45 @@ const CLASS_ROOT = "form";
 
 export default class FormField extends Component {
 
+  constructor () {
+    super();
+    this._onChange = this._onChange.bind(this);
+  }
+
   _onChange (event) {
-    var value = event.target.value;
-    var filledForm = this.props.filledForm;
-    var formField = this.props.formField;
-    var filledField = formUtils.findFilledField(filledForm, formField.id);
+    const { formFill, formField } = this.props;
+    const value = event.target.value;
+    let filledField = formUtils.findFilledField(formFill, formField.id);
     if (value) {
       if (! filledField) {
         filledField = {formFieldId: formField.id};
-        filledForm.filledFields.push(filledField);
+        formFill.filledFields.push(filledField);
       }
       filledField.value = value;
     } else {
-      filledForm.filledFields = filledForm.filledFields.filter(function (field) {
+      formFill.filledFields = formFill.filledFields.filter(field => {
         return (formField.id !== field.formFieldId);
       });
     }
-    this.props.onChange(filledForm);
+    this.props.onChange(formFill);
   }
 
   render () {
-    var formField = this.props.formField;
-    var filledField =
-      formUtils.findFilledField(this.props.filledForm, formField.id);
-    var hidden = false;
+    const { formFill, formField } = this.props;
+    const filledField = formUtils.findFilledField(formFill, formField.id);
+    let hidden = false;
     if (formField.dependsOnId) {
-      var dependsOn =
-        formUtils.findFilledField(this.props.filledForm, formField.dependsOnId);
+      const dependsOn = formUtils.findFilledField(formFill, formField.dependsOnId);
       if (! dependsOn) {
         hidden = true;
       }
     }
 
-    var result;
-
+    let result;
     if (hidden) {
+
       result = <span></span>;
+
     } else if ('instructions' === formField.fieldType) {
 
       result = (
@@ -52,16 +55,15 @@ export default class FormField extends Component {
 
     } else {
 
-      var label;
+      let label;
       if (formField.name) {
         label = <label>{formField.name}</label>;
       }
-
-      var help;
+      let help;
       if (formField.help) {
         help = <div className="form__field-help">{formField.help}</div>;
       }
-      var error;
+      let error;
       if (this.props.fieldErrors.hasOwnProperty(formField.name)) {
         error = (
           <div className="form__field-error">
@@ -70,8 +72,8 @@ export default class FormField extends Component {
         );
       }
 
-      var content;
-      var value = filledField ? filledField.value : formField.value;
+      let content;
+      const value = filledField ? filledField.value : formField.value;
       if ('single line' === formField.fieldType) {
         content = (
           <input ref="input" type="text" name={formField.name} value={value}
@@ -92,20 +94,19 @@ export default class FormField extends Component {
         );
       } else if ('single choice' === formField.fieldType ||
         'multiple choice' === formField.fieldType) {
-        content = formField.formFieldOptions.map(function (formFieldOption) {
+        content = formField.formFieldOptions.map(formFieldOption => {
           return (
             <FormFieldOption key={formFieldOption.id}
               formField={formField}
               formFieldOption={formFieldOption}
-              filledForm={this.props.filledForm}
+              formFill={formFill}
               onChange={this.props.onChange} />
           );
-        }, this);
+        });
       } else if ('count' === formField.fieldType) {
-        var suffix = 'x ' + (formField.monetary ? '$' : '') + formField.unitValue;
+        var suffix = `x ${formField.monetary ? '$' : ''}${formField.unitValue}`;
         if (value) {
-          suffix += ' = ' + (formField.monetary ? '$' : '') +
-            (formField.unitValue * value);
+          suffix += ` = ${formField.monetary ? '$' : ''}${formField.unitValue * value}`;
         }
         content = (
           <div className="form__field-decorated-input">
@@ -132,7 +133,7 @@ export default class FormField extends Component {
 
 FormField.propTypes = {
   fieldErrors: PropTypes.object,
-  filledForm: PropTypes.object.isRequired,
+  formFill: PropTypes.object.isRequired,
   formField: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
 };
