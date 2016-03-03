@@ -9,7 +9,7 @@ json.filledForm do
     end
   end
   # json.url form_fill_url(filled_form.form, filled_form)
-  # json.editUrl edit_form_fill_url(filled_form.form, filled_form)
+  json.editPath edit_form_fill_path(filled_form.form, filled_form)
   # if not @page or form.payable?
   #   json.redirectUrl @next_url
   # end

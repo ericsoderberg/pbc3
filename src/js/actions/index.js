@@ -31,11 +31,10 @@ export function loadIndex (category, context) {
           type: INDEX_LOAD_SUCCESS,
           category: category,
           context: (context ? res.body[context] : undefined),
-          items: res.body[category],
-          filter: res.body.filter,
-          count: res.body.count,
-          newUrl: res.body.newUrl,
-          editUrl: res.body.editUrl
+          result: {
+            items: res.body[category],
+            ...res.body
+          }
         });
       }
     });
@@ -55,9 +54,10 @@ export function searchIndex (category, search) {
           type: INDEX_SEARCH_SUCCESS,
           category: category,
           search: search,
-          items: res.body[category],
-          filter: res.body.filter,
-          count: res.body.count
+          result: {
+            items: res.body[category],
+            ...res.body
+          }
         });
       }
     });
@@ -80,7 +80,10 @@ export function moreIndex (category, offset, search) {
           category: category,
           offset: offset,
           search: search,
-          items: res.body[category]
+          result: {
+            items: res.body[category],
+            ...res.body
+          }
         });
       }
     });

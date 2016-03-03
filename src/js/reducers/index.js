@@ -23,13 +23,9 @@ const handlers = {
   }),
 
   [INDEX_LOAD_SUCCESS]: (state, action) => ({
-    count: action.count,
     changing: false,
     context: action.context,
-    editUrl: action.editUrl,
-    filter: action.filter,
-    items: action.items,
-    newUrl: action.newUrl
+    ...action.result
   }),
 
   [INDEX_SEARCH]: (state, action) => ({
@@ -38,10 +34,8 @@ const handlers = {
   }),
 
   [INDEX_SEARCH_SUCCESS]: (state, action) => ({
-    items: action.items,
-    filter: action.filter,
-    count: action.count,
-    changing: false
+    changing: false,
+    ...action.result
   }),
 
   [INDEX_MORE]: (state, action) => ({
@@ -49,7 +43,7 @@ const handlers = {
   }),
 
   [INDEX_MORE_SUCCESS]: (state, action) => ({
-    items: state.items.concat(action.items)
+    items: state.items.concat(action.result.items)
   }),
 
   [INDEX_UNLOAD]: (state, action) => (initialState)

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { loadIndex, searchIndex, moreIndex, unloadIndex } from '../actions/actions';
 import SearchInput from './SearchInput';
 import AddIcon from './icons/AddIcon';
@@ -45,7 +46,7 @@ class Index extends Component {
   }
 
   render () {
-    const { index: { changing, count, filter, newUrl, editUrl },
+    const { index: { changing, count, filter, newUrl, newPath, editUrl },
       noneMessage, itemRenderer, page } = this.props;
     let classes = [CLASS_ROOT];
     if (changing) {
@@ -77,6 +78,12 @@ class Index extends Component {
         <a className={`${CLASS_ROOT}__add control-icon`} href={newUrl}>
           <AddIcon />
         </a>
+      );
+    } else if (newPath) {
+      addControl = (
+        <Link className={`${CLASS_ROOT}__add control-icon`} to={newPath}>
+          <AddIcon />
+        </Link>
       );
     }
 
@@ -130,6 +137,7 @@ Index.propTypes = {
     editUrl: PropTypes.string,
     filter: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
+    newPath: PropTypes.string,
     newUrl: PropTypes.string
   }).isRequired,
   itemRenderer: PropTypes.func.isRequired,

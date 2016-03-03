@@ -1,9 +1,9 @@
 form ||= @form
 filled_form ||= @filled_form
 json.partial! 'forms/show'
-json.partial! 'filled_forms/show'
+# json.partial! 'filled_forms/show'
 json.edit do
-  json.updateUrl form_fill_url(form, filled_form)
+  json.createUrl form_fills_url(@form)
   json.authenticityToken form_authenticity_token()
   if @page
     json.pageId @page.id

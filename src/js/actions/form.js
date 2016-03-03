@@ -17,6 +17,7 @@ export const FORM_FILL_UPDATE = 'FORM_FILL_UPDATE';
 export const FORM_FILL_UPDATE_SUCCESS = 'FORM_FILL_UPDATE_SUCCESS';
 export const FORM_FILL_DELETE = 'FORM_FILL_DELETE';
 export const FORM_FILL_DELETE_SUCCESS = 'FORM_FILL_DELETE_SUCCESS';
+export const FORM_FILL_UNLOAD = 'FORM_FILL_UNLOAD';
 export const FORM_UNLOAD = 'FORM_UNLOAD';
 
 export function loadForm (id) {
@@ -93,7 +94,6 @@ export function loadFormFillEdit (formId, fillId) {
     dispatch({ type: FORM_FILL_EDIT_LOAD, formId: formId, fillId: fillId });
     REST.get(loc.pathname).end((err, res) => {
       if (!err && res.ok) {
-        console.log('!!! loadFormFillEdit', res.body);
         dispatch({
           type: FORM_FILL_EDIT_LOAD_SUCCESS,
           form: res.body.form,
@@ -105,9 +105,9 @@ export function loadFormFillEdit (formId, fillId) {
   };
 }
 
-export function addFormFill (path, token, filledFields, pageId) {
+export function addFormFill (formId, token, filledFields, pageId) {
   return function (dispatch) {
-    dispatch({ type: FORM_FILL_ADD, path: path });
+    dispatch({ type: FORM_FILL_ADD, formId: formId });
     let data = {
       filledFields: filledFields,
       email_address_confirmation: ''
@@ -115,12 +115,13 @@ export function addFormFill (path, token, filledFields, pageId) {
     if (pageId) {
       data.pageId = pageId;
     }
-    REST.post(path, token, data).end((err, res) => {
+    REST.post(`/forms/${formId}/fills`, token, data).end((err, res) => {
       if (!err && res.ok) {
         dispatch({ type: FORM_FILL_ADD_SUCCESS, filledForm: res.body });
-        if (res.body.redirectUrl) {
-          // not in a page
-          window.location = res.body.redirectUrl;
+        history.push(`/forms/${formId}/fills`);
+        // if (res.body.redirectUrl) {
+        //   // not in a page
+        //   window.location = res.body.redirectUrl;
         // } else {
         //   // in a page
         //   let filledForm = response;
@@ -141,15 +142,15 @@ export function addFormFill (path, token, filledFields, pageId) {
         //   });
         // }
         // location = res.body.redirect_to;
-        }
+        // }
       }
     });
   };
 }
 
-export function updateFormFill (path, token, filledFields, pageId) {
+export function updateFormFill (formId, id, token, filledFields, pageId) {
   return function (dispatch) {
-    dispatch({ type: FORM_FILL_UPDATE, path: path });
+    dispatch({ type: FORM_FILL_UPDATE, formId: formId, id: id });
     let data = {
       filledFields: filledFields,
       email_address_confirmation: ''
@@ -157,12 +158,13 @@ export function updateFormFill (path, token, filledFields, pageId) {
     if (pageId) {
       data.pageId = pageId;
     }
-    REST.put(path, token, data).end((err, res) => {
+    REST.put(`/forms/${formId}/fills/${id}`, token, data).end((err, res) => {
       if (!err && res.ok) {
         dispatch({ type: FORM_FILL_UPDATE_SUCCESS, filledForm: res.body });
-        if (res.body.redirectUrl) {
-          // not in a page
-          window.location = res.body.redirectUrl;
+        history.push(`/forms/${formId}/fills`);
+        // if (res.body.redirectUrl) {
+        //   // not in a page
+        //   window.location = res.body.redirectUrl;
         // } else {
         //   // in a page
         //   let filledForm = response;
@@ -183,7 +185,7 @@ export function updateFormFill (path, token, filledFields, pageId) {
         //   });
         // }
         // location = res.body.redirect_to;
-        }
+        // }
       }
     });
   };
@@ -199,6 +201,10 @@ export function deleteFormFill (path, token, pageId) {
       }
     });
   };
+}
+
+export function unloadFormFill () {
+  return { type: FORM_FILL_UNLOAD };
 }
 
 export function unloadForm () {

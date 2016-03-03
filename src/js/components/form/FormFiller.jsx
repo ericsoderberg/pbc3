@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loadFormFillEdit, addFormFill, updateFormFill, unloadFormFill } from '../../actions/actions';
+import { loadFormFillEdit, addFormFill, updateFormFill,
+  unloadFormFill } from '../../actions/actions';
+import { Link } from 'react-router';
 import CloseIcon from '../icons/CloseIcon';
 import FormSection from './FormSection';
 import formUtils from './formUtils';
@@ -36,6 +38,7 @@ export default class FormFiller extends Component {
     super(props);
     this._onSubmit = this._onSubmit.bind(this);
     this._onDelete = this._onDelete.bind(this);
+    this._onChange = this._onChange.bind(this);
 
     // let mode;
     // let filledForm;
@@ -76,13 +79,13 @@ export default class FormFiller extends Component {
 
   _onSubmit (event) {
     event.preventDefault();
-    const { form, edit: { authenticityToken, pageId }} = this.props;
+    const { id, formId, form, edit: { authenticityToken, pageId }} = this.props;
     const { formFill } = this.state;
     const filledFields = filledFieldsForForm(form, formFill);
-    if (formFill.id) {
-      this.props.dispatch(updateFormFill('???', authenticityToken, filledFields, pageId));
+    if (id) {
+      this.props.dispatch(updateFormFill(formId, id, authenticityToken, filledFields, pageId));
     } else {
-      this.props.dispatch(addFormFill('???', authenticityToken, filledFields, pageId));
+      this.props.dispatch(addFormFill(formId, authenticityToken, filledFields, pageId));
     }
     // const filledForm = this.state.filledForm;
     // const filledFields = filledFieldsForForm(this.props.form, filledForm);
@@ -170,8 +173,7 @@ export default class FormFiller extends Component {
   // }
 
   render () {
-    console.log('!!! FormFiller render', this.props, this.state);
-    const { form, edit: { cancelUrl } } = this.props;
+    const { id, form, edit: { cancelPath } } = this.props;
     const { formFill, fieldErrors } = this.state;
 
     const sections = form.formSections.map(formSection => {
@@ -185,7 +187,7 @@ export default class FormFiller extends Component {
     });
 
     let remove;
-    if (formFill.id) {
+    if (id) {
       remove = (
         <a onClick={(event) => {
           event.preventDefault();
@@ -197,11 +199,11 @@ export default class FormFiller extends Component {
     }
 
     let headerCancel;
-    if (cancelUrl) {
+    if (cancelPath) {
       headerCancel = (
-        <a className="control-icon" href={cancelUrl}>
+        <Link className="control-icon" to={cancelPath}>
           <CloseIcon />
-        </a>
+        </Link>
       );
     }
 
@@ -258,6 +260,7 @@ export default class FormFiller extends Component {
 
 FormFiller.propTypes = {
   id: PropTypes.string,
+  formId: PropTypes.string.isRequired,
   form: PropTypes.shape({
     name: PropTypes.string,
     formSections: PropTypes.array
@@ -268,7 +271,7 @@ FormFiller.propTypes = {
   }),
   edit: PropTypes.shape({
     authenticityToken: PropTypes.string,
-    cancelUrl: PropTypes.string,
+    cancelPath: PropTypes.string,
     updateUrl: PropTypes.string
   })
 };

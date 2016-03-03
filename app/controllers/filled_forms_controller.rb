@@ -2,7 +2,6 @@ class FilledFormsController < ApplicationController
   before_filter :authenticate_user!,
     :except => [:new, :create, :edit, :update, :destroy]
   before_filter :get_form, :except => [:user_index]
-  layout "admin", only: [:new, :create, :edit, :update]
 
   def index
     return unless administrator!
@@ -110,8 +109,8 @@ class FilledFormsController < ApplicationController
     # @mode = 'new'
 
     respond_to do |format|
-      format.html { render :action => "edit" }
-      format.json { render :partial => "edit" }
+      format.html { render :action => "new" }
+      format.json { render :partial => "new" }
     end
   end
 

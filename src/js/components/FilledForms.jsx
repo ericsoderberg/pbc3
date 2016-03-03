@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import moment from 'moment';
 import Index from './Index';
 
@@ -15,10 +16,10 @@ class FilledForms extends Component {
   _renderFilledForm (filledForm) {
     var date = moment(filledForm.updatedAt);
     var parts = [
-      <a key="name" className={`${CLASS_ROOT}__form-name`}
-        href={filledForm.editUrl}>
+      <Link key="name" className={`${CLASS_ROOT}__form-name`}
+        to={filledForm.editPath}>
         {filledForm.name}
-      </a>,
+      </Link>,
       <span key="date">{date.format('MMM D, YYYY')}</span>
     ];
     if (this.props.form.version > 1) {
@@ -29,14 +30,15 @@ class FilledForms extends Component {
 
   render () {
     return (
-      <Index title={this.props.form.name || 'Form'} itemRenderer={this._renderFilledForm}
+      <Index title={this.props.form.name || 'Form'}
+        itemRenderer={this._renderFilledForm}
         category="filledForms" context="form" index={{
           items: this.props.filledForms,
           count: this.props.count,
           filter: this.props.filter
         }}
         noneMessage="Nobody has filled out this form yet"
-        newUrl={this.props.newUrl} editUrl={this.props.editUrl}
+        newPath={this.props.newPath} editUrl={this.props.editUrl}
         page={this.props.page} />
     );
   }
@@ -49,7 +51,7 @@ FilledForms.propTypes = {
   filledForms: PropTypes.array,
   filter: PropTypes.object,
   form: PropTypes.object,
-  newUrl: PropTypes.string,
+  newPath: PropTypes.string,
   page: PropTypes.object
 };
 
