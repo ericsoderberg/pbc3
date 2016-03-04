@@ -32,9 +32,12 @@ gem "sass", :require => 'sass'
 # gem "bower-rails", "~> 0.10.0"
 
 # Deploy with Capistrano
-gem 'capistrano', '~> 2'
+gem 'capistrano', '~> 3.0', require: false, group: :development
 
 group :development do
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rbenv', '~> 2.0', require: false
   gem 'guard'
   gem 'guard-livereload'
   gem 'web-console', '~> 2.0'
