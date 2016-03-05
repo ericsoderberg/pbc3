@@ -85,6 +85,10 @@
   }
 }
 
+.form__all {
+  @include inuit-font-size($inuit-base-font-size);
+}
+
 .form__footer {
   height: quadruple($inuit-base-spacing-unit);
   padding: $inuit-base-spacing-unit;

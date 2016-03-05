@@ -52,8 +52,8 @@ export default class FormFiller extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.onClose && nextProps.edit.done) {
-      this.props.onClose(true);
+    if (this.props.onChange && nextProps.edit.done) {
+      this.props.onChange();
     } else if (this.props.id && nextProps.id !== this.props.id) {
       this.props.dispatch(loadFormFillEdit(nextProps.formId, nextProps.id));
     }
@@ -66,15 +66,16 @@ export default class FormFiller extends Component {
 
   _onSubmit (event) {
     event.preventDefault();
-    const { id, formId, form, edit: { authenticityToken }, onClose } = this.props;
+    const { id, formId, form, edit: { authenticityToken },
+      indexContext } = this.props;
     const { formFill } = this.state;
     const filledFields = filledFieldsForForm(form, formFill);
     if (id) {
       this.props.dispatch(updateFormFill(formId, id, authenticityToken,
-        filledFields, (! onClose)));
+        filledFields, indexContext));
     } else {
       this.props.dispatch(addFormFill(formId, authenticityToken,
-        filledFields, (! onClose)));
+        filledFields, indexContext));
     }
   }
 
@@ -88,9 +89,10 @@ export default class FormFiller extends Component {
   }
 
   _onDelete () {
-    const { id, formId, edit: { authenticityToken }, onClose } = this.props;
+    const { id, formId, edit: { authenticityToken },
+      indexContext } = this.props;
     this.props.dispatch(deleteFormFill(formId, id, authenticityToken,
-      (! onClose)));
+      indexContext));
   }
 
   _onChange (formFill) {
@@ -98,8 +100,8 @@ export default class FormFiller extends Component {
   }
 
   render () {
-    const { id, form, edit: { cancelPath, errors }, onClose,
-      disabled } = this.props;
+    const { id, form, edit: { cancelPath, errors }, onCancel,
+      indexPath, disabled, indexContext } = this.props;
     const { formFill, removing } = this.state;
 
     const sections = form.formSections.map(formSection => {
@@ -128,21 +130,25 @@ export default class FormFiller extends Component {
       }
     }
 
-    let headerCancel;
-    if (onClose) {
-      headerCancel = (
+    let headerControl;
+    if (onCancel) {
+      headerControl = (
         <a className="control-icon" onClick={(event) => {
           event.preventDefault();
-          onClose();
+          onCancel();
         }}>
           <CloseIcon />
         </a>
       );
-    } else if (cancelPath) {
-      headerCancel = (
+    } else if (indexContext && cancelPath) {
+      headerControl = (
         <Link className="control-icon" to={cancelPath}>
           <CloseIcon />
         </Link>
+      );
+    } else if (indexPath) {
+      headerControl = (
+        <Link className={`${CLASS_ROOT}__all`} to={indexPath}>all</Link>
       );
     }
 
@@ -151,7 +157,7 @@ export default class FormFiller extends Component {
       <Tag className={CLASS_ROOT}>
         <div className={`${CLASS_ROOT}__header`}>
           <span className="form__title">{form.name}</span>
-          {headerCancel}
+          {headerControl}
         </div>
 
         <div className={`${CLASS_ROOT}__contents`}>
@@ -175,6 +181,7 @@ export default class FormFiller extends Component {
 
 FormFiller.propTypes = {
   id: PropTypes.number,
+  indexContext: PropTypes.bool,
   disabled: PropTypes.bool,
   formId: PropTypes.number.isRequired,
   form: PropTypes.shape({
@@ -192,7 +199,13 @@ FormFiller.propTypes = {
     errors: PropTypes.object,
     updateUrl: PropTypes.string
   }),
-  onClose: PropTypes.func
+  indexPath: PropTypes.string,
+  onCancel: PropTypes.func,
+  onChange: PropTypes.func
+};
+
+FormFiller.defaultProps = {
+  indexContext: true
 };
 
 let select = (state, props) => ({

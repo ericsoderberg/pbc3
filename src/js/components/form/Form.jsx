@@ -10,11 +10,9 @@ export default class Form extends Component {
     super(props);
     this._onAdd = this._onAdd.bind(this);
     this._onEdit = this._onEdit.bind(this);
-    this._onCloseFiller = this._onCloseFiller.bind(this);
-    this.state = {
-      filled: (props.formFills.length > 0),
-      filling: (props.formFills.length === 0)
-    };
+    this._onFillerCancel = this._onFillerCancel.bind(this);
+    this._onFillerChange = this._onFillerChange.bind(this);
+    this.state = this._stateFromProps(props);
   }
 
   componentDidMount () {
@@ -22,11 +20,18 @@ export default class Form extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({ filled: (nextProps.formFills.length > 0) });
+    this.state = this._stateFromProps(nextProps);
   }
 
   componentWillUnmount () {
     this.props.dispatch(unloadFormFills(this.props.form.id));
+  }
+
+  _stateFromProps (props) {
+    return {
+      filled: (props.formFills.length > 0),
+      filling: (props.formFills.length === 0)
+    };
   }
 
   _onEdit (formFillId) {
@@ -37,7 +42,11 @@ export default class Form extends Component {
     this.setState({ filling: true });
   }
 
-  _onCloseFiller (refresh) {
+  _onFillerCancel () {
+    this.setState({ filling: false, id: undefined });
+  }
+
+  _onFillerChange () {
     this.setState({ filling: false, id: undefined });
     this.props.dispatch(loadFormFills(this.props.form.id));
   }
@@ -45,15 +54,17 @@ export default class Form extends Component {
   render () {
     const { form, formFills, edit } = this.props;
     const { filled, filling, id } = this.state;
+    const indexPath = (edit ? edit.indexPath : undefined);
     let result;
     if (filling) {
-      const onClose = (filled ? this._onCloseFiller : undefined);
+      const onCancel = (filled ? this._onFillerCancel : undefined);
       result = (
-        <FormFiller formId={form.id} id={id} onClose={onClose}
-          disabled={undefined != edit} />
+        <FormFiller formId={form.id} id={id} onCancel={onCancel}
+          onChange={this._onFillerChange}
+          indexPath={indexPath} disabled={undefined != edit}
+          indexContext={false} />
       );
     } else {
-      const indexPath = (edit ? edit.indexPath : undefined);
       result = (
         <UserFormFills form={form} formFills={formFills}
           indexPath={indexPath}
@@ -74,11 +85,6 @@ Form.propTypes = {
   formFills: PropTypes.array,
   form: PropTypes.object.isRequired
 };
-
-// let select = (state, props) => {
-//   console.log('!!! Form select', state.formFills, props);
-//   return {};
-// };
 
 let select = (state, props) => ({
   formFills: state.formFills[props.form.id] || props.formFills
