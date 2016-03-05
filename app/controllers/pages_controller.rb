@@ -73,43 +73,6 @@ class PagesController < ApplicationController
       return
     end
 
-=begin
-    if (@page != @site.communities_page and @page != @site.about_page)
-      events = @page.related_events
-      events.delete_if{|e| not e.authorized?(current_user)}
-      @categorized_events = Event.categorize(events)
-      if current_user
-        @categorized_events[:all].each do |event|
-          if @page == event.page
-            @invitation =
-              event.invitations.where(:email => current_user.email).first
-          end
-        end
-      end
-    end
-    if @page.event?
-      @event = @page.events.last
-      @form = @page.forms.select{|f| f.published and f.visible?(current_user)}.first
-    end
-    if params[:invitation_key]
-      @invitation = Invitation.find_by(key: params[:invitation_key])
-    end
-    @note = Note.new(:page_id => @page.id)
-
-    @header_children = @page.nav_context.children.visible(current_user).
-      where('pages.obscure != ? OR pages.id = ?', true, @page.id)
-
-    @children = @page.children.visible(current_user).
-      where('pages.obscure != ? OR pages.id = ?', true, @page.id)
-    @feature_children = @page.feature_children(current_user)
-    @aspects = @page.visible_aspects(:children => @children,
-      :categorized_events => @categorized_events)
-    if @page.parent and @page.parent.blog?
-      @previous_page = @page.previous_sibling
-      @next_page = @page.next_sibling
-    end
-=end
-
     # Page breadcrumbs. Only do this for pages as everything else anchors to
     # a page.
     breadcrumbs = (session[:breadcrumbs] || '').split('|')
@@ -194,13 +157,6 @@ class PagesController < ApplicationController
     end
   end
 
-  # def edit_context
-  #   @page = Page.find_by(url: params[:id])
-  #   return unless page_administrator!
-  #   @email_list = EmailList.find(@page.email_list)
-  #   @email_lists = EmailList.all
-  # end
-
   def edit_contents
     @page = Page.find_by(url: params[:id])
     return unless page_administrator!
@@ -218,60 +174,6 @@ class PagesController < ApplicationController
       format.json { render :partial => "edit_contents" }
     end
   end
-
-  # DEPRECATED
-=begin
-  def edit_location
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
-    @siblings = if @page.parent
-        @page.parent.children
-      elsif @page.site_primary?
-        @site.primary_pages
-      else
-        []
-      end
-
-    impossible_parent_ids = (@page.descendants() + [@page]).map{|p| p.id}
-    @pages = Page.editable(current_user).
-      delete_if{|p| impossible_parent_ids.include?(p.id)}
-  end
-
-  def edit_style
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
-  end
-
-  def edit_email
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
-    @email_list = EmailList.find(@page.email_list)
-    @email_lists = EmailList.all
-  end
-
-  def edit_email_members
-    @page = Page.find_by(url: params[:id])
-    return unless page_administrator!
-    @email_list = EmailList.find(@page.email_list)
-    if not @email_list
-      redirect_to edit_email_page_path(@page)
-    end
-  end
-
-  #def edit_access
-  #  @page = Page.find_by(url: params[:id])
-  #  return unless page_administrator!
-  #end
-
-  def edit_for_parent
-    page = Page.find_by(url: params[:id])
-    parent = Page.find_by(id: params[:parent_id])
-    siblings = parent.children.to_a
-    siblings << page unless siblings.include?(page)
-    siblings = siblings.to_a.map{|s| {id: s.id, name: s.name, url: s.url}}
-    render :json => siblings
-  end
-=end
 
   def create
     @page = Page.new(page_params)
@@ -334,13 +236,11 @@ class PagesController < ApplicationController
 
   def destroy
     @page = Page.find_by(url: params[:id])
-    return unless page_administrator! # and page_administrator!(@page.parent)
-    #parent = @page.parent
+    return unless page_administrator!
     @page.destroy
-    # what about index and feature_index being shifted?
 
     respond_to do |format|
-      format.html { redirect_to(pages_url) } #parent ? friendly_page_url(parent) : pages_url) }
+      format.html { redirect_to(pages_url) }
     end
   end
 
@@ -350,14 +250,6 @@ class PagesController < ApplicationController
     params.require(:page).permit(:name, :private, :obscure,
       :url_prefix, :url_aliases, :facebook_url, :twitter_name, :email_list,
       :updated_by, :parent_id).merge(:updated_by => current_user)
-=begin
-    params.require(:page).permit(:name, :text, :secondary_text,
-      :parent_id, :private, :style_id,
-      :parent_index, :layout, :email_list, :url_prefix, :animate_banner,
-      :url_aliases, :obscure, :child_layout, :aspect_order, :facebook_url,
-      :twitter_name, :banner_text,
-      :updated_by, :site_primary).merge(:updated_by => current_user)
-=end
   end
 
 end

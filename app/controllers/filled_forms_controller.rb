@@ -26,42 +26,9 @@ class FilledFormsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }
+      format.csv # index.csv.erb
+      format.xls # index.xls.erb
     end
-
-    # @sort = params[:sort] || 'name'
-    # @sort_id = @sort.to_i
-    # @filled_forms = @form.filled_forms
-    # if @sort
-    #   if @sort_id <= 0
-    #     @filled_forms = @filled_forms.reorder(@sort + ' ASC')
-    #   else
-    #     @filled_forms = @filled_forms.includes(:filled_fields).
-    #       where('filled_fields.form_field_id = ?', @sort_id).
-    #       reorder('filled_fields.value').references(:filled_fields)
-    #   end
-    # end
-
-    #@payable_forms = @filled_forms.for_user(current_user).
-    #  where(:payment_id => nil)
-
-    #if @form.parent
-    #  @parent_value_form_fields = @form.parent.form_fields.valued
-    #  @parent_columns = @form.parent.columns
-    #end
-
-    # @value_form_fields = @form.form_fields.valued
-    # @columns = @form.columns
-    #
-    # @sort_options = @value_form_fields.map{|ff| [ff.name, ff.id]}
-    # @sort_options << ['date', 'updated_at']
-    # @sort_options << ['version']
-    #
-    # respond_to do |format|
-    #   format.html # index.html.erb
-    #   format.json { render :partial => "index" }
-    #   format.csv # index.csv.erb
-    #   format.xls # index.xls.erb
-    # end
   end
 
   def user
@@ -70,17 +37,6 @@ class FilledFormsController < ApplicationController
       format.json { render :partial => "user" }
     end
   end
-
-  # def user_index
-  #   @user = User.find(params[:id])
-  #   @user = current_user unless current_user.administrator?
-  #   @filled_forms = @user.filled_forms.to_a
-  #
-  #   respond_to do |format|
-  #     format.html # user_index.html.erb
-  #     format.xml  { render :xml => @filled_forms }
-  #   end
-  # end
 
   def show
     @filled_form = @form.filled_forms.find(params[:id])

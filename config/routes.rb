@@ -30,20 +30,6 @@ Rails.application.routes.draw do
         get 'edit_contents', :controller => 'form_builder', :action => 'edit'
         post 'update_contents', :controller => 'form_builder', :action => 'update'
       end
-      resources :sections, :controller => 'form_sections',
-        :except => [:index, :new] do
-        member do
-          post 'copy'
-        end
-      end
-      resources :fields, :controller => 'form_fields',
-        :except => [:index, :new] do
-        member do
-          post 'copy'
-        end
-        resources :options, :controller => 'form_field_options',
-          :except => [:index, :new]
-      end
       resources :fills, :controller => 'filled_forms' do
         collection do
           get 'user'
