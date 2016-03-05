@@ -1,5 +1,11 @@
 {
   "name": "pbc3",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "description": "PBC web site.",
+  "authors": [
+    "Eric Soderberg"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ericsoderberg/pbc3.git"
