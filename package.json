@@ -23,13 +23,18 @@
     "eslint-plugin-react": "^4.0.0",
     "file-loader": "^0.8.5",
     "history": "^2.0.0",
+    "inuit-box-sizing": "^0.2.0",
     "inuit-buttons": "^0.4.2",
+    "inuit-defaults": "^0.2.3",
+    "inuit-functions": "^0.2.0",
     "inuit-headings": "^0.3.1",
     "inuit-list-bare": "^0.3.0",
+    "inuit-mixins": "^0.2.3",
+    "inuit-normalize": "^3.0.3",
     "inuit-pack": "^0.1.1",
+    "inuit-page": "^0.2.1",
     "inuit-responsive-settings": "^0.1.5",
     "inuit-responsive-tools": "^0.1.3",
-    "inuit-starter-kit": "^0.2.9",
     "json-loader": "^0.5.4",
     "markdown-it": "^6.0.0",
     "moment": "^2.11.2",
@@ -46,7 +51,6 @@
     "superagent-promise": "^1.1.0",
     "webpack": "^1.12.13"
   },
-  "license": "MIT",
   "engines": {
     "node": ">= 0.10"
   }
