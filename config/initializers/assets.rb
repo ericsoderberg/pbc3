@@ -12,5 +12,3 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += %w( app.bundle.js admin.bundle.js newsletter/newsletter.css )
-
-Rails.application.config.sass.load_paths += %w(node_modules)

@@ -85,6 +85,9 @@ Rails.application.configure do
 
   config.assets.precompile += %w( newsletter/newsletter.css rte-light/rte.css )
 
+  config.sass.load_paths += %w(node_modules)
+
+
   config.after_initialize do
     Configuration.mailman_dir = '/usr/lib/mailman/bin'
     Configuration.paypal_url = 'https://www.paypal.com/cgi-bin/webscr'
