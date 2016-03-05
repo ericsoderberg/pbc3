@@ -32,7 +32,7 @@ var DragAndDrop = {
   },
 
   _end: function (dragAndDrop, event) {
-    dragAndDrop.dragged.style.display = "block";
+    dragAndDrop.dragged.style.display = "";
     dragAndDrop.dragged.parentNode.removeChild(dragAndDrop.placeholder);
 
     // Update list

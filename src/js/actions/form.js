@@ -23,11 +23,11 @@ export function loadForm (id) {
 export function loadFormEdit (id) {
   return function (dispatch) {
     dispatch({ type: FORM_EDIT_LOAD, id: id });
-    REST.get(`/forms/${id}/edit`).then(response => {
+    REST.get(`/forms/${id}/edit_contents`).then(response => {
       dispatch({
         type: FORM_EDIT_LOAD_SUCCESS,
-        form: res.response.form,
-        edit: res.response.edit
+        form: response.body,
+        edit: response.body.edit
       });
     });
   };
