@@ -3,14 +3,22 @@
 }
 
 .app-context {
-  padding-top: quadruple($inuit-base-spacing-unit);
+  // padding-top: quadruple($inuit-base-spacing-unit);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex: 1;
+  }
 }
 
 .app-header {
-  position: absolute;
-  top: 0px;
+  // position: absolute;
+  // top: 0px;
   width: 100vw;
   //background-color: $brand-secondary-background-color;
+  flex: 0 0 auto;
 }
 
 .app-header__contents {
@@ -32,11 +40,12 @@
   }
 }
 
-.app-header__menu {
-  flex: 0 0 auto;
-}
+// .app-header__menu {
+//   flex: 0 0 auto;
+// }
 
 .app-footer {
+  flex: 0 0 auto;
   background-color: $brand-secondary-background-color;
   margin-top: double($inuit-base-spacing-unit);
 }
