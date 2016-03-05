@@ -39,6 +39,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-rbenv', '~> 2.0', require: false
   gem 'capistrano-npm', require: false
+  gem 'capistrano3-puma'
   gem 'guard'
   gem 'guard-livereload'
   gem 'web-console', '~> 2.0'
