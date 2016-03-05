@@ -1,7 +1,0 @@
-<% if @page.id -%>
- <%= link_to 'Cancel', friendly_page_path(@page), class: 'btn' %>
-<% elsif @page.parent -%>
- <%= link_to 'Cancel', friendly_page_path(@page.parent), class: 'btn' %>
-<% else -%>
- <%= link_to 'Cancel', pages_path, class: 'btn' %>
-<% end -%>
