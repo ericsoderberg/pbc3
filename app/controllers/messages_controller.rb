@@ -57,8 +57,6 @@ class MessagesController < ApplicationController
     end
     @messages = @messages.limit(20)
 
-    @content_partial = 'messages/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }
@@ -96,8 +94,6 @@ class MessagesController < ApplicationController
     @files = @message.ordered_files
     @previous_message = @message.previous
     @next_message = @message.next
-
-    @content_partial = 'messages/show'
 
     respond_to do |format|
       format.html # show.html.erb

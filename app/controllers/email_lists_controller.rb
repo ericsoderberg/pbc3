@@ -18,8 +18,6 @@ class EmailListsController < ApplicationController
 
     @count = @email_lists.count
 
-    @content_partial = 'email_lists/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }
@@ -55,8 +53,6 @@ class EmailListsController < ApplicationController
       end
 
     @count = @email_addresses.count
-
-    @content_partial = 'email_lists/show'
 
     respond_to do |format|
       format.html # show.html.erb

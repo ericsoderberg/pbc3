@@ -20,8 +20,6 @@ class PaymentsController < ApplicationController
     end
     @payments = @payments.limit(20)
 
-    @content_partial = 'payments/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }

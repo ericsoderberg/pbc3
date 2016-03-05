@@ -75,8 +75,6 @@ class CalendarController < ApplicationController
     @isCurrent = (@date.beginning_of_month.to_date == Date.today.beginning_of_month)
 =end
 
-    @content_partial = 'calendar/index'
-
     respond_to do |format|
       format.html { render :action => "index" }
       format.json { render :partial => "index" }

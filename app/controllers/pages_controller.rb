@@ -28,8 +28,6 @@ class PagesController < ApplicationController
 
     session[:breadcrumbs] = ''
 
-    @content_partial = 'pages/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }
@@ -131,8 +129,6 @@ class PagesController < ApplicationController
     if @page.administrator? current_user
       @edit_url = edit_contents_page_url(@page, :protocol => 'https')
     end
-
-    @content_partial = 'pages/show'
 
     respond_to do |format|
       format.html { render '/home/index' }

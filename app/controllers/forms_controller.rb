@@ -21,8 +21,6 @@ class FormsController < ApplicationController
     end
     @forms = @forms.limit(20)
 
-    @content_partial = 'forms/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }

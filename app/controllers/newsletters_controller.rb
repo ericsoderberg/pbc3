@@ -22,8 +22,6 @@ class NewslettersController < ApplicationController
     end
     @newsletters = @newsletters.limit(20)
 
-    @content_partial = 'newsletters/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }

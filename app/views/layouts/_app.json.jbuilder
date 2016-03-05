@@ -6,7 +6,4 @@ json.app do
   json.logoUrl @site.wordmark.url
   json.menuActions @app_menu_actions
   json.requestPath request.path
-  json.content do
-    json.partial! @content_partial
-  end
 end

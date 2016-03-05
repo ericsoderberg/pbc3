@@ -22,8 +22,6 @@ class HolidaysController < ApplicationController
     end
     @holidays = @holidays.limit(20)
 
-    @content_partial = 'holidays/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }

@@ -24,8 +24,6 @@ class HomeController < ApplicationController
 
     session[:breadcrumbs] = '' # clear breadcrumbs
 
-    @content_partial = 'pages/show'
-
     respond_to do |format|
       format.html { render :action => "index" }
       format.json { render :action => "index" }

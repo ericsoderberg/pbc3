@@ -29,8 +29,6 @@ class AccountsController < ApplicationController
       @count = 1
     end
 
-    @content_partial = 'accounts/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }

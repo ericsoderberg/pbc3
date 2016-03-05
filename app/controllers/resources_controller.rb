@@ -22,8 +22,6 @@ class ResourcesController < ApplicationController
     end
     @resources = @resources.limit(20)
 
-    @content_partial = 'resources/index'
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :partial => "index" }
