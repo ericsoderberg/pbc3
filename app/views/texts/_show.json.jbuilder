@@ -1,4 +1,2 @@
 text ||= @text
-json.text do
-  json.extract!(text, :text)
-end
+json.extract!(text, :text)

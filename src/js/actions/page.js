@@ -15,13 +15,8 @@ export function loadPage (id) {
     const loc = history.createLocation(document.location.pathname +
       document.location.search);
     dispatch({ type: PAGE_LOAD, id: id });
-    REST.get(loc.pathname).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: PAGE_LOAD_SUCCESS,
-          page: res.body.page
-        });
-      }
+    REST.get(loc.pathname).then(response => {
+      dispatch({ type: PAGE_LOAD_SUCCESS, page: response.body });
     });
   };
 }
@@ -31,14 +26,12 @@ export function loadPageEdit (id) {
     const loc = history.createLocation(document.location.pathname +
       document.location.search);
     dispatch({ type: PAGE_EDIT_LOAD, id: id });
-    REST.get(loc.pathname).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: PAGE_EDIT_LOAD_SUCCESS,
-          page: res.body.page,
-          edit: res.body.edit
-        });
-      }
+    REST.get(loc.pathname).then(response => {
+      dispatch({
+        type: PAGE_EDIT_LOAD_SUCCESS,
+        page: response.body.page,
+        edit: response.body.edit
+      });
     });
   };
 }
@@ -47,11 +40,9 @@ export function updatePageContentsOrder (path, token, elementIds) {
   return function (dispatch) {
     dispatch({ type: PAGE_UPDATE_CONTENTS_ORDER, path: path });
     const data = { element_order: elementIds };
-    REST.patch(path, token, data).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({ type: PAGE_UPDATE_CONTENTS_ORDER_SUCCESS });
-        location = res.body.redirect_to;
-      }
+    REST.patch(path, token, data).then(response => {
+      dispatch({ type: PAGE_UPDATE_CONTENTS_ORDER_SUCCESS });
+      location = response.body.redirect_to;
     });
   };
 }

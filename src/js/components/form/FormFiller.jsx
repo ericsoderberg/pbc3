@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loadFormFillEdit, addFormFill, updateFormFill,
+import { loadFormFillEdit, addFormFill, updateFormFill, deleteFormFill,
   unloadFormFill } from '../../actions/actions';
 import { Link } from 'react-router';
 import CloseIcon from '../icons/CloseIcon';
@@ -37,25 +37,10 @@ export default class FormFiller extends Component {
   constructor (props) {
     super(props);
     this._onSubmit = this._onSubmit.bind(this);
+    this._onRemove = this._onRemove.bind(this);
+    this._onCancelRemove = this._onCancelRemove.bind(this);
     this._onDelete = this._onDelete.bind(this);
     this._onChange = this._onChange.bind(this);
-
-    // let mode;
-    // let filledForm;
-    //
-    // if (props.form.mode) {
-    //   mode = props.form.mode;
-    // } else if (props.form.filledForms.length === 0 || 'form' !== props.tag) {
-    //   mode = 'new';
-    // } else {
-    //   mode = 'show';
-    // }
-    // if ('new' === mode) {
-    //   filledForm = {filledFields: []};
-    // } else if ('edit' === mode) {
-    //   filledForm = props.form.filledForms[0];
-    // }
-
     this.state = {
       formFill: props.formFill,
       fieldErrors: {}
@@ -67,7 +52,9 @@ export default class FormFiller extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.id !== this.props.id) {
+    if (this.props.onClose && nextProps.edit.done) {
+      this.props.onClose(true);
+    } else if (this.props.id && nextProps.id !== this.props.id) {
       this.props.dispatch(loadFormFillEdit(nextProps.formId, nextProps.id));
     }
     this.setState({ formFill: nextProps.formFill });
@@ -79,127 +66,79 @@ export default class FormFiller extends Component {
 
   _onSubmit (event) {
     event.preventDefault();
-    const { id, formId, form, edit: { authenticityToken, pageId }} = this.props;
+    const { id, formId, form, edit: { authenticityToken }, onClose } = this.props;
     const { formFill } = this.state;
     const filledFields = filledFieldsForForm(form, formFill);
     if (id) {
-      this.props.dispatch(updateFormFill(formId, id, authenticityToken, filledFields, pageId));
+      this.props.dispatch(updateFormFill(formId, id, authenticityToken,
+        filledFields, (! onClose)));
     } else {
-      this.props.dispatch(addFormFill(formId, authenticityToken, filledFields, pageId));
+      this.props.dispatch(addFormFill(formId, authenticityToken,
+        filledFields, (! onClose)));
     }
-    // const filledForm = this.state.filledForm;
-    // const filledFields = filledFieldsForForm(this.props.form, filledForm);
-    // let url;
-    // let action;
-    // if ('new' === this.state.mode) {
-    //   url = this.props.form.createUrl;
-    //   action = 'post';
-    // } else {
-    //   url = this.state.filledForm.url;
-    //   action = 'put';
-    // }
-    // var data = {
-    //   filledFields: filledFields,
-    //   email_address_confirmation: ''
-    // };
-    // if (this.props.form.pageId) {
-    //   data.pageId = this.props.form.pageId;
-    // }
-    // const token = this.props.form.authenticityToken;
-    // REST[action](url, token, data,
-    //   function (response) {
-    //     // Successful submit
-    //     if (response.redirectUrl) {
-    //       // not in a page
-    //       window.location = response.redirectUrl;
-    //     } else {
-    //       // in a page
-    //       let filledForm = response;
-    //       let filledForms;
-    //       if ('new' === this.state.mode) {
-    //         filledForms = this.state.filledForms;
-    //         filledForms.push(filledForm);
-    //       } else {
-    //         filledForms = this.state.filledForms.map(function (filledForm2) {
-    //           return (filledForm2.id === filledForm.id ? filledForm : filledForm2);
-    //         });
-    //       }
-    //       this.setState({
-    //         mode: 'show',
-    //         filledForm: null,
-    //         filledForms: filledForms,
-    //         fieldErrors: {}
-    //       });
-    //     }
-    //   }.bind(this), function (errors) {
-    //     this.setState({fieldErrors: errors});
-    //   }.bind(this));
+  }
+
+  _onRemove (event) {
+    event.preventDefault();
+    this.setState({ removing: true });
+  }
+
+  _onCancelRemove () {
+    this.setState({ removing: false });
   }
 
   _onDelete () {
-    const { formFill, edit: { authenticityToken, pageId } } = this.props;
-    this.props.dispatch(deleteFormFill(formFill.url, authenticityToken, pageId));
-    // const token = this.props.form.authenticityToken;
-    // REST.delete(filledForm.url, token, function (response) {
-    //   if (response.result === 'ok') {
-    //     const filledForms = this.state.filledForms.filter(function (filled) {
-    //       return (filled.id !== filledForm.id);
-    //     });
-    //     let mode = this.state.mode;
-    //     filledForm = null;
-    //     if (filledForms.length === 0) {
-    //       mode = 'new';
-    //       filledForm = {filledFields: []};
-    //     } else {
-    //       mode = 'show';
-    //     }
-    //     this.setState({filledForms: filledForms,
-    //       mode: mode, filledForm: filledForm});
-    //   }
-    // }.bind(this));
+    const { id, formId, edit: { authenticityToken }, onClose } = this.props;
+    this.props.dispatch(deleteFormFill(formId, id, authenticityToken,
+      (! onClose)));
   }
 
   _onChange (formFill) {
     this.setState({formFill: formFill});
   }
 
-  // _onCancel (event) {
-  //   this.setState({mode: 'show', filledForm: null});
-  // }
-
-  // _onAdd (event) {
-  //   event.preventDefault();
-  //   this.setState({mode: 'new', filledForm: {filledFields: []}});
-  // }
-
   render () {
-    const { id, form, edit: { cancelPath } } = this.props;
-    const { formFill, fieldErrors } = this.state;
+    const { id, form, edit: { cancelPath, errors }, onClose,
+      disabled } = this.props;
+    const { formFill, removing } = this.state;
 
     const sections = form.formSections.map(formSection => {
       return (
         <FormSection key={formSection.id}
           formSection={formSection}
           formFill={formFill}
-          fieldErrors={fieldErrors}
+          errors={errors}
           onChange={this._onChange} />
       );
     });
 
     let remove;
     if (id) {
-      remove = (
-        <a onClick={(event) => {
-          event.preventDefault();
-          if (window.confirm('Are you sure?')) {
-            this._onDelete();
-          }
-        }}>Remove</a>
-      );
+      if (removing) {
+        remove = (
+          <span className={`${CLASS_ROOT}__remove-confirm`}>
+            <button type="button" className="btn"
+              onClick={this._onDelete}>Confirm</button>
+            <button type="button" className="btn"
+              onClick={this._onCancelRemove}>Cancel</button>
+          </span>
+        );
+      } else {
+        remove = <a onClick={this._onRemove}>Remove</a>;
+      }
     }
 
     let headerCancel;
-    if (cancelPath) {
+    if (onClose) {
+      headerCancel = (
+        <a className="control-icon" onClick={(event) => {
+          event.preventDefault();
+          onClose();
+        }}>
+          <CloseIcon />
+        </a>
+      );
+    } else if (cancelPath) {
       headerCancel = (
         <Link className="control-icon" to={cancelPath}>
           <CloseIcon />
@@ -207,32 +146,9 @@ export default class FormFiller extends Component {
       );
     }
 
-    // let cancel;
-      // } else {
-      //   headerCancel = (
-      //     <a className="control-icon" onClick={this._onCancel}>
-      //       <CloseIcon />
-      //     </a>
-      //   );
-      //   cancel = <a onClick={this._onCancel}>Cancel</a>;
-      // }
-    // } else if ('new' === this.props.form.mode) {
-    //   headerCancel = (
-    //     <a className="control-icon" href={this.props.form.indexUrl}>
-    //       <CloseIcon />
-    //     </a>
-    //   );
-    // } else if (form.manyPerUser && this.state.filledForms.length > 0) {
-    //   headerCancel = (
-    //     <a className="control-icon" onClick={this._onCancel}>
-    //       <CloseIcon />
-    //     </a>
-    //   );
-    //   cancel = <a onClick={this._onCancel}>Cancel</a>;
-    // }
-
+    const Tag = (disabled ? 'div' : 'form');
     return (
-      <form className={CLASS_ROOT}>
+      <Tag className={CLASS_ROOT}>
         <div className={`${CLASS_ROOT}__header`}>
           <span className="form__title">{form.name}</span>
           {headerCancel}
@@ -251,16 +167,16 @@ export default class FormFiller extends Component {
             className="btn btn--primary"
             onClick={this._onSubmit} />
           {remove}
-          {/*}{cancel}{*/}
         </div>
-      </form>
+      </Tag>
     );
   }
 };
 
 FormFiller.propTypes = {
-  id: PropTypes.string,
-  formId: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  disabled: PropTypes.bool,
+  formId: PropTypes.number.isRequired,
   form: PropTypes.shape({
     name: PropTypes.string,
     formSections: PropTypes.array
@@ -272,15 +188,18 @@ FormFiller.propTypes = {
   edit: PropTypes.shape({
     authenticityToken: PropTypes.string,
     cancelPath: PropTypes.string,
+    done: PropTypes.bool,
+    errors: PropTypes.object,
     updateUrl: PropTypes.string
-  })
+  }),
+  onClose: PropTypes.func
 };
 
 let select = (state, props) => ({
   form: state.form,
   formFill: state.formFill,
-  formId: props.params.formId,
-  id: props.params.id,
+  formId: (props.params ?  parseInt(props.params.formId, 10) : props.formId),
+  id: (props.params ? parseInt(props.params.id, 10) : props.id),
   edit: state.formFillEdit
 });
 

@@ -7,6 +7,7 @@ import form from './reducers/form';
 import formEdit from './reducers/formEdit';
 import formFill from './reducers/formFill';
 import formFillEdit from './reducers/formFillEdit';
+import formFills from './reducers/formFills';
 import index from './reducers/index';
 import message from './reducers/message';
 import messages from './reducers/messages';
@@ -23,6 +24,7 @@ export default compose(
   formEdit,
   formFill,
   formFillEdit,
+  formFills,
   index,
   message,
   messages,

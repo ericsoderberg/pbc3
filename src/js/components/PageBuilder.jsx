@@ -9,7 +9,7 @@ import DragAndDrop from '../utils/DragAndDrop';
 import Text from './Text';
 import Item from './Item';
 import Event from './Event';
-// import Form from './form/Form';
+import FormFiller from './form/FormFiller';
 
 var CLASS_ROOT = "page-builder";
 var PLACEHOLDER_CLASS = `${CLASS_ROOT}__placeholder`;
@@ -94,9 +94,11 @@ class PageBuilder extends Component {
         case 'Page':
           contents = (<a href={pageElement.page.url}>{pageElement.page.name}</a>);
           break;
-        // case 'Form':
-        //   contents = (<Form form={pageElement.form} tag="div" />);
-        //   break;
+        case 'Form':
+          contents = (
+            <FormFiller formId={pageElement.form.id} />
+          );
+          break;
       }
       return (
         <div key={pageElement.id} className={`${CLASS_ROOT}__element`}

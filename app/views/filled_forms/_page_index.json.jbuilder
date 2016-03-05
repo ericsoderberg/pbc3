@@ -1,25 +1,18 @@
 form ||= @form
 filled_forms = @filled_forms || form.filled_forms_for_user(current_user)
-page ||= nil
 
-json.form do
+json.formFills filled_forms do |filled_form|
+  json.extract!(filled_form, :id, :name, :created_at, :updated_at, :version)
+  json.url form_fill_url(form, filled_form)
+  json.editPath edit_form_fill_path(form, filled_form)
+end
 
-  json.partial! 'forms/show', :form => form
-
-  json.filled_forms filled_forms, partial: 'filled_forms/show',
-    :locals => {:form => form}, as: :filled_form
-
+json.edit do
   json.createUrl form_fills_url(form)
   json.authenticityToken form_authenticity_token()
-  if page
-    json.pageId page.id
-  end
+  json.pageId page.id
 
   if current_user and current_user.administrator?
-    json.indexUrl form_fills_url(form, :page_id => (page ? page.id : nil))
-    if @mode
-      json.mode @mode
-    end
+    json.indexPath form_fills_path(form)
   end
-
 end

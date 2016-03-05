@@ -4,12 +4,23 @@
   overflow: auto;
   margin: 0 auto;
 
+  .page__element &,
+  .page-builder__element & {
+    width: 100%;
+    margin: 0;
+  }
+
   fieldset {
     max-width: $max-content-width;
     margin: 0 auto;
     border: none;
     padding: 0px;
     margin-bottom: double($inuit-base-spacing-unit);
+
+    .page__element &,
+    .page-builder__element & {
+      margin: 0;
+    }
 
     &:last-of-type {
       margin-bottom: 1px;
@@ -53,6 +64,7 @@
   .page-builder__element & {
     padding-left: 0px;
     padding-right: 0px;
+    margin: 0;
   }
 }
 
@@ -86,6 +98,12 @@
     &:hover {
       background-color: $brand-accent-color;
     }
+  }
+}
+
+.form__remove-confirm {
+  > .btn {
+    margin-left: halve($inuit-base-spacing-unit);
   }
 }
 
@@ -183,6 +201,11 @@
   img {
     max-width: 100%;
   }
+}
+
+.form__field--error {
+  border-color: $validation-color;
+  z-index: 1;
 }
 
 .form__field-decorated-input {

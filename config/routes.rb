@@ -44,7 +44,11 @@ Rails.application.routes.draw do
         resources :options, :controller => 'form_field_options',
           :except => [:index, :new]
       end
-      resources :fills, :controller => 'filled_forms'
+      resources :fills, :controller => 'filled_forms' do
+        collection do
+          get 'user'
+        end
+      end
     end
     resources :payments do
       member do

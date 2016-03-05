@@ -25,18 +25,16 @@ export function loadIndex (category, context) {
     if (search) {
       path += `?search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: INDEX_LOAD_SUCCESS,
-          category: category,
-          context: (context ? res.body[context] : undefined),
-          result: {
-            items: res.body[category],
-            ...res.body
-          }
-        });
-      }
+    REST.get(path).then((res) => {
+      dispatch({
+        type: INDEX_LOAD_SUCCESS,
+        category: category,
+        context: (context ? res.body[context] : undefined),
+        result: {
+          items: res.body[category],
+          ...res.body
+        }
+      });
     });
   };
 }
@@ -48,18 +46,16 @@ export function searchIndex (category, search) {
     if (search) {
       path += `?search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: INDEX_SEARCH_SUCCESS,
-          category: category,
-          search: search,
-          result: {
-            items: res.body[category],
-            ...res.body
-          }
-        });
-      }
+    REST.get(path).then((res) => {
+      dispatch({
+        type: INDEX_SEARCH_SUCCESS,
+        category: category,
+        search: search,
+        result: {
+          items: res.body[category],
+          ...res.body
+        }
+      });
     });
     history.replace(path);
   };
@@ -73,19 +69,17 @@ export function moreIndex (category, offset, search) {
     if (search) {
       path += `&search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: INDEX_MORE_SUCCESS,
-          category: category,
-          offset: offset,
-          search: search,
-          result: {
-            items: res.body[category],
-            ...res.body
-          }
-        });
-      }
+    REST.get(path).then((res) => {
+      dispatch({
+        type: INDEX_MORE_SUCCESS,
+        category: category,
+        offset: offset,
+        search: search,
+        result: {
+          items: res.body[category],
+          ...res.body
+        }
+      });
     });
   };
 }

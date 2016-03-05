@@ -16,7 +16,7 @@ export default class FormSection extends Component {
   }
 
   render () {
-    const { formSection, formFill, fieldErrors } = this.props;
+    const { formSection, formFill, errors } = this.props;
 
     let hidden = false;
     if (formSection.dependsOnId) {
@@ -35,7 +35,7 @@ export default class FormSection extends Component {
           <FormField key={formField.id}
             formField={formField}
             formFill={formFill}
-            fieldErrors={fieldErrors}
+            errors={errors}
             onChange={this._onChange} />
         );
       });
@@ -57,7 +57,7 @@ export default class FormSection extends Component {
 };
 
 FormSection.propTypes = {
-  fieldErrors: PropTypes.object.isRequired,
+  errors: PropTypes.object,
   formFill: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired

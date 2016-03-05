@@ -1,4 +1,8 @@
-import request from 'superagent';
+import superagent from 'superagent';
+import PromisePoly from 'es6-promise';
+import superagentPromise from 'superagent-promise';
+
+let agent = superagentPromise(superagent, Promise || PromisePoly);
 
 let _headers = {
   'Accept': 'application/json',
@@ -30,37 +34,37 @@ function buildQueryParams(params) {
 export default {
 
   get (uri, params) {
-    var op = request.get(uri).query(buildQueryParams(params));
+    var op = agent.get(uri).query(buildQueryParams(params));
     op.set(_headers);
-    return op;
+    return op.end();
   },
 
   post (uri, token, data) {
-    var op = request.post(uri).send(data);
+    var op = agent.post(uri).send(data);
     op.timeout(_timeout);
     op.set({..._headers, ...{'X-CSRF-Token': token}});
-    return op;
+    return op.end();
   },
 
   put (uri, token, data) {
-    var op = request.put(uri).send(data);
+    var op = agent.put(uri).send(data);
     op.timeout(_timeout);
     op.set({..._headers, ...{'X-CSRF-Token': token}});
-    return op;
+    return op.end();
   },
 
   patch (uri, token, data) {
-    var op = request.patch(uri).send(data);
+    var op = agent.patch(uri).send(data);
     op.timeout(_timeout);
     op.set({..._headers, ...{'X-CSRF-Token': token}});
-    return op;
+    return op.end();
   },
 
   del (uri, token) {
-    var op = request.del(uri);
+    var op = agent.del(uri);
     op.timeout(_timeout);
     op.set({..._headers, ...{'X-CSRF-Token': token}});
-    return op;
+    return op.end();
   }
 
 };

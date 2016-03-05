@@ -45,7 +45,7 @@
 
 
 .item {
-  max-width: $max-content-width;
+  max-width: $max-content-width - double($inuit-base-spacing-unit);
 }
 
 .item--image {

@@ -1,7 +1,7 @@
 class FilledFormsController < ApplicationController
   before_filter :authenticate_user!,
     :except => [:new, :create, :edit, :update, :destroy]
-  before_filter :get_form, :except => [:user_index]
+  before_filter :get_form #, :except => [:user_index]
 
   def index
     return unless administrator!
@@ -22,8 +22,6 @@ class FilledFormsController < ApplicationController
     end
     @filled_forms = @filled_forms.limit(20)
     @page = Page.find(params[:page_id]) if params[:page_id]
-
-    @content_partial = 'filled_forms/index'
 
     respond_to do |format|
       format.html # index.html.erb
@@ -64,6 +62,13 @@ class FilledFormsController < ApplicationController
     #   format.csv # index.csv.erb
     #   format.xls # index.xls.erb
     # end
+  end
+
+  def user
+    @filled_forms = @form.filled_forms_for_user(current_user)
+    respond_to do |format|
+      format.json { render :partial => "user" }
+    end
   end
 
   # def user_index
@@ -160,10 +165,10 @@ class FilledFormsController < ApplicationController
             :notice => "#{@form.name} was successfully submitted.") }
         format.json { render :partial => "show", :layout => false }
       else
-        @filled_forms = @form.visible_filled_forms(current_user)
-        @payments = @form.payments_for_user(current_user)
+        # @filled_forms = @form.visible_filled_forms(current_user)
+        # @payments = @form.payments_for_user(current_user)
         format.html { render :action => "new" }
-        format.json { render :json => @filled_form.errors,
+        format.json { render :json => {result: 'error', errors: @filled_form.errors},
           :status => :unprocessable_entity }
       end
     end

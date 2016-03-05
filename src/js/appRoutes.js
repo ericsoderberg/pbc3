@@ -11,7 +11,7 @@ import Messages from './components/Messages';
 import Message from './components/Message';
 import Resources from './components/Resources';
 import Forms from './components/Forms';
-import FilledForms from './components/FilledForms';
+import FormFills from './components/FormFills';
 import FormFiller from './components/form/FormFiller';
 import Payments from './components/Payments';
 import Newsletters from './components/Newsletters';
@@ -37,7 +37,7 @@ export default { path: '/', component: App,
         { path: 'email_lists/:id', component: EmailList},
         { path: 'email_lists', component: EmailLists},
 
-        { path: 'forms/:id/fills', component: FilledForms},
+        { path: 'forms/:id/fills', component: FormFills},
         { path: 'forms', component: Forms},
         { path: 'payments', component: Payments},
         { path: ':id', component: Page}

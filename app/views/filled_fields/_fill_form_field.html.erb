@@ -11,7 +11,7 @@
   :class => "#{fill_form_field.field_type}" +
     (fill_form_field.dense? ? ' dense' : '') +
     (errors.empty? ? '' : ' error')) do %>
-  
+
   <% unless name_after -%>
     <% if FormField::INSTRUCTIONS == fill_form_field.field_type -%>
       <% if fill_form_field.help.empty? -%>
@@ -31,7 +31,7 @@
       <% end -%>
     <% end -%>
   <% end -%>
-  
+
   <div class="form_field_value <%= fill_form_field.prompt? ? 'prompted' : '' %>">
   <% case fill_form_field.field_type -%>
     <% when FormField::FIELD, FormField::SINGLE_LINE -%>
@@ -103,13 +103,13 @@
       <% end -%>
     <% when FormField::INSTRUCTIONS -%>
   <% end -%>
-  
+
   <% if name_after -%>
   <div class="form_field_name">
     <%= fill_form_field.name %>
   </div>
   <% end -%>
-  
+
   <div class="form_field_help <%= (filled_form.id and value.empty? ? "print-overridden" : '') %>">
     <%= raw fill_form_field.help %>
   </div>

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import FormFieldOption from './FormFieldOption';
 import formUtils from './formUtils';
 
-const CLASS_ROOT = "form";
+const CLASS_ROOT = "form__field";
 
 export default class FormField extends Component {
 
@@ -30,8 +30,9 @@ export default class FormField extends Component {
   }
 
   render () {
-    const { formFill, formField } = this.props;
+    const { formFill, formField, errors } = this.props;
     const filledField = formUtils.findFilledField(formFill, formField.id);
+    let classes = [CLASS_ROOT];
     let hidden = false;
     if (formField.dependsOnId) {
       const dependsOn = formUtils.findFilledField(formFill, formField.dependsOnId);
@@ -48,7 +49,7 @@ export default class FormField extends Component {
     } else if ('instructions' === formField.fieldType) {
 
       result = (
-        <div className={`${CLASS_ROOT}__field form__fields-help`}>
+        <div className={`${CLASS_ROOT} form__fields-help`}>
           {formField.help}
         </div>
       );
@@ -61,13 +62,14 @@ export default class FormField extends Component {
       }
       let help;
       if (formField.help) {
-        help = <div className="form__field-help">{formField.help}</div>;
+        help = <div className={`${CLASS_ROOT}-help`}>{formField.help}</div>;
       }
       let error;
-      if (this.props.fieldErrors.hasOwnProperty(formField.name)) {
+      if (errors.hasOwnProperty(formField.name.toLowerCase())) {
+        classes.push(`${CLASS_ROOT}--error`);
         error = (
-          <div className="form__field-error">
-            {this.props.fieldErrors[formField.name]}
+          <div className={`${CLASS_ROOT}-error`}>
+            {errors[formField.name.toLowerCase()].join(', ')}
           </div>
         );
       }
@@ -81,8 +83,8 @@ export default class FormField extends Component {
         );
         if (formField.monetary) {
           content = (
-            <div className="form__field-decorated-input">
-              <span className="form__field-decorated-input-prefix">$</span>
+            <div className={`${CLASS_ROOT}-decorated-input`} >
+              <span className={`${CLASS_ROOT}-decorated-input-prefix`}>$</span>
               {content}
             </div>
           );
@@ -109,16 +111,16 @@ export default class FormField extends Component {
           suffix += ` = ${formField.monetary ? '$' : ''}${formField.unitValue * value}`;
         }
         content = (
-          <div className="form__field-decorated-input">
+          <div className={`${CLASS_ROOT}-decorated-input`}>
             <input ref="input" type="number" name={formField.name}
               value={value} onChange={this._onChange} />
-            <span className="form__field-decorated-input-suffix">{suffix}</span>
+            <span className={`${CLASS_ROOT}-decorated-input-suffix`}>{suffix}</span>
           </div>
         );
       }
 
       result = (
-        <div className={`${CLASS_ROOT}__field`}>
+        <div className={classes.join(' ')}>
           {error}
           {label}
           {help}
@@ -132,8 +134,12 @@ export default class FormField extends Component {
 };
 
 FormField.propTypes = {
-  fieldErrors: PropTypes.object,
+  errors: PropTypes.object,
   formFill: PropTypes.object.isRequired,
   formField: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
+};
+
+FormField.defaultProps = {
+  errors: {}
 };

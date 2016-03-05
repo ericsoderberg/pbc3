@@ -6,7 +6,7 @@ import EditIcon from './icons/EditIcon';
 import Text from './Text';
 import Item from './Item';
 import Event from './Event';
-// import Form from './form/Form';
+import Form from './form/Form';
 
 const CLASS_ROOT = "page";
 
@@ -62,9 +62,10 @@ class Page extends Component {
         case 'Page':
           contents = (<Link to={pageElement.page.url}>{pageElement.page.name}</Link>);
           break;
-        // case 'Form':
-        //   contents = (<Form form={pageElement.form} />);
-        //   break;
+        case 'Form':
+          contents = (<Form form={pageElement.form}
+            formFills={pageElement.formFills} edit={pageElement.edit} />);
+          break;
       }
       return (
         <li key={pageElement.index} className={`${CLASS_ROOT}__element`}>

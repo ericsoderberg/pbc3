@@ -1,7 +1,7 @@
 form ||= @form
 filled_forms = @filled_forms || form.filled_forms_for_user(current_user)
 
-json.filled_forms filled_forms do |filled_form|
+json.formFills filled_forms do |filled_form|
   json.extract!(filled_form, :id, :name, :created_at, :updated_at, :version)
   json.url form_fill_url(form, filled_form)
   json.editPath edit_form_fill_path(form, filled_form)

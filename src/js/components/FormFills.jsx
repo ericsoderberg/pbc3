@@ -4,26 +4,26 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import Index from './Index';
 
-const CLASS_ROOT = "filled-forms";
+const CLASS_ROOT = "form-fills";
 
-class FilledForms extends Component {
+class FormFills extends Component {
 
   constructor () {
     super();
-    this._renderFilledForm = this._renderFilledForm.bind(this);
+    this._renderFormFill = this._renderFormFill.bind(this);
   }
 
-  _renderFilledForm (filledForm) {
-    var date = moment(filledForm.updatedAt);
+  _renderFormFill (formFill) {
+    var date = moment(formFill.updatedAt);
     var parts = [
       <Link key="name" className={`${CLASS_ROOT}__form-name`}
-        to={filledForm.editPath}>
-        {filledForm.name}
+        to={formFill.editPath}>
+        {formFill.name}
       </Link>,
       <span key="date">{date.format('MMM D, YYYY')}</span>
     ];
     if (this.props.form.version > 1) {
-      parts.push(<span>{filledForm.version}</span>);
+      parts.push(<span>{formFill.version}</span>);
     }
     return parts;
   }
@@ -31,9 +31,9 @@ class FilledForms extends Component {
   render () {
     return (
       <Index title={this.props.form.name || 'Form'}
-        itemRenderer={this._renderFilledForm}
-        category="filledForms" context="form" index={{
-          items: this.props.filledForms,
+        itemRenderer={this._renderFormFill}
+        category="formFills" context="form" index={{
+          items: this.props.formFills,
           count: this.props.count,
           filter: this.props.filter
         }}
@@ -45,10 +45,10 @@ class FilledForms extends Component {
 };
 
 // match app/views/filled_forms/_index.json.jbuilder
-FilledForms.propTypes = {
+FormFills.propTypes = {
   count: PropTypes.number,
   editUrl: PropTypes.string,
-  filledForms: PropTypes.array,
+  formFills: PropTypes.array,
   filter: PropTypes.object,
   form: PropTypes.object,
   newPath: PropTypes.string,
@@ -57,4 +57,4 @@ FilledForms.propTypes = {
 
 let select = (state) => ({form: state.index.context});
 
-export default connect(select)(FilledForms);
+export default connect(select)(FormFills);
