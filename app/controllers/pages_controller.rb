@@ -64,7 +64,7 @@ class PagesController < ApplicationController
       return
     end
     unless @page.authorized?(current_user)
-      session[:post_login_path] = request.original_url # needed?
+      # session[:post_login_path] = request.original_url # needed?
       redirect_to private_path(:page_id => @page.url)
       return
     end
