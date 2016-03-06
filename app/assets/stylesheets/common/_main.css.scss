@@ -1,85 +1,85 @@
-body {
-  margin: 0px;
-	font: 14px/22px Arial, sans-serif;
-	color: #666;
-
-  @include respond-to(normal-up) {
-    padding: 0px 0px 40px 0px;
-  	background-color: $body-background-color;
-  }
-
-  @include respond-to(small-down) {
-    padding: 0px 0px 0px 0px;
-  	background-color: #fff;
-  }
-}
-
-div#content {
-  position: relative;
-  
-  @include respond-to(normal-up) {
-    margin: 0px auto;
-    padding: 35px 35px 20px 35px;
-  	width: 980px;
-  	background: #fff;
-	}
-	
-	@include respond-to(small-down) {
-	  position: relative;
-	  padding: 10px 20px 40px 20px;
-  }
-}
-
-h1 {
-  font-size: 32px;
-  line-height: 44px;
-  padding: 0 0 8px 0;
-}
-
-h2 {
-	font-size: 28px;
-	line-height: 28px;
-	margin: 15px 0;
-  font-weight: normal;
-}
-
-h3 {
-	font-size: 18px;
-	line-height: 22px;
-	margin: 15px 0;
-}
-
-h1, h2, h3 {
-  font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
-}
-
-a {
-  text-decoration: none;
-  color: $link-color;
-  font-size: 14px;
-  font-weight: normal;
-  
-  &:hover {
-    color: $link-hover-color;
-  }
-}
-
-html.no-touch a:hover {
-  background-color: inherit;
-}
-
-p {
-  margin: 0;
-	margin-bottom: 15px;
-  max-width: 600px;
-}
-
-img, a img {
-  border: none;
-}
-
-dl {
-  dt {
-    font-weight: bold;
-  }
-}
+// body {
+//   margin: 0px;
+// 	font: 14px/22px Arial, sans-serif;
+// 	color: #666;
+//
+//   @include respond-to(normal-up) {
+//     padding: 0px 0px 40px 0px;
+//   	background-color: $body-background-color;
+//   }
+//
+//   @include respond-to(small-down) {
+//     padding: 0px 0px 0px 0px;
+//   	background-color: #fff;
+//   }
+// }
+//
+// div#content {
+//   position: relative;
+//
+//   @include respond-to(normal-up) {
+//     margin: 0px auto;
+//     padding: 35px 35px 20px 35px;
+//   	width: 980px;
+//   	background: #fff;
+// 	}
+//
+// 	@include respond-to(small-down) {
+// 	  position: relative;
+// 	  padding: 10px 20px 40px 20px;
+//   }
+// }
+//
+// h1 {
+//   font-size: 32px;
+//   line-height: 44px;
+//   padding: 0 0 8px 0;
+// }
+//
+// h2 {
+// 	font-size: 28px;
+// 	line-height: 28px;
+// 	margin: 15px 0;
+//   font-weight: normal;
+// }
+//
+// h3 {
+// 	font-size: 18px;
+// 	line-height: 22px;
+// 	margin: 15px 0;
+// }
+//
+// h1, h2, h3 {
+//   font-family: 'Century Gothic', 'Lucida Sans', Arial, sans-serif;
+// }
+//
+// a {
+//   text-decoration: none;
+//   color: $link-color;
+//   font-size: 14px;
+//   font-weight: normal;
+//
+//   &:hover {
+//     color: $link-hover-color;
+//   }
+// }
+//
+// html.no-touch a:hover {
+//   background-color: inherit;
+// }
+//
+// p {
+//   margin: 0;
+// 	margin-bottom: 15px;
+//   max-width: 600px;
+// }
+//
+// img, a img {
+//   border: none;
+// }
+//
+// dl {
+//   dt {
+//     font-weight: bold;
+//   }
+// }
