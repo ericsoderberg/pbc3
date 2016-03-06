@@ -93,16 +93,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def mobile_device?
-    request.user_agent =~ /Mobile|webOS/
-  end
-  helper_method :mobile_device?
-
-  def phone_device?
-    request.user_agent.downcase =~ /iphone|ipod/
-  end
-  helper_method :phone_device?
-
   protected
 
   def configure_permitted_parameters
