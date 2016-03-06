@@ -9,19 +9,6 @@ export const MESSAGES_MORE = 'MESSAGES_MORE';
 export const MESSAGES_MORE_SUCCESS = 'MESSAGES_MORE_SUCCESS';
 export const MESSAGES_UNLOAD = 'MESSAGES_UNLOAD';
 
-function handler (dispatch, type) {
-  return (err, res) => {
-    if (!err && res.ok) {
-      dispatch({
-        type: MESSAGES_LOAD_SUCCESS,
-        messages: res.body.messages,
-        filter: res.body.filter,
-        count: res.body.count
-      });
-    }
-  };
-}
-
 export function loadMessages () {
   return function (dispatch) {
     // bring in any query from the location
@@ -33,7 +20,9 @@ export function loadMessages () {
     if (search) {
       path += `?search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).end(handler(dispatch, MESSAGES_LOAD_SUCCESS));
+    REST.get(path).then(response => {
+      dispatch({ type: MESSAGES_LOAD_SUCCESS, ...response.body });
+    });
   };
 }
 
@@ -44,7 +33,9 @@ export function searchMessages (search) {
     if (search) {
       path += `?search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).end(handler(dispatch, MESSAGES_SEARCH_SUCCESS));
+    REST.get(path).then(response => {
+      dispatch({ type: MESSAGES_SEARCH_SUCCESS, ...response.body });
+    });
     history.replace(path);
   };
 }
@@ -57,15 +48,8 @@ export function moreMessages (offset, search) {
     if (search) {
       path += `&search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: MESSAGES_MORE_SUCCESS,
-          messages: res.body.messages,
-          filter: res.body.search,
-          count: res.body.count
-        });
-      }
+    REST.get(path).then(response => {
+      dispatch({ type: MESSAGES_MORE_SUCCESS, ...response.body });
     });
   };
 }

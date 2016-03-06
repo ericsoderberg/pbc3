@@ -149,6 +149,15 @@
 
 // Message
 
+.message {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex: 0 0 auto;
+  }
+}
+
 .message__header {
   @include main-content();
   @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
@@ -218,6 +227,10 @@
     display: block;
     width: 100%;
   }
+}
+
+.message__contents {
+  flex: 1;
 }
 
 .message__image {

@@ -53,7 +53,7 @@ class Calendar extends Component {
           </span>
         );
 
-        const events = day.events.map(event => {
+        const events = day.events.map((event, index) => {
           const start = moment(event.startAt);
           let time;
           if (start.isAfter(date)) {
@@ -70,7 +70,7 @@ class Calendar extends Component {
             link = <a href={event.url}>{event.name}</a>;
           }
           return (
-            <li key={event.url} className="calendar__event">
+            <li key={event.url + index} className="calendar__event">
               {time}
               {link}
             </li>

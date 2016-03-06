@@ -139,8 +139,10 @@ export default class Message extends Component {
             {message.author ? message.author.name : ''}
           </span>
         </div>
-        {img}
-        {files}
+        <div className="message__contents">
+          {img}
+          {files}
+        </div>
         <footer className="message__footer">
           {next}
           {previous}
@@ -160,7 +162,7 @@ Message.propTypes = {
 };
 
 let select = (state, props) => ({
-  id: iprops.params.id,
+  id: props.params.id,
   message: state.message
 });
 

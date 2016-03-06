@@ -47,10 +47,8 @@ export default class SearchInput extends Component {
   _getSuggestions () {
     if (this.state.text && this.props.suggestionsPath) {
       var path = this.props.suggestionsPath + encodeURIComponent(this.state.text);
-      REST.get(path).end((err, res) => {
-        if (!err && res.ok) {
-          this.setState({suggestions: res.body});
-        }
+      REST.get(path).then(response => {
+        this.setState({suggestions: response.body});
       });
     } else {
       this.setState({suggestions: []});
@@ -187,14 +185,14 @@ export default class SearchInput extends Component {
       iconClasses.push(ROOT_CLASS + "__icon--active");
     }
 
-    var suggestions = this.state.suggestions.map(suggestion => {
+    var suggestions = this.state.suggestions.map((suggestion, index) => {
       if (typeof suggestion === 'string') {
         var suggestionClasses = [ROOT_CLASS + "__suggestion"];
         if (suggestion === this.state.suggestion) {
           suggestionClasses.push(ROOT_CLASS + "__suggestion--active");
         }
         return (
-          <li key={suggestion} className={suggestionClasses.join(' ')}
+          <li key={suggestion + index} className={suggestionClasses.join(' ')}
             onMouseDown={this._onMouseDownSuggestion.bind(this, suggestion)}>
             {suggestion}
           </li>
@@ -213,7 +211,7 @@ export default class SearchInput extends Component {
           );
         });
         return (
-          <li key={suggestion.label} className={ROOT_CLASS + "__suggestions-section"}>
+          <li key={suggestion.label + index} className={ROOT_CLASS + "__suggestions-section"}>
             <div className={ROOT_CLASS + "__suggestions-section-label"}>
               {suggestion.label}
             </div>

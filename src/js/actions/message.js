@@ -10,15 +10,8 @@ export function loadMessage (id) {
     const loc = history.createLocation(document.location.pathname +
       document.location.search);
     dispatch({ type: MESSAGE_LOAD, id: id });
-    REST.get(loc.pathname).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: MESSAGE_LOAD_SUCCESS,
-          message: res.body.message,
-          nextMessage: res.body.nextMessage,
-          previousMessage: res.body.previousMessage
-        });
-      }
+    REST.get(loc.pathname).then(response => {
+      dispatch({ type: MESSAGE_LOAD_SUCCESS, ...response.body });
     });
   };
 }

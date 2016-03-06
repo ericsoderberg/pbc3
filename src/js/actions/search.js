@@ -23,14 +23,12 @@ export function searchQuery (query) {
   return function (dispatch) {
     dispatch({ type: SEARCH_QUERY, query: query });
     const search = `?q=${encodeURIComponent(query)}`;
-    REST.get(search).end((err, res) => {
-      if (!err && res.ok) {
-        dispatch({
-          type: SEARCH_QUERY_SUCCESS,
-          query: query,
-          results: res.body.results
-        });
-      }
+    REST.get(search).then(response => {
+      dispatch({
+        type: SEARCH_QUERY_SUCCESS,
+        query: query,
+        results: response.body.results
+      });
     });
     history.replace({
       pathname: document.location.pathname,
