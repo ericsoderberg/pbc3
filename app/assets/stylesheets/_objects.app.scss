@@ -95,6 +95,7 @@
 .app-footer__summary {
   padding: $inuit-base-spacing-unit 0px;
   color: $secondary-color;
+  @include inuit-font-size($label-font-size);
 
   @include media-query(palm) {
     text-align: center;
