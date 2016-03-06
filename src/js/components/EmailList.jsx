@@ -1,25 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Index from './Index';
+import IndexItem from './IndexItem';
 import CloseIcon from './icons/CloseIcon';
-
-const CLASS_ROOT = "email-list";
 
 class EmailList extends Component {
 
   _renderEmailList (emailAddress) {
-    return [
-      <span key="address" className={`${CLASS_ROOT}__address`}>
+    return (
+      <IndexItem key={emailAddress.emailAddress}>
         {emailAddress.emailAddress}
-      </span>,
-      <form key="remove" action={emailAddress.removeUrl} method="post"
-        acceptCharset="UTF-8">
-        <input name="utf8" type="hidden" value="✓" />
-        <input type="hidden" name="authenticity_token"
-          value={emailAddress.authenticityToken} />
-        <button type="submit" className="control-icon"><CloseIcon /></button>
-      </form>
-    ];
+        <form key="remove" action={emailAddress.removeUrl} method="post"
+          acceptCharset="UTF-8">
+          <input name="utf8" type="hidden" value="✓" />
+          <input type="hidden" name="authenticity_token"
+            value={emailAddress.authenticityToken} />
+          <button type="submit" className="control-icon"><CloseIcon /></button>
+        </form>
+      </IndexItem>
+    );
   }
 
   render () {

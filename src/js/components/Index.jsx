@@ -54,11 +54,7 @@ class Index extends Component {
     }
 
     const items = this.props.index.items.map(item => {
-      return (
-        <li key={item.id} className={`${CLASS_ROOT}__item`}>
-          {itemRenderer(item)}
-        </li>
-      );
+      return itemRenderer(item);
     });
 
     let none;

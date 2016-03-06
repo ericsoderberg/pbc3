@@ -1,16 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import Index from './Index';
-
-const CLASS_ROOT = "pages";
+import IndexItem from './IndexItem';
 
 export default class Pages extends Component {
 
   _renderPage (page) {
     return (
-      <Link className={`${CLASS_ROOT}__page-name`} to={page.path}>
+      <IndexItem key={page.id} path={page.path}>
         {page.name}
-      </Link>
+      </IndexItem>
     );
   }
 

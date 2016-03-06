@@ -1,17 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import Index from './Index';
-
-const CLASS_ROOT = "forms";
+import IndexItem from './IndexItem';
 
 export default class Forms extends Component {
 
   _renderForm (form) {
     return (
-      <Link className={`${CLASS_ROOT}__form-name`}
-        to={form.formFillsPath}>
+      <IndexItem key={form.id} path={form.formFillsPath}>
         {form.name}
-      </Link>
+      </IndexItem>
     );
   }
 

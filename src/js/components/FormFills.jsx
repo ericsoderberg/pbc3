@@ -1,31 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import moment from 'moment';
 import Index from './Index';
-
-const CLASS_ROOT = "form-fills";
+import IndexItem from './IndexItem';
 
 class FormFills extends Component {
 
-  constructor () {
-    super();
-    this._renderFormFill = this._renderFormFill.bind(this);
-  }
-
   _renderFormFill (formFill) {
     var date = moment(formFill.updatedAt);
-    var parts = [
-      <Link key="name" className={`${CLASS_ROOT}__form-name`}
-        to={formFill.editPath}>
+    return (
+      <IndexItem key={formFill.id} path={formFill.editPath}>
         {formFill.name}
-      </Link>,
-      <span key="date">{date.format('MMM D, YYYY')}</span>
-    ];
-    if (this.props.form.version > 1) {
-      parts.push(<span>{formFill.version}</span>);
-    }
-    return parts;
+        <span key="date">{date.format('MMM D, YYYY')}</span>
+      </IndexItem>
+    );
   }
 
   render () {

@@ -1,19 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import Index from './Index';
-import EditIcon from './icons/EditIcon';
-
-var CLASS_ROOT = "resources";
+import IndexItem from './IndexItem';
 
 export default class Resources extends Component {
 
   _renderResource (resource) {
-    return [
-      <a key="calendar" className={CLASS_ROOT + "__resource-name"}
-        href={resource.calendarUrl}>
+    return (
+      <IndexItem key={resource.id} url={resource.editUrl}>
         {resource.name}
-      </a>,
-      <a key="edit" href={resource.editUrl} className="control-icon"><EditIcon /></a>
-    ];
+      </IndexItem>
+    );
   }
 
   render () {

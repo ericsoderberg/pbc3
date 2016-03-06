@@ -25,14 +25,14 @@ export function loadIndex (category, context) {
     if (search) {
       path += `?search=${encodeURIComponent(search)}`;
     }
-    REST.get(path).then((res) => {
+    REST.get(path).then(response => {
       dispatch({
         type: INDEX_LOAD_SUCCESS,
         category: category,
-        context: (context ? res.body[context] : undefined),
+        context: (context ? response.body[context] : undefined),
         result: {
-          items: res.body[category],
-          ...res.body
+          items: response.body[category],
+          ...response.body
         }
       });
     });

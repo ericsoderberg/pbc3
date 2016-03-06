@@ -1,17 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import Index from './Index';
-
-var CLASS_ROOT = "newsletters";
+import IndexItem from './IndexItem';
 
 export default class Newsletters extends Component {
 
   _renderNewsletter (newsletter) {
     var date = moment(newsletter.publishedAt);
     return (
-      <a className={CLASS_ROOT + "__newsletter-name"} href={newsletter.url}>
-        <span>{date.format('MMM D YYYY')}</span> {newsletter.name}
-      </a>
+      <IndexItem key={newsletter.id} url={newsletter.url}>
+        <span>{date.format('MMM D YYYY')}</span>
+        {newsletter.name}
+      </IndexItem>
     );
   }
 

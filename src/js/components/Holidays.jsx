@@ -1,18 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import Index from './Index';
-
-var CLASS_ROOT = "holidays";
+import IndexItem from './IndexItem';
 
 export default class Holidays extends Component {
 
   _renderHoliday (holiday) {
     var date = moment(holiday.date);
-    return [
-      <span key="date">{date.format('MMM D YYYY')}</span>,
-      <a key="name" className={CLASS_ROOT + "__holiday-name"}
-        href={holiday.editUrl}>{holiday.name}</a>
-    ];
+    return (
+      <IndexItem key={holiday.id} url={holiday.editUrl}>
+        {date.format('MMM D YYYY')}
+        {holiday.name}
+      </IndexItem>
+    );
   }
 
   render () {

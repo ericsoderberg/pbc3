@@ -1,16 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import Index from './Index';
-
-const CLASS_ROOT = "email_lists";
+import IndexItem from './IndexItem';
 
 export default class EmailLists extends Component {
 
   _renderEmailList (emailList) {
     return (
-      <Link className={`${CLASS_ROOT}__name`} to={emailList.showPath}>
+      <IndexItem key={emailList.id} path={emailList.showPath}>
         {emailList.name}
-      </Link>
+      </IndexItem>
     );
   }
 
