@@ -1,5 +1,5 @@
 module.exports = {
-  context: __dirname + '/src/js',
+  context: __dirname + '/../src/js',
   entry: {
     app: './app.js',
     admin: './admin.js'
@@ -11,7 +11,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      'scss': __dirname + '/app/assets/stylesheets'
+      'scss': __dirname + '/../app/assets/stylesheets'
     }
   },
   module: {
