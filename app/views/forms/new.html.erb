@@ -1,0 +1,14 @@
+<% title "Add form" -%>
+
+<%= form_for(@form, :html => { class: "form" }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => 'Add Form', :cancel_path => forms_path} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Add", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
