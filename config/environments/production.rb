@@ -83,7 +83,9 @@ Rails.application.configure do
 
   config.time_zone = "Pacific Time (US & Canada)"
 
-  config.assets.precompile += %w( newsletter/newsletter.css rte-light/rte.css )
+  config.assets.precompile += %w( newsletter/newsletter.css )
+
+  config.webpack[:use_manifest] = true
 
   config.after_initialize do
     Configuration.mailman_dir = '/usr/lib/mailman/bin'

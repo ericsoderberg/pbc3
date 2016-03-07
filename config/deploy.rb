@@ -53,17 +53,17 @@ set :npm_flags, '--production'
 # PUMA
 set :puma_bind, "tcp://127.0.0.1:3000"
 
-# namespace :assets do
-#   task :precompile_assets do
-#     run_locally do
-#       with rails_env: fetch(:stage) do
-#         execute 'rm -rf public/assets'
-#         execute :bundle, 'exec rake assets:precompile'
-#         execute :bundle, 'exec rake webpack:compile'
-#       end
-#     end
-#   end
-# end
+namespace :assets do
+  task :precompile_assets do
+    run_locally do
+      with rails_env: fetch(:stage) do
+        execute 'rm -rf public/assets'
+        execute :bundle, 'exec rake assets:precompile'
+        execute :bundle, 'exec rake webpack:compile'
+      end
+    end
+  end
+end
 
 namespace :deploy do
 

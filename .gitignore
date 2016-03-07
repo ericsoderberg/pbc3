@@ -1,5 +1,7 @@
 .bundle
 app/assets/javascripts/*bundle*
+public/assets/*bundle*
+public/assets/webpack*
 db/*.sqlite3
 log/*.log
 log/*.lck

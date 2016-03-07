@@ -78,4 +78,19 @@ module ApplicationHelper
     current_user and current_user.administrator?
   end
 
+  def webpack_bundle_tag(bundle)
+    src =
+      if Rails.configuration.webpack[:use_manifest]
+        manifest = Rails.configuration.webpack[:manifest]
+        filename = manifest[bundle]['js']
+
+        # "#{compute_asset_host}/assets/#{filename}"
+        "/assets/#{filename}"
+      else
+        "#{bundle}.bundle"
+      end
+
+    javascript_include_tag(src)
+  end
+
 end

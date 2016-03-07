@@ -1,17 +1,12 @@
-module.exports = {
-  context: __dirname + '/../src/js',
-  entry: {
-    app: './app.js',
-    admin: './admin.js'
-  },
-  output: {
-    filename: '[name].bundle.js',
-    path: __dirname + '/app/assets/javascripts'
-  },
+var path = require('path');
+// var webpack = require('webpack');
+
+var config = module.exports = {
+  context: path.join(__dirname, '../', '../', 'src', 'js'),
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      'scss': __dirname + '/../app/assets/stylesheets'
+      'scss': path.join(__dirname, '../', '../', 'app', 'assets', 'stylesheets')
     }
   },
   module: {
@@ -34,5 +29,16 @@ module.exports = {
         loader: 'style-loader!css-loader'
       }
     ]
-  }
+  },
+  plugins: []
+};
+
+config.entry = {
+  app: './app.js',
+  admin: './admin.js'
+};
+
+config.output = {
+  filename: '[name].bundle.js',
+  path: path.join(__dirname, '../', '../', 'app', 'assets', 'javascripts')
 };

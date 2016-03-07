@@ -30,5 +30,10 @@ module Pbc3
     ##config.assets.precompile += ["mobile/mobile.css", "mobile/mobile.js"]
 
     ##config.i18n.enforce_available_locales = false
+
+    config.webpack = {
+      :use_manifest => false,
+      :manifest => {}
+    }
   end
 end
