@@ -159,8 +159,8 @@ Rails.application.routes.draw do
   end
 
   resources :events do
-    # resource :recurrence, :only => [:edit, :update], :controller => :recurrence
-    # resource :reservations, :only => [:edit, :update]
+    resource :recurrence, :only => [:edit, :update], :controller => :recurrence
+    resource :reservations, :only => [:edit, :update]
     resources :invitations, :only => [:index, :new, :update, :destroy] do
       collection do
         post :bulk_create

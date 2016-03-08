@@ -3,7 +3,8 @@
 <%= form_tag event_recurrence_path(@event), :method => :put, class: "form" do %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => "Edit Recurrence of " + @event.name, :cancel_path => edit_event_url(@event)} %>
+    :locals => {:title => "Edit Recurrence of " + @event.name,
+      :cancel_path => @context_url} %>
 
   <%= render :partial => 'form_contents' %>
 

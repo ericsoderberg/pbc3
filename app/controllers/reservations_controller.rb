@@ -1,8 +1,7 @@
 class ReservationsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :get_page
+  before_filter :get_context
   before_filter :page_administrator!
-  before_filter :get_event
   layout "administration"
 
   def edit
@@ -22,7 +21,7 @@ class ReservationsController < ApplicationController
       begin
         if Reservation.reserve(@event, @resources,
           params[:all_dates], params[:options])
-          format.html { redirect_to(edit_event_url(@event),
+          format.html { redirect_to(@context_url,
             :notice => 'Reservations were successfully updated.') }
           format.xml  { head :ok }
         else
@@ -42,8 +41,11 @@ class ReservationsController < ApplicationController
 
   private
 
-  def get_event
+  def get_context
     @event = Event.find(params[:event_id])
+    @page = Page.find(params[:page_id]) if params[:page_id]
+    @context_url = @page ? edit_event_url(@event, :page_id => @page.id) :
+      edit_event_url(@event)
   end
 
 end

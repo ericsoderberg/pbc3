@@ -1,8 +1,8 @@
-<% if categorized_events and not categorized_events[:all].empty? -%>
+<!-- <% if categorized_events and not categorized_events[:all].empty? -%>
 
 <div id="events">
   <h2><%= (categorized_events[:all].count == 1 ? 'Event' : 'Events') %></h2>
-  
+
   <% [:active, :expired, :ancient].each do |category| -%>
     <% unless categorized_events[category].empty? -%>
     <ul class="events_list">
@@ -12,11 +12,11 @@
     </ul>
     <% end -%>
   <% end -%>
-  
+
 </div>
 
 <%= javascript_tag do %>
   <%= render :partial => 'events/shorten_list', :formats => [:js] -%>
 <% end -%>
 
-<% end -%>
+<% end -%> -->

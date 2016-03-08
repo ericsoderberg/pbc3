@@ -1,39 +1,39 @@
-// event date picker
-$(function() {
-  
-  $('#event_start_at').datetimepicker({
-    stepHour: 1,
-    stepMinute: 15,
-    ampm: true,
-    hourGrid: 4,
-    minuteGrid: 15,
-    //americanMode: true,
-    timeFormat: 'hh:mm tt',
-    separator: '<%= DateTime::FORM_SEPARATOR %>',
-    changeYear: true
-  });
-  
-  $('#event_stop_at').datetimepicker({
-    stepHour: 1,
-    stepMinute: 15,
-    ampm: true,
-    hourGrid: 4,
-    minuteGrid: 15,
-    //americanMode: true,
-    timeFormat: 'hh:mm tt',
-    separator: '<%= DateTime::FORM_SEPARATOR %>',
-    changeYear: true
-  });
-  
-  $('#event_start_at').change(function() {
-    var startAtStr = $('#event_start_at').val().toUpperCase().
-      replace('<%= DateTime::FORM_SEPARATOR %>', ' ');
-    var startAt = Date.parse(startAtStr, 'MM/dd/yyyy hh:mm tt');
-    var stopAt = startAt.add(2).hours();
-    var stopAtStr = stopAt.
-      toString('MM/dd/yyyy<%= DateTime::FORM_SEPARATOR %>hh:mm tt').
-      toLowerCase();
-    $('#event_stop_at').val(stopAtStr);
-  });
-  
-});
+// // event date picker
+// $(function() {
+//
+//   $('#event_start_at').datetimepicker({
+//     stepHour: 1,
+//     stepMinute: 15,
+//     ampm: true,
+//     hourGrid: 4,
+//     minuteGrid: 15,
+//     //americanMode: true,
+//     timeFormat: 'hh:mm tt',
+//     separator: '<%= DateTime::FORM_SEPARATOR %>',
+//     changeYear: true
+//   });
+//
+//   $('#event_stop_at').datetimepicker({
+//     stepHour: 1,
+//     stepMinute: 15,
+//     ampm: true,
+//     hourGrid: 4,
+//     minuteGrid: 15,
+//     //americanMode: true,
+//     timeFormat: 'hh:mm tt',
+//     separator: '<%= DateTime::FORM_SEPARATOR %>',
+//     changeYear: true
+//   });
+//
+//   $('#event_start_at').change(function() {
+//     var startAtStr = $('#event_start_at').val().toUpperCase().
+//       replace('<%= DateTime::FORM_SEPARATOR %>', ' ');
+//     var startAt = Date.parse(startAtStr, 'MM/dd/yyyy hh:mm tt');
+//     var stopAt = startAt.add(2).hours();
+//     var stopAtStr = stopAt.
+//       toString('MM/dd/yyyy<%= DateTime::FORM_SEPARATOR %>hh:mm tt').
+//       toLowerCase();
+//     $('#event_stop_at').val(stopAtStr);
+//   });
+//
+// });

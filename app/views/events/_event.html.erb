@@ -1,11 +1,11 @@
-<% include_notes ||= false -%>
+<!-- <% include_notes ||= false -%>
 <% no_name ||= false -%>
 <% stylize ||= false -%>
 <%= content_tag_for(:li, event,
   :style => (stylize and event.page.style ?
     "border-left: 10px solid ##{event.page.style.feature_color.to_s(16)}" :
     'border-left: 10px solid transparent')) do %>
-  
+
   <% if @page and user_signed_in? -%>
     <% best_event = event.best_replica(@page.events) -%>
     <% if current_user.administrator? or best_event.page.administrator?(current_user) -%>
@@ -15,7 +15,7 @@
       </div>
     <% end -%>
   <% end -%>
-  
+
   <% unless (no_name || false) -%>
     <% if event.page != @page -%>
       <%= link_to event.name, friendly_page_path(event.page) %>
@@ -25,13 +25,13 @@
       </div>
     <% end -%>
   <% end -%>
-  
+
   <% contextual_times(event).each do |timestamp| -%>
     <div class="event_range">
       <%= timestamp %>
     </div>
   <% end -%>
-  
+
   <% if event.location and ! event.location.empty? -%>
     <div class="event_location">
       <%= h event.location %>
@@ -56,4 +56,4 @@
   <% end -%>
   <%= render :partial => 'forms/list',
     :locals => {:forms => event.forms } %>
-<% end %>
+<% end %> -->
