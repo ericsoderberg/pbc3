@@ -3,6 +3,9 @@
   <%= render :partial => 'form_errors' %>
 
   <fieldset>
+    <% if @page -%>
+      <%= hidden_field_tag :page_id, @page.id %>
+    <% end -%>
     <ul class="form__fields list-bare">
       <li class="form__field form__field--large form__field--multiple">
         <label>Rooms</label>

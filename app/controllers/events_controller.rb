@@ -146,16 +146,16 @@ class EventsController < ApplicationController
   #     main_calendar_url(:search => @event.start_at.strftime("%B %Y"))
   # end
 
-  # def parse_times
-  #   if params[:event][:start_at] and params[:event][:start_at].is_a?(String)
-  #     params[:event][:start_at] =
-  #       DateTime.parse_from_form(params[:event][:start_at])
-  #   end
-  #   if params[:event][:stop_at] and params[:event][:stop_at].is_a?(String)
-  #     params[:event][:stop_at] =
-  #       DateTime.parse_from_form(params[:event][:stop_at])
-  #   end
-  # end
+  def parse_times
+    if params[:event][:start_at] and params[:event][:start_at].is_a?(String)
+      params[:event][:start_at] =
+        DateTime.parse_from_form(params[:event][:start_at])
+    end
+    if params[:event][:stop_at] and params[:event][:stop_at].is_a?(String)
+      params[:event][:stop_at] =
+        DateTime.parse_from_form(params[:event][:stop_at])
+    end
+  end
 
   def event_params
     params.require(:event).permit(:name, :start_at, :stop_at, :all_day,
