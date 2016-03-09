@@ -3,7 +3,7 @@
 <%= form_for(@form, :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => "Edit #{@form.name}", :cancel_path => @cancel_url,
+    :locals => {:title => "Edit #{@form.name}", :cancel_path => @context_url,
       :message => @message} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
@@ -11,7 +11,7 @@
   <div class="form__footer">
     <%= f.submit "Update", class: 'btn btn--primary' %>
     <% if @form.id -%>
-      <%= link_to 'Contents', @edit_contents_url %>
+      <%= link_to 'Contents', @edit_content_url %>
     <% end -%>
   </div>
 

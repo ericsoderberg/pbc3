@@ -16,10 +16,8 @@ Rails.application.routes.draw do
   constraints SSL do
     resources :accounts do
       member do
-        get 'fills', :controller => 'filled_forms',
-          :action => 'user_index'
-        get 'payments', :controller => 'payments',
-          :action => 'user_index'
+        get 'fills', :controller => 'filled_forms', :action => 'user_index'
+        get 'payments', :controller => 'payments', :action => 'user_index'
       end
     end
     devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
@@ -27,8 +25,8 @@ Rails.application.routes.draw do
     resources :forms do
       member do
         get 'copy'
-        get 'edit_contents', :controller => 'form_builder', :action => 'edit'
-        post 'update_contents', :controller => 'form_builder', :action => 'update'
+        get 'edit_contents', :controller => 'form_contents', :action => 'edit'
+        post 'update_contents', :controller => 'form_contents', :action => 'update'
       end
       resources :fills, :controller => 'filled_forms' do
         collection do
@@ -63,7 +61,7 @@ Rails.application.routes.draw do
 
   # Redirect to SSL from non-SSL so you don't get 404s
   # Repeat for any custom Devise routes
-  %w(users accounts forms payments audit_logs email_lists
+  %w(users accounts forms form_contents payments audit_logs email_lists
     holidays).each do |area|
     ###match
     get "/#{area}(/*path)", :to => redirect { |_, request|

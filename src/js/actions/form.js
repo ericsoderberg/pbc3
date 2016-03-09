@@ -1,4 +1,5 @@
 import REST from '../utils/REST';
+import history from '../routeHistory';
 
 export const FORM_LOAD = 'FORM_LOAD';
 export const FORM_LOAD_SUCCESS = 'FORM_LOAD_SUCCESS';
@@ -22,8 +23,16 @@ export function loadForm (id) {
 
 export function loadFormEdit (id) {
   return function (dispatch) {
-    dispatch({ type: FORM_EDIT_LOAD, id: id });
-    REST.get(`/forms/${id}/edit_contents`).then(response => {
+    // bring in any pageId from the location
+    const loc = history.createLocation(document.location.pathname +
+      document.location.search);
+    const pageId = loc.query.page_id;
+    dispatch({ type: FORM_EDIT_LOAD, id: id, pageId: pageId });
+    let path = `/forms/${id}/edit_contents`;
+    if (pageId) {
+      path += `?page_id=${pageId}`;
+    }
+    REST.get(path).then(response => {
       dispatch({
         type: FORM_EDIT_LOAD_SUCCESS,
         form: response.body,
@@ -33,21 +42,19 @@ export function loadFormEdit (id) {
   };
 }
 
-export function updateForm (path, token, form, pageId) {
+export function updateForm (form, edit) {
   return function (dispatch) {
-    dispatch({ type: FORM_UPDATE, path: path });
+    dispatch({ type: FORM_UPDATE, path: edit.updateUrl });
     let data = { form: form };
-    if (pageId) {
-      data.pageId = pageId;
+    if (edit.pageId) {
+      data.pageId = edit.pageId;
     }
-    REST.post(path, token, data).then(response => {
+    REST.post(edit.updateUrl, edit.authenticityToken, data).then(response => {
       dispatch({ type: FORM_UPDATE_SUCCESS });
       location = response.body.redirect_to;
     });
   };
 }
-
-// deleteForm()?
 
 export function unloadForm () {
   return { type: FORM_UNLOAD };

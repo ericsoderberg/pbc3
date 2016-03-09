@@ -5,7 +5,7 @@ const initialState = {};
 
 const handlers = {
 
-  [FORM_EDIT_LOAD]: (state, action) => (initialState),
+  [FORM_EDIT_LOAD]: (state, action) => ({id: action.id, pageId: action.pageId}),
 
   [FORM_EDIT_LOAD_SUCCESS]: (state, action) => (action.edit),
 
@@ -16,5 +16,5 @@ const handlers = {
 export default function formEditReducer (state = initialState, action) {
   let handler = handlers[action.type];
   if (!handler) return state;
-  return { ...state, ...handler(state, action) };
+  return { ...handler(state, action) };
 }

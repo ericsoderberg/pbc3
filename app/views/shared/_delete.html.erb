@@ -1,3 +1,4 @@
+<% hidden ||= false -%>
 <%- name = item.respond_to?(:name) ? item.name : '' -%>
 <%- url ||= [item] -%>
 <%= form_for(item, url: url, method: "delete", :html => { class: "delete" }) do |f| %>

@@ -1,6 +1,7 @@
 class FormsController < ApplicationController
   before_filter :authenticate_user!
-  layout "administration", only: [:new, :create, :edit, :edit_contents, :update, :delete]
+  before_filter :get_context
+  layout "administration", only: [:new, :create, :edit, :update, :delete]
 
   def index
     return unless administrator!
@@ -35,15 +36,13 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @form }
     end
   end
 
   def new
     return unless administrator!
     @form = Form.new
-    if params[:page_id]
-      @page = Page.find(params[:page_id])
+    if @page
       @page_element = @form.page_elements.build({
         page: @page,
         element: @form,
@@ -52,7 +51,7 @@ class FormsController < ApplicationController
       @form.name = @page.name
       @forms = Form.order('name ASC')
     end
-    @cancel_url = context_url
+    # @cancel_url = context_url
     #@form.page = Page.find(params[:page_id]) if params[:page_id]
     #@page = @form.page
     #return unless page_administrator!
@@ -62,7 +61,6 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @form }
     end
   end
 
@@ -80,14 +78,10 @@ class FormsController < ApplicationController
   def edit
     return unless administrator!
     @form = Form.find(params[:id])
-    if params[:page_id]
-      @page = Page.find(params[:page_id])
+    if @page
       @page_element = @page.page_elements.where('element_id = ?', @form.id).first
     end
-    @cancel_url = context_url
-    @edit_contents_url = @page ?
-      edit_contents_form_path(@form, {:page_id => @page.id}) :
-      edit_contents_form_path(@form)
+    @edit_content_url = edit_contents_form_path(@form, @context_params)
     @message = "Editing #{@page.name} Page" if @page
   end
 
@@ -98,23 +92,23 @@ class FormsController < ApplicationController
       @copy_form = Form.find(params[:copy_form_id])
       @form.copy(@copy_form)
     end
-    if params[:page_id]
-      @page = Page.find(params[:page_id])
-      @page_element = @page.page_elements.where('element_id = ?', @form.id).first
+    if @page
+      page_element = @page.page_elements.build({
+        page: @page,
+        element: @form,
+        index: @page.page_elements.length + 1
+      })
     end
 
     respond_to do |format|
-      if @form.save
+      if @form.save and (! page_element || page_element.save)
         format.html {
-          target_url = @page ? edit_contents_form_url(@form, {:page_id => @page.id}) :
-            edit_contents_form_url(@form)
-          redirect_to(target_url,
+          redirect_to(edit_contents_form_path(@form, @context_params),
             :notice => 'Form was successfully created.')
         }
-        format.xml  { render :xml => @form, :status => :created, :location => @form }
       else
+        @pages = Page.editable(current_user).available_for_event(@event).sort()
         format.html { render :action => "new" }
-        format.xml  { render :xml => @form.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -122,26 +116,22 @@ class FormsController < ApplicationController
   def update
     return unless administrator!
     @form = Form.find(params[:id])
-    if params[:page_id]
-      @page = Page.find(params[:page_id])
-      @page_element = @page.page_elements.where('element_id = ?', @form.id).first
-    end
+    # if @page
+    #   @page_element = @page.page_elements.where('element_id = ?', @form.id).first
+    # end
     #@page = @form.page
     #return unless page_administrator!
     if params[:advance_version]
       params[:form][:version] = @form.version + 1
     end
-    target_url = context_url
 
     respond_to do |format|
       if (@form.update_attributes(form_params))
-        format.html { redirect_to(target_url,
+        format.html { redirect_to(@context_url,
           :notice => 'Form was successfully updated.') }
         format.js { head :ok }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @form.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -149,24 +139,33 @@ class FormsController < ApplicationController
   def destroy
     return unless administrator!
     @form = Form.find(params[:id])
-    @page = @form.page
     #return unless page_administrator!
     @form.destroy
     @form = nil
-    target_url = context_url
+    @context_url = forms_url() unless @page
 
     respond_to do |format|
-      format.html { redirect_to(target_url) }
-      format.xml  { head :ok }
+      format.html { redirect_to(@context_url) }
     end
   end
 
   private
 
-  def context_url
-    (@page ? edit_contents_page_url(@page) :
-      ((@form and @form.id) ? form_fills_url(@form) : forms_url))
+  def get_context
+    @page = Page.find(params[:page_id]) if params[:page_id]
+    if @page
+      @context_url = edit_contents_page_url(@page)
+      @context_params = { page_id: @page.id }
+    else
+      @context_url = (params[:id] ? form_fills_url(params[:id]) : forms_url())
+      @context_params = {}
+    end
   end
+
+  # def context_url
+  #   (@page ? edit_contents_page_url(@page) :
+  #     ((@form and @form.id) ? form_fills_url(@form) : forms_url))
+  # end
 
   def form_params
     params.require(:form).permit(:name, #:page_id, :event_id,

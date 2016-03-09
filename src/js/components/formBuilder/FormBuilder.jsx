@@ -24,12 +24,12 @@ export default class FormBuilder extends Component {
   }
 
   componentDidMount () {
-    this.props.dispatch(loadFormEdit(this.props.id));
+    this.props.dispatch(loadFormEdit(this.props.id, this.props.pageId));
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.id !== this.props.id) {
-      this.props.dispatch(loadFormEdit(nextProps.id));
+      this.props.dispatch(loadFormEdit(nextProps.id, this.props.pageId));
     }
     this.setState({ form: nextProps.form });
   }
@@ -40,9 +40,7 @@ export default class FormBuilder extends Component {
 
   _onSubmit (event) {
     event.preventDefault();
-    const { edit: { updateUrl, authenticityToken, pageId }} = this.props;
-    const { form } = this.state;
-    this.props.dispatch(updateForm(updateUrl, authenticityToken, form, pageId));
+    this.props.dispatch(updateForm(this.state.form, this.props.edit));
   }
 
   _onAddSection () {
@@ -159,10 +157,9 @@ FormBuilder.propTypes = {
     formSections: PropTypes.array
   }),
   edit: PropTypes.shape({
-    authenticityToken: PropTypes.string,
     cancelUrl: PropTypes.string,
     editContextUrl: PropTypes.string,
-    updateUrl: PropTypes.string
+    message: PropTypes.string
   })
 };
 

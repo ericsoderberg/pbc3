@@ -1,6 +1,6 @@
 json.partial! 'forms/show'
 json.edit do
-  json.cancelUrl @cancel_url
+  json.cancelUrl @context_url
   json.updateUrl update_contents_form_url(@form)
   json.editContextUrl @edit_context_url
   json.authenticityToken form_authenticity_token()

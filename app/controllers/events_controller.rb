@@ -37,7 +37,6 @@ class EventsController < ApplicationController
   #
   #   respond_to do |format|
   #     format.html # show.html.erb
-  #     format.xml  { render :xml => @event }
   #   end
   # end
 
@@ -86,11 +85,9 @@ class EventsController < ApplicationController
       if @event.save and (! page_element || page_element.save)
         format.html { redirect_to(@context_url,
             :notice => 'Event was successfully created.') }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
         @pages = Page.editable(current_user).available_for_event(@event).sort()
         format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -105,11 +102,9 @@ class EventsController < ApplicationController
       if @event.send(update_method, event_params)
         format.html { redirect_to(@context_url,
             :notice => 'Event was successfully updated.') }
-        format.xml  { head :ok }
       else
         @pages = Page.editable(current_user).available_for_event(@event).sort()
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -123,7 +118,6 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(@context_url) }
-      format.xml  { head :ok }
     end
   end
 
