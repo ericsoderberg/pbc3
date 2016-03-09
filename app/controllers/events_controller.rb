@@ -116,7 +116,6 @@ class EventsController < ApplicationController
 
   def destroy
     @event = Event.find(params[:id])
-    @page = @event.page
     @event.destroy
     if @page
       @page.normalize_indexes

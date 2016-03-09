@@ -1,6 +1,9 @@
 <%- name = item.respond_to?(:name) ? item.name : '' -%>
 <%- url ||= [item] -%>
 <%= form_for(item, url: url, method: "delete", :html => { class: "delete" }) do |f| %>
+  <% if hidden -%>
+    <%= hidden %>
+  <% end -%>
   <div class="delete__control">
     <span class="delete__trigger">Delete</span>
     <span class="delete__prompt">
