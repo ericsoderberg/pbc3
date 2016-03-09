@@ -16,6 +16,10 @@ config.plugins.push(
     filename: 'webpack-manifest.json',
     path: path.join(__dirname, '../', '../', 'public', 'assets')
   }),
-  new webpack.optimize.UglifyJsPlugin(),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    }
+  }),
   new webpack.optimize.OccurenceOrderPlugin()
 );
