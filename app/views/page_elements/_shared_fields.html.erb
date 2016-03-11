@@ -6,6 +6,20 @@
 </li>
 <li class="form__field">
   <%= label_tag :color %>
-  <%= text_field_tag 'page_element[color]', @page_element.color %>
+  <ul class="page__element-colors">
+    <li>
+      <%= radio_button_tag 'page_element[color]', '', ('' == @page_element.color) %>
+      None
+    </li>
+    <li class="color--brand">
+      <%= radio_button_tag 'page_element[color]', '#6E615D', ('#6E615D' == @page_element.color) %>
+      Brand
+    </li>
+    <li class="color--accent">
+      <%= radio_button_tag 'page_element[color]', '#F99D27', ('#F99D27' == @page_element.color) %>
+      Accent
+    </li>
+  </ul>
+  <!-- <%= text_field_tag 'page_element[color]', @page_element.color %> -->
 </li>
 <% end -%>

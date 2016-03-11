@@ -85,3 +85,25 @@
   height: quadruple($inuit-base-spacing-unit);
   background-color: $placeholder-background-color;
 }
+
+.page__element-colors {
+  padding: 0;
+  font-size: 0;
+
+  li {
+    display: inline-block;
+    font-size: $inuit-base-font-size;
+    list-style-type: none;
+    padding: $inuit-base-spacing-unit;
+
+    &.color--brand {
+      background-color: $brand-color;
+      color: $background-color;
+    }
+
+    &.color--accent {
+      background-color: $brand-accent-color;
+      color: $background-color;
+    }
+  }
+}
