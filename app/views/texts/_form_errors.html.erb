@@ -1,9 +1,12 @@
-<% if @text.errors.any? %>
+<% if @text.errors.any? or @page_element.errors.any? %>
   <div class="form__error-explanation">
-    <h2><%= pluralize(@text.errors.count, "error") %> prohibited this text from being saved:</h2>
-
+    <h2><%= pluralize(@text.errors.count + @page_element.errors.count, "error") %>
+      prohibited this text from being saved:</h2>
     <ul>
     <% @text.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    <% @page_element.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
     </ul>

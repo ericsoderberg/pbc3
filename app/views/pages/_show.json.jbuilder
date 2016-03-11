@@ -1,8 +1,7 @@
 edit ||= false
 json.extract!(@page, :id, :name)
 json.pageElements @page.page_elements do |page_element|
-  json.id page_element.id
-  json.index page_element.index
+  json.extract!(page_element, :id, :index, :full, :color)
   json.type page_element.element_type
   case page_element.element_type
   when 'Text'

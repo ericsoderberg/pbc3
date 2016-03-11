@@ -1,11 +1,16 @@
-<% if @form.errors.any? %>
+<% if @form.errors.any? or (@page_element && @page_element.errors.any?) %>
   <div class="form__error-explanation">
-    <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
-
+    <h2><%= pluralize(@form.errors.count, "error") %>
+      prohibited this form from being saved:</h2>
     <ul>
     <% @form.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
+    <% if @page_element -%>
+    <% @page_element.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    <% end -%>
     </ul>
   </div>
 <% end %>

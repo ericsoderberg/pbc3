@@ -1,7 +1,3 @@
-.page {
-  @include main-content();
-}
-
 .page__back {
   position: absolute;
   top: 0;
@@ -26,7 +22,7 @@
 
 .page__element {
   position: relative;
-  margin: double($inuit-base-spacing-unit) 0;
+  // margin: double($inuit-base-spacing-unit) 0;
 
   &:first-child {
     margin-top: 0;
@@ -40,6 +36,27 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  &:not(.page__element--full) {
+    @include main-content();
+  }
+
+  &.page__element--full {
+    > *:not(.item) {
+      @include main-content();
+    }
+
+    > .item {
+      max-width: none;
+      width: 100%;
+    }
+
+    &.page__element--colored {
+      > * {
+        padding: $inuit-base-spacing-unit;
+      }
+    }
   }
 }
 
@@ -58,5 +75,15 @@
   audio {
     display: block;
     width: 100%;
+  }
+}
+
+.text {
+  h1,
+  h2,
+  h3 {
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }

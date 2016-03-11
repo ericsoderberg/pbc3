@@ -80,6 +80,16 @@ class PageBuilder extends Component {
 
     const elements = this.state.elements.map((pageElement, index) => {
       elementIds.push(pageElement.id);
+      let classes = [`${CLASS_ROOT}__element`];
+      let style = {};
+      if (pageElement.full) {
+        classes.push(`${CLASS_ROOT}__element--full`);
+        if (pageElement.color) {
+          classes.push(`${CLASS_ROOT}__element--colored`);
+          style.backgroundColor = pageElement.color;
+          style.color = '#ffffff';
+        }
+      }
       let contents = '';
       switch (pageElement.type) {
         case 'Text':
@@ -96,12 +106,12 @@ class PageBuilder extends Component {
           break;
         case 'Form':
           contents = (
-            <FormFiller formId={pageElement.form.id} />
+            <FormFiller formId={pageElement.form.id} disabled={true} />
           );
           break;
       }
       return (
-        <div key={pageElement.id} className={`${CLASS_ROOT}__element`}
+        <div key={pageElement.id} className={classes.join(' ')} style={style}
           data-index={index}
           draggable="true"
           onDragEnd={this._dragEnd}

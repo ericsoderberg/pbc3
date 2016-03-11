@@ -40,6 +40,11 @@
         margin-right: 0px;
       }
 
+      .page__element--colored &,
+      .page-builder__element--colored & {
+        color: $background-color;
+      }
+
       &:before {
         content: '';
         position: absolute;
@@ -69,11 +74,11 @@
 }
 
 .form__header {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  z-index: 1;
+  // position: absolute;
+  // left: 0px;
+  // right: 0px;
+  // top: 0px;
+  // z-index: 1;
   @include inuit-font-size($inuit-heading-size-1, quadruple($inuit-base-spacing-unit));
 
   .form__header-message {
@@ -112,7 +117,7 @@
 }
 
 .form__contents {
-  padding-top: quadruple($inuit-base-spacing-unit);
+  // padding-top: quadruple($inuit-base-spacing-unit);
 }
 
 .form__validation,
@@ -137,6 +142,11 @@
   color: $secondary-color;
   font-style: italic;
   @include inuit-font-size($label-font-size);
+
+  .page__element--colored &,
+  .page-builder__element--colored & {
+    color: $background-color;
+  }
 
   @include media-query(lap-and-up) {
     margin: 0 $inuit-base-spacing-unit;
@@ -180,6 +190,11 @@
     display: block;
     color: $secondary-color;
     @include inuit-font-size($label-font-size);
+
+    .page__element--colored &,
+    .page-builder__element--colored & {
+      color: $background-color;
+    }
   }
 
   &:not(.form__field--multiple) {

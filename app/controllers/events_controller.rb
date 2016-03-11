@@ -3,43 +3,6 @@ class EventsController < ApplicationController
   before_filter :get_context
   layout "administration", only: [:new, :edit, :create, :update]
 
-  # def index
-  #   redirect_to new_event_url(@page)
-  # end
-
-=begin
-  def search # DEPRECATED?
-    result_page_size = params[:s].to_i
-    result_page = params[:p].to_i
-    filtered_events = Event.where("events.name ILIKE ?", (params[:q] || '') + '%')
-    if params[:date]
-      date = Time.parse(params[:date])
-      filtered_events = filtered_events.
-        where('events.start_at >= ? AND events.stop_at <= ?',
-          date, date + 1.month)
-    end
-    ordered_events = filtered_events.order('events.name ASC')
-    @events = ordered_events.offset((result_page - 1) * result_page_size).
-      limit(result_page_size)
-    total = filtered_events.count
-
-    respond_to do |format|
-      format.js { render :json => {:results =>
-        @events.map{|event| {:id => event.id, :name => event.name, :url => friendly_page_url(event.page)}},
-        :total => total}
-      }
-    end
-  end
-=end
-
-  # def show
-  #   @event = Event.find(params[:id])
-  #
-  #   respond_to do |format|
-  #     format.html # show.html.erb
-  #   end
-  # end
-
   def new
     @event = Event.new()
     if @page
@@ -66,23 +29,19 @@ class EventsController < ApplicationController
       (@page ? "Editing #{@page.name} Page" : ""))
   end
 
-  #def edit_page # DEPRECATED?
-  #  @page = Page.find(params[:id])
-  #end
-
   def create
     parse_times
     @event = Event.new(event_params)
     if @page
-      page_element = @page.page_elements.build({
+      @page_element = @page.page_elements.build({
         page: @page,
         element: @event,
         index: @page.page_elements.length + 1
-      })
+      }.merge(page_element_params))
     end
 
     respond_to do |format|
-      if @event.save and (! page_element || page_element.save)
+      if @event.save and (! @page_element || @page_element.save)
         format.html { redirect_to(@context_url,
             :notice => 'Event was successfully created.') }
       else
@@ -95,11 +54,13 @@ class EventsController < ApplicationController
   def update
     parse_times
     @event = Event.find(params[:id])
+    @page_element = @page.page_elements.where('element_id = ?', @event.id).first if @page
     update_method = 'Update all' == params[:commit] ?
       'update_with_replicas' : 'update_attributes'
 
     respond_to do |format|
-      if @event.send(update_method, event_params)
+      if @event.send(update_method, event_params) and
+        (! @page_element || @page_element.update_attributes(page_element_params))
         format.html { redirect_to(@context_url,
             :notice => 'Event was successfully updated.') }
       else
@@ -134,11 +95,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # def context_url(page)
-  #   page ? edit_contents_page_url(page) :
-  #     main_calendar_url(:search => @event.start_at.strftime("%B %Y"))
-  # end
-
   def parse_times
     if params[:event][:start_at] and params[:event][:start_at].is_a?(String)
       params[:event][:start_at] =
@@ -155,6 +111,10 @@ class EventsController < ApplicationController
       :location, #:page_id,
       :master_id, :featured, :invitation_message, :notes,
       :updated_by, :global_name).merge(:updated_by => current_user)
+  end
+
+  def page_element_params
+    params.require(:page_element).permit(:full, :color)
   end
 
 end

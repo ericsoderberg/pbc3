@@ -1,6 +1,7 @@
 <% title "Add File or Url" -%>
 
-<%= form_for(@item, :url => [@page, @item], :html => { class: "form", :multipart => true }) do |f| %>
+<%= form_for(@item, :url => [@page, @item],
+  :html => { class: "form", :multipart => true }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
     :locals => {:title => 'Add File or Url',

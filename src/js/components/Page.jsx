@@ -48,6 +48,16 @@ class Page extends Component {
     }
 
     const elements = pageElements.map(pageElement => {
+      let classes = [`${CLASS_ROOT}__element`];
+      let style = {};
+      if (pageElement.full) {
+        classes.push(`${CLASS_ROOT}__element--full`);
+        if (pageElement.color) {
+          classes.push(`${CLASS_ROOT}__element--colored`);
+          style.backgroundColor = pageElement.color;
+          style.color = '#ffffff';
+        }
+      }
       let contents;
       switch (pageElement.type) {
         case 'Text':
@@ -68,7 +78,7 @@ class Page extends Component {
           break;
       }
       return (
-        <li key={pageElement.index} className={`${CLASS_ROOT}__element`}>
+        <li key={pageElement.index} className={classes.join(' ')} style={style}>
           {contents}
         </li>
       );

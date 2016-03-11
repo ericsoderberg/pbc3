@@ -21,4 +21,6 @@
 <%= render :partial => 'page_elements/delete' %>
 <% end -%>
 
-<%= render :partial => 'shared/delete', :locals => {:item => @form} %>
+<% hidden = @page ? hidden_field_tag(:page_id, @page.id) : nil -%>
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @form, :url => [@form], :hidden => hidden} %>

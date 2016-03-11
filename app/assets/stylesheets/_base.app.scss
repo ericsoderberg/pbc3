@@ -45,6 +45,7 @@ input, textarea, select {
   border-bottom-left-radius: $brand-radius;
   border-bottom-right-radius: $brand-radius;
   padding: quarter($inuit-base-spacing-unit);
+  background-color: transparent;
   outline: none;
 
   &:focus {

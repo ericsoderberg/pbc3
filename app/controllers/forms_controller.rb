@@ -93,21 +93,22 @@ class FormsController < ApplicationController
       @form.copy(@copy_form)
     end
     if @page
-      page_element = @page.page_elements.build({
+      @page_element = @page.page_elements.build({
         page: @page,
         element: @form,
         index: @page.page_elements.length + 1
-      })
+      }.merge(page_element_params))
     end
 
     respond_to do |format|
-      if @form.save and (! page_element || page_element.save)
+      if @form.save and (! @page_element || @page_element.save)
         format.html {
           redirect_to(edit_contents_form_path(@form, @context_params),
             :notice => 'Form was successfully created.')
         }
       else
-        @pages = Page.editable(current_user).available_for_event(@event).sort()
+        @edit_content_url = edit_contents_form_path(@form, @context_params)
+        @message = "Editing #{@page.name} Page" if @page
         format.html { render :action => "new" }
       end
     end
@@ -116,17 +117,15 @@ class FormsController < ApplicationController
   def update
     return unless administrator!
     @form = Form.find(params[:id])
-    # if @page
-    #   @page_element = @page.page_elements.where('element_id = ?', @form.id).first
-    # end
-    #@page = @form.page
+    @page_element = @page.page_elements.where('element_id = ?', @form.id).first if @page
     #return unless page_administrator!
     if params[:advance_version]
       params[:form][:version] = @form.version + 1
     end
 
     respond_to do |format|
-      if (@form.update_attributes(form_params))
+      if (@form.update_attributes(form_params)) and
+        (! @page_element || @page_element.update_attributes(page_element_params))
         format.html { redirect_to(@context_url,
           :notice => 'Form was successfully updated.') }
         format.js { head :ok }
@@ -141,7 +140,9 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
     #return unless page_administrator!
     @form.destroy
-    @form = nil
+    if @page
+      @page.normalize_indexes
+    end
     @context_url = forms_url() unless @page
 
     respond_to do |format|
@@ -162,11 +163,6 @@ class FormsController < ApplicationController
     end
   end
 
-  # def context_url
-  #   (@page ? edit_contents_page_url(@page) :
-  #     ((@form and @form.id) ? form_fills_url(@form) : forms_url))
-  # end
-
   def form_params
     params.require(:form).permit(:name, #:page_id, :event_id,
       :payable, :published, :pay_by_check, :pay_by_paypal,
@@ -174,6 +170,10 @@ class FormsController < ApplicationController
       :many_per_user, :authentication_text, :submit_label
       #:call_to_action
       ).merge(:updated_by => current_user)
+  end
+
+  def page_element_params
+    params.require(:page_element).permit(:full, :color)
   end
 
 end

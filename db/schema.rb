@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151128183927) do
+ActiveRecord::Schema.define(version: 20160309163839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -373,6 +373,8 @@ ActiveRecord::Schema.define(version: 20151128183927) do
     t.boolean  "published",    default: true
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.boolean  "full"
+    t.string   "color"
   end
 
   add_index "page_elements", ["element_type", "element_id"], name: "index_page_elements_on_element_type_and_element_id", using: :btree

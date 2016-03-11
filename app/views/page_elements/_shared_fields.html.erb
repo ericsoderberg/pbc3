@@ -1,0 +1,11 @@
+<% if @page_element -%>
+<%= hidden_field_tag 'page_element[full]', nil %>
+<li class="form__field">
+  <%= label_tag :full? %>
+  <%= check_box_tag 'page_element[full]', 1, @page_element.full %>
+</li>
+<li class="form__field">
+  <%= label_tag :color %>
+  <%= text_field_tag 'page_element[color]', @page_element.color %>
+</li>
+<% end -%>

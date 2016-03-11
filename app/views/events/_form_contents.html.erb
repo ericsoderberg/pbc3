@@ -35,6 +35,7 @@
         <%= f.label :notes %>
         <%= f.text_area :notes, :size => '30x4' %>
       </li>
+      <%= render :partial => 'page_elements/shared_fields' %>
       <% if current_user.administrator? -%>
       <li class="form__field">
         <%= f.label :feature_on_main_calendar?, :class => 'inline' %>

@@ -32,6 +32,7 @@
           placeholder: 'yyyy-mm-dd',
           value: (@item.date ? l(@item.date, format: :db) : '') %>
       </li>
+      <%= render :partial => 'page_elements/shared_fields' %>
     </ul>
   </fieldset>
 

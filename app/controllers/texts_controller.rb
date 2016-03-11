@@ -2,33 +2,18 @@ class TextsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :get_page
   before_filter :page_administrator!
-  layout "administration", only: [:new, :edit]
-
-  def index
-    @texts = Text
-
-    respond_to do |format|
-      format.html
-      format.json { render partial: 'show' }
-    end
-  end
-
-  def show
-    @text = Text.find(params[:id])
-
-    respond_to do |format|
-      format.html
-      format.json { render partial: 'show' }
-    end
-  end
+  layout "administration"
 
   def new
     @text = Text.new
+    @page_element = @page.page_elements.new({ page: @page, element: @text })
+    @title = "Add #{@page.name} Text"
     @message = "Editing #{@page.name} Page"
   end
 
   def edit
     @text = Text.find(params[:id])
+    @page_element = @page.page_elements.where('element_id = ?', @text.id).first
     @message = "Editing #{@page.name} Page"
   end
 
@@ -38,7 +23,7 @@ class TextsController < ApplicationController
       page: @page,
       element: @text,
       index: @page.page_elements.length + 1
-    })
+    }.merge(page_element_params))
 
     respond_to do |format|
       if @page_element.save
@@ -52,9 +37,11 @@ class TextsController < ApplicationController
 
   def update
     @text = Text.find(params[:id])
+    @page_element = @page.page_elements.where('element_id = ?', @text.id).first
 
     respond_to do |format|
-      if @text.update_attributes(text_params)
+      if @text.update_attributes(text_params) and
+        @page_element.update_attributes(page_element_params)
         format.html { redirect_to(edit_contents_page_url(@page),
           :notice => 'Text was successfully updated.') }
       else
@@ -78,6 +65,10 @@ class TextsController < ApplicationController
 
   def text_params
     params.require(:text).permit(:text)
+  end
+
+  def page_element_params
+    params.require(:page_element).permit(:full, :color)
   end
 
 end

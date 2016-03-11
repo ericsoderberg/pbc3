@@ -14,9 +14,7 @@
 }
 
 .page-builder__element {
-  @include main-content();
   position: relative;
-  padding: $inuit-base-spacing-unit;
   cursor: move;
   background-color: $background-color;
   transition: border-color $animation-delay, background-color $animation-delay;
@@ -33,6 +31,32 @@
 
   .control-icon:not(.page-builder__element-edit) {
     display: none;
+  }
+
+  &:not(.page-builder__element--full) {
+    @include main-content();
+  }
+
+  &.page-builder__element--full {
+    > *:not(.item) {
+      @include main-content();
+      padding: $inuit-base-spacing-unit;
+    }
+
+    > .item {
+      max-width: none;
+      width: 100%;
+    }
+
+    &.page-builder__element--colored {
+      > * {
+        padding: $inuit-base-spacing-unit;
+      }
+
+      .page-builder__element-edit {
+        right: 0;
+      }
+    }
   }
 }
 
