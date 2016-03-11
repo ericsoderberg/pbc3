@@ -7,12 +7,6 @@ log/*.log
 log/*.lck
 tmp/
 public/system
-solr/data
-solr/development
-solr/test
-solr/production
-solr/pids
-solr/default
 node_modules
 browserify-cache.json
 vendor/assets/bower_components
