@@ -17,12 +17,13 @@ body {
 
 a,
 .anchor {
+  font-weight: 600;
   color: $link-color;
   text-decoration: none;
   cursor: pointer;
 
   &:hover {
-    color: darken($link-color, 10%);
+    text-decoration: underline;
   }
 }
 

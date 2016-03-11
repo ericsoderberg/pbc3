@@ -53,6 +53,19 @@
         padding: $inuit-base-spacing-unit;
       }
 
+      .control-icon {
+        opacity: 0.7;
+
+        svg {
+          fill: $icon-color-colored;
+          stroke: $icon-color-colored;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
       .page-builder__element-edit {
         right: 0;
       }

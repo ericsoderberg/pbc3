@@ -110,6 +110,10 @@
 .calendar__event {
   text-indent: - halve($inuit-base-spacing-unit);
   padding-left: halve($inuit-base-spacing-unit);
+
+  a {
+    color: $color;
+  }
 }
 
 .calendar__event-time {
@@ -125,7 +129,7 @@
 }
 
 .calendar__nav {
-  margin-top: double($inuit-base-spacing-unit);
+  margin: double($inuit-base-spacing-unit) 0;
   display: flex;
   justify-content: space-between;
 

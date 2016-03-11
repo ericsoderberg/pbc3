@@ -81,6 +81,11 @@
 .index-item__contents {
   display: flex;
   padding: halve($inuit-base-spacing-unit) 0;
+  color: $color;
+
+  &:hover {
+    text-decoration: none;
+  }
 
   @include media-query(palm) {
     flex-direction: column;
@@ -100,9 +105,9 @@
     padding-left: halve($inuit-base-spacing-unit);
     text-indent: - halve($inuit-base-spacing-unit);
 
-    // &:first-child {
-    //   flex: 0 0 round($inuit-base-spacing-unit * 8);
-    // }
+    &:not(:first-child) {
+      font-weight: normal;
+    }
 
     &:last-child {
       margin-right: 0px;
