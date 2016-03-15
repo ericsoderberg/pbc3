@@ -6,6 +6,7 @@ import Pages from './components/Pages';
 import Accounts from './components/Accounts';
 import Calendar from './components/Calendar';
 import Holidays from './components/Holidays';
+import Libraries from './components/Libraries';
 import Messages from './components/Messages';
 import Message from './components/Message';
 import Resources from './components/Resources';
@@ -31,6 +32,7 @@ export default { path: '/', component: App,
         { path: 'messages', component: Messages},
         { path: 'accounts', component: Accounts},
         { path: 'resources', component: Resources},
+        { path: 'libraries', component: Libraries},
         { path: 'holidays', component: Holidays},
         { path: 'newsletters', component: Newsletters},
         { path: 'email_lists/:id', component: EmailList},

@@ -1,10 +1,16 @@
-<% title "#{@library.name}" -%>
+<% title "Edit #{@library.name}" -%>
 
-<section>
-  <header>
-    <h1>Edit <%= @library.name %></h1>
-  </header>
-  
-  <%= render 'form' %>
-  
-</section>
+<%= form_for(@library, :html => { class: "form" }) do |f| %>
+
+  <%= render :partial => 'shared/form_header',
+    :locals => {:title => "Edit #{@library.name}", :cancel_path => libraries_path} %>
+
+  <%= render :partial => 'form_contents', :locals => {:f => f} %>
+
+  <div class="form__footer">
+    <%= f.submit "Update", class: 'btn btn--primary' %>
+  </div>
+
+<% end %>
+
+<%= render :partial => 'shared/delete', :locals => {:item => @library} %>

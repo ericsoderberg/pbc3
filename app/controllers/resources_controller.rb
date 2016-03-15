@@ -2,7 +2,7 @@ class ResourcesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
 
-  layout "administration", only: [:new, :edit, :delete]
+  layout "administration", only: [:new, :edit, :destroy]
 
   def index
     @filter = {}

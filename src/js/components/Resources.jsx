@@ -16,7 +16,7 @@ export default class Resources extends Component {
     return (
       <Index title="Resources" itemRenderer={this._renderResource}
         category="resources" index={{
-          items: this.props.holidays,
+          items: this.props.resources,
           count: this.props.count,
           filter: this.props.filter
         }}

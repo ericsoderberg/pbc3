@@ -1,13 +1,29 @@
 class LibrariesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :administrator!
+  layout "administration", only: [:new, :edit, :destroy]
 
   def index
-    @libraries = Library.order('name ASC')
+    @filter = {}
+    @filter[:search] = params[:search]
+
+    @libraries = Library
+    if @filter[:search]
+      @libraries = Library.search(@filter[:search])
+    end
+    @libraries = @libraries.order('LOWER(name) ASC')
+
+    # get total count before we limit
+    @count = @libraries.count
+
+    if params[:offset]
+      @libraries = @libraries.offset(params[:offset])
+    end
+    @libraries = @libraries.limit(20)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @libraries }
+      format.json { render :partial => "index" }
     end
   end
 
@@ -34,16 +50,14 @@ class LibrariesController < ApplicationController
   end
 
   def create
-    @library = Library.new(params[:library])
+    @library = Library.new(library_params)
 
     respond_to do |format|
       if @library.save
         format.html { redirect_to(libraries_url,
           :notice => 'Library was successfully created.') }
-        format.xml  { render :xml => @library, :status => :created, :location => @library }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -52,7 +66,7 @@ class LibrariesController < ApplicationController
     @library = Library.find(params[:id])
 
     respond_to do |format|
-      if @library.update_attributes(params[:library])
+      if @library.update_attributes(library_params)
         format.html { redirect_to(libraries_url,
           :notice => 'Library was successfully updated.') }
         format.xml  { head :ok }
@@ -72,4 +86,11 @@ class LibrariesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+  def library_params
+    params.require(:library).permit(:name)
+  end
+
 end
