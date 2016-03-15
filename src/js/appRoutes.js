@@ -1,6 +1,5 @@
 import App from './components/App';
 import AppContext from './components/AppContext';
-import Home from './components/Home';
 import Search from './components/Search';
 import Page from './components/Page';
 import Pages from './components/Pages';
@@ -23,7 +22,7 @@ export default { path: '/', component: App,
     { path: 'forms/:formId/fills/new', component: FormFiller},
     { path: 'forms/:formId/fills/:id/edit', component: FormFiller},
     { component: AppContext,
-      indexRoute: { component: Home },
+      indexRoute: { component: Page },
       childRoutes: [
         { path: 'search', component: Search},
         { path: 'pages', component: Pages},

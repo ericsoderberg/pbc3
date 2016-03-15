@@ -105,7 +105,7 @@ Page.propTypes = {
 };
 
 let select = (state, props) => ({
-  id: props.params.id,
+  id: props.params ? props.params.id : null, // null is for Home
   page: state.page
 });
 

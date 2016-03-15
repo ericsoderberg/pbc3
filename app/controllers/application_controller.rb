@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_site
   before_filter :get_app_menu_actions
-  before_filter :get_nav_pages
   before_filter :save_path
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
@@ -73,10 +72,6 @@ class ApplicationController < ActionController::Base
         {label: 'Sign in', url:  new_user_session_url(:protocol => 'https')}
       ]
     end
-  end
-
-  def get_nav_pages
-    @site_primary_pages = @site ? @site.primary_pages : []
   end
 
   def save_path

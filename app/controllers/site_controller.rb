@@ -14,15 +14,16 @@ class SiteController < ApplicationController
 
   def new
     @site = Site.new
+    @pages = Page.sort()
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @site }
     end
   end
 
   def edit
     @site = Site.first
+    @pages = Page.sort()
   end
 
   def create
@@ -45,10 +46,8 @@ class SiteController < ApplicationController
     respond_to do |format|
       if @site.update_attributes(site_params)
         format.html { redirect_to(root_url, :notice => 'Site was successfully updated.') }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -63,10 +62,10 @@ class SiteController < ApplicationController
   end
 
   def site_params
-    params.require(:site).permit(:communities_page_id, :about_page_id,
+    params.require(:site).permit(
       :title, :subtitle, :address, :phone, :copyright, :email, :mailman_owner,
       :check_address, :online_bank_vendor, :paypal_business, :acronym, :icon,
-      :library, :calendar, :wordmark)
+      :library, :calendar, :wordmark, :home_page_id)
   end
 
 end

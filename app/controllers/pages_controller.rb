@@ -58,7 +58,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    @page = Page.find_by_url_or_alias(params[:id])
+    @page = Page.find_by_url_or_alias(params[:id] || @site.home_page_id)
     unless @page
       redirect_to root_path
       return
@@ -94,7 +94,6 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render '/home/index' }
       format.html { render :action => "show" }
       format.json { render :partial => "show" }
     end
