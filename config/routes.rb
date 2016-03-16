@@ -70,9 +70,9 @@ Rails.application.routes.draw do
 
   get "site", :controller => 'site', :action => 'show'
   get "home/index"
-  get "private", :controller => 'home', :action => 'private'
-  get "hyper", :controller => 'hyper_home', :action => 'index'
-  get "hyper/index", :controller => 'hyper_home', :action => 'index'
+  # get "private", :controller => 'home', :action => 'private'
+  # get "hyper", :controller => 'hyper_home', :action => 'index'
+  # get "hyper/index", :controller => 'hyper_home', :action => 'index'
   get "calendar", :controller => 'calendar', :action => 'index',
     :as => 'main_calendar'
   get "calendar/suggestions", :controller => 'calendar', :action => 'suggestions',
@@ -112,7 +112,9 @@ Rails.application.routes.draw do
       post :deliver
     end
   end
-  resources :libraries
+  resources :libraries do
+    resources :messages
+  end
 
   ###match
   get '/messages.rss', :to => "podcasts#show", :format => 'rss', :as => 'messages_podcast'

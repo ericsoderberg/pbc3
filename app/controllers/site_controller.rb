@@ -15,6 +15,7 @@ class SiteController < ApplicationController
   def new
     @site = Site.new
     @pages = Page.sort()
+    @libraries = Library.sort()
 
     respond_to do |format|
       format.html # new.html.erb
@@ -24,6 +25,7 @@ class SiteController < ApplicationController
   def edit
     @site = Site.first
     @pages = Page.sort()
+    @libraries = Library.sort();
   end
 
   def create
@@ -65,7 +67,7 @@ class SiteController < ApplicationController
     params.require(:site).permit(
       :title, :subtitle, :address, :phone, :copyright, :email, :mailman_owner,
       :check_address, :online_bank_vendor, :paypal_business, :acronym, :icon,
-      :library, :calendar, :wordmark, :home_page_id)
+      :library, :calendar, :wordmark, :home_page_id, :library_id)
   end
 
 end

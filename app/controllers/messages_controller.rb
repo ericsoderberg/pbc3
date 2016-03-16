@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :map_old_file, :suggestions]
   before_filter :administrator!, :except => [:index, :show, :map_old_file, :suggestions]
+  before_filter :get_library
 
   layout "administration", only: [:new, :edit, :delete]
 
@@ -11,7 +12,7 @@ class MessagesController < ApplicationController
     # parse search
     tokens = Message.parse_query(@filter[:search])
 
-    @messages = Message
+    @messages = @library.messages
 
     # build query based on token score
 
@@ -118,7 +119,7 @@ class MessagesController < ApplicationController
       @message = @message_set.messages.new
       @message.author = @message_set.author
     else
-      @message = Message.new
+      @message = @library.messages.new
     end
     @message.date = Date.today
     @authors = Author.order('name ASC')
@@ -185,6 +186,14 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def get_library
+    if params[:library_id]
+      @library = Library.find(params[:library_id])
+    else
+      @library = @site.library
+    end
+  end
 
   def parse_date
     if params[:message][:date] and params[:message][:date].is_a?(String)

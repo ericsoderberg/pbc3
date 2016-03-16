@@ -1,5 +1,6 @@
 class Site < ActiveRecord::Base
   belongs_to :home_page, class_name: 'Page', foreign_key: :home_page_id
+  belongs_to :library
   has_one :podcast
 
   has_attached_file :icon, :styles => {

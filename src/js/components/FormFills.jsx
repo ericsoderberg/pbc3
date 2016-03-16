@@ -17,17 +17,14 @@ class FormFills extends Component {
   }
 
   render () {
+    const { form, formFills, count, filter, newPath, editUrl, page } = this.props;
     return (
-      <Index title={this.props.form.name || 'Form'}
+      <Index title={form.name || 'Form'}
         itemRenderer={this._renderFormFill}
         category="formFills" context="form" index={{
-          items: this.props.formFills,
-          count: this.props.count,
-          filter: this.props.filter
-        }}
+          items: formFills, count: count, filter: filter }}
         noneMessage="Nobody has filled out this form yet"
-        newPath={this.props.newPath} editUrl={this.props.editUrl}
-        page={this.props.page} />
+        newPath={newPath} editUrl={editUrl} page={page} />
     );
   }
 };

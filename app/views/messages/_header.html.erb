@@ -1,4 +1,4 @@
-<% sub_page = (@books or @authors or @book or @author) -%>
+<!-- <% sub_page = (@books or @authors or @book or @author) -%>
 <% if @books or @authors or @book or @author -%>
   <%= render partial: 'messages/breadcrumbs' %>
 <% end -%>
@@ -7,7 +7,7 @@
   <h1 class="<%= sub_page  ? '' : 'active' %>">
     <%= link_to 'Message Library', messages_path %>
   </h1>
-  
+
   <% if user_signed_in? and current_user.administrator? -%>
     <div class="page_admin">
       <ul>
@@ -17,7 +17,7 @@
       </ul>
     </div>
   <% end -%>
-  
+
   <% if @site.podcast -%>
   <div class="page_control">
     <%= link_to messages_podcast_url(:protocol => 'http'), class: 'icon feed' do %>
@@ -25,11 +25,11 @@
     <% end -%>
   </div>
   <% end -%>
-  
+
   <ul class="nav <%= sub_page ? 'active' : '' %>">
     <li class="<%= (@authors || @author) ? 'active' : '' %>">
       <%= link_to 'Authors/Speakers', authors_path %></li>
     <li class="<%= (@books || @book) ? 'active' : '' %>">
       <%= link_to 'Books of the Bible', books_path %></li>
   </ul>
-</header>
+</header> -->

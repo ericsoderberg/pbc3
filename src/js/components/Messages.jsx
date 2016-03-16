@@ -5,6 +5,7 @@ import { loadMessages, searchMessages, moreMessages, unloadMessages } from '../a
 import moment from 'moment';
 import SearchInput from './SearchInput';
 import AddIcon from './icons/AddIcon';
+import EditIcon from './icons/EditIcon';
 
 var CLASS_ROOT = "messages";
 
@@ -45,8 +46,8 @@ class Messages extends Component {
   }
 
   render () {
-    const { messages: { changing, count, filter },
-      newUrl } = this.props;
+    const { messages: { changing, count, filter, newUrl, editUrl },
+      library } = this.props;
     let classes = [CLASS_ROOT];
     if (changing) {
       classes.push(`${CLASS_ROOT}--changing`);
@@ -95,8 +96,17 @@ class Messages extends Component {
     let addControl;
     if (newUrl) {
       addControl = (
-        <a className={`${CLASS_ROOT}__add control-icon`} href={this.props.newUrl}>
+        <a className={`${CLASS_ROOT}__add control-icon`} href={newUrl}>
           <AddIcon />
+        </a>
+      );
+    }
+
+    let editControl;
+    if (editUrl) {
+      editControl = (
+        <a className={`${CLASS_ROOT}__edit control-icon`} href={editUrl}>
+          <EditIcon />
         </a>
       );
     }
@@ -104,13 +114,14 @@ class Messages extends Component {
     return (
       <div className={classes.join(' ')}>
         <header className={`${CLASS_ROOT}__header`}>
-          <h1 className={`${CLASS_ROOT}__title`}>Library</h1>
+          <h1 className={`${CLASS_ROOT}__title`}>{library.name || 'Messages'}</h1>
           <SearchInput className={`${CLASS_ROOT}__search`}
             text={filter.search}
             placeholder="Search: Title, Book, Author, Date"
             suggestionsPath={'/messages/suggestions?q='}
             onChange={this._onChangeSearch} />
           {addControl}
+          {editControl}
         </header>
         {none}
         <ol className={`${CLASS_ROOT}__messages list-bare`}>
@@ -124,14 +135,22 @@ class Messages extends Component {
 };
 
 Messages.propTypes = {
+  library: PropTypes.shape({
+    name: PropTypes.string
+  }),
   messages: PropTypes.shape({
     changing: PropTypes.bool,
     count: PropTypes.number,
+    editUrl: PropTypes.string,
     filter: PropTypes.object,
-    messages: PropTypes.array
+    messages: PropTypes.array,
+    newUrl: PropTypes.string
   })
 };
 
-let select = (state) => ({messages: state.messages});
+let select = (state) => ({
+  library: state.messages.library,
+  messages: state.messages
+});
 
 export default connect(select)(Messages);

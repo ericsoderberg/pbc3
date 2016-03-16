@@ -62,12 +62,14 @@ class Message < ActiveRecord::Base
   end
 
   def previous
-    Message.where('messages.date < ?', [date]).
+    Message.where('messages.library_id = ? AND messages.date < ?',
+      library_id, [date]).
       order('messages.date DESC').first
   end
 
   def next
-    Message.where('messages.date > ?', [date]).
+    Message.where('messages.library_id = ? AND messages.date > ?',
+      library_id, [date]).
       order('messages.date ASC').first
   end
 

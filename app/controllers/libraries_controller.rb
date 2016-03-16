@@ -54,7 +54,7 @@ class LibrariesController < ApplicationController
 
     respond_to do |format|
       if @library.save
-        format.html { redirect_to(libraries_url,
+        format.html { redirect_to(library_messages_url(@library),
           :notice => 'Library was successfully created.') }
       else
         format.html { render :action => "new" }
@@ -67,7 +67,7 @@ class LibrariesController < ApplicationController
 
     respond_to do |format|
       if @library.update_attributes(library_params)
-        format.html { redirect_to(libraries_url,
+        format.html { redirect_to(library_messages_url(@library),
           :notice => 'Library was successfully updated.') }
         format.xml  { head :ok }
       else

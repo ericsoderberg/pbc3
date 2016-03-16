@@ -6,7 +6,7 @@ export default class Libraries extends Component {
 
   _renderLibrary (library) {
     return (
-      <IndexItem key={library.id} url={library.editUrl}>
+      <IndexItem key={library.id} path={library.messagesPath}>
         {library.name}
       </IndexItem>
     );

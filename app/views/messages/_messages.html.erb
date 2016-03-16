@@ -1,4 +1,4 @@
-<% prior_message = nil -%>
+<!-- <% prior_message = nil -%>
 <% next_year_countdown = 0 -%>
 <% messages.each do |message| -%>
 
@@ -30,10 +30,10 @@
     <br />
     <% end -%>
   <% end -%>
-  
+
   <%= render :partial => 'messages/message',
     :locals => {:message => message} %>
-    
+
   <% prior_message = message -%>
   <% next_year_countdown = [0, (next_year_countdown - 1)].max %>
-<% end -%>
+<% end -%> -->

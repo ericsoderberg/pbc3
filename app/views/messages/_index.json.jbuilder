@@ -3,9 +3,13 @@ json.messages @messages do |message|
   if message.author
     json.author message.author, :name
   end
-  json.url message_url(message)
-  json.path message_path(message)
+  json.path friendly_message_path(@library, message)
 end
 json.count @count
 json.filter @filter
-json.newUrl new_message_url()
+json.newUrl new_library_message_url(@library)
+json.editUrl edit_library_url(@library)
+
+json.library do
+  json.extract!(@library, :name)
+end

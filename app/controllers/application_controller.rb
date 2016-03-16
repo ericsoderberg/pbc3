@@ -36,11 +36,12 @@ class ApplicationController < ActionController::Base
   def get_app_menu_actions
     @app_menu_actions = []
 
-    @app_menu_actions << [
-      {label: 'Search', path: search_path},
-      {label: 'Library', path: messages_path},
-      {label: 'Calendar', path: main_calendar_path}
-    ]
+    primary_actions = [{label: 'Search', path: search_path}]
+    if @site.library
+      primary_actions << {label: @site.library.name, path: messages_path}
+    end
+    primary_actions << {label: 'Calendar', path: main_calendar_path}
+    @app_menu_actions << primary_actions
 
     if current_user and current_user.administrator?
       @app_menu_actions << [

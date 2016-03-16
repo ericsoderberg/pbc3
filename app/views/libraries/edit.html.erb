@@ -3,7 +3,8 @@
 <%= form_for(@library, :html => { class: "form" }) do |f| %>
 
   <%= render :partial => 'shared/form_header',
-    :locals => {:title => "Edit #{@library.name}", :cancel_path => libraries_path} %>
+    :locals => {:title => "Edit #{@library.name}",
+    :cancel_path => library_messages_path(@library)} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 

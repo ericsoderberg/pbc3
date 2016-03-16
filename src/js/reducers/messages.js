@@ -6,8 +6,11 @@ import { MESSAGES_LOAD, MESSAGES_LOAD_SUCCESS,
 const initialState = {
   changing: false,
   count: 0,
+  editUrl: undefined,
   filter: {},
-  messages: []
+  library: {},
+  messages: [],
+  newUrl: undefined
 };
 
 const handlers = {
@@ -18,10 +21,8 @@ const handlers = {
   }),
 
   [MESSAGES_LOAD_SUCCESS]: (state, action) => ({
-    messages: action.messages,
-    filter: action.filter,
-    count: action.count,
-    changing: false
+    changing: false,
+    ...action.result
   }),
 
   [MESSAGES_SEARCH]: (state, action) => ({
@@ -30,10 +31,8 @@ const handlers = {
   }),
 
   [MESSAGES_SEARCH_SUCCESS]: (state, action) => ({
-    messages: action.messages,
-    filter: action.filter,
-    count: action.count,
-    changing: false
+    changing: false,
+    ...action.result
   }),
 
   [MESSAGES_MORE]: (state, action) => ({
@@ -41,7 +40,7 @@ const handlers = {
   }),
 
   [MESSAGES_MORE_SUCCESS]: (state, action) => ({
-    messages: state.messages.concat(action.messages)
+    messages: state.messages.concat(action.result.messages)
   }),
 
   [MESSAGES_UNLOAD]: (state, action) => (initialState)

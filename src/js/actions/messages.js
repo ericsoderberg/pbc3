@@ -21,7 +21,7 @@ export function loadMessages () {
       path += `?search=${encodeURIComponent(search)}`;
     }
     REST.get(path).then(response => {
-      dispatch({ type: MESSAGES_LOAD_SUCCESS, ...response.body });
+      dispatch({ type: MESSAGES_LOAD_SUCCESS, result: response.body });
     });
   };
 }
@@ -34,7 +34,7 @@ export function searchMessages (search) {
       path += `?search=${encodeURIComponent(search)}`;
     }
     REST.get(path).then(response => {
-      dispatch({ type: MESSAGES_SEARCH_SUCCESS, ...response.body });
+      dispatch({ type: MESSAGES_SEARCH_SUCCESS, result: response.body });
     });
     history.replace(path);
   };
@@ -49,7 +49,7 @@ export function moreMessages (offset, search) {
       path += `&search=${encodeURIComponent(search)}`;
     }
     REST.get(path).then(response => {
-      dispatch({ type: MESSAGES_MORE_SUCCESS, ...response.body });
+      dispatch({ type: MESSAGES_MORE_SUCCESS, result: response.body });
     });
   };
 }
