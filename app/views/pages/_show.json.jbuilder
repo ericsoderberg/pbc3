@@ -40,6 +40,13 @@ json.pageElements @page.page_elements do |page_element|
       json.editUrl edit_contents_form_url(page_element.element,
         {:page_id => @page.id})
     end
+  when 'Library'
+    json.library do
+      json.partial! 'libraries/show', library: page_element.element
+    end
+    if edit
+      json.editUrl edit_library_url(page_element.element, {:page_id => @page.id})
+    end
   end
 end
 if @edit_url

@@ -46,21 +46,21 @@ module ApplicationHelper
     end
   end
 
-  def communities_path
-    if @site and @site.communities_page
-      friendly_page_path(@site.communities_page)
-    else
-      new_page_path(:site_page => :communities)
-    end
-  end
-
-  def about_path
-    if @site and @site.about_page
-      friendly_page_path(@site.about_page)
-    else
-      new_page_path(:site_page => :about)
-    end
-  end
+  # def communities_path
+  #   if @site and @site.communities_page
+  #     friendly_page_path(@site.communities_page)
+  #   else
+  #     new_page_path(:site_page => :communities)
+  #   end
+  # end
+  #
+  # def about_path
+  #   if @site and @site.about_page
+  #     friendly_page_path(@site.about_page)
+  #   else
+  #     new_page_path(:site_page => :about)
+  #   end
+  # end
 
   def array_to_rows(array, columns=4)
     row_count = (array.size + columns - 1) / columns

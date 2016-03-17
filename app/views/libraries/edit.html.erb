@@ -4,7 +4,8 @@
 
   <%= render :partial => 'shared/form_header',
     :locals => {:title => "Edit #{@library.name}",
-    :cancel_path => library_messages_path(@library)} %>
+    :cancel_path => @context_url,
+    :message => @message} %>
 
   <%= render :partial => 'form_contents', :locals => {:f => f} %>
 
@@ -14,4 +15,10 @@
 
 <% end %>
 
-<%= render :partial => 'shared/delete', :locals => {:item => @library} %>
+<% if @page_element -%>
+<%= render :partial => 'page_elements/delete' %>
+<% end -%>
+
+<% hidden = @page ? hidden_field_tag(:page_id, @page.id) : nil -%>
+<%= render :partial => 'shared/delete',
+  :locals => {:item => @library, :url => [@library], :hidden => hidden} %>

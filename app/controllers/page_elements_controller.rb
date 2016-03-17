@@ -25,6 +25,8 @@ class PageElementsController < ApplicationController
         Event
       when 'Form'
         Form
+      when 'Library'
+        Library
       end.find(@page_element.element_id)
     @page_element.index = @page.page_elements.length + 1
 

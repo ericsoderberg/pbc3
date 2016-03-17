@@ -10,6 +10,7 @@ import Text from './Text';
 import Item from './Item';
 import Event from './Event';
 import FormFiller from './form/FormFiller';
+import Library from './Library';
 
 var CLASS_ROOT = "page-builder";
 var PLACEHOLDER_CLASS = `${CLASS_ROOT}__placeholder`;
@@ -90,6 +91,7 @@ class PageBuilder extends Component {
           style.color = '#ffffff';
         }
       }
+      console.log('!!! render', pageElement);
       let contents = '';
       switch (pageElement.type) {
         case 'Text':
@@ -108,6 +110,9 @@ class PageBuilder extends Component {
           contents = (
             <FormFiller formId={pageElement.form.id} disabled={true} />
           );
+          break;
+        case 'Library':
+          contents = (<Library library={pageElement.library} />);
           break;
       }
       return (

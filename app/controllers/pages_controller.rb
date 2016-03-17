@@ -165,6 +165,7 @@ class PagesController < ApplicationController
       {label: 'File/Url', url: new_page_item_path(@page)},
       {label: 'Page', url: new_page_element_path(@page)},
       {label: 'Form', url: new_form_path(:page_id => @page.id)},
+      {label: 'Library', url: new_library_path(:page_id => @page.id)},
       {label: 'Event', url: new_event_path(:page_id => @page.id)}
     ]
 
@@ -200,16 +201,10 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      if @page.update_attributes(page_params) and
-        (not orderer_sub_ids or
-          Page.order_children(orderer_sub_ids))
-        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
+      if @page.update_attributes(page_params)
+        format.html { redirect_to(friendly_page_path(@page), :notice => 'Page was successfully updated.') }
       else
-        format.html {
-          @siblings = @page.parent ? @page.parent.children : []
-          @aspect = params[:aspect] || 'text'
-          render :action => "edit"
-        }
+        format.html { render :action => "edit" }
       end
     end
   end

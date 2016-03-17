@@ -7,6 +7,7 @@ import Text from './Text';
 import Item from './Item';
 import Event from './Event';
 import Form from './form/Form';
+import Library from './Library';
 
 const CLASS_ROOT = "page";
 
@@ -75,6 +76,9 @@ class Page extends Component {
         case 'Form':
           contents = (<Form form={pageElement.form}
             formFills={pageElement.formFills} edit={pageElement.edit} />);
+          break;
+        case 'Library':
+          contents = (<Library library={pageElement.library} />);
           break;
       }
       return (
