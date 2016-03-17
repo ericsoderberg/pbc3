@@ -195,38 +195,36 @@
 
 .message__footer {
   @include main-content();
-}
-
-.message__footer-item {
   margin-bottom: $inuit-base-spacing-unit;
 }
 
-.message__footer-label,
-.message__footer-date {
-  display: inline-block;
-  vertical-align: top;
-  width: quadruple($inuit-base-spacing-unit);
-  margin-right: $inuit-base-spacing-unit;
-  color: $secondary-color;
+// .message__footer-item {
+//   margin-bottom: $inuit-base-spacing-unit;
+// }
 
+.message-summary > * {
   @include media-query(palm) {
     display: block;
     width: 100%;
+  }
+
+  @include media-query(lap-and-up) {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: $inuit-base-spacing-unit;
   }
 }
 
-.message__footer-title,
-.message__footer-author,
-.message__footer-verses {
-  display: inline-block;
-  vertical-align: top;
-  width: round($inuit-base-spacing-unit * 8);
-  margin-right: $inuit-base-spacing-unit;
+.message-summary__label,
+.message-summary__date {
+  width: quadruple($inuit-base-spacing-unit);
+  color: $secondary-color;
+}
 
-  @include media-query(palm) {
-    display: block;
-    width: 100%;
-  }
+.message-summary__title,
+.message-summary__author,
+.message-summary__verses {
+  width: round($inuit-base-spacing-unit * 8);
 }
 
 .message__contents {

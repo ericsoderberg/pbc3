@@ -1,25 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { loadMessage, unloadMessage } from '../actions/actions';
 import moment from 'moment';
+import MessageSummary from './MessageSummary';
 import EditIcon from './icons/EditIcon';
 
 var CLASS_ROOT = "message";
-
-const messageSummary = (label, message, onClick) => {
-  var date = moment(message.date);
-  var author = (message.author ? message.author.name : '');
-  return (
-    <div className="message__footer-item">
-      <span className="message__footer-label">{label}</span>
-      <span className="message__footer-date">{date.format('MMM D, YYYY')}</span>
-      <Link className="message__footer-title" to={message.path}>{message.title}</Link>
-      <span className="message__footer-verses">{message.verses}</span>
-      <span className="message__footer-author">{author}</span>
-    </div>
-  );
-};
 
 export default class Message extends Component {
 
@@ -109,12 +95,12 @@ export default class Message extends Component {
 
     let next;
     if (nextMessage) {
-      next = messageSummary("Next", nextMessage);
+      next = <MessageSummary label="Next" message={nextMessage} />;
     }
 
     let previous;
     if (previousMessage) {
-      previous = messageSummary("Previous", previousMessage);
+      previous = <MessageSummary label="Previous" message={previousMessage} />;
     }
 
     let editControl;

@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 // import { connect } from 'react-redux';
 // import { loadLibrary, unloadLibrary } from '../actions/actions';
+import MessageSummary from './MessageSummary';
+
+const CLASS_ROOT = 'library';
 
 export default class Library extends Component {
 
@@ -13,9 +17,23 @@ export default class Library extends Component {
   // }
 
   render () {
-    const { library } = this.props;
+    const { library: { name, path, nextUpcomingMessage, mostRecentMessage } }
+      = this.props;
+    let nextUpcoming;
+    if (nextUpcomingMessage) {
+      nextUpcoming = <MessageSummary label="Upcoming" message={nextUpcomingMessage} />;
+    }
+
+    let mostRecent;
+    if (mostRecentMessage) {
+      mostRecent =  <MessageSummary label="Recent" message={mostRecentMessage} />;
+    }
     return (
-      <h1>{library.name}</h1>
+      <div className={CLASS_ROOT}>
+        <h1><Link to={path}>{name}</Link></h1>
+        {nextUpcoming}
+        {mostRecent}
+      </div>
     );
   }
 };

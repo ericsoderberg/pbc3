@@ -9,4 +9,16 @@ class Library < ActiveRecord::Base
     order('LOWER(libraries.name) ASC')
   end
 
+  def mostRecentMessage
+    today = Time.now.beginning_of_day
+    messages.where('messages.date < ?', [today]).
+      order('messages.date DESC').first
+  end
+
+  def nextUpcomingMessage
+    today = Time.now.beginning_of_day
+    Message.where(' messages.date > ?', [today]).
+      order('messages.date ASC').first
+  end
+
 end
