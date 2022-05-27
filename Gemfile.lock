@@ -1,15 +1,4 @@
 GIT
-  remote: git://github.com/ready4god2513/rails-erd.git
-  revision: 3c0e0b93452392651df7daaf8678b2bb9aa8faf1
-  branch: rails-4.2-support-fix
-  specs:
-    rails-erd (1.1.1)
-      activerecord (>= 3.0)
-      activesupport (>= 3.0)
-      choice (~> 0.1.6)
-      ruby-graphviz (~> 1.0.4)
-
-GIT
   remote: git://github.com/sunspot/sunspot.git
   revision: 691b42e73beae37e2e05953a1110f4247ec0065c
   specs:
@@ -21,6 +10,17 @@ GIT
       rails (>= 3)
       sunspot (= 2.1.1)
     sunspot_solr (2.1.1)
+
+GIT
+  remote: https://github.com/ready4god2513/rails-erd.git
+  revision: 3c0e0b93452392651df7daaf8678b2bb9aa8faf1
+  branch: rails-4.2-support-fix
+  specs:
+    rails-erd (1.1.1)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      choice (~> 0.1.6)
+      ruby-graphviz (~> 1.0.4)
 
 GEM
   remote: http://rubygems.org/
@@ -186,7 +186,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rack (1.6.0)
+    rack (1.6.13)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
